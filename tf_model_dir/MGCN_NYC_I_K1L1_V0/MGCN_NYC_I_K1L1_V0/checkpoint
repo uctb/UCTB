@@ -1,0 +1,2 @@
+model_checkpoint_path: "D:\\OneDrive - HKUST Connect\\UCTB\\tf_model_dir\\MGCN_NYC_I_K1L1_V0\\MGCN_NYC_I_K1L1_V0\\MGCN_NYC_I_K1L1_V0"
+all_model_checkpoint_paths: "D:\\OneDrive - HKUST Connect\\UCTB\\tf_model_dir\\MGCN_NYC_I_K1L1_V0\\MGCN_NYC_I_K1L1_V0\\MGCN_NYC_I_K1L1_V0"

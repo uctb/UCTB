@@ -106,18 +106,3 @@ class hm_data_loader(object):
         self.station_number = self.traffic_data.shape[1]
 
         self.train_data, self.val_data, self.test_data = SplitData.split_data(self.traffic_data, 0.8, 0.1, 0.1)
-
-        closeness_move_sample = MoveSample(feature_step=1, feature_stride=1, feature_length=6, target_length=1)
-        trend_move_sample = MoveSample(feature_step=7, feature_stride=24, feature_length=1, target_length=1)
-
-        self.test_x, self.test_y = closeness_move_sample.general_move_sample(self.test_data)
-        self.test_x_trend, self.test_y_trend = trend_move_sample.general_move_sample(
-            np.concatenate(
-                (np.concatenate((self.train_data, self.val_data), axis=0)[-7*24:],
-                 self.test_data), axis=0))
-
-        self.test_x_trend = self.test_x_trend[-len(self.test_x):]
-        self.test_y_trend = self.test_y_trend[-len(self.test_x):]
-
-        self.test_x = self.test_x[:, 0, :, :]
-        self.test_x_trend = self.test_x_trend[:, :, 0, :]

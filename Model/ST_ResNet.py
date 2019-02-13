@@ -100,7 +100,7 @@ class ST_ResNet(object):
                 X = tf.concat([X, external_dense], axis=-1)
 
             X = tf.layers.dense(X, units=1, name='prediction')
-
+            
             loss = tf.sqrt(tf.reduce_mean(tf.square(X - target)), name='loss')
             train_op = tf.train.AdamOptimizer(self.__lr).minimize(loss)
 

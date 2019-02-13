@@ -1,6 +1,8 @@
 import os
 import tensorflow as tf
 
+from Model.BaseModel import BaseModel
+
 
 class DeepST(object):
     def __init__(self, num_channel, width, height, len_seq, external_dim, lr, model_dir,
@@ -31,7 +33,7 @@ class DeepST(object):
         self.__config.gpu_options.allow_growth = True
 
         self.__session = tf.Session(graph=self.__graph, config=self.__config)
-
+    
     def build(self):
         with self.__graph.as_default():
 
@@ -43,7 +45,7 @@ class DeepST(object):
                                     [None, self.__height, self.__width, self.__len_seq * self.__num_channel], name='t')
 
             target = tf.placeholder(tf.float32, [None, self.__height, self.__width, 1], name='target')
-
+            
             self.__input['c'] = c_conf.name
             self.__input['p'] = p_conf.name
             self.__input['t'] = t_conf.name

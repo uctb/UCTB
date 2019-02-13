@@ -11,7 +11,7 @@ def parameter_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--City', default='Chicago')
+    parser.add_argument('--City', default='NYC')
     # version contral
     parser.add_argument('--CodeVersion', default='V0')
     return parser
@@ -30,16 +30,19 @@ if os.path.isfile(os.path.join(tf_model_dir, result_file)) is False:
 
     for i in range(data_loader.station_number):
 
+        print('*************************************************************')
         print(args.City, 'Station', i)
 
         try:
-            model_obj = ARIMA(data_loader.train_data[:, i], order=(6, 0, 1))
-        except:
-            model_obj = ARIMA(data_loader.train_data[:, i], order=(6, 1, 1))
-
-        p = model_obj.predict(data_loader.test_x[:, :, i, 0])
+            model_obj = ARIMA(data_loader.train_data[:, i], [6, 0, 2])
+            p = model_obj.predict(data_loader.test_x[:, :, i, 0])
+        except Exception as e:
+            print(e)
+            p = np.zeros([data_loader.test_x[:, :, i, 0].shape[0], 1])
 
         prediction.append(p)
+
+        print(np.concatenate(prediction, axis=-1).shape)
 
     prediction = np.concatenate(prediction, axis=-1)
 
@@ -49,5 +52,4 @@ else:
 
     prediction = np.load(os.path.join(tf_model_dir, result_file))
 
-print('RMSE', Accuracy.RMSE(prediction, data_loader.test_y, threshold=0))
-
+print('RMSE', Accuracy.RMSE(prediction, data_loader.test_y, threshold=-1))

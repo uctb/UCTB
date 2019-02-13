@@ -97,7 +97,6 @@ class GAL(object):
 
         inputs = graph.get_tensor_by_name(inputs_name)
 
-        # [-1, num_node, num_feature]
         inputs_shape = inputs.get_shape().with_rank(3)
 
         num_node = inputs_shape[-2].value

@@ -52,4 +52,4 @@ else:
 
     prediction = np.load(os.path.join(tf_model_dir, result_file))
 
-print('RMSE', Accuracy.RMSE(prediction, data_loader.test_y, threshold=0))
+print('RMSE', Accuracy.RMSE(prediction, data_loader.test_y, threshold=-1))

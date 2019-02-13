@@ -26,7 +26,7 @@ def parameter_parser():
     parser.add_argument('--Graph', default='Distance')
     # training parameters
     parser.add_argument('--Epoch', default='5000')
-    parser.add_argument('--Train', default='True')
+    parser.add_argument('--Train', default='False')
     parser.add_argument('--lr', default='1e-4')
     parser.add_argument('--patience', default='20')
     parser.add_argument('--BatchSize', default='64')
@@ -58,10 +58,10 @@ code_version = 'MGCN_{}_{}_K{}L{}_{}'.format(data_loader.city, ''.join([e[0] for
                                              ''.join([str(e) for e in L]), args.CodeVersion)
 
 MGCNRegression_Obj = MGCNRegression(num_node=data_loader.station_number, GCN_K=K, GCN_layers=L,
-                                   num_graph=data_loader.LM.shape[0],
-                                   external_dim=data_loader.external_dim,
-                                   T=6, num_filter_conv1x1=32, num_hidden_units=64,
-                                   lr=lr, code_version=code_version, GPU_DEVICE=GPU_DEVICE, model_dir=tf_model_dir)
+                                    num_graph=data_loader.LM.shape[0],
+                                    external_dim=data_loader.external_dim,
+                                    T=6, num_filter_conv1x1=32, num_hidden_units=64,
+                                    lr=lr, code_version=code_version, GPU_DEVICE=GPU_DEVICE, model_dir=tf_model_dir)
 
 MGCNRegression_Obj.build()
 
@@ -121,7 +121,7 @@ MGCNRegression_Obj.load(code_version)
 # test
 test_rmse, = MGCNRegression_Obj.evaluate(data_loader.test_x, data_loader.test_y, data_loader.LM,
                                         external_feature=data_loader.test_ef,
-                                        metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
+                                        metric=[Accuracy.RMSE], threshold=-1, de_normalizer=de_normalizer)
 
 print('########################################################################')
 print(code_version, 'Test RMSE', test_rmse)

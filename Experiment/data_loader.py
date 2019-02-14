@@ -69,6 +69,7 @@ class gcn_data_loader(object):
                 date_parser = int
             else:
                 date_parser = parse
+
             lat_lng_list = np.array([[float(e1) for e1 in e[1][1:3]] for e in
                                      sorted(
                                          getJsonDataFromPath(os.path.join(data_dir, '%s_Stations.json' % self.city)).items(),
@@ -77,14 +78,16 @@ class gcn_data_loader(object):
             monthly_interaction = np.load(os.path.join(data_dir, '%s_Monthly_Interaction.npy' % self.city))\
                                           [:, traffic_data_index, :][:, :, traffic_data_index]
             monthly_interaction, _, _ = SplitData.split_data(monthly_interaction, 0.8, 0.1, 0.1)
-            monthly_interaction = np.sum(monthly_interaction[-12:], axis=0)
-            monthly_interaction = monthly_interaction + monthly_interaction.transpose()
+
+            annually_interaction = np.sum(monthly_interaction[-12:], axis=0)
+            annually_interaction = annually_interaction + annually_interaction.transpose()
 
             lm_dict = {
-                'Distance': GraphBuilder.distance_graph(lat_lng_list=lat_lng_list[traffic_data_index], threshold=1000),
-                'Correlation': GraphBuilder.correlation_graph(self.train_data[-30 * 24:], threshold=0, keep_weight=False),
-                'Interaction': GraphBuilder.interaction_graph(monthly_interaction, threshold=500),
+                'Distance': GraphBuilder.distance_graph(lat_lng_list=lat_lng_list[traffic_data_index], threshold=float(args.TD)),
+                'Correlation': GraphBuilder.correlation_graph(self.train_data[-30 * 24:], threshold=float(args.TC), keep_weight=False),
+                'Interaction': GraphBuilder.interaction_graph(annually_interaction, threshold=float(args.TI)),
             }
+
             self.LM = np.array([lm_dict[e] for e in args.Graph.split('-') if len(e) > 0], dtype=np.float32)
 
 

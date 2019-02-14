@@ -121,7 +121,7 @@ MGCNRegression_Obj.load(code_version)
 # test
 test_rmse, = MGCNRegression_Obj.evaluate(data_loader.test_x, data_loader.test_y, data_loader.LM,
                                         external_feature=data_loader.test_ef,
-                                        metric=[Accuracy.RMSE], threshold=-1, de_normalizer=de_normalizer)
+                                        metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
 
 print('########################################################################')
 print(code_version, 'Test RMSE', test_rmse)

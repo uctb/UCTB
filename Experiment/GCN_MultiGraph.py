@@ -24,6 +24,10 @@ def parameter_parser():
     parser.add_argument('--K', default='1')
     parser.add_argument('--L', default='1')
     parser.add_argument('--Graph', default='Distance')
+    # Graph parameter
+    parser.add_argument('--TC', default='0')
+    parser.add_argument('--TD', default='1000')
+    parser.add_argument('--TI', default='500')
     # training parameters
     parser.add_argument('--Epoch', default='5000')
     parser.add_argument('--Train', default='False')
@@ -119,9 +123,15 @@ if train:
 MGCNRegression_Obj.load(code_version)
 
 # test
+test_prediction = MGCNRegression_Obj.predict(X=data_loader.test_x, l_m=data_loader.LM, external_feature=data_loader.test_ef)
+
+np.save(os.path.join(data_dir, code_version+'.npy'), test_prediction)
+
+np.save(os.path.join(data_dir, '%s_target.npy' % args.City), data_loader.test_y)
+
 test_rmse, = MGCNRegression_Obj.evaluate(data_loader.test_x, data_loader.test_y, data_loader.LM,
-                                        external_feature=data_loader.test_ef,
-                                        metric=[Accuracy.RMSE], threshold=-1, de_normalizer=de_normalizer)
+                                         external_feature=data_loader.test_ef,
+                                         metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
 
 print('########################################################################')
 print(code_version, 'Test RMSE', test_rmse)

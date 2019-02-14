@@ -26,3 +26,4 @@ _pycache__/
 build/
 *.npy
 .vscode/
+tf_model_dir/

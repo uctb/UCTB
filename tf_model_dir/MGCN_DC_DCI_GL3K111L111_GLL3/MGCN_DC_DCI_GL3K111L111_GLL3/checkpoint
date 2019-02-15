@@ -1,0 +1,2 @@
+model_checkpoint_path: "D:\\OneDrive - HKUST Connect\\UCTB\\tf_model_dir\\MGCN_DC_DCI_GL3K111L111_GLL3\\MGCN_DC_DCI_GL3K111L111_GLL3\\MGCN_DC_DCI_GL3K111L111_GLL3"
+all_model_checkpoint_paths: "D:\\OneDrive - HKUST Connect\\UCTB\\tf_model_dir\\MGCN_DC_DCI_GL3K111L111_GLL3\\MGCN_DC_DCI_GL3K111L111_GLL3\\MGCN_DC_DCI_GL3K111L111_GLL3"

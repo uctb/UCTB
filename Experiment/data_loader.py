@@ -44,6 +44,10 @@ class gcn_data_loader(object):
         self.train_data, self.val_data, self.test_data = SplitData.split_data(self.traffic_data, 0.8, 0.1, 0.1)
         train_ef, val_ef, test_ef = SplitData.split_data(external_feature, 0.8, 0.1, 0.1)
 
+        if args.TrainDays != 'All':
+            self.train_data = self.train_data[-int(args.TrainDays)*24:]
+            train_ef = train_ef[-int(args.TrainDays)*24:]
+
         closeness_move_sample = MoveSample(feature_step=1, feature_stride=1, feature_length=6, target_length=1)
 
         self.train_x, self.train_y = closeness_move_sample.general_move_sample(self.train_data)

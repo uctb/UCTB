@@ -5,7 +5,7 @@ import numpy as np
 from local_path import data_dir, tf_model_dir
 from DataPreprocess.UtilClass import MoveSample, SplitData
 from Model.GraphModelLayers import GraphBuilder
-from Model.MGCN_Regression import MGCNRegression
+from Model.MGCN_Regression_AddLayer import MGCNRegression
 from Train.EarlyStopping import EarlyStoppingTTest
 from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
@@ -24,6 +24,7 @@ def parameter_parser():
     parser.add_argument('--K', default='1')
     parser.add_argument('--L', default='1')
     parser.add_argument('--Graph', default='Distance')
+    parser.add_argument('--GLL', default='2')
 
     parser.add_argument('--TrainDays', default='All')
 
@@ -31,16 +32,17 @@ def parameter_parser():
     parser.add_argument('--TC', default='0')
     parser.add_argument('--TD', default='1000')
     parser.add_argument('--TI', default='500')
+
     # training parameters
     parser.add_argument('--Epoch', default='5000')
-    parser.add_argument('--Train', default='False')
+    parser.add_argument('--Train', default='True')
     parser.add_argument('--lr', default='1e-4')
     parser.add_argument('--patience', default='20')
     parser.add_argument('--BatchSize', default='64')
     # device parameter
     parser.add_argument('--Device', default='1')
     # version contral
-    parser.add_argument('--CodeVersion', default='V0')
+    parser.add_argument('--CodeVersion', default='Debug')
     return parser
 
 
@@ -62,11 +64,13 @@ batch_size = int(args.BatchSize)
 
 GPU_DEVICE = args.Device
 
-code_version = 'MGCN_{}_{}_K{}L{}_{}'.format(data_loader.city, ''.join([e[0] for e in args.Graph.split('-')]),
-                                             ''.join([str(e) for e in K]),
-                                             ''.join([str(e) for e in L]), args.CodeVersion)
+code_version = 'MGCN_{}_{}_GL{}K{}L{}_{}'.format(data_loader.city, ''.join([e[0] for e in args.Graph.split('-')]),
+                                                 int(args.GLL),
+                                                 ''.join([str(e) for e in K]),
+                                                 ''.join([str(e) for e in L]), args.CodeVersion)
 
 MGCNRegression_Obj = MGCNRegression(num_node=data_loader.station_number, GCN_K=K, GCN_layers=L,
+                                    GLL=int(args.GLL),
                                     num_graph=data_loader.LM.shape[0],
                                     external_dim=data_loader.external_dim,
                                     T=6, num_filter_conv1x1=32, num_hidden_units=64,
@@ -133,15 +137,9 @@ if train:
 MGCNRegression_Obj.load(code_version)
 
 # test
-# test_prediction = MGCNRegression_Obj.predict(X=data_loader.test_x, l_m=data_loader.LM, external_feature=data_loader.test_ef)
-#
-# np.save(os.path.join(data_dir, code_version+'.npy'), test_prediction)
-#
-# np.save(os.path.join(data_dir, '%s_target.npy' % args.City), data_loader.test_y)
-
 test_rmse, = MGCNRegression_Obj.evaluate(data_loader.test_x, data_loader.test_y, data_loader.LM,
-                                         external_feature=data_loader.test_ef,
-                                         metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
+                                        external_feature=data_loader.test_ef,
+                                        metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
 
 print('########################################################################')
 print(code_version, 'Test RMSE', test_rmse)

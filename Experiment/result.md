@@ -13,69 +13,75 @@
 |Correlation Graph|4.77930|3.28816|2.86313|
 |Distance Graph|4.78984|3.54810|2.84960|
 |Interaction Graph|4.97007|3.23574|2.77634|
-|Graph Fusion|4.27751|3.09178|2.65364|
+|Graph Fusion|4.14197|3.06403|2.55618|
 
 
 
-#### Correlation-Graph Metric(RMSE remove zero)
+## 补充实验
 
-| GCN Parmeter |   NYC   | Chicago |   DC    |
-| :----------: | :-----: | :-----: | :-----: |
-|     K0L1     | 5.15054 | 3.16184 | 3.71221 |
-|     K1L1     | 4.63072 | 2.83749 | 3.31452 |
-|     K2L1     | 4.65754 | 2.88097 | 3.32182 |
-|     K3L1     | 4.65675 | 2.83347 | 3.40716 |
+#### （1）多层GCLSTM
 
-#### RMSE with zero
+City : DC
 
-|      Method       |   NYC   | Chicago |   DC    |
-| :---------------: | :-----: | :-----: | :-----: |
-|        HM         | 5.39427 | 3.25643 | 2.58532 |
-|       ARIMA       | 4.33433 | 2.54833 | 2.23166 |
-|        HMM        | 4.18800 | 2.53786 | 2.16349 |
-|      XGBoost      | 4.09450 | 2.49430 | 2.09572 |
-|       LSTM        | 4.00914 | 2.51368 | 2.17168 |
-| Correlation Graph | 3.71546 | 2.25233 | 1.96832 |
-|  Distance Graph   | 3.73550 | 2.40881 | 1.94557 |
-| Interaction Graph | 3.93057 | 2.19883 | 1.89554 |
-|   Graph Fusion    | 3.32595 | 2.11923 | 1.83227 |
+Method : Graph Fusion
 
-## 补充实验设计
+lr: 5e-4
 
-#### (1) 验证GCLSTM的有效性
-
-GCLSTM和直接堆叠GCN+LSTM的区别是多了一个在hidden state上的GCN，可以实验把hidden state上的GCN去掉，看看结果的变化
-
-结果整理：(one city)
-
-|          Method          | GCLSTM | GCLSTM(Removed GC on hidden state) |
-| :----------------------: | :----: | :--------------------------------: |
-| Single Correlation Graph |        |                                    |
-|  Single Distance Graph   |        |                                    |
-| Single Interaction Graph |        |                                    |
-|       Graph Fusion       |        |                                    |
-
-#### (2) 验证Graph Fusion的有效性
-
-选取一些基础的Graph Fusion方法进行实验
-
-结果整理 (one city)
-
-| Method                                                       |      |
-| ------------------------------------------------------------ | ---- |
-| Naive Average 直接用三个single graph的结果进行平均           |      |
-| Hidden Feature Average 在现有模型中 将GAL替换成Average       |      |
-| Weighted hidden Feature Average 在现有模型中 将GAL替换成参数加权Average |      |
-| Attention based fusion                                       |      |
-
-#### (3) 验证Graph的作用
-
-目前构建Correlation Graph时，站点间的Pearson coefficient大于0，就进行连接，可以调整这个阈值进行实验，调整为: -1, -0.5, 0, 0.5 四个值（0 为现在展示的结果，-1即为全连接图）
-
-## 实际实验
-
-#### （1）GCLSTM两层
+|    层数    | RMSE Remove Zero  |
+| :--------: | :---------------: |
+| 一层GCLSTM |      2.55618      |
+| 两层GCLSTM |      2.53276      |
+| 三层GCLSTM | 2.54432 (lr 2e-4) |
 
 #### （2）Simple Average 和 Weighted Average
 
-#### （3）在一个Graph上去掉GCLSTM上的hidden state GCN
+结果整理 Remove Zero
+
+| Method                                                       |   NYC   | Chicago |   DC    |
+| ------------------------------------------------------------ | :-----: | :-----: | :-----: |
+| Naive Average 直接用三个single graph的结果进行平均           | 4.58827 | 3.22160 | 2.74015 |
+| Weighted Naive Average 直接用三个single graph的结果进行加权平均 | 4.58469 | 3.18152 | 2.72867 |
+| Hidden Feature Average 将GAL替换成Average                    |    -    |    -    |    -    |
+| Weighted hidden Feature Average 将GAL替换成参数加权Average   |    -    |    -    |    -    |
+| Attention based fusion                                       | 4.14197 | 3.06403 | 2.55618 |
+
+#### （3）在一个Graph上去掉GCLSTM上的hidden state graph convolution
+
+City : DC
+
+Metric : RMSE remove zero
+
+|          Method          | GCLSTM 去除 hidden state 上的GC | GCLSTM  |
+| :----------------------: | :-----------------------------: | ------- |
+| Single Correlation Graph |             3.02695             | 2.86313 |
+|  Single Distance Graph   |             3.01257             | 2.84960 |
+| Single Interaction Graph |             2.94660             | 2.77634 |
+
+#### （4）调整lr
+
+City : DC
+
+Model : Attention Based Fusion
+
+|  lr  | RMSE Remove Zero |
+| :--: | :--------------: |
+| 5e-5 |     2.65364      |
+| 1e-4 |     2.60200      |
+| 2e-4 |     2.58210      |
+| 5e-4 |     2.55618      |
+| 1e-3 |     2.51335      |
+
+#### （5）训练数据长度
+
+City : DC
+
+Model : Attention Based Fusion
+
+lr : 5e-4
+
+| Train Day Length  | RMSERemove Zero |
+| :---------------: | :-------------: |
+| 完整数据集 40个月 |     2.55618     |
+|      12个月       |     2.60002     |
+|       6个月       |     2.65427     |
+|       3个月       |     2.71175     |

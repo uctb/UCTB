@@ -14,6 +14,7 @@ class MGCNRegression(BaseModel):
                  num_node,
                  GCN_K,
                  GCN_layers,
+                 GLL,
                  num_graph,
                  external_dim,
                  T,
@@ -31,6 +32,7 @@ class MGCNRegression(BaseModel):
         self._num_node = num_node
         self._gcn_k = GCN_K
         self._gcn_layer = GCN_layers
+        self.__gclstm_layers = GLL
         self._num_graph = num_graph
         self._external_dim = external_dim
 
@@ -62,32 +64,31 @@ class MGCNRegression(BaseModel):
                     # final_state_all = []
 
                     if type(self._gcn_k) is list:
-                        gc_lstm_1 = GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
-                                             self._num_hidden_unit, state_is_tuple=True,
-                                             initializer=tf.contrib.layers.xavier_initializer())
-                        gc_lstm_2 = GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
-                                               self._num_hidden_unit, state_is_tuple=True,
-                                               initializer=tf.contrib.layers.xavier_initializer())
+                        gc_lstm_cells = [GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
+                                                    self._num_hidden_unit, state_is_tuple=True,
+                                                    initializer=tf.contrib.layers.xavier_initializer())
+                                         for _ in range(self.__gclstm_layers)]
                     else:
-                        gc_lstm_1 = GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
-                                             self._num_hidden_unit, state_is_tuple=True,
-                                             initializer=tf.contrib.layers.xavier_initializer())
-                        gc_lstm_2 = GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
-                                               self._num_hidden_unit, state_is_tuple=True,
-                                               initializer=tf.contrib.layers.xavier_initializer())
+                        gc_lstm_cells = [
+                            GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
+                                       self._num_hidden_unit, state_is_tuple=True,
+                                       initializer=tf.contrib.layers.xavier_initializer())
+                            for _ in range(self.__gclstm_layers)]
 
-                    gc_lstm_1.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
-                    gc_lstm_2.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
+                    for cell in gc_lstm_cells:
+                        cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
 
-                    state_1 = gc_lstm_1.zero_state(batch_size, dtype=tf.float32)
-                    state_2 = gc_lstm_2.zero_state(batch_size, dtype=tf.float32)
+                    cell_state_list = [cell.zero_state(batch_size, dtype=tf.float32) for cell in gc_lstm_cells]
 
                     for i in range(0, self._T):
 
-                        output_1, state_1 = gc_lstm_1(input[:, i, :, :], state_1)
-                        output_2, state_2 = gc_lstm_2(output_1, state_2)
+                        output = input[:, i, :, :]
 
-                        outputs_all.append(output_2)
+                        for cell_index in range(len(gc_lstm_cells)):
+
+                            output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output, cell_state_list[cell_index])
+
+                        outputs_all.append(output)
                         # final_state_all.append(state)
 
                 outputs_last_list.append(tf.reshape(outputs_all[-1], [-1, 1, self._num_hidden_unit]))

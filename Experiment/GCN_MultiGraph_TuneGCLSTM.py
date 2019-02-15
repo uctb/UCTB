@@ -5,7 +5,7 @@ import numpy as np
 from local_path import data_dir, tf_model_dir
 from DataPreprocess.UtilClass import MoveSample, SplitData
 from Model.GraphModelLayers import GraphBuilder
-from Model.MGCN_Regression2 import MGCNRegression
+from Model.MGCN_Regression_TuneGCLSTM import MGCNRegression
 from Train.EarlyStopping import EarlyStoppingTTest
 from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
@@ -24,6 +24,12 @@ def parameter_parser():
     parser.add_argument('--K', default='1')
     parser.add_argument('--L', default='1')
     parser.add_argument('--Graph', default='Distance')
+
+    # Graph parameter
+    parser.add_argument('--TC', default='0')
+    parser.add_argument('--TD', default='1000')
+    parser.add_argument('--TI', default='500')
+
     # training parameters
     parser.add_argument('--Epoch', default='5000')
     parser.add_argument('--Train', default='False')

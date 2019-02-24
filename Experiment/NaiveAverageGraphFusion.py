@@ -4,10 +4,10 @@ import numpy as np
 from local_path import *
 from EvalClass.Accuracy import Accuracy
 
-prediction_file = 'MGCN_{}_{}_K1L1_V0.npy'
+prediction_file = 'MGCN_{}_{}_K1L1_lr5e4.npy'
 target_file = '{}_target.npy'
 
-city = ['NYC', 'Chicago', 'DC']
+city = ['DC']
 graph = ['D', 'C', 'I']
 
 for c in city:

@@ -6,7 +6,7 @@ from local_path import *
 from DataSet.utils import is_work_day
 from dateutil.parser import parse
 from DataPreprocess.UtilClass import MoveSample, SplitData
-from Model.GraphModelLayers import GraphBuilder
+from ModelUnit.GraphModelLayers import GraphBuilder
 
 
 def getJsonDataFromPath(fullPath, showMessage=False):
@@ -48,7 +48,7 @@ class gcn_data_loader(object):
             self.train_data = self.train_data[-int(args.TrainDays)*24:]
             train_ef = train_ef[-int(args.TrainDays)*24:]
 
-        closeness_move_sample = MoveSample(feature_step=1, feature_stride=1, feature_length=6, target_length=1)
+        closeness_move_sample = MoveSample(feature_step=1, feature_stride=1, feature_length=int(args.T), target_length=1)
 
         self.train_x, self.train_y = closeness_move_sample.general_move_sample(self.train_data)
         self.train_ef = train_ef[-len(self.train_x) - 1:-1]

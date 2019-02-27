@@ -40,7 +40,7 @@ def parameter_parser():
     # training parameters
     parser.add_argument('--Epoch', default='5000')
     parser.add_argument('--Train', default='True')
-    parser.add_argument('--lr', default='1e-4')
+    parser.add_argument('--lr', default='1e-3')
     parser.add_argument('--patience', default='20')
     parser.add_argument('--BatchSize', default='64')
     # device parameter
@@ -118,7 +118,7 @@ if train:
                  'target': y,
                  'laplace_matrix': data_loader.LM,
                  'external_input': ef},
-                summary_keys=['train_loss'])['loss']
+                global_step=epoch, summary=False)['loss']
 
             loss_list.append(l)
 
@@ -129,8 +129,9 @@ if train:
                 'target': data_loader.val_y,
                 'laplace_matrix': data_loader.LM,
                 'external_input': data_loader.val_ef
-            },
-            summary_keys=['val_loss'], metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
+            }, cache_volume=64, sequence_length=len(data_loader.val_x),
+            target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0,
+        )
 
         # test
         test_rmse, = AMulti_GCLSTM_Obj.evaluate(
@@ -139,7 +140,9 @@ if train:
                 'target': data_loader.test_y,
                 'laplace_matrix': data_loader.LM,
                 'external_input': data_loader.test_ef
-            }, summary_keys=['test_loss'], metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
+            }, cache_volume=32, sequence_length=len(data_loader.test_x),
+            target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0,
+        )
 
         val_rmse_record.append([float(val_rmse)])
         test_rmse_record.append([float(test_rmse)])
@@ -151,11 +154,14 @@ if train:
             best_record = val_rmse
             AMulti_GCLSTM_Obj.save(code_version)
 
-        avg_loss = 'train_loss %.5f' % np.mean(loss_list)
-        val_rmse = 'val_rmse %.5f' % val_rmse
-        test_rmse = 'test_rmse %.5f' % test_rmse
+        AMulti_GCLSTM_Obj.manual_summary(epoch)
 
-        print(code_version, epoch, avg_loss, val_rmse, test_rmse)
+        AMulti_GCLSTM_Obj.add_summary(name='train_loss', value=np.mean(loss_list), global_step=epoch)
+        AMulti_GCLSTM_Obj.add_summary(name='val_rmse', value=val_rmse, global_step=epoch)
+        AMulti_GCLSTM_Obj.add_summary(name='test_rmse', value=test_rmse, global_step=epoch)
+
+        print(code_version, epoch,
+              'train_loss %.5f' % np.mean(loss_list), 'val_rmse %.5f' % val_rmse, 'test_rmse %.5f' % test_rmse)
 
 AMulti_GCLSTM_Obj.load(code_version)
 
@@ -166,7 +172,8 @@ test_rmse, = AMulti_GCLSTM_Obj.evaluate(
                 'target': data_loader.test_y,
                 'laplace_matrix': data_loader.LM,
                 'external_input': data_loader.test_ef
-            }, summary_keys=['test_loss'], metric=[Accuracy.RMSE], threshold=0, de_normalizer=de_normalizer)
+            }, cache_volume=64, sequence_length=len(data_loader.test_x),
+            target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0)
 
 print('########################################################################')
 print(code_version, 'Test RMSE', test_rmse)

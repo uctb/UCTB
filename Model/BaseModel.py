@@ -1,4 +1,5 @@
 import os
+import numpy as np
 import shutil
 import tensorflow as tf
 
@@ -23,7 +24,7 @@ class BaseModel(object):
         self._graph = tf.Graph()
 
         self._log_dir =  os.path.join(self._model_dir, self._code_version)
-        self._summary = {}
+        self._summary = None
         self._summary_writer = tf.summary.FileWriter(self._log_dir)
 
         # TF Session
@@ -34,13 +35,18 @@ class BaseModel(object):
         self._config.gpu_options.allow_growth = True
         self._session = tf.Session(graph=self._graph, config=self._config)
 
-    def add_summary(self, scalar_dict):
-        with self._graph.as_default():
-            for scalar_name, scalar_tensor_name in scalar_dict.items():
-                self._summary[scalar_name] = tf.summary.scalar(scalar_name,
-                                                               self._graph.get_tensor_by_name(scalar_tensor_name)).name
+    def add_summary(self, name, value, global_step):
+        valid_loss_sum = tf.Summary(
+            value=[tf.Summary.Value(tag=name, simple_value=value)])
+        self._summary_writer.add_summary(valid_loss_sum, global_step)
 
-    def _run(self, input_dict, output_keys=None, op_keys=None, summary_keys=None):
+    def _summary_histogram(self):
+        with self._graph.as_default():
+            for var in tf.trainable_variables():
+                tf.summary.histogram(var.name, var)
+        return tf.summary.merge_all()
+
+    def _run(self, input_dict, output_keys=None, op_keys=None, global_step=None, summary=True):
         feed_dict = {}
         for name, value in input_dict.items():
             if value is not None:
@@ -48,24 +54,56 @@ class BaseModel(object):
 
         execute_output_names = output_keys if output_keys else list(self._output.keys())
         execute_op_names = op_keys if op_keys else list(self._op.keys())
-        execute_summary_names = summary_keys if summary_keys else list(self._summary.keys())
 
         output_tensor_list = [self._graph.get_tensor_by_name(self._output[name]) for name in execute_output_names]
         output_tensor_list += [self._graph.get_operation_by_name(self._op[name]) for name in execute_op_names]
-        output_tensor_list += [self._graph.get_tensor_by_name(self._summary[name]) for name in execute_summary_names]
+        output_tensor_list += [self._graph.get_tensor_by_name(self._summary)]
 
         outputs = self._session.run(output_tensor_list, feed_dict=feed_dict)
 
-        for i in range(1, len(execute_summary_names)+1):
-            self._summary_writer.add_summary(outputs[-i])
+        if summary:
+            self._summary_writer.add_summary(outputs[-1], global_step=global_step)
 
         return {execute_output_names[i]: outputs[i] for i in range(len(execute_output_names))}
 
-    def fit(self, input_dict, output_keys=None, op_keys=None, summary_keys=None):
-        return self._run(input_dict, output_keys, op_keys, summary_keys)
+    def fit(self, input_dict, output_keys=None, op_keys=None, **kwargs):
+        return self._run(input_dict, output_keys, op_keys, **kwargs)
 
-    def predict(self, input_dict, output_keys=None):
-        return self._run(input_dict, output_keys, op_keys=[], summary_keys=[])
+    def predict(self, input_dict, output_keys=None, cache_volume=None, sequence_length=None):
+        if cache_volume and sequence_length:
+            # storing the prediction result
+            outputs_list = []
+            outputs_dict = {}
+            for i in range(0, sequence_length, cache_volume):
+                tmp_output = self._run({key:value[i:i+cache_volume] if len(value) == sequence_length else value
+                                    for key, value in input_dict.items()},
+                                   output_keys, op_keys=[])
+                outputs_list.append(tmp_output)
+            # stack the output together
+            for key in outputs_list[0]:
+                outputs_dict[key] = np.vstack([e[key] for e in outputs_list])
+        else:
+            outputs_dict = self._run(input_dict, output_keys, op_keys=[])
+
+        return outputs_dict
+
+    def evaluate(self, input_dict, target_key, prediction_key, metric, de_normalizer=None,
+                 output_keys=None, cache_volume=None, sequence_length=None, **kwargs):
+
+        outputs = self.predict(input_dict, output_keys, cache_volume=cache_volume, sequence_length=sequence_length)
+
+        target = input_dict[target_key]
+        prediction = outputs[prediction_key]
+
+        if de_normalizer:
+            target = de_normalizer(target)
+            prediction = de_normalizer(prediction)
+
+        return [m(prediction, target, **kwargs) for m in metric]
+
+    def manual_summary(self, global_step=None):
+        self._summary_writer.add_summary(self._session.run(self._graph.get_tensor_by_name(self._summary)),
+                                         global_step=global_step)
     
     def save(self, subscript):
         save_dir_subscript = os.path.join(self._log_dir, subscript)

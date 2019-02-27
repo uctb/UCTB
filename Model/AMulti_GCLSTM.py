@@ -141,34 +141,12 @@ class AMulti_GCLSTM(BaseModel):
             self._saver = tf.train.Saver(max_to_keep=None)
             self._variable_init = tf.global_variables_initializer()
 
-            self.add_summary({
-                'train_loss': loss_pre.name,
-                'val_loss': loss_pre.name,
-                'test_loss': loss_pre.name,
-            })
+            # Add summary
+            self._summary = self._summary_histogram().name
+            self._summary_writer.add_graph(self._graph)
 
         self._session.run(self._variable_init)
         self._build = False
-
-    def evaluate(self, input_dict, summary_keys, metric,
-                 cache_volume=64, output_keys=None, de_normalizer=None, **kwargs):
-        # time sequence length
-        time_service_length = len(input_dict['input'])
-        # storing the prediction result
-        p = []
-        for i in range(0, time_service_length, cache_volume):
-            outputs = self._run({key:value[i:i+cache_volume] if len(value) == time_service_length else value
-                                 for key, value in input_dict.items()},
-                                output_keys, op_keys=[], summary_keys=summary_keys)
-            p.append(outputs['prediction'])
-        p = np.concatenate(p, axis=0)
-        y = input_dict['target']
-
-        if de_normalizer:
-            p = de_normalizer(p)
-            y = de_normalizer(y)
-
-        return [e(p, y, **kwargs) for e in metric]
 
 
 if __name__ == '__main__':

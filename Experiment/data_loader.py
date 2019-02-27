@@ -17,7 +17,6 @@ def getJsonDataFromPath(fullPath, showMessage=False):
     return data
 
 
-
 class gcn_data_loader(object):
     def __init__(self, args, with_lm=True):
 

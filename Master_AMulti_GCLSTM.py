@@ -29,4 +29,4 @@ if __name__ == "__main__":
                                             ' --K 1,1,1 --L 1,1,1 --CodeVersion V0')
 
     os.system(shared_params_amulti_gclstm + ' --T 12 --City Chicago --Graph Distance-Correlation-Interaction'
-                                            ' --K 1,1,1 --L 1,1,1 --CodeVersion V0')
+                                             ' --K 1,1,1 --L 1,1,1 --CodeVersion V0')

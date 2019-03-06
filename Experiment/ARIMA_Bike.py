@@ -14,6 +14,10 @@ def parameter_parser():
     parser.add_argument('--City', default='NYC')
     # version contral
     parser.add_argument('--CodeVersion', default='V0')
+
+    parser.add_argument('--TrainDays', default='All')
+    parser.add_argument('--T', default='6')
+
     return parser
 
 

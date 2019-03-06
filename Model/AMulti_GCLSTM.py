@@ -143,7 +143,6 @@ class AMulti_GCLSTM(BaseModel):
 
             # Add summary
             self._summary = self._summary_histogram().name
-            self._summary_writer.add_graph(self._graph)
 
         self._session.run(self._variable_init)
         self._build = False

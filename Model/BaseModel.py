@@ -44,6 +44,7 @@ class BaseModel(object):
         with self._graph.as_default():
             for var in tf.trainable_variables():
                 tf.summary.histogram(var.name, var)
+        self._summary_writer.add_graph(self._graph)
         return tf.summary.merge_all()
 
     def _run(self, input_dict, output_keys=None, op_keys=None, global_step=None, summary=True):

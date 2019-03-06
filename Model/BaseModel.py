@@ -36,9 +36,9 @@ class BaseModel(object):
         self._session = tf.Session(graph=self._graph, config=self._config)
 
     def add_summary(self, name, value, global_step):
-        valid_loss_sum = tf.Summary(
+        value_record = tf.Summary(
             value=[tf.Summary.Value(tag=name, simple_value=value)])
-        self._summary_writer.add_summary(valid_loss_sum, global_step)
+        self._summary_writer.add_summary(value_record, global_step)
 
     def _summary_histogram(self):
         with self._graph.as_default():

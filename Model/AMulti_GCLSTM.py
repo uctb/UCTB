@@ -149,12 +149,12 @@ class AMulti_GCLSTM(BaseModel):
         self._build = False
 
 
-if __name__ == '__main__':
-
-    MGCNRegression_Obj = AMulti_GCLSTM(num_node=500, GCN_K=1, GCN_layers=1, GCLSTM_layers=1,
-                                        num_graph=1,
-                                        external_dim=30,
-                                        gal_units=64, gal_num_heads=2,
-                                        T=6, num_filter_conv1x1=32, num_hidden_units=64,
-                                        lr=1e-4, code_version='Debug', GPU_DEVICE='0', model_dir='')
-    MGCNRegression_Obj.build()
+# if __name__ == '__main__':
+#
+#     MGCNRegression_Obj = AMulti_GCLSTM(num_node=500, GCN_K=1, GCN_layers=1, GCLSTM_layers=1,
+#                                         num_graph=1,
+#                                         external_dim=30,
+#                                         gal_units=64, gal_num_heads=2,
+#                                         T=6, num_filter_conv1x1=32, num_hidden_units=64,
+#                                         lr=1e-4, code_version='Debug', GPU_DEVICE='0', model_dir='')
+#     MGCNRegression_Obj.build()

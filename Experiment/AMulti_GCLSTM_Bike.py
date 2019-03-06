@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import tensorflow as tf
 
 from local_path import data_dir, tf_model_dir
 from Model.AMulti_GCLSTM import AMulti_GCLSTM

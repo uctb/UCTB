@@ -43,7 +43,7 @@ class AMulti_GCLSTM(BaseModel):
 
     def build(self):
         with self._graph.as_default():
-
+            
             # Input
             input = tf.placeholder(tf.float32, [None, self._T, None, 1], name='input')
             target = tf.placeholder(tf.float32, [None, None], name='target')

@@ -3,12 +3,12 @@ import numpy as np
 import tensorflow as tf
 
 from local_path import data_dir, tf_model_dir
-from Model.AMulti_GCLSTM import AMulti_GCLSTM
+from Model.GACN_Beta import GACN
 from Train.EarlyStopping import EarlyStoppingTTest
 from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
 from Utils.json_api import saveJson
-from Experiment.data_loader import bike_data_loader
+from Experiment.data_loader import charge_station_data_loader
 
 
 def get_md5(string):
@@ -17,21 +17,20 @@ def get_md5(string):
     m.update(string)
     return m.hexdigest()
 
+
 def parameter_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--City', default='DC')
+    parser.add_argument('--City', default='Beijing')
     # network parameter
-    parser.add_argument('--T', default='6')
-    parser.add_argument('--K', default='1')
-    parser.add_argument('--L', default='1')
-    parser.add_argument('--Graph', default='Distance')
-    parser.add_argument('--GLL', default='1')
-    parser.add_argument('--LSTMUnits', default='64')
-    parser.add_argument('--GALUnits', default='64')
-    parser.add_argument('--GALHeads', default='2')
-    parser.add_argument('--DenseUnits', default='32')
+    parser.add_argument('--T', default='12')
+    parser.add_argument('--GCLK', default='1')
+    parser.add_argument('--GCLLayer', default='1')
+    parser.add_argument('--GALLayer', default='4')
+    parser.add_argument('--GALHead', default='2')
+    parser.add_argument('--GALUnits', default='16')
+    parser.add_argument('--Graph', default='Correlation')
     # Training data parameters
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
@@ -44,10 +43,12 @@ def parameter_parser():
     parser.add_argument('--lr', default='1e-3')
     parser.add_argument('--patience', default='20')
     parser.add_argument('--BatchSize', default='64')
+    parser.add_argument('--DenseUnits', default='32')
     # device parameter
-    parser.add_argument('--Device', default='1')
+    parser.add_argument('--Device', default='0')
     # version contral
-    parser.add_argument('--CodeVersion', default='Debug0222')
+    parser.add_argument('--CodeVersion', default='Debug')
+
     return parser
 
 
@@ -64,36 +65,35 @@ for key, value in sorted(code_parameters.items(), key=lambda x:x[0], reverse=Fal
 saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
 
 # Config data loader
-data_loader = bike_data_loader(args)
+data_loader = charge_station_data_loader(args, with_lm=True)
 
 # parse parameters
-K = [int(e) for e in args.K.split(',') if len(e) > 0]
-L = [int(e) for e in args.L.split(',') if len(e) > 0]
-lr = float(args.lr)
+K = [int(e) for e in args.GCLK.split(',') if len(e) > 0]
+K = K if len(K) > 1 else K[0]
+L = [int(e) for e in args.GCLLayer.split(',') if len(e) > 0]
+L = L if len(L) > 1 else L[0]
+
 patience = int(args.patience)
 num_epoch = int(args.Epoch)
 batch_size = int(args.BatchSize)
 
-code_version = 'AMulti_GCLSTM_{}'.format(code_version_md5)
+code_version = 'GACN_{}'.format(code_version_md5)
 
-AMulti_GCLSTM_Obj = AMulti_GCLSTM(num_node=data_loader.station_number,
-                                  GCN_K=K, GCN_layers=L,
-                                  num_graph=data_loader.LM.shape[0],
-                                  external_dim=data_loader.external_dim,
-                                  GCLSTM_layers=int(args.GLL),
-                                  gal_units=int(args.GALUnits), gal_num_heads=int(args.GALHeads),
-                                  T=int(args.T), num_filter_conv1x1=int(args.DenseUnits),
-                                  num_hidden_units=int(args.LSTMUnits), lr=lr,
-                                  code_version=code_version, GPU_DEVICE=GPU_DEVICE, model_dir=tf_model_dir)
+GACN_Obj = GACN(num_node=data_loader.station_number,
+                gcl_k=K, gcl_layers=L,
+                gal_layers=int(args.GALLayer), gal_num_heads=int(args.GALHead), gal_units=int(args.GALUnits),
+                T=int(args.T), lr=float(args.lr), time_embedding_dim=int(args.T),
+                input_dim=1, dense_units=int(args.DenseUnits),
+                code_version=code_version, GPU_DEVICE=GPU_DEVICE, model_dir=tf_model_dir)
 
-AMulti_GCLSTM_Obj.build()
+GACN_Obj.build()
 
 de_normalizer = None
 
 if train:
 
     try:
-        AMulti_GCLSTM_Obj.load(code_version)
+        GACN_Obj.load(code_version)
     except Exception as e:
         print('No model found, start training!')
 
@@ -114,33 +114,33 @@ if train:
         for i in range(mini_batch_train.num_batch):
             X, y, ef = mini_batch_train.get_batch()
 
-            l = AMulti_GCLSTM_Obj.fit(
+            l = GACN_Obj.fit(
                 {'input': X,
+                 'time_embedding': data_loader.time_position,
                  'target': y,
-                 'laplace_matrix': data_loader.LM,
-                 'external_input': ef},
+                 'laplace_matrix': data_loader.LM,},
                 global_step=epoch, summary=False)['loss']
 
             loss_list.append(l)
 
         # validation
-        val_rmse, = AMulti_GCLSTM_Obj.evaluate(
+        val_rmse, = GACN_Obj.evaluate(
             {
                 'input': data_loader.val_x,
+                'time_embedding': data_loader.time_position,
                 'target': data_loader.val_y,
                 'laplace_matrix': data_loader.LM,
-                'external_input': data_loader.val_ef
             }, cache_volume=64, sequence_length=len(data_loader.val_x),
             target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0,
         )
 
         # test
-        test_rmse, = AMulti_GCLSTM_Obj.evaluate(
+        test_rmse, = GACN_Obj.evaluate(
             {
                 'input': data_loader.test_x,
+                'time_embedding': data_loader.time_position,
                 'target': data_loader.test_y,
                 'laplace_matrix': data_loader.LM,
-                'external_input': data_loader.test_ef
             }, cache_volume=32, sequence_length=len(data_loader.test_x),
             target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0,
         )
@@ -153,26 +153,26 @@ if train:
 
         if best_record is None or val_rmse < best_record:
             best_record = val_rmse
-            AMulti_GCLSTM_Obj.save(code_version)
+            GACN_Obj.save(code_version)
 
-        AMulti_GCLSTM_Obj.manual_summary(epoch)
+        GACN_Obj.manual_summary(epoch)
 
-        AMulti_GCLSTM_Obj.add_summary(name='train_loss', value=np.mean(loss_list), global_step=epoch)
-        AMulti_GCLSTM_Obj.add_summary(name='val_rmse', value=val_rmse, global_step=epoch)
-        AMulti_GCLSTM_Obj.add_summary(name='test_rmse', value=test_rmse, global_step=epoch)
+        GACN_Obj.add_summary(name='train_loss', value=np.mean(loss_list), global_step=epoch)
+        GACN_Obj.add_summary(name='val_rmse', value=val_rmse, global_step=epoch)
+        GACN_Obj.add_summary(name='test_rmse', value=test_rmse, global_step=epoch)
 
         print(code_version, epoch,
               'train_loss %.5f' % np.mean(loss_list), 'val_rmse %.5f' % val_rmse, 'test_rmse %.5f' % test_rmse)
 
-AMulti_GCLSTM_Obj.load(code_version)
+GACN_Obj.load(code_version)
 
 # test
-test_rmse, = AMulti_GCLSTM_Obj.evaluate(
+test_rmse, = GACN_Obj.evaluate(
             {
                 'input': data_loader.test_x,
+                'time_embedding': data_loader.time_position,
                 'target': data_loader.test_y,
                 'laplace_matrix': data_loader.LM,
-                'external_input': data_loader.test_ef
             }, cache_volume=64, sequence_length=len(data_loader.test_x),
             target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0)
 
@@ -180,4 +180,4 @@ print('########################################################################'
 print(code_version, 'Test RMSE', test_rmse)
 print('########################################################################')
 
-AMulti_GCLSTM_Obj.close()
+GACN_Obj.close()

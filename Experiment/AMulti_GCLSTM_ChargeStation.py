@@ -8,7 +8,7 @@ from Train.EarlyStopping import EarlyStoppingTTest
 from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
 from Utils.json_api import saveJson
-from Experiment.data_loader import bike_data_loader
+from Experiment.data_loader import charge_station_data_loader
 
 
 def get_md5(string):
@@ -21,12 +21,12 @@ def parameter_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--City', default='DC')
+    parser.add_argument('--City', default='Beijing')
     # network parameter
     parser.add_argument('--T', default='6')
     parser.add_argument('--K', default='1')
     parser.add_argument('--L', default='1')
-    parser.add_argument('--Graph', default='Distance')
+    parser.add_argument('--Graph', default='Correlation')
     parser.add_argument('--GLL', default='1')
     parser.add_argument('--LSTMUnits', default='64')
     parser.add_argument('--GALUnits', default='64')
@@ -45,7 +45,7 @@ def parameter_parser():
     parser.add_argument('--patience', default='20')
     parser.add_argument('--BatchSize', default='64')
     # device parameter
-    parser.add_argument('--Device', default='1')
+    parser.add_argument('--Device', default='2')
     # version contral
     parser.add_argument('--CodeVersion', default='Debug0222')
     return parser
@@ -64,7 +64,7 @@ for key, value in sorted(code_parameters.items(), key=lambda x:x[0], reverse=Fal
 saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
 
 # Config data loader
-data_loader = bike_data_loader(args)
+data_loader = charge_station_data_loader(args, with_lm=True)
 
 # parse parameters
 K = [int(e) for e in args.K.split(',') if len(e) > 0]

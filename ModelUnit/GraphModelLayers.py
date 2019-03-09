@@ -45,6 +45,7 @@ class GraphBuilder(object):
         a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
         c = 2 * asin(sqrt(a))
         r = 6371  # 地球平均半径，单位为公里
+
         return c * r * 1000
 
     @staticmethod
@@ -90,15 +91,16 @@ class GraphBuilder(object):
 
         return LM
 
-## Graph Attention Layer
+
+# Graph Attention Layer
 class GAL(object):
     @staticmethod
     def add_ga_layer(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu, with_self_loop=True):
-
+        
         inputs = graph.get_tensor_by_name(inputs_name)
 
         inputs_shape = inputs.get_shape().with_rank(3)
-
+        
         num_node = inputs_shape[-2].value
         num_feature = inputs_shape[-1].value
 
@@ -132,7 +134,60 @@ class GAL(object):
 
         # Averaging
         gc_output = tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1)
+
         return alpha.name, gc_output.name
+
+    @staticmethod
+    def add_ga_layer_matrix(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu, with_self_loop=True):
+
+        inputs = graph.get_tensor_by_name(inputs_name)
+
+        inputs_shape = inputs.get_shape().with_rank(3)
+
+        num_node = inputs_shape[-2].value
+        num_feature = inputs_shape[-1].value
+
+        W = tf.Variable(tf.random_normal([num_feature, units * num_head]))
+
+        # linear transform
+        l_t = tf.matmul(tf.reshape(inputs, [-1, num_feature]), W)
+        l_t = tf.reshape(l_t, [-1, num_node, num_head, units])
+
+        a = tf.Variable(tf.random_normal([units * 2, num_head]))
+
+        e_multi_head = []
+
+        for head_index in range(num_head):
+
+            l_t_i = l_t[:, :, head_index, :]
+            a_i = a[:, head_index:head_index+1]
+
+            l_t_i_0 = tf.gather(l_t_i, indices=np.array([e for e in range(num_node)] * num_node), axis=1)
+            l_t_i_1 = tf.gather(l_t_i, indices=np.array([[e]*num_node for e in range(num_node)]).reshape([-1,]), axis=1)
+
+            tmp_e = tf.matmul(tf.reshape(tf.concat((l_t_i_0, l_t_i_1), axis=-1), [-1, units*2]), a_i)
+            tmp_e = tf.nn.softmax(activation(tf.reshape(tmp_e, [-1, 1, num_node, num_node])), axis=-1)
+
+            e_multi_head.append(tmp_e)
+
+        alpha = tf.concat(e_multi_head, axis=1)
+
+        # Averaging
+        gc_output = tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1)
+
+        return alpha.name, gc_output.name
+
+    @staticmethod
+    def add_residual_ga_layer(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu):
+
+        _, gc_output_name = GAL.add_ga_layer_matrix(graph, inputs_name, units, num_head,
+                                             activation=tf.nn.leaky_relu, with_self_loop=True)
+
+        inputs = graph.get_tensor_by_name(inputs_name)
+
+        gc_output_residual = tf.concat([graph.get_tensor_by_name(gc_output_name), inputs], axis=-1)
+
+        return tf.keras.layers.Dense(units=inputs.get_shape()[-1].value)(gc_output_residual).name
 
 
 ## Graph Convolution Layer

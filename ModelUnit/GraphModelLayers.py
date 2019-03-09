@@ -181,13 +181,13 @@ class GAL(object):
     def add_residual_ga_layer(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu):
 
         _, gc_output_name = GAL.add_ga_layer_matrix(graph, inputs_name, units, num_head,
-                                             activation=tf.nn.leaky_relu, with_self_loop=True)
+                                                    activation=activation, with_self_loop=True)
 
         inputs = graph.get_tensor_by_name(inputs_name)
 
         gc_output_residual = tf.concat([graph.get_tensor_by_name(gc_output_name), inputs], axis=-1)
 
-        return tf.keras.layers.Dense(units=inputs.get_shape()[-1].value)(gc_output_residual).name
+        return gc_output_residual.name
 
 
 ## Graph Convolution Layer

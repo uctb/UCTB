@@ -85,7 +85,7 @@ class GACN(BaseModel):
 
             attention_output = tf.reshape(attention_output_list[-1],
                                           [tf.shape(input)[0], tf.shape(input)[1],
-                                           self._T, feature_dim])
+                                           self._T, attention_output_list[-1].get_shape()[-1]])
 
             # GCN
             gcn_input_feature = tf.reduce_mean(attention_output, axis=-2)

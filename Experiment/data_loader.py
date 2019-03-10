@@ -146,9 +146,6 @@ class charge_station_data_loader(object):
             self.test_x, self.test_y = closeness_move_sample.general_move_sample(self.test_data)
             self.test_ef = test_ef[-len(self.test_x) - 1:-1]
 
-            # reshape
-            time_pe = np.diag(np.ones(int(args.T))).reshape([1, 1, int(args.T), int(args.T)])
-
             self.train_x = self.train_x.transpose([0, 3, 2, 1])
             self.val_x = self.val_x.transpose([0, 3, 2, 1])
             self.test_x = self.test_x.transpose([0, 3, 2, 1])
@@ -158,7 +155,10 @@ class charge_station_data_loader(object):
             self.test_y = self.test_y.reshape([-1, self.station_number, 1])
 
             # time position embedding
-            self.time_position = np.array([[1 if e1 == e else 0 for e1 in range(int(args.T))] for e in range(int(args.T))])
+            # TPE 1 : one-hot vector encoding
+            self.tpe_one_hot = np.array([[1 if e1 == e else 0 for e1 in range(int(args.T))] for e in range(int(args.T))])
+            # TPE 2 : position index
+            self.tpe_position_index = np.array([[e] for e in range(int(args.T))])
 
         if with_lm:
 

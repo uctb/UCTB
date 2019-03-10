@@ -55,6 +55,7 @@ class GACN(BaseModel):
             self._input['laplace_matrix'] = laplace_matrix.name
 
             if self._time_embedding_dim and self._time_embedding_dim > 0:
+
                 time_embedding = tf.placeholder(tf.float32, [self._T, self._time_embedding_dim], name='time_embedding')
 
                 # recode input
@@ -67,11 +68,8 @@ class GACN(BaseModel):
 
                 attention_input = tf.reshape(input, [-1, self._T, self._input_dim + self._time_embedding_dim])
 
-                feature_dim = self._input_dim + self._time_embedding_dim
-
             else:
                 attention_input = tf.reshape(input, [-1, self._T, self._input_dim])
-                feature_dim = self._input_dim
 
             attention_output_list = []
             for loop_index in range(self._gal_layers):
@@ -85,7 +83,7 @@ class GACN(BaseModel):
 
             attention_output = tf.reshape(attention_output_list[-1],
                                           [tf.shape(input)[0], tf.shape(input)[1],
-                                           self._T, attention_output_list[-1].get_shape()[-1]])
+                                           self._T, attention_input.get_shape()[-1]])
 
             # GCN
             gcn_input_feature = tf.reduce_mean(attention_output, axis=-2)

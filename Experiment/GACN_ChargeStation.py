@@ -59,7 +59,7 @@ code_parameters = vars(args)
 train = True if code_parameters.pop('Train') == 'True' else False
 GPU_DEVICE = code_parameters.pop('Device')
 code_version_md5 = get_md5(str(sorted(code_parameters.items(), key=lambda x:x[0], reverse=False)).encode())
- 
+
 for key, value in sorted(code_parameters.items(), key=lambda x:x[0], reverse=False):
     print(key, value)
 saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
@@ -77,12 +77,14 @@ patience = int(args.patience)
 num_epoch = int(args.Epoch)
 batch_size = int(args.BatchSize)
 
+tpe = data_loader.tpe_position_index
+
 code_version = 'GACN_{}'.format(code_version_md5)
 
 GACN_Obj = GACN(num_node=data_loader.station_number,
                 gcl_k=K, gcl_layers=L,
                 gal_layers=int(args.GALLayer), gal_num_heads=int(args.GALHead), gal_units=int(args.GALUnits),
-                T=int(args.T), lr=float(args.lr), time_embedding_dim=int(args.T),
+                T=int(args.T), lr=float(args.lr), time_embedding_dim=tpe.shape[-1],
                 input_dim=1, dense_units=int(args.DenseUnits),
                 code_version=code_version, GPU_DEVICE=GPU_DEVICE, model_dir=tf_model_dir)
 
@@ -116,7 +118,7 @@ if train:
 
             l = GACN_Obj.fit(
                 {'input': X,
-                 'time_embedding': data_loader.time_position,
+                 'time_embedding': tpe,
                  'target': y,
                  'laplace_matrix': data_loader.LM,},
                 global_step=epoch, summary=False)['loss']
@@ -127,7 +129,7 @@ if train:
         val_rmse, = GACN_Obj.evaluate(
             {
                 'input': data_loader.val_x,
-                'time_embedding': data_loader.time_position,
+                'time_embedding': tpe,
                 'target': data_loader.val_y,
                 'laplace_matrix': data_loader.LM,
             }, cache_volume=64, sequence_length=len(data_loader.val_x),
@@ -138,7 +140,7 @@ if train:
         test_rmse, = GACN_Obj.evaluate(
             {
                 'input': data_loader.test_x,
-                'time_embedding': data_loader.time_position,
+                'time_embedding': tpe,
                 'target': data_loader.test_y,
                 'laplace_matrix': data_loader.LM,
             }, cache_volume=32, sequence_length=len(data_loader.test_x),
@@ -170,7 +172,7 @@ GACN_Obj.load(code_version)
 test_rmse, = GACN_Obj.evaluate(
             {
                 'input': data_loader.test_x,
-                'time_embedding': data_loader.time_position,
+                'time_embedding': tpe,
                 'target': data_loader.test_y,
                 'laplace_matrix': data_loader.LM,
             }, cache_volume=64, sequence_length=len(data_loader.test_x),

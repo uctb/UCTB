@@ -27,4 +27,3 @@ build/
 *.npy
 .vscode/
 *.pkl
-*.md

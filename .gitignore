@@ -26,3 +26,4 @@ _pycache__/
 build/
 *.npy
 .vscode/
+*.tar.gz

@@ -46,7 +46,7 @@ class AMulti_GCLSTM(BaseModel):
             
             # Input
             input = tf.placeholder(tf.float32, [None, self._T, None, 1], name='input')
-            target = tf.placeholder(tf.float32, [None, None], name='target')
+            target = tf.placeholder(tf.float32, [None, None, 1], name='target')
             laplace_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None], name='laplace_matrix')
 
             batch_size = tf.shape(input)[0]
@@ -126,7 +126,7 @@ class AMulti_GCLSTM(BaseModel):
                                           kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
-            prediction = tf.reshape(pre_output, [batch_size, self._num_node], name='prediction')
+            prediction = tf.reshape(pre_output, [batch_size, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')

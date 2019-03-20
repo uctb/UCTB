@@ -8,13 +8,13 @@ commend = sys.argv[1]
 
 if commend == '-c':
 
-    target_file_list = [e for e in os.listdir(current_dir) if e.endswith('.npy')]
+    target_file_list = [e for e in os.listdir(current_dir) if e.endswith('.pkl')]
 
     for file in target_file_list:
 
         print('Compressing', file)
 
-        tar = tarfile.open(file.replace('.npy', '.tar.gz'), "w:gz")
+        tar = tarfile.open(file.replace('.pkl', '.tar.gz'), "w:gz")
 
         tar.add(file)
 

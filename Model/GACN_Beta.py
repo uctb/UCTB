@@ -44,13 +44,15 @@ class GACN(BaseModel):
     def build(self):
         with self._graph.as_default():
             # Input
-            input = tf.placeholder(tf.float32, [None, None, self._T, self._input_dim], name='input_hour')
+            input_raw = tf.placeholder(tf.float32, [None, self._T, None, self._input_dim], name='input_hour')
+
+            input = tf.transpose(input_raw, perm=[0, 2, 1, 3])
 
             target = tf.placeholder(tf.float32, [None, None, 1], name='target')
             laplace_matrix = tf.placeholder(tf.float32, [None, None], name='laplace_matrix')
 
             # recode input
-            self._input['input'] = input.name
+            self._input['input'] = input_raw.name
             self._input['target'] = target.name
             self._input['laplace_matrix'] = laplace_matrix.name
 
@@ -64,11 +66,13 @@ class GACN(BaseModel):
                 time_embedding = tf.reshape(time_embedding, [1, 1, self._T, self._time_embedding_dim])
                 time_embedding = tf.tile(time_embedding,
                                          [tf.shape(input)[0], tf.shape(input)[1], 1, 1])
+
                 input = tf.concat((input, time_embedding), axis=-1)
 
                 attention_input = tf.reshape(input, [-1, self._T, self._input_dim + self._time_embedding_dim])
 
             else:
+
                 attention_input = tf.reshape(input, [-1, self._T, self._input_dim])
 
             attention_output_list = []
@@ -108,9 +112,9 @@ class GACN(BaseModel):
             self._saver = tf.train.Saver(max_to_keep=None)
             self._variable_init = tf.global_variables_initializer()
 
-            self.num_trainable_vars = np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])
+            self.trainable_vars = np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])
 
-            print('Trainable Variables', self.num_trainable_vars)
+            print('Trainable Variables', self.trainable_vars)
 
             # Add summary
             self._summary = self._summary_histogram().name

@@ -8,7 +8,7 @@ from Train.EarlyStopping import EarlyStoppingTTest
 from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
 from Utils.json_api import saveJson
-from Experiment.data_loader import bike_data_loader
+from Experiment.data_loader import bike_data_loader, NodeTrafficLoader
 
 
 def get_md5(string):
@@ -17,22 +17,25 @@ def get_md5(string):
     m.update(string)
     return m.hexdigest()
 
+
 def parameter_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--City', default='DC')
+    parser.add_argument('--Dataset', default='ChargeStation')
+    parser.add_argument('--City', default='Beijing')
     # network parameter
     parser.add_argument('--T', default='6')
     parser.add_argument('--K', default='1')
     parser.add_argument('--L', default='1')
-    parser.add_argument('--Graph', default='Distance')
+    parser.add_argument('--Graph', default='Correlation')
     parser.add_argument('--GLL', default='1')
     parser.add_argument('--LSTMUnits', default='64')
     parser.add_argument('--GALUnits', default='64')
     parser.add_argument('--GALHeads', default='2')
     parser.add_argument('--DenseUnits', default='32')
     # Training data parameters
+    parser.add_argument('--DataRange', default='0,71')
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
     parser.add_argument('--TC', default='0')
@@ -57,18 +60,22 @@ args = parser.parse_args()
 code_parameters = vars(args)
 train = True if code_parameters.pop('Train') == 'True' else False
 GPU_DEVICE = code_parameters.pop('Device')
+
 code_version_md5 = get_md5(str(sorted(code_parameters.items(), key=lambda x:x[0], reverse=False)).encode())
  
 for key, value in sorted(code_parameters.items(), key=lambda x:x[0], reverse=False):
     print(key, value)
-saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
+    
+if os.path.isfile(os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5))) is False:
+    saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
 
 # Config data loader
-data_loader = bike_data_loader(args)
+data_loader = NodeTrafficLoader(args, with_lm=True)
 
 # parse parameters
-K = [int(e) for e in args.K.split(',') if len(e) > 0]
-L = [int(e) for e in args.L.split(',') if len(e) > 0]
+K = [int(e) for e in args.K.split(',') if len(e) > 0] if ',' in args.K else int(args.K)
+L = [int(e) for e in args.L.split(',') if len(e) > 0] if ',' in args.L else int(args.L)
+
 lr = float(args.lr)
 patience = int(args.patience)
 num_epoch = int(args.Epoch)
@@ -120,7 +127,7 @@ if train:
                  'laplace_matrix': data_loader.LM,
                  'external_input': ef},
                 global_step=epoch, summary=False)['loss']
-
+            
             loss_list.append(l)
 
         # validation

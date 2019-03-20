@@ -169,7 +169,7 @@ class GAL(object):
             tmp_e = tf.nn.softmax(activation(tf.reshape(tmp_e, [-1, 1, num_node, num_node])), axis=-1)
 
             e_multi_head.append(tmp_e)
-
+        
         alpha = tf.concat(e_multi_head, axis=1)
 
         # Averaging
@@ -190,7 +190,7 @@ class GAL(object):
         return gc_output_residual.name
 
 
-## Graph Convolution Layer
+# Graph Convolution Layer
 class GCL(object):
 
     @staticmethod

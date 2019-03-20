@@ -27,6 +27,8 @@ class BaseModel(object):
         self._summary = None
         self._summary_writer = tf.summary.FileWriter(self._log_dir)
 
+        self.trainable_vars = 0
+
         # TF Session
         self._GPU_DEVICE = GPU_DEVICE
         os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"

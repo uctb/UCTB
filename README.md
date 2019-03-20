@@ -14,3 +14,4 @@ Decompressing the data :
 cd Data
 python compress.py -x
 ```
+

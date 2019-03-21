@@ -3,7 +3,7 @@ import numpy as np
 import xgboost as xgb
 
 from local_path import tf_model_dir
-from Experiment.data_loader import gcn_data_loader
+from DataSet.node_traffic_loader import gcn_data_loader
 from EvalClass.Accuracy import Accuracy
 
 

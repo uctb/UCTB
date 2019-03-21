@@ -21,6 +21,7 @@ class EarlyStopping(object):
             else:
                 return True
 
+
 class EarlyStoppingTTest(object):
     def __init__(self, length, p_value_threshold):
         self.__record_list = []

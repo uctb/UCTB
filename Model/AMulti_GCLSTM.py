@@ -1,10 +1,9 @@
 import numpy as np
 import tensorflow as tf
 
+from Model.BaseModel import BaseModel
 from ModelUnit.GCLSTM_CELL import GCLSTMCell
 from ModelUnit.GraphModelLayers import GAL
-
-from Model.BaseModel import BaseModel
 
 
 class AMulti_GCLSTM(BaseModel):
@@ -32,7 +31,7 @@ class AMulti_GCLSTM(BaseModel):
         self._gcn_layer = GCN_layers
         self._gal_units = gal_units
         self._gal_num_heads = gal_num_heads
-        self.__gclstm_layers = GCLSTM_layers
+        self._gclstm_layers = GCLSTM_layers
         self._num_graph = num_graph
         self._external_dim = external_dim
 
@@ -62,17 +61,17 @@ class AMulti_GCLSTM(BaseModel):
                 with tf.variable_scope('gc_lstm_%s' % graph_index, reuse=False):
                     outputs_all = []
 
-                    if type(self._gcn_k) is list:
+                    if len(self._gcn_k) == self._num_graph:
                         gc_lstm_cells = [GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
                                                     self._num_hidden_unit, state_is_tuple=True,
                                                     initializer=tf.contrib.layers.xavier_initializer())
-                                         for _ in range(self.__gclstm_layers)]
+                                         for _ in range(self._gclstm_layers)]
                     else:
                         gc_lstm_cells = [
-                            GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
+                            GCLSTMCell(self._gcn_k[0], self._gcn_layer[0], self._num_node,
                                        self._num_hidden_unit, state_is_tuple=True,
                                        initializer=tf.contrib.layers.xavier_initializer())
-                            for _ in range(self.__gclstm_layers)]
+                            for _ in range(self._gclstm_layers)]
 
                     for cell in gc_lstm_cells:
                         cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
@@ -138,22 +137,75 @@ class AMulti_GCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_operation.name
 
+            ####################################################################
+            # Add summary, variable_init and summary
+            # The variable name of them are fixed
             self._saver = tf.train.Saver(max_to_keep=None)
             self._variable_init = tf.global_variables_initializer()
-
-            # Add summary
             self._summary = self._summary_histogram().name
+            ####################################################################
 
         self._session.run(self._variable_init)
-        self._build = False
 
+    # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
+    def _get_feed_dict(self, input, laplace_matrix, target=None, external_feature=None):
+        feed_dict = {
+            'input': input,
+            'laplace_matrix': laplace_matrix,
+        }
+        if target is not None:
+            feed_dict['target'] = target
+        if self._external_dim is not None and self._external_dim > 0:
+            feed_dict['external_input'] = external_feature
 
-# if __name__ == '__main__':
-#
-#     MGCNRegression_Obj = AMulti_GCLSTM(num_node=500, GCN_K=1, GCN_layers=1, GCLSTM_layers=1,
-#                                         num_graph=1,
-#                                         external_dim=30,
-#                                         gal_units=64, gal_num_heads=2,
-#                                         T=6, num_filter_conv1x1=32, num_hidden_units=64,
-#                                         lr=1e-4, code_version='Debug', GPU_DEVICE='0', model_dir='')
-#     MGCNRegression_Obj.build()
+        return feed_dict
+
+    # Step 2 : build the fit function using BaseModel._fit
+    def fit(self,
+            input,
+            laplace_matrix,
+            target,
+            external_feature=None,
+            batch_size=64, max_epoch=10000,
+            validate_ratio=0.1,
+            early_stop_method='t-test',
+            early_stop_length=10,
+            early_stop_patience=0.1):
+
+        evaluate_loss_name = 'loss'
+
+        feed_dict = self._get_feed_dict(input=input, laplace_matrix=laplace_matrix,
+                                        target=target, external_feature=external_feature)
+
+        try:
+            self.load(self._code_version)
+        except:
+            pass
+
+        return self._fit(feed_dict=feed_dict,
+                         sequence_index='input',
+                         output_names=[evaluate_loss_name],
+                         evaluate_loss_name=evaluate_loss_name,
+                         op_names=['train_op'],
+                         batch_size=batch_size,
+                         start_epoch=self._global_step,
+                         max_epoch=max_epoch,
+                         validate_ratio=validate_ratio,
+                         early_stop_method=early_stop_method,
+                         early_stop_length=early_stop_length,
+                         early_stop_patience=early_stop_patience)
+
+    def predict(self, input, laplace_matrix, external_feature=None, cache_volume=64):
+
+        feed_dict = self._get_feed_dict(input=input, laplace_matrix=laplace_matrix, external_feature=external_feature)
+
+        output = self._predict(feed_dict=feed_dict, output_names=['prediction'], sequence_length=len(input),
+                               cache_volume=cache_volume)
+
+        return output['prediction']
+
+    def evaluate(self, input, laplace_matrix, target, metrics, external_feature=None, cache_volume=64, **kwargs):
+
+        prediction = self.predict(input, laplace_matrix, external_feature=external_feature, cache_volume=cache_volume)
+
+        return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

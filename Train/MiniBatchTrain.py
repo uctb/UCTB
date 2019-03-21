@@ -88,13 +88,14 @@ class MiniBatchFeedDict(object):
         self._static_data_names = []
         self._static_data_values = []
 
+        self._batch_dict = {}
+
         for key, value in feed_dict.items():
             if len(value) == sequence_length:
                 self._dynamic_data_names.append(key)
                 self._dynamic_data_values.append(value)
             else:
-                self._static_data_names.append(key)
-                self._static_data_values.append(value)
+                self._batch_dict[key] = value
 
         if shuffle:
             self._dynamic_data_values = MiniBatchFeedDict.shuffle(self._dynamic_data_values)
@@ -107,21 +108,16 @@ class MiniBatchFeedDict(object):
     def get_batch(self):
         if self._batch_counter + self._batch_size <= self._sequence_length:
             index = [self._batch_counter, self._batch_counter + self._batch_size]
-            self._batch_counter = self._batch_counter + self._batch_size
+            self._batch_counter += self._batch_size
         else:
             index = [self._sequence_length-self._batch_size, self._sequence_length]
             self._batch_counter = 0
 
-        batch_dict = {}
         for i in range(len(self._dynamic_data_names)):
             key = self._dynamic_data_names[i]
-            batch_dict[key] = np.array(self._dynamic_data_values[i][index[0]: index[1]])
+            self._batch_dict[key] = np.array(self._dynamic_data_values[i][index[0]:index[1]])
 
-        for i in range(len(self._static_data_names)):
-            key = self._static_data_names[i]
-            batch_dict[key] = np.array(self._static_data_values[i])
-
-        return batch_dict
+        return self._batch_dict
 
     @staticmethod
     def shuffle(data):
@@ -130,4 +126,4 @@ class MiniBatchFeedDict(object):
         return list(zip(*middle))
 
     def restart(self):
-        self.__batch_counter = 0
+        self._batch_counter = 0

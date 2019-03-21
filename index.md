@@ -25,7 +25,7 @@ UCTB is a flexible and open package. You can use the data we provided or your ow
 
 - ##### Use datasets from UCTB
 
-- ##### Build your own datasets
+- ##### [Build your own datasets](./static/tutorial.html)
 
 - ##### Use build-in models from UCTB
 

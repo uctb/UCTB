@@ -1,14 +1,13 @@
 import os
 import numpy as np
-import tensorflow as tf
 
-from local_path import data_dir, tf_model_dir
+from local_path import tf_model_dir
 from Model.GACN_Beta import GACN
 from Train.EarlyStopping import EarlyStoppingTTest
 from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
 from Utils.json_api import saveJson, getJson
-from Experiment.data_loader import NodeTrafficLoader
+from DataSet.node_traffic_loader import NodeTrafficLoader
 
 
 def get_md5(string):

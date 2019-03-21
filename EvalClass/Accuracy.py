@@ -6,41 +6,43 @@ class Accuracy(object):
         pass
 
     @staticmethod
-    def RMSE(p, t, **kwargs):
+    def RMSE(prediction, target, **kwargs):
         threshold = None
         for key, value in kwargs.items():
             if key.lower() == 'threshold':
                 threshold = value
         if threshold is None:
-            return np.sqrt(np.mean(np.square(p - t)))
+            return np.sqrt(np.mean(np.square(prediction - target)))
         else:
-            return np.sqrt(np.dot(np.square(p - t).reshape([1, -1]),
-                                  t.reshape([-1, 1]) > threshold) / np.sum(t > threshold))[0][0]
+            return np.sqrt(np.dot(np.square(prediction - target).reshape([1, -1]),
+                                  target.reshape([-1, 1]) > threshold) / np.sum(target > threshold))[0][0]
 
     @staticmethod
-    def MAPE(p, t, **kwargs):
+    def MAPE(prediction, target, **kwargs):
         threshold = 0
         for key, value in kwargs.items():
             if key.lower() == 'threshold':
                 threshold = value
-        return (np.dot((np.abs(p - t) / (t + (1 - (t > threshold)))).reshape([1, -1]),
-                      t.reshape([-1, 1]) > threshold) / np.sum(t > threshold))[0, 0]
+        return (np.dot((np.abs(prediction - target) / (target + (1 - (target > threshold)))).reshape([1, -1]),
+                       target.reshape([-1, 1]) > threshold) / np.sum(target > threshold))[0, 0]
 
     @staticmethod
-    def RMSE_Grid(p, t, **kwargs):
+    def RMSE_Grid(prediction, target, **kwargs):
         threshold = None
         for key, value in kwargs.items():
             if key.lower() == 'threshold':
                 threshold = value
         if threshold is None:
-            return np.sqrt(np.mean(np.square(p - t), axis=0))
+            return np.sqrt(np.mean(np.square(prediction - target), axis=0))
         else:
-            return np.sqrt(np.sum(np.square(p - t) * (t > threshold), axis=0) / np.sum(t > threshold, axis=0))
+            return np.sqrt(np.sum(np.square(prediction - target) *
+                                  (target > threshold), axis=0) / np.sum(target > threshold, axis=0))
 
     @staticmethod
-    def MAPE_Grid(p, t, **kwargs):
+    def MAPE_Grid(prediction, target, **kwargs):
         threshold = 0
         for key, value in kwargs.items():
             if key.lower() == 'threshold':
                 threshold = value
-        return np.sum((np.abs(p - t) / (t + (1 - (t > threshold)))) * (t > threshold), axis=0) / np.sum(t > threshold, axis=0)
+        return np.sum((np.abs(prediction - target) / (target + (1 - (target > threshold))))
+                      * (target > threshold), axis=0) / np.sum(target > threshold, axis=0)

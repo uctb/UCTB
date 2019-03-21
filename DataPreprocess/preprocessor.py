@@ -36,9 +36,21 @@ class MoveSample(object):
 
 
 class SplitData(object):
+
     @staticmethod
-    def split_data(data, train_val_test):
-        train, val, test = train_val_test
-        return data[:int(len(data) * train)], \
-               data[int(len(data) * train): int(len(data) * (train + val))], \
-               data[-int(len(data) * test):]
+    def split_data(data, ratio_list):
+        if np.sum(ratio_list) != 1:
+            ratio_list = np.array(ratio_list)
+            ratio_list = ratio_list / np.sum(ratio_list)
+        return [data[int(sum(ratio_list[0:e])*len(data)):
+                     int(sum(ratio_list[0:e+1])*len(data))] for e in range(len(ratio_list))]
+
+    @staticmethod
+    def split_feed_dict(feed_dict, sequence_length, ratio_list):
+        if np.sum(ratio_list) != 1:
+            ratio_list = np.array(ratio_list)
+            ratio_list = ratio_list / np.sum(ratio_list)
+
+        return [{key: value[int(sum(ratio_list[0:e])*len(value)):int(sum(ratio_list[0:e+1])*len(value))]
+                 if len(value) == sequence_length else value for key, value in feed_dict.items()}
+                for e in range(len(ratio_list))]

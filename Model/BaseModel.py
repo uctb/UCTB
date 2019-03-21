@@ -110,8 +110,9 @@ class BaseModel(object):
             print('Running Operation', op_names)
 
         # Split data into train-data and validation data
-        train_feed_dict, val_feed_dict = SplitData.split_feed_dict(feed_dict, sequence_length=len(feed_dict[sequence_index]),
-                                                                     ratio_list=[1- validate_ratio, validate_ratio])
+        train_feed_dict, val_feed_dict = SplitData.split_feed_dict(feed_dict,
+                                                                   sequence_length=len(feed_dict[sequence_index]),
+                                                                   ratio_list=[1- validate_ratio, validate_ratio])
 
         # build mini-batch data source on train-data
         train_dict_mini_batch = MiniBatchFeedDict(feed_dict=train_feed_dict,
@@ -134,6 +135,7 @@ class BaseModel(object):
                                          output_names=output_names,
                                          op_names=op_names)
                 train_output_list.append(train_output)
+
             # validation
             val_output = self._predict(feed_dict=val_feed_dict, output_names=output_names,
                                        sequence_length=len(val_feed_dict[sequence_index]),
@@ -145,7 +147,7 @@ class BaseModel(object):
             # Add Summary
             for name in output_names:
                 self.add_summary(name='train_' + name, value=np.mean([e[name] for e in train_output_list]), global_step=epoch)
-                self.add_summary(name='val_' + name, value=np.mean(val_output[name]), global_step=epoch)
+                self.add_summary(name='val_' + name, value=evaluate_loss_value, global_step=epoch)
                 # print training messages
                 if verbose:
                     print('Epoch %s:' % epoch,

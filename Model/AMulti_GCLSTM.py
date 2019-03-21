@@ -179,8 +179,9 @@ class AMulti_GCLSTM(BaseModel):
 
         try:
             self.load(self._code_version)
+            print('Found model in disk')
         except:
-            pass
+            print('No model found, start training')
 
         return self._fit(feed_dict=feed_dict,
                          sequence_index='input',

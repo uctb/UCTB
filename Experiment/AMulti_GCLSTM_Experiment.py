@@ -32,7 +32,8 @@ def parameter_parser():
     parser.add_argument('--Epoch', default='5000')
     parser.add_argument('--Train', default='True')
     parser.add_argument('--lr', default='1e-3')
-    parser.add_argument('--patience', default='20')
+    parser.add_argument('--ESlength', default='50')
+    parser.add_argument('--patience', default='0.1')
     parser.add_argument('--BatchSize', default='64')
     # device parameter
     parser.add_argument('--Device', default='1')
@@ -85,7 +86,8 @@ if train:
     AMulti_GCLSTM_Obj.fit(input=data_loader.train_x, laplace_matrix=data_loader.LM, target=data_loader.train_y,
                           external_feature=data_loader.train_ef, batch_size=int(args.BatchSize),
                           max_epoch=int(args.Epoch),
-                          early_stop_method='t-test', early_stop_patience=int(args.patience))
+                          early_stop_method='t-test', early_stop_length=int(args.ESlength),
+                          early_stop_patience=float(args.patience))
 else:
     AMulti_GCLSTM_Obj.load(code_version)
 

@@ -5,14 +5,17 @@ from DataPreprocess.preprocessor import MoveSample, SplitData
 from ModelUnit.GraphModelLayers import GraphBuilder
 
 from DataPreprocess.data_config import *
-from DataSet.dataset import DataSet
+from DataSet.dataset import *
 
 
 class NodeTrafficLoader(object):
 
     def __init__(self, args, with_lm=True):
 
-        self.dataset = DataSet(args.Dataset, args.City)
+        if args.Dataset == 'Metro':
+            self.dataset = MetroDataSet(args.City)
+        else:
+            self.dataset = DataSet(args.Dataset, args.City)
 
         daily_slots = 24 * 60 / self.dataset.time_fitness
 
@@ -32,7 +35,7 @@ class NodeTrafficLoader(object):
         # external feature
         external_feature = []
         # weather
-        if len(self.dataset.external_feature_weather) > 0:
+        if hasattr(self.dataset, 'external_feature_weather') and len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
         # day type
         external_feature.append(
@@ -93,10 +96,18 @@ class NodeTrafficLoader(object):
 
                 if graph_name.lower() == 'distance':
 
-                    lat_lng_list = \
-                        np.array([[float(e1) for e1 in e[1][1:3]] for e in
-                                  sorted(self.dataset.node_station_info.items(),
-                                         key=lambda x: date_parser(x[1][0]), reverse=False)])
+                    if args.Dataset == 'Metro':
+
+                        lat_lng_list = \
+                            np.array([[float(e1) for e1 in e[1][1:3]] for e in
+                                      self.dataset.node_station_info.items()])
+
+                    else:
+
+                        lat_lng_list = \
+                            np.array([[float(e1) for e1 in e[1][1:3]] for e in
+                                      sorted(self.dataset.node_station_info.items(),
+                                             key=lambda x: date_parser(x[1][0]), reverse=False)])
 
                     self.LM.append(GraphBuilder.distance_graph(lat_lng_list=lat_lng_list[traffic_data_index],
                                                                threshold=float(args.TD)))
@@ -116,5 +127,13 @@ class NodeTrafficLoader(object):
 
                     self.LM.append(GraphBuilder.correlation_graph(self.train_data[-30 * int(daily_slots):],
                                                                   threshold=float(args.TC), keep_weight=False))
+
+                if graph_name.lower() == 'neighbor':
+
+                    self.LM.append(GraphBuilder.adjacent_to_lm(self.dataset.neighbor))
+
+                if graph_name.lower() == 'line':
+
+                    self.LM.append(GraphBuilder.adjacent_to_lm(self.dataset.line))
 
             self.LM = np.array(self.LM, dtype=np.float32)

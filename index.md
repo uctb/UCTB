@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./static/css/misty.css" type="text/css"/>
+
 # [Urban Computing ToolBox](https://github.com/Di-Chai/UCTB)
 
 ## Introduction
@@ -10,6 +12,8 @@ Currently the package supported the following models: ([Details](./static/curren
 - HMM
 - ARIMA
 - XGBoost
+- DeepST
+- ST-ResNet
 - AMulti-GCLSTM
 
 UCTB is a flexible and open package. You can use the data we provided or your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.

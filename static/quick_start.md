@@ -1,30 +1,55 @@
+<link rel="stylesheet" href="./static/css/misty.css" type="text/css"/>
+
 ## Quick Start with AMulti-GCLSTM
 
-To use this quick start code, you need to first implement a class `data_loader` with int `node_num`, int `T` to represent the previous time series data size, ndarray `graphs` with shape `graph_num * node_num * node_num` to represent Graph Laplace Matrix, and a method `get_batch()` to generate mini batch `(X, y)` with `X`'s shape `batch_size * T * node_num * 1` and `y`'s shape `batch_size * node_num`.
+Following shows a quick start of AMulti-GCLSTM using data loader from Dataset. 
 
 ```python
+from DataSet.node_traffic_loader import NodeTrafficLoader
 from Model.AMulti_GCLSTM import AMulti_GCLSTM
+from EvalClass.Accuracy import Accuracy
 
-AMulti_GCLSTM_Obj = AMulti_GCLSTM(num_node=data_loader.node_num,
-                                  GCN_K=1, GCN_layers=2,
-                                  num_graph=data_loader.graphs.shape[0],
-                                  external_dim=None,
-                                  GCLSTM_layers=2,
-                                  gal_units=256, gal_num_heads=2,
-                                  T=data_loader.T, num_filter_conv1x1=32,
-                                  num_hidden_units=256, lr=lr,
-                                  code_version='AMulti_GCLSTM_0', GPU_DEVICE='0',
-                                  model_dir='tf_model_dir')
+# Get data loader
+data_loader = NodeTrafficLoader()
+
+# Initialize an object of Amulti-GCLSTM
+AMulti_GCLSTM_Obj = AMulti_GCLSTM(num_node=data_loader.station_number,
+                                  GCN_K=[1],
+                                  GCN_layers=[1],
+                                  num_graph=data_loader.LM.shape[0],
+                                  external_dim=data_loader.external_dim,
+                                  GCLSTM_layers=1,
+                                  gal_units=32,
+                                  gal_num_heads=2,
+                                  T=6,
+                                  num_filter_conv1x1=32,
+                                  num_hidden_units=32,
+                                  lr=5e-4,
+                                  code_version='DebugV0',
+                                  GPU_DEVICE='0',
+                                  model_dir='./model_dir/')
+# Build graphs
 AMulti_GCLSTM_Obj.build()
 
-for batch in range(batch_num):
-    X, y = data_loader.get_batch()
-    l = AMulti_GCLSTM_Obj.fit(
-        {'input': X,
-        'target': y,
-        'laplace_matrix': data_loader.graphs,
-        'external_input': None},
-        global_step=batch, summary=False)['loss']
+# Train the model
+AMulti_GCLSTM_Obj.fit(input=data_loader.train_x,
+                      laplace_matrix=data_loader.LM,
+                      target=data_loader.train_y,
+                      external_feature=data_loader.train_ef,
+                      batch_size=64,
+                      max_epoch=5000,
+                      early_stop_method='t-test',
+                      early_stop_length=50,
+                      early_stop_patience=0.1)
+
+# Evaluate on test data
+test_rmse = AMulti_GCLSTM_Obj.evaluate(input=data_loader.test_x,
+                                       laplace_matrix=data_loader.LM,
+                                       target=data_loader.test_y,
+                                       external_feature=data_loader.test_ef,
+                                       metrics=[Accuracy.RMSE],
+                                       threshold=0)
+print('Test result', test_rmse)
 ```
 
 ------

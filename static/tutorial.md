@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="./static/css/misty.css" type="text/css"/>
+
 ## Tutorial
 
 - ##### Use datasets from UCTB

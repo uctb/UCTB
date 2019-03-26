@@ -1,38 +1,29 @@
 import os
-import numpy as np
 
 from local_path import tf_model_dir
 from Model.GACN_Beta import GACN
-from Train.EarlyStopping import EarlyStoppingTTest
-from Train.MiniBatchTrain import MiniBatchTrainMultiData
 from EvalClass.Accuracy import Accuracy
-from Utils.json_api import saveJson, getJson
 from DataSet.node_traffic_loader import NodeTrafficLoader
-
-
-def get_md5(string):
-    import hashlib
-    m = hashlib.md5()
-    m.update(string)
-    return m.hexdigest()
 
 
 def parameter_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--Dataset', default='ChargeStation')
-    parser.add_argument('--City', default='Beijing')
+    parser.add_argument('--Dataset', default='Bike')
+    parser.add_argument('--City', default='NYC')
     # network parameter
-    parser.add_argument('--T', default='12')
-    parser.add_argument('--GCLK', default='1')
-    parser.add_argument('--GCLLayer', default='1')
-    parser.add_argument('--GALLayer', default='4')
-    parser.add_argument('--GALHead', default='2')
-    parser.add_argument('--GALUnits', default='16')
+    parser.add_argument('--T', default='6')
+    parser.add_argument('--K', default='1')
+    parser.add_argument('--L', default='1')
     parser.add_argument('--Graph', default='Correlation')
+    parser.add_argument('--GLL', default='1')
+    parser.add_argument('--LSTMUnits', default='64')
+    parser.add_argument('--GALUnits', default='64')
+    parser.add_argument('--GALHeads', default='2')
+    parser.add_argument('--DenseUnits', default='32')
     # Training data parameters
-    parser.add_argument('--DataRange', default='0,71')
+    parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
     parser.add_argument('--TC', default='0')
@@ -41,162 +32,70 @@ def parameter_parser():
     # training parameters
     parser.add_argument('--Epoch', default='5000')
     parser.add_argument('--Train', default='True')
-    parser.add_argument('--lr', default='1e-4')
-    parser.add_argument('--patience', default='20')
+    parser.add_argument('--lr', default='1e-3')
+    parser.add_argument('--ESlength', default='50')
+    parser.add_argument('--patience', default='0.1')
     parser.add_argument('--BatchSize', default='64')
-    parser.add_argument('--DenseUnits', default='32')
     # device parameter
-    parser.add_argument('--Device', default='0')
-    # version contral
-    parser.add_argument('--CodeVersion', default='Debug')
-
+    parser.add_argument('--Device', default='1')
+    # version contr0l
+    parser.add_argument('--Group', default='Debug')
+    parser.add_argument('--CodeVersion', default='T6')
     return parser
 
 
 parser = parameter_parser()
 args = parser.parse_args()
 
-code_parameters = vars(args)
-train = True if code_parameters.pop('Train') == 'True' else False
-GPU_DEVICE = code_parameters.pop('Device')
-code_version_md5 = get_md5(str(sorted(code_parameters.items(), key=lambda x:x[0], reverse=False)).encode())
-
-# Add training status
-code_parameters['training_status'] = {'Finished': False, 'Epoch': 0}
-
-for key, value in sorted(code_parameters.items(), key=lambda x:x[0], reverse=False):
-    print(key, value)
-
 # Config data loader
 data_loader = NodeTrafficLoader(args, with_lm=True)
 
 # parse parameters
-K = [int(e) for e in args.GCLK.split(',') if len(e) > 0]
-K = K if len(K) > 1 else K[0]
-L = [int(e) for e in args.GCLLayer.split(',') if len(e) > 0]
-L = L if len(L) > 1 else L[0]
+K = [int(e) for e in args.K.split(',') if len(e) > 0]
+L = [int(e) for e in args.L.split(',') if len(e) > 0]
 
-patience = int(args.patience)
-num_epoch = int(args.Epoch)
-batch_size = int(args.BatchSize)
+train = True if args.Train == 'True' else False
 
-tpe = data_loader.tpe_position_index
+code_version = 'GACN_{}_{}_{}_K{}L{}_{}'.format(args.Dataset,
+                                                args.City,
+                                                ''.join([e[0] for e in args.Graph.split('-')]),
+                                                ''.join([str(e) for e in K]),
+                                                ''.join([str(e) for e in L]),
+                                                args.CodeVersion)
 
-code_version = 'GACN_{}'.format(code_version_md5)
+print(code_version)
 
-GACN_Obj = GACN(num_node=data_loader.station_number,
-                gcl_k=K, gcl_layers=L,
-                gal_layers=int(args.GALLayer), gal_num_heads=int(args.GALHead), gal_units=int(args.GALUnits),
-                T=int(args.T), lr=float(args.lr), time_embedding_dim=tpe.shape[-1],
-                input_dim=1, dense_units=int(args.DenseUnits),
-                code_version=code_version, GPU_DEVICE=GPU_DEVICE, model_dir=tf_model_dir)
+AMulti_GCLSTM_Obj = GACN(num_node=data_loader.station_number,
+                         gcl_k=K,
+                         gcl_layers=L,
+                         gal_layers=4,
+                         gal_units=int(args.GALUnits),
+                         gal_num_heads=int(args.GALHeads),
+                         T=int(args.T),
+                         dense_units=32,
+                         time_embedding_dim=data_loader,
+                         lr=float(args.lr),
+                         code_version=code_version,
+                         GPU_DEVICE=args.Device,
+                         model_dir=os.path.join(tf_model_dir, args.Group))
 
-GACN_Obj.build()
+AMulti_GCLSTM_Obj.build()
 
-de_normalizer = None
-
+# Training
 if train:
+    AMulti_GCLSTM_Obj.fit(input=data_loader.train_x, laplace_matrix=data_loader.LM, target=data_loader.train_y,
+                          external_feature=data_loader.train_ef, batch_size=int(args.BatchSize),
+                          max_epoch=int(args.Epoch),
+                          early_stop_method='t-test', early_stop_length=int(args.ESlength),
+                          early_stop_patience=float(args.patience))
+else:
+    AMulti_GCLSTM_Obj.load(code_version)
 
-    try:
-        GACN_Obj.load(code_version)
-        code_parameters = getJson(os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
+# Evaluate
+test_rmse = AMulti_GCLSTM_Obj.evaluate(input=data_loader.test_x,
+                                       laplace_matrix=data_loader.LM,
+                                       target=data_loader.test_y,
+                                       external_feature=data_loader.test_ef,
+                                       metrics=[Accuracy.RMSE], threshold=0)
 
-        if code_parameters['training_status']['Finished']:
-            print('Training already Finished')
-
-        print('Continue at epoch', code_parameters['training_status']['Epoch'])
-
-    except Exception as e:
-
-        print('No model found, start training!')
-
-    val_rmse_record = []
-    test_rmse_record = []
-
-    early_stop = EarlyStoppingTTest(length=patience, p_value_threshold=0.1)
-
-    best_record = None
-
-    for epoch in range(code_parameters['training_status']['Epoch'], num_epoch):
-
-        mini_batch_train = MiniBatchTrainMultiData([data_loader.train_x, data_loader.train_y, data_loader.train_ef],
-                                                   batch_size=batch_size)
-
-        loss_list = []
-
-        for i in range(mini_batch_train.num_batch):
-            X, y, ef = mini_batch_train.get_batch()
-
-            l = GACN_Obj.fit(
-                {'input': X,
-                 'time_embedding': tpe,
-                 'target': y,
-                 'laplace_matrix': data_loader.LM[0],},
-                global_step=epoch, summary=False)['loss']
-
-            loss_list.append(l)
-
-        # validation
-        val_rmse, = GACN_Obj.evaluate(
-            {
-                'input': data_loader.val_x,
-                'time_embedding': tpe,
-                'target': data_loader.val_y,
-                'laplace_matrix': data_loader.LM[0],
-            }, cache_volume=1, sequence_length=len(data_loader.val_x),
-            target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0,
-        )
-
-        # test
-        test_rmse, = GACN_Obj.evaluate(
-            {
-                'input': data_loader.test_x,
-                'time_embedding': tpe,
-                'target': data_loader.test_y,
-                'laplace_matrix': data_loader.LM[0],
-            }, cache_volume=1, sequence_length=len(data_loader.test_x),
-            target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0,
-        )
-
-        val_rmse_record.append([float(val_rmse)])
-        test_rmse_record.append([float(test_rmse)])
-
-        if best_record is None or val_rmse < best_record:
-            best_record = val_rmse
-            GACN_Obj.save(code_version)
-
-        GACN_Obj.manual_summary(epoch)
-
-        GACN_Obj.add_summary(name='train_loss', value=np.mean(loss_list), global_step=epoch)
-        GACN_Obj.add_summary(name='val_rmse', value=val_rmse, global_step=epoch)
-        GACN_Obj.add_summary(name='test_rmse', value=test_rmse, global_step=epoch)
-
-        print(code_version, epoch,
-              'train_loss %.5f' % np.mean(loss_list), 'val_rmse %.5f' % val_rmse, 'test_rmse %.5f' % test_rmse)
-
-        if early_stop.stop(val_rmse):
-            code_parameters['training_status']['Finished'] = True
-            code_parameters['training_status']['Epoch'] = epoch
-            saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
-            break
-
-        code_parameters['training_status']['Epoch'] = epoch
-        saveJson(code_parameters, os.path.join(tf_model_dir, 'Config_{}.json'.format(code_version_md5)))
-
-GACN_Obj.load(code_version)
-
-# test
-test_rmse, = GACN_Obj.evaluate(
-            {
-                'input': data_loader.test_x,
-                'time_embedding': tpe,
-                'target': data_loader.test_y,
-                'laplace_matrix': data_loader.LM[0],
-            }, cache_volume=1, sequence_length=len(data_loader.test_x),
-            target_key='target', prediction_key='prediction', metric=[Accuracy.RMSE], threshold=0)
-
-print('########################################################################')
-print(code_version, 'Test RMSE', test_rmse)
-print('########################################################################')
-
-GACN_Obj.close()
+print('Test result', test_rmse)

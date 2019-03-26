@@ -1,6 +1,6 @@
 import datetime
 
-from DataPreprocess.time_utils import is_work_day
+from DataPreprocess.time_utils import is_work_day, is_valid_date
 from DataPreprocess.preprocessor import MoveSample, SplitData
 from ModelUnit.GraphModelLayers import GraphBuilder
 
@@ -8,18 +8,66 @@ from DataPreprocess.data_config import *
 from DataSet.dataset import DataSet
 
 
+def amulti_gclstm_param_parser():
+    import argparse
+    parser = argparse.ArgumentParser(description="Argument Parser")
+    # data source
+    parser.add_argument('--Dataset', default='Subway')
+    parser.add_argument('--City', default='Shanghai')
+    # network parameter
+    parser.add_argument('--T', default='6', type=int)
+    parser.add_argument('--K', default='1')
+    parser.add_argument('--L', default='1')
+    parser.add_argument('--Graph', default='Distance')
+    parser.add_argument('--GLL', default='1', type=int)
+    parser.add_argument('--LSTMUnits', default='64', type=int)
+    parser.add_argument('--GALUnits', default='64', type=int)
+    parser.add_argument('--GALHeads', default='2', type=int)
+    parser.add_argument('--DenseUnits', default='32', type=int)
+    # Training data parameters
+    parser.add_argument('--DataRange', default='All')
+    parser.add_argument('--TrainDays', default='All')
+    # Graph parameter
+    parser.add_argument('--TC', default='0', type=float)
+    parser.add_argument('--TD', default='1000', type=float)
+    parser.add_argument('--TI', default='500', type=float)
+    # training parameters
+    parser.add_argument('--Epoch', default='5000', type=int)
+    parser.add_argument('--Train', default='True')
+    parser.add_argument('--lr', default='5e-4', type=float)
+    parser.add_argument('--ESlength', default='50', type=int)
+    parser.add_argument('--patience', default='0.1', type=float)
+    parser.add_argument('--BatchSize', default='64', type=int)
+    # device parameter
+    parser.add_argument('--Device', default='1', type=str)
+    # version control
+    parser.add_argument('--Group', default='DefaultGroup')
+    parser.add_argument('--CodeVersion', default='T6')
+    return parser
+
+
 class NodeTrafficLoader(object):
 
-    def __init__(self, args, with_lm=True):
+    def __init__(self,
+                 dataset,
+                 city,
+                 data_range='All',
+                 train_data_length='All',
+                 T=6,
+                 graph='Correlation',
+                 TD=1000,
+                 TC=0,
+                 TI=500,
+                 with_lm=True):
 
-        self.dataset = DataSet(args.Dataset, args.City)
+        self.dataset = DataSet(dataset, city)
 
         daily_slots = 24 * 60 / self.dataset.time_fitness
 
-        if args.DataRange.lower() == 'all':
+        if data_range.lower() == 'all':
             data_range = [0, len(self.dataset.node_traffic)]
         else:
-            data_range = [int(e) for e in args.DataRange.split(',')]
+            data_range = [int(e) for e in data_range.split(',')]
             data_range = [int(data_range[0] * daily_slots), int(data_range[1] * daily_slots)]
 
         num_time_slots = data_range[1] - data_range[0]
@@ -45,76 +93,123 @@ class NodeTrafficLoader(object):
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
 
-        train_val_test_ratio = [float(e) for e in '0.8,0.2'.split(',')]
+        train_test_ratio = [float(e) for e in '0.9,0.1'.split(',')]
 
-        self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_val_test_ratio)
-        train_ef, test_ef = SplitData.split_data(external_feature, train_val_test_ratio)
+        self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_test_ratio)
+        train_ef, test_ef = SplitData.split_data(external_feature, train_test_ratio)
 
-        if args.TrainDays.lower() != 'all':
-            train_day_length = int(args.train_day_length)
+        if train_data_length.lower() != 'all':
+            train_day_length = int(train_data_length)
             self.train_data = self.train_data[-int(train_day_length * daily_slots):]
             train_ef = train_ef[-int(train_day_length * daily_slots):]
 
-        target_length = 1
+        if T is not None:
+            target_length = 1
+            move_sample = MoveSample(feature_step=1,
+                                     feature_stride=1,
+                                     feature_length=int(T),
+                                     target_length=target_length)
 
-        move_sample = MoveSample(feature_step=1,
-                                 feature_stride=1,
-                                 feature_length=int(args.T),
-                                 target_length=target_length)
+            self.train_x, self.train_y = move_sample.general_move_sample(self.train_data)
+            self.train_ef = train_ef[-len(self.train_x)-target_length: -target_length]
 
-        self.train_x, self.train_y = move_sample.general_move_sample(self.train_data)
-        self.train_ef = train_ef[-len(self.train_x)-target_length: -target_length]
+            self.test_x, self.test_y = move_sample.general_move_sample(self.test_data)
+            self.test_ef = test_ef[-len(self.test_x)-target_length: -target_length]
 
-        self.test_x, self.test_y = move_sample.general_move_sample(self.test_data)
-        self.test_ef = test_ef[-len(self.test_x)-target_length: -target_length]
+            self.train_x = self.train_x.reshape([-1, int(T), self.station_number, 1])
+            self.test_x = self.test_x.reshape([-1, int(T), self.station_number, 1])
 
-        self.train_x = self.train_x.reshape([-1, int(args.T), self.station_number, 1])
-        self.test_x = self.test_x.reshape([-1, int(args.T), self.station_number, 1])
+            self.train_y = self.train_y.reshape([-1, self.station_number, 1])
+            self.test_y = self.test_y.reshape([-1, self.station_number, 1])
 
-        self.train_y = self.train_y.reshape([-1, self.station_number, 1])
-        self.test_y = self.test_y.reshape([-1, self.station_number, 1])
-
-        # time position embedding
-        # TPE 1 : one-hot vector encoding
-        self.tpe_one_hot = np.array([[1 if e1 == e else 0 for e1 in range(int(args.T))] for e in range(int(args.T))])
-        # TPE 2 : position index
-        self.tpe_position_index = np.array([[e] for e in range(int(args.T))])
+            # time position embedding
+            # TPE 1 : one-hot vector encoding
+            self.tpe_one_hot = np.array([[1 if e1 == e else 0 for e1 in range(int(T))] for e in range(int(T))])
+            # TPE 2 : position index
+            self.tpe_position_index = np.array([[e] for e in range(int(T))])
 
         if with_lm:
 
-            if args.City == 'DC' or args.City == 'Beijing':
-                date_parser = int
-            else:
-                date_parser = parse
-
             self.LM = []
 
-            for graph_name in args.Graph.split('-'):
+            for graph_name in graph.split('-'):
 
                 if graph_name.lower() == 'distance':
+
+                    # Default order by date
+                    order_parser = parse
+                    try:
+                        for key, value in self.dataset.node_station_info.items():
+                            if is_valid_date(value[0]) is False:
+                                order_parser = lambda x: x
+                                print('Order by string')
+                                break
+                    except:
+                        order_parser = lambda x: x
+                        print('Order by string')
 
                     lat_lng_list = \
                         np.array([[float(e1) for e1 in e[1][1:3]] for e in
                                   sorted(self.dataset.node_station_info.items(),
-                                         key=lambda x: date_parser(x[1][0]), reverse=False)])
+                                         key=lambda x: order_parser(x[1][0]), reverse=False)])
 
                     self.LM.append(GraphBuilder.distance_graph(lat_lng_list=lat_lng_list[traffic_data_index],
-                                                               threshold=float(args.TD)))
+                                                               threshold=float(TD)))
 
                 if graph_name.lower() == 'interaction':
 
                     monthly_interaction = self.dataset.node_monthly_interaction[:, traffic_data_index, :][:, :, traffic_data_index]
 
-                    monthly_interaction, _ = SplitData.split_data(monthly_interaction, train_val_test_ratio)
+                    monthly_interaction, _ = SplitData.split_data(monthly_interaction, train_test_ratio)
 
                     annually_interaction = np.sum(monthly_interaction[-12:-1], axis=0)
                     annually_interaction = annually_interaction + annually_interaction.transpose()
 
-                    self.LM.append(GraphBuilder.interaction_graph(annually_interaction, threshold=float(args.TI)))
+                    self.LM.append(GraphBuilder.interaction_graph(annually_interaction, threshold=float(TI)))
 
                 if graph_name.lower() == 'correlation':
 
                     self.LM.append(GraphBuilder.correlation_graph(self.train_data[-30 * int(daily_slots):],
-                                                                  threshold=float(args.TC), keep_weight=False))
+                                                                  threshold=float(TC), keep_weight=False))
 
             self.LM = np.array(self.LM, dtype=np.float32)
+
+
+class SubwayTrafficLoader(NodeTrafficLoader):
+
+    def __init__(self,
+                 dataset,
+                 city,
+                 data_range='All',
+                 train_data_length='All',
+                 T=6,
+                 graph='Correlation',
+                 TD=1000,
+                 TC=0,
+                 TI=500,
+                 with_lm=True):
+
+        super(SubwayTrafficLoader, self).__init__(dataset, city, data_range, train_data_length,
+                                                  T, graph, TD, TC, TI, with_lm=with_lm)
+
+        if with_lm:
+
+            LM = []
+
+            for graph_name in graph.split('-'):
+
+                if graph_name.lower() == 'neighbor':
+                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
+
+                if graph_name.lower() == 'line':
+                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
+
+                if graph_name.lower() == 'transfer':
+                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
+
+            if len(LM) > 0:
+
+                if len(self.LM) == 0:
+                    self.LM = np.array(LM, dtype=np.float32)
+                else:
+                    self.LM = np.concatenate((self.LM, LM), axis=0)

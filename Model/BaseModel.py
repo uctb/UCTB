@@ -119,6 +119,7 @@ class BaseModel(object):
                                                   sequence_length=len(train_feed_dict[sequence_index]),
                                                   batch_size=batch_size,
                                                   shuffle=shuffle_data)
+
         # record the best result of "evaluate_loss_name"
         best_record = None
         # init early stopping object
@@ -167,7 +168,6 @@ class BaseModel(object):
     def _predict(self, feed_dict, output_names, sequence_length, cache_volume=64):
 
         '''
-
         :param feed_dict: dict, like : {'tensor_name': feed_value}
         :param output_names: list, [output_tensor_name1, output_tensor_name2, ...]
         :param sequence_length: int, the length of sequence, which is use in mini-batch training

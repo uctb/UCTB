@@ -85,9 +85,6 @@ class MiniBatchFeedDict(object):
         self._dynamic_data_names = []
         self._dynamic_data_values = []
 
-        self._static_data_names = []
-        self._static_data_values = []
-
         self._batch_dict = {}
 
         for key, value in feed_dict.items():

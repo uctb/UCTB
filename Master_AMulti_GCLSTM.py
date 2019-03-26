@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_amulti_gclstm = ('python -m Experiment.AMulti_GCLSTM_Experiment '
+shared_params_amulti_gclstm = ('python -m Experiment.AMulti_GCLSTM '
                                '--Dataset Bike '
                                # '--City NYC'
                                # '--T 6 '

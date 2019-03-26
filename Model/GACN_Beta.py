@@ -120,3 +120,67 @@ class GACN(BaseModel):
             self._summary = self._summary_histogram().name
 
         self._session.run(self._variable_init)
+
+    # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
+    def _get_feed_dict(self, input, laplace_matrix, target=None, time_embedding=None):
+        feed_dict = {
+            'input': input,
+            'laplace_matrix': laplace_matrix,
+        }
+        if target is not None:
+            feed_dict['target'] = target
+        if self._time_embedding_dim and self._time_embedding_dim > 0:
+            feed_dict['time_embedding'] = time_embedding
+
+        return feed_dict
+
+    # Step 2 : build the fit function using BaseModel._fit
+    def fit(self,
+            input,
+            laplace_matrix,
+            target,
+            time_embedding=None,
+            batch_size=64, max_epoch=10000,
+            validate_ratio=0.1,
+            early_stop_method='t-test',
+            early_stop_length=10,
+            early_stop_patience=0.1):
+
+        evaluate_loss_name = 'loss'
+
+        feed_dict = self._get_feed_dict(input=input, laplace_matrix=laplace_matrix,
+                                        target=target, time_embedding=time_embedding)
+
+        try:
+            self.load(self._code_version)
+            print('Found model in disk')
+        except:
+            print('No model found, start training')
+
+        return self._fit(feed_dict=feed_dict,
+                         sequence_index='input',
+                         output_names=[evaluate_loss_name],
+                         evaluate_loss_name=evaluate_loss_name,
+                         op_names=['train_op'],
+                         batch_size=batch_size,
+                         start_epoch=self._global_step,
+                         max_epoch=max_epoch,
+                         validate_ratio=validate_ratio,
+                         early_stop_method=early_stop_method,
+                         early_stop_length=early_stop_length,
+                         early_stop_patience=early_stop_patience)
+
+    def predict(self, input, laplace_matrix, time_embedding=None, cache_volume=64):
+
+        feed_dict = self._get_feed_dict(input=input, laplace_matrix=laplace_matrix, time_embedding=time_embedding)
+
+        output = self._predict(feed_dict=feed_dict, output_names=['prediction'], sequence_length=len(input),
+                               cache_volume=cache_volume)
+
+        return output['prediction']
+
+    def evaluate(self, input, laplace_matrix, target, metrics, time_embedding=None, cache_volume=64, **kwargs):
+
+        prediction = self.predict(input, laplace_matrix, time_embedding=time_embedding, cache_volume=cache_volume)
+
+        return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

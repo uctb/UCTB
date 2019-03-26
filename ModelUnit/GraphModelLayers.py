@@ -91,6 +91,16 @@ class GraphBuilder(object):
 
         return LM
 
+    @staticmethod
+    def adjacent_to_lm(A):
+        D = np.eye(len(A))
+        for i in range(len(A)):
+            D[i, i] = 1 if np.sum(A[i, :]) == 0 else np.sum(A[i, :])
+        D_Normal = np.linalg.inv(D) ** 0.5
+        LM = np.eye(len(A)) - np.dot(np.dot(D_Normal, A), D_Normal)
+        LM = 2 * LM / np.max(LM) - np.eye(len(A))
+        return LM
+
 
 # Graph Attention Layer
 class GAL(object):

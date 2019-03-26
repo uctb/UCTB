@@ -9,19 +9,19 @@ from ModelUnit.GraphModelLayers import GAL
 class AMulti_GCLSTM(BaseModel):
     def __init__(self,
                  num_node,
-                 GCN_K,
-                 GCN_layers,
-                 GCLSTM_layers,
                  num_graph,
                  external_dim,
                  T,
-                 gal_units,
-                 gal_num_heads,
-                 num_hidden_units,
-                 num_filter_conv1x1,
-                 lr,
-                 code_version,
-                 model_dir,
+                 GCN_K=1,
+                 GCN_layers=1,
+                 GCLSTM_layers=1,
+                 gal_units=32,
+                 gal_num_heads=2,
+                 num_hidden_units=64,
+                 num_filter_conv1x1=32,
+                 lr=5e-4,
+                 code_version='QuickStart',
+                 model_dir='.\model_dir',
                  GPU_DEVICE='0'):
 
         super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=GPU_DEVICE)
@@ -61,14 +61,16 @@ class AMulti_GCLSTM(BaseModel):
                 with tf.variable_scope('gc_lstm_%s' % graph_index, reuse=False):
                     outputs_all = []
 
-                    if len(self._gcn_k) == self._num_graph:
+                    if type(self._gcn_k) is list:
+                        if len(self._gcn_k) != self._num_graph:
+                            raise ValueError('Please provide K,L for each graph or set K,L to integer')
                         gc_lstm_cells = [GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
                                                     self._num_hidden_unit, state_is_tuple=True,
                                                     initializer=tf.contrib.layers.xavier_initializer())
                                          for _ in range(self._gclstm_layers)]
                     else:
                         gc_lstm_cells = [
-                            GCLSTMCell(self._gcn_k[0], self._gcn_layer[0], self._num_node,
+                            GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
                                        self._num_hidden_unit, state_is_tuple=True,
                                        initializer=tf.contrib.layers.xavier_initializer())
                             for _ in range(self._gclstm_layers)]
@@ -157,7 +159,6 @@ class AMulti_GCLSTM(BaseModel):
             feed_dict['target'] = target
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_input'] = external_feature
-
         return feed_dict
 
     # Step 2 : build the fit function using BaseModel._fit

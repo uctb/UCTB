@@ -15,3 +15,33 @@ def is_work_day(date):
         return True
     else:
         return False
+
+def is_valid_date(date_str):
+
+    try:
+        date = parse(date_str)
+    except:
+        return False
+
+    year = date.year
+    month = date.month
+    day = date.day
+
+    isRunNian = False
+    if year % 4 == 0 and year % 100 != 0 and year % 400 == 0:
+        isRunNian = True
+
+    if month < 1 or month > 12:  # 判断月份是否合法
+        return False
+
+    pingnian_month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    runnian_month = [0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    if isRunNian:
+        if day < 1 or day > pingnian_month[month]:
+            return False
+    else:
+        if day < 1 or day > runnian_month[month]:
+            return False
+
+    return True

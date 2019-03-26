@@ -1,2 +1,0 @@
-model_checkpoint_path: "D:\\UCTB-190322-Review\\tf_model_dir\\BikeBasic\\AMulti_GCLSTM_Bike_NYC_D_K0L1_GLL1\\AMulti_GCLSTM_Bike_NYC_D_K0L1_GLL1\\AMulti_GCLSTM_Bike_NYC_D_K0L1_GLL1-91"
-all_model_checkpoint_paths: "D:\\UCTB-190322-Review\\tf_model_dir\\BikeBasic\\AMulti_GCLSTM_Bike_NYC_D_K0L1_GLL1\\AMulti_GCLSTM_Bike_NYC_D_K0L1_GLL1\\AMulti_GCLSTM_Bike_NYC_D_K0L1_GLL1-91"

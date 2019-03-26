@@ -1,5 +1,3 @@
-<link rel="stylesheet" href="./static/css/misty.css" type="text/css"/>
-
 ## Currently Supported Models
 
 ###  Historical Mean

@@ -1,0 +1,35 @@
+Metadata-Version: 2.1
+Name: UCTB
+Version: 0.0.1
+Summary: Urban Computing ToolBox
+Home-page: https://github.com/Di-Chai/UCTB
+Author: Di Chai, Leye Wang, Jin Xu
+Author-email: dchai@connect.ust.hk
+License: UNKNOWN
+Description: # UCTB
+        
+        ## Project HomePage
+        
+        [HomePage](https://di-chai.github.io/UCTB/index.html)
+        
+        ## Environment
+        
+        python 3.6
+        
+        ## Data
+        
+        Currently Bike data of NYC, Chicago and DC are stored in /Data/ dir. 
+        
+        Decompressing the data : 
+        
+        ```
+        cd Data
+        python compress.py -x
+        ```
+        
+        
+Platform: UNKNOWN
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Description-Content-Type: text/markdown

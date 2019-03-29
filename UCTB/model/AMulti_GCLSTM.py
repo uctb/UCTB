@@ -21,7 +21,7 @@ class AMulti_GCLSTM(BaseModel):
                  num_filter_conv1x1=32,
                  lr=5e-4,
                  code_version='QuickStart',
-                 model_dir='.\model_dir',
+                 model_dir='./model_dir',
                  GPU_DEVICE='0'):
 
         super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=GPU_DEVICE)

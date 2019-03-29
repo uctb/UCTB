@@ -3,7 +3,7 @@ from UCTB.model import AMulti_GCLSTM
 from UCTB.evaluation import metric
 
 # Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='Chicago')
+data_loader = NodeTrafficLoader(dataset='ChargeStation', city='Beijing')
 
 AMulti_GCLSTM_Obj = AMulti_GCLSTM(T=6, num_node=data_loader.station_number,
                                   num_graph=data_loader.LM.shape[0],

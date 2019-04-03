@@ -6,12 +6,14 @@ import tarfile
 
 class DataSet(object):
 
-    def __init__(self, dataset, city):
+    def __init__(self, dataset, city, data_dir=None):
 
         self.dataset = dataset
         self.city = city
 
-        data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
+        if data_dir is None:
+            data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
+
         if os.path.isdir(data_dir) is False:
             os.makedirs(data_dir)
 

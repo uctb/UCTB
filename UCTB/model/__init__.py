@@ -8,3 +8,4 @@ from .DeepST import DeepST
 from .ST_ResNet import ST_ResNet
 
 from .AMulti_GCLSTM import AMulti_GCLSTM
+from .GACN import GACN

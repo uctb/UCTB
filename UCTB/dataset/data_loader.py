@@ -22,9 +22,10 @@ class NodeTrafficLoader(object):
                  TD=1000,
                  TC=0,
                  TI=500,
-                 with_lm=True):
+                 with_lm=True,
+                 data_dir=None):
 
-        self.dataset = DataSet(dataset, city)
+        self.dataset = DataSet(dataset, city, data_dir=data_dir)
 
         daily_slots = 24 * 60 / self.dataset.time_fitness
 
@@ -51,6 +52,12 @@ class NodeTrafficLoader(object):
             [[1 if is_work_day(parse(self.dataset.time_range[1])
                                + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
              for e in range(data_range[0], num_time_slots + data_range[0])])
+        # Hour Feature
+        hour_feature = [[(parse(self.dataset.time_range[1]) +
+                         datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]
+                        for e in range(data_range[0], num_time_slots + data_range[0])]
+
+        external_feature.append(hour_feature)
 
         external_feature = np.concatenate(external_feature, axis=-1)
 

@@ -1,0 +1,2 @@
+model_checkpoint_path: "AMultiGCLSTM_D_K1L1_V0-620"
+all_model_checkpoint_paths: "AMultiGCLSTM_D_K1L1_V0-620"

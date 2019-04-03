@@ -1,25 +1,34 @@
-<link rel="stylesheet" href="./static/css/misty.css" type="text/css"/>
-
 ## Tutorial
 
-- ##### Use datasets from UCTB
+#### Use datasets from UCTB
 
-- ##### Build your own datasets
+UCTB provides **bike traffic data of three cities: NYC, Chicago and DC**. A dataset api was provided to accuse these data.
 
-Data template
+For example if we want to use the bike data of NYC, we first initialize a data loader object
+
+```python
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC')
+```
+
+
+
+#### Build your own datasets
+
+A genereal data templeate is provided as following:
 
 ```python
 release_data = {
-    "TimeRange": ['2013-07-01', '2017-09-30'],
+    "TimeRange": ['YYYY-MM-DD', 'YYYY-MM-DD'],
     "TimeFitness": 60, # minutes
     
     "Node": {
-        "TrafficNode": np.array, # [time, num-of-node]
-        "TrafficMonthlyInteraction": np.array, # [month, num-of-node. num-of-node]
-        "StationInfo": {id: [build-time, lat, lng, name]},
+        "TrafficNode": np.array, # with shape [time, num-of-node]
+        "TrafficMonthlyInteraction": np.array, # with shape [month, num-of-node. num-of-node]
+        "StationInfo": {id: [build-time, # Could alos be integer
+                             lat, lng, name]},
         "POI": []
     },
-
+	
     "Grid": {
         "TrafficGrid": [],
         "GridLatLng": [],
@@ -32,9 +41,9 @@ release_data = {
 }
 ```
 
-- ##### Use build-in models from UCTB
+#### Use build-in models from UCTB
 
-- ##### Build your own model using UCTB
+#### Build your own model using UCTB
 
 
 

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="UCTB",
-    version="0.0.3",
+    version="0.0.4",
     author="Di Chai, Leye Wang, Jin Xu",
     author_email="dchai@connect.ust.hk",
     description="Urban Computing ToolBox",

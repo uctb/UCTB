@@ -9,3 +9,4 @@ from .ST_ResNet import ST_ResNet
 
 from .AMulti_GCLSTM import AMulti_GCLSTM
 from .GACN import GACN
+from .ST_MGCN import ST_MGCN

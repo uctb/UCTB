@@ -109,53 +109,50 @@ class GraphBuilder(object):
 
 # Graph Attention Layer
 class GAL(object):
+
+    # @staticmethod
+    # def add_ga_layer(inputs, units, num_head, activation=tf.nn.leaky_relu, with_self_loop=True):
+    #
+    #     inputs_shape = inputs.get_shape().with_rank(3)
+    #
+    #     num_node = inputs_shape[-2].value
+    #     num_feature = inputs_shape[-1].value
+    #
+    #     W = tf.Variable(tf.random_normal([num_feature, units * num_head]))
+    #
+    #     # linear transform
+    #     l_t = tf.matmul(tf.reshape(inputs, [-1, num_feature]), W)
+    #     l_t = tf.reshape(l_t, [-1, num_node, num_head, units])
+    #
+    #     # compute attention
+    #     a = tf.Variable(tf.random_normal([units * 2, num_head]))
+    #
+    #     e = []
+    #     for i in range(num_node):
+    #         for j in range(num_node):
+    #             if i == j and not with_self_loop:
+    #                 continue
+    #             multi_head_result = []
+    #             for k in range(num_head):
+    #                 multi_head_result.append(tf.matmul(tf.concat([l_t[:, i, k, :], l_t[:, j, k, :]], axis=-1),
+    #                                                    a[:, k:k+1]))
+    #             e.append(tf.reshape(tf.concat(multi_head_result, axis=-1), [-1, num_head, 1]))
+    #
+    #     e = activation(tf.reshape(tf.concat(e, axis=-1), [-1, num_head, num_node,
+    #                                                       num_node if with_self_loop else num_node-1]))
+    #
+    #     alpha = tf.nn.softmax(e, axis=-1)
+    #
+    #     if not with_self_loop:
+    #         return alpha
+    #
+    #     # Averaging
+    #     gc_output = tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1)
+    #
+    #     return alpha, gc_output
+
     @staticmethod
-    def add_ga_layer(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu, with_self_loop=True):
-        
-        inputs = graph.get_tensor_by_name(inputs_name)
-
-        inputs_shape = inputs.get_shape().with_rank(3)
-        
-        num_node = inputs_shape[-2].value
-        num_feature = inputs_shape[-1].value
-
-        W = tf.Variable(tf.random_normal([num_feature, units * num_head]))
-        
-        # linear transform
-        l_t = tf.matmul(tf.reshape(inputs, [-1, num_feature]), W)
-        l_t = tf.reshape(l_t, [-1, num_node, num_head, units])
-
-        # compute attention
-        a = tf.Variable(tf.random_normal([units * 2, num_head]))
-
-        e = []
-        for i in range(num_node):
-            for j in range(num_node):
-                if i == j and not with_self_loop:
-                    continue
-                multi_head_result = []
-                for k in range(num_head):
-                    multi_head_result.append(tf.matmul(tf.concat([l_t[:, i, k, :], l_t[:, j, k, :]], axis=-1),
-                                                       a[:, k:k+1]))
-                e.append(tf.reshape(tf.concat(multi_head_result, axis=-1), [-1, num_head, 1]))
-
-        e = activation(tf.reshape(tf.concat(e, axis=-1), [-1, num_head, num_node,
-                                                          num_node if with_self_loop else num_node-1]))
-
-        alpha = tf.nn.softmax(e, axis=-1)
-
-        if not with_self_loop:
-            return alpha.name
-
-        # Averaging
-        gc_output = tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1)
-
-        return alpha.name, gc_output.name
-
-    @staticmethod
-    def add_ga_layer_matrix(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu, with_self_loop=True):
-
-        inputs = graph.get_tensor_by_name(inputs_name)
+    def add_ga_layer_matrix(inputs, units, num_head, activation=tf.nn.leaky_relu):
 
         inputs_shape = inputs.get_shape().with_rank(3)
 
@@ -190,19 +187,16 @@ class GAL(object):
         # Averaging
         gc_output = tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1)
 
-        return alpha.name, gc_output.name
+        return alpha, gc_output
 
     @staticmethod
-    def add_residual_ga_layer(graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu):
+    def add_residual_ga_layer(inputs, units, num_head, activation=tf.nn.leaky_relu):
 
-        _, gc_output_name = GAL.add_ga_layer_matrix(graph, inputs_name, units, num_head,
-                                                    activation=activation, with_self_loop=True)
+        _, gc_output = GAL.add_ga_layer_matrix(inputs, units, num_head, activation=activation)
 
-        inputs = graph.get_tensor_by_name(inputs_name)
+        gc_output_residual = tf.concat([gc_output, inputs], axis=-1)
 
-        gc_output_residual = tf.concat([graph.get_tensor_by_name(gc_output_name), inputs], axis=-1)
-
-        return gc_output_residual.name
+        return gc_output_residual
 
 
 # Graph Convolution Layer
@@ -218,9 +212,7 @@ class GCL(object):
             return tf.matmul(2 * laplacian_matrix, T_k_1) - T_k_2
 
     @staticmethod
-    def add_gc_layer(graph, inputs_name, K, laplacian_matrix):
-
-        inputs = graph.get_tensor_by_name(inputs_name)
+    def add_gc_layer(inputs, K, laplacian_matrix, activation=tf.nn.tanh):
 
         # [-1, num_node, num_feature]
         input_shape = inputs.get_shape().with_rank(3)
@@ -245,7 +237,14 @@ class GCL(object):
 
         gc_output = tf.transpose(tf.reshape(gc_output, [num_node, -1, num_feature]), perm=[1, 0, 2])
 
-        return gc_output.name
+        return activation(gc_output)
+
+    @staticmethod
+    def add_multi_gc_layers(inputs, K, L, laplacian_matrix, activation=tf.nn.tanh):
+        with tf.variable_scope('multi_gcl', reuse=False):
+            for i in range(L):
+                inputs = GCL.add_gc_layer(inputs, K, laplacian_matrix, activation)
+        return inputs
 
 
 if __name__ == '__main__':
@@ -254,4 +253,4 @@ if __name__ == '__main__':
 
     with graph.as_default():
         a = tf.placeholder(tf.float32, [300, 7, 6])
-        print(GAL.add_ga_layer(graph, a.name, units=16, num_head=8))
+        print(GAL.add_ga_layer(a, units=16, num_head=8))

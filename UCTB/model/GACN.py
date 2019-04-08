@@ -72,11 +72,9 @@ class GACN(BaseModel):
             attention_output_list = []
             for loop_index in range(self._gal_layers):
                 with tf.variable_scope('res_gal_%s' % loop_index, reuse=False):
-                    attention_output_name = GAL.add_residual_ga_layer(self._graph,
-                                                                      attention_input.name,
-                                                                      num_head=self._gal_num_heads,
-                                                                      units=self._gal_units)
-                    attention_input = self._graph.get_tensor_by_name(attention_output_name)
+                    attention_input = GAL.add_residual_ga_layer(attention_input,
+                                                                num_head=self._gal_num_heads,
+                                                                units=self._gal_units)
                     attention_output_list.append(attention_input)
 
             attention_output = tf.reshape(attention_output_list[-1],
@@ -86,9 +84,7 @@ class GACN(BaseModel):
             # GCN
             gcn_input_feature = tf.reduce_mean(attention_output, axis=-2)
 
-            gcn_output_name = GCL.add_gc_layer(self._graph, gcn_input_feature.name, self._gcl_k, laplace_matrix)
-
-            gcn_output = self._graph.get_tensor_by_name(gcn_output_name)
+            gcn_output = GCL.add_gc_layer(gcn_input_feature, self._gcl_k, laplace_matrix)
 
             if self._external_feature_dim is not None and self._external_feature_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_feature_dim], name='external_input')

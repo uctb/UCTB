@@ -1,4 +1,3 @@
-import numpy as np
 import tensorflow as tf
 
 from ..model_unit import BaseModel
@@ -94,11 +93,9 @@ class AMulti_GCLSTM(BaseModel):
 
             if self._num_graph > 1:
                 # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)
-                _, gal_output_name = GAL.add_ga_layer(graph=self._graph,
-                                                      inputs_name=tf.concat(outputs_last_list, axis=-2).name,
-                                                      units=self._gal_units, num_head=self._gal_num_heads,
-                                                      with_self_loop=True)
-                gal_output = self._graph.get_tensor_by_name(gal_output_name)
+                _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_last_list, axis=-2),
+                                                        units=self._gal_units, num_head=self._gal_num_heads)
+
                 pre_input = tf.reshape(tf.reduce_mean(gal_output, axis=-2),
                                        [-1, self._num_node, 1, self._num_hidden_unit])
             else:

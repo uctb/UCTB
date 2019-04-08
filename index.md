@@ -83,7 +83,7 @@ print('Test result', test_rmse)
 
 ## Tutorial
 
-- ##### Use datasets from UCTB
+- ##### [Use datasets from UCTB](./static/tutorial.html)
 
 - ##### [Build your own datasets](./static/tutorial.html)
 

@@ -157,7 +157,7 @@ class AMulti_GCLSTM(BaseModel):
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_input'] = external_feature
         return feed_dict
-
+    
     # Step 2 : build the fit function using BaseModel._fit
     def fit(self,
             input,
@@ -174,12 +174,6 @@ class AMulti_GCLSTM(BaseModel):
 
         feed_dict = self._get_feed_dict(input=input, laplace_matrix=laplace_matrix,
                                         target=target, external_feature=external_feature)
-
-        try:
-            self.load(self._code_version)
-            print('Found model in disk')
-        except:
-            print('No model found, start training')
 
         return self._fit(feed_dict=feed_dict,
                          sequence_index='input',

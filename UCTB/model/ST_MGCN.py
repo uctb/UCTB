@@ -149,12 +149,6 @@ class ST_MGCN(BaseModel):
         feed_dict = self._get_feed_dict(traffic_flow=traffic_flow, laplace_matrix=laplace_matrix,
                                         target=target, external_feature=external_feature)
 
-        try:
-            self.load(self._code_version)
-            print('Found model in disk')
-        except:
-            print('No model found, start training')
-
         return self._fit(feed_dict=feed_dict,
                          sequence_index='traffic_flow',
                          output_names=['loss'],

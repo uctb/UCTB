@@ -32,6 +32,6 @@ class HMM(object):
             pre_state.append(last_state)
 
             # dot product between the state-probability and state-means
-            pre_observation.append(np.dot(last_state, self.__hmm.means_)[0][0])
+            pre_observation.append([np.dot(last_state, self.__hmm.means_)[0][0]])
 
         return pre_observation

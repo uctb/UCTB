@@ -25,6 +25,7 @@ class BaseModel(object):
         # TF Graph
         self._graph = tf.Graph()
 
+        self._converged = False
         self._log_dir =  os.path.join(self._model_dir, self._code_version)
         self._global_step = 0
         self._summary = None
@@ -98,6 +99,17 @@ class BaseModel(object):
         :param early_stop_length: int, must provide when early_stop_method='t-test'
         :param early_stop_patience: int, must provide when early_stop_method='naive'
         '''
+        
+        try:
+            self.load(self._code_version)
+            print('Found model in disk')
+            if self._converged:
+                print('Model converged, stop training')
+                return
+            else:
+                print('Model not converged, continue at step', self._global_step)
+        except:
+            print('No model found, start training')
 
         if not 0 < validate_ratio < 1:
             raise ValueError('validate_ratio should between (0, 1), given', validate_ratio)
@@ -128,6 +140,7 @@ class BaseModel(object):
             early_stop = EarlyStoppingTTest(length=early_stop_length, p_value_threshold=early_stop_patience)
         else:
             early_stop = EarlyStopping(patience=early_stop_patience)
+
         # start mini-batch training
         for epoch in range(start_epoch, max_epoch):
             train_output_list = []
@@ -160,7 +173,9 @@ class BaseModel(object):
             self.manual_summary(global_step=epoch)
 
             if early_stop.stop(evaluate_loss_value):
+                self._log('Converged')
                 break
+
             # save the model if evaluate_loss_value is smaller than best_record
             if best_record is None or evaluate_loss_value < best_record:
                 best_record =  evaluate_loss_value
@@ -197,6 +212,21 @@ class BaseModel(object):
     def manual_summary(self, global_step=None):
         self._summary_writer.add_summary(self._session.run(self._graph.get_tensor_by_name(self._summary)),
                                          global_step=global_step)
+
+    def _log(self, text):
+        save_dir_subscript = os.path.join(self._log_dir, self._code_version)
+        if os.path.isdir(save_dir_subscript) is False:
+            os.makedirs(save_dir_subscript)
+        with open(os.path.join(save_dir_subscript, 'log.txt'), 'a+', encoding='utf-8') as f:
+            f.write(text + '\n')
+
+    def _get_log(self):
+        save_dir_subscript = os.path.join(self._log_dir, self._code_version)
+        if os.path.isfile(os.path.join(save_dir_subscript, 'log.txt')):
+            with open(os.path.join(save_dir_subscript, 'log.txt'), 'r', encoding='utf-8') as f:
+                return [e.strip('\n') for e in f.readlines()]
+        else:
+            return []
     
     def save(self, subscript, global_step):
         save_dir_subscript = os.path.join(self._log_dir, subscript)
@@ -219,6 +249,12 @@ class BaseModel(object):
             self._saver.restore(sess=self._session,
                                 save_path=os.path.join(save_dir_subscript, subscript + '-%s' % self._global_step))
             self._global_step += 1
+
+            # parse the log-file
+            log_list = self._get_log()
+            for e in log_list:
+                if e.lower() == 'converged':
+                    self._converged = True
 
     def close(self):
         self._session.close()

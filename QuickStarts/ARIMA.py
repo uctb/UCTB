@@ -4,7 +4,7 @@ from UCTB.model import ARIMA
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
 
-data_loader = NodeTrafficLoader(dataset='Bike', city='Chicago')
+data_loader = NodeTrafficLoader(dataset='DiDi', city='Chengdu')
 
 prediction = []
 

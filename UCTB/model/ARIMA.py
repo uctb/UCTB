@@ -5,6 +5,7 @@ import statsmodels.api as sm
 import warnings
 warnings.filterwarnings("ignore")
 
+
 class ARIMA(object):
 
     def __init__(self, train_data, order=None):
@@ -53,11 +54,11 @@ class ARIMA(object):
             print(output)
         return t
 
-    def predict(self, test_feature, minimum=0):
+    def predict(self, test_feature, forecast_step=1):
         result = []
         for i in range(len(test_feature)):
             model = sm.tsa.SARIMAX(test_feature[i], order=self.order)
             model_res = model.filter(self.model_res.params)
-            p = model_res.forecast(1)
-            result.append([p[0] if p > minimum else minimum])
+            p = model_res.forecast(forecast_step).reshape([1, -1])
+            result.append(p)
         return np.array(result, dtype=np.float32)

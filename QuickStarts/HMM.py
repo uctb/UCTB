@@ -18,7 +18,7 @@ for station_index in range(data_loader.station_number):
             p.append(hmm.predict(data_loader.test_x[time_index, :, station_index, :], length=1))
     except Exception as e:
         print('Failed at station', station_index, 'with error', e)
-        p = [[0] for _ in range(data_loader.test_x.shape[0])]
+        p = [[[0]] for _ in range(data_loader.test_x.shape[0])]
 
     prediction.append(p)
 

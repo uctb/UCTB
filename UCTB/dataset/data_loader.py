@@ -17,6 +17,7 @@ class NodeTrafficLoader(object):
                  city,
                  data_range='All',
                  train_data_length='All',
+                 test_ratio=0.1,
                  T=6,
                  graph='Correlation',
                  TD=1000,
@@ -64,7 +65,9 @@ class NodeTrafficLoader(object):
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
 
-        train_test_ratio = [float(e) for e in '0.9,0.1'.split(',')]
+        if test_ratio > 1 or test_ratio < 0:
+            raise ValueError('test_ratio ')
+        train_test_ratio = [1 - test_ratio, test_ratio]
 
         self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_test_ratio)
         train_ef, test_ef = SplitData.split_data(external_feature, train_test_ratio)
@@ -152,6 +155,7 @@ class SubwayTrafficLoader(NodeTrafficLoader):
                  city,
                  data_range='All',
                  train_data_length='All',
+                 test_ratio=0.1,
                  T=6,
                  graph='Correlation',
                  TD=1000,
@@ -159,8 +163,13 @@ class SubwayTrafficLoader(NodeTrafficLoader):
                  TI=500,
                  with_lm=True):
 
-        super(SubwayTrafficLoader, self).__init__(dataset, city, data_range, train_data_length,
-                                                  T, graph, TD, TC, TI, with_lm=with_lm)
+        super(SubwayTrafficLoader, self).__init__(dataset=dataset,
+                                                  city=city,
+                                                  data_range=data_range,
+                                                  train_data_length=train_data_length,
+                                                  test_ratio=test_ratio,
+                                                  T=T, graph=graph, TD=TD, TC=TC, TI=TI,
+                                                  with_lm=with_lm)
 
         if with_lm:
 

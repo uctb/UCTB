@@ -109,11 +109,8 @@ print('Test result', test_rmse)
 
 ## Full examples
 
-- ##### Experiments on bike traffic-flow prediction
+- ##### [Experiments on bike traffic-flow prediction](./static/experiment_on_bike.html)
 
-  - Experiment Setting
-  - Experiment Results
-  - Source Code
 - ##### Experiments on subway traffic-flow prediction
 - ##### Experiments on charge-station demand prediction
 

@@ -1,0 +1,630 @@
+<!doctype html>
+<html style='font-size:16px !important'>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>experiment_on_bike</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color: #ffffff; --text-color: #333333; --select-text-bg-color: #B5D6FC; --select-text-font-color: auto; --monospace: "Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857143; overflow-x: hidden; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; background-position: inherit inherit; background-repeat: inherit inherit; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; word-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) { 
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:first-child { margin-top: -20px; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font-family: inherit; font-size: inherit; font-style: inherit; font-variant-caps: inherit; font-weight: inherit; font-stretch: inherit; line-height: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.701961); color: rgb(85, 85, 85); border-top-left-radius: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; border-bottom-left-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right-width: 0px; background-color: inherit; }
+.CodeMirror-linenumber { }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background-image: inherit; background-size: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: inherit; position: relative !important; background-position: inherit inherit; background-repeat: inherit inherit; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; background-position: 0px 0px; background-repeat: initial initial; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print { 
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid-page; break-before: avoid-page; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid-page; }
+  .typora-export #write::after { height: 0px; }
+  @page { margin: 20mm 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background-color: rgb(204, 204, 204); display: block; overflow-x: hidden; background-position: initial initial; background-repeat: initial initial; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) { 
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background-color: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-top-left-radius: 3px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; border-bottom-left-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; background-position: initial initial; background-repeat: initial initial; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; }
+a.md-print-anchor { white-space: pre !important; border: none !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; text-shadow: initial !important; background-position: 0px 0px !important; background-repeat: initial initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom-width: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+
+
+:root {
+    --control-text-color: #777;
+    --side-bar-bg-color: #f6f8fa;
+}
+
+html {
+    font-size: 16px;
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+body {
+    font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "微软雅黑", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    /*font-family: -apple-system, -apple-system-body, BlinkMacSystemFont, "PingFang SC", "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";*/
+    color: #24292e;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+#write{
+    max-width: 860px;
+  	margin: 0 auto;
+  	padding: 20px 30px 40px 30px;
+	padding-top: 20px;
+    padding-bottom: 100px;
+}
+#write > ul:first-child,
+#write > ol:first-child{
+    margin-top: 30px;
+}
+
+body > *:first-child {
+    margin-top: 0 !important;
+}
+body > *:last-child {
+    margin-bottom: 0 !important;
+}
+a {
+    color: #4183C4;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin-top: 1.8rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+    line-height: 1.4;
+    cursor: text;
+    color: #142331;
+}
+h1:hover a.anchor,
+h2:hover a.anchor,
+h3:hover a.anchor,
+h4:hover a.anchor,
+h5:hover a.anchor,
+h6:hover a.anchor {
+    /*background: url("file:///Users/chaidi/Library/Application%20Support/images/modules/styleguide/para.png") no-repeat 10px center;*/
+    text-decoration: none;
+}
+
+h1 tt,
+h1 code {
+    font-size: inherit;
+}
+h2 tt,
+h2 code {
+    font-size: inherit;
+}
+h3 tt,
+h3 code {
+    font-size: inherit;
+}
+h4 tt,
+h4 code {
+    font-size: inherit;
+}
+h5 tt,
+h5 code {
+    font-size: inherit;
+}
+h6 tt,
+h6 code {
+font-size: inherit;
+}
+h1 {
+    text-align: center;
+    padding-bottom: .3em;
+    font-size: 2.25em;
+    line-height: 1.2;
+    margin: 1em auto 1.2em auto;
+    font-weight: 300;
+    /*border-bottom: 1px solid #eee;*/
+}
+h1:after{
+border-bottom: 2px dashed #afec9e;
+    content: '';
+    width: 100px;
+    display: block;
+    margin: 0.2em auto 0 auto;
+    height: 2px;
+}
+/*h1+h2, h2+h3 {
+    margin-top: 0.83rem;
+}*/
+h2 {
+   /*padding-bottom: .3em;
+    font-size: 1.75em;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;*/
+    font-size: 1.75em;
+    padding-left: 9px;
+    line-height: 1.4;
+    border-left: 6px solid #cce5ff;
+}
+h3 {
+    font-size: 1.5em;
+    line-height: 1.43;
+}
+h3:before {
+    border-radius: 50%;
+    background-color: #9ed0ff;
+    content: '';
+    width: 6px;
+    display: inline-block;
+    height: 6px;
+    vertical-align: middle;
+    margin-bottom: 0.18em;
+    margin-right: 8px;
+}
+#write>h3.md-focus:before,
+#write>h4.md-focus:before {
+    background-color: transparent;
+    width: auto;
+    height: auto;
+}
+h4 {
+    font-size: 1.25em;
+}
+h4:before {
+    background-color: #9ed0ff;
+    content: '';
+    width: 6px;
+    display: inline-block;
+    height: 2px;
+    vertical-align: middle;
+    margin-bottom: 0.18em;
+    margin-right: 8px;
+}
+h5 {
+    font-size: 1em;
+}
+h6 {
+   font-size: 1em;
+    color: #777;
+}
+p,
+blockquote,
+ul,
+ol,
+dl,
+table{
+    margin: 0.8em 0;
+}
+li>ol,
+li>ul {
+    margin: 0 0;
+}
+hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #e1e4e8;
+  border: 0;
+}
+
+body > h2:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+body > h1:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+body > h1:first-child + h2 {
+    margin-top: 0;
+    padding-top: 0;
+}
+body > h3:first-child,
+body > h4:first-child,
+body > h5:first-child,
+body > h6:first-child {
+    margin-top: 0;
+    padding-top: 0;
+}
+a:first-child h1,
+a:first-child h2,
+a:first-child h3,
+a:first-child h4,
+a:first-child h5,
+a:first-child h6 {
+    margin-top: 0;
+    padding-top: 0;
+}
+h1 p,
+h2 p,
+h3 p,
+h4 p,
+h5 p,
+h6 p {
+    margin-top: 0;
+}
+li p.first {
+    display: inline-block;
+}
+ul,
+ol {
+    padding-left: 30px;
+}
+ul:first-child,
+ol:first-child {
+    margin-top: 0;
+}
+ul:last-child,
+ol:last-child {
+    margin-bottom: 0;
+}
+blockquote {
+    /*border-left: 4px solid #dddddd;*/
+    border-left: 4px dotted #e5e8e8;
+    padding: 0 12px;
+    color: #444444;
+    font-size: 0.9em;
+}
+blockquote blockquote {
+    padding-right: 0;
+}
+table {
+    padding: 0;
+    word-break: initial;
+}
+table tr {
+    border-top: 1px solid #DADFE6;
+    margin: 0;
+    padding: 0;
+}
+table.md-table tr:nth-child(2n) {
+    background-color: #FAFBFC;
+}
+table tr th {
+    font-weight: 400;
+    border: 1px solid #DADFE6;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr td {
+    border: 1px solid #DADFE6;
+    text-align: left;
+    margin: 0;
+    padding: 6px 13px;
+}
+table tr th:first-child,
+table tr td:first-child {
+    margin-top: 0;
+}
+table tr th:last-child,
+table tr td:last-child {
+    margin-bottom: 0;
+}
+
+.CodeMirror-gutters {
+    border-right: 1px solid #ddd;
+}
+
+.md-fences,
+code,
+tt {
+    font-size: 90%;
+    border-radius: 3px;
+    /*font-family: Consolas, "Liberation Mono", Courier, monospace;*/
+    /*padding: 2px 4px 0px 4px;*/
+    /*font-size: 0.9em;*/
+    font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace, "PingFang SC", "Microsoft YaHei", "微软雅黑";
+}
+
+code, tt {
+    margin: 0 2px;
+    padding: 2px 4px;
+    background-color: #e2f0ff;
+    /*background-color: rgba(27,31,35,0.05);*/
+}
+
+.md-fences {
+    background-color: #f6f8fa;
+    margin-bottom: 15px;
+    margin-top: 15px;
+    padding: 0.2em 1em;
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+
+/*.task-list{
+	padding-left: 0;
+}
+
+.task-list-item {
+	padding-left:32px;
+}*/
+
+.md-task-list-item>input {
+    margin-left: -1.45em;
+    margin-top: calc(0.9em - 10px);
+}
+
+@media screen and (min-width: 914px) {
+    /*body {
+        width: 854px;
+        margin: 0 auto;
+    }*/
+}
+@media print {
+    body {
+        font-size: 11px;
+        font-weight: 400;
+    }
+    table,
+    pre {
+        page-break-inside: avoid;
+    }
+    pre {
+        word-wrap: break-word;
+    }
+}
+
+#write pre.md-meta-block {
+	padding: 1rem;
+    font-size: 85%;
+    line-height: 1.45;
+    /*background-color: #f7f7f7;*/
+    background-color: rgb(247, 250, 246);
+    border: 0;
+    border-radius: 3px;
+    color: #777777;
+    margin-top: 0 !important;
+}
+
+.mathjax-block>.code-tooltip {
+	bottom: .375rem;
+}
+
+#write>h3.md-focus:before{
+	left: -1.5625rem;
+	top: .375rem;
+}
+#write>h4.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h5.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+#write>h6.md-focus:before{
+	left: -1.5625rem;
+	top: .285714286rem;
+}
+.md-image>.md-meta {
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: "SF Mono", Consolas, "PingFang SC", "Liberation Mono", Courier, monospace, "Microsoft YaHei", "微软雅黑";
+    padding: 2px 4px 0px 4px;
+    font-size: 0.9em;
+    color: inherit;
+}
+
+.md-tag{
+	color: inherit;
+}
+
+.md-toc { 
+    margin-top:20px;
+    padding-bottom:20px;
+}
+
+.sidebar-tabs {
+    border-bottom: none;
+}
+
+#typora-quick-open {
+    border: 1px solid #ddd;
+    background-color: #f8f8f8;
+}
+
+#typora-quick-open-item {
+    background-color: #FAFAFA;
+    border-color: #FEFEFE #e5e5e5 #e5e5e5 #eee;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.typora-quick-open-item {
+    padding-top: 3px;
+}
+
+.typora-quick-open-list {
+    margin-top: 4px;
+}
+
+.typora-quick-open-item-path {
+    margin-top: -2px;
+}
+
+#md-notification:before {
+    top: 10px;
+}
+
+/** focus mode */
+.on-focus-mode blockquote {
+    border-left-color: rgba(85, 85, 85, 0.12);
+}
+
+header, .context-menu, .megamenu-content, footer{
+  font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "微软雅黑", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.file-node-content:hover .file-node-icon,
+.file-node-content:hover .file-node-open-state{
+    visibility: visible;
+}
+
+.mac-seamless-mode #typora-sidebar {
+    background-color: #fafafa;
+    background-color: var(--side-bar-bg-color);
+}
+
+.md-lang {
+    color: #b4654d;
+}
+
+.pin-outline .outline-active,
+.pin-outline #outline-content .outline-active strong {
+    font-weight: 400;
+    color: rgb(35,35,35);
+}
+
+.outline-label {
+    font-weight: 300;
+    color: rgb(100,100,100);
+}
+
+strong, b {
+    font-weight: 400;
+}
+
+.file-list-item-summary {
+    font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", "微软雅黑", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+.file-list-item-file-name {
+    font-weight: 400;
+}
+
+/*p .md-image{
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+}*/
+
+
+ .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
+</style>
+</head>
+<body class='typora-export' >
+<div  id='write'  class = 'is-mac'><h2><a name='header-n0' class='md-header-anchor '></a>Experiments on bike traffic-flow prediction</h2><ul><li><p>Experiment Setting</p><ul><li><p>Dataset</p><figure><table><thead><tr><th style='text-align:center;' >Attributes</th><th style='text-align:center;' ><strong>New York City</strong></th><th style='text-align:center;' ><strong>Chicago</strong></th><th style='text-align:center;' ><strong>DC</strong></th></tr></thead><tbody><tr><td style='text-align:center;' >Time span</td><td style='text-align:center;' >2013.03-2017.09</td><td style='text-align:center;' >2013.06-2017.12</td><td style='text-align:center;' >2013.07-2017.09</td></tr><tr><td style='text-align:center;' >Number of riding records</td><td style='text-align:center;' >49,669,470</td><td style='text-align:center;' >13,826,196</td><td style='text-align:center;' >13,763,675</td></tr><tr><td style='text-align:center;' >Number of stations</td><td style='text-align:center;' >827</td><td style='text-align:center;' >586</td><td style='text-align:center;' >531</td></tr></tbody></table></figure></li></ul><p>Following shows a map-visualization of bike stations in NYC, the latest built stations have deeper color.</p><p><img src="../src/image/Bike_NYC_STMAP.PNG"></p><p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life. The remaining station number are 717, 444 and 378 for NYC, Chicago and DC, respectively.</p><ul><li><p>Network parameter setting (AMulti-GCLSTM model)</p><p>Following shows the parameters we used and a short explanation of the parameter meaning.  To know more about the parameter, please refer to the API reference.</p><figure><table><thead><tr><th style='text-align:center;' >Parameter</th><th style='text-align:center;' >Value</th><th style='text-align:center;' >Meaning</th></tr></thead><tbody><tr><td style='text-align:center;' >GLL</td><td style='text-align:center;' >1</td><td style='text-align:center;' >number of GCLSTM layers</td></tr><tr><td style='text-align:center;' >LSTMUnits</td><td style='text-align:center;' >64</td><td style='text-align:center;' >number of hidden units in LSTM</td></tr><tr><td style='text-align:center;' >GALUnits</td><td style='text-align:center;' >64</td><td style='text-align:center;' >number of units used in GAtteL</td></tr><tr><td style='text-align:center;' >GALHeads</td><td style='text-align:center;' >2</td><td style='text-align:center;' >number of multi-head in GAtteL</td></tr><tr><td style='text-align:center;' >DenseUnits</td><td style='text-align:center;' >32</td><td style='text-align:center;' >number of units in penultimate dense layer</td></tr><tr><td style='text-align:center;' >TC</td><td style='text-align:center;' >0</td><td style='text-align:center;' >correlation threshold</td></tr><tr><td style='text-align:center;' >TD</td><td style='text-align:center;' >1000</td><td style='text-align:center;' >distance threshold</td></tr><tr><td style='text-align:center;' >TI</td><td style='text-align:center;' >500</td><td style='text-align:center;' >interaction threshold</td></tr></tbody></table></figure></li></ul></li><li><p>Experiment Results</p><ul><li>CG-GCLSTM Only use correlation graph in the model</li><li>DG-GCLSTM Only use distance graph in the model</li><li>IG-GCLSTM Only use interaction graph in the model</li></ul></li></ul><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' >NYC</th><th style='text-align:center;' >Chicago</th><th style='text-align:center;' >DC</th></tr></thead><tbody><tr><td style='text-align:center;' >HM</td><td style='text-align:center;' >6.79734</td><td style='text-align:center;' >4.68078</td><td style='text-align:center;' >3.66747</td></tr><tr><td style='text-align:center;' >ARIMA</td><td style='text-align:center;' >5.60477</td><td style='text-align:center;' >3.79739</td><td style='text-align:center;' >3.31826</td></tr><tr><td style='text-align:center;' >HMM</td><td style='text-align:center;' >5.42030</td><td style='text-align:center;' >3.79743</td><td style='text-align:center;' >3.20889</td></tr><tr><td style='text-align:center;' >XGBoost</td><td style='text-align:center;' >5.32069</td><td style='text-align:center;' >3.75124</td><td style='text-align:center;' >3.14101</td></tr><tr><td style='text-align:center;' >LSTM</td><td style='text-align:center;' >5.13307</td><td style='text-align:center;' >3.69806</td><td style='text-align:center;' >3.14331</td></tr><tr><td style='text-align:center;' >CG-GCLSTM</td><td style='text-align:center;' >4.64375</td><td style='text-align:center;' >3.38255</td><td style='text-align:center;' >2.87655</td></tr><tr><td style='text-align:center;' >DG-GCLSTM</td><td style='text-align:center;' >4.67169</td><td style='text-align:center;' >3.51243</td><td style='text-align:center;' >2.98404</td></tr><tr><td style='text-align:center;' >IG-GCLSTM</td><td style='text-align:center;' >4.77809</td><td style='text-align:center;' >3.45625</td><td style='text-align:center;' >2.68370</td></tr><tr><td style='text-align:center;' >ST_MGCN (Multi-Graph)</td><td style='text-align:center;' >4.41732</td><td style='text-align:center;' >&nbsp;</td><td style='text-align:center;' >&nbsp;</td></tr><tr><td style='text-align:center;' >AMulti-GCLSTM</td><td style='text-align:center;' >4.22640</td><td style='text-align:center;' >3.02301</td><td style='text-align:center;' >2.58584</td></tr></tbody></table></figure><ul><li><p>Model training records</p><p>Following data was collected on a Windows PC with <em>CPU : Interl i7 8700K, Memory: 32 GB, GPU: Nvidia GTX 1080Ti</em>. </p></li></ul><figure><table><thead><tr><th style='text-align:center;' ><code>NYC City</code></th><th style='text-align:center;' >SingleGraph-GCLSTM(Average)</th><th style='text-align:center;' >AMulti-GCLSTM</th><th style='text-align:center;' >ST_MGCN</th></tr></thead><tbody><tr><td style='text-align:center;' >Number of trainable variables</td><td style='text-align:center;' >19749</td><td style='text-align:center;' >61993</td><td style='text-align:center;' >249245</td></tr><tr><td style='text-align:center;' >Converaged training time</td><td style='text-align:center;' >2 hours</td><td style='text-align:center;' >6 hours</td><td style='text-align:center;' >51 hours</td></tr></tbody></table></figure><ul><li>Source Code</li></ul><p>Use the <code>./Experiment/AMultiGCLSTM_Master_Bike.py</code> to train the model or view evaluation results. </p><p>&nbsp;</p></div>
+</body>
+</html>

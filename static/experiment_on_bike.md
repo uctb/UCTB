@@ -50,6 +50,24 @@
 | ST_MGCN (Multi-Graph) | 4.41732 |         |         |
 |     AMulti-GCLSTM     | 4.22640 | 3.02301 | 2.58584 |
 
+Add trend and period into feature:
+
+ (C6-P7-T4) means the length of closeness, period and trend are 6, 7, and 4 respective.
+
+Default C6-P7-T4
+
+|               |   NYC   | Chicago |   DC    |
+| :-----------: | :-----: | :-----: | :-----: |
+| HM (C6-P7-T4) | 4.55474 | 3.28585 | 2.74502 |
+| HM (C0-P7-T4) | 4.27844 | 3.18290 | 2.68013 |
+|    XGBoost    | 4.14909 | 3.02530 | 2.73286 |
+|     GBRT      | 3.94348 | 2.85847 | 2.63935 |
+|     LSTM      | 3.92746 | 2.92663 | 2.65197 |
+|   DG-GCLSTM   | 3.88572 | 3.00055 | 2.60095 |
+|   IG-GCLSTM   | 3.79187 | 2.97707 | 2.58739 |
+|   CG-GCLSTM   | 3.77422 | 2.98797 | 2.59339 |
+| AMulti-GCLSTM | 3.73464 | 2.79475 | 2.47565 |
+
 - Model training records
 
   Following data was collected on a Windows PC with *CPU : Interl i7 8700K, Memory: 32 GB, GPU: Nvidia GTX 1080Ti*. 
@@ -63,3 +81,6 @@
 
 Use the ```./Experiment/AMultiGCLSTM_Master_Bike.py``` to train the model or view evaluation results. 
 
+
+
+<u>[Back To HomePage](../index.html)</u>

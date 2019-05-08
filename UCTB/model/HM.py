@@ -7,10 +7,11 @@ warnings.filterwarnings("ignore")
 
 class HM(object):
 
-    def __init__(self, d, h):
+    def __init__(self, c, p, t):
 
-        self.d = d
-        self.h = h
+        self.c = c
+        self.p = p
+        self.t = t
 
     def predict(self, start_index, sequence_Data, time_fitness):
 
@@ -24,11 +25,15 @@ class HM(object):
 
             p = []
 
-            for j in range(1, self.d + 1):
+            for j in range(1, self.t + 1):
+
+                p.append(sequence_Data[i - j * int(7 * 24 * 60 / time_fitness)])
+
+            for j in range(1, self.p + 1):
 
                 p.append(sequence_Data[i - j * int(24 * 60 / time_fitness)])
 
-            for j in range(1, self.h + 1):
+            for j in range(1, self.c + 1):
 
                 p.append(sequence_Data[i - int(j * 60 / time_fitness)])
 

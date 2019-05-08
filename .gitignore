@@ -28,3 +28,4 @@ build/
 .vscode/
 *.pkl
 model_dir/
+.ipynb_checkpoints/

@@ -41,6 +41,18 @@ class BaseModel(object):
         self._config.gpu_options.allow_growth = True
         self._session = tf.Session(graph=self._graph, config=self._config)
 
+    def build(self):
+        with self._graph.as_default():
+            ####################################################################
+            # Add summary, variable_init and summary
+            # The variable name of them are fixed
+            self.trainable_vars = np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])
+            self._saver = tf.train.Saver(max_to_keep=None)
+            self._variable_init = tf.global_variables_initializer()
+            self._summary = self._summary_histogram().name
+            ####################################################################
+        self._session.run(self._variable_init)
+
     def add_summary(self, name, value, global_step):
         value_record = tf.Summary(value=[tf.Summary.Value(tag=name, simple_value=value)])
         self._summary_writer.add_summary(value_record, global_step)
@@ -178,7 +190,7 @@ class BaseModel(object):
 
             # save the model if evaluate_loss_value is smaller than best_record
             if best_record is None or evaluate_loss_value < best_record:
-                best_record =  evaluate_loss_value
+                best_record = evaluate_loss_value
                 self.save(self._code_version, epoch)
 
     def _predict(self, feed_dict, output_names, sequence_length, cache_volume=64):

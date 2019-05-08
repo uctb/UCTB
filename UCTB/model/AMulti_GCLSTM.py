@@ -136,15 +136,7 @@ class AMulti_GCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_operation.name
 
-            ####################################################################
-            # Add summary, variable_init and summary
-            # The variable name of them are fixed
-            self._saver = tf.train.Saver(max_to_keep=None)
-            self._variable_init = tf.global_variables_initializer()
-            self._summary = self._summary_histogram().name
-            ####################################################################
-
-        self._session.run(self._variable_init)
+        super(AMulti_GCLSTM, self).build()
 
     # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self, input, laplace_matrix, target=None, external_feature=None):
@@ -157,7 +149,7 @@ class AMulti_GCLSTM(BaseModel):
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_input'] = external_feature
         return feed_dict
-    
+
     # Step 2 : build the fit function using BaseModel._fit
     def fit(self,
             input,

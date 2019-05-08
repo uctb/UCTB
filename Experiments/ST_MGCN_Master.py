@@ -3,9 +3,11 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_st_mgcn = ('python ST_MGCN.py '
+shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
                          '--Dataset Bike '
-                         '--T 6 '
+                         '--CT 3 '
+                         '--PT 1 '
+                         '--TT 1 '
                          '--LSTMUnits 64 '
                          '--LSTMLayers 3 '
                          '--DataRange All '
@@ -50,11 +52,11 @@ if __name__ == "__main__":
     """
     Multiple Graphes
     """
-    os.system(shared_params_st_mgcn + ' --City NYC --Group NYC --K 1 --L 1 --CodeVersion V0'
+    os.system(shared_params_st_mgcn + ' --City NYC --Group Debug --K 1 --L 1 --CodeVersion V0'
                                       ' --Graph Distance-Correlation-Interaction')
 
-    os.system(shared_params_st_mgcn + ' --City Chicago --Group Chicago --K 1 --L 1 --CodeVersion V0'
-                                      ' --Graph Distance-Correlation-Interaction')
-
-    os.system(shared_params_st_mgcn + ' --City DC --Group DC --K 1 --L 1 --CodeVersion V0'
-                                      ' --Graph Distance-Correlation-Interaction')
+    # os.system(shared_params_st_mgcn + ' --City Chicago --Group Chicago --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction')
+    #
+    # os.system(shared_params_st_mgcn + ' --City DC --Group DC --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction')

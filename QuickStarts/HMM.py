@@ -10,7 +10,7 @@ for station_index in range(data_loader.station_number):
 
     # train the hmm model
     try:
-        hmm = HMM(num_components=8, n_iter=1000)
+        hmm = HMM(num_components=16, n_iter=1000)
         hmm.fit(data_loader.train_data[:, station_index:station_index+1])
         # predict
         p = []

@@ -18,7 +18,7 @@ class XGBoost(object):
         watchlist = [(train_data, 'train')]
 
         self.bst = xgb.train(self.param, train_data, num_boost_round, watchlist)
-
+    
     def predict(self, X):
 
         test_data = xgb.DMatrix(X)

@@ -74,6 +74,9 @@ AMulti_GCLSTM_Obj = AMulti_GCLSTM(num_node=data_loader.station_number,
 
 AMulti_GCLSTM_Obj.build()
 
+print(args.Dataset, args.City, code_version)
+print('Number of trainable variables', AMulti_GCLSTM_Obj.trainable_vars)
+
 # # Training
 if args.Train == 'True':
     AMulti_GCLSTM_Obj.fit(input=data_loader.train_x,

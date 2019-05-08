@@ -1,0 +1,34 @@
+import numpy as np
+from UCTB.dataset import NodeTrafficLoader_CPT
+from UCTB.model import XGBoost
+from UCTB.evaluation import metric
+
+data_loader = NodeTrafficLoader_CPT(dataset='Bike', city='DC', with_lm=False,
+                                    C_T=0, P_T=7, T_T=4)
+
+prediction = []
+
+for i in range(data_loader.station_number):
+
+    print('*************************************************************')
+    print('Station', i)
+
+    model = XGBoost(max_depth=10)
+
+    train_x = np.concatenate([data_loader.train_closeness[:, 0, i, :],
+                              data_loader.train_period[:, :, i, -1],
+                              data_loader.train_trend[:, :, i, -1]], axis=-1)
+
+    test_x = np.concatenate([data_loader.test_closeness[:, 0, i, :],
+                             data_loader.test_period[:, :, i, -1],
+                             data_loader.test_trend[:, :, i, -1]], axis=-1)
+
+    model.fit(train_x, data_loader.train_y[:, i], num_boost_round=20)
+
+    p = model.predict(test_x).reshape([-1, 1, 1])
+
+    prediction.append(p)
+
+prediction = np.concatenate(prediction, axis=-2)
+
+print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))

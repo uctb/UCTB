@@ -4,7 +4,7 @@ import numpy as np
 from dateutil.parser import parse
 
 from ..preprocess.time_utils import is_work_day, is_valid_date
-from ..preprocess import MoveSample, SplitData
+from ..preprocess import MoveSample, SplitData, ST_MoveSample
 from ..model_unit import GraphBuilder
 
 from .dataset import DataSet
@@ -28,18 +28,18 @@ class NodeTrafficLoader(object):
 
         self.dataset = DataSet(dataset, city, data_dir=data_dir)
 
-        daily_slots = 24 * 60 / self.dataset.time_fitness
+        self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
         if data_range.lower() == 'all':
             data_range = [0, len(self.dataset.node_traffic)]
         else:
             data_range = [int(e) for e in data_range.split(',')]
-            data_range = [int(data_range[0] * daily_slots), int(data_range[1] * daily_slots)]
+            data_range = [int(data_range[0] * self.daily_slots), int(data_range[1] * self.daily_slots)]
 
         num_time_slots = data_range[1] - data_range[0]
 
         # traffic feature
-        traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * daily_slots > 1)[0]
+        traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], traffic_data_index]
 
@@ -70,12 +70,12 @@ class NodeTrafficLoader(object):
         train_test_ratio = [1 - test_ratio, test_ratio]
 
         self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_test_ratio)
-        train_ef, test_ef = SplitData.split_data(external_feature, train_test_ratio)
+        self.train_ef, self.test_ef = SplitData.split_data(external_feature, train_test_ratio)
 
         if train_data_length.lower() != 'all':
             train_day_length = int(train_data_length)
-            self.train_data = self.train_data[-int(train_day_length * daily_slots):]
-            train_ef = train_ef[-int(train_day_length * daily_slots):]
+            self.train_data = self.train_data[-int(train_day_length * self.daily_slots):]
+            train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
         if T is not None:
             target_length = 1
@@ -85,10 +85,10 @@ class NodeTrafficLoader(object):
                                      target_length=target_length)
 
             self.train_x, self.train_y = move_sample.general_move_sample(self.train_data)
-            self.train_ef = train_ef[-len(self.train_x) - target_length: -target_length]
+            self.train_ef = self.train_ef[-len(self.train_x) - target_length: -target_length]
 
             self.test_x, self.test_y = move_sample.general_move_sample(self.test_data)
-            self.test_ef = test_ef[-len(self.test_x) - target_length: -target_length]
+            self.test_ef = self.test_ef[-len(self.test_x) - target_length: -target_length]
 
             self.train_x = self.train_x.reshape([-1, int(T), self.station_number, 1])
             self.test_x = self.test_x.reshape([-1, int(T), self.station_number, 1])
@@ -142,7 +142,7 @@ class NodeTrafficLoader(object):
                     self.LM.append(GraphBuilder.interaction_graph(annually_interaction, threshold=float(TI)))
 
                 if graph_name.lower() == 'correlation':
-                    self.LM.append(GraphBuilder.correlation_graph(self.train_data[-30 * int(daily_slots):],
+                    self.LM.append(GraphBuilder.correlation_graph(self.train_data[-30 * int(self.daily_slots):],
                                                                   threshold=float(TC), keep_weight=False))
 
             self.LM = np.array(self.LM, dtype=np.float32)
@@ -194,3 +194,52 @@ class SubwayTrafficLoader(NodeTrafficLoader):
                     self.LM = np.array(LM, dtype=np.float32)
                 else:
                     self.LM = np.concatenate((self.LM, LM), axis=0)
+
+
+class NodeTrafficLoader_CPT(NodeTrafficLoader):
+
+    def __init__(self,
+                 dataset,
+                 city,
+                 C_T,
+                 P_T,
+                 T_T,
+                 data_range='All',
+                 train_data_length='All',
+                 test_ratio=0.1,
+                 graph='Correlation',
+                 TD=1000,
+                 TC=0,
+                 TI=500,
+                 with_lm=True,
+                 data_dir=None):
+
+        super(NodeTrafficLoader_CPT, self).__init__(dataset=dataset,
+                                                    city=city,
+                                                    data_range=data_range,
+                                                    train_data_length=train_data_length,
+                                                    test_ratio=test_ratio, T=None,
+                                                    graph=graph, TD=TD, TC=TC, TI=TI,
+                                                    with_lm=with_lm,
+                                                    data_dir=data_dir)
+        target_length = 1
+
+        # expand the test data
+        self.test_data = np.vstack([self.train_data[-max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)):],
+                                    self.test_data])
+
+        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1)
+
+        self.train_closeness,\
+        self.train_period,\
+        self.train_trend,\
+        self.train_y = st_move_sample.move_sample(self.train_data)
+
+        self.test_closeness,\
+        self.test_period,\
+        self.test_trend,\
+        self.test_y = st_move_sample.move_sample(self.test_data)
+
+        # external feature
+        self.train_ef = self.train_ef[-len(self.train_closeness) - target_length: -target_length]
+        self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]

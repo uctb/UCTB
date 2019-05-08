@@ -1,6 +1,8 @@
 import os
+import numpy as np
 
 from UCTB.dataset import NodeTrafficLoader
+from UCTB.preprocess import ST_MoveSample
 from UCTB.model import ST_MGCN
 from UCTB.evaluation import metric
 
@@ -13,7 +15,9 @@ def amulti_gclstm_param_parser():
     parser.add_argument('--Dataset', default='Bike')
     parser.add_argument('--City', default='DC')
     # network parameter
-    parser.add_argument('--T', default='6', type=int)
+    parser.add_argument('--CT', default='3', type=int)
+    parser.add_argument('--PT', default='1', type=int)
+    parser.add_argument('--TT', default='1', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
     parser.add_argument('--Graph', default='Distance')
@@ -40,6 +44,67 @@ def amulti_gclstm_param_parser():
     parser.add_argument('--CodeVersion', default='ST_MGCN_Debug')
     return parser
 
+
+class NodeTrafficLoader_STMGCN(NodeTrafficLoader):
+
+    def __init__(self,
+                 dataset,
+                 city,
+                 C_T,
+                 P_T,
+                 T_T,
+                 data_range='All',
+                 train_data_length='All',
+                 test_ratio=0.1,
+                 graph='Correlation',
+                 TD=1000,
+                 TC=0,
+                 TI=500,
+                 with_lm=True,
+                 data_dir=None):
+
+        super(NodeTrafficLoader_STMGCN, self).__init__(dataset=dataset,
+                                                       city=city,
+                                                       data_range=data_range,
+                                                       train_data_length=train_data_length,
+                                                       test_ratio=test_ratio, T=None,
+                                                       graph=graph, TD=TD, TC=TC, TI=TI,
+                                                       with_lm=with_lm,
+                                                       data_dir=data_dir)
+        target_length = 1
+
+        # expand the test data
+        self.test_data = np.vstack([self.train_data[-max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)):],
+                                    self.test_data])
+
+        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1)
+
+        self.train_closeness,\
+        self.train_period,\
+        self.train_trend,\
+        self.train_y = st_move_sample.move_sample(self.train_data)
+
+        self.train_closeness = self.train_closeness.transpose([0, 3, 2, 1])
+        self.train_period = self.train_period[:, :, :, -1:]
+        self.train_trend = self.train_trend[:, :, :, -1:]
+
+        self.test_closeness,\
+        self.test_period,\
+        self.test_trend,\
+        self.test_y = st_move_sample.move_sample(self.test_data)
+
+        self.test_closeness = self.test_closeness.transpose([0, 3, 2, 1])
+        self.test_period = self.test_period[:, :, :, -1:]
+        self.test_trend = self.test_trend[:, :, :, -1:]
+
+        self.train_x = np.concatenate([self.train_closeness, self.train_period, self.train_trend], axis=1)
+        self.test_x = np.concatenate([self.test_closeness, self.test_period, self.test_trend], axis=1)
+
+        # external feature
+        self.train_ef = self.train_ef[-len(self.train_closeness) - target_length: -target_length]
+        self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]
+
+
 parser = amulti_gclstm_param_parser()
 args = parser.parse_args()
 
@@ -48,11 +113,12 @@ code_version = 'ST_MMGCN_{}_K{}L{}_{}'.format(''.join([e[0] for e in args.Graph.
                                               args.K, args.L, args.CodeVersion)
 
 # Config data loader
-data_loader = NodeTrafficLoader(dataset=args.Dataset, city=args.City,
-                                data_range=args.DataRange, train_data_length=args.TrainDays,
-                                T=args.T, TI=args.TI, TD=args.TD, TC=args.TC, graph=args.Graph, with_lm=True)
+data_loader = NodeTrafficLoader_STMGCN(dataset=args.Dataset, city=args.City,
+                                       data_range=args.DataRange, train_data_length=args.TrainDays,
+                                       C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
+                                       TI=args.TI, TD=args.TD, TC=args.TC, graph=args.Graph, with_lm=True)
 
-ST_MGCN_Obj = ST_MGCN(T=args.T,
+ST_MGCN_Obj = ST_MGCN(T=int(args.CT) + int(args.PT) + int(args.TT),
                       input_dim=1,
                       external_dim=data_loader.external_dim,
                       num_graph=data_loader.LM.shape[0],
@@ -66,6 +132,9 @@ ST_MGCN_Obj = ST_MGCN(T=args.T,
                       GPU_DEVICE=args.Device)
 
 ST_MGCN_Obj.build()
+
+print(args.Dataset, args.City, code_version)
+print(ST_MGCN_Obj.trainable_vars)
 
 # Training
 if args.Train == 'True':

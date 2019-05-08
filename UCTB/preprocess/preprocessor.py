@@ -34,6 +34,47 @@ class MoveSample(object):
         return np.array(feature), np.array(target)
 
 
+class ST_MoveSample(object):
+    def __init__(self, C_T, P_T, T_T, target_length=1, daily_slots=24):
+        self._c_t = C_T
+        self._p_t = P_T
+        self._t_t = T_T
+        self._target_length = target_length
+        self._daily_slots = daily_slots
+
+        # 1 init Move_Sample object
+        self.move_sample_closeness = MoveSample(feature_step=1, feature_stride=1,
+                                                feature_length=self._c_t, target_length=self._target_length)
+
+        self.move_sample_period = MoveSample(feature_step=self._p_t + 1, feature_stride=int(self._daily_slots),
+                                             feature_length=self._c_t + 1, target_length=0)
+
+        self.move_sample_trend = MoveSample(feature_step=self._t_t + 1, feature_stride=int(self._daily_slots) * 7,
+                                            feature_length=self._c_t + 1, target_length=0)
+
+    def move_sample(self, data):
+
+        # 2 general move sample
+        closeness, y = self.move_sample_closeness.general_move_sample(data)
+        period, _ = self.move_sample_period.general_move_sample(data)
+        trend, _ = self.move_sample_trend.general_move_sample(data)
+
+        # 3 remove the front part
+        closeness = closeness[-min(len(period), len(trend)):]
+        y = y[-min(len(period), len(trend)):]
+        period = period[-min(len(period), len(trend)):]
+
+        # 4 remove tail of period and trend
+        period = period[:, :-1, :, :]
+        trend = trend[:, :-1, :, :]
+
+        closeness = np.transpose(closeness, [0, 1, 3, 2])
+        period = np.transpose(period, [0, 1, 3, 2])
+        trend = np.transpose(trend, [0, 1, 3, 2])
+        y = np.transpose(y, [0, 2, 1])
+
+        return closeness, period, trend, y
+
 class SplitData(object):
 
     @staticmethod

@@ -1,10 +1,10 @@
 import numpy as np
-from UCTB.dataset import NodeTrafficLoader_CPT
+from UCTB.dataset import NodeTrafficLoader_CPT, NodeTrafficLoader
 from UCTB.model import XGBoost
 from UCTB.evaluation import metric
 
 data_loader = NodeTrafficLoader_CPT(dataset='Bike', city='DC', with_lm=False,
-                                    C_T=0, P_T=7, T_T=4)
+                                    C_T=6, P_T=0, T_T=0)
 
 prediction = []
 

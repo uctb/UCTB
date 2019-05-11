@@ -225,7 +225,8 @@ class NodeTrafficLoader_CPT(NodeTrafficLoader):
         target_length = 1
 
         # expand the test data
-        self.test_data = np.vstack([self.train_data[-max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)):],
+        self.test_data = np.vstack([self.train_data[len(self.train_data)-max(int(self.daily_slots*P_T),
+                                                                             int(self.daily_slots*7*T_T)):],
                                     self.test_data])
 
         st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1)

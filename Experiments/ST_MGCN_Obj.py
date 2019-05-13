@@ -17,7 +17,7 @@ def amulti_gclstm_param_parser():
     # network parameter
     parser.add_argument('--CT', default='3', type=int)
     parser.add_argument('--PT', default='1', type=int)
-    parser.add_argument('--TT', default='1', type=int)
+    parser.add_argument('--TT', default='0', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
     parser.add_argument('--Graph', default='Distance')
@@ -74,10 +74,12 @@ class NodeTrafficLoader_STMGCN(NodeTrafficLoader):
         target_length = 1
 
         # expand the test data
-        self.test_data = np.vstack([self.train_data[-max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)):],
+        self.test_data = np.vstack([self.train_data[len(self.train_data) -
+                                                    max(int(self.daily_slots*P_T),
+                                                        int(self.daily_slots*7*T_T)):],
                                     self.test_data])
 
-        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1)
+        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1, daily_slots=self.daily_slots)
 
         self.train_closeness,\
         self.train_period,\

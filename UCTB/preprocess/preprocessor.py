@@ -63,6 +63,7 @@ class ST_MoveSample(object):
         closeness = closeness[-min(len(period), len(trend)):]
         y = y[-min(len(period), len(trend)):]
         period = period[-min(len(period), len(trend)):]
+        trend = trend[-min(len(period), len(trend)):]
 
         # 4 remove tail of period and trend
         period = period[:, :-1, :, :]

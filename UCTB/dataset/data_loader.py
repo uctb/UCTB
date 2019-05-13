@@ -229,7 +229,7 @@ class NodeTrafficLoader_CPT(NodeTrafficLoader):
                                                                              int(self.daily_slots*7*T_T)):],
                                     self.test_data])
 
-        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1)
+        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1, daily_slots=self.daily_slots)
 
         self.train_closeness,\
         self.train_period,\

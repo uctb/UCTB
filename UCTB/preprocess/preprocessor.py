@@ -1,18 +1,19 @@
 import numpy as np
 
-class Normalize(object):
+
+class Normalizer(object):
     def __init__(self, X):
-        self.__min = np.min(X)
-        self.__max = np.max(X)
+        self._min = np.min(X)
+        self._max = np.max(X)
 
     def min_max_normal(self, X):
-        return (X - self.__min) / (self.__max - self.__min)
+        return (X - self._min) / (self._max - self._min)
 
     def min_max_denormal(self, X):
-        return X * (self.__max - self.__min) + self.__min
+        return X * (self._max - self._min) + self._min
 
-    def white_normal(self):
-        pass
+    # def white_normal(self):
+    #     pass
 
 
 class MoveSample(object):

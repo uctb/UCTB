@@ -4,7 +4,7 @@ import numpy as np
 from dateutil.parser import parse
 
 from ..preprocess.time_utils import is_work_day, is_valid_date
-from ..preprocess import MoveSample, SplitData, ST_MoveSample
+from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
 from ..model_unit import GraphBuilder
 
 from .dataset import DataSet
@@ -23,6 +23,7 @@ class NodeTrafficLoader(object):
                  TD=1000,
                  TC=0,
                  TI=500,
+                 normalize=False,
                  with_lm=True,
                  data_dir=None):
 
@@ -72,12 +73,18 @@ class NodeTrafficLoader(object):
         self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_test_ratio)
         self.train_ef, self.test_ef = SplitData.split_data(external_feature, train_test_ratio)
 
+        # Normalize the traffic data
+        if normalize:
+            self.normalizer = Normalizer(self.train_data)
+            self.train_data = self.normalizer.min_max_normal(self.train_data)
+            self.test_data = self.normalizer.min_max_normal(self.test_data)
+
         if train_data_length.lower() != 'all':
             train_day_length = int(train_data_length)
             self.train_data = self.train_data[-int(train_day_length * self.daily_slots):]
             train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
-        if T is not None:
+        if T is not None and T > 0:
             target_length = 1
             move_sample = MoveSample(feature_step=1,
                                      feature_stride=1,
@@ -196,7 +203,7 @@ class SubwayTrafficLoader(NodeTrafficLoader):
                     self.LM = np.concatenate((self.LM, LM), axis=0)
 
 
-class NodeTrafficLoader_CPT(NodeTrafficLoader):
+class NodeTrafficLoader_CPT_GAL(NodeTrafficLoader):
 
     def __init__(self,
                  dataset,
@@ -211,23 +218,25 @@ class NodeTrafficLoader_CPT(NodeTrafficLoader):
                  TD=1000,
                  TC=0,
                  TI=500,
+                 normalize=False,
                  with_lm=True,
                  data_dir=None):
 
-        super(NodeTrafficLoader_CPT, self).__init__(dataset=dataset,
-                                                    city=city,
-                                                    data_range=data_range,
-                                                    train_data_length=train_data_length,
-                                                    test_ratio=test_ratio, T=None,
-                                                    graph=graph, TD=TD, TC=TC, TI=TI,
-                                                    with_lm=with_lm,
-                                                    data_dir=data_dir)
+        super(NodeTrafficLoader_CPT_GAL, self).__init__(dataset=dataset,
+                                                        city=city,
+                                                        data_range=data_range,
+                                                        train_data_length=train_data_length,
+                                                        test_ratio=test_ratio, T=0,
+                                                        graph=graph, TD=TD, TC=TC, TI=TI,
+                                                        normalize=normalize,
+                                                        with_lm=with_lm,
+                                                        data_dir=data_dir)
         target_length = 1
 
         # expand the test data
-        self.test_data = np.vstack([self.train_data[len(self.train_data)-max(int(self.daily_slots*P_T),
-                                                                             int(self.daily_slots*7*T_T)):],
-                                    self.test_data])
+        expand_length = len(self.train_data) - max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)) - C_T
+        self.test_data = np.vstack([self.train_data[expand_length:], self.test_data])
+        self.test_ef = np.vstack([self.train_ef[expand_length:], self.test_ef])
 
         st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1, daily_slots=self.daily_slots)
 
@@ -244,3 +253,45 @@ class NodeTrafficLoader_CPT(NodeTrafficLoader):
         # external feature
         self.train_ef = self.train_ef[-len(self.train_closeness) - target_length: -target_length]
         self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]
+
+
+class NodeTrafficLoader_CPT(NodeTrafficLoader_CPT_GAL):
+
+    def __init__(self,
+                 dataset,
+                 city,
+                 C_T,
+                 P_T,
+                 T_T,
+                 data_range='All',
+                 train_data_length='All',
+                 test_ratio=0.1,
+                 graph='Correlation',
+                 TD=1000,
+                 TC=0,
+                 TI=500,
+                 normalize=False,
+                 with_lm=True,
+                 data_dir=None):
+
+        super(NodeTrafficLoader_CPT, self).__init__(dataset,
+                                                    city,
+                                                    C_T, P_T, T_T,
+                                                    data_range=data_range,
+                                                    train_data_length=train_data_length,
+                                                    test_ratio=test_ratio,
+                                                    graph=graph,
+                                                    TD=TD,
+                                                    TC=TC,
+                                                    TI=TI,
+                                                    normalize=normalize,
+                                                    with_lm=with_lm,
+                                                    data_dir=data_dir)
+
+        self.train_closeness = self.train_closeness
+        self.train_period = self.train_period[:, :, :, -1:].transpose([0, 3, 2, 1])
+        self.train_trend = self.train_trend[:, :, :, -1:].transpose([0, 3, 2, 1])
+
+        self.test_closeness = self.test_closeness
+        self.test_period = self.test_period[:, :, :, -1:].transpose([0, 3, 2, 1])
+        self.test_trend = self.test_trend[:, :, :, -1:].transpose([0, 3, 2, 1])

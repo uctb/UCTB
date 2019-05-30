@@ -2,7 +2,7 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import HMM
 from UCTB.evaluation import metric
 
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', with_lm=False)
+data_loader = NodeTrafficLoader(dataset='ChargeStation', city='Beijing', with_lm=False)
 
 prediction = []
 
@@ -22,4 +22,4 @@ for station_index in range(data_loader.station_number):
 
     prediction.append(p)
 
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=-1))
+print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))

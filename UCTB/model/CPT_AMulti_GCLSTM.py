@@ -19,8 +19,6 @@ class CPT_AMulti_GCLSTM(BaseModel):
                  GCLSTM_layers=1,
                  gal_units=32,
                  gal_num_heads=2,
-                 pt_al_units=32,
-                 pt_al_num_heads=2,
                  num_hidden_units=64,
                  num_filter_conv1x1=32,
                  lr=5e-4,
@@ -35,8 +33,6 @@ class CPT_AMulti_GCLSTM(BaseModel):
         self._gcn_layer = GCN_layers
         self._gal_units = gal_units
         self._gal_num_heads = gal_num_heads
-        self._pt_al_units = pt_al_units
-        self._pt_al_num_heads = pt_al_num_heads
         self._gclstm_layers = GCLSTM_layers
         self._num_graph = num_graph
         self._external_dim = external_dim
@@ -50,36 +46,46 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
     def build(self):
         with self._graph.as_default():
-            
-            # Input
-            closeness_feature = tf.placeholder(tf.float32, [None, 1, None, self._c_t], name='closeness_feature')
 
-            trend_feature = tf.placeholder(tf.float32, [None, self._t_t, None, self._c_t+1], name='trend_feature')
+            temporal_features = []
 
-            target = tf.placeholder(tf.float32, [None, None, 1], name='target')
-            laplace_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None], name='laplace_matrix')
+            if self._c_t is not None and self._c_t > 0:
+                closeness_feature = tf.placeholder(tf.float32, [None, 1, None, self._c_t], name='closeness_feature')
+                self._input['closeness_feature'] = closeness_feature.name
+                temporal_features.append([self._c_t, closeness_feature, 'closeness_feature'])
 
-            batch_size = tf.shape(closeness_feature)[0]
+            if self._p_t is not None and self._p_t > 0:
+                period_feature = tf.placeholder(tf.float32, [None, 1, None, self._p_t], name='period_feature')
+                self._input['period_feature'] = period_feature.name
+                temporal_features.append([self._p_t, period_feature, 'period_feature'])
 
-            # recode input
-            self._input['closeness_feature'] = closeness_feature.name
-            self._input['trend_feature'] = trend_feature.name
-            self._input['target'] = target.name
-            self._input['laplace_matrix'] = laplace_matrix.name
+            if self._t_t is not None and self._t_t > 0:
+                trend_feature = tf.placeholder(tf.float32, [None, 1, None, self._t_t], name='trend_feature')
+                self._input['trend_feature'] = trend_feature.name
+                temporal_features.append([self._t_t, trend_feature, 'trend_feature'])
 
-            outputs_last_list = []
+            if len(temporal_features) > 0:
+                target = tf.placeholder(tf.float32, [None, None, 1], name='target')
+                laplace_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None], name='laplace_matrix')
+                self._input['target'] = target.name
+                self._input['laplace_matrix'] = laplace_matrix.name
+            else:
+                raise ValueError('CT, PT, TT cannot all be zero')
 
-            for graph_index in range(self._num_graph):
-                with tf.variable_scope('gc_lstm_%s' % graph_index, reuse=False):
-                    outputs_all = []
+            def dynamic_rnn(target_tensor, time_step, variable_scope_name):
+
+                with tf.variable_scope(variable_scope_name, reuse=False):
+
+                    outputs = []
 
                     if type(self._gcn_k) is list:
                         if len(self._gcn_k) != self._num_graph:
                             raise ValueError('Please provide K,L for each graph or set K,L to integer')
-                        gc_lstm_cells = [GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
-                                                    self._num_hidden_unit, state_is_tuple=True,
-                                                    initializer=tf.contrib.layers.xavier_initializer())
-                                         for _ in range(self._gclstm_layers)]
+                        gc_lstm_cells = [
+                            GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
+                                       self._num_hidden_unit, state_is_tuple=True,
+                                       initializer=tf.contrib.layers.xavier_initializer())
+                            for _ in range(self._gclstm_layers)]
                     else:
                         gc_lstm_cells = [
                             GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
@@ -90,19 +96,31 @@ class CPT_AMulti_GCLSTM(BaseModel):
                     for cell in gc_lstm_cells:
                         cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
 
-                    cell_state_list = [cell.zero_state(batch_size, dtype=tf.float32) for cell in gc_lstm_cells]
+                    cell_state_list = [cell.zero_state(tf.shape(target_tensor)[0], dtype=tf.float32)
+                                       for cell in gc_lstm_cells]
 
-                    for i in range(0, self._c_t):
-
-                        output = closeness_feature[:, 0, :, i:i+1]
-
+                    for i in range(0, time_step):
+                        output = target_tensor[:, 0, :, i:i + 1]
                         for cell_index in range(len(gc_lstm_cells)):
+                            output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
+                                                                                            cell_state_list[cell_index])
+                        outputs.append(output)
 
-                            output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output, cell_state_list[cell_index])
+                return outputs
 
-                        outputs_all.append(output)
+            outputs_last_list = []
 
-                outputs_last_list.append(tf.reshape(outputs_all[-1], [-1, 1, self._num_hidden_unit]))
+            for graph_index in range(self._num_graph):
+
+                outputs_last = []
+
+                for time_step, target_tensor, given_name in temporal_features:
+
+                    outputs = dynamic_rnn(target_tensor, time_step, 'GCLSTM_%s_%s' % (graph_index, given_name))
+
+                    outputs_last.append(tf.reshape(outputs[-1], [-1, 1, self._num_hidden_unit]))
+
+                outputs_last_list.append(tf.concat(outputs_last, axis=-1))
 
             if self._num_graph > 1:
                 # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)
@@ -112,7 +130,8 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 pre_input = tf.reshape(tf.reduce_mean(gal_output, axis=-2),
                                        [-1, self._num_node, 1, self._gal_units])
             else:
-                pre_input = tf.reshape(outputs_last_list[-1], [-1, self._num_node, 1, self._num_hidden_unit])
+                pre_input = tf.reshape(outputs_last_list[-1],
+                                       [-1, self._num_node, 1, self._num_hidden_unit * len(temporal_features)])
 
             pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
 
@@ -137,44 +156,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                                           kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
-            prediction = tf.reshape(pre_output, [batch_size, self._num_node, 1], name='prediction')
-
-            if self._p_t is not None and self._p_t > 0:
-                period_feature = tf.placeholder(tf.float32, [None, self._p_t, None, self._c_t + 1],
-                                                name='period_feature')
-                self._input['period_feature'] = period_feature.name
-                merge_item = tf.transpose(period_feature[:, :, :, -1:], perm=[0, 2, 1, 3])
-                attention_feature = period_feature[:, :, :, :-1]
-                attention_feature = tf.concat([closeness_feature, attention_feature], axis=1)
-                attention_feature = tf.reshape(tf.transpose(attention_feature, perm=[0, 2, 1, 3]),
-                                               [-1, 1+self._p_t, self._c_t])
-                merge_weight = GAL.attention_merge_weight(attention_feature,
-                                                          units=self._pt_al_units, num_head=self._pt_al_num_heads)
-                merge_weight = tf.reshape(merge_weight, [-1, self._num_node, 1, self._p_t])
-                prediction_period = tf.reshape(tf.matmul(merge_weight, merge_item), [batch_size, self._num_node, 1])
-
-                prediction = tf.concat([prediction, prediction_period], axis=-1)
-
-            if self._t_t is not None and self._t_t > 0:
-                trend_feature = tf.placeholder(tf.float32, [None, self._t_t, None, self._c_t + 1],
-                                               name='trend_feature')
-                self._input['trend_feature'] = trend_feature.name
-                merge_item = tf.transpose(trend_feature[:, :, :, -1:], perm=[0, 2, 1, 3])
-                attention_feature = trend_feature[:, :, :, :-1]
-                attention_feature = tf.concat([closeness_feature, attention_feature], axis=1)
-                attention_feature = tf.reshape(tf.transpose(attention_feature, perm=[0, 2, 1, 3]),
-                                               [-1, 1 + self._t_t, self._c_t])
-                merge_weight = GAL.attention_merge_weight(attention_feature,
-                                                          units=self._pt_al_units, num_head=self._pt_al_num_heads)
-                merge_weight = tf.reshape(merge_weight, [-1, self._num_node, 1, self._t_t])
-                prediction_trend = tf.reshape(tf.matmul(merge_weight, merge_item), [batch_size, self._num_node, 1])
-
-                prediction = tf.concat([prediction, prediction_trend], axis=-1)
-
-            if prediction.get_shape()[-1] > 1:
-                merge_weight = tf.Variable(np.ones([1, prediction.get_shape()[-1].value, 1]) /
-                                           prediction.get_shape()[-1].value, dtype=tf.float32)
-                prediction = tf.matmul(prediction, tf.tile(merge_weight, [tf.shape(prediction)[0], 1, 1]))
+            prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
@@ -190,20 +172,21 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
     # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,
-                       closeness_feature,
                        laplace_matrix,
+                       closeness_feature=None,
                        period_feature=None,
                        trend_feature=None,
                        target=None,
                        external_feature=None):
         feed_dict = {
-            'closeness_feature': closeness_feature,
             'laplace_matrix': laplace_matrix,
         }
         if target is not None:
             feed_dict['target'] = target
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_input'] = external_feature
+        if self._c_t is not None and self._c_t > 0:
+            feed_dict['closeness_feature'] = closeness_feature
         if self._p_t is not None and self._p_t > 0:
             feed_dict['period_feature'] = period_feature
         if self._t_t is not None and self._t_t > 0:
@@ -212,9 +195,9 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
     # Step 2 : build the fit function using BaseModel._fit
     def fit(self,
-            closeness_feature,
             laplace_matrix,
             target,
+            closeness_feature=None,
             period_feature=None,
             trend_feature=None,
             external_feature=None,
@@ -233,7 +216,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                                         target=target, external_feature=external_feature)
 
         return self._fit(feed_dict=feed_dict,
-                         sequence_index='closeness_feature',
+                         sequence_index=[e for e in feed_dict if e.endswith('_feature')][-1],
                          output_names=[evaluate_loss_name],
                          evaluate_loss_name=evaluate_loss_name,
                          op_names=['train_op'],
@@ -245,11 +228,13 @@ class CPT_AMulti_GCLSTM(BaseModel):
                          early_stop_length=early_stop_length,
                          early_stop_patience=early_stop_patience)
 
-    def predict(self, closeness_feature,
+    def predict(self,
                 laplace_matrix,
+                closeness_feature=None,
                 period_feature=None,
                 trend_feature=None,
                 external_feature=None,
+                de_normalizer=None,
                 cache_volume=64):
 
         feed_dict = self._get_feed_dict(closeness_feature=closeness_feature,
@@ -260,16 +245,24 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
         output = self._predict(feed_dict=feed_dict, output_names=['prediction'], sequence_length=len(closeness_feature),
                                cache_volume=cache_volume)
+        if de_normalizer is None:
+            return output['prediction']
+        else:
+            return de_normalizer(output['prediction'])
 
-        return output['prediction']
-
-    def evaluate(self, closeness_feature, laplace_matrix, target, metrics,
-                 period_feature=None, trend_feature=None, external_feature=None, cache_volume=64, **kwargs):
+    def evaluate(self, laplace_matrix, target, metrics,
+                 closeness_feature=None, period_feature=None, trend_feature=None, external_feature=None,
+                 de_normalizer=None, cache_volume=64, **kwargs):
 
         prediction = self.predict(closeness_feature=closeness_feature,
                                   laplace_matrix=laplace_matrix,
                                   period_feature=period_feature,
                                   trend_feature=trend_feature,
-                                  external_feature=external_feature, cache_volume=cache_volume)
+                                  external_feature=external_feature,
+                                  de_normalizer=de_normalizer,
+                                  cache_volume=cache_volume)
 
-        return [e(prediction=prediction, target=target, **kwargs) for e in metrics]
+        if de_normalizer is not None:
+            return [e(prediction=prediction, target=de_normalizer(target), **kwargs) for e in metrics]
+        else:
+            return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

@@ -4,7 +4,7 @@ import numpy as np
 class Normalizer(object):
     def __init__(self, X):
         self._min = np.min(X)
-        self._max = np.max(X)
+        self._max = np.max(X) / 10
 
     def min_max_normal(self, X):
         return (X - self._min) / (self._max - self._min)

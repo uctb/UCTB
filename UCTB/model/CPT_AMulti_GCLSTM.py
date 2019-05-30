@@ -48,7 +48,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
         with self._graph.as_default():
 
             temporal_features = []
-
+            
             if self._c_t is not None and self._c_t > 0:
                 closeness_feature = tf.placeholder(tf.float32, [None, 1, None, self._c_t], name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name

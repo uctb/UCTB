@@ -1,19 +1,26 @@
 from dateutil.parser import parse
+from chinese_calendar import is_workday
 
-publicHolidayList = ['01-01', '01-02', '01-16', '02-12', '02-13', '02-20', '05-29', '07-04', '09-04',
-                     '10-09', '11-10', '11-11', '11-23', '12-25']
+america_public_holiday = ['01-01', '01-02', '01-16', '02-12', '02-13', '02-20', '05-29', '07-04', '09-04',
+                          '10-09', '11-10', '11-11', '11-23', '12-25']
 
 
-def is_work_day(date):
+def is_work_day_america(date):
     if type(date) is str:
         date = parse(date)
-    if date.strftime('%m-%d') in publicHolidayList:
+    if date.strftime('%m-%d') in america_public_holiday:
         return False
     week = date.weekday()
     if week < 5:
         return True
     else:
         return False
+
+
+def is_work_day_chine(date):
+    if type(date) is str:
+        date = parse(date)
+    return is_workday(date)
 
 
 def is_valid_date(date_str):

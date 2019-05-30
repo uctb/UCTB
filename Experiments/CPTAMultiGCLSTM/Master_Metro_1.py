@@ -3,11 +3,8 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
+shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--Dataset Metro '
-                 '--CT 0 '
-                 '--PT 7 '
-                 '--TT 0 '
                  '--GLL 1 '
                  '--LSTMUnits 64 '
                  '--GALUnits 64 '
@@ -20,19 +17,19 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--TI 500 '
                  '--Epoch 5000 '
                  '--Train True '
-                 '--lr 5e-5 '
+                 '--lr 5e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
                  '--ESlength 50 '
-                 '--BatchSize 256 '
-                 '--Device 1 '
-                 '--CodeVersion VN1 ')
+                 '--BatchSize 512 ')
 
 if __name__ == "__main__":
+    
+    # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 0 --L 1 --Device 0 '
+    #                           '--City Chongqing --Group ChongqingTest --Graph Distance --CodeVersion VN4')
 
-    """
-    Multiple Graphes
-    """
-    os.system(shared_params + ' --City Chongqing --Group ChongqingTest --K 0 --L 1 --Graph Distance')
-    # os.system(shared_params + ' --City Chongqing --Group ChongqingTest --K 1 --L 1 --Graph Distance')
-    # os.system(shared_params + ' --City Chongqing --Group ChongqingTest --K 1 --L 1 --Graph Correlation')
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 1 --L 1 --Device 0 '
+                              '--City Chongqing --Group ChongqingTest --Graph line --CodeVersion VN4')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 1 --L 1 --Device 0 '
+                              '--City Chongqing --Group ChongqingTest --Graph transfer --CodeVersion VN4')

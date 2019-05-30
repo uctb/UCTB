@@ -5,9 +5,6 @@ warnings.filterwarnings("ignore")
 
 shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--Dataset Metro '
-                 '--CT 0 '
-                 '--PT 7 '
-                 '--TT 0 '
                  '--GLL 1 '
                  '--LSTMUnits 126 '
                  '--GALUnits 64 '
@@ -25,14 +22,9 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--patience 0.1 '
                  '--ESlength 50 '
                  '--BatchSize 128 '
-                 '--Device 0 '
-                 '--CodeVersion V1OP ')
+                 '--Device 0 ')
 
 if __name__ == "__main__":
+    
+    os.system(shared_params + '--CT 0 --PT 7 --TT 0 --City Chongqing --Group ChongqingTest --K 0 --L 1 --Graph Distance --CodeVersion V1OP')
 
-    """
-    Multiple Graphes
-    """
-    os.system(shared_params + ' --City Chongqing --Group ChongqingTest --K 0 --L 1 --Graph Distance')
-    # os.system(shared_params + ' --City Chongqing --Group ChongqingTest --K 1 --L 1 --Graph Distance')
-    # os.system(shared_params + ' --City Chongqing --Group ChongqingTest --K 1 --L 1 --Graph Correlation')

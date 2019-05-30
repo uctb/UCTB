@@ -30,7 +30,7 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
 
         super(CPT_AMulti_GCLSTM_GAL, self).__init__(code_version=code_version, model_dir=model_dir,
                                                     GPU_DEVICE=GPU_DEVICE)
-
+        
         self._num_node = num_node
         self._gcn_k = GCN_K
         self._gcn_layer = GCN_layers

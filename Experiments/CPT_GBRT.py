@@ -4,7 +4,7 @@ from sklearn.ensemble import GradientBoostingRegressor
 from UCTB.evaluation import metric
 
 dataset = 'Metro'
-city = 'Chongqing'
+city = 'Shanghai'
 
 data_loader = NodeTrafficLoader_CPT(dataset=dataset, city=city, with_lm=False,
                                     C_T=6, P_T=7, T_T=4, test_ratio=0.1, normalize=False)

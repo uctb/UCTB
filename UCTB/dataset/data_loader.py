@@ -3,7 +3,7 @@ import numpy as np
 
 from dateutil.parser import parse
 
-from ..preprocess.time_utils import is_work_day, is_valid_date
+from ..preprocess.time_utils import is_work_day_chine, is_work_day_america, is_valid_date
 from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
 from ..model_unit import GraphBuilder
 
@@ -11,7 +11,7 @@ from .dataset import DataSet
 
 
 class NodeTrafficLoader(object):
-
+    
     def __init__(self,
                  dataset,
                  city,
@@ -24,6 +24,7 @@ class NodeTrafficLoader(object):
                  TC=0,
                  TI=500,
                  normalize=False,
+                 workday_parser=is_work_day_america,
                  with_lm=True,
                  data_dir=None):
 
@@ -51,8 +52,8 @@ class NodeTrafficLoader(object):
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
         # day type
         external_feature.append(
-            [[1 if is_work_day(parse(self.dataset.time_range[1])
-                               + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
+            [[1 if workday_parser(parse(self.dataset.time_range[1])
+                                  + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
              for e in range(data_range[0], num_time_slots + data_range[0])])
         # Hour Feature
         hour_feature = [[(parse(self.dataset.time_range[1]) +
@@ -155,54 +156,6 @@ class NodeTrafficLoader(object):
             self.LM = np.array(self.LM, dtype=np.float32)
 
 
-class SubwayTrafficLoader(NodeTrafficLoader):
-
-    def __init__(self,
-                 dataset,
-                 city,
-                 data_range='All',
-                 train_data_length='All',
-                 test_ratio=0.1,
-                 T=6,
-                 graph='Correlation',
-                 TD=1000,
-                 TC=0,
-                 TI=500,
-                 with_lm=True):
-
-        super(SubwayTrafficLoader, self).__init__(dataset=dataset,
-                                                  city=city,
-                                                  data_range=data_range,
-                                                  train_data_length=train_data_length,
-                                                  test_ratio=test_ratio,
-                                                  T=T, graph=graph, TD=TD, TC=TC, TI=TI,
-                                                  with_lm=with_lm)
-
-        if with_lm:
-
-            LM = []
-
-            for graph_name in graph.split('-'):
-
-                if graph_name.lower() == 'neighbor':
-                    LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
-
-                if graph_name.lower() == 'line':
-                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
-
-                if graph_name.lower() == 'transfer':
-                    LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
-
-            if len(LM) > 0:
-
-                if len(self.LM) == 0:
-                    self.LM = np.array(LM, dtype=np.float32)
-                else:
-                    self.LM = np.concatenate((self.LM, LM), axis=0)
-
-
 class NodeTrafficLoader_CPT_GAL(NodeTrafficLoader):
 
     def __init__(self,
@@ -219,6 +172,7 @@ class NodeTrafficLoader_CPT_GAL(NodeTrafficLoader):
                  TC=0,
                  TI=500,
                  normalize=False,
+                 workday_parser=is_work_day_america,
                  with_lm=True,
                  data_dir=None):
 
@@ -229,10 +183,11 @@ class NodeTrafficLoader_CPT_GAL(NodeTrafficLoader):
                                                         test_ratio=test_ratio, T=0,
                                                         graph=graph, TD=TD, TC=TC, TI=TI,
                                                         normalize=normalize,
+                                                        workday_parser=workday_parser,
                                                         with_lm=with_lm,
                                                         data_dir=data_dir)
         target_length = 1
-
+        
         # expand the test data
         expand_length = len(self.train_data) - max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)) - C_T
         self.test_data = np.vstack([self.train_data[expand_length:], self.test_data])
@@ -270,6 +225,7 @@ class NodeTrafficLoader_CPT(NodeTrafficLoader_CPT_GAL):
                  TD=1000,
                  TC=0,
                  TI=500,
+                 workday_parser=is_work_day_america,
                  normalize=False,
                  with_lm=True,
                  data_dir=None):
@@ -284,6 +240,7 @@ class NodeTrafficLoader_CPT(NodeTrafficLoader_CPT_GAL):
                                                     TD=TD,
                                                     TC=TC,
                                                     TI=TI,
+                                                    workday_parser=workday_parser,
                                                     normalize=normalize,
                                                     with_lm=with_lm,
                                                     data_dir=data_dir)

@@ -21,29 +21,17 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--Epoch 5000 '
                  '--Train True '
                  '--lr 1e-4 '
-                 '--Normalize True '
+                 '--Normalize False '
                  '--patience 0.1 '
                  '--ESlength 50 '
-                 '--BatchSize 128 '
-                 '--Device 0 '
-                 '--CodeVersion VN0 ')
+                 '--BatchSize 64 '
+                 '--Device 1 '
+                 '--CodeVersion V0 ')
 
 if __name__ == "__main__":
 
-    os.system(shared_params + ' --City NYC --Group NYC_CPT_Test --K 0 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City NYC --Group NYC_CPT_Test --K 1 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City NYC --Group NYC_CPT_Test --K 1 --L 1 --Graph Correlation')
-    os.system(shared_params + ' --City NYC --Group NYC_CPT_Test --K 1 --L 1 --Graph Interaction')
     os.system(shared_params + ' --City NYC --Group NYC_CPT_Test --K 1 --L 1 --Graph Distance-Interaction-Correlation')
 
-    os.system(shared_params + ' --City Chicago --Group Chicago_CPT_Test --K 0 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City Chicago --Group Chicago_CPT_Test --K 1 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City Chicago --Group Chicago_CPT_Test --K 1 --L 1 --Graph Correlation')
-    os.system(shared_params + ' --City Chicago --Group Chicago_CPT_Test --K 1 --L 1 --Graph Interaction')
     os.system(shared_params + ' --City Chicago --Group Chicago_CPT_Test --K 1 --L 1 --Graph Distance-Interaction-Correlation')
 
-    os.system(shared_params + ' --City DC --Group DC_CPT_Test --K 0 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City DC --Group DC_CPT_Test --K 1 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City DC --Group DC_CPT_Test --K 1 --L 1 --Graph Correlation')
-    os.system(shared_params + ' --City DC --Group DC_CPT_Test --K 1 --L 1 --Graph Interaction')
     os.system(shared_params + ' --City DC --Group DC_CPT_Test --K 1 --L 1 --Graph Distance-Interaction-Correlation')

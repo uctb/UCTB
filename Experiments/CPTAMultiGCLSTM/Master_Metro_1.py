@@ -17,10 +17,10 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--TI 500 '
                  '--Epoch 5000 '
                  '--Train True '
-                 '--lr 5e-4 '
+                 '--lr 1e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
-                 '--ESlength 50 '
+                 '--ESlength 100 '
                  '--BatchSize 512 ')
 
 if __name__ == "__main__":
@@ -28,8 +28,8 @@ if __name__ == "__main__":
     # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 0 --L 1 --Device 0 '
     #                           '--City Chongqing --Group ChongqingTest --Graph Distance --CodeVersion VN4')
 
-    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 1 --L 1 --Device 0 '
-                              '--City Chongqing --Group ChongqingTest --Graph line --CodeVersion VN4')
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 1 --L 1 --Device 1 '
+                              '--City Chongqing --Group ChongqingTest --Graph line --CodeVersion VN7')
 
-    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 1 --L 1 --Device 0 '
-                              '--City Chongqing --Group ChongqingTest --Graph transfer --CodeVersion VN4')
+    # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --K 1 --L 1 --Device 0 '
+    #                           '--City Chongqing --Group ChongqingTest --Graph transfer --CodeVersion VN4')

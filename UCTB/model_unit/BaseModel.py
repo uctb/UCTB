@@ -84,7 +84,6 @@ class BaseModel(object):
              op_names,
              evaluate_loss_name,
              batch_size=64,
-             start_epoch=0,
              max_epoch=10000,
              validate_ratio=0.1,
              shuffle_data=True,
@@ -120,8 +119,10 @@ class BaseModel(object):
                 return
             else:
                 print('Model not converged, continue at step', self._global_step)
+                start_epoch = self._global_step
         except:
             print('No model found, start training')
+            start_epoch = 0
 
         if not 0 < validate_ratio < 1:
             raise ValueError('validate_ratio should between (0, 1), given', validate_ratio)

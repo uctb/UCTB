@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
+shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--Dataset Metro '
                  '--GLL 1 '
                  '--LSTMUnits 126 '
@@ -25,6 +25,31 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--Device 0 ')
 
 if __name__ == "__main__":
-    
-    os.system(shared_params + '--CT 0 --PT 7 --TT 0 --City Chongqing --Group ChongqingTest --K 0 --L 1 --Graph Distance --CodeVersion V1OP')
 
+    # Chongqing
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+                              ' --K 0 --L 1 --Graph Distance --CodeVersion V0')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+                              ' --K 1 --L 1 --Graph Distance --CodeVersion V0')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+                              ' --K 1 --L 1 --Graph Correlation --CodeVersion V0')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+                              ' --K 1 --L 1 --Graph line --CodeVersion V0')
+
+    # Shanghai
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Shanghai --Group Shanghai'
+                              ' --K 0 --L 1 --Graph Distance --CodeVersion V0')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Shanghai --Group Shanghai'
+                              ' --K 1 --L 1 --Graph Distance --CodeVersion V0')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Shanghai --Group Shanghai'
+                              ' --K 1 --L 1 --Graph Correlation --CodeVersion V0')
+
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Shanghai --Group Shanghai'
+                              ' --K 1 --L 1 --Graph line --CodeVersion V0')

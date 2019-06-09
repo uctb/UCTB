@@ -16,8 +16,8 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--DataRange All '
                  '--TrainDays All '
                  '--TC 0 '
-                 '--TD 1000 '
-                 '--TI 500 '
+                 '--TD 2000 '
+                 '--TI 200 '
                  '--Epoch 5000 '
                  '--Train True '
                  '--lr 5e-5 '
@@ -30,9 +30,14 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
 
 if __name__ == "__main__":
 
-    """
-    Multiple Graphes
-    """
     os.system(shared_params + ' --City Xian --Group Xian --K 0 --L 1 --Graph Distance')
     os.system(shared_params + ' --City Xian --Group Xian --K 1 --L 1 --Graph Distance')
     os.system(shared_params + ' --City Xian --Group Xian --K 1 --L 1 --Graph Correlation')
+    os.system(shared_params + ' --City Xian --Group Xian --K 1 --L 1 --Graph Interaction')
+    os.system(shared_params + ' --City Xian --Group Xian --K 1 --L 1 --Graph Distance-Interaction-Correlation')
+
+    os.system(shared_params + ' --City Chengdu --Group Chengdu --K 0 --L 1 --Graph Distance')
+    os.system(shared_params + ' --City Chengdu --Group Chengdu --K 1 --L 1 --Graph Distance')
+    os.system(shared_params + ' --City Chengdu --Group Chengdu --K 1 --L 1 --Graph Correlation')
+    os.system(shared_params + ' --City Chengdu --Group Chengdu --K 1 --L 1 --Graph Interaction')
+    os.system(shared_params + ' --City Chengdu --Group Chengdu --K 1 --L 1 --Graph Distance-Interaction-Correlation')

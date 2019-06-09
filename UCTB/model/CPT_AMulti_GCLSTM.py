@@ -27,7 +27,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                  GPU_DEVICE='0'):
 
         super(CPT_AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=GPU_DEVICE)
-
+        
         self._num_node = num_node
         self._gcn_k = GCN_K
         self._gcn_layer = GCN_layers
@@ -221,7 +221,6 @@ class CPT_AMulti_GCLSTM(BaseModel):
                          evaluate_loss_name=evaluate_loss_name,
                          op_names=['train_op'],
                          batch_size=batch_size,
-                         start_epoch=self._global_step,
                          max_epoch=max_epoch,
                          validate_ratio=validate_ratio,
                          early_stop_method=early_stop_method,

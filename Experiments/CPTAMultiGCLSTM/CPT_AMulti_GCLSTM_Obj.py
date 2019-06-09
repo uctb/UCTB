@@ -6,6 +6,8 @@ from UCTB.evaluation import metric
 
 from Experiments.utils import model_dir_path
 
+from tensorboard.backend.event_processing import event_accumulator
+
 
 def cpt_amulti_gclstm_param_parser():
     import argparse
@@ -114,3 +116,11 @@ test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_c
                                            threshold=0)
 
 print('Test result', test_error)
+
+# ea = event_accumulator.EventAccumulator('events.out.tfevents.1550994567.vvd-Inspiron-7557')
+# ea.Reload()
+# print(ea.scalars.Keys())
+#
+# val_psnr = ea.scalars.Items('val_psnr')
+# print(len(val_psnr))
+# print([(i.step, i.value) for i in val_psnr])

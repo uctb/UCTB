@@ -147,6 +147,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
             conv1x1_output0 = tf.layers.conv2d(pre_input,
                                                filters=self._num_filter_conv1x1,
                                                kernel_size=[1, 1],
+                                               activation=tf.nn.tanh,
                                                kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 

@@ -173,7 +173,6 @@ class AMulti_GCLSTM(BaseModel):
                          evaluate_loss_name=evaluate_loss_name,
                          op_names=['train_op'],
                          batch_size=batch_size,
-                         start_epoch=self._global_step,
                          max_epoch=max_epoch,
                          validate_ratio=validate_ratio,
                          early_stop_method=early_stop_method,

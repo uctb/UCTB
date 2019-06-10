@@ -133,16 +133,16 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 pre_input = tf.reshape(outputs_last_list[-1],
                                        [-1, self._num_node, 1, self._num_hidden_unit * len(temporal_features)])
 
-            pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
-
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
                 self._input['external_input'] = external_input.name
-                external_dense = tf.layers.dense(inputs=external_input, units=10)
+                external_dense = tf.layers.dense(inputs=external_input, units=10, activation=tf.nn.tanh)
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(pre_input)[1], tf.shape(pre_input)[2], 1])
                 pre_input = tf.concat([pre_input, external_dense], axis=-1)
+
+            pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
 
             conv1x1_output0 = tf.layers.conv2d(pre_input,
                                                filters=self._num_filter_conv1x1,

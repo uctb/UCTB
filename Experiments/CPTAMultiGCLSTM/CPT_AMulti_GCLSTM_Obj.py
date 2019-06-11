@@ -105,8 +105,8 @@ CPT_AMulti_GCLSTM_Obj.load(code_version)
 
 # Evaluate
 test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness,
-                                           period_feature=data_loader.test_period,
-                                           trend_feature=data_loader.test_trend,
+                                            period_feature=data_loader.test_period,
+                                            trend_feature=data_loader.test_trend,
                                            laplace_matrix=data_loader.LM,
                                            target=data_loader.test_y,
                                            external_feature=data_loader.test_ef,

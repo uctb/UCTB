@@ -126,23 +126,23 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)
                 _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_last_list, axis=-2),
                                                         units=self._gal_units, num_head=self._gal_num_heads)
-
+                
                 pre_input = tf.reshape(tf.reduce_mean(gal_output, axis=-2),
                                        [-1, self._num_node, 1, self._gal_units])
             else:
                 pre_input = tf.reshape(outputs_last_list[-1],
                                        [-1, self._num_node, 1, self._num_hidden_unit * len(temporal_features)])
 
+            pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
+
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
                 self._input['external_input'] = external_input.name
-                external_dense = tf.layers.dense(inputs=external_input, units=10, activation=tf.nn.tanh)
+                external_dense = tf.layers.dense(inputs=external_input, units=10)
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(pre_input)[1], tf.shape(pre_input)[2], 1])
                 pre_input = tf.concat([pre_input, external_dense], axis=-1)
-
-            pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
 
             conv1x1_output0 = tf.layers.conv2d(pre_input,
                                                filters=self._num_filter_conv1x1,
@@ -154,13 +154,15 @@ class CPT_AMulti_GCLSTM(BaseModel):
             pre_output = tf.layers.conv2d(conv1x1_output0,
                                           filters=1,
                                           kernel_size=[1, 1],
+                                          activation=tf.nn.sigmoid,
                                           kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
-            train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            # train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')
 
             # record output
             self._output['prediction'] = prediction.name

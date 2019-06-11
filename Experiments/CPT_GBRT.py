@@ -4,10 +4,10 @@ from sklearn.ensemble import GradientBoostingRegressor
 from UCTB.evaluation import metric
 
 dataset = 'Metro'
-city = 'Shanghai'
+city = 'Chongqing'
 
 data_loader = NodeTrafficLoader_CPT(dataset=dataset, city=city, with_lm=False,
-                                    C_T=6, P_T=7, T_T=4, test_ratio=0.1, normalize=False)
+                                    C_T=5, P_T=3, T_T=4, test_ratio=0.1, normalize=False)
 
 prediction = []
 
@@ -16,7 +16,7 @@ for i in range(data_loader.station_number):
     print('*************************************************************')
     print('Station', i)
 
-    model = GradientBoostingRegressor(n_estimators=300, max_depth=5)
+    model = GradientBoostingRegressor(n_estimators=540, max_depth=3)
 
     train_x = np.concatenate([data_loader.train_closeness[:, 0, i, :],
                               data_loader.train_period[:, 0, i, :],
@@ -35,7 +35,8 @@ for i in range(data_loader.station_number):
 prediction = np.concatenate(prediction, axis=-2)
 
 print(dataset, city, 'RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
-print(dataset, city, 'RMSE', metric.mape(prediction, data_loader.test_y, threshold=0))
+print(dataset, city, 'MAPE', metric.mape(prediction, data_loader.test_y, threshold=0))
+
 
 def show_prediction(prediction, target, station_index, start=0, end=-1):
 

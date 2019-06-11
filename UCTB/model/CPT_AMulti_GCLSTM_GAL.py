@@ -54,7 +54,7 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
 
             closeness_feature = tf.placeholder(tf.float32, [None, 1, None, self._c_t], name='closeness_feature')
             target = tf.placeholder(tf.float32, [None, None, 1], name='target')
-            laplace_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None], name='laplace_matrix')\
+            laplace_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None], name='laplace_matrix')
 
             self._input['closeness_feature'] = closeness_feature.name
             self._input['target'] = target.name

@@ -21,7 +21,7 @@ def st_map(lat, lng, build_order, meta_info, file_name,
                                         195 - e * 195 / max(build_order)) for e in build_order],
             opacity=1,
         ))]
-
+    
     layout = Layout(
         title='Bike Station Location & The latest built stations with deeper color',
         autosize=True,

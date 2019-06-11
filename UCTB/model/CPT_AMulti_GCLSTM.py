@@ -58,7 +58,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 period_feature = tf.placeholder(tf.float32, [None, 1, None, self._p_t], name='period_feature')
                 self._input['period_feature'] = period_feature.name
                 temporal_features.append([self._p_t, period_feature, 'period_feature'])
-
+            
             if self._t_t is not None and self._t_t > 0:
                 trend_feature = tf.placeholder(tf.float32, [None, 1, None, self._t_t], name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name

@@ -6,10 +6,10 @@ warnings.filterwarnings("ignore")
 shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--Dataset Metro '
                  '--GLL 1 '
-                 '--LSTMUnits 128 '
-                 '--GALUnits 128 '
+                 '--LSTMUnits 64 '
+                 '--GALUnits 64 '
                  '--GALHeads 2 '
-                 '--DenseUnits 64 '
+                 '--DenseUnits 32 '
                  '--DataRange All '
                  '--TrainDays All '
                  '--TC 0 '
@@ -17,13 +17,13 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--TI 500 '
                  '--Epoch 5000 '
                  '--Train True '
-                 '--lr 5e-5 '
+                 '--lr 1e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
                  '--ESlength 200 '
-                 '--BatchSize 1 '
+                 '--BatchSize 256 '
                  '--Device 1 '
-                 '--CodeVersion VNSS55 ')
+                 '--CodeVersion TNT1 ')
 
 if __name__ == "__main__":
 

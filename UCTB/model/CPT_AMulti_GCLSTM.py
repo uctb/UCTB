@@ -73,11 +73,8 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 raise ValueError('CT, PT, TT cannot all be zero')
 
             def dynamic_rnn(target_tensor, time_step, variable_scope_name):
-
                 with tf.variable_scope(variable_scope_name, reuse=False):
-
                     outputs = []
-
                     if type(self._gcn_k) is list:
                         if len(self._gcn_k) != self._num_graph:
                             raise ValueError('Please provide K,L for each graph or set K,L to integer')
@@ -92,20 +89,16 @@ class CPT_AMulti_GCLSTM(BaseModel):
                                        self._num_hidden_unit, state_is_tuple=True,
                                        initializer=tf.contrib.layers.xavier_initializer())
                             for _ in range(self._gclstm_layers)]
-
                     for cell in gc_lstm_cells:
                         cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
-
                     cell_state_list = [cell.zero_state(tf.shape(target_tensor)[0], dtype=tf.float32)
                                        for cell in gc_lstm_cells]
-
                     for i in range(0, time_step):
                         output = target_tensor[:, 0, :, i:i + 1]
                         for cell_index in range(len(gc_lstm_cells)):
                             output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
                                                                                             cell_state_list[cell_index])
                         outputs.append(output)
-
                 return outputs
 
             outputs_last_list = []
@@ -129,6 +122,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 
                 pre_input = tf.reshape(tf.reduce_mean(gal_output, axis=-2),
                                        [-1, self._num_node, 1, self._gal_units])
+
             else:
                 pre_input = tf.reshape(outputs_last_list[-1],
                                        [-1, self._num_node, 1, self._num_hidden_unit * len(temporal_features)])
@@ -143,7 +137,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(pre_input)[1], tf.shape(pre_input)[2], 1])
                 pre_input = tf.concat([pre_input, external_dense], axis=-1)
-
+            
             conv1x1_output0 = tf.layers.conv2d(pre_input,
                                                filters=self._num_filter_conv1x1,
                                                kernel_size=[1, 1],
@@ -151,10 +145,15 @@ class CPT_AMulti_GCLSTM(BaseModel):
                                                kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
-            pre_output = tf.layers.conv2d(conv1x1_output0,
+            conv1x1_output1 = tf.layers.conv2d(conv1x1_output0,
+                                               filters=self._num_filter_conv1x1,
+                                               kernel_size=[1, 1],
+                                               kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                               kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
+
+            pre_output = tf.layers.conv2d(conv1x1_output1,
                                           filters=1,
                                           kernel_size=[1, 1],
-                                          activation=tf.nn.sigmoid,
                                           kernel_initializer=tf.contrib.layers.xavier_initializer(),
                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 

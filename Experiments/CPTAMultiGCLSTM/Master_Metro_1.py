@@ -17,20 +17,23 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--TI 500 '
                  '--Epoch 5000 '
                  '--Train True '
-                 '--lr 2e-4 '
+                 '--lr 1e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
                  '--ESlength 200 '
                  '--BatchSize 256 '
-                 '--Device 1 '
-                 '--CodeVersion TNT2 ')
+                 '--Device 1 ')
 
 if __name__ == "__main__":
 
     # Chongqing
 
+    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+                              ' --K 0 --L 1 --Graph Distance --CodeVersion TNT3')
     # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
-    #                           ' --K 1 --L 1 --Graph Distance --CodeVersion VN4')
+    #                           ' --K 0 --L 1 --Graph Distance --CodeVersion TNT1')
+    # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+    #                           ' --K 0 --L 1 --Graph Distance --CodeVersion TNT2')
     #
     # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
     #                           ' --K 1 --L 1 --Graph Distance --CodeVersion VN5')
@@ -38,8 +41,8 @@ if __name__ == "__main__":
     # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
     #                           ' --K 1 --L 1 --Graph Distance')
     #
-    os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
-                              ' --K 1 --L 1 --Graph Correlation')
+    # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
+    #                           ' --K 1 --L 1 --Graph Correlation --CodeVersion TNT0')
     #
     # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chongqing --Group Chongqing'
     #                           ' --K 1 --L 1 --Graph line')
@@ -52,7 +55,7 @@ if __name__ == "__main__":
 
     # Shanghai
 
-    # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Shanghai --Group Shanghai'
+    # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City ShanghaiV1 --Group Shanghai'
     #                           ' --K 0 --L 1 --Graph Distance')
     #
     # os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Shanghai --Group Shanghai'

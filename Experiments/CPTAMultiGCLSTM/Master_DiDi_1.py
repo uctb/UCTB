@@ -15,7 +15,7 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--DenseUnits 32 '
                  '--DataRange All '
                  '--TrainDays All '
-                 '--TC 0.2 '
+                 '--TC 0 '
                  '--TD 5000 '
                  '--TI 500 '
                  '--Epoch 5000 '
@@ -23,10 +23,10 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--lr 1e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
-                 '--ESlength 50 '
-                 '--BatchSize 256 '
+                 '--ESlength 200 '
+                 '--BatchSize 128 '
                  '--Device 0 '
-                 '--CodeVersion TNT0 ')
+                 '--CodeVersion TNT1 ')
 
 if __name__ == "__main__":
     os.system(shared_params + ' --City Xian --Group Xian --K 0 --L 1 --Graph Distance')

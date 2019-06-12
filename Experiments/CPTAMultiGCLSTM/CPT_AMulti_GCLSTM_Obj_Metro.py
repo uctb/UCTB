@@ -68,7 +68,7 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='line')
+    parser.add_argument('--Graph', default='Distance-Correlation')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--GALUnits', default='64', type=int)

@@ -113,19 +113,20 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
                     outputs_last.append(tf.reshape(outputs[-1], [-1, 1, self._num_hidden_unit]))
 
-                outputs_last_list.append(tf.concat(outputs_last, axis=-1))
+                _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_last, axis=-2),
+                                                        units=self._gal_units, num_head=self._gal_num_heads)
+
+                outputs_last_list.append(tf.reduce_mean(gal_output, axis=-2, keepdims=True))
 
             if self._num_graph > 1:
                 # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)
                 _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_last_list, axis=-2),
                                                         units=self._gal_units, num_head=self._gal_num_heads)
-                
                 pre_input = tf.reshape(tf.reduce_mean(gal_output, axis=-2),
                                        [-1, self._num_node, 1, self._gal_units])
-
             else:
                 pre_input = tf.reshape(outputs_last_list[-1],
-                                       [-1, self._num_node, 1, self._num_hidden_unit * len(temporal_features)])
+                                       [-1, self._num_node, 1, self._gal_units])
 
             pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
 

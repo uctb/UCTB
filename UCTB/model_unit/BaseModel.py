@@ -3,6 +3,8 @@ import numpy as np
 import shutil
 import tensorflow as tf
 
+from tensorboard.backend.event_processing import event_accumulator
+
 from ..train.MiniBatchTrain import MiniBatchFeedDict
 from ..preprocess.preprocessor import SplitData
 from ..train.EarlyStopping import *
@@ -47,7 +49,7 @@ class BaseModel(object):
             # Add summary, variable_init and summary
             # The variable name of them are fixed
             self.trainable_vars = np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])
-            self._saver = tf.train.Saver(max_to_keep=None)
+            self._saver = tf.train.Saver()
             self._variable_init = tf.global_variables_initializer()
             self._summary = self._summary_histogram().name
             ####################################################################
@@ -90,7 +92,8 @@ class BaseModel(object):
              early_stop_method='t-test',
              early_stop_length=10,
              early_stop_patience=0.1,
-             verbose=True):
+             verbose=True,
+             save_model=True):
 
         '''
 
@@ -190,7 +193,7 @@ class BaseModel(object):
                 break
 
             # save the model if evaluate_loss_value is smaller than best_record
-            if best_record is None or evaluate_loss_value < best_record:
+            if best_record is None or evaluate_loss_value < best_record and save_model:
                 best_record = evaluate_loss_value
                 self.save(self._code_version, epoch)
 
@@ -244,8 +247,8 @@ class BaseModel(object):
     def save(self, subscript, global_step):
         save_dir_subscript = os.path.join(self._log_dir, subscript)
         # delete if exist
-        if os.path.isdir(save_dir_subscript):
-            shutil.rmtree(save_dir_subscript, ignore_errors=True)
+        # if os.path.isdir(save_dir_subscript):
+        #     shutil.rmtree(save_dir_subscript, ignore_errors=True)
         if os.path.isdir(save_dir_subscript) is False:
             os.makedirs(save_dir_subscript)
         self._saver.save(sess=self._session, save_path=os.path.join(save_dir_subscript, subscript),
@@ -257,12 +260,11 @@ class BaseModel(object):
             print('model Not Found')
             raise FileNotFoundError(subscript, 'model not found')
         else:
-            meta_file = [e for e in os.listdir(save_dir_subscript) if e.startswith(subscript) and e.endswith('.meta')][0]
-            self._global_step = int(meta_file.split('.')[0].split('-')[-1])
+            meta_file = [e for e in os.listdir(save_dir_subscript) if e.startswith(subscript) and e.endswith('.meta')]
+            self._global_step = max([int(e.split('.')[0].split('-')[-1]) for e in meta_file])
             self._saver.restore(sess=self._session,
                                 save_path=os.path.join(save_dir_subscript, subscript + '-%s' % self._global_step))
             self._global_step += 1
-
             # parse the log-file
             log_list = self._get_log()
             for e in log_list:
@@ -271,3 +273,13 @@ class BaseModel(object):
 
     def close(self):
         self._session.close()
+
+    def load_event_scalar(self, scalar_name='val_loss'):
+        event_files = [e for e in os.listdir(self._log_dir) if e.startswith('events.out')]
+        result = []
+        for f in event_files:
+            ea = event_accumulator.EventAccumulator(os.path.join(self._log_dir, f))
+            ea.Reload()
+            if scalar_name in ea.scalars.Keys():
+                result += [[e.wall_time, e.step, e.value] for e in ea.scalars.Items(scalar_name)]
+        return result

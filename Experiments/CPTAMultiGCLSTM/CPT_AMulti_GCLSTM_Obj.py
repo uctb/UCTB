@@ -21,7 +21,7 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Correlation')
+    parser.add_argument('--Graph', default='Correlation-Interaction')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--GALUnits', default='64', type=int)
@@ -32,9 +32,9 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
-    parser.add_argument('--TC', default='0', type=float)
-    parser.add_argument('--TD', default='1000', type=float)
-    parser.add_argument('--TI', default='500', type=float)
+    parser.add_argument('--TC', default='0.7', type=float)
+    parser.add_argument('--TD', default='3000', type=float)
+    parser.add_argument('--TI', default='100', type=float)
     # training parameters
     parser.add_argument('--Epoch', default='10000', type=int)
     parser.add_argument('--Train', default='True', type=str)
@@ -45,8 +45,8 @@ def cpt_amulti_gclstm_param_parser():
     # device parameter
     parser.add_argument('--Device', default='1', type=str)
     # version control
-    parser.add_argument('--Group', default='ChengduDebug')
-    parser.add_argument('--CodeVersion', default='VN0')
+    parser.add_argument('--Group', default='Debug')
+    parser.add_argument('--CodeVersion', default='Xian')
     return parser
 
 

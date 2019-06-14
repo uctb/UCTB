@@ -1,4 +1,3 @@
-import numpy as np
 import tensorflow as tf
 
 from ..model_unit import BaseModel
@@ -163,6 +162,8 @@ class CPT_AMulti_GCLSTM(BaseModel):
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            # train_operation = tf.train.AdadeltaOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            # train_operation = tf.train.AdagradOptimizer(self._lr).minimize(loss_pre, name='train_op')
 
             # record output
             self._output['prediction'] = prediction.name
@@ -204,7 +205,8 @@ class CPT_AMulti_GCLSTM(BaseModel):
             period_feature=None,
             trend_feature=None,
             external_feature=None,
-            batch_size=64, max_epoch=10000,
+            batch_size=64,
+            max_epoch=10000,
             validate_ratio=0.1,
             early_stop_method='t-test',
             early_stop_length=10,
@@ -228,7 +230,9 @@ class CPT_AMulti_GCLSTM(BaseModel):
                          validate_ratio=validate_ratio,
                          early_stop_method=early_stop_method,
                          early_stop_length=early_stop_length,
-                         early_stop_patience=early_stop_patience)
+                         early_stop_patience=early_stop_patience,
+                         verbose=True,
+                         save_model=True)
 
     def predict(self,
                 laplace_matrix,

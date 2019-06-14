@@ -1,0 +1,19 @@
+{
+    "CT": {"_type": "choice", "_value": [6]},
+    "PT": {"_type": "choice", "_value": [7]},
+    "TT": {"_type": "choice", "_value": [4]},
+
+    "K": {"_type":"choice","_value":[1, 2, 3]},
+
+    "GLL": {"_type":"choice","_value":[1, 2]},
+
+    "LSTMUnits": {"_type":"choice","_value":[64, 128, 256]},
+
+    "GALUnits": {"_type":"choice", "_value": [64, 128, 256]},
+
+    "DenseUnits": {"_type":"choice","_value":[32, 64, 128]},
+
+    "TD": {"_type":"uniform","_value":[3000, 5000]},
+    "TC": {"_type":"uniform","_value":[0.5, 0.7]}
+
+}

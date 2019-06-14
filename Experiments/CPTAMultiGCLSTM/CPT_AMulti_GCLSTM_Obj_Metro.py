@@ -61,14 +61,14 @@ def cpt_amulti_gclstm_param_parser():
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
     parser.add_argument('--Dataset', default='Metro')
-    parser.add_argument('--City', default='Chongqing')
+    parser.add_argument('--City', default='ShanghaiV1')
     # network parameter
     parser.add_argument('--CT', default='6', type=int)
     parser.add_argument('--PT', default='7', type=int)
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Distance-Correlation')
+    parser.add_argument('--Graph', default='line')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--GALUnits', default='64', type=int)
@@ -79,11 +79,11 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
-    parser.add_argument('--TC', default='0', type=float)
-    parser.add_argument('--TD', default='1000', type=float)
+    parser.add_argument('--TC', default='0.9', type=float)
+    parser.add_argument('--TD', default='5000', type=float)
     parser.add_argument('--TI', default='500', type=float)
     # training parameters
-    parser.add_argument('--Epoch', default='10000', type=int)
+    parser.add_argument('--Epoch', default='1000', type=int)
     parser.add_argument('--Train', default='True', type=str)
     parser.add_argument('--lr', default='1e-4', type=float)
     parser.add_argument('--ESlength', default='50', type=int)
@@ -92,8 +92,8 @@ def cpt_amulti_gclstm_param_parser():
     # device parameter
     parser.add_argument('--Device', default='1', type=str)
     # version control
-    parser.add_argument('--Group', default='ChengduDebug11')
-    parser.add_argument('--CodeVersion', default='VN0')
+    parser.add_argument('--Group', default='Debug')
+    parser.add_argument('--CodeVersion', default='Chongqing')
     return parser
 
 
@@ -146,20 +146,23 @@ if args.Train == 'True':
                               early_stop_method='t-test',
                               early_stop_length=int(args.ESlength),
                               early_stop_patience=float(args.patience),
-                              batch_size=int(args.BatchSize))
+                              batch_size=int(args.BatchSize),
+                              max_epoch=int(args.Epoch))
 
 CPT_AMulti_GCLSTM_Obj.load(code_version)
 
 # Evaluate
 test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness,
-                                           period_feature=data_loader.test_period,
-                                           trend_feature=data_loader.test_trend,
-                                           laplace_matrix=data_loader.LM,
-                                           target=data_loader.test_y,
-                                           external_feature=data_loader.test_ef,
-                                           cache_volume=int(args.BatchSize),
-                                           metrics=[metric.rmse, metric.mape],
-                                           de_normalizer=de_normalizer,
-                                           threshold=0)
+                                            period_feature=data_loader.test_period,
+                                            trend_feature=data_loader.test_trend,
+                                            laplace_matrix=data_loader.LM,
+                                            target=data_loader.test_y,
+                                            external_feature=data_loader.test_ef,
+                                            cache_volume=int(args.BatchSize),
+                                            metrics=[metric.rmse, metric.mape],
+                                            de_normalizer=de_normalizer,
+                                            threshold=0)
+
+val_loss = CPT_AMulti_GCLSTM_Obj.load_event_scalar()
 
 print('Test result', test_error)

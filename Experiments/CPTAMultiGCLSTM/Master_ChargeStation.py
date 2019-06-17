@@ -21,12 +21,12 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--Epoch 5000 '
                  '--Train True '
                  '--lr 1e-4 '
-                 '--Normalize True '
+                 '--Normalize False '
                  '--patience 0.1 '
                  '--ESlength 200 '
                  '--BatchSize 64 '
                  '--Device 0 '
-                 '--CodeVersion V0 ')
+                 '--CodeVersion VNN0 ')
 
 if __name__ == "__main__":
 

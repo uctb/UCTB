@@ -2,7 +2,7 @@ authorName: DiChai
 experimentName: parameter_search
 trialConcurrency: 2
 maxExecDuration: 24h
-maxTrialNum: 20
+maxTrialNum: 50
 trainingServicePlatform: local
 # The path to Search Space
 searchSpacePath: search_space.json

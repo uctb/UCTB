@@ -1,9 +1,8 @@
 import os
-import nni
 import numpy as np
 
 from UCTB.dataset import NodeTrafficLoader_CPT
-from UCTB.model import CPT_AMulti_GCLSTM
+from UCTB.model import CPT_AMulti_GCLSTM_Simplify
 from UCTB.evaluation import metric
 from UCTB.model_unit import GraphBuilder
 from UCTB.preprocess import is_work_day_chine
@@ -45,14 +44,15 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--patience', default='0.1', type=float)
     parser.add_argument('--BatchSize', default='128', type=int)
     # device parameter
-    parser.add_argument('--Device', default='0,1', type=str)
+    parser.add_argument('--Device', default='2', type=str)
     # version control
-    parser.add_argument('--Group', default='Xian')
+    parser.add_argument('--Group', default='Debug')
     parser.add_argument('--CodeVersion', default='ParamTuner')
     return parser
 
 
 class SubwayTrafficLoader(NodeTrafficLoader_CPT):
+
     def __init__(self,
                  dataset,
                  city,
@@ -101,11 +101,10 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
 parser = cpt_amulti_gclstm_param_parser()
 args = vars(parser.parse_args())
 
-args.update(nni.get_next_parameter())
 
 model_dir = os.path.join(model_dir_path, args['Group'])
 code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
-                                                      args['K'], args['L'], args['CodeVersion'] + nni.get_sequence_id())
+                                                      args['K'], args['L'], args['CodeVersion'])
 
 # Config data loader
 data_loader = SubwayTrafficLoader(dataset=args['Dataset'], city=args['City'],
@@ -118,21 +117,21 @@ data_loader = SubwayTrafficLoader(dataset=args['Dataset'], city=args['City'],
 
 de_normalizer = None if args['Normalize'] == 'False' else data_loader.normalizer.min_max_denormal
 
-CPT_AMulti_GCLSTM_Obj = CPT_AMulti_GCLSTM(num_node=data_loader.station_number,
-                                          num_graph=data_loader.LM.shape[0],
-                                          external_dim=data_loader.external_dim,
-                                          C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
-                                          GCN_K=int(args['K']),
-                                          GCN_layers=int(args['L']),
-                                          GCLSTM_layers=int(args['GLL']),
-                                          gal_units=int(args['GALUnits']),
-                                          gal_num_heads=int(args['GALHeads']),
-                                          num_hidden_units=int(args['LSTMUnits']),
-                                          num_filter_conv1x1=int(args['DenseUnits']),
-                                          lr=float(args['lr']),
-                                          code_version=code_version,
-                                          model_dir=model_dir,
-                                          GPU_DEVICE=args['Device'])
+CPT_AMulti_GCLSTM_Obj = CPT_AMulti_GCLSTM_Simplify(num_node=data_loader.station_number,
+                                                   num_graph=data_loader.LM.shape[0],
+                                                   external_dim=data_loader.external_dim,
+                                                   C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
+                                                   GCN_K=int(args['K']),
+                                                   GCN_layers=int(args['L']),
+                                                   GCLSTM_layers=int(args['GLL']),
+                                                   gal_units=int(args['GALUnits']),
+                                                   gal_num_heads=int(args['GALHeads']),
+                                                   num_hidden_units=int(args['LSTMUnits']),
+                                                   num_filter_conv1x1=int(args['DenseUnits']),
+                                                   lr=float(args['lr']),
+                                                   code_version=code_version,
+                                                   model_dir=model_dir,
+                                                   GPU_DEVICE=args['Device'])
 
 CPT_AMulti_GCLSTM_Obj.build()
 
@@ -168,13 +167,3 @@ test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_c
                                             threshold=0)
 
 print('Test result', test_error)
-
-val_loss = CPT_AMulti_GCLSTM_Obj.load_event_scalar('val_loss')
-
-best_val_loss = min([e[-1] for e in val_loss])
-
-nni.report_final_result({
-    'default': best_val_loss,
-    'test-rmse': test_error[0],
-    'test-mape': test_error[1]
-})

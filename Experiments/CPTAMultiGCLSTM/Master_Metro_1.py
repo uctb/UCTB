@@ -16,13 +16,13 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--TD 5000 '
                  # '--TI 500 '
                  '--Epoch 10000 '
-                 '--Train True '
+                 '--Train False '
                  '--lr 1e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
                  '--ESlength 200 '
                  '--BatchSize 256 '
-                 '--Device 1 '
+                 '--Device 0 '
                  '--CodeVersion TNT1 ')
 
 if __name__ == "__main__":

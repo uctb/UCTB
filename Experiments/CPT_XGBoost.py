@@ -3,7 +3,7 @@ from UCTB.dataset import NodeTrafficLoader_CPT, NodeTrafficLoader
 from UCTB.model import XGBoost
 from UCTB.evaluation import metric
 
-data_loader = NodeTrafficLoader_CPT(dataset='Metro', city='Shanghai', with_lm=False,
+data_loader = NodeTrafficLoader_CPT(dataset='ChargeStation', city='Beijing', with_lm=False,
                                     test_ratio=0.1, normalize=False,
                                     C_T=6, P_T=7, T_T=4)
 

@@ -6,22 +6,20 @@ from UCTB.evaluation import metric
 
 from Experiments.utils import model_dir_path
 
-from tensorboard.backend.event_processing import event_accumulator
-
 
 def cpt_amulti_gclstm_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--Dataset', default='DiDi')
-    parser.add_argument('--City', default='Chengdu')
+    parser.add_argument('--Dataset', default='ChargeStation')
+    parser.add_argument('--City', default='Beijing')
     # network parameter
     parser.add_argument('--CT', default='6', type=int)
     parser.add_argument('--PT', default='7', type=int)
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Correlation-Interaction')
+    parser.add_argument('--Graph', default='Correlation')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--GALUnits', default='64', type=int)
@@ -107,20 +105,12 @@ CPT_AMulti_GCLSTM_Obj.load(code_version)
 test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness,
                                             period_feature=data_loader.test_period,
                                             trend_feature=data_loader.test_trend,
-                                           laplace_matrix=data_loader.LM,
-                                           target=data_loader.test_y,
-                                           external_feature=data_loader.test_ef,
-                                           cache_volume=int(args.BatchSize),
-                                           metrics=[metric.rmse, metric.mape],
-                                           de_normalizer=de_normalizer,
-                                           threshold=0)
+                                            laplace_matrix=data_loader.LM,
+                                            target=data_loader.test_y,
+                                            external_feature=data_loader.test_ef,
+                                            cache_volume=int(args.BatchSize),
+                                            metrics=[metric.rmse, metric.mape],
+                                            de_normalizer=de_normalizer,
+                                            threshold=0)
 
 print('Test result', test_error)
-
-# ea = event_accumulator.EventAccumulator('events.out.tfevents.1550994567.vvd-Inspiron-7557')
-# ea.Reload()
-# print(ea.scalars.Keys())
-#
-# val_psnr = ea.scalars.Items('val_psnr')
-# print(len(val_psnr))
-# print([(i.step, i.value) for i in val_psnr])

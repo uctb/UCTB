@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {
     "K": {"_type":"choice","_value":[1, 2, 3]},
 
@@ -13,4 +14,35 @@
 
     "lr": {"_type":"uniform","_value":[0.00005, 0.001]}
 
+=======
+{
+
+    "Dataset": {"_type": "choice", "_value": ["DiDi"]},
+    "City": {"_type": "choice", "_value": ["Xian"]},
+
+    "CT": {"_type": "choice", "_value": [6]},
+    "PT": {"_type": "choice", "_value": [7]},
+    "TT": {"_type": "choice", "_value": [4]},
+
+    "K": {"_type":"choice","_value":[1]},
+    "L": {"_type":"choice","_value":[1]},
+
+    "Graph": {"_type":"choice","_value":["Distance-Interaction-Correlation"]},
+
+    "GLL": {"_type":"choice","_value":[1]},
+
+    "LSTMUnits": {"_type":"choice","_value":[64]},
+
+    "GALUnits": {"_type":"choice", "_value": [64]},
+
+    "DenseUnits": {"_type":"choice","_value":[32]},
+
+    "BatchSize": {"_type":"choice","_value":[128]},
+
+    "lr": {"_type":"choice","_value":[0.0001]},
+
+    "TD": {"_type":"uniform","_value":[3000, 10000]},
+    "TC": {"_type":"uniform","_value":[0.3, 0.7]},
+    "TI": {"_type":"uniform","_value":[10, 100]}
+>>>>>>> f1cd6151a8ed652dd84b96bbee0e90de857dc4c7
 }

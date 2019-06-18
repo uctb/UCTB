@@ -117,6 +117,8 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
                 outputs_last_list.append(tf.reduce_mean(gal_output, axis=-2, keepdims=True))
 
+                # outputs_last_list.append(tf.concat(outputs_last, axis=-1))
+
             if self._num_graph > 1:
                 # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)
                 _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_last_list, axis=-2),
@@ -126,6 +128,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
             else:
                 pre_input = tf.reshape(outputs_last_list[-1],
                                        [-1, self._num_node, 1, self._gal_units])
+                                       # [-1, self._num_node, 1, self._num_hidden_unit * len(temporal_features)])
 
             pre_input = tf.layers.batch_normalization(pre_input, axis=-1)
 
@@ -137,7 +140,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(pre_input)[1], tf.shape(pre_input)[2], 1])
                 pre_input = tf.concat([pre_input, external_dense], axis=-1)
-            
+
             conv1x1_output0 = tf.layers.conv2d(pre_input,
                                                filters=self._num_filter_conv1x1,
                                                kernel_size=[1, 1],
@@ -161,6 +164,12 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+<<<<<<< HEAD
+=======
+            # train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            # train_operation = tf.train.AdadeltaOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            # train_operation = tf.train.AdagradOptimizer(self._lr).minimize(loss_pre, name='train_op')
+>>>>>>> f1cd6151a8ed652dd84b96bbee0e90de857dc4c7
 
             # record output
             self._output['prediction'] = prediction.name

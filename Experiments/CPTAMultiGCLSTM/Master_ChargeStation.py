@@ -21,17 +21,16 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--Epoch 5000 '
                  '--Train True '
                  '--lr 1e-4 '
-                 '--Normalize True '
+                 '--Normalize False '
                  '--patience 0.1 '
-                 '--ESlength 50 '
+                 '--ESlength 200 '
                  '--BatchSize 64 '
                  '--Device 0 '
-                 '--CodeVersion VN1 ')
+                 '--CodeVersion VNN0 ')
 
 if __name__ == "__main__":
 
     os.system(shared_params + ' --City Beijing --Group Beijing --K 0 --L 1 --Graph Distance')
     os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Distance')
     os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Correlation')
-    # os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Interaction')
     os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Distance-Correlation')

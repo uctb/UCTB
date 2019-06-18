@@ -1,5 +1,4 @@
 import os
-import nni
 import numpy as np
 
 from UCTB.dataset import NodeTrafficLoader_CPT
@@ -53,6 +52,7 @@ def cpt_amulti_gclstm_param_parser():
 
 
 class SubwayTrafficLoader(NodeTrafficLoader_CPT):
+
     def __init__(self,
                  dataset,
                  city,
@@ -101,11 +101,10 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
 parser = cpt_amulti_gclstm_param_parser()
 args = vars(parser.parse_args())
 
-args.update(nni.get_next_parameter())
 
 model_dir = os.path.join(model_dir_path, args['Group'])
 code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
-                                                      args['K'], args['L'], args['CodeVersion'] + nni.get_sequence_id())
+                                                      args['K'], args['L'], args['CodeVersion'])
 
 # Config data loader
 data_loader = SubwayTrafficLoader(dataset=args['Dataset'], city=args['City'],
@@ -168,13 +167,3 @@ test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_c
                                             threshold=0)
 
 print('Test result', test_error)
-
-val_loss = CPT_AMulti_GCLSTM_Obj.load_event_scalar('val_loss')
-
-best_val_loss = min([e[-1] for e in val_loss])
-
-nni.report_final_result({
-    'default': best_val_loss,
-    'test-rmse': test_error[0],
-    'test-mape': test_error[1]
-})

@@ -7,7 +7,7 @@ from scipy.stats import pearsonr
 
 class GraphBuilder(object):
     @staticmethod
-    def correlation_graph(traffic_data, threshold=0, keep_weight=True):
+    def correlation_graph(traffic_data, threshold=0, keep_weight=False):
         A = np.zeros([traffic_data.shape[1], traffic_data.shape[1]])
         D = np.eye(traffic_data.shape[1])
         for i in range(traffic_data.shape[1]):
@@ -18,7 +18,7 @@ class GraphBuilder(object):
                 # set 0 for nan and negative value
                 if np.isnan(r) or r <= threshold:
                     r = 0
-                if not keep_weight:
+                elif not keep_weight:
                     r = 1
                 A[i, j] = r
             D[i, i] = 1 if np.sum(A[i, :]) == 0 else np.sum(A[i, :])

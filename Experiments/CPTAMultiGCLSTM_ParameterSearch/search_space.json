@@ -1,0 +1,16 @@
+{
+    "K": {"_type":"choice","_value":[1, 2, 3]},
+
+    "GLL": {"_type":"choice","_value":[1, 2]},
+
+    "LSTMUnits": {"_type":"choice","_value":[64, 128, 256]},
+
+    "GALUnits": {"_type":"choice", "_value": [64, 128, 256]},
+
+    "DenseUnits": {"_type":"choice","_value":[32, 64, 128]},
+
+    "TD": {"_type":"uniform","_value":[3000, 5000]},
+
+    "lr": {"_type":"uniform","_value":[0.00005, 0.001]}
+
+}

@@ -1,0 +1,16 @@
+authorName: DiChai
+experimentName: parameter_search_test
+trialConcurrency: 1
+maxExecDuration: 1h
+maxTrialNum: 10
+trainingServicePlatform: local
+# The path to Search Space
+searchSpacePath: search_space.json
+useAnnotation: false
+tuner:
+  builtinTunerName: TPE
+# The path and the running command of trial
+trial:
+  command: python CPT_AMulti_GCLSTM_Obj.py
+  codeDir: .
+  gpuNum: 0

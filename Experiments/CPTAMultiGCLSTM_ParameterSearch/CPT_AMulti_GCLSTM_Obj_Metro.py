@@ -8,6 +8,7 @@ from UCTB.evaluation import metric
 from UCTB.preprocess import is_work_day_chine
 
 from Experiments.utils import model_dir_path
+from tensorboard.backend.event_processing import event_accumulator
 
 
 class SubwayTrafficLoader(NodeTrafficLoader_CPT):
@@ -61,7 +62,7 @@ def cpt_amulti_gclstm_param_parser():
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
     parser.add_argument('--Dataset', default='Metro')
-    parser.add_argument('--City', default='ShanghaiV1')
+    parser.add_argument('--City', default='Chongqing')
     # network parameter
     parser.add_argument('--CT', default='6', type=int)
     parser.add_argument('--PT', default='7', type=int)
@@ -83,7 +84,7 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--TD', default='5000', type=float)
     parser.add_argument('--TI', default='500', type=float)
     # training parameters
-    parser.add_argument('--Epoch', default='1000', type=int)
+    parser.add_argument('--Epoch', default='1', type=int)
     parser.add_argument('--Train', default='True', type=str)
     parser.add_argument('--lr', default='1e-4', type=float)
     parser.add_argument('--ESlength', default='50', type=int)
@@ -153,15 +154,15 @@ CPT_AMulti_GCLSTM_Obj.load(code_version)
 
 # Evaluate
 test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness,
-                                            period_feature=data_loader.test_period,
-                                            trend_feature=data_loader.test_trend,
-                                            laplace_matrix=data_loader.LM,
-                                            target=data_loader.test_y,
-                                            external_feature=data_loader.test_ef,
-                                            cache_volume=int(args.BatchSize),
-                                            metrics=[metric.rmse, metric.mape],
-                                            de_normalizer=de_normalizer,
-                                            threshold=0)
+                                           period_feature=data_loader.test_period,
+                                           trend_feature=data_loader.test_trend,
+                                           laplace_matrix=data_loader.LM,
+                                           target=data_loader.test_y,
+                                           external_feature=data_loader.test_ef,
+                                           cache_volume=int(args.BatchSize),
+                                           metrics=[metric.rmse, metric.mape],
+                                           de_normalizer=de_normalizer,
+                                           threshold=0)
 
 val_loss = CPT_AMulti_GCLSTM_Obj.load_event_scalar()
 

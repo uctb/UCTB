@@ -166,4 +166,11 @@ test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_c
                                             de_normalizer=de_normalizer,
                                             threshold=0)
 
+val_loss_record = CPT_AMulti_GCLSTM_Obj.load_event_scalar(scalar_name='val_loss')
+
+import json
+
+with open(os.path.join(model_dir, code_version + '.json'), 'w') as f:
+    json.dump(args, f)
+
 print('Test result', test_error)

@@ -32,5 +32,5 @@ if __name__ == "__main__":
     # stability test
     test_times = 10
     for i in range(test_times):
-        os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Chengdu --Group Chengdu'
-                                  ' --K 1 --L 1 --Graph Distance-Interaction-Correlation --CodeVersion STA%s' % i)
+        os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City Xian --Group Xian'
+                                  ' --K 1 --L 1 --Graph Distance-Interaction-Correlation --CodeVersion ST%s' % i)

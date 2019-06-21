@@ -22,10 +22,13 @@ class DataSet(object):
         if os.path.isfile(pkl_file_name) is False:
             try:
                 tar_file_name = os.path.join(data_dir, '{}_{}.tar.gz'.format(self.dataset, self.city))
-                print('Downloading data into', data_dir)
-                wget.download('https://github.com/Di-Chai/UCTB_Data/blob/master/%s_%s.tar.gz?raw=true' %
-                              (dataset, city), tar_file_name)
-                print('Download succeed')
+                if os.path.isfile(tar_file_name) is False:
+                    print('Downloading data into', data_dir)
+                    wget.download('https://github.com/Di-Chai/UCTB_Data/blob/master/%s_%s.tar.gz?raw=true' %
+                                  (dataset, city), tar_file_name)
+                    print('Download succeed')
+                else:
+                    print('Found', tar_file_name)
                 tar = tarfile.open(tar_file_name, "r:gz")
                 file_names = tar.getnames()
                 for file_name in file_names:

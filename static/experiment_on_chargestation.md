@@ -1,18 +1,18 @@
-## Experiments on bike traffic-flow prediction
+## Experiments on Charge-Station demand station
 
 - Experiment Setting
 
   - Dataset
 
-    |        Attributes        | **New York City** |   **Chicago**   |     **DC**      |
-    | :----------------------: | :---------------: | :-------------: | :-------------: |
-    |        Time span         |  2013.03-2017.09  | 2013.06-2017.12 | 2013.07-2017.09 |
-    | Number of riding records |    49,669,470     |   13,826,196    |   13,763,675    |
-    |    Number of stations    |        827        |       586       |       531       |
+    |        Attributes        | **Beijing** |
+    | :----------------------: | :---------: |
+    |        Time span         |             |
+    | Number of riding records |             |
+    |    Number of stations    |     629     |
 
   Following shows a map-visualization of bike stations in NYC, the latest built stations have deeper color.
 
-  <img src="../src/image/Bike_NYC_STMAP.PNG">
+  <img src="D:/OneDrive%20-%20%E5%8C%97%E4%BA%AC%E7%80%9A%E6%B5%B7%E6%98%9F%E4%BA%91%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/UCTB/UCTB-Package-Page/src/image/Bike_NYC_STMAP.PNG">
 
   In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life. The remaining station number are 717, 444 and 378 for NYC, Chicago and DC, respectively.
 
@@ -37,18 +37,18 @@
   - DG-GCLSTM Only use distance graph in the model
   - IG-GCLSTM Only use interaction graph in the model
 
-|                       |   NYC   | Chicago |   DC    |
-| :-------------------: | :-----: | :-----: | :-----: |
-|          HM           | 6.79734 | 4.68078 | 3.66747 |
-|         ARIMA         | 5.60477 | 3.79739 | 3.31826 |
-|          HMM          | 5.42030 | 3.79743 | 3.20889 |
-|        XGBoost        | 5.32069 | 3.75124 | 3.14101 |
-|         LSTM          | 5.13307 | 3.69806 | 3.14331 |
-|       CG-GCLSTM       | 4.64375 | 3.38255 | 2.87655 |
-|       DG-GCLSTM       | 4.67169 | 3.51243 | 2.98404 |
-|       IG-GCLSTM       | 4.77809 | 3.45625 | 2.68370 |
-| ST_MGCN (Multi-Graph) | 4.41732 |         |         |
-|     AMulti-GCLSTM     | 4.22640 | 3.02301 | 2.58584 |
+|                       | Beijing |
+| :-------------------: | :-----: |
+|          HM           | 1.13594 |
+|         ARIMA         | 5.60477 |
+|          HMM          | 5.42030 |
+|        XGBoost        | 5.32069 |
+|         LSTM          | 5.13307 |
+|       CG-GCLSTM       | 4.64375 |
+|       DG-GCLSTM       | 4.67169 |
+|       IG-GCLSTM       | 4.77809 |
+| ST_MGCN (Multi-Graph) | 4.41732 |
+|     AMulti-GCLSTM     | 4.22640 |
 
 Add trend and period into feature:
 
@@ -67,16 +67,6 @@ Default C6-P7-T4
 |   IG-GCLSTM   | 3.79187 | 2.97707 | 2.58739 |
 |   CG-GCLSTM   | 3.77422 | 2.98797 | 2.59339 |
 | AMulti-GCLSTM | 3.73464 | 2.79475 | 2.47565 |
-
-Experiment results on a new structure, where closeness, period and trend features are all handled by GCLSTM and merged through an attention mechanism.
-
-|               |   NYC   | Chicago |   DC    |
-| :-----------: | :-----: | :-----: | :-----: |
-|     LSTM      | 3.78497 | 2.79078 | 2.54752 |
-|   DG-GCLSTM   | 3.63207 | 2.71876 | 2.53863 |
-|   IG-GCLSTM   | 3.78816 | 2.70131 | 2.46214 |
-|   CG-GCLSTM   | 3.69656 | 2.79812 | 2.45815 |
-| AMulti-GCLSTM | 3.50475 | 2.65511 | 2.42582 |
 
 - Model training records
 

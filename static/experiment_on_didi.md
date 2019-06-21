@@ -41,6 +41,18 @@
 |     LSTM      | 9.31375  | 12.05271 |
 | AMulti-GCLSTM | 7.20868  | 8.88920  |
 
+#### Adding period and closeness feature into mode
 
+|               |  Xi'an  | Chengdu |
+| :-----------: | :-----: | :-----: |
+|      HM       |         |         |
+|     ARIMA     |         |         |
+|    XGBoost    |         |         |
+|     GBRT      |         |         |
+|     LSTM      | 6.33135 | 6.97385 |
+|   DG-GCLSTM   | 6.50630 | 7.16565 |
+|   IG-GCLSTM   | 6.02866 | 7.20899 |
+|   CG-GCLSTM   | 5.90418 | 7.09994 |
+| AMulti-GCLSTM | 5.94591 | 7.26551 |
 
 <u>[Back To HomePage](../index.html)</u>

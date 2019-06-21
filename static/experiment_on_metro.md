@@ -42,6 +42,19 @@
 |     LSTM      | 239.97653 | 408.09871  |
 | AMulti-GCLSTM | 138.81463 | 251.38817  |
 
+#### Adding period and closeness feature into mode
 
+|               | Chongqing | Shanghai |
+| :-----------: | :-------: | :------: |
+|      HM       | 227.0985  |          |
+|     ARIMA     |           |          |
+|    XGBoost    | 134.9760  |          |
+|     GBRT      | 120.3337  |          |
+|     LSTM      | 124.6012  |          |
+|   DG-GCLSTM   |           |          |
+|   IG-GCLSTM   |           |          |
+|   CG-GCLSTM   |           |          |
+| AMulti-GCLSTM |           |          |
 
 <u>[Back To HomePage](../index.html)</u>
+

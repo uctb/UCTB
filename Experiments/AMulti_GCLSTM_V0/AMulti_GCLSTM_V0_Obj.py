@@ -1,10 +1,59 @@
 import os
+import numpy as np
 
 from UCTB.dataset import NodeTrafficLoader_CPT_GAL
 from UCTB.model import AMulti_GCLSTM_V0
 from UCTB.evaluation import metric
+from UCTB.preprocess.time_utils import is_work_day_chine
+from UCTB.model_unit import GraphBuilder
 
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
+
+
+class SubwayTrafficLoader(NodeTrafficLoader_CPT_GAL):
+    def __init__(self,
+                 dataset,
+                 city,
+                 C_T,
+                 P_T,
+                 T_T,
+                 data_range='All',
+                 train_data_length='All',
+                 test_ratio=0.1,
+                 graph='Correlation',
+                 TD=1000,
+                 TC=0,
+                 TI=500,
+                 workday_parser=is_work_day_chine,
+                 normalize=False,
+                 with_lm=True):
+
+        super(SubwayTrafficLoader, self).__init__(dataset=dataset,
+                                                  city=city,
+                                                  data_range=data_range,
+                                                  train_data_length=train_data_length,
+                                                  test_ratio=test_ratio,
+                                                  graph=graph, TD=TD, TC=TC, TI=TI,
+                                                  C_T=C_T, P_T=P_T, T_T=T_T,
+                                                  workday_parser=workday_parser,
+                                                  normalize=normalize,
+                                                  with_lm=with_lm)
+        if with_lm:
+            LM = []
+            for graph_name in graph.split('-'):
+                if graph_name.lower() == 'neighbor':
+                    LM.append(
+                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
+                if graph_name.lower() == 'line':
+                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
+                if graph_name.lower() == 'transfer':
+                    LM.append(
+                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
+            if len(LM) > 0:
+                if len(self.LM) == 0:
+                    self.LM = np.array(LM, dtype=np.float32)
+                else:
+                    self.LM = np.concatenate((self.LM, LM), axis=0)
 
 
 def cpt_amulti_gclstm_param_parser():
@@ -56,15 +105,15 @@ parser = cpt_amulti_gclstm_param_parser()
 args = parser.parse_args()
 
 model_dir = os.path.join(model_dir_path, args.Group)
-code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in args.Graph.split('-')]),
+code_version = 'AMultiGCLSTM_V0_{}_K{}L{}_{}'.format(''.join([e[0] for e in args.Graph.split('-')]),
                                                       args.K, args.L, args.CodeVersion)
 
 # Config data loader
-data_loader = NodeTrafficLoader_CPT_GAL(dataset=args.Dataset, city=args.City,
-                                        normalize=True if args.Normalize == 'True' else False,
-                                        data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
-                                        C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
-                                        TI=args.TI, TD=args.TD, TC=args.TC, graph=args.Graph, with_lm=True)
+data_loader = SubwayTrafficLoader(dataset=args.Dataset, city=args.City,
+                                  normalize=True if args.Normalize == 'True' else False,
+                                  data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
+                                  C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
+                                  TI=args.TI, TD=args.TD, TC=args.TC, graph=args.Graph, with_lm=True)
 
 de_normalizer = None if args.Normalize == 'False' else data_loader.normalizer.min_max_denormal
 
@@ -91,7 +140,7 @@ CPT_AMulti_GCLSTM_Obj.build()
 print(args.Dataset, args.City, code_version)
 print('Number of trainable variables', CPT_AMulti_GCLSTM_Obj.trainable_vars)
 
-# # Training
+# Training
 if args.Train == 'True':
     CPT_AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
                               period_feature=data_loader.train_period,

@@ -25,7 +25,7 @@ shared_params = ('python AMulti_GCLSTM_V0_Obj.py '
                  '--lr 5e-5 '
                  '--patience 0.1 '
                  '--Normalize True '
-                 '--ESlength 50 '
+                 '--ESlength 300 '
                  '--BatchSize 128 '
                  '--Device 1 ')
 

@@ -4,7 +4,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
+shared_params = ('python AMulti_GCLSTM_V0_Obj.py '
                  '--Dataset DiDi '
                  '--GLL 1 '
                  '--LSTMUnits 64 '

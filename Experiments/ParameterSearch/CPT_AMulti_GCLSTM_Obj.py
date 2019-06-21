@@ -3,7 +3,7 @@ import nni
 import numpy as np
 
 from UCTB.dataset import NodeTrafficLoader_CPT
-from UCTB.model import CPT_AMulti_GCLSTM
+from UCTB.model import AMulti_GCLSTM_V1
 from UCTB.evaluation import metric
 from UCTB.model_unit import GraphBuilder
 from UCTB.preprocess import is_work_day_chine
@@ -118,21 +118,21 @@ data_loader = SubwayTrafficLoader(dataset=args['Dataset'], city=args['City'],
 
 de_normalizer = None if args['Normalize'] == 'False' else data_loader.normalizer.min_max_denormal
 
-CPT_AMulti_GCLSTM_Obj = CPT_AMulti_GCLSTM(num_node=data_loader.station_number,
-                                          num_graph=data_loader.LM.shape[0],
-                                          external_dim=data_loader.external_dim,
-                                          C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
-                                          GCN_K=int(args['K']),
-                                          GCN_layers=int(args['L']),
-                                          GCLSTM_layers=int(args['GLL']),
-                                          gal_units=int(args['GALUnits']),
-                                          gal_num_heads=int(args['GALHeads']),
-                                          num_hidden_units=int(args['LSTMUnits']),
-                                          num_filter_conv1x1=int(args['DenseUnits']),
-                                          lr=float(args['lr']),
-                                          code_version=code_version,
-                                          model_dir=model_dir,
-                                          GPU_DEVICE=args['Device'])
+CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V1(num_node=data_loader.station_number,
+                                         num_graph=data_loader.LM.shape[0],
+                                         external_dim=data_loader.external_dim,
+                                         C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
+                                         GCN_K=int(args['K']),
+                                         GCN_layers=int(args['L']),
+                                         GCLSTM_layers=int(args['GLL']),
+                                         gal_units=int(args['GALUnits']),
+                                         gal_num_heads=int(args['GALHeads']),
+                                         num_hidden_units=int(args['LSTMUnits']),
+                                         num_filter_conv1x1=int(args['DenseUnits']),
+                                         lr=float(args['lr']),
+                                         code_version=code_version,
+                                         model_dir=model_dir,
+                                         GPU_DEVICE=args['Device'])
 
 CPT_AMulti_GCLSTM_Obj.build()
 

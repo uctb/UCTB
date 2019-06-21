@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
+shared_params = ('python AMulti_GCLSTM_V0_Obj.py '
                  '--Dataset ChargeStation '
                  '--CT 6 '
                  '--PT 7 '
@@ -12,8 +12,6 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--LSTMUnits 64 '
                  '--GALUnits 64 '
                  '--GALHeads 2 '
-                 '--PTALUnits 128 '
-                 '--PTALHeads 2 '
                  '--DenseUnits 32 '
                  '--DataRange All '
                  '--TrainDays All '
@@ -21,17 +19,18 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj.py '
                  '--TD 1000 '
                  '--TI 500 '
                  '--Epoch 5000 '
-                 '--Train True '
+                 '--Train False '
                  '--lr 1e-4 '
+                 '--Normalize True '
                  '--patience 0.1 '
-                 '--ESlength 50 '
-                 '--BatchSize 16 '
+                 '--ESlength 200 '
+                 '--BatchSize 64 '
                  '--Device 1 '
                  '--CodeVersion V0 ')
 
 if __name__ == "__main__":
 
-    """
-    Multiple Graphes
-    """
+    os.system(shared_params + ' --City Beijing --Group Beijing --K 0 --L 1 --Graph Distance')
+    os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Distance')
+    os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Correlation')
     os.system(shared_params + ' --City Beijing --Group Beijing --K 1 --L 1 --Graph Distance-Correlation')

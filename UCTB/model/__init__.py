@@ -7,9 +7,9 @@ from .XGBoost import XGBoost
 from .DeepST import DeepST
 from .ST_ResNet import ST_ResNet
 
-from .AMulti_GCLSTM import AMulti_GCLSTM
-from .CPT_AMulti_GCLSTM import CPT_AMulti_GCLSTM
-from .CPT_AMulti_GCLSTM_Simplify import CPT_AMulti_GCLSTM_Simplify
-from .CPT_AMulti_GCLSTM_GAL import CPT_AMulti_GCLSTM_GAL
-from .GACN import GACN
+from .AMulti_GCLSTM_V0 import AMulti_GCLSTM_V0
+from .AMulti_GCLSTM_V1 import AMulti_GCLSTM_V1
+from .AMulti_GCLSTM_V2 import AMulti_GCLSTM_V2
+
+from .GACN_V0 import GACN
 from .ST_MGCN import ST_MGCN

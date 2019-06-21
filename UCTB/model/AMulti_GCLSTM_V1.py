@@ -5,7 +5,7 @@ from ..model_unit import GCLSTMCell
 from ..model_unit import GAL
 
 
-class CPT_AMulti_GCLSTM(BaseModel):
+class AMulti_GCLSTM_V1(BaseModel):
     def __init__(self,
                  num_node,
                  num_graph,
@@ -25,7 +25,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
                  model_dir='model_dir',
                  GPU_DEVICE='0'):
 
-        super(CPT_AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=GPU_DEVICE)
+        super(AMulti_GCLSTM_V1, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=GPU_DEVICE)
         
         self._num_node = num_node
         self._gcn_k = GCN_K
@@ -175,7 +175,7 @@ class CPT_AMulti_GCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_operation.name
 
-        super(CPT_AMulti_GCLSTM, self).build()
+        super(AMulti_GCLSTM_V1, self).build()
 
     # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,

@@ -1,50 +1,50 @@
 import os
 
-from UCTB.dataset import NodeTrafficLoader_CPT
-from UCTB.model import CPT_AMulti_GCLSTM
+from UCTB.dataset import NodeTrafficLoader_CPT_GAL
+from UCTB.model import AMulti_GCLSTM_V0
 from UCTB.evaluation import metric
 
-from Experiments.utils import model_dir_path
+model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
 
 def cpt_amulti_gclstm_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--Dataset', default='ChargeStation')
-    parser.add_argument('--City', default='Beijing')
+    parser.add_argument('--Dataset', default='Metro')
+    parser.add_argument('--City', default='Chongqing')
     # network parameter
     parser.add_argument('--CT', default='6', type=int)
     parser.add_argument('--PT', default='7', type=int)
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Correlation-Interaction')
+    parser.add_argument('--Graph', default='Correlation')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--GALUnits', default='64', type=int)
     parser.add_argument('--GALHeads', default='2', type=int)
     parser.add_argument('--DenseUnits', default='32', type=int)
-    parser.add_argument('--Normalize', default='True', type=str)
     # Training data parameters
+    parser.add_argument('--Normalize', default='True', type=str)
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
     parser.add_argument('--TC', default='0', type=float)
-    parser.add_argument('--TD', default='3000', type=float)
-    parser.add_argument('--TI', default='100', type=float)
+    parser.add_argument('--TD', default='1000', type=float)
+    parser.add_argument('--TI', default='500', type=float)
     # training parameters
     parser.add_argument('--Epoch', default='10000', type=int)
-    parser.add_argument('--Train', default='True', type=str)
+    parser.add_argument('--Train', default='False')
     parser.add_argument('--lr', default='1e-4', type=float)
     parser.add_argument('--ESlength', default='50', type=int)
     parser.add_argument('--patience', default='0.1', type=float)
-    parser.add_argument('--BatchSize', default='32', type=int)
+    parser.add_argument('--BatchSize', default='64', type=int)
     # device parameter
-    parser.add_argument('--Device', default='1', type=str)
+    parser.add_argument('--Device', default='0', type=str)
     # version control
     parser.add_argument('--Group', default='Debug')
-    parser.add_argument('--CodeVersion', default='Xian')
+    parser.add_argument('--CodeVersion', default='V0')
     return parser
 
 
@@ -56,30 +56,29 @@ code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in arg
                                                       args.K, args.L, args.CodeVersion)
 
 # Config data loader
-data_loader = NodeTrafficLoader_CPT(dataset=args.Dataset, city=args.City,
-                                    data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
-                                    C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
-                                    TI=args.TI, TD=args.TD, TC=args.TC,
-                                    normalize=True if args.Normalize == 'True' else False,
-                                    graph=args.Graph, with_lm=True)
+data_loader = NodeTrafficLoader_CPT_GAL(dataset=args.Dataset, city=args.City,
+                                        normalize=True if args.Normalize == 'True' else False,
+                                        data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
+                                        C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
+                                        TI=args.TI, TD=args.TD, TC=args.TC, graph=args.Graph, with_lm=True)
 
 de_normalizer = None if args.Normalize == 'False' else data_loader.normalizer.min_max_denormal
 
-CPT_AMulti_GCLSTM_Obj = CPT_AMulti_GCLSTM(num_node=data_loader.station_number,
-                                          num_graph=data_loader.LM.shape[0],
-                                          external_dim=data_loader.external_dim,
-                                          C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
-                                          GCN_K=int(args.K),
-                                          GCN_layers=int(args.L),
-                                          GCLSTM_layers=int(args.GLL),
-                                          gal_units=int(args.GALUnits),
-                                          gal_num_heads=int(args.GALHeads),
-                                          num_hidden_units=int(args.LSTMUnits),
-                                          num_filter_conv1x1=int(args.DenseUnits),
-                                          lr=float(args.lr),
-                                          code_version=code_version,
-                                          model_dir=model_dir,
-                                          GPU_DEVICE=args.Device)
+CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V0(num_node=data_loader.station_number,
+                                         num_graph=data_loader.LM.shape[0],
+                                         external_dim=data_loader.external_dim,
+                                         C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
+                                         GCN_K=int(args.K),
+                                         GCN_layers=int(args.L),
+                                         GCLSTM_layers=int(args.GLL),
+                                         gal_units=int(args.GALUnits),
+                                         gal_num_heads=int(args.GALHeads),
+                                         num_hidden_units=int(args.LSTMUnits),
+                                         num_filter_conv1x1=int(args.DenseUnits),
+                                         lr=float(args.lr),
+                                         code_version=code_version,
+                                         model_dir=model_dir,
+                                         GPU_DEVICE=args.Device)
 
 CPT_AMulti_GCLSTM_Obj.build()
 

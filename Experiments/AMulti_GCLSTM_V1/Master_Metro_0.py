@@ -16,11 +16,7 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--TD 5000 '
                  # '--TI 500 '
                  '--Epoch 10000 '
-<<<<<<< HEAD
-                 '--Train True '
-=======
                  '--Train False '
->>>>>>> f1cd6151a8ed652dd84b96bbee0e90de857dc4c7
                  '--lr 1e-4 '
                  '--Normalize True '
                  '--patience 0.1 '
@@ -35,7 +31,7 @@ if __name__ == "__main__":
 
     os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City ShanghaiV1 --Group Shanghai'
                               ' --K 0 --L 1 --Graph Distance')
-
+    
     os.system(shared_params + '--CT 6 --PT 7 --TT 4 --City ShanghaiV1 --Group Shanghai'
                               ' --K 1 --L 1 --Graph Distance')
 

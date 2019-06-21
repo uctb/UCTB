@@ -6,7 +6,7 @@ from ..model_unit import GCLSTMCell
 from ..model_unit import GAL
 
 
-class CPT_AMulti_GCLSTM_GAL(BaseModel):
+class AMulti_GCLSTM_V0(BaseModel):
     def __init__(self,
                  num_node,
                  num_graph,
@@ -28,9 +28,9 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
                  model_dir='model_dir',
                  GPU_DEVICE='0'):
 
-        super(CPT_AMulti_GCLSTM_GAL, self).__init__(code_version=code_version, model_dir=model_dir,
-                                                    GPU_DEVICE=GPU_DEVICE)
-        
+        super(AMulti_GCLSTM_V0, self).__init__(code_version=code_version, model_dir=model_dir,
+                                               GPU_DEVICE=GPU_DEVICE)
+
         self._num_node = num_node
         self._gcn_k = GCN_K
         self._gcn_layer = GCN_layers
@@ -129,10 +129,10 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
                 pre_output = tf.layers.conv2d(conv1x1_output0,
-                                            filters=1,
-                                            kernel_size=[1, 1],
-                                            kernel_initializer=tf.contrib.layers.xavier_initializer(),
-                                            kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
+                                              filters=1,
+                                              kernel_size=[1, 1],
+                                              kernel_initializer=tf.contrib.layers.xavier_initializer(),
+                                              kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
                 prediction = tf.reshape(pre_output, [batch_size, self._num_node, 1], name='prediction')
 
@@ -186,7 +186,7 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
             # record train operation
             self._op['train_op'] = train_operation.name
 
-        super(CPT_AMulti_GCLSTM_GAL, self).build()
+        super(AMulti_GCLSTM_V0, self).build()
 
     # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,
@@ -238,7 +238,6 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
                          evaluate_loss_name=evaluate_loss_name,
                          op_names=['train_op'],
                          batch_size=batch_size,
-                         start_epoch=self._global_step,
                          max_epoch=max_epoch,
                          validate_ratio=validate_ratio,
                          early_stop_method=early_stop_method,
@@ -250,6 +249,7 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
                 period_feature=None,
                 trend_feature=None,
                 external_feature=None,
+                de_normalizer=None,
                 cache_volume=64):
 
         feed_dict = self._get_feed_dict(closeness_feature=closeness_feature,
@@ -261,9 +261,12 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
         output = self._predict(feed_dict=feed_dict, output_names=['prediction'], sequence_length=len(closeness_feature),
                                cache_volume=cache_volume)
 
-        return output['prediction']
+        if de_normalizer is None:
+            return output['prediction']
+        else:
+            return de_normalizer(output['prediction'])
 
-    def evaluate(self, closeness_feature, laplace_matrix, target, metrics,
+    def evaluate(self, closeness_feature, laplace_matrix, target, metrics, de_normalizer=None,
                  period_feature=None, trend_feature=None, external_feature=None, cache_volume=64, **kwargs):
 
         prediction = self.predict(closeness_feature=closeness_feature,
@@ -271,5 +274,7 @@ class CPT_AMulti_GCLSTM_GAL(BaseModel):
                                   period_feature=period_feature,
                                   trend_feature=trend_feature,
                                   external_feature=external_feature, cache_volume=cache_volume)
-
-        return [e(prediction=prediction, target=target, **kwargs) for e in metrics]
+        if de_normalizer is not None:
+            return [e(prediction=prediction, target=de_normalizer(target), **kwargs) for e in metrics]
+        else:
+            return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_gacn = ('python V1_GACN.py '
+shared_params_gacn = ('python V3_GACN.py '
                       '--K 1 '
                       '--L 1 '
                       '--Graph Correlation '

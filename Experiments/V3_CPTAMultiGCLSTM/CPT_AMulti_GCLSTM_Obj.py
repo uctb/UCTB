@@ -30,7 +30,7 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='All')
     # Graph parameter
-    parser.add_argument('--TC', default='0.7', type=float)
+    parser.add_argument('--TC', default='0', type=float)
     parser.add_argument('--TD', default='3000', type=float)
     parser.add_argument('--TI', default='100', type=float)
     # training parameters

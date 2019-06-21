@@ -101,7 +101,6 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
 parser = cpt_amulti_gclstm_param_parser()
 args = vars(parser.parse_args())
 
-
 model_dir = os.path.join(model_dir_path, args['Group'])
 code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
                                                       args['K'], args['L'], args['CodeVersion'])
@@ -132,6 +131,11 @@ CPT_AMulti_GCLSTM_Obj = CPT_AMulti_GCLSTM(num_node=data_loader.station_number,
                                           code_version=code_version,
                                           model_dir=model_dir,
                                           GPU_DEVICE=args['Device'])
+
+import json
+
+with open(os.path.join(CPT_AMulti_GCLSTM_Obj._log_dir, 'params.json'), 'w') as f:
+    json.dump(args, f)
 
 CPT_AMulti_GCLSTM_Obj.build()
 

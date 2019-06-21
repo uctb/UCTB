@@ -273,7 +273,9 @@ class AMulti_GCLSTM_V0(BaseModel):
                                   laplace_matrix=laplace_matrix,
                                   period_feature=period_feature,
                                   trend_feature=trend_feature,
+                                  de_normalizer=de_normalizer,
                                   external_feature=external_feature, cache_volume=cache_volume)
+
         if de_normalizer is not None:
             return [e(prediction=prediction, target=de_normalizer(target), **kwargs) for e in metrics]
         else:

@@ -22,19 +22,21 @@ shared_params = ('python AMulti_GCLSTM_V0_Obj.py '
                  # '--TI 500 '
                  '--Epoch 5000 '
                  '--Train True '
-                 '--lr 1e-4 '
+                 '--lr 2e-5 '
                  '--patience 0.1 '
                  '--Normalize True '
                  '--ESlength 50 '
                  '--BatchSize 128 '
-                 '--Device 0 '
-                 '--CodeVersion V0 ')
+                 '--Device 0 ')
 
 if __name__ == "__main__":
 
     """
     Multiple Graphes
     """
-    os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 0 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 1 --L 1 --Graph Distance')
-    os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 1 --L 1 --Graph Correlation')
+    # os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 0 --L 1 --Graph Distance')
+    # os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 1 --L 1 --Graph Distance')
+    # os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 1 --L 1 --Graph Correlation')
+    for i in range(10):
+        os.system(shared_params + ' --City ShanghaiV1 --Group Shanghai --K 1 --L 1 --Graph Distance-Correlation'
+                                  ' --CodeVersion V0_%s' % i)

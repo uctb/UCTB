@@ -22,6 +22,10 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--Graph', default='Correlation')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
+
+    parser.add_argument('--PTALUnits', default='64', type=int)
+    parser.add_argument('--PTALHeads', default='2', type=int)
+
     parser.add_argument('--GALUnits', default='64', type=int)
     parser.add_argument('--GALHeads', default='2', type=int)
     parser.add_argument('--DenseUnits', default='32', type=int)
@@ -73,6 +77,8 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V0(num_node=data_loader.station_number,
                                          GCLSTM_layers=int(args.GLL),
                                          gal_units=int(args.GALUnits),
                                          gal_num_heads=int(args.GALHeads),
+                                         pt_al_units=int(args.PTALUnits),
+                                         pt_al_num_heads=int(args.PTALHeads),
                                          num_hidden_units=int(args.LSTMUnits),
                                          num_filter_conv1x1=int(args.DenseUnits),
                                          lr=float(args.lr),

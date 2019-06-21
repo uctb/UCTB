@@ -153,19 +153,12 @@ class GACN(BaseModel):
         feed_dict = self._get_feed_dict(input=input, laplace_matrix=laplace_matrix, target=target,
                                         external_input=external_input, time_embedding=time_embedding)
 
-        try:
-            self.load(self._code_version)
-            print('Found model in disk')
-        except:
-            print('No model found, start training')
-
         return self._fit(feed_dict=feed_dict,
                          sequence_index='input_series',
                          output_names=[evaluate_loss_name],
                          evaluate_loss_name=evaluate_loss_name,
                          op_names=['train_op'],
                          batch_size=batch_size,
-                         start_epoch=self._global_step,
                          max_epoch=max_epoch,
                          validate_ratio=validate_ratio,
                          early_stop_method=early_stop_method,

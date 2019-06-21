@@ -1,15 +1,8 @@
 authorName: DiChai
-<<<<<<< HEAD
-experimentName: parameter_search_test
-trialConcurrency: 1
-maxExecDuration: 1h
-maxTrialNum: 10
-=======
 experimentName: parameter_search
 trialConcurrency: 2
 maxExecDuration: 24h
 maxTrialNum: 50
->>>>>>> f1cd6151a8ed652dd84b96bbee0e90de857dc4c7
 trainingServicePlatform: local
 # The path to Search Space
 searchSpacePath: search_space.json
@@ -20,8 +13,4 @@ tuner:
 trial:
   command: python CPT_AMulti_GCLSTM_Obj.py
   codeDir: .
-<<<<<<< HEAD
-  gpuNum: 0
-=======
   gpuNum: 1
->>>>>>> f1cd6151a8ed652dd84b96bbee0e90de857dc4c7

@@ -1,0 +1,16 @@
+authorName: DiChai
+experimentName: hm_parameter_search
+trialConcurrency: 8
+maxExecDuration: 24h
+maxTrialNum: 200
+trainingServicePlatform: local
+# The path to Search Space
+searchSpacePath: hm_search_space.json
+useAnnotation: false
+tuner:
+  builtinTunerName: TPE
+# The path and the running command of trial
+trial:
+  command: python CPT_HM.py
+  codeDir: .
+  gpuNum: 0

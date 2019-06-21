@@ -164,12 +164,9 @@ class CPT_AMulti_GCLSTM(BaseModel):
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
-<<<<<<< HEAD
-=======
             # train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.AdadeltaOptimizer(self._lr).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.AdagradOptimizer(self._lr).minimize(loss_pre, name='train_op')
->>>>>>> f1cd6151a8ed652dd84b96bbee0e90de857dc4c7
 
             # record output
             self._output['prediction'] = prediction.name

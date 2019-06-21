@@ -12,7 +12,7 @@ def gacn_param_parser():
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
     parser.add_argument('--Dataset', default='Bike')
-    parser.add_argument('--City', default='Chicago')
+    parser.add_argument('--City', default='DC')
     # network parameter
     parser.add_argument('--T', default='6', type=int)
     parser.add_argument('--K', default='1')
@@ -39,8 +39,8 @@ def gacn_param_parser():
     # device parameter
     parser.add_argument('--Device', default='0', type=str)
     # version control
-    parser.add_argument('--Group', default='Chicago')
-    parser.add_argument('--CodeVersion', default='V0')
+    parser.add_argument('--Group', default='Debug')
+    parser.add_argument('--CodeVersion', default='DC_GACN')
     return parser
 
 

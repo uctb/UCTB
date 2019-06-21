@@ -13,6 +13,9 @@ class HM(object):
         self.p = p
         self.t = t
 
+        if self.c == 0 and self.p == 0 and self.t == 0:
+            raise ValueError('c p t cannot all be zero at the same time')
+
     def predict(self, start_index, sequence_Data, time_fitness):
 
         '''

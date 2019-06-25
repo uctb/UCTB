@@ -147,6 +147,7 @@ if args.Train == 'True':
                               early_stop_method='t-test',
                               early_stop_length=int(args.ESlength),
                               early_stop_patience=float(args.patience),
+                              max_epoch=int(args.Epoch),
                               batch_size=int(args.BatchSize))
 
 CPT_AMulti_GCLSTM_Obj.load(code_version)

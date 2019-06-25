@@ -9,13 +9,13 @@ params = {
     'Dataset': 'Bike',
     'City': 'NYC',
     'CT': 6,
-    'PT': 7,
+    'PT': 0,
     'TT': 0,
     'max_depth': 10,
     'num_boost_round': 150
 }
 
-params.update(nni.get_next_parameter())
+# params.update(nni.get_next_parameter())
 
 data_loader = NodeTrafficLoader_CPT(dataset=params['Dataset'], city=params['City'],
                                     with_lm=False, test_ratio=0.1, normalize=False,
@@ -67,7 +67,7 @@ val_prediction = np.concatenate(val_prediction, axis=-2)
 val_rmse = metric.rmse(val_prediction, data_loader.train_y[-len(data_loader.test_y):], threshold=0)
 test_rmse = metric.rmse(test_prediction, data_loader.test_y, threshold=0)
 
-nni.report_final_result({
-    'default': val_rmse,
-    'test-rmse': test_rmse,
-})
+# nni.report_final_result({
+#     'default': val_rmse,
+#     'test-rmse': test_rmse,
+# })

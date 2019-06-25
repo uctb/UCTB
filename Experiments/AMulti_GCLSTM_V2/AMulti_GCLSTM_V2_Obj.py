@@ -7,7 +7,7 @@ from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_chine, is_work_day_america
 from UCTB.model_unit import GraphBuilder
 
-from Experiments.utils import model_dir_path
+model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
 
 class SubwayTrafficLoader(NodeTrafficLoader_CPT):
@@ -147,6 +147,7 @@ if args.Train == 'True':
                               early_stop_method='t-test',
                               early_stop_length=int(args.ESlength),
                               early_stop_patience=float(args.patience),
+                              max_epoch=int(args.Epoch),
                               batch_size=int(args.BatchSize))
 
 CPT_AMulti_GCLSTM_Obj.load(code_version)

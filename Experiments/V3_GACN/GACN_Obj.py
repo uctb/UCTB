@@ -11,11 +11,11 @@ def gacn_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--Dataset', default='Bike')
-    parser.add_argument('--City', default='DC')
+    parser.add_argument('--Dataset', default='Metro')
+    parser.add_argument('--City', default='ShanghaiV1')
     # network parameter
     parser.add_argument('--T', default='6', type=int)
-    parser.add_argument('--K', default='1')
+    parser.add_argument('--K', default='0')
     parser.add_argument('--L', default='1')
     parser.add_argument('--Graph', default='Correlation')
     parser.add_argument('--GALLayers', default='4', type=int)
@@ -32,15 +32,15 @@ def gacn_param_parser():
     # training parameters
     parser.add_argument('--Epoch', default='5000', type=int)
     parser.add_argument('--Train', default='True')
-    parser.add_argument('--lr', default='5e-5', type=float)
-    parser.add_argument('--ESlength', default='50', type=int)
+    parser.add_argument('--lr', default='1e-4', type=float)
+    parser.add_argument('--ESlength', default='500', type=int)
     parser.add_argument('--patience', default='0.1', type=float)
-    parser.add_argument('--BatchSize', default='16', type=int)
+    parser.add_argument('--BatchSize', default='64', type=int)
     # device parameter
     parser.add_argument('--Device', default='0', type=str)
     # version control
     parser.add_argument('--Group', default='Debug')
-    parser.add_argument('--CodeVersion', default='DC_GACN')
+    parser.add_argument('--CodeVersion', default='Shanghai_GACN2')
     return parser
 
 
@@ -55,7 +55,10 @@ code_version = 'GACN_{}_K{}L{}_{}'.format(''.join([e[0] for e in args.Graph.spli
 # Config data loader
 data_loader = NodeTrafficLoader(dataset=args.Dataset, city=args.City,
                                 data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
+                                normalize=True,
                                 T=args.T, TI=args.TI, TD=args.TD, TC=args.TC, graph=args.Graph, with_lm=True)
+
+de_normalizer = data_loader.normalizer.min_max_denormal
 
 GACN_Obj = GACN(num_node=data_loader.station_number,
                 input_dim=1,
@@ -98,6 +101,7 @@ test_rmse = GACN_Obj.evaluate(input=data_loader.test_x,
                               external_input=data_loader.test_ef,
                               cache_volume=4,
                               metrics=[metric.rmse],
+                              de_normalizer=de_normalizer,
                               threshold=0)
 
 print('Test result', test_rmse)

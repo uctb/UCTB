@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
+shared_params = ('python AMulti_GCLSTM_V2_Obj.py '
                  '--Dataset Metro '
                  '--CT 6 '
                  '--PT 7 '
@@ -18,15 +18,15 @@ shared_params = ('python CPT_AMulti_GCLSTM_Obj_Metro.py '
                  '--TC 0.7 '
                  '--TD 5000 '
                  # '--TI 30 '
-                 '--Epoch 10000 '
+                 '--Epoch 20000 '
                  '--Train True '
                  '--lr 2e-5 '
                  '--Normalize True '
                  '--patience 0.1 '
                  '--ESlength 500 '
                  '--BatchSize 128 '
-                 '--Device 0 '
-                 '--CodeVersion TNT0 ')
+                 '--Device 1 '
+                 '--CodeVersion V2 ')
 
 if __name__ == "__main__":
 

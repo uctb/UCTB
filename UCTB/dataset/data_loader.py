@@ -83,7 +83,7 @@ class NodeTrafficLoader(object):
         if train_data_length.lower() != 'all':
             train_day_length = int(train_data_length)
             self.train_data = self.train_data[-int(train_day_length * self.daily_slots):]
-            train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
+            self.train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
         if T is not None and T > 0:
             target_length = 1

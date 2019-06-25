@@ -176,9 +176,13 @@ class GACN(BaseModel):
         return output['prediction']
 
     def evaluate(self, input, laplace_matrix, target, metrics,
-                 time_embedding=None, external_input=None, cache_volume=64, **kwargs):
+                 time_embedding=None, external_input=None, cache_volume=64, de_normalizer=None, **kwargs):
 
         prediction = self.predict(input, laplace_matrix, time_embedding=time_embedding,
                                   external_input=external_input, cache_volume=cache_volume)
 
-        return [e(prediction=prediction, target=target, **kwargs) for e in metrics]
+        if de_normalizer is not None:
+            return [e(prediction=de_normalizer(prediction),
+                      target=de_normalizer(target), **kwargs) for e in metrics]
+        else:
+            return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

@@ -1,6 +1,6 @@
 authorName: DiChai
 experimentName: xgboost_parameter_search
-trialConcurrency: 8
+trialConcurrency: 2
 maxExecDuration: 24h
 maxTrialNum: 200
 trainingServicePlatform: local

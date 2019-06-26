@@ -66,7 +66,7 @@ class AMulti_GCLSTM_V2(BaseModel):
                 cell_state_list = [cell.zero_state(tf.shape(temporal_data)[0], dtype=tf.float32)
                                    for cell in gc_lstm_cells]
                 for i in range(0, time_length):
-                    output = temporal_data[:, i:i + 1, :, 0]
+                    output = tf.transpose(temporal_data[:, i:i + 1, :, 0], perm=[0, 2, 1])
                     for cell_index in range(len(gc_lstm_cells)):
                         output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
                                                                                         cell_state_list[cell_index])

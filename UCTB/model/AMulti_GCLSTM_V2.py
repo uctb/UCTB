@@ -8,14 +8,14 @@ from ..model_unit import GAL
 class AMulti_GCLSTM_V2(BaseModel):
     def __init__(self,
                  num_node,
-                 num_graph,
                  external_dim,
-                 C_T,
-                 P_T,
-                 T_T,
-                 GCN_K=1,
-                 GCN_layers=1,
-                 GCLSTM_layers=1,
+                 closeness_len,
+                 period_len,
+                 trend_len,
+                 num_graph=1,
+                 gcn_k=(1, ),
+                 gcn_layers=(1, ),
+                 gclstm_layers=1,
                  gal_units=32,
                  gal_num_heads=2,
                  num_hidden_units=64,
@@ -23,25 +23,55 @@ class AMulti_GCLSTM_V2(BaseModel):
                  lr=5e-4,
                  code_version='QuickStart',
                  model_dir='model_dir',
-                 GPU_DEVICE='0'):
+                 gpu_device='0'):
 
-        super(AMulti_GCLSTM_V2, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=GPU_DEVICE)
+        super(AMulti_GCLSTM_V2, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=gpu_device)
         
         self._num_node = num_node
-        self._gcn_k = GCN_K
-        self._gcn_layer = GCN_layers
+        self._gcn_k = gcn_k
+        self._gcn_layer = gcn_layers
         self._gal_units = gal_units
         self._gal_num_heads = gal_num_heads
-        self._gclstm_layers = GCLSTM_layers
+        self._gclstm_layers = gclstm_layers
         self._num_graph = num_graph
         self._external_dim = external_dim
 
-        self._c_t = C_T
-        self._p_t = P_T
-        self._t_t = T_T
+        self._c_t = closeness_len
+        self._p_t = period_len
+        self._t_t = trend_len
         self._num_hidden_unit = num_hidden_units
         self._num_filter_conv1x1 = num_filter_conv1x1
         self._lr = lr
+
+    def dynamic_rnn(self, temporal_data, time_length, graph_index, laplace_matrix, variable_scope_name):
+        with self._graph.as_default():
+            with tf.variable_scope(variable_scope_name, reuse=False):
+                outputs = []
+                if hasattr(self._gcn_k, '__len__'):
+                    if len(self._gcn_k) != self._num_graph:
+                        raise ValueError('Please provide K,L for each graph or set K,L to integer')
+                    gc_lstm_cells = [
+                        GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
+                                   self._num_hidden_unit, state_is_tuple=True,
+                                   initializer=tf.contrib.layers.xavier_initializer())
+                        for _ in range(self._gclstm_layers)]
+                else:
+                    gc_lstm_cells = [
+                        GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
+                                   self._num_hidden_unit, state_is_tuple=True,
+                                   initializer=tf.contrib.layers.xavier_initializer())
+                        for _ in range(self._gclstm_layers)]
+                for cell in gc_lstm_cells:
+                    cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
+                cell_state_list = [cell.zero_state(tf.shape(temporal_data)[0], dtype=tf.float32)
+                                   for cell in gc_lstm_cells]
+                for i in range(0, time_length):
+                    output = temporal_data[:, i:i + 1, :, 0]
+                    for cell_index in range(len(gc_lstm_cells)):
+                        output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
+                                                                                        cell_state_list[cell_index])
+                    outputs.append(output)
+        return outputs
 
     def build(self):
         with self._graph.as_default():
@@ -49,17 +79,17 @@ class AMulti_GCLSTM_V2(BaseModel):
             temporal_features = []
             
             if self._c_t is not None and self._c_t > 0:
-                closeness_feature = tf.placeholder(tf.float32, [None, 1, None, self._c_t], name='closeness_feature')
+                closeness_feature = tf.placeholder(tf.float32, [None, self._c_t, None, 1], name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name
                 temporal_features.append([self._c_t, closeness_feature, 'closeness_feature'])
 
             if self._p_t is not None and self._p_t > 0:
-                period_feature = tf.placeholder(tf.float32, [None, 1, None, self._p_t], name='period_feature')
+                period_feature = tf.placeholder(tf.float32, [None, self._p_t, None, 1], name='period_feature')
                 self._input['period_feature'] = period_feature.name
                 temporal_features.append([self._p_t, period_feature, 'period_feature'])
-            
+
             if self._t_t is not None and self._t_t > 0:
-                trend_feature = tf.placeholder(tf.float32, [None, 1, None, self._t_t], name='trend_feature')
+                trend_feature = tf.placeholder(tf.float32, [None, self._t_t, None, 1], name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name
                 temporal_features.append([self._t_t, trend_feature, 'trend_feature'])
 
@@ -69,36 +99,7 @@ class AMulti_GCLSTM_V2(BaseModel):
                 self._input['target'] = target.name
                 self._input['laplace_matrix'] = laplace_matrix.name
             else:
-                raise ValueError('CT, PT, TT cannot all be zero')
-
-            def dynamic_rnn(target_tensor, time_step, variable_scope_name):
-                with tf.variable_scope(variable_scope_name, reuse=False):
-                    outputs = []
-                    if type(self._gcn_k) is list:
-                        if len(self._gcn_k) != self._num_graph:
-                            raise ValueError('Please provide K,L for each graph or set K,L to integer')
-                        gc_lstm_cells = [
-                            GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
-                                       self._num_hidden_unit, state_is_tuple=True,
-                                       initializer=tf.contrib.layers.xavier_initializer())
-                            for _ in range(self._gclstm_layers)]
-                    else:
-                        gc_lstm_cells = [
-                            GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
-                                       self._num_hidden_unit, state_is_tuple=True,
-                                       initializer=tf.contrib.layers.xavier_initializer())
-                            for _ in range(self._gclstm_layers)]
-                    for cell in gc_lstm_cells:
-                        cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
-                    cell_state_list = [cell.zero_state(tf.shape(target_tensor)[0], dtype=tf.float32)
-                                       for cell in gc_lstm_cells]
-                    for i in range(0, time_step):
-                        output = target_tensor[:, 0, :, i:i + 1]
-                        for cell_index in range(len(gc_lstm_cells)):
-                            output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
-                                                                                            cell_state_list[cell_index])
-                        outputs.append(output)
-                return outputs
+                raise ValueError('closeness_len, period_len, trend_len cannot all be zero')
 
             outputs_last_list = []
 
@@ -108,13 +109,15 @@ class AMulti_GCLSTM_V2(BaseModel):
 
                 for time_step, target_tensor, given_name in temporal_features:
 
-                    outputs = dynamic_rnn(target_tensor, time_step, 'GCLSTM_%s_%s' % (graph_index, given_name))
+                    outputs = self.dynamic_rnn(temporal_data=target_tensor,
+                                               time_length=time_step,
+                                               graph_index=graph_index,
+                                               laplace_matrix=laplace_matrix,
+                                               variable_scope_name='GCLSTM_%s_%s' % (graph_index, given_name))
 
                     outputs_last.append(tf.reshape(outputs[-1], [-1, 1, self._num_hidden_unit]))
 
                 outputs_last_list.append(tf.concat(outputs_last, axis=-1))
-
-                # outputs_last_list.append(tf.concat(outputs_last, axis=-1))
 
             if self._num_graph > 1:
                 # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)

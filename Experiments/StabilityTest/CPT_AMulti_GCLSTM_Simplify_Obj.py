@@ -120,10 +120,10 @@ de_normalizer = None if args['Normalize'] == 'False' else data_loader.normalizer
 CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V2(num_node=data_loader.station_number,
                                          num_graph=data_loader.LM.shape[0],
                                          external_dim=data_loader.external_dim,
-                                         C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
-                                         GCN_K=int(args['K']),
-                                         GCN_layers=int(args['L']),
-                                         GCLSTM_layers=int(args['GLL']),
+                                         closeness_len=int(args['CT']), period_len=int(args['PT']), trend_len=int(args['TT']),
+                                         gcn_k=int(args['K']),
+                                         gcn_layers=int(args['L']),
+                                         gclstm_layers=int(args['GLL']),
                                          gal_units=int(args['GALUnits']),
                                          gal_num_heads=int(args['GALHeads']),
                                          num_hidden_units=int(args['LSTMUnits']),
@@ -131,7 +131,7 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V2(num_node=data_loader.station_number,
                                          lr=float(args['lr']),
                                          code_version=code_version,
                                          model_dir=model_dir,
-                                         GPU_DEVICE=args['Device'])
+                                         gpu_device=args['Device'])
 
 CPT_AMulti_GCLSTM_Obj.build()
 

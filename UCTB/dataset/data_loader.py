@@ -18,11 +18,14 @@ class NodeTrafficLoader(object):
                  data_range='All',
                  train_data_length='All',
                  test_ratio=0.1,
-                 T=6,
+                 closeness_len=6,
+                 period_len=4,
+                 trend_len=7,
+                 target_length=1,
                  graph='Correlation',
-                 TD=1000,
-                 TC=0,
-                 TI=500,
+                 threshold_distance=1000,
+                 threshold_correlation=0,
+                 threshold_interaction=500,
                  normalize=False,
                  workday_parser=is_work_day_america,
                  with_lm=True,
@@ -50,7 +53,7 @@ class NodeTrafficLoader(object):
         # weather
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
-        # day type
+        # Weekday Feature
         external_feature.append(
             [[1 if workday_parser(parse(self.dataset.time_range[1])
                                   + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
@@ -66,7 +69,7 @@ class NodeTrafficLoader(object):
 
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
-
+        
         if test_ratio > 1 or test_ratio < 0:
             raise ValueError('test_ratio ')
         train_test_ratio = [1 - test_ratio, test_ratio]
@@ -85,30 +88,34 @@ class NodeTrafficLoader(object):
             self.train_data = self.train_data[-int(train_day_length * self.daily_slots):]
             self.train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
-        if T is not None and T > 0:
-            target_length = 1
-            move_sample = MoveSample(feature_step=1,
-                                     feature_stride=1,
-                                     feature_length=int(T),
-                                     target_length=target_length)
+        target_length = 1
 
-            self.train_x, self.train_y = move_sample.general_move_sample(self.train_data)
-            self.train_ef = self.train_ef[-len(self.train_x) - target_length: -target_length]
+        # expand the test data
+        expand_start_index = len(self.train_data) -\
+                             max(int(self.daily_slots * period_len),
+                                 int(self.daily_slots * 7 * trend_len)) -\
+                             closeness_len
+        self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
+        self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
 
-            self.test_x, self.test_y = move_sample.general_move_sample(self.test_data)
-            self.test_ef = self.test_ef[-len(self.test_x) - target_length: -target_length]
+        # init move sample obj
+        st_move_sample = ST_MoveSample(closeness_len=closeness_len,
+                                       period_len=period_len,
+                                       trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
 
-            self.train_x = self.train_x.reshape([-1, int(T), self.station_number, 1])
-            self.test_x = self.test_x.reshape([-1, int(T), self.station_number, 1])
+        self.train_closeness, \
+        self.train_period, \
+        self.train_trend, \
+        self.train_y = st_move_sample.move_sample(self.train_data)
 
-            self.train_y = self.train_y.reshape([-1, self.station_number, 1])
-            self.test_y = self.test_y.reshape([-1, self.station_number, 1])
+        self.test_closeness, \
+        self.test_period, \
+        self.test_trend, \
+        self.test_y = st_move_sample.move_sample(self.test_data)
 
-            # time position embedding
-            # TPE 1 : one-hot vector encoding
-            self.tpe_one_hot = np.array([[1 if e1 == e else 0 for e1 in range(int(T))] for e in range(int(T))])
-            # TPE 2 : position index
-            self.tpe_position_index = np.array([[e] for e in range(int(T))])
+        # external feature
+        self.train_ef = self.train_ef[-len(self.train_closeness) - target_length: -target_length]
+        self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]
 
         if with_lm:
 
@@ -136,7 +143,7 @@ class NodeTrafficLoader(object):
                                          key=lambda x: order_parser(x[1][0]), reverse=False)])
 
                     self.LM.append(GraphBuilder.distance_graph(lat_lng_list=lat_lng_list[traffic_data_index],
-                                                               threshold=float(TD)))
+                                                               threshold=float(threshold_distance)))
 
                 if graph_name.lower() == 'interaction':
                     monthly_interaction = self.dataset.node_monthly_interaction[:, traffic_data_index, :][:, :,
@@ -147,11 +154,13 @@ class NodeTrafficLoader(object):
                     annually_interaction = np.sum(monthly_interaction[-12:-1], axis=0)
                     annually_interaction = annually_interaction + annually_interaction.transpose()
 
-                    self.LM.append(GraphBuilder.interaction_graph(annually_interaction, threshold=float(TI)))
+                    self.LM.append(GraphBuilder.interaction_graph(annually_interaction,
+                                                                  threshold=float(threshold_interaction)))
 
                 if graph_name.lower() == 'correlation':
                     self.LM.append(GraphBuilder.correlation_graph(self.train_data[-30 * int(self.daily_slots):],
-                                                                  threshold=float(TC), keep_weight=False))
+                                                                  threshold=float(threshold_correlation),
+                                                                  keep_weight=False))
 
             self.LM = np.array(self.LM, dtype=np.float32)
 
@@ -219,101 +228,3 @@ class NodeTrafficLoader(object):
 
         fig = dict(data=bikeStations, layout=layout)
         plotly.offline.plot(fig, filename=file_name)
-
-
-class NodeTrafficLoader_CPT_GAL(NodeTrafficLoader):
-
-    def __init__(self,
-                 dataset,
-                 city,
-                 C_T,
-                 P_T,
-                 T_T,
-                 data_range='All',
-                 train_data_length='All',
-                 test_ratio=0.1,
-                 graph='Correlation',
-                 TD=1000,
-                 TC=0,
-                 TI=500,
-                 normalize=False,
-                 workday_parser=is_work_day_america,
-                 with_lm=True,
-                 data_dir=None):
-
-        super(NodeTrafficLoader_CPT_GAL, self).__init__(dataset=dataset,
-                                                        city=city,
-                                                        data_range=data_range,
-                                                        train_data_length=train_data_length,
-                                                        test_ratio=test_ratio, T=0,
-                                                        graph=graph, TD=TD, TC=TC, TI=TI,
-                                                        normalize=normalize,
-                                                        workday_parser=workday_parser,
-                                                        with_lm=with_lm,
-                                                        data_dir=data_dir)
-        target_length = 1
-        
-        # expand the test data
-        expand_length = len(self.train_data) - max(int(self.daily_slots*P_T), int(self.daily_slots*7*T_T)) - C_T
-        self.test_data = np.vstack([self.train_data[expand_length:], self.test_data])
-        self.test_ef = np.vstack([self.train_ef[expand_length:], self.test_ef])
-
-        st_move_sample = ST_MoveSample(C_T=C_T, P_T=P_T, T_T=T_T, target_length=1, daily_slots=self.daily_slots)
-
-        self.train_closeness,\
-        self.train_period,\
-        self.train_trend,\
-        self.train_y = st_move_sample.move_sample(self.train_data)
-
-        self.test_closeness,\
-        self.test_period,\
-        self.test_trend,\
-        self.test_y = st_move_sample.move_sample(self.test_data)
-
-        # external feature
-        self.train_ef = self.train_ef[-len(self.train_closeness) - target_length: -target_length]
-        self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]
-
-
-class NodeTrafficLoader_CPT(NodeTrafficLoader_CPT_GAL):
-
-    def __init__(self,
-                 dataset,
-                 city,
-                 C_T,
-                 P_T,
-                 T_T,
-                 data_range='All',
-                 train_data_length='All',
-                 test_ratio=0.1,
-                 graph='Correlation',
-                 TD=1000,
-                 TC=0,
-                 TI=500,
-                 workday_parser=is_work_day_america,
-                 normalize=False,
-                 with_lm=True,
-                 data_dir=None):
-
-        super(NodeTrafficLoader_CPT, self).__init__(dataset,
-                                                    city,
-                                                    C_T, P_T, T_T,
-                                                    data_range=data_range,
-                                                    train_data_length=train_data_length,
-                                                    test_ratio=test_ratio,
-                                                    graph=graph,
-                                                    TD=TD,
-                                                    TC=TC,
-                                                    TI=TI,
-                                                    workday_parser=workday_parser,
-                                                    normalize=normalize,
-                                                    with_lm=with_lm,
-                                                    data_dir=data_dir)
-
-        self.train_closeness = self.train_closeness
-        self.train_period = self.train_period[:, :, :, -1:].transpose([0, 3, 2, 1])
-        self.train_trend = self.train_trend[:, :, :, -1:].transpose([0, 3, 2, 1])
-
-        self.test_closeness = self.test_closeness
-        self.test_period = self.test_period[:, :, :, -1:].transpose([0, 3, 2, 1])
-        self.test_trend = self.test_trend[:, :, :, -1:].transpose([0, 3, 2, 1])

@@ -26,7 +26,8 @@ class MoveSample(object):
     def general_move_sample(self, data):
         feature = []
         target = []
-        for i in range(len(data) - self.feature_length - (self.feature_step-1) * self.feature_stride - self.target_length + 1):
+        for i in range(len(data) - self.feature_length -
+                       (self.feature_step-1)*self.feature_stride - self.target_length + 1):
             feature.append([data[i + step*self.feature_stride: i + step*self.feature_stride + self.feature_length]
                             for step in range(self.feature_step)])
             target.append(data[i + (self.feature_step-1) * self.feature_stride + self.feature_length:\
@@ -36,22 +37,22 @@ class MoveSample(object):
 
 
 class ST_MoveSample(object):
-    def __init__(self, C_T, P_T, T_T, target_length=1, daily_slots=24):
-        self._c_t = C_T
-        self._p_t = P_T
-        self._t_t = T_T
+    def __init__(self, closeness_len, period_len, trend_len, target_length=1, daily_slots=24):
+        self._c_t = closeness_len
+        self._p_t = period_len
+        self._t_t = trend_len
         self._target_length = target_length
         self._daily_slots = daily_slots
 
         # 1 init Move_Sample object
-        self.move_sample_closeness = MoveSample(feature_step=1, feature_stride=1,
-                                                feature_length=self._c_t, target_length=self._target_length)
+        self.move_sample_closeness = MoveSample(feature_step=self._c_t, feature_stride=1,
+                                                feature_length=1, target_length=self._target_length)
 
         self.move_sample_period = MoveSample(feature_step=self._p_t + 1, feature_stride=int(self._daily_slots),
-                                             feature_length=self._c_t + 1, target_length=0)
+                                             feature_length=1, target_length=0)
 
         self.move_sample_trend = MoveSample(feature_step=self._t_t + 1, feature_stride=int(self._daily_slots) * 7,
-                                            feature_length=self._c_t + 1, target_length=0)
+                                            feature_length=1, target_length=0)
 
     def move_sample(self, data):
 
@@ -76,6 +77,7 @@ class ST_MoveSample(object):
         y = np.transpose(y, [0, 2, 1])
 
         return closeness, period, trend, y
+
 
 class SplitData(object):
 

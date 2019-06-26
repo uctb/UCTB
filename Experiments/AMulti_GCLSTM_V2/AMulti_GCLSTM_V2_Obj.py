@@ -1,7 +1,7 @@
 import os
 import numpy as np
 
-from UCTB.dataset import NodeTrafficLoader_CPT
+from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import AMulti_GCLSTM_V2
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_chine, is_work_day_america
@@ -10,20 +10,20 @@ from UCTB.model_unit import GraphBuilder
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
 
-class SubwayTrafficLoader(NodeTrafficLoader_CPT):
+class SubwayTrafficLoader(NodeTrafficLoader):
     def __init__(self,
                  dataset,
                  city,
-                 C_T,
-                 P_T,
-                 T_T,
+                 closeness_len,
+                 period_len,
+                 trend_len,
                  data_range='All',
                  train_data_length='All',
                  test_ratio=0.1,
                  graph='Correlation',
-                 TD=1000,
-                 TC=0,
-                 TI=500,
+                 threshold_distance=1000,
+                 threshold_correlation=0,
+                 threshold_interaction=500,
                  workday_parser=is_work_day_chine,
                  normalize=False,
                  with_lm=True):
@@ -33,8 +33,13 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
                                                   data_range=data_range,
                                                   train_data_length=train_data_length,
                                                   test_ratio=test_ratio,
-                                                  graph=graph, TD=TD, TC=TC, TI=TI,
-                                                  C_T=C_T, P_T=P_T, T_T=T_T,
+                                                  graph=graph,
+                                                  threshold_distance=threshold_distance,
+                                                  threshold_correlation=threshold_correlation,
+                                                  threshold_interaction=threshold_interaction,
+                                                  closeness_len=closeness_len,
+                                                  period_len=period_len,
+                                                  trend_len=trend_len,
                                                   workday_parser=workday_parser,
                                                   normalize=normalize,
                                                   with_lm=with_lm)
@@ -56,7 +61,7 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
                     self.LM = np.concatenate((self.LM, LM), axis=0)
 
 
-def cpt_amulti_gclstm_param_parser():
+def amulti_gclstm_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
@@ -68,7 +73,7 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Correlation-Interaction')
+    parser.add_argument('--Graph', default='Correlation-Distance')
     parser.add_argument('--GLL', default='1', type=int)
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--GALUnits', default='64', type=int)
@@ -93,11 +98,11 @@ def cpt_amulti_gclstm_param_parser():
     parser.add_argument('--Device', default='1', type=str)
     # version control
     parser.add_argument('--Group', default='Debug')
-    parser.add_argument('--CodeVersion', default='Xian')
+    parser.add_argument('--CodeVersion', default='Beijing')
     return parser
 
 
-parser = cpt_amulti_gclstm_param_parser()
+parser = amulti_gclstm_param_parser()
 args = parser.parse_args()
 
 model_dir = os.path.join(model_dir_path, args.Group)
@@ -105,23 +110,27 @@ code_version = 'AMultiGCLSTM_V2_{}_K{}L{}_{}'.format(''.join([e[0] for e in args
                                                       args.K, args.L, args.CodeVersion)
 
 # Config data loader
-data_loader = SubwayTrafficLoader(dataset=args.Dataset, city=args.City,
-                                  data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
-                                  C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
-                                  TI=args.TI, TD=args.TD, TC=args.TC,
-                                  normalize=True if args.Normalize == 'True' else False,
-                                  graph=args.Graph, with_lm=True,
-                                  workday_parser=is_work_day_america if args.Dataset == 'Bike' else is_work_day_chine)
+data_loader = NodeTrafficLoader(dataset=args.Dataset, city=args.City,
+                                data_range=args.DataRange, train_data_length=args.TrainDays, test_ratio=0.1,
+                                closeness_len=int(args.CT),
+                                period_len=int(args.PT),
+                                trend_len=int(args.TT),
+                                threshold_distance=args.TD,
+                                threshold_correlation=args.TC,
+                                threshold_interaction=args.TI,
+                                normalize=True if args.Normalize == 'True' else False,
+                                graph=args.Graph, with_lm=True,
+                                workday_parser=is_work_day_america if args.Dataset == 'Bike' else is_work_day_chine)
 
 de_normalizer = None if args.Normalize == 'False' else data_loader.normalizer.min_max_denormal
 
 CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V2(num_node=data_loader.station_number,
                                          num_graph=data_loader.LM.shape[0],
                                          external_dim=data_loader.external_dim,
-                                         C_T=int(args.CT), P_T=int(args.PT), T_T=int(args.TT),
-                                         GCN_K=int(args.K),
-                                         GCN_layers=int(args.L),
-                                         GCLSTM_layers=int(args.GLL),
+                                         closeness_len=int(args.CT), period_len=int(args.PT), trend_len=int(args.TT),
+                                         gcn_k=int(args.K),
+                                         gcn_layers=int(args.L),
+                                         gclstm_layers=int(args.GLL),
                                          gal_units=int(args.GALUnits),
                                          gal_num_heads=int(args.GALHeads),
                                          num_hidden_units=int(args.LSTMUnits),
@@ -129,7 +138,7 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V2(num_node=data_loader.station_number,
                                          lr=float(args.lr),
                                          code_version=code_version,
                                          model_dir=model_dir,
-                                         GPU_DEVICE=args.Device)
+                                         gpu_device=args.Device)
 
 CPT_AMulti_GCLSTM_Obj.build()
 

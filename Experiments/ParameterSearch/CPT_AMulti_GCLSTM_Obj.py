@@ -2,7 +2,7 @@ import os
 import nni
 import numpy as np
 
-from UCTB.dataset import NodeTrafficLoader_CPT
+from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import AMulti_GCLSTM_V1
 from UCTB.evaluation import metric
 from UCTB.model_unit import GraphBuilder
@@ -52,52 +52,6 @@ def cpt_amulti_gclstm_param_parser():
     return parser
 
 
-class SubwayTrafficLoader(NodeTrafficLoader_CPT):
-    def __init__(self,
-                 dataset,
-                 city,
-                 C_T,
-                 P_T,
-                 T_T,
-                 data_range='All',
-                 train_data_length='All',
-                 test_ratio=0.1,
-                 graph='Correlation',
-                 TD=1000,
-                 TC=0,
-                 TI=500,
-                 workday_parser=is_work_day_chine,
-                 normalize=False,
-                 with_lm=True):
-
-        super(SubwayTrafficLoader, self).__init__(dataset=dataset,
-                                                  city=city,
-                                                  data_range=data_range,
-                                                  train_data_length=train_data_length,
-                                                  test_ratio=test_ratio,
-                                                  graph=graph, TD=TD, TC=TC, TI=TI,
-                                                  C_T=C_T, P_T=P_T, T_T=T_T,
-                                                  workday_parser=workday_parser,
-                                                  normalize=normalize,
-                                                  with_lm=with_lm)
-        if with_lm:
-            LM = []
-            for graph_name in graph.split('-'):
-                if graph_name.lower() == 'neighbor':
-                    LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
-                if graph_name.lower() == 'line':
-                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
-                if graph_name.lower() == 'transfer':
-                    LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
-            if len(LM) > 0:
-                if len(self.LM) == 0:
-                    self.LM = np.array(LM, dtype=np.float32)
-                else:
-                    self.LM = np.concatenate((self.LM, LM), axis=0)
-
-
 parser = cpt_amulti_gclstm_param_parser()
 args = vars(parser.parse_args())
 
@@ -108,7 +62,7 @@ code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in arg
                                                       args['K'], args['L'], args['CodeVersion'] + nni.get_sequence_id())
 
 # Config data loader
-data_loader = SubwayTrafficLoader(dataset=args['Dataset'], city=args['City'],
+data_loader = NodeTrafficLoader(dataset=args['Dataset'], city=args['City'],
                                   data_range=args['DataRange'], train_data_length=args['TrainDays'],
                                   test_ratio=0.1,
                                   C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),

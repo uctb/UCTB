@@ -10,63 +10,12 @@ from UCTB.model_unit import GraphBuilder
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
 
-class SubwayTrafficLoader(NodeTrafficLoader):
-    def __init__(self,
-                 dataset,
-                 city,
-                 closeness_len,
-                 period_len,
-                 trend_len,
-                 data_range='All',
-                 train_data_length='All',
-                 test_ratio=0.1,
-                 graph='Correlation',
-                 threshold_distance=1000,
-                 threshold_correlation=0,
-                 threshold_interaction=500,
-                 workday_parser=is_work_day_chine,
-                 normalize=False,
-                 with_lm=True):
-
-        super(SubwayTrafficLoader, self).__init__(dataset=dataset,
-                                                  city=city,
-                                                  data_range=data_range,
-                                                  train_data_length=train_data_length,
-                                                  test_ratio=test_ratio,
-                                                  graph=graph,
-                                                  threshold_distance=threshold_distance,
-                                                  threshold_correlation=threshold_correlation,
-                                                  threshold_interaction=threshold_interaction,
-                                                  closeness_len=closeness_len,
-                                                  period_len=period_len,
-                                                  trend_len=trend_len,
-                                                  workday_parser=workday_parser,
-                                                  normalize=normalize,
-                                                  with_lm=with_lm)
-        if with_lm:
-            LM = []
-            for graph_name in graph.split('-'):
-                if graph_name.lower() == 'neighbor':
-                    LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
-                if graph_name.lower() == 'line':
-                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
-                if graph_name.lower() == 'transfer':
-                    LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
-            if len(LM) > 0:
-                if len(self.LM) == 0:
-                    self.LM = np.array(LM, dtype=np.float32)
-                else:
-                    self.LM = np.concatenate((self.LM, LM), axis=0)
-
-
 def amulti_gclstm_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
-    parser.add_argument('--Dataset', default='ChargeStation')
-    parser.add_argument('--City', default='Beijing')
+    parser.add_argument('--Dataset', default='Metro')
+    parser.add_argument('--City', default='ShanghaiV1')
     # network parameter
     parser.add_argument('--CT', default='6', type=int)
     parser.add_argument('--PT', default='7', type=int)
@@ -90,15 +39,15 @@ def amulti_gclstm_param_parser():
     # training parameters
     parser.add_argument('--Epoch', default='10000', type=int)
     parser.add_argument('--Train', default='True', type=str)
-    parser.add_argument('--lr', default='1e-4', type=float)
+    parser.add_argument('--lr', default='5e-5', type=float)
     parser.add_argument('--ESlength', default='50', type=int)
     parser.add_argument('--patience', default='0.1', type=float)
-    parser.add_argument('--BatchSize', default='32', type=int)
+    parser.add_argument('--BatchSize', default='16', type=int)
     # device parameter
     parser.add_argument('--Device', default='1', type=str)
     # version control
     parser.add_argument('--Group', default='Debug')
-    parser.add_argument('--CodeVersion', default='Beijing')
+    parser.add_argument('--CodeVersion', default='Shanghai')
     return parser
 
 
@@ -131,8 +80,6 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V2(num_node=data_loader.station_number,
                                          gcn_k=int(args.K),
                                          gcn_layers=int(args.L),
                                          gclstm_layers=int(args.GLL),
-                                         gal_units=int(args.GALUnits),
-                                         gal_num_heads=int(args.GALHeads),
                                          num_hidden_units=int(args.LSTMUnits),
                                          num_filter_conv1x1=int(args.DenseUnits),
                                          lr=float(args.lr),
@@ -147,9 +94,9 @@ print('Number of trainable variables', CPT_AMulti_GCLSTM_Obj.trainable_vars)
 
 # # Training
 if args.Train == 'True':
-    CPT_AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
-                              period_feature=data_loader.train_period,
-                              trend_feature=data_loader.train_trend,
+    CPT_AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness_with_tpe,
+                              period_feature=data_loader.train_period_with_tpe,
+                              trend_feature=data_loader.train_trend_with_tpe,
                               laplace_matrix=data_loader.LM,
                               target=data_loader.train_y,
                               external_feature=data_loader.train_ef,
@@ -162,9 +109,9 @@ if args.Train == 'True':
 CPT_AMulti_GCLSTM_Obj.load(code_version)
 
 # Evaluate
-test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness,
-                                            period_feature=data_loader.test_period,
-                                            trend_feature=data_loader.test_trend,
+test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness_with_tpe,
+                                            period_feature=data_loader.test_period_with_tpe,
+                                            trend_feature=data_loader.test_trend_with_tpe,
                                             laplace_matrix=data_loader.LM,
                                             target=data_loader.test_y,
                                             external_feature=data_loader.test_ef,

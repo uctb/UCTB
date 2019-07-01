@@ -1,16 +1,16 @@
 authorName: DiChai
-experimentName: xgboost_parameter_search
+experimentName: network_search
 trialConcurrency: 2
 maxExecDuration: 24h
-maxTrialNum: 200
+maxTrialNum: 50
 trainingServicePlatform: local
 # The path to Search Space
-searchSpacePath: xgboost_search_space.json
+searchSpacePath: search_space.json
 useAnnotation: false
 tuner:
-  builtinTunerName: TPE
+  builtinTunerName: GridSearch
 # The path and the running command of trial
 trial:
-  command: python CPT_XGBoost.py
+  command: python AMulti_GCLSTM_V3_Obj.py -y metro_shanghai.yml
   codeDir: .
-  gpuNum: 0
+  gpuNum: 1

@@ -114,30 +114,30 @@ class AMulti_GCLSTM_V3(BaseModel):
 
             if self._c_t is not None and self._c_t > 0:
                 if self._st_method == 'gclstm':
-                    closeness_feature = tf.placeholder(tf.float32, [None, self._c_t, None, 1],
+                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._c_t, 1],
                                                        name='closeness_feature')
                 elif self._st_method == 'gal_gcn':
-                    closeness_feature = tf.placeholder(tf.float32, [None, self._c_t, None, 1 + self._tpe_dim],
+                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._c_t, 1 + self._tpe_dim],
                                                        name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name
                 temporal_features.append([self._c_t, closeness_feature, 'closeness_feature'])
 
             if self._p_t is not None and self._p_t > 0:
                 if self._st_method == 'gclstm':
-                    period_feature = tf.placeholder(tf.float32, [None, self._p_t, None, 1],
+                    period_feature = tf.placeholder(tf.float32, [None, None, self._p_t, 1],
                                                     name='period_feature')
                 elif self._st_method == 'gal_gcn':
-                    period_feature = tf.placeholder(tf.float32, [None, self._p_t, None, 1 + self._tpe_dim],
+                    period_feature = tf.placeholder(tf.float32, [None, None, self._p_t, 1 + self._tpe_dim],
                                                     name='period_feature')
                 self._input['period_feature'] = period_feature.name
                 temporal_features.append([self._p_t, period_feature, 'period_feature'])
 
             if self._t_t is not None and self._t_t > 0:
                 if self._st_method == 'gclstm':
-                    trend_feature = tf.placeholder(tf.float32, [None, self._t_t, None, 1],
+                    trend_feature = tf.placeholder(tf.float32, [None, None, self._t_t, 1],
                                                    name='trend_feature')
                 elif self._st_method == 'gal_gcn':
-                    trend_feature = tf.placeholder(tf.float32, [None, self._t_t, None, 1 + self._tpe_dim],
+                    trend_feature = tf.placeholder(tf.float32, [None, None, self._t_t, 1 + self._tpe_dim],
                                                    name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name
                 temporal_features.append([self._t_t, trend_feature, 'trend_feature'])
@@ -170,7 +170,8 @@ class AMulti_GCLSTM_V3(BaseModel):
 
                     elif self._st_method == 'gal_gcn':
 
-                        attention_input = tf.reshape(target_tensor, [-1, time_step, 1 + self._tpe_dim])
+                        attention_input = tf.reshape(tf.transpose(target_tensor, perm=[0, 2, 1, 3]),
+                                                     [-1, time_step, 1 + self._tpe_dim])
                         attention_output_list = []
                         for loop_index in range(self._temporal_gal_layers):
                             with tf.variable_scope('res_temporal_gal_%s' % loop_index, reuse=False):

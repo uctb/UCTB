@@ -1,3 +1,4 @@
+import copy
 import datetime
 import numpy as np
 
@@ -51,7 +52,6 @@ class NodeTrafficLoader(object):
 
         # external feature
         external_feature = []
-        time_embedding = []
         # weather
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
@@ -63,15 +63,13 @@ class NodeTrafficLoader(object):
         hour_feature = [[(parse(self.dataset.time_range[1]) +
                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
-
+        
         external_feature.append(weekday_feature)
         external_feature.append(hour_feature)
         external_feature = np.concatenate(external_feature, axis=-1)
 
-        time_embedding.append(weekday_feature)
-        time_embedding.append(hour_feature)
-        time_embedding = np.concatenate(time_embedding, axis=-1)
-
+        time_embedding = copy.deepcopy(external_feature)
+        
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
         
@@ -109,6 +107,12 @@ class NodeTrafficLoader(object):
                                        period_len=period_len,
                                        trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
 
+        # Not finish yet
+        # if with_tpe:
+        #     self.traffic_data = np.concatenate([self.traffic_data, time_embedding], axis=-1)
+        #
+        # closeness, period, trend, y = st_move_sample.move_sample(self.traffic_data)
+
         self.train_closeness, \
         self.train_period, \
         self.train_trend, \
@@ -135,13 +139,13 @@ class NodeTrafficLoader(object):
             self.test_trend_tpe, \
             _ = st_move_sample.move_sample(self.test_tpe)
 
-            self.train_closeness_tpe = np.tile(np.transpose(self.train_closeness_tpe, [0, 1, 3, 2]), [1, 1, self.station_number, 1])
-            self.train_period_tpe = np.tile(np.transpose(self.train_period_tpe, [0, 1, 3, 2]), [1, 1, self.station_number, 1])
-            self.train_trend_tpe = np.tile(np.transpose(self.train_trend_tpe, [0, 1, 3, 2]), [1, 1, self.station_number, 1])
+            self.train_closeness_tpe = np.tile(np.transpose(self.train_closeness_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            self.train_period_tpe = np.tile(np.transpose(self.train_period_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            self.train_trend_tpe = np.tile(np.transpose(self.train_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
 
-            self.test_closeness_tpe = np.tile(np.transpose(self.test_closeness_tpe, [0, 1, 3, 2]), [1, 1, self.station_number, 1])
-            self.test_period_tpe = np.tile(np.transpose(self.test_period_tpe, [0, 1, 3, 2]), [1, 1, self.station_number, 1])
-            self.test_trend_tpe = np.tile(np.transpose(self.test_trend_tpe, [0, 1, 3, 2]), [1, 1, self.station_number, 1])
+            self.test_closeness_tpe = np.tile(np.transpose(self.test_closeness_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            self.test_period_tpe = np.tile(np.transpose(self.test_period_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            self.test_trend_tpe = np.tile(np.transpose(self.test_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
 
             # concat temporal feature with time position embedding
             self.train_closeness = np.concatenate((self.train_closeness, self.train_closeness_tpe, ), axis=-1)

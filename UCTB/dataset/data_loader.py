@@ -48,7 +48,7 @@ class NodeTrafficLoader(object):
         # traffic feature
         traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
 
-        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], traffic_data_index]
+        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], traffic_data_index].astype(np.float16)
 
         # external feature
         external_feature = []
@@ -66,7 +66,7 @@ class NodeTrafficLoader(object):
         
         external_feature.append(weekday_feature)
         external_feature.append(hour_feature)
-        external_feature = np.concatenate(external_feature, axis=-1)
+        external_feature = np.concatenate(external_feature, axis=-1).astype(np.float16)
 
         time_embedding = copy.deepcopy(external_feature)
         
@@ -148,13 +148,13 @@ class NodeTrafficLoader(object):
             # self.test_trend_tpe = np.tile(np.transpose(self.test_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
 
             # Time position embedding 2
-            self.closeness_tpe = np.array(range(1, closeness_len+1))
+            self.closeness_tpe = np.array(range(1, closeness_len+1), dtype=np.float16)
             self.period_tpe = np.array(range(1 * int(self.daily_slots),
                                         period_len * int(self.daily_slots)+1,
-                                        int(self.daily_slots)))
+                                        int(self.daily_slots)), dtype=np.float16)
             self.trend_tpe = np.array(range(1 * int(self.daily_slots) * 7,
                                        trend_len * int(self.daily_slots) * 7 + 1,
-                                       int(self.daily_slots) * 7))
+                                       int(self.daily_slots) * 7), dtype=np.float16)
 
             self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]), [len(self.train_closeness), self.station_number, 1, 1])
             self.train_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]), [len(self.train_period), self.station_number, 1, 1])
@@ -229,7 +229,7 @@ class NodeTrafficLoader(object):
                     self.LM.append(
                         GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
 
-            self.LM = np.array(self.LM, dtype=np.float32)
+            self.LM = np.array(self.LM, dtype=np.float16)
 
     def st_map(self, zoom=11, style='light'):
 

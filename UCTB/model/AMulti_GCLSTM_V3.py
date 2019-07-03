@@ -65,7 +65,7 @@ class AMulti_GCLSTM_V3(BaseModel):
         self._st_method = st_method
         self._temporal_merge = temporal_merge
         self._graph_merge = graph_merge
-
+        
         self._tpe_dim = tpe_dim
         if st_method == 'gal_gcn':
             assert self._tpe_dim
@@ -76,7 +76,7 @@ class AMulti_GCLSTM_V3(BaseModel):
         self._num_hidden_unit = num_hidden_units
         self._num_filter_conv1x1 = num_filter_conv1x1
         self._lr = lr
-
+    
     def dynamic_rnn(self, temporal_data, time_length, graph_index, laplace_matrix, variable_scope_name):
         with self._graph.as_default():
             with tf.variable_scope(variable_scope_name, reuse=False):
@@ -87,17 +87,17 @@ class AMulti_GCLSTM_V3(BaseModel):
                     gc_lstm_cells = [
                         GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
                                    self._num_hidden_unit, state_is_tuple=True,
-                                   initializer=tf.contrib.layers.xavier_initializer())
+                                   initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float16))
                         for _ in range(self._gclstm_layers)]
                 else:
                     gc_lstm_cells = [
                         GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
                                    self._num_hidden_unit, state_is_tuple=True,
-                                   initializer=tf.contrib.layers.xavier_initializer())
+                                   initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float16))
                         for _ in range(self._gclstm_layers)]
                 for cell in gc_lstm_cells:
                     cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
-                cell_state_list = [cell.zero_state(tf.shape(temporal_data)[0], dtype=tf.float32)
+                cell_state_list = [cell.zero_state(tf.shape(temporal_data)[0], dtype=tf.float16)
                                    for cell in gc_lstm_cells]
                 for i in range(0, time_length):
                     output = temporal_data[:, :, i:i + 1, 0]
@@ -106,7 +106,7 @@ class AMulti_GCLSTM_V3(BaseModel):
                                                                                         cell_state_list[cell_index])
                     outputs.append(output)
         return outputs
-
+    
     def build(self):
         with self._graph.as_default():
 
@@ -114,37 +114,37 @@ class AMulti_GCLSTM_V3(BaseModel):
 
             if self._c_t is not None and self._c_t > 0:
                 if self._st_method == 'gclstm':
-                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._c_t, 1],
+                    closeness_feature = tf.placeholder(tf.float16, [None, None, self._c_t, 1],
                                                        name='closeness_feature')
                 elif self._st_method == 'gal_gcn':
-                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._c_t, 1 + self._tpe_dim],
+                    closeness_feature = tf.placeholder(tf.float16, [None, None, self._c_t, 1 + self._tpe_dim],
                                                        name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name
                 temporal_features.append([self._c_t, closeness_feature, 'closeness_feature'])
 
             if self._p_t is not None and self._p_t > 0:
                 if self._st_method == 'gclstm':
-                    period_feature = tf.placeholder(tf.float32, [None, None, self._p_t, 1],
+                    period_feature = tf.placeholder(tf.float16, [None, None, self._p_t, 1],
                                                     name='period_feature')
                 elif self._st_method == 'gal_gcn':
-                    period_feature = tf.placeholder(tf.float32, [None, None, self._p_t, 1 + self._tpe_dim],
+                    period_feature = tf.placeholder(tf.float16, [None, None, self._p_t, 1 + self._tpe_dim],
                                                     name='period_feature')
                 self._input['period_feature'] = period_feature.name
                 temporal_features.append([self._p_t, period_feature, 'period_feature'])
 
             if self._t_t is not None and self._t_t > 0:
                 if self._st_method == 'gclstm':
-                    trend_feature = tf.placeholder(tf.float32, [None, None, self._t_t, 1],
+                    trend_feature = tf.placeholder(tf.float16, [None, None, self._t_t, 1],
                                                    name='trend_feature')
                 elif self._st_method == 'gal_gcn':
-                    trend_feature = tf.placeholder(tf.float32, [None, None, self._t_t, 1 + self._tpe_dim],
+                    trend_feature = tf.placeholder(tf.float16, [None, None, self._t_t, 1 + self._tpe_dim],
                                                    name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name
                 temporal_features.append([self._t_t, trend_feature, 'trend_feature'])
 
             if len(temporal_features) > 0:
-                target = tf.placeholder(tf.float32, [None, None, 1], name='target')
-                laplace_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None], name='laplace_matrix')
+                target = tf.placeholder(tf.float16, [None, None, 1], name='target')
+                laplace_matrix = tf.placeholder(tf.float16, [self._num_graph, None, None], name='laplace_matrix')
                 self._input['target'] = target.name
                 self._input['laplace_matrix'] = laplace_matrix.name
             else:
@@ -171,7 +171,7 @@ class AMulti_GCLSTM_V3(BaseModel):
                         outputs_temporal.append(st_outputs)
 
                     if self._temporal_merge == 'concat':
-
+                        
                         graph_outputs_list.append(tf.concat(outputs_temporal, axis=-1))
 
                     elif self._temporal_merge == 'gal':
@@ -222,36 +222,36 @@ class AMulti_GCLSTM_V3(BaseModel):
 
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
-                external_input = tf.placeholder(tf.float32, [None, self._external_dim])
+                external_input = tf.placeholder(tf.float16, [None, self._external_dim])
                 self._input['external_input'] = external_input.name
                 external_dense = tf.keras.layers.Dense(units=10)(external_input)
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
                 dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
 
-            conv1x1_output0 = tf.layers.conv2d(dense_inputs,
-                                               filters=self._num_filter_conv1x1,
-                                               kernel_size=[1, 1],
-                                               activation=tf.nn.tanh,
-                                               kernel_initializer=tf.contrib.layers.xavier_initializer(),
-                                               kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
+            conv1x1_output0 = tf.keras.layers.Conv2D(filters=self._num_filter_conv1x1,
+                                                     kernel_size=[1, 1],
+                                                     activation=tf.nn.tanh,
+                                                     kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float16),
+                                                     kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
+                                                     )(dense_inputs)
 
-            conv1x1_output1 = tf.layers.conv2d(conv1x1_output0,
-                                               filters=self._num_filter_conv1x1,
-                                               kernel_size=[1, 1],
-                                               kernel_initializer=tf.contrib.layers.xavier_initializer(),
-                                               kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
+            conv1x1_output1 = tf.keras.layers.Conv2D(filters=self._num_filter_conv1x1,
+                                                     kernel_size=[1, 1],
+                                                     kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float16),
+                                                     kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
+                                                     )(conv1x1_output0)
 
-            pre_output = tf.layers.conv2d(conv1x1_output1,
-                                          filters=1,
-                                          kernel_size=[1, 1],
-                                          kernel_initializer=tf.contrib.layers.xavier_initializer(),
-                                          kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
+            pre_output = tf.keras.layers.Conv2D(filters=1,
+                                                kernel_size=[1, 1],
+                                                kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float16),
+                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4)
+                                                )(conv1x1_output1)
 
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
-            
+
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
-            train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            train_operation = tf.train.AdamOptimizer(self._lr, epsilon=1e-4).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.AdadeltaOptimizer(self._lr).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.AdagradOptimizer(self._lr).minimize(loss_pre, name='train_op')

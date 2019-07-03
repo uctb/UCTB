@@ -148,13 +148,13 @@ class GAL(object):
         num_node = inputs_shape[-2].value
         num_feature = inputs_shape[-1].value
 
-        W = tf.Variable(tf.random_normal([num_feature, units * num_head]))
+        W = tf.Variable(tf.random_normal([num_feature, units * num_head], dtype=tf.float16))
 
         # linear transform
         l_t = tf.matmul(tf.reshape(inputs, [-1, num_feature]), W)
         l_t = tf.reshape(l_t, [-1, num_node, num_head, units])
 
-        a = tf.Variable(tf.random_normal([units * 2, num_head]))
+        a = tf.Variable(tf.random_normal([units * 2, num_head], dtype=tf.float16))
 
         e_multi_head = []
 

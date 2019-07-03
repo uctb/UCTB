@@ -2,7 +2,7 @@ import tensorflow as tf
 
 from ..model_unit import BaseModel
 from ..model_unit import GCLSTMCell
-from ..model_unit import GAL
+from ..model_unit import GAL, GCL
 
 
 class AMulti_GCLSTM_V3(BaseModel):
@@ -100,7 +100,7 @@ class AMulti_GCLSTM_V3(BaseModel):
                 cell_state_list = [cell.zero_state(tf.shape(temporal_data)[0], dtype=tf.float32)
                                    for cell in gc_lstm_cells]
                 for i in range(0, time_length):
-                    output = tf.transpose(temporal_data[:, i:i + 1, :, 0], perm=[0, 2, 1])
+                    output = temporal_data[:, :, i:i + 1, 0]
                     for cell_index in range(len(gc_lstm_cells)):
                         output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
                                                                                         cell_state_list[cell_index])
@@ -154,11 +154,11 @@ class AMulti_GCLSTM_V3(BaseModel):
 
             for graph_index in range(self._num_graph):
 
-                outputs_temporal = []
+                if self._st_method == 'gclstm':
 
-                for time_step, target_tensor, given_name in temporal_features:
+                    outputs_temporal = []
 
-                    if self._st_method == 'gclstm':
+                    for time_step, target_tensor, given_name in temporal_features:
 
                         outputs = self.dynamic_rnn(temporal_data=target_tensor,
                                                    time_length=time_step,
@@ -168,33 +168,37 @@ class AMulti_GCLSTM_V3(BaseModel):
 
                         st_outputs = tf.reshape(outputs[-1], [-1, 1, self._num_hidden_unit])
 
-                    elif self._st_method == 'gal_gcn':
+                        outputs_temporal.append(st_outputs)
 
-                        attention_input = tf.reshape(tf.transpose(target_tensor, perm=[0, 2, 1, 3]),
-                                                     [-1, time_step, 1 + self._tpe_dim])
-                        attention_output_list = []
-                        for loop_index in range(self._temporal_gal_layers):
-                            with tf.variable_scope('res_temporal_gal_%s' % loop_index, reuse=False):
-                                attention_input = GAL.add_residual_ga_layer(attention_input,
-                                                                            num_head=self._temporal_gal_num_heads,
-                                                                            units=self._temporal_gal_units)
-                                attention_output_list.append(attention_input)
+                    if self._temporal_merge == 'concat':
 
-                        st_outputs = tf.reduce_mean(attention_output_list[-1], axis=-2, keepdims=True)
+                        graph_outputs_list.append(tf.concat(outputs_temporal, axis=-1))
 
-                    outputs_temporal.append(st_outputs)
+                    elif self._temporal_merge == 'gal':
 
-                if self._temporal_merge == 'concat':
+                        _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_temporal, axis=-2),
+                                                                units=self._temporal_merge_gal_units,
+                                                                num_head=self._temporal_merge_gal_num_heads)
 
-                    graph_outputs_list.append(tf.concat(outputs_temporal, axis=-1))
+                        graph_outputs_list.append(tf.reduce_mean(gal_output, axis=-2, keepdims=True))
 
-                elif self._temporal_merge == 'gal':
+                elif self._st_method == 'gal_gcn':
 
-                    _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(outputs_temporal, axis=-2),
-                                                            units=self._temporal_merge_gal_units,
-                                                            num_head=self._temporal_merge_gal_num_heads)
+                    attention_input = tf.reshape(tf.concat([e[1] for e in temporal_features], axis=-2),
+                                                 [-1, sum([e[0] for e in temporal_features]), 1 + self._tpe_dim])
+                    attention_output_list = []
+                    for loop_index in range(self._temporal_gal_layers):
+                        with tf.variable_scope('res_temporal_gal_%s' % loop_index, reuse=False):
+                            attention_input = GAL.add_residual_ga_layer(attention_input,
+                                                                        num_head=self._temporal_gal_num_heads,
+                                                                        units=self._temporal_gal_units)
+                            attention_output_list.append(attention_input)
 
-                    graph_outputs_list.append(tf.reduce_mean(gal_output, axis=-2, keepdims=True))
+                    graph_output = GCL.add_gc_layer(tf.reshape(tf.reduce_mean(attention_output_list[-1], axis=-2),
+                                                               [-1, self._num_node, attention_output_list[-1].get_shape()[-1].value]),
+                                                    K=self._gcn_k, laplacian_matrix=laplace_matrix[graph_index])
+
+                    graph_outputs_list.append(tf.reshape(graph_output, [-1, 1, graph_output.get_shape()[-1].value]))
 
             if self._num_graph > 1:
 

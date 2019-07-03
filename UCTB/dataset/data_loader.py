@@ -128,24 +128,41 @@ class NodeTrafficLoader(object):
         self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]
 
         if with_tpe:
-            # Time position embedding
-            self.train_closeness_tpe, \
-            self.train_period_tpe, \
-            self.train_trend_tpe, \
-            _ = st_move_sample.move_sample(self.train_tpe)
+            # Time position embedding 1
+            # self.train_closeness_tpe, \
+            # self.train_period_tpe, \
+            # self.train_trend_tpe, \
+            # _ = st_move_sample.move_sample(self.train_tpe)
+            #
+            # self.test_closeness_tpe, \
+            # self.test_period_tpe, \
+            # self.test_trend_tpe, \
+            # _ = st_move_sample.move_sample(self.test_tpe)
+            #
+            # self.train_closeness_tpe = np.tile(np.transpose(self.train_closeness_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            # self.train_period_tpe = np.tile(np.transpose(self.train_period_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            # self.train_trend_tpe = np.tile(np.transpose(self.train_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            #
+            # self.test_closeness_tpe = np.tile(np.transpose(self.test_closeness_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            # self.test_period_tpe = np.tile(np.transpose(self.test_period_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            # self.test_trend_tpe = np.tile(np.transpose(self.test_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
 
-            self.test_closeness_tpe, \
-            self.test_period_tpe, \
-            self.test_trend_tpe, \
-            _ = st_move_sample.move_sample(self.test_tpe)
+            # Time position embedding 2
+            self.closeness_tpe = np.array(range(1, closeness_len+1))
+            self.period_tpe = np.array(range(1 * int(self.daily_slots),
+                                        period_len * int(self.daily_slots)+1,
+                                        int(self.daily_slots)))
+            self.trend_tpe = np.array(range(1 * int(self.daily_slots) * 7,
+                                       trend_len * int(self.daily_slots) * 7 + 1,
+                                       int(self.daily_slots) * 7))
 
-            self.train_closeness_tpe = np.tile(np.transpose(self.train_closeness_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
-            self.train_period_tpe = np.tile(np.transpose(self.train_period_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
-            self.train_trend_tpe = np.tile(np.transpose(self.train_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]), [len(self.train_closeness), self.station_number, 1, 1])
+            self.train_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]), [len(self.train_period), self.station_number, 1, 1])
+            self.train_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]), [len(self.train_trend), self.station_number, 1, 1])
 
-            self.test_closeness_tpe = np.tile(np.transpose(self.test_closeness_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
-            self.test_period_tpe = np.tile(np.transpose(self.test_period_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
-            self.test_trend_tpe = np.tile(np.transpose(self.test_trend_tpe, [0, 3, 2, 1]), [1, self.station_number, 1, 1])
+            self.test_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]), [len(self.test_closeness), self.station_number, 1, 1])
+            self.test_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]), [len(self.test_period), self.station_number, 1, 1])
+            self.test_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]), [len(self.test_trend), self.station_number, 1, 1])
 
             # concat temporal feature with time position embedding
             self.train_closeness = np.concatenate((self.train_closeness, self.train_closeness_tpe, ), axis=-1)

@@ -71,7 +71,7 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          num_hidden_units=args['num_hidden_units'],
                                          num_filter_conv1x1=args['num_filter_conv1x1'],
                                          # temporal attention parameters
-                                         tpe_dim=data_loader.train_tpe.shape[-1],
+                                         tpe_dim=1,
                                          temporal_gal_units=args['temporal_gal_units'],
                                          temporal_gal_num_heads=args['temporal_gal_num_heads'],
                                          temporal_gal_layers=args['temporal_gal_layers'],
@@ -87,7 +87,8 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          lr=float(args['lr']),
                                          code_version=code_version,
                                          model_dir=model_dir,
-                                         gpu_device=str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
+                                         gpu_device='0')
+                                         # gpu_device=str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
 
 CPT_AMulti_GCLSTM_Obj.build()
 

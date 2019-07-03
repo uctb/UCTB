@@ -44,11 +44,11 @@ st_method: 'gal_gcn'            # gal_gcn
 temporal_merge: 'gal'       # gal
 graph_merge: 'gal'             # concat gal
 
-lr: 2e-5
+lr: 1e-5
 early_stop_length: 500
 early_stop_patience: 0.1
 max_epoch: 20000
-batch_size: 32
+batch_size: 8
 code_version: 'V3'
 group: 'Shanghai'
 gpu_device: '0,1'

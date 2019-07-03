@@ -141,7 +141,7 @@ class GAL(object):
         return alpha
 
     @staticmethod
-    def add_ga_layer_matrix(inputs, units, num_head, activation=tf.nn.leaky_relu):
+    def add_ga_layer_matrix(inputs, units, num_head, activation=tf.nn.tanh):
 
         inputs_shape = inputs.get_shape().with_rank(3)
 
@@ -174,12 +174,12 @@ class GAL(object):
         alpha = tf.concat(e_multi_head, axis=1)
 
         # Averaging
-        gc_output = tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1)
+        gc_output = activation(tf.reduce_mean(tf.matmul(alpha, tf.transpose(l_t, [0, 2, 1, 3])), axis=1))
 
         return alpha, gc_output
 
     @staticmethod
-    def add_residual_ga_layer(inputs, units, num_head, activation=tf.nn.leaky_relu):
+    def add_residual_ga_layer(inputs, units, num_head, activation=tf.nn.tanh):
 
         _, gc_output = GAL.add_ga_layer_matrix(inputs, units, num_head, activation=activation)
 

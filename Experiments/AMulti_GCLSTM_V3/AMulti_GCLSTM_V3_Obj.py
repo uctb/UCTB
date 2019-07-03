@@ -21,23 +21,23 @@ yml_file = parser.parse_args()
 with open(yml_file.y, 'r') as f:
     args = yaml.load(f)
 
-code_version = copy.deepcopy(args)
-
-for key in ['train', 'max_epoch', 'gpu_device', 'code_version']:
-    code_version.pop(key)
-
-code_version = hashlib.md5(str(sorted(args.items(), key=lambda x: x[0], reverse=False)).encode()).hexdigest()
-
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
 if nni_params:
     args.update(nni_params)
 
+#####################################################################
+# Generate code_version
+params_hash = copy.deepcopy(args)
+for key in ['train', 'max_epoch', 'gpu_device', 'code_version']:
+    params_hash.pop(key)
+params_hash = hashlib.md5(str(sorted(params_hash.items(), key=lambda x: x[0], reverse=False)).encode()).hexdigest()
+
 model_dir = os.path.join(model_dir_path, args['group'])
 # code_version = 'AMultiGCLSTM_V3_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['graph'].split('-')]),
 #                                                      args['gcn_k'], args['gcn_layers'], code_version)
 
-code_version = 'AMPS{}'.format(nni_sid)
+code_version = 'AM{}'.format(params_hash)
 
 # Config data loader
 data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
@@ -71,7 +71,7 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          num_hidden_units=args['num_hidden_units'],
                                          num_filter_conv1x1=args['num_filter_conv1x1'],
                                          # temporal attention parameters
-                                         tpe_dim=data_loader.train_tpe.shape[-1],
+                                         tpe_dim=1,
                                          temporal_gal_units=args['temporal_gal_units'],
                                          temporal_gal_num_heads=args['temporal_gal_num_heads'],
                                          temporal_gal_layers=args['temporal_gal_layers'],
@@ -87,8 +87,8 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          lr=float(args['lr']),
                                          code_version=code_version,
                                          model_dir=model_dir,
-                                         # gpu_device='0')
-                                         gpu_device=str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
+                                         gpu_device='0')
+                                         # gpu_device=str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
 
 CPT_AMulti_GCLSTM_Obj.build()
 
@@ -123,6 +123,12 @@ test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_c
                                             de_normalizer=de_normalizer,
                                             threshold=0)
 
+test_prediction = CPT_AMulti_GCLSTM_Obj.predict(closeness_feature=data_loader.test_closeness,
+                                                period_feature=data_loader.test_period,
+                                                trend_feature=data_loader.test_trend,
+                                                external_feature=data_loader.test_ef,
+                                                laplace_matrix=data_loader.LM)
+
 val_loss = CPT_AMulti_GCLSTM_Obj.load_event_scalar('val_loss')
 
 best_val_loss = min([e[-1] for e in val_loss])
@@ -136,3 +142,23 @@ if nni_params:
         'test-rmse': test_error[0],
         'test-mape': test_error[1]
     })
+
+# def show_prediction(prediction, target, station_index, start=0, end=-1):
+#
+#     import matplotlib.pyplot as plt
+#
+#     # fig, axs = plt.subplots(1, 2, figsize=(9, 3))
+#     # axs[0].plot(prediction[start:end, station_index])
+#     # axs[1].plot(target[start:end, station_index])
+#
+#     plt.plot(prediction[start:end, station_index], 'b')
+#     plt.plot(target[start:end, station_index], 'r')
+#
+#     print(metric.rmse(prediction[start:end, station_index], target[start:end, station_index]))
+#
+#     print(prediction[start:end, station_index].max(), target[start:end, station_index].max())
+#     print(prediction[start:end, station_index].min(), target[start:end, station_index].min())
+#
+#     plt.show()
+#
+# show_prediction(test_prediction, data_loader.test_y, station_index=10)

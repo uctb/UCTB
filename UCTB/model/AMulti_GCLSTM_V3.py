@@ -224,7 +224,7 @@ class AMulti_GCLSTM_V3(BaseModel):
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
                 self._input['external_input'] = external_input.name
-                external_dense = tf.layers.dense(inputs=external_input, units=10)
+                external_dense = tf.keras.layers.Dense(units=10)(external_input)
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
                 dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
@@ -249,7 +249,7 @@ class AMulti_GCLSTM_V3(BaseModel):
                                           kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4))
 
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
-
+            
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             train_operation = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
             # train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')

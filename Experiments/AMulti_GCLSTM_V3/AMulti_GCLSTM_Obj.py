@@ -1,10 +1,8 @@
 import os
 import nni
-import copy
 import yaml
 import argparse
 import GPUtil
-import hashlib
 
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import AMulti_GCLSTM_V3
@@ -13,13 +11,18 @@ from UCTB.preprocess.time_utils import is_work_day_chine, is_work_day_america
 
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
+#####################################################################
+# argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-y', default='metro_shanghai.yml')
+parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
+parser.add_argument('-d', '--data', default='metro_shanghai.data.yml')
 
-yml_file = parser.parse_args()
+yml_files = vars(parser.parse_args())
 
-with open(yml_file.y, 'r') as f:
-    args = yaml.load(f)
+args = {}
+for _, yml_file in yml_files.items():
+    with open(yml_file, 'r') as f:
+        args.update(yaml.load(f))
 
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
@@ -28,17 +31,13 @@ if nni_params:
 
 #####################################################################
 # Generate code_version
-params_hash = copy.deepcopy(args)
-for key in ['train', 'max_epoch', 'gpu_device', 'code_version']:
-    params_hash.pop(key)
-params_hash = hashlib.md5(str(sorted(params_hash.items(), key=lambda x: x[0], reverse=False)).encode()).hexdigest()
+if nni_params:
+    args['mark'] += str(nni_sid)
+code_version = 'AMultiGCLSTM_{}_{}_K{}L{}_{}'.format(args['model_version'],
+                                                     ''.join([e[0] for e in args['graph'].split('-')]),
+                                                     args['gcn_k'], args['gcn_layers'], args['mark'])
 
-model_dir = os.path.join(model_dir_path, args['group'])
-# code_version = 'AMultiGCLSTM_V3_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['graph'].split('-')]),
-#                                                      args['gcn_k'], args['gcn_layers'], code_version)
-
-code_version = 'AM{}'.format(params_hash)
-
+#####################################################################
 # Config data loader
 data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 data_range=args['data_range'], train_data_length=args['train_day_length'],
@@ -49,14 +48,14 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 threshold_distance=args['threshold_distance'],
                                 threshold_correlation=args['threshold_correlation'],
                                 threshold_interaction=args['threshold_interaction'],
-                                normalize=True if args['normalize'] == 'True' else False,
+                                normalize=args['normalize'],
                                 graph=args['graph'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
                                 workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_chine)
 
-de_normalizer = None if args['normalize'] == 'False' else data_loader.normalizer.min_max_denormal
+de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
-deviceIDs = GPUtil.getAvailable(order = 'first', limit = 2, maxLoad = 0.3, maxMemory = 0.3,
+deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0.3,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
 CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
@@ -72,9 +71,9 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          num_filter_conv1x1=args['num_filter_conv1x1'],
                                          # temporal attention parameters
                                          tpe_dim=1,
-                                         temporal_gal_units=args['temporal_gal_units'],
-                                         temporal_gal_num_heads=args['temporal_gal_num_heads'],
-                                         temporal_gal_layers=args['temporal_gal_layers'],
+                                         temporal_gal_units=args.get('temporal_gal_units'),
+                                         temporal_gal_num_heads=args.get('temporal_gal_num_heads'),
+                                         temporal_gal_layers=args.get('temporal_gal_layers'),
                                          # merge parameters
                                          graph_merge_gal_units=args['graph_merge_gal_units'],
                                          graph_merge_gal_num_heads=args['graph_merge_gal_num_heads'],
@@ -86,9 +85,9 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          graph_merge=args['graph_merge'],        # concat
                                          lr=float(args['lr']),
                                          code_version=code_version,
-                                         model_dir=model_dir,
-                                         gpu_device='0')
-                                         # gpu_device=str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
+                                         model_dir=os.path.join(model_dir_path, args['group']),
+                                         gpu_device='0' if nni_params is None
+                                         else str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
 
 CPT_AMulti_GCLSTM_Obj.build()
 
@@ -96,7 +95,7 @@ print(args['dataset'], args['city'], code_version)
 print('Number of trainable variables', CPT_AMulti_GCLSTM_Obj.trainable_vars)
 
 # # Training
-if args['train'] == 'True':
+if args['train']:
     CPT_AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
                               period_feature=data_loader.train_period,
                               trend_feature=data_loader.train_trend,
@@ -142,23 +141,3 @@ if nni_params:
         'test-rmse': test_error[0],
         'test-mape': test_error[1]
     })
-
-# def show_prediction(prediction, target, station_index, start=0, end=-1):
-#
-#     import matplotlib.pyplot as plt
-#
-#     # fig, axs = plt.subplots(1, 2, figsize=(9, 3))
-#     # axs[0].plot(prediction[start:end, station_index])
-#     # axs[1].plot(target[start:end, station_index])
-#
-#     plt.plot(prediction[start:end, station_index], 'b')
-#     plt.plot(target[start:end, station_index], 'r')
-#
-#     print(metric.rmse(prediction[start:end, station_index], target[start:end, station_index]))
-#
-#     print(prediction[start:end, station_index].max(), target[start:end, station_index].max())
-#     print(prediction[start:end, station_index].min(), target[start:end, station_index].min())
-#
-#     plt.show()
-#
-# show_prediction(test_prediction, data_loader.test_y, station_index=10)

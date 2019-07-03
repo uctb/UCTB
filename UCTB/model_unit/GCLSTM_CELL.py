@@ -158,7 +158,7 @@ class GCLSTMCell(LayerRNNCell):
 
     def KthChebyPloy(self, k, T_k_1=None, T_k_2=None):
         if k == 0:
-            return linalg_ops.eye(self._num_nodes, dtype=dtypes.float16)
+            return linalg_ops.eye(self._num_nodes, dtype=dtypes.float32)
         elif k == 1:
             return self._laplacian_matrix
         elif k > 1:

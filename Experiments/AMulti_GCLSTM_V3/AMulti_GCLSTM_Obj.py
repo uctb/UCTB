@@ -14,8 +14,8 @@ model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
-parser.add_argument('-d', '--data', default='metro_shanghai.data.yml')
+parser.add_argument('-m', '--model', default='amulti_gclstm_v3.model.yml')
+parser.add_argument('-d', '--data', default='didi_xian.data.yml')
 
 yml_files = vars(parser.parse_args())
 
@@ -58,6 +58,14 @@ de_normalizer = None if args['normalize'] is False else data_loader.normalizer.m
 deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0.3,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
+if len(deviceIDs) == 0:
+    current_device = '-1'
+else:
+    if nni_params:
+        current_device = str(deviceIDs[int(nni_sid) % len(deviceIDs)])
+    else:
+        current_device = deviceIDs[0]
+
 CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          num_graph=data_loader.LM.shape[0],
                                          external_dim=data_loader.external_dim,
@@ -86,8 +94,7 @@ CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          lr=float(args['lr']),
                                          code_version=code_version,
                                          model_dir=os.path.join(model_dir_path, args['group']),
-                                         gpu_device='0' if nni_params is None
-                                         else str(deviceIDs[int(nni_sid) % len(deviceIDs)]))
+                                         gpu_device=current_device)
 
 CPT_AMulti_GCLSTM_Obj.build()
 

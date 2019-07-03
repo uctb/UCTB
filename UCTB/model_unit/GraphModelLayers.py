@@ -148,13 +148,13 @@ class GAL(object):
         num_node = inputs_shape[-2].value
         num_feature = inputs_shape[-1].value
 
-        W = tf.Variable(tf.random_normal([num_feature, units * num_head], dtype=tf.float16))
+        W = tf.Variable(tf.random_normal([num_feature, units * num_head], dtype=tf.float32))
 
         # linear transform
         l_t = tf.matmul(tf.reshape(inputs, [-1, num_feature]), W)
         l_t = tf.reshape(l_t, [-1, num_node, num_head, units])
 
-        a = tf.Variable(tf.random_normal([units * 2, num_head], dtype=tf.float16))
+        a = tf.Variable(tf.random_normal([units * 2, num_head], dtype=tf.float32))
 
         e_multi_head = []
 
@@ -194,7 +194,7 @@ class GCL(object):
     @staticmethod
     def KthChebyPloy(k, num_nodes, laplacian_matrix, T_k_1=None, T_k_2=None):
         if k == 0:
-            return tf.eye(num_nodes)
+            return tf.eye(num_nodes, dtype=tf.float32)
         elif k == 1:
             return laplacian_matrix
         elif k > 1:
@@ -213,7 +213,7 @@ class GCL(object):
         # reshape from [batch, num_node, num_feature] into [num_node, batch*num_feature]
         gc_input = tf.reshape(tf.transpose(inputs, perm=[1, 0, 2]), [num_node, -1])
 
-        theta = tf.Variable(tf.random_normal([K + 1, ]))
+        theta = tf.Variable(tf.random_normal([K + 1, ], dtype=tf.float32))
 
         chebyPly_inputs = []
         T = []

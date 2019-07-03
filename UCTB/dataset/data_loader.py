@@ -156,13 +156,19 @@ class NodeTrafficLoader(object):
                                        trend_len * int(self.daily_slots) * 7 + 1,
                                        int(self.daily_slots) * 7), dtype=np.float16)
 
-            self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]), [len(self.train_closeness), self.station_number, 1, 1])
-            self.train_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]), [len(self.train_period), self.station_number, 1, 1])
-            self.train_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]), [len(self.train_trend), self.station_number, 1, 1])
+            self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
+                                               [len(self.train_closeness), len(traffic_data_index), 1, 1])
+            self.train_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]),
+                                            [len(self.train_period), len(traffic_data_index), 1, 1])
+            self.train_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]),
+                                           [len(self.train_trend), len(traffic_data_index), 1, 1])
 
-            self.test_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]), [len(self.test_closeness), self.station_number, 1, 1])
-            self.test_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]), [len(self.test_period), self.station_number, 1, 1])
-            self.test_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]), [len(self.test_trend), self.station_number, 1, 1])
+            self.test_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
+                                              [len(self.test_closeness), len(traffic_data_index), 1, 1])
+            self.test_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]),
+                                           [len(self.test_period), len(traffic_data_index), 1, 1])
+            self.test_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]),
+                                          [len(self.test_trend), len(traffic_data_index), 1, 1])
 
             # concat temporal feature with time position embedding
             self.train_closeness = np.concatenate((self.train_closeness, self.train_closeness_tpe, ), axis=-1)

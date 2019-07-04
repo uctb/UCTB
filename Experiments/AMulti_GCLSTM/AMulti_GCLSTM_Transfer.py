@@ -13,7 +13,7 @@ from UCTB.preprocess.time_utils import is_work_day_chine, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-d', '--data', default='bike_dc.data.yml')
+parser.add_argument('-d', '--data', default='bike_chicago.data.yml')
 
 yml_files = vars(parser.parse_args())
 

@@ -26,4 +26,4 @@ batch_size: 8
 #gpu_device: 0,1
 
 group: Chongqing
-mark: 0
+mark: 1 # 0

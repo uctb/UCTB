@@ -2,7 +2,7 @@
 
 ## DiDi Chengdu
 
-#### Parameters for bulding graph
+#### Parameters for building graph
 
 | Notation |          explanation           | value |
 | :------: | :----------------------------: | :---: |
@@ -47,7 +47,7 @@
 | 均值、标准差 |                  | 均值 7.03252，标准差 0.03865 |           |
 |   平均耗时   |                  |          0.5h~1.5h           |           |
 
-#### DiDi Xian
+## DiDi Xian
 
 ```json
 {
@@ -99,7 +99,7 @@ AMulti-GCLSTM-V2 多次实验结果，每次实验耗时 0.5h~1.5h
 
 最终结果：Test-RMSE 均值 5.90493，标准差 0.07142
 
-#### Metro Shanghai
+Metro Shanghai
 
 ```json
 {
@@ -148,7 +148,7 @@ AMulti-GCLSTM-V2 多次实验结果，每次实验耗时 6.5h~7.5h
 
 最终结果：Test-RMSE 均值 157.26091，标准差 6.90058
 
-#### ChargeStation Beijing
+## ChargeStation Beijing
 
 ```json
 {

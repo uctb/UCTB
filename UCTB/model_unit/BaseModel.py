@@ -79,41 +79,31 @@ class BaseModel(object):
 
         return {output_names[i]: outputs[i] for i in range(len(output_names))}
 
-    def _fit(self,
-             feed_dict,
-             sequence_index,
-             output_names,
-             op_names,
-             evaluate_loss_name,
-             batch_size=64,
-             max_epoch=10000,
-             validate_ratio=0.1,
-             shuffle_data=True,
-             early_stop_method='t-test',
-             early_stop_length=10,
-             early_stop_patience=0.1,
-             verbose=True,
-             save_model=True):
+    def _get_feed_dict(self, **kwargs):
+        return kwargs
 
-        '''
+    def fit(self, sequence_length, output_names, op_names, evaluate_loss_name,
+            batch_size=64, max_epoch=10000, validate_ratio=0.1, shuffle_data=True,
+            early_stop_method='t-test', early_stop_length=10, early_stop_patience=0.1,
+            verbose=True, save_model=True, **kwargs):
 
-        :param feed_dict: dict, like : {'tensor_name': feed_value}
-        :param sequence_index: str, the name of a sequence data, used to get the sequence length
-                               which is use in mini-batch training
+        """
+        :param sequence_length: int, the sequence length which is use in mini-batch training
         :param output_names: list, [output_tensor1_name, output_tensor1_name, ...]
         :param op_names: list, [operation1_name, operation2_name, ...]
         :param evaluate_loss_name: str, should be on of the output_names, evaluate_loss_name was use in
                                    early-stopping
         :param batch_size: int, default 64, batch size
-        :param start_epoch: int, default 0, will be useful when restoring from a existing model
         :param max_epoch: int, default 10000, max number of epochs
         :param validate_ratio: float, default 0.1, the ration of data that will be used as validation dataset
         :param shuffle_data: bool, default True, whether shuffle data in mini-batch train
         :param early_stop_method: should be 't-test' or 'naive', both method are explained in train.EarlyStopping
         :param early_stop_length: int, must provide when early_stop_method='t-test'
         :param early_stop_patience: int, must provide when early_stop_method='naive'
-        '''
-        
+        :param verbose: Bool, flag to print training information or not
+        :param save_model: Bool, flog to save model or not
+        """
+
         try:
             self.load(self._code_version)
             print('Found model in disk')
@@ -123,7 +113,7 @@ class BaseModel(object):
             else:
                 print('Model not converged, continue at step', self._global_step)
                 start_epoch = self._global_step
-        except:
+        except FileNotFoundError:
             print('No model found, start training')
             start_epoch = 0
 
@@ -138,14 +128,20 @@ class BaseModel(object):
         else:
             print('Running Operation', op_names)
 
+        # Get feed_dict
+        feed_dict = self._get_feed_dict(**kwargs)
+
         # Split data into train-data and validation data
         train_feed_dict, val_feed_dict = SplitData.split_feed_dict(feed_dict,
-                                                                   sequence_length=len(feed_dict[sequence_index]),
-                                                                   ratio_list=[1- validate_ratio, validate_ratio])
+                                                                   sequence_length=sequence_length,
+                                                                   ratio_list=[1 - validate_ratio, validate_ratio])
+
+        train_sequence_length = int(sequence_length*(1-validate_ratio))
+        val_sequence_len = sequence_length - train_sequence_length
 
         # build mini-batch data source on train-data
         train_dict_mini_batch = MiniBatchFeedDict(feed_dict=train_feed_dict,
-                                                  sequence_length=len(train_feed_dict[sequence_index]),
+                                                  sequence_length=train_sequence_length,
                                                   batch_size=batch_size,
                                                   shuffle=shuffle_data)
 
@@ -168,16 +164,17 @@ class BaseModel(object):
                 train_output_list.append(train_output)
 
             # validation
-            val_output = self._predict(feed_dict=val_feed_dict, output_names=output_names,
-                                       sequence_length=len(val_feed_dict[sequence_index]),
-                                       cache_volume=batch_size)
+            val_output = self.predict(**val_feed_dict, output_names=output_names,
+                                      sequence_length=val_sequence_len,
+                                      cache_volume=batch_size)
 
             # Here we only care about the evaluate_loss_value
             evaluate_loss_value = np.mean(val_output[evaluate_loss_name])
 
             # Add Summary
             for name in output_names:
-                self.add_summary(name='train_' + name, value=np.mean([e[name] for e in train_output_list]), global_step=epoch)
+                self.add_summary(name='train_' + name, value=np.mean([e[name] for e in train_output_list]),
+                                 global_step=epoch)
                 self.add_summary(name='val_' + name, value=evaluate_loss_value, global_step=epoch)
                 # print training messages
                 if verbose:
@@ -197,16 +194,18 @@ class BaseModel(object):
                 best_record = evaluate_loss_value
                 self.save(self._code_version, epoch)
 
-    def _predict(self, feed_dict, output_names, sequence_length, cache_volume=64):
+    def predict(self, output_names, sequence_length, cache_volume=64, **kwargs):
 
         '''
-        :param feed_dict: dict, like : {'tensor_name': feed_value}
         :param output_names: list, [output_tensor_name1, output_tensor_name2, ...]
         :param sequence_length: int, the length of sequence, which is use in mini-batch training
         :param cache_volume: int, default 64, we need to set cache_volume if the cache can not hold
                              the whole validation dataset
         :return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, ...}
         '''
+
+        # Get feed_dict
+        feed_dict = self._get_feed_dict(**kwargs)
 
         if cache_volume and sequence_length:
             # storing the prediction result
@@ -243,7 +242,7 @@ class BaseModel(object):
                 return [e.strip('\n') for e in f.readlines()]
         else:
             return []
-    
+
     def save(self, subscript, global_step):
         save_dir_subscript = os.path.join(self._log_dir, subscript)
         # delete if exist

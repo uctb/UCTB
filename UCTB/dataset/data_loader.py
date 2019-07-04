@@ -107,12 +107,6 @@ class NodeTrafficLoader(object):
                                        period_len=period_len,
                                        trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
 
-        # Not finish yet
-        # if with_tpe:
-        #     self.traffic_data = np.concatenate([self.traffic_data, time_embedding], axis=-1)
-        #
-        # closeness, period, trend, y = st_move_sample.move_sample(self.traffic_data)
-
         self.train_closeness, \
         self.train_period, \
         self.train_trend, \
@@ -123,9 +117,12 @@ class NodeTrafficLoader(object):
         self.test_trend, \
         self.test_y = st_move_sample.move_sample(self.test_data)
 
+        self.train_sequence_len = max((len(self.train_closeness), len(self.train_period), len(self.train_trend)))
+        self.test_sequence_len = max((len(self.test_closeness), len(self.test_period), len(self.test_trend)))
+
         # external feature
-        self.train_ef = self.train_ef[-len(self.train_closeness) - target_length: -target_length]
-        self.test_ef = self.test_ef[-len(self.test_closeness) - target_length: -target_length]
+        self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
+        self.test_ef = self.test_ef[-self.test_sequence_len  - target_length: -target_length]
 
         if with_tpe:
             # Time position embedding 1
@@ -150,11 +147,11 @@ class NodeTrafficLoader(object):
             # Time position embedding 2
             self.closeness_tpe = np.array(range(1, closeness_len+1), dtype=np.float16)
             self.period_tpe = np.array(range(1 * int(self.daily_slots),
-                                        period_len * int(self.daily_slots)+1,
-                                        int(self.daily_slots)), dtype=np.float16)
+                                       period_len * int(self.daily_slots)+1,
+                                       int(self.daily_slots)), dtype=np.float16)
             self.trend_tpe = np.array(range(1 * int(self.daily_slots) * 7,
-                                       trend_len * int(self.daily_slots) * 7 + 1,
-                                       int(self.daily_slots) * 7), dtype=np.float16)
+                                      trend_len * int(self.daily_slots) * 7 + 1,
+                                      int(self.daily_slots) * 7), dtype=np.float16)
 
             self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
                                                [len(self.train_closeness), len(traffic_data_index), 1, 1])
@@ -169,6 +166,8 @@ class NodeTrafficLoader(object):
                                            [len(self.test_period), len(traffic_data_index), 1, 1])
             self.test_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]),
                                           [len(self.test_trend), len(traffic_data_index), 1, 1])
+
+            self.tpe_dim = self.train_closeness_tpe.shape[-1]
 
             # concat temporal feature with time position embedding
             self.train_closeness = np.concatenate((self.train_closeness, self.train_closeness_tpe, ), axis=-1)

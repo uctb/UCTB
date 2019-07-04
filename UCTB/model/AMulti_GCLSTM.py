@@ -5,7 +5,7 @@ from ..model_unit import GCLSTMCell
 from ..model_unit import GAL, GCL
 
 
-class AMulti_GCLSTM_V3(BaseModel):
+class AMulti_GCLSTM(BaseModel):
     def __init__(self,
                  num_node,
                  external_dim,
@@ -41,12 +41,15 @@ class AMulti_GCLSTM_V3(BaseModel):
                  temporal_merge='concat',     # gal
                  graph_merge='concat',        # concat
 
+                 # Transfer learning
+                 build_transfer=False,
+
                  lr=1e-4,
                  code_version='QuickStart',
                  model_dir='model_dir',
                  gpu_device='0'):
 
-        super(AMulti_GCLSTM_V3, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=gpu_device)
+        super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=gpu_device)
 
         self._num_node = num_node
         self._gcn_k = gcn_k
@@ -65,7 +68,9 @@ class AMulti_GCLSTM_V3(BaseModel):
         self._st_method = st_method
         self._temporal_merge = temporal_merge
         self._graph_merge = graph_merge
-        
+
+        self._build_transfer = build_transfer
+
         self._tpe_dim = tpe_dim
         if st_method == 'gal_gcn':
             assert self._tpe_dim
@@ -218,12 +223,18 @@ class AMulti_GCLSTM_V3(BaseModel):
 
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
 
-            dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1)
+            dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
+
+            if self._build_transfer:
+                self._output['feature_map'] = dense_inputs.name
+                source_feature_map = tf.placeholder(tf.float32, dense_inputs.shape)
+                self._input['similar_feature_map'] = source_feature_map.name
+                transfer_loss = tf.reduce_mean(tf.abs(source_feature_map - dense_inputs))
 
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
-                self._input['external_input'] = external_input.name
+                self._input['external_feature'] = external_input.name
                 external_dense = tf.keras.layers.Dense(units=10)(external_input)
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
@@ -251,19 +262,22 @@ class AMulti_GCLSTM_V3(BaseModel):
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
-            train_operation = tf.train.AdamOptimizer(self._lr, epsilon=1e-4).minimize(loss_pre, name='train_op')
-            # train_operation = tf.train.GradientDescentOptimizer(self._lr).minimize(loss_pre, name='train_op')
-            # train_operation = tf.train.AdadeltaOptimizer(self._lr).minimize(loss_pre, name='train_op')
-            # train_operation = tf.train.AdagradOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+
+            if self._build_transfer:
+                transfer_loss = 0.5 * transfer_loss + 0.5 * loss_pre
+                transfer_op = tf.train.AdamOptimizer(self._lr).minimize(transfer_loss, name='transfer_op')
+                self._output['transfer_loss'] = transfer_loss.name
+                self._op['transfer_op'] = transfer_op.name
 
             # record output
             self._output['prediction'] = prediction.name
             self._output['loss'] = loss_pre.name
 
             # record train operation
-            self._op['train_op'] = train_operation.name
+            self._op['train_op'] = train_op.name
 
-        super(AMulti_GCLSTM_V3, self).build()
+        super(AMulti_GCLSTM, self).build()
 
     # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,
@@ -279,7 +293,7 @@ class AMulti_GCLSTM_V3(BaseModel):
         if target is not None:
             feed_dict['target'] = target
         if self._external_dim is not None and self._external_dim > 0:
-            feed_dict['external_input'] = external_feature
+            feed_dict['external_feature'] = external_feature
         if self._c_t is not None and self._c_t > 0:
             feed_dict['closeness_feature'] = closeness_feature
         if self._p_t is not None and self._p_t > 0:
@@ -287,79 +301,3 @@ class AMulti_GCLSTM_V3(BaseModel):
         if self._t_t is not None and self._t_t > 0:
             feed_dict['trend_feature'] = trend_feature
         return feed_dict
-
-    # Step 2 : build the fit function using BaseModel._fit
-    def fit(self,
-            laplace_matrix,
-            target,
-            closeness_feature=None,
-            period_feature=None,
-            trend_feature=None,
-            external_feature=None,
-            batch_size=64,
-            max_epoch=10000,
-            validate_ratio=0.1,
-            early_stop_method='t-test',
-            early_stop_length=10,
-            early_stop_patience=0.1):
-
-        evaluate_loss_name = 'loss'
-
-        feed_dict = self._get_feed_dict(closeness_feature=closeness_feature,
-                                        period_feature=period_feature,
-                                        trend_feature=trend_feature,
-                                        laplace_matrix=laplace_matrix,
-                                        target=target, external_feature=external_feature)
-
-        return self._fit(feed_dict=feed_dict,
-                         sequence_index=[e for e in feed_dict if e.endswith('_feature')][-1],
-                         output_names=[evaluate_loss_name],
-                         evaluate_loss_name=evaluate_loss_name,
-                         op_names=['train_op'],
-                         batch_size=batch_size,
-                         max_epoch=max_epoch,
-                         validate_ratio=validate_ratio,
-                         early_stop_method=early_stop_method,
-                         early_stop_length=early_stop_length,
-                         early_stop_patience=early_stop_patience,
-                         verbose=True,
-                         save_model=True)
-
-    def predict(self,
-                laplace_matrix,
-                closeness_feature=None,
-                period_feature=None,
-                trend_feature=None,
-                external_feature=None,
-                de_normalizer=None,
-                cache_volume=64):
-
-        feed_dict = self._get_feed_dict(closeness_feature=closeness_feature,
-                                        period_feature=period_feature,
-                                        trend_feature=trend_feature,
-                                        laplace_matrix=laplace_matrix,
-                                        external_feature=external_feature)
-
-        output = self._predict(feed_dict=feed_dict, output_names=['prediction'], sequence_length=len(closeness_feature),
-                               cache_volume=cache_volume)
-        if de_normalizer is None:
-            return output['prediction']
-        else:
-            return de_normalizer(output['prediction'])
-
-    def evaluate(self, laplace_matrix, target, metrics,
-                 closeness_feature=None, period_feature=None, trend_feature=None, external_feature=None,
-                 de_normalizer=None, cache_volume=64, **kwargs):
-
-        prediction = self.predict(closeness_feature=closeness_feature,
-                                  laplace_matrix=laplace_matrix,
-                                  period_feature=period_feature,
-                                  trend_feature=trend_feature,
-                                  external_feature=external_feature,
-                                  de_normalizer=de_normalizer,
-                                  cache_volume=cache_volume)
-
-        if de_normalizer is not None:
-            return [e(prediction=prediction, target=de_normalizer(target), **kwargs) for e in metrics]
-        else:
-            return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

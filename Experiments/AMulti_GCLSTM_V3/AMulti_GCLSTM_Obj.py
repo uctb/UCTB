@@ -14,8 +14,8 @@ model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v3.model.yml')
-parser.add_argument('-d', '--data', default='didi_xian.data.yml')
+parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
+parser.add_argument('-d', '--data', default='bike_nyc.data.yml')
 
 yml_files = vars(parser.parse_args())
 
@@ -64,7 +64,7 @@ else:
     if nni_params:
         current_device = str(deviceIDs[int(nni_sid) % len(deviceIDs)])
     else:
-        current_device = deviceIDs[0]
+        current_device = str(deviceIDs[0])
 
 CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V3(num_node=data_loader.station_number,
                                          num_graph=data_loader.LM.shape[0],

@@ -3,8 +3,8 @@ dataset: Metro
 city: Chongqing
 
 closeness_len: 6
-period_len: 4
-trend_len: 7
+period_len: 7
+trend_len: 4
 
 graph: Correlation-Line-Distance
 

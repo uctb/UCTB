@@ -2,9 +2,9 @@
 dataset: DiDi
 city: Xian
 
-closeness_len: 6
-period_len: 1
-trend_len: 0
+closeness_len: 0
+period_len: 0
+trend_len: 1
 
 graph: Correlation-Interaction-Distance
 

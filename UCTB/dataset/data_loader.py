@@ -105,19 +105,19 @@ class NodeTrafficLoader(object):
         self.test_tpe = np.vstack([self.train_tpe[expand_start_index:], self.test_tpe])
 
         # init move sample obj
-        st_move_sample = ST_MoveSample(closeness_len=closeness_len,
-                                       period_len=period_len,
-                                       trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
+        self.st_move_sample = ST_MoveSample(closeness_len=closeness_len,
+                                            period_len=period_len,
+                                            trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
 
         self.train_closeness, \
         self.train_period, \
         self.train_trend, \
-        self.train_y = st_move_sample.move_sample(self.train_data)
+        self.train_y = self.st_move_sample.move_sample(self.train_data)
 
         self.test_closeness, \
         self.test_period, \
         self.test_trend, \
-        self.test_y = st_move_sample.move_sample(self.test_data)
+        self.test_y = self.st_move_sample.move_sample(self.test_data)
 
         self.train_sequence_len = max((len(self.train_closeness), len(self.train_period), len(self.train_trend)))
         self.test_sequence_len = max((len(self.test_closeness), len(self.test_period), len(self.test_trend)))

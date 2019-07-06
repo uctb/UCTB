@@ -6,7 +6,7 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import AMulti_GCLSTM_V1
 from UCTB.evaluation import metric
 from UCTB.model_unit import GraphBuilder
-from UCTB.preprocess import is_work_day_chine
+from UCTB.preprocess import is_work_day_china
 
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 

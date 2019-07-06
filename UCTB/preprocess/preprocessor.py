@@ -62,29 +62,19 @@ class ST_MoveSample(object):
         trend, _ = self.move_sample_trend.general_move_sample(data)
 
         # 3 remove the front part
-        closeness = closeness[-min(len(period), len(trend)):]
-        y = y[-min(len(period), len(trend)):]
-        period = period[-min(len(period), len(trend)):]
-        trend = trend[-min(len(period), len(trend)):]
+        min_length = min(len(closeness), len(period), len(trend))
+        closeness = closeness[-min_length:]
+        y = y[-min_length:]
+        period = period[-min_length:]
+        trend = trend[-min_length:]
 
         # 4 remove tail of period and trend
         period = period[:, :-1, :, :]
         trend = trend[:, :-1, :, :]
 
-        if self._c_t and self._c_t > 0:
-            closeness = np.transpose(closeness, [0, 3, 1, 2])
-        else:
-            closeness = np.array([])
-
-        if self._p_t and self._p_t > 0:
-            period = np.transpose(period, [0, 3, 1, 2])
-        else:
-            period = np.array([])
-
-        if self._t_t and self._t_t > 0:
-            trend = np.transpose(trend, [0, 3, 1, 2])
-        else:
-            period = np.array([])
+        closeness = np.transpose(closeness, [0, 3, 1, 2])
+        period = np.transpose(period, [0, 3, 1, 2])
+        trend = np.transpose(trend, [0, 3, 1, 2])
 
         y = np.transpose(y, [0, 2, 1])
 

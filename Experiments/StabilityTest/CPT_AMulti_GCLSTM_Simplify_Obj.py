@@ -5,7 +5,7 @@ from UCTB.dataset import NodeTrafficLoader_CPT
 from UCTB.model import AMulti_GCLSTM_V2
 from UCTB.evaluation import metric
 from UCTB.model_unit import GraphBuilder
-from UCTB.preprocess import is_work_day_chine
+from UCTB.preprocess import is_work_day_china
 
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
@@ -66,7 +66,7 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
                  TD=1000,
                  TC=0,
                  TI=500,
-                 workday_parser=is_work_day_chine,
+                 workday_parser=is_work_day_china,
                  normalize=False,
                  with_lm=True):
 

@@ -1,13 +1,13 @@
 import numpy as np
-from UCTB.dataset import NodeTrafficLoader_CPT
+from UCTB.dataset import NodeTrafficLoader
 from sklearn.ensemble import GradientBoostingRegressor
 from UCTB.evaluation import metric
 
 dataset = 'ChargeStation'
 city = 'Beijing'
 
-data_loader = NodeTrafficLoader_CPT(dataset=dataset, city=city, with_lm=False,
-                                    C_T=5, P_T=3, T_T=4, test_ratio=0.1, normalize=False)
+data_loader = NodeTrafficLoader(dataset=dataset, city=city, with_lm=False,
+                                closeness_len=5, period_len=3, trend_len=4, test_ratio=0.1, normalize=False)
 
 prediction = []
 

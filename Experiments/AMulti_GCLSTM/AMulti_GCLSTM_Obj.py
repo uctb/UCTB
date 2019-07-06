@@ -7,13 +7,13 @@ import GPUtil
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import AMulti_GCLSTM
 from UCTB.evaluation import metric
-from UCTB.preprocess.time_utils import is_work_day_chine, is_work_day_america
+from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v3.model.yml')
-parser.add_argument('-d', '--data', default='metro_shanghai.data.yml')
+parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
+parser.add_argument('-d', '--data', default='didi_xian.data.yml')
 
 yml_files = vars(parser.parse_args())
 
@@ -39,7 +39,7 @@ model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################
 # Config data loader
 data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
-                                data_range=args['data_range'], train_data_length=args['train_day_length'],
+                                data_range=args['data_range'], train_data_length=args['train_data_length'],
                                 test_ratio=0.1,
                                 closeness_len=args['closeness_len'],
                                 period_len=args['period_len'],
@@ -50,7 +50,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 normalize=args['normalize'],
                                 graph=args['graph'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
-                                workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_chine)
+                                workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china)
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
@@ -77,7 +77,7 @@ amulti_gclstm_obj = AMulti_GCLSTM(num_node=data_loader.station_number,
                                   num_hidden_units=args['num_hidden_units'],
                                   num_filter_conv1x1=args['num_filter_conv1x1'],
                                   # temporal attention parameters
-                                  tpe_dim=data_loader.tpe_dim,
+                                  tpe_dim=None if hasattr(args, 'tpe_dim') is False else args.tpe_dim,
                                   temporal_gal_units=args.get('temporal_gal_units'),
                                   temporal_gal_num_heads=args.get('temporal_gal_num_heads'),
                                   temporal_gal_layers=args.get('temporal_gal_layers'),
@@ -92,7 +92,7 @@ amulti_gclstm_obj = AMulti_GCLSTM(num_node=data_loader.station_number,
                                   graph_merge=args['graph_merge'],  # concat
                                   lr=float(args['lr']),
                                   code_version=code_version,
-                                  model_dir=os.path.join(model_dir_path, args['group']),
+                                  model_dir=model_dir_path,
                                   gpu_device=current_device)
 
 amulti_gclstm_obj.build()

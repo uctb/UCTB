@@ -9,7 +9,7 @@ trend_len: 4
 graph: Correlation
 
 data_range: all
-train_day_length: all
+train_data_length: '50' # all
 
 threshold_distance: 1000
 threshold_correlation: 0
@@ -19,10 +19,10 @@ normalize: True
 train: True
 
 lr: 0.00005
-early_stop_length: 500
+early_stop_length: 30 # 500
 early_stop_patience: 0.1
-max_epoch: 20000
+max_epoch: 5
 batch_size: 128
 
 group: NYC
-mark: 0
+mark: LD # 0

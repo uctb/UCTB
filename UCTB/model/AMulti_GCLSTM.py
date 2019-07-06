@@ -47,7 +47,7 @@ class AMulti_GCLSTM(BaseModel):
                  lr=1e-4,
                  code_version='QuickStart',
                  model_dir='model_dir',
-                 gpu_device='0'):
+                 gpu_device='0', **kwargs):
 
         super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=gpu_device)
 

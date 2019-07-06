@@ -9,7 +9,7 @@ trend_len: 4
 graph: Correlation-Interaction-Distance
 
 data_range: all
-train_day_length: all
+train_data_length: all
 
 threshold_distance: 7500
 threshold_correlation: 0.65

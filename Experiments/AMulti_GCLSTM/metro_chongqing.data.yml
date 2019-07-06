@@ -3,13 +3,13 @@ dataset: Metro
 city: Chongqing
 
 closeness_len: 6
-period_len: 7
-trend_len: 4
+period_len: 0
+trend_len: 0
 
 graph: Correlation-Line-Distance
 
 data_range: all
-train_day_length: all
+train_data_length: all
 
 threshold_distance: 5000
 threshold_correlation: 0.7

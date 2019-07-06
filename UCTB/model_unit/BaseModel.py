@@ -190,7 +190,7 @@ class BaseModel(object):
                 break
 
             # save the model if evaluate_loss_value is smaller than best_record
-            if best_record is None or evaluate_loss_value < best_record and save_model:
+            if (best_record is None or evaluate_loss_value < best_record) and save_model:
                 best_record = evaluate_loss_value
                 self.save(self._code_version, epoch)
 

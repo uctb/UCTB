@@ -17,7 +17,7 @@ def is_work_day_america(date):
         return False
 
 
-def is_work_day_chine(date):
+def is_work_day_china(date):
     if type(date) is str:
         date = parse(date)
     return is_workday(date)

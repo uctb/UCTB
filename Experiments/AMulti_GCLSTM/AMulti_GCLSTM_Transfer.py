@@ -1,60 +1,53 @@
 import os
-import nni
 import yaml
 import argparse
 import GPUtil
+import numpy as np
 
-from UCTB.dataset import NodeTrafficLoader
+from UCTB.dataset import TransferDataLoader, NodeTrafficLoader
 from UCTB.model import AMulti_GCLSTM
 from UCTB.evaluation import metric
-from UCTB.preprocess.time_utils import is_work_day_chine, is_work_day_america
 
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-d', '--data', default='bike_chicago.data.yml')
+parser.add_argument('-sd', '--source_data', default='bike_nyc.data.yml')
+parser.add_argument('-td', '--target_data', default='bike_dc.data.yml')
 
 yml_files = vars(parser.parse_args())
 
-args = {}
-for _, yml_file in yml_files.items():
-    with open(yml_file, 'r') as f:
-        args.update(yaml.load(f))
+with open(yml_files['model'], 'r') as f:
+    model_params = yaml.load(f)
 
-nni_params = nni.get_next_parameter()
-nni_sid = nni.get_sequence_id()
-if nni_params:
-    args.update(nni_params)
+with open(yml_files['source_data'], 'r') as f:
+    sd_params = yaml.load(f)
+
+with open(yml_files['target_data'], 'r') as f:
+    td_params = yaml.load(f)
+
+assert sd_params['closeness_len'] == td_params['closeness_len']
+assert sd_params['period_len'] == td_params['period_len']
+assert sd_params['trend_len'] == td_params['trend_len']
 
 #####################################################################
 # Generate code_version
-if nni_params:
-    args['mark'] += str(nni_sid)
-code_version = 'AMultiGCLSTM_{}_{}_K{}L{}_{}'.format(args['model_version'],
-                                                     ''.join([e[0] for e in args['graph'].split('-')]),
-                                                     args['gcn_k'], args['gcn_layers'], args['mark'])
+group = 'TransferLearning'
+code_version = 'AMultiGCLSTM_{}_{}_{}'.format(yml_files['source_data'].split('.')[0],
+                                              yml_files['target_data'].split('.')[0], 'V0')
 
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
-model_dir_path = os.path.join(model_dir_path, args['group'])
-
+model_dir_path = os.path.join(model_dir_path, group)
 #####################################################################
 # Config data loader
-data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
-                                data_range=args['data_range'], train_data_length=args['train_day_length'],
-                                test_ratio=0.1,
-                                closeness_len=args['closeness_len'],
-                                period_len=args['period_len'],
-                                trend_len=args['trend_len'],
-                                threshold_distance=args['threshold_distance'],
-                                threshold_correlation=args['threshold_correlation'],
-                                threshold_interaction=args['threshold_interaction'],
-                                normalize=args['normalize'],
-                                graph=args['graph'],
-                                with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
-                                workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_chine)
 
-de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
+pre_train = True
+fine_tune = False
+transfer = True
+
+tl_data_loader = TransferDataLoader(sd_params, td_params, model_params, target_day_length='29')
+
+traffic_sim = tl_data_loader.traffic_sim()
 
 deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0.3,
                                 includeNan=False, excludeID=[], excludeUUID=[])
@@ -62,101 +55,138 @@ deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0
 if len(deviceIDs) == 0:
     current_device = '-1'
 else:
-    if nni_params:
-        current_device = str(deviceIDs[int(nni_sid) % len(deviceIDs)])
-    else:
-        current_device = str(deviceIDs[0])
+    current_device = str(deviceIDs[0])
 
-amulti_gclstm_obj = AMulti_GCLSTM(num_node=data_loader.station_number,
-                                  num_graph=data_loader.LM.shape[0],
-                                  external_dim=data_loader.external_dim,
-                                  closeness_len=args['closeness_len'],
-                                  period_len=args['period_len'],
-                                  trend_len=args['trend_len'],
-                                  gcn_k=args['gcn_k'],
-                                  gcn_layers=args['gcn_layers'],
-                                  gclstm_layers=args['gclstm_layers'],
-                                  num_hidden_units=args['num_hidden_units'],
-                                  num_filter_conv1x1=args['num_filter_conv1x1'],
-                                  # temporal attention parameters
-                                  tpe_dim=None if hasattr(data_loader, 'tpe_dim') is False else data_loader.tpe_dim,
-                                  temporal_gal_units=args.get('temporal_gal_units'),
-                                  temporal_gal_num_heads=args.get('temporal_gal_num_heads'),
-                                  temporal_gal_layers=args.get('temporal_gal_layers'),
-                                  # merge parameters
-                                  graph_merge_gal_units=args['graph_merge_gal_units'],
-                                  graph_merge_gal_num_heads=args['graph_merge_gal_num_heads'],
-                                  temporal_merge_gal_units=args['temporal_merge_gal_units'],
-                                  temporal_merge_gal_num_heads=args['temporal_merge_gal_num_heads'],
-                                  # transfer learning,
-                                  build_transfer=args['build_transfer'],
-                                  # network structure parameters
-                                  st_method=args['st_method'],  # gclstm
-                                  temporal_merge=args['temporal_merge'],  # gal
-                                  graph_merge=args['graph_merge'],  # concat
-                                  lr=float(args['lr']),
-                                  code_version=code_version,
-                                  model_dir=model_dir_path,
-                                  gpu_device=current_device)
+sd_model = AMulti_GCLSTM(num_node=tl_data_loader.sd_loader.station_number,
+                         num_graph=tl_data_loader.sd_loader.LM.shape[0],
+                         external_dim=tl_data_loader.sd_loader.external_dim,
+                         tpe_dim=None if hasattr(tl_data_loader.sd_loader, 'tpe_dim') is False
+                         else tl_data_loader.sd_loader.tpe_dim,
+                         code_version=code_version,
+                         model_dir=model_dir_path,
+                         gpu_device=current_device,
+                         **sd_params, **model_params)
+sd_model.build()
 
-amulti_gclstm_obj.build()
+td_model = AMulti_GCLSTM(num_node=tl_data_loader.td_loader.station_number,
+                         num_graph=tl_data_loader.td_loader.LM.shape[0],
+                         external_dim=tl_data_loader.td_loader.external_dim,
+                         tpe_dim=None if hasattr(td_params, 'tpe_dim') is False else td_params.tpe_dim,
+                         code_version=code_version,
+                         model_dir=model_dir_path,
+                         gpu_device=current_device,
+                         **td_params, **model_params)
+td_model.build()
 
-print(args['dataset'], args['city'], code_version)
-print('Number of trainable variables', amulti_gclstm_obj.trainable_vars)
+de_normalizer = (lambda x: x) if td_params['normalize'] is False else tl_data_loader.td_loader.normalizer.min_max_denormal
+
+print('#################################################################')
+print('Source Domain information')
+print(sd_params['dataset'], sd_params['city'], code_version)
+print('Number of trainable variables', sd_model.trainable_vars)
+
+print('#################################################################')
+print('Target Domain information')
+print(td_params['dataset'], td_params['city'], code_version)
+print('Number of trainable variables', td_model.trainable_vars)
 
 # Training
-if args['train']:
-    amulti_gclstm_obj.fit(closeness_feature=data_loader.train_closeness,
-                          period_feature=data_loader.train_period,
-                          trend_feature=data_loader.train_trend,
-                          laplace_matrix=data_loader.LM,
-                          target=data_loader.train_y,
-                          external_feature=data_loader.train_ef,
-                          sequence_length=data_loader.train_sequence_len,
-                          output_names=('loss', ),
-                          evaluate_loss_name='loss',
-                          op_names=('train_op', ),
-                          batch_size=args['batch_size'],
-                          max_epoch=args['max_epoch'],
-                          validate_ratio=0.1,
-                          early_stop_method='t-test',
-                          early_stop_length=args['early_stop_length'],
-                          early_stop_patience=args['early_stop_patience'],
-                          verbose=True,
-                          save_model=True)
+if pre_train:
+    sd_model.fit(closeness_feature=tl_data_loader.sd_loader.train_closeness,
+                 period_feature=tl_data_loader.sd_loader.train_period,
+                 trend_feature=tl_data_loader.sd_loader.train_trend,
+                 laplace_matrix=tl_data_loader.sd_loader.LM,
+                 target=tl_data_loader.sd_loader.train_y,
+                 external_feature=tl_data_loader.sd_loader.train_ef,
+                 sequence_length=tl_data_loader.sd_loader.train_sequence_len,
+                 output_names=('loss', ),
+                 evaluate_loss_name='loss',
+                 op_names=('train_op', ),
+                 batch_size=sd_params['batch_size'],
+                 max_epoch=sd_params['max_epoch'],
+                 validate_ratio=0.1,
+                 early_stop_method='t-test',
+                 early_stop_length=sd_params['early_stop_length'],
+                 early_stop_patience=sd_params['early_stop_patience'],
+                 verbose=True,
+                 save_model=True)
 
-amulti_gclstm_obj.load(code_version)
-
-prediction = amulti_gclstm_obj.predict(closeness_feature=data_loader.test_closeness,
-                                       period_feature=data_loader.test_period,
-                                       trend_feature=data_loader.test_trend,
-                                       laplace_matrix=data_loader.LM,
-                                       target=data_loader.test_y,
-                                       external_feature=data_loader.test_ef,
-                                       output_names=('prediction', ),
-                                       sequence_length=data_loader.test_sequence_len,
-                                       cache_volume=args['batch_size'], )
+sd_model.load(code_version)
+prediction = sd_model.predict(closeness_feature=tl_data_loader.sd_loader.test_closeness,
+                              period_feature=tl_data_loader.sd_loader.test_period,
+                              trend_feature=tl_data_loader.sd_loader.test_trend,
+                              laplace_matrix=tl_data_loader.sd_loader.LM,
+                              target=tl_data_loader.sd_loader.test_y,
+                              external_feature=tl_data_loader.sd_loader.test_ef,
+                              output_names=('prediction',),
+                              sequence_length=tl_data_loader.sd_loader.test_sequence_len,
+                              cache_volume=sd_params['batch_size'], )
 
 test_prediction = prediction['prediction']
 
-if de_normalizer:
-    test_prediction = de_normalizer(test_prediction)
-    data_loader.test_y = de_normalizer(data_loader.test_y)
+test_rmse, test_mape = metric.rmse(prediction=de_normalizer(test_prediction),
+                                   target=de_normalizer(tl_data_loader.sd_loader.test_y), threshold=0), \
+                       metric.mape(prediction=de_normalizer(test_prediction),
+                                   target=de_normalizer(tl_data_loader.sd_loader.test_y), threshold=0)
 
-test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
-                       metric.mape(prediction=test_prediction, target=data_loader.test_y, threshold=0)
+print('#################################################################')
+print('Source Domain Result')
+print(test_rmse, test_mape)
 
-# Evaluate
-val_loss = amulti_gclstm_obj.load_event_scalar('val_loss')
 
-best_val_loss = min([e[-1] for e in val_loss])
+if fine_tune:
+    td_model.load(code_version)
+    td_model.fit(closeness_feature=tl_data_loader.td_loader.train_closeness,
+                 period_feature=tl_data_loader.td_loader.train_period,
+                 trend_feature=tl_data_loader.td_loader.train_trend,
+                 laplace_matrix=tl_data_loader.td_loader.LM,
+                 target=tl_data_loader.td_loader.train_y,
+                 external_feature=tl_data_loader.td_loader.train_ef,
+                 sequence_length=tl_data_loader.td_loader.train_sequence_len,
+                 output_names=('loss',),
+                 evaluate_loss_name='loss',
+                 op_names=('train_op',),
+                 batch_size=td_params['batch_size'],
+                 max_epoch=td_params['max_epoch'],
+                 validate_ratio=0.1,
+                 early_stop_method='t-test',
+                 early_stop_length=td_params['early_stop_length'],
+                 early_stop_patience=td_params['early_stop_patience'],
+                 verbose=True,
+                 save_model=False)
 
-print('Best val result', best_val_loss)
-print('Test result', test_rmse, test_mape)
+    prediction = td_model.predict(closeness_feature=tl_data_loader.td_loader.test_closeness,
+                                  period_feature=tl_data_loader.td_loader.test_period,
+                                  trend_feature=tl_data_loader.td_loader.test_trend,
+                                  laplace_matrix=tl_data_loader.td_loader.LM,
+                                  target=tl_data_loader.td_loader.test_y,
+                                  external_feature=tl_data_loader.td_loader.test_ef,
+                                  output_names=('prediction',),
+                                  sequence_length=tl_data_loader.td_loader.test_sequence_len,
+                                  cache_volume=td_params['batch_size'], )
 
-if nni_params:
-    nni.report_final_result({
-        'default': best_val_loss,
-        'test-rmse': test_rmse,
-        'test-mape': test_mape
-    })
+    test_prediction = prediction['prediction']
+
+    test_rmse, test_mape = metric.rmse(prediction=de_normalizer(test_prediction),
+                                       target=de_normalizer(tl_data_loader.td_loader.test_y), threshold=0), \
+                           metric.mape(prediction=de_normalizer(test_prediction),
+                                       target=de_normalizer(tl_data_loader.td_loader.test_y), threshold=0)
+
+    print('#################################################################')
+    print('Target Domain Fine-tune')
+    print(test_rmse, test_mape)
+
+if transfer:
+    td_model.load(code_version)
+    traffic_sim = tl_data_loader.traffic_sim()
+    transfer_epoch = 1000
+
+    # prepare data:
+    sd_transfer_data = []
+    for record in traffic_sim:
+        # score, index, start, end
+        sd_transfer_data.append(tl_data_loader.sd_loader.train_data[record[2]: record[3], record[1]].reshape([-1, 1]))
+    sd_transfer_data = np.concatenate(sd_transfer_data, axis=-1)
+
+    for epoch in range(transfer_epoch):
+        pass

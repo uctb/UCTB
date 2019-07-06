@@ -3,8 +3,9 @@ import datetime
 import numpy as np
 
 from dateutil.parser import parse
+from sklearn.metrics.pairwise import cosine_similarity
 
-from ..preprocess.time_utils import is_work_day_chine, is_work_day_america, is_valid_date
+from ..preprocess.time_utils import is_work_day_china, is_work_day_america, is_valid_date
 from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
 from ..model_unit import GraphBuilder
 
@@ -20,8 +21,8 @@ class NodeTrafficLoader(object):
                  train_data_length='All',
                  test_ratio=0.1,
                  closeness_len=6,
-                 period_len=4,
-                 trend_len=7,
+                 period_len=7,
+                 trend_len=4,
                  target_length=1,
                  graph='Correlation',
                  threshold_distance=1000,
@@ -31,7 +32,7 @@ class NodeTrafficLoader(object):
                  workday_parser=is_work_day_america,
                  with_lm=True,
                  with_tpe=False,
-                 data_dir=None):
+                 data_dir=None, **kwargs):
 
         self.dataset = DataSet(dataset, city, data_dir=data_dir)
 
@@ -96,8 +97,9 @@ class NodeTrafficLoader(object):
         # expand the test data
         expand_start_index = len(self.train_data) -\
                              max(int(self.daily_slots * period_len),
-                                 int(self.daily_slots * 7 * trend_len)) -\
-                             closeness_len
+                                 int(self.daily_slots * 7 * trend_len),
+                                 closeness_len)
+
         self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
         self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
         self.test_tpe = np.vstack([self.train_tpe[expand_start_index:], self.test_tpe])
@@ -123,6 +125,7 @@ class NodeTrafficLoader(object):
         # external feature
         self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
         self.test_ef = self.test_ef[-self.test_sequence_len  - target_length: -target_length]
+
 
         if with_tpe:
             # Time position embedding 1
@@ -300,3 +303,39 @@ class NodeTrafficLoader(object):
 
         fig = dict(data=bikeStations, layout=layout)
         plotly.offline.plot(fig, filename=file_name)
+
+
+class TransferDataLoader(object):
+
+    def __init__(self, sd_params, td_params, model_params, target_day_length=29):
+
+        self.sd_loader = NodeTrafficLoader(**sd_params, **model_params)
+
+        if target_day_length:
+            td_params.update({'train_data_length': target_day_length})
+        self.td_loader = NodeTrafficLoader(**td_params, **model_params)
+
+    def traffic_sim(self):
+
+        assert self.sd_loader.daily_slots == self.td_loader.daily_slots
+
+        similar_record = []
+
+        for i in range(0, self.sd_loader.train_data.shape[0] - self.td_loader.train_data.shape[0],
+                       int(self.sd_loader.daily_slots)):
+
+            sim = cosine_similarity(self.td_loader.train_data.transpose(),
+                                    self.sd_loader.train_data[i:i + self.td_loader.train_data.shape[0]].transpose())
+
+            max_sim, max_index = np.max(sim, axis=1), np.argmax(sim, axis=1)
+
+            if len(similar_record) == 0:
+                similar_record = [[max_sim[e], max_index[e], i, i + self.td_loader.train_data.shape[0]]
+                                  for e in range(len(max_sim))]
+            else:
+                for index in range(len(similar_record)):
+                    if similar_record[index][0] < max_sim[index]:
+                        similar_record[index] = [max_sim[index], max_index[index], i,
+                                                 i + self.td_loader.train_data.shape[0]]
+
+        return similar_record

@@ -13,7 +13,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-d', '--data', default='didi_xian.data.yml')
+parser.add_argument('-d', '--data', default='bike_dc.data.yml')
 
 yml_files = vars(parser.parse_args())
 
@@ -54,7 +54,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
-deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0.3,
+deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=1, maxMemory=0.7,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
 if len(deviceIDs) == 0:

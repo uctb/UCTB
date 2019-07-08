@@ -286,12 +286,15 @@ class AMulti_GCLSTM(BaseModel):
                        period_feature=None,
                        trend_feature=None,
                        target=None,
-                       external_feature=None):
+                       external_feature=None,
+                       similar_feature_map=None):
         feed_dict = {
             'laplace_matrix': laplace_matrix,
         }
         if target is not None:
             feed_dict['target'] = target
+        if similar_feature_map is not None:
+            feed_dict['similar_feature_map'] = similar_feature_map
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_feature'] = external_feature
         if self._c_t is not None and self._c_t > 0:

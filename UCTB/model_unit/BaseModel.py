@@ -28,7 +28,7 @@ class BaseModel(object):
         self._graph = tf.Graph()
 
         self._converged = False
-        self._log_dir =  os.path.join(self._model_dir, self._code_version)
+        self._log_dir = os.path.join(self._model_dir, self._code_version)
         self._global_step = 0
         self._summary = None
         self._summary_writer = tf.summary.FileWriter(self._log_dir)
@@ -186,7 +186,8 @@ class BaseModel(object):
             self.manual_summary(global_step=epoch)
 
             if early_stop.stop(evaluate_loss_value):
-                self._log('Converged')
+                if save_model:
+                    self._log('Converged')
                 break
 
             # save the model if evaluate_loss_value is smaller than best_record

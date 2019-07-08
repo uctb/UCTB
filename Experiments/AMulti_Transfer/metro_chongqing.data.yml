@@ -25,4 +25,3 @@ max_epoch: 20000
 batch_size: 128
 
 group: Chongqing
-#mark: 0

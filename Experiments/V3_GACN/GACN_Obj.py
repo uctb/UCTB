@@ -74,7 +74,7 @@ GACN_Obj = GACN(num_node=data_loader.station_number,
                 lr=float(args.lr),
                 code_version=code_version,
                 model_dir=model_dir,
-                GPU_DEVICE=args.Device)
+                gpu_device=args.Device)
 
 GACN_Obj.build()
 

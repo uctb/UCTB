@@ -12,8 +12,9 @@ from UCTB.evaluation import metric
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-sd', '--source_data', default='metro_shanghai.data.yml')
-parser.add_argument('-td', '--target_data', default='metro_chongqing.data.yml')
+parser.add_argument('-sd', '--source_data', default='bike_chicago.data.yml')
+parser.add_argument('-td', '--target_data', default='bike_dc.data.yml')
+parser.add_argument('-tdl', '--target_data_length', default='29', type=str)
 parser.add_argument('-pt', '--pretrain', default='True')
 parser.add_argument('-ft', '--finetune', default='True')
 parser.add_argument('-tr', '--transfer', default='True')
@@ -44,7 +45,7 @@ model_dir_path = os.path.join(model_dir_path, group)
 #####################################################################
 # Config data loader
 
-data_loader = TransferDataLoader(sd_params, td_params, model_params, td_data_length='1')
+data_loader = TransferDataLoader(sd_params, td_params, model_params, td_data_length=args['target_data_length'])
 
 deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0.3,
                                 includeNan=False, excludeID=[], excludeUUID=[])
@@ -81,20 +82,26 @@ td_de_normalizer = (lambda x: x) if td_params['normalize'] is False \
 
 print('#################################################################')
 print('Source Domain information')
-print(sd_params['dataset'], sd_params['city'], code_version)
+print(sd_params['dataset'], sd_params['city'])
 print('Number of trainable variables', sd_model.trainable_vars)
+print('Number of training samples', data_loader.sd_loader.train_sequence_len)
 
 print('#################################################################')
 print('Target Domain information')
-print(td_params['dataset'], td_params['city'], code_version)
+print(td_params['dataset'], td_params['city'])
 print('Number of trainable variables', td_model.trainable_vars)
+print('Number of training samples', data_loader.td_loader.train_sequence_len)
+
+pretrain_model_name = 'pretrain_C6'
+finetune_model_name = 'finetune_C6_' + str(data_loader.td_loader.train_sequence_len)
+transfer_model_name = 'transfer_C6_' + str(data_loader.td_loader.train_sequence_len)
 
 if args['pretrain'] == 'True':
     print('#################################################################')
     print('Source Domain Pre-Train')
 
     try:
-        sd_model.load('pretrain')
+        sd_model.load(pretrain_model_name)
     except FileNotFoundError:
         sd_model.fit(closeness_feature=data_loader.sd_loader.train_closeness,
                      period_feature=data_loader.sd_loader.train_period,
@@ -114,7 +121,7 @@ if args['pretrain'] == 'True':
                      early_stop_patience=sd_params['early_stop_patience'],
                      verbose=True,
                      save_model=False)
-        sd_model.save('pretrain', global_step=0)
+        sd_model.save(pretrain_model_name, global_step=0)
 
     prediction = sd_model.predict(closeness_feature=data_loader.sd_loader.test_closeness,
                                   period_feature=data_loader.sd_loader.test_period,
@@ -137,7 +144,7 @@ if args['pretrain'] == 'True':
     print('Source Domain Result')
     print(test_rmse, test_mape)
 
-    td_model.load('pretrain')
+    td_model.load(pretrain_model_name)
 
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
@@ -162,9 +169,9 @@ if args['pretrain'] == 'True':
 
 if args['finetune'] == 'True':
     try:
-        td_model.load('finetune')
+        td_model.load(finetune_model_name)
     except FileNotFoundError:
-        td_model.load('pretrain')
+        td_model.load(pretrain_model_name)
         td_model.fit(closeness_feature=data_loader.td_loader.train_closeness,
                      period_feature=data_loader.td_loader.train_period,
                      trend_feature=data_loader.td_loader.train_trend,
@@ -183,7 +190,7 @@ if args['finetune'] == 'True':
                      early_stop_patience=td_params['early_stop_patience'],
                      verbose=True,
                      save_model=False)
-        td_model.save('finetune', global_step=0)
+        td_model.save(finetune_model_name, global_step=0)
 
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
@@ -209,9 +216,9 @@ if args['finetune'] == 'True':
 if args['transfer'] == 'True':
 
     try:
-        td_model.load('transfer')
+        td_model.load(transfer_model_name)
     except FileNotFoundError:
-        td_model.load('pretrain')
+        td_model.load(pretrain_model_name)
         traffic_sim = data_loader.traffic_sim()
 
         # prepare data:
@@ -258,7 +265,7 @@ if args['transfer'] == 'True':
                      early_stop_patience=td_params['early_stop_patience'],
                      verbose=True,
                      save_model=False)
-        td_model.save('transfer', global_step=0)
+        td_model.save(transfer_model_name, global_step=0)
 
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,

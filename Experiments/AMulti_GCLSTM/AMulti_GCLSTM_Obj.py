@@ -13,7 +13,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-d', '--data', default='bike_dc.data.yml')
+parser.add_argument('-d', '--data', default='didi_xian.data.yml')
 
 yml_files = vars(parser.parse_args())
 
@@ -54,7 +54,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
-deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=1, maxMemory=0.7,
+deviceIDs = GPUtil.getAvailable(order='memory', limit=2, maxLoad=1, maxMemory=0.7,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
 if len(deviceIDs) == 0:
@@ -90,6 +90,7 @@ amulti_gclstm_obj = AMulti_GCLSTM(num_node=data_loader.station_number,
                                   st_method=args['st_method'],  # gclstm
                                   temporal_merge=args['temporal_merge'],  # gal
                                   graph_merge=args['graph_merge'],  # concat
+                                  build_transfer=args['build_transfer'],
                                   lr=float(args['lr']),
                                   code_version=code_version,
                                   model_dir=model_dir_path,

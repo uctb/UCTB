@@ -49,7 +49,7 @@ class AMulti_GCLSTM(BaseModel):
                  model_dir='model_dir',
                  gpu_device='0', **kwargs):
 
-        super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, GPU_DEVICE=gpu_device)
+        super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         self._num_node = num_node
         self._gcn_k = gcn_k
@@ -75,9 +75,9 @@ class AMulti_GCLSTM(BaseModel):
         if st_method == 'gal_gcn':
             assert self._tpe_dim
 
-        self._c_t = closeness_len
-        self._p_t = period_len
-        self._t_t = trend_len
+        self._closeness_len = closeness_len
+        self._period_len = period_len
+        self._trend_len = trend_len
         self._num_hidden_unit = num_hidden_units
         self._num_filter_conv1x1 = num_filter_conv1x1
         self._lr = lr
@@ -117,35 +117,35 @@ class AMulti_GCLSTM(BaseModel):
 
             temporal_features = []
 
-            if self._c_t is not None and self._c_t > 0:
+            if self._closeness_len is not None and self._closeness_len > 0:
                 if self._st_method == 'gclstm':
-                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._c_t, 1],
+                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1],
                                                        name='closeness_feature')
                 elif self._st_method == 'gal_gcn':
-                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._c_t, 1 + self._tpe_dim],
+                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1 + self._tpe_dim],
                                                        name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name
-                temporal_features.append([self._c_t, closeness_feature, 'closeness_feature'])
+                temporal_features.append([self._closeness_len, closeness_feature, 'closeness_feature'])
 
-            if self._p_t is not None and self._p_t > 0:
+            if self._period_len is not None and self._period_len > 0:
                 if self._st_method == 'gclstm':
-                    period_feature = tf.placeholder(tf.float32, [None, None, self._p_t, 1],
+                    period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1],
                                                     name='period_feature')
                 elif self._st_method == 'gal_gcn':
-                    period_feature = tf.placeholder(tf.float32, [None, None, self._p_t, 1 + self._tpe_dim],
+                    period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1 + self._tpe_dim],
                                                     name='period_feature')
                 self._input['period_feature'] = period_feature.name
-                temporal_features.append([self._p_t, period_feature, 'period_feature'])
+                temporal_features.append([self._period_len, period_feature, 'period_feature'])
 
-            if self._t_t is not None and self._t_t > 0:
+            if self._trend_len is not None and self._trend_len > 0:
                 if self._st_method == 'gclstm':
-                    trend_feature = tf.placeholder(tf.float32, [None, None, self._t_t, 1],
+                    trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1],
                                                    name='trend_feature')
                 elif self._st_method == 'gal_gcn':
-                    trend_feature = tf.placeholder(tf.float32, [None, None, self._t_t, 1 + self._tpe_dim],
+                    trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1 + self._tpe_dim],
                                                    name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name
-                temporal_features.append([self._t_t, trend_feature, 'trend_feature'])
+                temporal_features.append([self._trend_len, trend_feature, 'trend_feature'])
 
             if len(temporal_features) > 0:
                 target = tf.placeholder(tf.float32, [None, None, 1], name='target')
@@ -279,7 +279,7 @@ class AMulti_GCLSTM(BaseModel):
 
         super(AMulti_GCLSTM, self).build()
 
-    # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
+    # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,
                        laplace_matrix,
                        closeness_feature=None,
@@ -297,10 +297,10 @@ class AMulti_GCLSTM(BaseModel):
             feed_dict['similar_feature_map'] = similar_feature_map
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_feature'] = external_feature
-        if self._c_t is not None and self._c_t > 0:
+        if self._closeness_len is not None and self._closeness_len > 0:
             feed_dict['closeness_feature'] = closeness_feature
-        if self._p_t is not None and self._p_t > 0:
+        if self._period_len is not None and self._period_len > 0:
             feed_dict['period_feature'] = period_feature
-        if self._t_t is not None and self._t_t > 0:
+        if self._trend_len is not None and self._trend_len > 0:
             feed_dict['trend_feature'] = trend_feature
         return feed_dict

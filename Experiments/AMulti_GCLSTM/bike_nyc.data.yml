@@ -3,13 +3,13 @@ dataset: Bike
 city: NYC
 
 closeness_len: 6
-period_len: 7
-trend_len: 4
+period_len: 0
+trend_len: 0
 
-graph: Correlation
+graph: Distance
 
 data_range: all
-train_data_length: 'all' # all
+train_data_length: all
 
 threshold_distance: 1000
 threshold_correlation: 0
@@ -18,11 +18,11 @@ threshold_interaction: 500
 normalize: True
 train: True
 
-lr: 0.000001
-early_stop_length: 30 # 500
+lr: 0.00005
+early_stop_length: 100
 early_stop_patience: 0.1
 max_epoch: 20000
-batch_size: 128
+batch_size: 32
 
 group: NYC
-mark: LD # 0
+mark: C6

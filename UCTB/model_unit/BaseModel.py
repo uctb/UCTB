@@ -12,7 +12,7 @@ from ..train.EarlyStopping import *
 
 class BaseModel(object):
 
-    def __init__(self, code_version, model_dir, GPU_DEVICE):
+    def __init__(self, code_version, model_dir, gpu_device):
 
         # model input and output
         self._input = {}
@@ -36,7 +36,7 @@ class BaseModel(object):
         self.trainable_vars = 0
 
         # TF Session
-        self._GPU_DEVICE = GPU_DEVICE
+        self._GPU_DEVICE = gpu_device
         os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
         os.environ["CUDA_VISIBLE_DEVICES"] = self._GPU_DEVICE
         self._config = tf.ConfigProto()

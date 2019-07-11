@@ -68,7 +68,7 @@ ST_MGCN_Obj = ST_MGCN(T=int(args.CT) + int(args.PT) + int(args.TT),
                       lr=args.lr,
                       code_version=code_version,
                       model_dir=model_dir,
-                      GPU_DEVICE=args.Device)
+                      gpu_device=args.Device)
 
 ST_MGCN_Obj.build()
 

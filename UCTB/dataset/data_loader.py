@@ -99,6 +99,14 @@ class NodeTrafficLoader(object):
         self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
         self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
 
+        assert type(closeness_len) is int and closeness_len >= 0
+        assert type(period_len) is int and period_len >= 0
+        assert type(trend_len) is int and trend_len >= 0
+
+        self.closeness_len = closeness_len
+        self.period_len = period_len
+        self.trend_len = trend_len
+
         # init move sample obj
         self.st_move_sample = ST_MoveSample(closeness_len=closeness_len,
                                             period_len=period_len,

@@ -18,11 +18,11 @@ class ST_MGCN(BaseModel):
                  external_dim,
                  code_version,
                  model_dir,
-                 GPU_DEVICE):
+                 gpu_device):
 
         super(ST_MGCN, self).__init__(code_version=code_version,
                                       model_dir=model_dir,
-                                      GPU_DEVICE=GPU_DEVICE)
+                                      gpu_device=gpu_device)
 
         self._T = T
         self._input_dim = input_dim

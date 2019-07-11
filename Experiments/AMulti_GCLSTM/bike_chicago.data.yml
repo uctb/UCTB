@@ -3,10 +3,10 @@ dataset: Bike
 city: Chicago
 
 closeness_len: 6
-period_len: 7
-trend_len: 4
+period_len: 0
+trend_len: 0
 
-graph: Correlation
+graph: Distance
 
 data_range: all
 train_data_length: all
@@ -19,10 +19,10 @@ normalize: True
 train: True
 
 lr: 0.00005
-early_stop_length: 500
+early_stop_length: 100
 early_stop_patience: 0.1
 max_epoch: 20000
-batch_size: 128
+batch_size: 32
 
 group: Chicago
-mark: 0
+mark: C6

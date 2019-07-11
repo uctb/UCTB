@@ -13,7 +13,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-d', '--data', default='didi_xian.data.yml')
+parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
 
 yml_files = vars(parser.parse_args())
 
@@ -136,9 +136,9 @@ prediction = amulti_gclstm_obj.predict(closeness_feature=data_loader.test_closen
 
 test_prediction = prediction['prediction']
 
-if de_normalizer:
-    test_prediction = de_normalizer(test_prediction)
-    data_loader.test_y = de_normalizer(data_loader.test_y)
+# if de_normalizer:
+#     test_prediction = de_normalizer(test_prediction)
+#     data_loader.test_y = de_normalizer(data_loader.test_y)
 
 test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
                        metric.mape(prediction=test_prediction, target=data_loader.test_y, threshold=0)

@@ -82,7 +82,7 @@ class BaseModel(object):
     def _get_feed_dict(self, **kwargs):
         return kwargs
 
-    def fit(self, sequence_length, output_names, op_names, evaluate_loss_name,
+    def fit(self, sequence_length, output_names=('loss', ), op_names=('train_op', ), evaluate_loss_name='loss',
             batch_size=64, max_epoch=10000, validate_ratio=0.1, shuffle_data=True,
             early_stop_method='t-test', early_stop_length=10, early_stop_patience=0.1,
             verbose=True, save_model=True, **kwargs):

@@ -1,7 +1,12 @@
 
 from .HM import HM
 from .ARIMA import ARIMA
-# from .HMM import HMM
+
+try:
+    from .HMM import HMM
+except ModuleNotFoundError:
+    print('HMM not installed')
+
 from .XGBoost import XGBoost
 
 from .DeepST import DeepST

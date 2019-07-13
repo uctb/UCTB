@@ -13,12 +13,66 @@ from .dataset import DataSet
 
 
 class NodeTrafficLoader(object):
+    """The data loader that extracts and processes data from a :obj:`DataSet` object.
+
+    Args:
+        dataset (str): A string containing path of the dataset pickle file or a string of name of the dataset.
+        city (:obj:`str` or ``None``): ``None`` if dataset is file path, or a string of name of the city. Default: ``None``
+        data_range: The range of data extracted from ``self.dataset`` to be further used. If set to ``'all'``, all data in
+            ``self.dataset`` will be used. If set to a float between 0.0 and 1.0, the relative former proportion of data in
+            ``self.dataset`` will be used. If set to a list of two integers ``[start, end]``, the data from *start* day to
+            (*end* - 1) day of data in ``self.dataset`` will be used. Default: ``'all'``
+        train_data_length: The length of train data. If set to ``'all'``, all data in the split train set will be used.
+            If set to int, the latest ``train_data_length`` days of data will be used as train set. Default: ``'all'``
+        test_ratio (float): The ratio of test set as data will be split into train set and test set. Default: 0.1
+        closeness_len (int): The length of closeness data history. The former consecutive ``closeness_len`` time slots of
+            data will be used as closeness history. Default: 6
+        period_len (int): The length of period data history. The data of exact same time slots in former consecutive
+            ``period_len`` days will be used as period history. Default: 7
+        trend_len (int): The length of trend data history. The data of exact same time slots in former consecutive
+            ``trend_len`` weeks (every seven days) will be used as trend history. Default: 4
+        target_length (int): The numbers of steps that need prediction by one piece of history data. Have to be 1 now. Default: 1
+        graph (str): Types of graphs used in neural methods. Graphs should be a subset of { ``'Correlation'``,
+            ``'Distance'``, ``'Interaction'``, ``'Line'``, ``'Neighbor'``, ``'Transfer'`` } and concatenated by ``'-'``,
+            and *dataset* should have data of selected graphs. Default: ``'Correlation'``
+        threshold_distance (float): Used in building of distance graph. If distance of two nodes in meters is larger
+            than ``threshold_distance``, the corresponding position of the distance graph will be 1 and otherwise
+            0.the corresponding Default: 1000
+        threshold_correlation (float): Used in building of correlation graph. If the Pearson correlation coefficient is
+            larger than ``threshold_correlation``, the corresponding position of the correlation graph will be 1 and otherwise
+            0. Default: 0
+        threshold_interaction (float): Used in building of interatction graph. If in the latest 12 months, the number of
+            times of interaction between two nodes is larger than ``threshold_interaction``, the corresponding position of the
+            interaction graph will be 1 and otherwise 0. Default: 500
+        normalize (bool): If ``True``, do min-max normalization on data. Default: ``False``
+        workday_parser: Used to build external features to be used in neural methods. Default: ``is_work_day_america``
+        with_lm (bool): If ``True``, data loader will build graphs according to ``graph``. Default: ``True``
+        with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
+        data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
+            ``dataset`` is file path, ``data_dir`` should be ``None`` too. Default: ``None``
+
+    Attributes:
+        dataset (DataSet): The DataSet object storing basic data.
+        daily_slots (int): The number of time slots in one single day.
+        station_number (int): The number of nodes.
+        external_dim (int): The number of dimensions of external features.
+        train_closeness (numpy.ndarray): The closeness history of train set data. When ``with_tpe`` is ``False``, its shape
+            is *L* \* ``station_number`` \* ``closeness_len`` \* 1, and *L* is the temporal length of train set data. On
+            the dimension of ``closeness_len``, data are arranged from earlier time slots to later time slots. If
+            ``closeness_len`` is set to 0, train_closeness will be an empty ndarray.
+            ``train_period``, ``train_trend``, ``test_closeness``, ``test_period``, ``test_trend`` have similar shape
+            and construction.
+        train_y (numpy.ndarray): The train set data. Its shape is *L* \* ``station_number`` * 1, and *L* is the temporal
+            length of train set data. ``test_y`` has similar shape and construction.
+        LM (list): If ``with_lm`` is ``True``, the list of Laplacian matrices of graphs listed in ``graph``.
+    """
+
     
     def __init__(self,
                  dataset,
-                 city,
-                 data_range='All',
-                 train_data_length='All',
+                 city=None,
+                 data_range='all',
+                 train_data_length='all',
                  test_ratio=0.1,
                  closeness_len=6,
                  period_len=7,
@@ -38,10 +92,11 @@ class NodeTrafficLoader(object):
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
-        if data_range.lower() == 'all':
+        if type(data_range) is str and data_range.lower() == 'all':
             data_range = [0, len(self.dataset.node_traffic)]
+        elif type(data_range) is float:
+            data_range = [0, int(data_range * len(self.dataset.node_traffic))]
         else:
-            data_range = [int(e) for e in data_range.split(',')]
             data_range = [int(data_range[0] * self.daily_slots), int(data_range[1] * self.daily_slots)]
 
         num_time_slots = data_range[1] - data_range[0]
@@ -64,14 +119,14 @@ class NodeTrafficLoader(object):
         hour_feature = [[(parse(self.dataset.time_range[1]) +
                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
-        
+
         external_feature.append(weekday_feature)
         external_feature.append(hour_feature)
         external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
         
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
-        
+
         if test_ratio > 1 or test_ratio < 0:
             raise ValueError('test_ratio ')
         train_test_ratio = [1 - test_ratio, test_ratio]
@@ -91,7 +146,7 @@ class NodeTrafficLoader(object):
             self.train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
         # expand the test data
-        expand_start_index = len(self.train_data) -\
+        expand_start_index = len(self.train_data) - \
                              max(int(self.daily_slots * period_len),
                                  int(self.daily_slots * 7 * trend_len),
                                  closeness_len)
@@ -127,7 +182,7 @@ class NodeTrafficLoader(object):
 
         # external feature
         self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
-        self.test_ef = self.test_ef[-self.test_sequence_len  - target_length: -target_length]
+        self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
 
         if with_tpe:
 
@@ -291,6 +346,41 @@ class NodeTrafficLoader(object):
 
         fig = dict(data=bikeStations, layout=layout)
         plotly.offline.plot(fig, filename=file_name)
+
+    def make_concat(self, node, is_train):
+        """A function to concatenate all closeness, period and trend history data to use as inputs of models.
+
+        Args:
+            node (int): To specify the index of certain node
+            is_train (int): If set to ``True``, ``train_closeness``, ``train_period``, and ``train_trend`` will be
+                concatenated. If set to ``False``, ``test_closeness``, ``test_period``, and ``test_trend`` will be
+                concatenated.
+
+        Returns:
+            numpy.ndarray: Function returns an ndarray with shape *L* \* (``closeness_len`` + ``period_len`` +
+            ``trend_len``), and *L* is the temporal length of train set data if ``is_train`` is ``Ture`` or the
+            temporal length of test set data if ``is_train`` is ``False``. On the second dimension, data are arranged as
+             ``earlier closeness -> later closeness -> earlier period -> later period -> earlier trend -> later trend``.
+        """
+
+        if is_train:
+            length = len(self.train_y)
+            closeness = self.train_closeness
+            period = self.train_period
+            trend = self.train_trend
+        else:
+            length = len(self.test_y)
+            closeness = self.test_closeness
+            period = self.test_period
+            trend = self.test_trend
+        history = np.zeros([length, self.closeness_len + self.period_len + self.trend_len])
+        for c in range(self.closeness_len):
+            history[:, c] = closeness[:, node, c, -1]
+        for p in range(self.period_len):
+            history[:, self.closeness_len + p] = period[:, node, p, -1]
+        for t in range(self.trend_len):
+            history[:, self.closeness_len + self.period_len + t] = trend[:, node, t, -1]
+        return history
 
 
 class TransferDataLoader(object):

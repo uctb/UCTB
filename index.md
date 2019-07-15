@@ -83,6 +83,8 @@ print('Test result', test_rmse)
 
 ## Tutorial
 
+- Compare different version of AMulti-GCLSTM
+
 - ##### [Use datasets from UCTB](./static/tutorial.html)
 
 - ##### [Build your own datasets](./static/tutorial.html)

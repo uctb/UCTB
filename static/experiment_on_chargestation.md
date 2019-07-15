@@ -12,7 +12,7 @@
 
   Following shows a map-visualization of bike stations in NYC, the latest built stations have deeper color.
 
-  <img src="D:/OneDrive%20-%20%E5%8C%97%E4%BA%AC%E7%80%9A%E6%B5%B7%E6%98%9F%E4%BA%91%E7%A7%91%E6%8A%80%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/UCTB/UCTB-Package-Page/src/image/Bike_NYC_STMAP.PNG">
+  <img src="../src/image/Bike_NYC_STMAP.PNG">
 
   In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life. The remaining station number are 717, 444 and 378 for NYC, Chicago and DC, respectively.
 

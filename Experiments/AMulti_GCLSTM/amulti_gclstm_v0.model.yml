@@ -4,9 +4,9 @@ temporal_merge: 'gal'
 graph_merge: 'gal'
 
 # gcn parameters
-gcn_k: 1
+gcn_k: 0
 gcn_layers: 1
-gclstm_layers: 2
+gclstm_layers: 1
 
 # LSTM units
 num_hidden_units: 64
@@ -21,4 +21,4 @@ graph_merge_gal_num_heads: 2
 temporal_merge_gal_units: 64
 temporal_merge_gal_num_heads: 2
 
-model_version: 'V1'
+model_version: 'V0'

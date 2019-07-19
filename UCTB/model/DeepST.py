@@ -9,18 +9,18 @@ class DeepST(BaseModel):
                  closeness_len,
                  period_len,
                  trend_len,
-                 num_channel,
                  width,
                  height,
                  external_dim,
-                 lr,
-                 code_version='QuickStart',
+                 kernel_size=3,
+                 num_conv_filters=64,
+                 lr=1e-5,
+                 code_version='QuickStart-DeepST',
                  model_dir='model_dir',
                  gpu_device='0'):
         
         super(DeepST, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
-        
-        self._num_channel = num_channel
+
         self._width = width
         self._height = height
 
@@ -30,6 +30,8 @@ class DeepST(BaseModel):
 
         self._external_dim = external_dim
         self._lr = lr
+        self._kernel_size = kernel_size
+        self._num_conv_filters = num_conv_filters
 
         self._graph = tf.Graph()
         self._GPU_DEVICE = gpu_device
@@ -64,28 +66,34 @@ class DeepST(BaseModel):
             self._input['target'] = target.name
 
             # First convolution
-            h_c_1 = tf.layers.conv2d(inputs=c_conf, filters=64, kernel_size=[3, 3], padding='SAME', use_bias=True)
-            h_p_1 = tf.layers.conv2d(inputs=p_conf, filters=64, kernel_size=[3, 3], padding='SAME', use_bias=True)
-            h_t_1 = tf.layers.conv2d(inputs=t_conf, filters=64, kernel_size=[3, 3], padding='SAME', use_bias=True)
+            h_c_1 = tf.layers.conv2d(inputs=c_conf, filters=self._num_conv_filters,
+                                     kernel_size=[self._kernel_size, self._kernel_size], padding='SAME', use_bias=True)
+            h_p_1 = tf.layers.conv2d(inputs=c_conf, filters=self._num_conv_filters,
+                                     kernel_size=[self._kernel_size, self._kernel_size], padding='SAME', use_bias=True)
+            h_t_1 = tf.layers.conv2d(inputs=c_conf, filters=self._num_conv_filters,
+                                     kernel_size=[self._kernel_size, self._kernel_size], padding='SAME', use_bias=True)
 
             # First fusion
             h_2 = tf.layers.conv2d(tf.concat([h_c_1, h_p_1, h_t_1], axis=-1),
-                                   filters=64, kernel_size=[3, 3], padding='SAME', use_bias=True)
+                                   filters=self._num_conv_filters, kernel_size=[self._kernel_size, self._kernel_size],
+                                   padding='SAME', use_bias=True)
 
             # Stack more convolutions
-            middle_output = tf.layers.conv2d(h_2, filters=64, kernel_size=[3, 3], padding='SAME', use_bias=True)
-            x = tf.layers.conv2d(middle_output, filters=64, kernel_size=[3, 3], padding='SAME', use_bias=True)
+            middle_output = tf.layers.conv2d(h_2, filters=self._num_conv_filters,
+                                             kernel_size=[self._kernel_size, self._kernel_size],
+                                             padding='SAME', use_bias=True)
+            x = tf.layers.conv2d(middle_output, filters=self._num_conv_filters,
+                                 kernel_size=[self._kernel_size, self._kernel_size], padding='SAME', use_bias=True)
 
             # external dims
-            if self._external_dim is not None and  self._external_dim > 0:
-                external_input = tf.placeholder([None, self._external_dim])
-                self._input['external_input'] = external_input.name
+            if self._external_dim is not None and self._external_dim > 0:
+                external_input = tf.placeholder(tf.float32, [None, self._external_dim])
+                self._input['external_feature'] = external_input.name
                 external_dense = tf.layers.dense(inputs=external_input, units=10)
-                external_dense = tf.tile(tf.reshape(external_dense, [1, 1, 1, -1]),
-                                         [tf.shape(c_conf)[0], self._height, self._width, 1])
-                x = tf.concat([x, external_dense])
+                external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]), [1, self._height, self._width, 1])
+                x = tf.concat([x, external_dense], axis=-1)
 
-            x = tf.layers.dense(x, units=1, name='prediction')
+            x = tf.layers.dense(x, units=1, name='prediction', activation=tf.nn.sigmoid)
 
             loss = tf.sqrt(tf.reduce_mean(tf.square(x - target)), name='loss')
             train_op = tf.train.AdamOptimizer(self._lr).minimize(loss)

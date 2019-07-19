@@ -69,25 +69,25 @@ class ST_MoveSample(object):
         trend = trend[-min_length:]
 
         # 4 remove tail of period and trend
-        period = period[:, :-1, :, :]
-        trend = trend[:, :-1, :, :]
+        period = period[:, :-1]
+        trend = trend[:, :-1]
 
         if self._c_t and self._c_t > 0:
-            closeness = np.transpose(closeness, [0, 3, 1, 2])
+            closeness = np.transpose(closeness, [0] + list(range(3, len(closeness.shape))) + [1, 2])
         else:
             closeness = np.array([])
 
         if self._p_t and self._p_t > 0:
-            period = np.transpose(period, [0, 3, 1, 2])
+            period = np.transpose(period, [0] + list(range(3, len(period.shape))) + [1, 2])
         else:
             period = np.array([])
 
         if self._t_t and self._t_t > 0:
-            trend = np.transpose(trend, [0, 3, 1, 2])
+            trend = np.transpose(trend, [0] + list(range(3, len(trend.shape))) + [1, 2])
         else:
             trend = np.array([])
 
-        y = np.transpose(y, [0, 2, 1])
+        y = np.transpose(y, [0] + list(range(2, len(y.shape))) + [1])
 
         return closeness, period, trend, y
 

@@ -1,0 +1,7 @@
+{
+    "num_residual_unit": {"_type":"choice","_value":[2, 3, 4, 5, 6]},
+
+    "conv_filters": {"_type":"choice","_value":[32, 64, 128]},
+
+    "kernal_size": {"_type":"choice","_value":[3, 4, 5]}
+}

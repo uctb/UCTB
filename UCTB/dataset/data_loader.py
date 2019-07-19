@@ -12,6 +12,121 @@ from ..model_unit import GraphBuilder
 from .dataset import DataSet
 
 
+class GridTrafficLoader(object):
+
+    def __init__(self,
+                 dataset,
+                 city=None,
+                 data_range='all',
+                 train_data_length='all',
+                 test_ratio=0.1,
+                 closeness_len=6,
+                 period_len=7,
+                 trend_len=4,
+                 target_length=1,
+                 normalize=True,
+                 workday_parser=is_work_day_america,
+                 data_dir=None, **kwargs):
+
+        self.dataset = DataSet(dataset, city, data_dir=data_dir)
+
+        self.daily_slots = 24 * 60 / self.dataset.time_fitness
+
+        if type(data_range) is str and data_range.lower() == 'all':
+            data_range = [0, len(self.dataset.grid_traffic)]
+        elif type(data_range) is float:
+            data_range = [0, int(data_range * len(self.dataset.grid_traffic))]
+        else:
+            data_range = [int(data_range[0] * self.daily_slots), int(data_range[1] * self.daily_slots)]
+
+        num_time_slots = data_range[1] - data_range[0]
+        self.traffic_data = self.dataset.grid_traffic[data_range[0]:data_range[1], :].astype(np.float32)
+
+        # external feature
+        external_feature = []
+        # weather
+        if len(self.dataset.external_feature_weather) > 0:
+            external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
+        # Weekday Feature
+        weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
+                                                + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
+                           for e in range(data_range[0], num_time_slots + data_range[0])]
+        # Hour Feature
+        hour_feature = [[(parse(self.dataset.time_range[1]) +
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
+                        for e in range(data_range[0], num_time_slots + data_range[0])]
+
+        external_feature.append(weekday_feature)
+        external_feature.append(hour_feature)
+        external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
+
+        self.height, self.width = self.traffic_data.shape[1], self.traffic_data.shape[2]
+        self.external_dim = external_feature.shape[1]
+
+        if test_ratio > 1 or test_ratio < 0:
+            raise ValueError('test_ratio ')
+        train_test_ratio = [1 - test_ratio, test_ratio]
+
+        self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_test_ratio)
+        self.train_ef, self.test_ef = SplitData.split_data(external_feature, train_test_ratio)
+
+        # Normalize the traffic data
+        if normalize:
+            self.normalizer = Normalizer(self.train_data)
+            self.train_data = self.normalizer.min_max_normal(self.train_data)
+            self.test_data = self.normalizer.min_max_normal(self.test_data)
+
+        if train_data_length.lower() != 'all':
+            train_day_length = int(train_data_length)
+            self.train_data = self.train_data[-int(train_day_length * self.daily_slots):]
+            self.train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
+
+        # expand the test data
+        expand_start_index = len(self.train_data)-max(int(self.daily_slots * period_len),
+                                                      int(self.daily_slots * 7 * trend_len), closeness_len)
+
+        self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
+        self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
+
+        assert type(closeness_len) is int and closeness_len >= 0
+        assert type(period_len) is int and period_len >= 0
+        assert type(trend_len) is int and trend_len >= 0
+
+        self.closeness_len = closeness_len
+        self.period_len = period_len
+        self.trend_len = trend_len
+
+        # init move sample obj
+        self.st_move_sample = ST_MoveSample(closeness_len=closeness_len,
+                                            period_len=period_len,
+                                            trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
+
+        self.train_closeness, \
+        self.train_period, \
+        self.train_trend, \
+        self.train_y = self.st_move_sample.move_sample(self.train_data)
+
+        self.test_closeness, \
+        self.test_period, \
+        self.test_trend, \
+        self.test_y = self.st_move_sample.move_sample(self.test_data)
+
+        self.train_closeness = self.train_closeness.squeeze(-1)
+        self.train_period = self.train_period.squeeze(-1)
+        self.train_trend = self.train_trend.squeeze(-1)
+
+        self.test_closeness = self.test_closeness.squeeze(-1)
+        self.test_period = self.test_period.squeeze(-1)
+        self.test_trend = self.test_trend.squeeze(-1)
+
+        self.train_sequence_len = max((len(self.train_closeness), len(self.train_period), len(self.train_trend)))
+        self.test_sequence_len = max((len(self.test_closeness), len(self.test_period), len(self.test_trend)))
+
+        # external feature
+        self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
+        self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
+
+
 class NodeTrafficLoader(object):
     """The data loader that extracts and processes data from a :obj:`DataSet` object.
 
@@ -122,7 +237,7 @@ class NodeTrafficLoader(object):
         external_feature.append(weekday_feature)
         external_feature.append(hour_feature)
         external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
-        
+
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
 

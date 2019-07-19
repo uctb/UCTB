@@ -14,13 +14,16 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
 parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
+parser.add_argument('-p', '--update_params', default='graph:Distance')
 
-yml_files = vars(parser.parse_args())
-
+# Parse params
+terminal_vars = vars(parser.parse_args())
+yml_files = [terminal_vars['model'], terminal_vars['data']]
 args = {}
-for _, yml_file in yml_files.items():
+for yml_file in yml_files:
     with open(yml_file, 'r') as f:
         args.update(yaml.load(f))
+args.update({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
 
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
@@ -30,11 +33,11 @@ if nni_params:
 
 #####################################################################
 # Generate code_version
-code_version = '{}_C{}P{}T{}_G{}_K{}L{}_{}'.format(args['model_version'],
-                                                   args['closeness_len'], args['period_len'],
-                                                   args['trend_len'],
-                                                   ''.join([e[0] for e in args['graph'].split('-')]),
-                                                   args['gcn_k'], args['gcn_layers'], args['mark'])
+code_version = '{}_{}_C{}P{}T{}_G{}_K{}L{}_{}'.format(args['dataset']+args['city'], args['model_version'],
+                                                      args['closeness_len'], args['period_len'],
+                                                      args['trend_len'],
+                                                      ''.join([e[0] for e in args['graph'].split('-')]),
+                                                      args['gcn_k'], args['gcn_layers'], args['mark'])
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################

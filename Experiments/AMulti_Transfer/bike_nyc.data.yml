@@ -6,7 +6,7 @@ closeness_len: 6
 period_len: 0
 trend_len: 0
 
-graph: Correlation
+graph: Distance
 
 data_range: all
 train_data_length: all

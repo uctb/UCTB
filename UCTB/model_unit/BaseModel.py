@@ -195,7 +195,7 @@ class BaseModel(object):
                 best_record = evaluate_loss_value
                 self.save(self._code_version, epoch)
 
-    def predict(self, output_names, sequence_length, cache_volume=64, **kwargs):
+    def predict(self, sequence_length, output_names=('prediction', ), cache_volume=64, **kwargs):
 
         '''
         :param output_names: list, [output_tensor_name1, output_tensor_name2, ...]

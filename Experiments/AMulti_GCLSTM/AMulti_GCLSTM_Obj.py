@@ -12,7 +12,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
+parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
 parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
 
 yml_files = vars(parser.parse_args())
@@ -26,14 +26,15 @@ nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
 if nni_params:
     args.update(nni_params)
+    args['mark'] += str(nni_sid)
 
 #####################################################################
 # Generate code_version
-if nni_params:
-    args['mark'] += str(nni_sid)
-code_version = 'AMultiGCLSTM_{}_{}_K{}L{}_{}'.format(args['model_version'],
-                                                     ''.join([e[0] for e in args['graph'].split('-')]),
-                                                     args['gcn_k'], args['gcn_layers'], args['mark'])
+code_version = '{}_C{}P{}T{}_G{}_K{}L{}_{}'.format(args['model_version'],
+                                                   args['closeness_len'], args['period_len'],
+                                                   args['trend_len'],
+                                                   ''.join([e[0] for e in args['graph'].split('-')]),
+                                                   args['gcn_k'], args['gcn_layers'], args['mark'])
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################
@@ -77,7 +78,7 @@ amulti_gclstm_obj = AMulti_GCLSTM(num_node=data_loader.station_number,
                                   num_hidden_units=args['num_hidden_units'],
                                   num_filter_conv1x1=args['num_filter_conv1x1'],
                                   # temporal attention parameters
-                                  tpe_dim=None if hasattr(args, 'tpe_dim') is False else args.tpe_dim,
+                                  tpe_dim=data_loader.tpe_dim,
                                   temporal_gal_units=args.get('temporal_gal_units'),
                                   temporal_gal_num_heads=args.get('temporal_gal_num_heads'),
                                   temporal_gal_layers=args.get('temporal_gal_layers'),
@@ -100,6 +101,7 @@ amulti_gclstm_obj.build()
 
 print(args['dataset'], args['city'], code_version)
 print('Number of trainable variables', amulti_gclstm_obj.trainable_vars)
+print('Number of training samples', data_loader.train_sequence_len)
 
 # # Training
 if args['train']:
@@ -148,9 +150,13 @@ val_loss = amulti_gclstm_obj.load_event_scalar('val_loss')
 
 best_val_loss = min([e[-1] for e in val_loss])
 
+if de_normalizer:
+    best_val_loss = de_normalizer(best_val_loss)
+
 print('Best val result', best_val_loss)
 print('Test result', test_rmse, test_mape)
 
+print('Converged using %.2f hour' % ((val_loss[-1][0] - val_loss[0][0]) / 3600))
 if nni_params:
     nni.report_final_result({
         'default': best_val_loss,

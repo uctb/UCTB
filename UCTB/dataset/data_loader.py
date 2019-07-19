@@ -44,7 +44,7 @@ class NodeTrafficLoader(object):
         threshold_interaction (float): Used in building of interatction graph. If in the latest 12 months, the number of
             times of interaction between two nodes is larger than ``threshold_interaction``, the corresponding position of the
             interaction graph will be 1 and otherwise 0. Default: 500
-        normalize (bool): If ``True``, do min-max normalization on data. Default: ``False``
+        normalize (bool): If ``True``, do min-max normalization on data. Default: ``True``
         workday_parser: Used to build external features to be used in neural methods. Default: ``is_work_day_america``
         with_lm (bool): If ``True``, data loader will build graphs according to ``graph``. Default: ``True``
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
@@ -66,7 +66,6 @@ class NodeTrafficLoader(object):
             length of train set data. ``test_y`` has similar shape and construction.
         LM (list): If ``with_lm`` is ``True``, the list of Laplacian matrices of graphs listed in ``graph``.
     """
-
     
     def __init__(self,
                  dataset,
@@ -82,7 +81,7 @@ class NodeTrafficLoader(object):
                  threshold_distance=1000,
                  threshold_correlation=0,
                  threshold_interaction=500,
-                 normalize=False,
+                 normalize=True,
                  workday_parser=is_work_day_america,
                  with_lm=True,
                  with_tpe=False,
@@ -393,6 +392,10 @@ class TransferDataLoader(object):
         self.sd_loader = NodeTrafficLoader(**sd_params, **model_params)
         self.td_loader = NodeTrafficLoader(**td_params, **model_params)
 
+        # fake td data_loader
+        td_params.update({'train_data_length': str(int(td_data_length) + 30)})
+        self.fake_td_loader = NodeTrafficLoader(**td_params, **model_params)
+    
     def traffic_sim(self):
 
         assert self.sd_loader.daily_slots == self.td_loader.daily_slots
@@ -415,5 +418,33 @@ class TransferDataLoader(object):
                     if similar_record[index][0] < max_sim[index]:
                         similar_record[index] = [max_sim[index], max_index[index], i,
                                                  i + self.td_loader.train_data.shape[0]]
+
+        return similar_record
+
+    def traffic_sim_fake(self):
+
+        assert self.sd_loader.daily_slots == self.td_loader.daily_slots
+
+        similar_record = []
+
+        for i in range(0, self.sd_loader.train_data.shape[0] - self.fake_td_loader.train_data.shape[0],
+                       int(self.sd_loader.daily_slots)):
+
+            sim = cosine_similarity(self.fake_td_loader.train_data.transpose(),
+                                    self.sd_loader.train_data[i:i + self.fake_td_loader.train_data.shape[0]].transpose())
+
+            max_sim, max_index = np.max(sim, axis=1), np.argmax(sim, axis=1)
+
+            if len(similar_record) == 0:
+                similar_record = [[max_sim[e], max_index[e], i, i + self.fake_td_loader.train_data.shape[0]]
+                                  for e in range(len(max_sim))]
+            else:
+                for index in range(len(similar_record)):
+                    if similar_record[index][0] < max_sim[index]:
+                        similar_record[index] = [max_sim[index], max_index[index], i,
+                                                 i + self.fake_td_loader.train_data.shape[0]]
+
+        for i in range(len(similar_record)):
+            similar_record[i][2] = similar_record[i][3] - self.td_loader.train_data.shape[0]
 
         return similar_record

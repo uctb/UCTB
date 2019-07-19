@@ -22,7 +22,7 @@ setuptools.setup(
                       'statsmodels==0.9.0',
                       'wget==3.2',
                       'xgboost==0.82',
-                      'nni==0.8',
+                      'nni>=0.8',
                       'chinesecalendar==1.2.2'],
     classifiers=[
         "Programming Language :: Python :: 3",

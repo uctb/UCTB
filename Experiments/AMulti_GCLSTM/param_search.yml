@@ -5,12 +5,12 @@ maxExecDuration: 24h
 maxTrialNum: 50
 trainingServicePlatform: local
 # The path to Search Space
-searchSpacePath: search_space.json
+searchSpacePath: lstm_search.json
 useAnnotation: false
 tuner:
-  builtinTunerName: GridSearch
+  builtinTunerName: TPE
 # The path and the running command of trial
 trial:
-  command: python AMulti_GCLSTM_V3_Obj.py -y metro_shanghai.yml
+  command: python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_xian.data.yml
   codeDir: .
   gpuNum: 1

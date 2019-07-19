@@ -1,6 +1,6 @@
 authorName: DiChai
 experimentName: network_search
-trialConcurrency: 2
+trialConcurrency: 1
 maxExecDuration: 24h
 maxTrialNum: 50
 trainingServicePlatform: local

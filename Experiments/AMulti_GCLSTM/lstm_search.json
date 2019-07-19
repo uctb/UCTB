@@ -1,0 +1,11 @@
+{
+    "gclstm_layers": {"_type":"choice","_value":[1, 2, 3]},
+
+    "num_filter_conv1x1": {"_type":"choice","_value":[32, 64, 128]},
+
+    "num_hidden_units": {"_type":"choice","_value":[32, 64, 128]},
+
+    "temporal_merge_gal_units": {"_type":"choice","_value":[32, 64, 128]},
+
+    "temporal_merge_gal_num_heads": {"_type":"choice","_value":[2, 3, 4]}
+}

@@ -12,6 +12,7 @@ AMulti_GCLSTM_Obj = AMulti_GCLSTM(closeness_len=data_loader.closeness_len,
                                   num_graph=data_loader.LM.shape[0],
                                   external_dim=data_loader.external_dim)
 
+# Build tf-graph
 AMulti_GCLSTM_Obj.build()
 
 # Training
@@ -21,8 +22,7 @@ AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
                       laplace_matrix=data_loader.LM,
                       target=data_loader.train_y,
                       external_feature=data_loader.train_ef,
-                      sequence_length=data_loader.train_sequence_len,
-                      validate_ratio=0.1)
+                      sequence_length=data_loader.train_sequence_len)
 
 # Predict
 prediction = AMulti_GCLSTM_Obj.predict(closeness_feature=data_loader.test_closeness,
@@ -31,7 +31,9 @@ prediction = AMulti_GCLSTM_Obj.predict(closeness_feature=data_loader.test_closen
                                        laplace_matrix=data_loader.LM,
                                        target=data_loader.test_y,
                                        external_feature=data_loader.test_ef,
+                                       output_names=['prediction'],
                                        sequence_length=data_loader.test_sequence_len)
 
-# Compute metric
-print('Test result', metric.rmse(prediction=prediction['prediction'], target=data_loader.test_y))
+# Evaluate
+print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
+                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0))

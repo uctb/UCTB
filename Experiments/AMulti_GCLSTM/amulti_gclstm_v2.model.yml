@@ -13,6 +13,8 @@ num_hidden_units: 64
 # dense units
 num_filter_conv1x1: 32
 
+build_transfer: False
+
 # merge parameters
 graph_merge_gal_units: 64
 graph_merge_gal_num_heads: 2

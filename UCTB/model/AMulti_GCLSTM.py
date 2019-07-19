@@ -37,15 +37,16 @@ class AMulti_GCLSTM(BaseModel):
                  temporal_merge_gal_num_heads=2,
 
                  # network structure parameters
-                 st_method='gal_gcn',          # gclstm
-                 temporal_merge='concat',     # gal
-                 graph_merge='concat',        # concat
+                 st_method='gclstm',       # gclstm
+                 temporal_merge='gal',     # gal
+                 graph_merge='gal',        # concat
 
                  # Transfer learning
                  build_transfer=False,
+                 transfer_ratio=0,
 
                  lr=1e-4,
-                 code_version='QuickStart',
+                 code_version='AMulti-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0', **kwargs):
 
@@ -70,6 +71,9 @@ class AMulti_GCLSTM(BaseModel):
         self._graph_merge = graph_merge
 
         self._build_transfer = build_transfer
+        self._transfer_ratio = transfer_ratio
+        if self._build_transfer:
+            assert 0 <= self._transfer_ratio <= 1
 
         self._tpe_dim = tpe_dim
         if st_method == 'gal_gcn':
@@ -251,12 +255,14 @@ class AMulti_GCLSTM(BaseModel):
                                                      kernel_size=[1, 1],
                                                      kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),
                                                      kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
+                                                     activation=tf.nn.tanh,
                                                      )(conv1x1_output0)
 
             pre_output = tf.keras.layers.Conv2D(filters=1,
                                                 kernel_size=[1, 1],
                                                 kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),
-                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4)
+                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
+                                                activation=tf.nn.sigmoid,
                                                 )(conv1x1_output1)
 
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
@@ -265,7 +271,7 @@ class AMulti_GCLSTM(BaseModel):
             train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
 
             if self._build_transfer:
-                transfer_loss = 0.5 * transfer_loss + 0.5 * loss_pre
+                transfer_loss = self._transfer_ratio * transfer_loss + (1 - self._transfer_ratio) * loss_pre
                 transfer_op = tf.train.AdamOptimizer(self._lr).minimize(transfer_loss, name='transfer_op')
                 self._output['transfer_loss'] = transfer_loss.name
                 self._op['transfer_op'] = transfer_op.name

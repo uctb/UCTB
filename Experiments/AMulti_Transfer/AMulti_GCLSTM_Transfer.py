@@ -13,8 +13,8 @@ from UCTB.evaluation import metric
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
 parser.add_argument('-sd', '--source_data', default='bike_chicago.data.yml')
-parser.add_argument('-td', '--target_data', default='bike_dc.data.yml')
-parser.add_argument('-tdl', '--target_data_length', default='29', type=str)
+parser.add_argument('-td', '--target_data', default='bike_nyc.data.yml')
+parser.add_argument('-tdl', '--target_data_length', default='1', type=str)
 parser.add_argument('-pt', '--pretrain', default='True')
 parser.add_argument('-ft', '--finetune', default='True')
 parser.add_argument('-tr', '--transfer', default='True')
@@ -34,11 +34,42 @@ assert sd_params['closeness_len'] == td_params['closeness_len']
 assert sd_params['period_len'] == td_params['period_len']
 assert sd_params['trend_len'] == td_params['trend_len']
 
+
+def show_prediction(pretrain, finetune, transfer, target, station_index, start=0, end=-1):
+
+    import matplotlib.pyplot as plt
+
+    # fig, axs = plt.subplots(1, 2, figsize=(9, 3))
+    # axs[0].plot(prediction[start:end, station_index])
+    # axs[1].plot(target[start:end, station_index])
+    fig, axs = plt.subplots()
+
+    axs.plot(pretrain[start:end, station_index], 'b', label='pretrain')
+    axs.plot(finetune[start:end, station_index], 'g', label='finetune')
+    axs.plot(transfer[start:end, station_index], 'y', label='transfer')
+    axs.plot(target[start:end, station_index], 'r', label='target')
+
+    axs.grid()
+    axs.legend(fontsize=15)
+
+    axs.set_xlabel('Time', fontsize=15)
+    axs.set_ylabel('Demand', fontsize=15)
+
+    axs.set_title('Station/Grid %s' % station_index)
+
+    fig.set_size_inches(10, 5)
+    fig.savefig(os.path.join(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'PNG'),
+                             '%s.png' % 'station-%s' % station_index), dpi=150)
+    plt.close()
+
 #####################################################################
 # Generate code_version
 group = 'Amulti_Transfer'
 code_version = 'AMultiGCLSTM_SD_{}_TD_{}'.format(args['source_data'].split('.')[0].split('_')[-1],
                                                  args['target_data'].split('.')[0].split('_')[-1])
+
+sub_code_version = 'C{}P{}T{}_G{}'.format(sd_params['closeness_len'], sd_params['period_len'], sd_params['trend_len'],
+                                          ''.join([e[0].upper() for e in sd_params['graph'].split('-')]))
 
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, group)
@@ -47,7 +78,7 @@ model_dir_path = os.path.join(model_dir_path, group)
 
 data_loader = TransferDataLoader(sd_params, td_params, model_params, td_data_length=args['target_data_length'])
 
-deviceIDs = GPUtil.getAvailable(order='first', limit=2, maxLoad=0.3, maxMemory=0.3,
+deviceIDs = GPUtil.getAvailable(order='memory', limit=2, maxLoad=0.3, maxMemory=0.3,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
 if len(deviceIDs) == 0:
@@ -62,6 +93,7 @@ sd_model = AMulti_GCLSTM(num_node=data_loader.sd_loader.station_number,
                          code_version=code_version,
                          model_dir=model_dir_path,
                          gpu_device=current_device,
+                         transfer_ratio=0,
                          **sd_params, **model_params)
 sd_model.build()
 
@@ -71,6 +103,7 @@ td_model = AMulti_GCLSTM(num_node=data_loader.td_loader.station_number,
                          tpe_dim=data_loader.td_loader.tpe_dim,
                          code_version=code_version,
                          model_dir=model_dir_path,
+                         transfer_ratio=0.6,
                          gpu_device=current_device,
                          **td_params, **model_params)
 td_model.build()
@@ -92,9 +125,9 @@ print(td_params['dataset'], td_params['city'])
 print('Number of trainable variables', td_model.trainable_vars)
 print('Number of training samples', data_loader.td_loader.train_sequence_len)
 
-pretrain_model_name = 'pretrain_C6'
-finetune_model_name = 'finetune_C6_' + str(data_loader.td_loader.train_sequence_len)
-transfer_model_name = 'transfer_C6_' + str(data_loader.td_loader.train_sequence_len)
+pretrain_model_name = 'Pretrain_' + sub_code_version
+finetune_model_name = 'Finetune_' + sub_code_version + '_' + str(data_loader.td_loader.train_sequence_len)
+transfer_model_name = 'Transfer_' + sub_code_version + '_' + str(data_loader.td_loader.train_sequence_len)
 
 if args['pretrain'] == 'True':
     print('#################################################################')
@@ -122,6 +155,8 @@ if args['pretrain'] == 'True':
                      verbose=True,
                      save_model=False)
         sd_model.save(pretrain_model_name, global_step=0)
+
+    sd_model.load(pretrain_model_name)
 
     prediction = sd_model.predict(closeness_feature=data_loader.sd_loader.test_closeness,
                                   period_feature=data_loader.sd_loader.test_period,
@@ -156,11 +191,11 @@ if args['pretrain'] == 'True':
                                   sequence_length=data_loader.td_loader.test_sequence_len,
                                   cache_volume=td_params['batch_size'], )
 
-    test_prediction = prediction['prediction']
+    pretrain_prediction = prediction['prediction']
 
-    test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(test_prediction),
+    test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(pretrain_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
-                           metric.mape(prediction=td_de_normalizer(test_prediction),
+                           metric.mape(prediction=td_de_normalizer(pretrain_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
     print('#################################################################')
@@ -202,11 +237,11 @@ if args['finetune'] == 'True':
                                   sequence_length=data_loader.td_loader.test_sequence_len,
                                   cache_volume=td_params['batch_size'], )
 
-    test_prediction = prediction['prediction']
+    finetune_prediction = prediction['prediction']
 
-    test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(test_prediction),
+    test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(finetune_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
-                           metric.mape(prediction=td_de_normalizer(test_prediction),
+                           metric.mape(prediction=td_de_normalizer(finetune_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
     print('#################################################################')
@@ -225,7 +260,8 @@ if args['transfer'] == 'True':
         feature_maps = []
         for record in traffic_sim:
             # score, index, start, end
-            sd_transfer_data = data_loader.sd_loader.train_data[record[2]: record[3], :]
+            # sd_transfer_data = data_loader.sd_loader.train_data[record[2]: record[3], :]
+            sd_transfer_data = data_loader.sd_loader.train_data[-data_loader.td_loader.train_data.shape[0]:, :]
 
             transfer_closeness, \
             transfer_period, \
@@ -277,13 +313,23 @@ if args['transfer'] == 'True':
                                   sequence_length=data_loader.td_loader.test_sequence_len,
                                   cache_volume=td_params['batch_size'], )
 
-    test_prediction = prediction['prediction']
+    transfer_prediction = prediction['prediction']
 
-    test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(test_prediction),
+    test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
-                           metric.mape(prediction=td_de_normalizer(test_prediction),
+                           metric.mape(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
     print('#################################################################')
     print('Target Domain Transfer')
     print(test_rmse, test_mape)
+    
+# Plot
+
+for index in range(0, data_loader.td_loader.station_number, 10):
+
+    show_prediction(pretrain=pretrain_prediction,
+                    finetune=finetune_prediction,
+                    transfer=transfer_prediction,
+                    target=data_loader.td_loader.test_y,
+                    station_index=index, start=0, end=500)

@@ -3,8 +3,8 @@ dataset: DiDi
 city: Chengdu
 
 closeness_len: 6
-period_len: 0
-trend_len: 0
+period_len: 7
+trend_len: 4
 
 graph: Distance
 
@@ -18,11 +18,11 @@ threshold_interaction: 30
 normalize: True
 train: True
 
-lr: 1e-5
+lr: 2e-5
 early_stop_length: 500
 early_stop_patience: 0.1
 max_epoch: 20000
 batch_size: 128
 
 group: Chengdu
-mark: C6
+mark: BenchMark

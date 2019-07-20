@@ -1,25 +1,14 @@
-import numpy as np
-from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import XGBoost
+from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
 
-data_loader = NodeTrafficLoader(dataset='DiDi', city='Xian', with_lm=False)
+data_loader = NodeTrafficLoader(dataset='DiDi', city='Xian',
+                                closeness_len=12, period_len=0, trend_len=2,
+                                with_lm=False, with_tpe=False, normalize=False)
 
-prediction = []
-
-for i in range(data_loader.station_number):
-
-    print('*************************************************************')
-    print('Station', i)
-
-    model = XGBoost(max_depth=10)
-
-    model.fit(data_loader.train_x[:, :, i, 0], data_loader.train_y[:, i], num_boost_round=20)
-
-    p = model.predict(data_loader.test_x[:, :, i, 0]).reshape([-1, 1, 1])
-
-    prediction.append(p)
-
-prediction = np.concatenate(prediction, axis=-2)
-
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+model = XGBoost(n_estimators=10, max_depth=5)
+model.fit(data_loader)
+results = model.predict(data_loader)
+print('RMSE', metric.rmse(results, data_loader.test_y, threshold=0))
+# or
+model.eval()

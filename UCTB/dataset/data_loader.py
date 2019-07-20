@@ -461,19 +461,21 @@ class NodeTrafficLoader(object):
         fig = dict(data=bikeStations, layout=layout)
         plotly.offline.plot(fig, filename=file_name)
 
-    def make_concat(self, node, is_train):
+    def make_concat(self, node='all', is_train=True):
         """A function to concatenate all closeness, period and trend history data to use as inputs of models.
 
         Args:
-            node (int): To specify the index of certain node
-            is_train (int): If set to ``True``, ``train_closeness``, ``train_period``, and ``train_trend`` will be
+            node (int or ``'all'``): To specify the index of certain node. If set to ``'all'``, return the concatenation
+                result of all nodes. If set to an integer, it will be the index of the selected node. Default: ``'all'``
+            is_train (bool): If set to ``True``, ``train_closeness``, ``train_period``, and ``train_trend`` will be
                 concatenated. If set to ``False``, ``test_closeness``, ``test_period``, and ``test_trend`` will be
-                concatenated.
+                concatenated. Default: True
 
         Returns:
-            numpy.ndarray: Function returns an ndarray with shape *L* \* (``closeness_len`` + ``period_len`` +
-            ``trend_len``), and *L* is the temporal length of train set data if ``is_train`` is ``Ture`` or the
-            temporal length of test set data if ``is_train`` is ``False``. On the second dimension, data are arranged as
+            numpy.ndarray: Function returns an ndarray with shape *L* \* *N* \* (``closeness_len`` + ``period_len`` +
+            ``trend_len``) \* 1, and *L* is the temporal length of train set data if ``is_train`` is ``Ture`` or the
+            temporal length of test set data if ``is_train`` is ``False``, and *N* is the number of selected nodes.
+            On the second dimension, data are arranged as
              ``earlier closeness -> later closeness -> earlier period -> later period -> earlier trend -> later trend``.
         """
 
@@ -487,13 +489,19 @@ class NodeTrafficLoader(object):
             closeness = self.test_closeness
             period = self.test_period
             trend = self.test_trend
-        history = np.zeros([length, self.closeness_len + self.period_len + self.trend_len])
-        for c in range(self.closeness_len):
-            history[:, c] = closeness[:, node, c, -1]
-        for p in range(self.period_len):
-            history[:, self.closeness_len + p] = period[:, node, p, -1]
-        for t in range(self.trend_len):
-            history[:, self.closeness_len + self.period_len + t] = trend[:, node, t, -1]
+        if node == 'all':
+            node = list(range(self.station_number))
+        else:
+            node = [node]
+        history = np.zeros([length, len(node), self.closeness_len + self.period_len + self.trend_len])
+        for i in range(len(node)):
+            for c in range(self.closeness_len):
+                history[:, i, c] = closeness[:, node[i], c, -1]
+            for p in range(self.period_len):
+                history[:, i, self.closeness_len + p] = period[:, node[i], p, -1]
+            for t in range(self.trend_len):
+                history[:, i, self.closeness_len + self.period_len + t] = trend[:, node[i], t, -1]
+        history = np.expand_dims(history, 3)
         return history
 
 

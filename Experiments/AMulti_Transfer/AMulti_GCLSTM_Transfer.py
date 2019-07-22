@@ -39,9 +39,6 @@ def show_prediction(pretrain, finetune, transfer, target, station_index, start=0
 
     import matplotlib.pyplot as plt
 
-    # fig, axs = plt.subplots(1, 2, figsize=(9, 3))
-    # axs[0].plot(prediction[start:end, station_index])
-    # axs[1].plot(target[start:end, station_index])
     fig, axs = plt.subplots()
 
     axs.plot(pretrain[start:end, station_index], 'b', label='pretrain')
@@ -64,7 +61,7 @@ def show_prediction(pretrain, finetune, transfer, target, station_index, start=0
 
 #####################################################################
 # Generate code_version
-group = 'Amulti_Transfer'
+group = 'AMulti_Transfer'
 code_version = 'AMultiGCLSTM_SD_{}_TD_{}'.format(args['source_data'].split('.')[0].split('_')[-1],
                                                  args['target_data'].split('.')[0].split('_')[-1])
 

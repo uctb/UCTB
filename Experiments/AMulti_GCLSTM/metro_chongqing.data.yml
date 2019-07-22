@@ -6,7 +6,7 @@ closeness_len: 6
 period_len: 7
 trend_len: 4
 
-graph: Distance # Correlation-Line-
+graph: Distance # Correlation-Line
 
 data_range: all
 train_data_length: all
@@ -25,4 +25,4 @@ max_epoch: 20000
 batch_size: 64
 
 group: Chongqing
-mark: BenchMark
+mark: BenchMarkV1

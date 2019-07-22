@@ -181,7 +181,7 @@ class NodeTrafficLoader(object):
             length of train set data. ``test_y`` has similar shape and construction.
         LM (list): If ``with_lm`` is ``True``, the list of Laplacian matrices of graphs listed in ``graph``.
     """
-    
+
     def __init__(self,
                  dataset,
                  city=None,
@@ -205,6 +205,14 @@ class NodeTrafficLoader(object):
         self.dataset = DataSet(dataset, city, data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
+
+        self.closeness_len = int(closeness_len)
+        self.period_len = int(period_len)
+        self.trend_len = int(trend_len)
+
+        assert type(self.closeness_len) is int and self.closeness_len >= 0
+        assert type(self.period_len) is int and self.period_len >= 0
+        assert type(self.trend_len) is int and self.trend_len >= 0
 
         if type(data_range) is str and data_range.lower() == 'all':
             data_range = [0, len(self.dataset.node_traffic)]
@@ -261,25 +269,19 @@ class NodeTrafficLoader(object):
 
         # expand the test data
         expand_start_index = len(self.train_data) - \
-                             max(int(self.daily_slots * period_len),
-                                 int(self.daily_slots * 7 * trend_len),
-                                 closeness_len)
+                             max(int(self.daily_slots * self.period_len),
+                                 int(self.daily_slots * 7 * self.trend_len),
+                                 self.closeness_len)
 
         self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
         self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
 
-        assert type(closeness_len) is int and closeness_len >= 0
-        assert type(period_len) is int and period_len >= 0
-        assert type(trend_len) is int and trend_len >= 0
 
-        self.closeness_len = closeness_len
-        self.period_len = period_len
-        self.trend_len = trend_len
 
         # init move sample obj
-        self.st_move_sample = ST_MoveSample(closeness_len=closeness_len,
-                                            period_len=period_len,
-                                            trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
+        self.st_move_sample = ST_MoveSample(closeness_len=self.closeness_len,
+                                            period_len=self.period_len,
+                                            trend_len=self.trend_len, target_length=1, daily_slots=self.daily_slots)
 
         self.train_closeness, \
         self.train_period, \
@@ -301,12 +303,12 @@ class NodeTrafficLoader(object):
         if with_tpe:
 
             # Time position embedding
-            self.closeness_tpe = np.array(range(1, closeness_len+1), dtype=np.float32)
+            self.closeness_tpe = np.array(range(1, self.closeness_len+1), dtype=np.float32)
             self.period_tpe = np.array(range(1 * int(self.daily_slots),
-                                       period_len * int(self.daily_slots)+1,
+                                       self.period_len * int(self.daily_slots)+1,
                                        int(self.daily_slots)), dtype=np.float32)
             self.trend_tpe = np.array(range(1 * int(self.daily_slots) * 7,
-                                      trend_len * int(self.daily_slots) * 7 + 1,
+                                      self.trend_len * int(self.daily_slots) * 7 + 1,
                                       int(self.daily_slots) * 7), dtype=np.float32)
 
             self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
@@ -439,7 +441,7 @@ class NodeTrafficLoader(object):
                                             195 - e * 195 / max(build_order)) for e in build_order],
                 opacity=1,
             ))]
-        
+
         layout = Layout(
             title='Bike Station Location & The latest built stations with deeper color',
             autosize=True,

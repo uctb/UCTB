@@ -13,7 +13,7 @@ class ST_ResNet(BaseModel):
                  period_len,
                  trend_len,
                  num_residual_unit=4,
-                 kernal_size=3,
+                 kernel_size=3,
                  lr=5e-5,
                  model_dir='model_dir',
                  code_version='QuickStart',
@@ -28,7 +28,7 @@ class ST_ResNet(BaseModel):
         self._period_len = period_len
         self._trend_len = trend_len
         self._conv_filters = conv_filters
-        self._kernal_size = kernal_size
+        self._kernel_size = kernel_size
         self._external_dim = external_dim
         self._num_residual_unit = num_residual_unit
         self._lr = lr
@@ -61,23 +61,23 @@ class ST_ResNet(BaseModel):
             for conf in target_conf:
 
                 residual_input = tf.layers.conv2d(conf, filters=self._conv_filters,
-                                                  kernel_size=[self._kernal_size, self._kernal_size],
+                                                  kernel_size=[self._kernel_size, self._kernel_size],
                                                   padding='SAME', activation=tf.nn.relu)
 
                 def residual_unit(x):
                     residual_output = tf.nn.relu(x)
                     residual_output = tf.layers.conv2d(residual_output, filters=self._conv_filters,
-                                                       kernel_size=[self._kernal_size, self._kernal_size], padding='SAME')
+                                                       kernel_size=[self._kernel_size, self._kernel_size], padding='SAME')
                     residual_output = tf.nn.relu(residual_output)
                     residual_output = tf.layers.conv2d(residual_output, filters=self._conv_filters,
-                                                       kernel_size=[self._kernal_size, self._kernal_size], padding='SAME')
+                                                       kernel_size=[self._kernel_size, self._kernel_size], padding='SAME')
                     return residual_output + x
 
                 for i in range(self._num_residual_unit):
                     residual_input = residual_unit(residual_input)
 
                 outputs.append(tf.layers.conv2d(tf.nn.relu(residual_input), filters=self._conv_filters,
-                                                kernel_size=[self._kernal_size, self._kernal_size], padding='SAME'))
+                                                kernel_size=[self._kernel_size, self._kernel_size], padding='SAME'))
 
             if len(outputs) == 1:
                 x = outputs[0]

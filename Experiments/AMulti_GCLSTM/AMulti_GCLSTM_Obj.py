@@ -14,7 +14,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
 parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
-parser.add_argument('-p', '--update_params', default='graph:Distance')
+parser.add_argument('-p', '--update_params', default='')
 
 # Parse params
 terminal_vars = vars(parser.parse_args())
@@ -23,7 +23,11 @@ args = {}
 for yml_file in yml_files:
     with open(yml_file, 'r') as f:
         args.update(yaml.load(f))
-args.update({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
+
+if len(terminal_vars['update_params']) > 0:
+    args.update({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
+
+print({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
 
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
@@ -159,7 +163,9 @@ if de_normalizer:
 print('Best val result', best_val_loss)
 print('Test result', test_rmse, test_mape)
 
-print('Converged using %.2f hour' % ((val_loss[-1][0] - val_loss[0][0]) / 3600))
+time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
+time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600
+print('Converged using %.2f hour / %s epochs' % (time_consumption, amulti_gclstm_obj._global_step))
 if nni_params:
     nni.report_final_result({
         'default': best_val_loss,

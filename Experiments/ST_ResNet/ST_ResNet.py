@@ -9,8 +9,9 @@ args = {
     'city': 'Xian',
     'num_residual_unit': 4,
     'conv_filters': 64,
-    'kernal_size': 3,
-    'lr': 5e-5
+    'kernel_size': 3,
+    'lr': 1e-5,
+    'batch_size': 32
 }
 
 code_version = 'ST_ResNet_{}_{}'.format(args['dataset'], args['city'])
@@ -27,9 +28,9 @@ data_loader = GridTrafficLoader(dataset=args['dataset'], city=args['city'], clos
 ST_ResNet_Obj = ST_ResNet(closeness_len=data_loader.closeness_len,
                           period_len=data_loader.period_len,
                           trend_len=data_loader.trend_len,
-                          external_dim=data_loader.external_dim,
+                          external_dim=data_loader.external_dim, lr=args['lr'],
                           num_residual_unit=args['num_residual_unit'], conv_filters=args['conv_filters'],
-                          kernal_size=args['kernal_size'], width=data_loader.width, height=data_loader.height,
+                          kernel_size=args['kernel_size'], width=data_loader.width, height=data_loader.height,
                           code_version=code_version)
 
 ST_ResNet_Obj.build()
@@ -45,7 +46,7 @@ ST_ResNet_Obj.fit(closeness_feature=data_loader.train_closeness,
                   target=data_loader.train_y,
                   external_feature=data_loader.train_ef,
                   sequence_length=data_loader.train_sequence_len,
-                  early_stop_length=100,
+                  batch_size=args['batch_size'], early_stop_length=200,
                   validate_ratio=0.1)
 
 # Predict

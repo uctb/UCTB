@@ -2,7 +2,7 @@ authorName: DiChai
 experimentName: search_space
 trialConcurrency: 1
 maxExecDuration: 24h
-maxTrialNum: 200
+maxTrialNum: 50
 trainingServicePlatform: local
 # The path to Search Space
 searchSpacePath: search_space.json
@@ -11,6 +11,6 @@ tuner:
   builtinTunerName: GridSearch
 # The path and the running command of trial
 trial:
-  command: python ST_ResNet.py
+  command: python DeepST.py
   codeDir: .
   gpuNum: 1

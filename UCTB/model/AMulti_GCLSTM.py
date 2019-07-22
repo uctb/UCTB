@@ -79,9 +79,9 @@ class AMulti_GCLSTM(BaseModel):
         if st_method == 'gal_gcn':
             assert self._tpe_dim
 
-        self._closeness_len = closeness_len
-        self._period_len = period_len
-        self._trend_len = trend_len
+        self._closeness_len = int(closeness_len)
+        self._period_len = int(period_len)
+        self._trend_len = int(trend_len)
         self._num_hidden_unit = num_hidden_units
         self._num_filter_conv1x1 = num_filter_conv1x1
         self._lr = lr

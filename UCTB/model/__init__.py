@@ -1,3 +1,4 @@
+from .ModelObject import ModelObject
 
 from .HM import HM
 from .ARIMA import ARIMA
@@ -8,6 +9,7 @@ except ModuleNotFoundError:
     print('HMM not installed')
 
 from .XGBoost import XGBoost
+from .GBRT import GBRT
 
 from .DeepST import DeepST
 from .ST_ResNet import ST_ResNet

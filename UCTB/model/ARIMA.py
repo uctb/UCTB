@@ -1,3 +1,5 @@
+from .ModelObject import ModelObject
+
 import numpy as np
 import pandas as pd
 import statsmodels.api as sm
@@ -5,32 +7,21 @@ import statsmodels.api as sm
 import warnings
 warnings.filterwarnings("ignore")
 
+class ARIMA(ModelObject):
 
-class ARIMA(object):
+    def __init__(self, order=None, max_ar=6, max_ma=2, max_d=2, forecast_step=1):
+        super(ARIMA, self).__init__()
 
-    def __init__(self, closeness_feature, period_feature, trend_feature,
-                 order=None, max_ar=6, max_ma=2, max_d=2):
+        self.order = order
+        self.max_ar = max_ar
+        self.max_ma = max_ma
+        self.max_d = max_d
+        self.forecast_step = forecast_step
 
-        self.temporal_features = []
-        if closeness_feature is not None and 0 not in closeness_feature.shape:
-            self.temporal_features.append(closeness_feature)
-        if period_feature is not None and 0 not in period_feature.shape:
-            self.temporal_features.append(period_feature)
-        if trend_feature is not None and 0 not in trend_feature.shape:
-            self.temporal_features.append(trend_feature)
+        self.orders = []
 
-        assert len(self.temporal_features) > 0
-
-        self.order = []
-        self.model_res = []
-        for data in self.temporal_features:
-            order = self.get_order(data, order)
-            model = sm.tsa.SARIMAX(data, order=order, max_ar=max_ar, max_ma=max_ma, max_d=max_d)
-            model_res = model.fit(disp=False)
-            self.order.append(order)
-            self.model_res.append(model_res)
-
-    def get_order(self, series, order=None, max_ar=6, max_ma=2, max_d=2):
+    @staticmethod
+    def get_order(series, order=None, max_ar=6, max_ma=2, max_d=2):
         if order is None:
             # difference
             def stationary(series):
@@ -72,25 +63,92 @@ class ARIMA(object):
             print(output)
         return t
 
-    def predict(self, closeness_feature, period_feature, trend_feature, forecast_step=1):
+    def _fit(self, data):
+        order = self.get_order(data, self.order)
+        model = sm.tsa.SARIMAX(data, order=order, max_ar=self.max_ar, max_ma=self.max_ma, max_d=self.max_d)
 
-        temporal_features = []
+        try:
+            model_res = model.fit(disp=False)
+        except:
+            model_res = None
+
+        return order, model_res
+
+    def fit(self, X, y=None):
+
+        self.models = []
+        self.orders = []
+
+        train_x, train_y = self.make_train_data(X, y)
+        closeness_feature, period_feature, trend_feature = train_x
+        node_num = train_y.shape[1]
+
+        for i in range(node_num):
+            self.models.append([None] * 3)
+            self.orders.append([None] * 3)
+            if closeness_feature is not None and 0 not in closeness_feature.shape:
+                data = closeness_feature[:, i, -1, 0]
+                order, model_res = self._fit(data)
+                self.models[-1][0] = model_res
+                self.orders[-1][0] = order
+
+            if period_feature is not None and 0 not in period_feature.shape:
+                data = period_feature[:, i, -1, 0]
+                order, model_res = self._fit(data)
+                self.models[-1][1] = model_res
+                self.orders[-1][1] = order
+
+            if trend_feature is not None and 0 not in trend_feature.shape:
+                data = trend_feature[:, i, -1, 0]
+                order, model_res = self._fit(data)
+                self.models[-1][2] = model_res
+                self.orders[-1][2] = order
+
+        return self.models, self.orders
+
+    @staticmethod
+    def _predict(model_res, order, X, forecast_step):
+        model = sm.tsa.SARIMAX(X, order=order)
+
+        try:
+            model_res = model.filter(model_res.params)
+            p = model_res.forecast(forecast_step)[-1]
+        except AttributeError:
+            p = 0
+
+        return p
+
+    def predict(self, X):
+
+        closeness_feature, period_feature, trend_feature = self.make_test_data(X)
+        slot_num = 0
+        node_num = 0
+        feature_num = 0
         if closeness_feature is not None and 0 not in closeness_feature.shape:
-            temporal_features.append(closeness_feature)
+            slot_num = closeness_feature.shape[0]
+            node_num = closeness_feature.shape[1]
+            feature_num += 1
         if period_feature is not None and 0 not in period_feature.shape:
-            temporal_features.append(period_feature)
+            slot_num = period_feature.shape[0]
+            node_num = period_feature.shape[1]
+            feature_num += 1
         if trend_feature is not None and 0 not in trend_feature.shape:
-            temporal_features.append(trend_feature)
+            slot_num = trend_feature.shape[0]
+            node_num = trend_feature.shape[1]
+            feature_num += 1
+        self.results = np.zeros((node_num, slot_num), dtype=np.float32)
 
-        assert len(temporal_features) == len(self.temporal_features)
+        for i in range(node_num):
+            for j in range(slot_num):
+                if closeness_feature is not None and 0 not in closeness_feature.shape:
+                    self.results[i][j] += self._predict(self.models[i][0], self.orders[i][0],
+                                                        closeness_feature[j, i, :, 0], self.forecast_step)
+                if period_feature is not None and 0 not in period_feature.shape:
+                    self.results[i][j] += self._predict(self.models[i][1], self.orders[i][1],
+                                                        period_feature[j, i, :, 0], self.forecast_step)
+                if trend_feature is not None and 0 not in trend_feature.shape:
+                    self.results[i][j] += self._predict(self.models[i][2], self.orders[i][2],
+                                                        trend_feature[j, i, :, 0], self.forecast_step)
 
-        result = []
-        for index in range(len(temporal_features)):
-            tmp_result = []
-            for i in range(len(temporal_features[index])):
-                model = sm.tsa.SARIMAX(temporal_features[index][i], order=self.order[index])
-                model_res = model.filter(self.model_res[index].params)
-                p = model_res.forecast(forecast_step).reshape([1, -1])
-                tmp_result.append(p)
-            result.append(np.array(tmp_result, dtype=np.float32))
-        return np.mean(result, dtype=np.float32, axis=0)
+        self.results /= feature_num
+        return np.expand_dims(np.transpose(self.results, (1, 0)), 2)

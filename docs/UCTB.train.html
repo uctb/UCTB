@@ -1,0 +1,177 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.train package &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="uctb-train-package">
+<h1>UCTB.train package<a class="headerlink" href="#uctb-train-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UCTB.train.EarlyStopping">
+<span id="uctb-train-earlystopping-module"></span><h2>UCTB.train.EarlyStopping module<a class="headerlink" href="#module-UCTB.train.EarlyStopping" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.train.EarlyStopping.EarlyStopping">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.EarlyStopping.</code><code class="sig-name descname">EarlyStopping</code><span class="sig-paren">(</span><em class="sig-param">patience</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.train.EarlyStopping.EarlyStopping.stop">
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><em class="sig-param">new_value</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.EarlyStopping.</code><code class="sig-name descname">EarlyStoppingTTest</code><span class="sig-paren">(</span><em class="sig-param">length</em>, <em class="sig-param">p_value_threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest.stop">
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><em class="sig-param">new_value</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.stop" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.train.MiniBatchTrain">
+<span id="uctb-train-minibatchtrain-module"></span><h2>UCTB.train.MiniBatchTrain module<a class="headerlink" href="#module-UCTB.train.MiniBatchTrain" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchFeedDict</code><span class="sig-paren">(</span><em class="sig-param">feed_dict</em>, <em class="sig-param">sequence_length</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch">
+<code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart">
+<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle">
+<em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchTrain</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em>, <em class="sig-param">batch_size</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch">
+<code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.restart">
+<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.restart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle">
+<em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchTrainMultiData</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch">
+<code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart">
+<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle">
+<em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.train">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-UCTB.train" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Di Chai, Leye Wang, Jin Xu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/UCTB.train.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

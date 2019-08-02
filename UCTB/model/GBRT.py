@@ -6,7 +6,7 @@ import numpy as np
 class GBRT(ModelObject):
     """Gradient Boosting for regression.
 
-    Attributes:
+    Args:
         n_estimators (int): The number of boosting stages to perform. Default: 100
         max_depth (int): Maximum depth of the individual regression estimators.
             The maximum depth limits the number of nodes in the tree. Default: 5

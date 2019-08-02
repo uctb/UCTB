@@ -4,7 +4,30 @@ from ..model_unit import BaseModel
 
 
 class ST_ResNet(BaseModel):
+    """ST-ResNet is a deep-learning model with an end-to-end structure
+    based on unique properties of spatio-temporal data making use of convolution and residual units.
 
+    Reference: `Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)
+    <https://arxiv.org/pdf/1610.00081.pdf>`_.
+
+    Args:
+        width (int): The width of grid data.
+        height (int): The height of grid data.
+        externai_dim (int): Number of dimensions of external data.
+        closeness_len (int): The length of closeness data history. The former consecutive ``closeness_len`` time slots
+            of data will be used as closeness history.
+        period_len (int): The length of period data history. The data of exact same time slots in former consecutive
+            ``period_len`` days will be used as period history.
+        trend_len (int): The length of trend data history. The data of exact same time slots in former consecutive
+            ``trend_len`` weeks (every seven days) will be used as trend history.
+        num_residual_unit (int): Number of residual units. Default: 4
+        kernel_size (int): Kernel size in Convolutional neural networks. Default: 3
+        lr (float): Learning rate. Default: 1e-5
+        code_version (str): Current version of this model code.
+        model_dir (str): The directory to store model files. Default:'model_dir'
+        conv_filters (int):  the Number of filters in the convolution. Default: 64
+        gpu_device (str): To specify the GPU to use. Default: '0'
+    """
     def __init__(self,
                  width,
                  height,
@@ -110,6 +133,23 @@ class ST_ResNet(BaseModel):
 
     def _get_feed_dict(self, closeness_feature=None, period_feature=None, trend_feature=None,
                        target=None, external_feature=None):
+        '''
+        The method to get feet dict for tensorflow model.
+
+        Users may modify this method according to the format of input.
+
+        Args:
+            closeness_feature (np.ndarray or ``None``): The closeness history data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, closeness_len].
+            period_feature (np.ndarray or ``None``): The period history data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, period_len].
+            trend_feature (np.ndarray or ``None``): The trend history data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, trend_len].
+            target (np.ndarray or ``None``): The target value data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, 1].
+            external_feature (np.ndarray or ``None``): The external feature data.
+                If type is np.ndaaray, its shape is [time_slot_num, feature_num].
+        '''
         feed_dict = {}
         if target is not None:
             feed_dict['target'] = target

@@ -223,6 +223,34 @@ each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an em
 <dt id="UCTB.model.DeepST.DeepST">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DeepST.</code><code class="sig-name descname">DeepST</code><span class="sig-paren">(</span><em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">kernel_size=3</em>, <em class="sig-param">num_conv_filters=64</em>, <em class="sig-param">lr=1e-05</em>, <em class="sig-param">code_version='QuickStart-DeepST'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DeepST.DeepST" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<p>Deep learning-based prediction model for Spatial-Temporal data (DeepST)</p>
+<p>DeepST is composed of three components: 1) temporal dependent
+instances: describing temporal closeness, period and seasonal
+trend; 2) convolutional neural networks: capturing near and
+far spatial dependencies; 3) early and late fusions: fusing
+similar and different domains’ data.</p>
+<p>Reference: <a class="reference external" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+of data will be used as closeness history.</p></li>
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The width of grid data.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The height of grid data.</p></li>
+<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
+<li><p><strong>num_conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Current version of this model code.</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model.DeepST.DeepST.build">
 <code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DeepST.DeepST.build" title="Permalink to this definition">¶</a></dt>
@@ -238,29 +266,15 @@ each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an em
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GBRT.</code><code class="sig-name descname">GBRT</code><span class="sig-paren">(</span><em class="sig-param">n_estimators=100</em>, <em class="sig-param">max_depth=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GBRT.GBRT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#UCTB.model.ModelObject.ModelObject" title="UCTB.model.ModelObject.ModelObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model.ModelObject.ModelObject</span></code></a></p>
 <p>Gradient Boosting for regression.</p>
-<dl class="attribute">
-<dt id="UCTB.model.GBRT.GBRT.n_estimators">
-<code class="sig-name descname">n_estimators</code><a class="headerlink" href="#UCTB.model.GBRT.GBRT.n_estimators" title="Permalink to this definition">¶</a></dt>
-<dd><p>The number of boosting stages to perform. Default: 100</p>
 <dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The number of boosting stages to perform. Default: 100</p></li>
+<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum depth of the individual regression estimators.
+The maximum depth limits the number of nodes in the tree. Default: 5</p></li>
+</ul>
 </dd>
 </dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.GBRT.GBRT.max_depth">
-<code class="sig-name descname">max_depth</code><a class="headerlink" href="#UCTB.model.GBRT.GBRT.max_depth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maximum depth of the individual regression estimators.
-The maximum depth limits the number of nodes in the tree. Default: 5</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
 <dl class="method">
 <dt id="UCTB.model.GBRT.GBRT.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GBRT.GBRT.fit" title="Permalink to this definition">¶</a></dt>
@@ -618,6 +632,31 @@ the whole validation dataset</p></li>
 <dt id="UCTB.model.ST_ResNet.ST_ResNet">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_ResNet.</code><code class="sig-name descname">ST_ResNet</code><span class="sig-paren">(</span><em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_residual_unit=4</em>, <em class="sig-param">kernal_size=3</em>, <em class="sig-param">lr=5e-05</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">code_version='QuickStart'</em>, <em class="sig-param">conv_filters=64</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<p>ST-ResNet is a deep-learning model with an end-to-end structure
+based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
+<p>Reference: <a class="reference external" href="https://arxiv.org/pdf/1610.00081.pdf">Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)</a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The width of grid data.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The height of grid data.</p></li>
+<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+of data will be used as closeness history.</p></li>
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
+<li><p><strong>num_residual_unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of residual units. Default: 4</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Current version of this model code.</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model.ST_ResNet.ST_ResNet.build">
 <code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet.build" title="Permalink to this definition">¶</a></dt>

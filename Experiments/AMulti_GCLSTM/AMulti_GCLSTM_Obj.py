@@ -13,7 +13,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
-parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
+parser.add_argument('-d', '--data', default='didi_xian.data.yml')
 parser.add_argument('-p', '--update_params', default='')
 
 # Parse params
@@ -26,8 +26,7 @@ for yml_file in yml_files:
 
 if len(terminal_vars['update_params']) > 0:
     args.update({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
-
-print({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
+    print({e.split(':')[0]: e.split(':')[1] for e in terminal_vars['update_params'].split(',')})
 
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
@@ -79,9 +78,9 @@ amulti_gclstm_obj = AMulti_GCLSTM(num_node=data_loader.station_number,
                                   closeness_len=args['closeness_len'],
                                   period_len=args['period_len'],
                                   trend_len=args['trend_len'],
-                                  gcn_k=args['gcn_k'],
-                                  gcn_layers=args['gcn_layers'],
-                                  gclstm_layers=args['gclstm_layers'],
+                                  gcn_k=int(args['gcn_k']),
+                                  gcn_layers=int(args['gcn_layers']),
+                                  gclstm_layers=int(args['gclstm_layers']),
                                   num_hidden_units=args['num_hidden_units'],
                                   num_filter_conv1x1=args['num_filter_conv1x1'],
                                   # temporal attention parameters
@@ -122,8 +121,8 @@ if args['train']:
                           output_names=('loss', ),
                           evaluate_loss_name='loss',
                           op_names=('train_op', ),
-                          batch_size=args['batch_size'],
-                          max_epoch=args['max_epoch'],
+                          batch_size=int(args['batch_size']),
+                          max_epoch=int(args['max_epoch']),
                           validate_ratio=0.1,
                           early_stop_method='t-test',
                           early_stop_length=args['early_stop_length'],

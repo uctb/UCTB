@@ -7,31 +7,6 @@ from scipy.stats import pearsonr
 
 class GraphBuilder(object):
     @staticmethod
-    def correlation_graph(traffic_data, threshold=0, keep_weight=False):
-        A = np.zeros([traffic_data.shape[1], traffic_data.shape[1]])
-        D = np.eye(traffic_data.shape[1])
-        for i in range(traffic_data.shape[1]):
-            for j in range(traffic_data.shape[1]):
-                if i == j:
-                    continue
-                r, p_value = pearsonr(traffic_data[:, i], traffic_data[:, j])
-                # set 0 for nan and negative value
-                if np.isnan(r) or r <= threshold:
-                    r = 0
-                elif not keep_weight:
-                    r = 1
-                A[i, j] = r
-            D[i, i] = 1 if np.sum(A[i, :]) == 0 else np.sum(A[i, :])
-
-        D_Normal = np.linalg.inv(D) ** 0.5
-
-        LM = np.eye(traffic_data.shape[1]) - np.dot(np.dot(D_Normal, A), D_Normal)
-
-        LM = 2 * LM / np.max(LM) - np.eye(len(A))
-
-        return LM
-
-    @staticmethod
     def haversine(lat1, lon1, lat2, lon2):
         """
         Calculate the great circle distance between two points
@@ -44,67 +19,43 @@ class GraphBuilder(object):
         dlat = lat2 - lat1
         a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
         c = 2 * asin(sqrt(a))
-        r = 6371  # 地球平均半径，单位为公里
+        r = 6371
 
         return c * r * 1000
 
     @staticmethod
-    def distance_graph(lat_lng_list, threshold=1000):
-        A = np.zeros([len(lat_lng_list), len(lat_lng_list)])
-        D = np.eye(len(lat_lng_list))
+    def correlation_adjacent(traffic_data, threshold):
+        adjacent_matrix = np.zeros([traffic_data.shape[1], traffic_data.shape[1]])
+        for i in range(traffic_data.shape[1]):
+            for j in range(traffic_data.shape[1]):
+                r, p_value = pearsonr(traffic_data[:, i], traffic_data[:, j])
+                adjacent_matrix[i, j] = 0 if np.isnan(r) else r
+        adjacent_matrix = (adjacent_matrix >= threshold).astype(np.float32)
+        return adjacent_matrix
+
+    @staticmethod
+    def distance_adjacent(lat_lng_list, threshold):
+        adjacent_matrix = np.zeros([len(lat_lng_list), len(lat_lng_list)])
         for i in range(len(lat_lng_list)):
             for j in range(len(lat_lng_list)):
-                if i == j:
-                    continue
-                distance = GraphBuilder.haversine(lat_lng_list[i][0], lat_lng_list[i][1],
-                                                  lat_lng_list[j][0], lat_lng_list[j][1])
-                if distance < threshold:
-                    A[i][j] = 1
-            D[i, i] = 1 if np.sum(A[i, :]) == 0 else np.sum(A[i, :])
-
-        D_Normal = np.linalg.inv(D) ** 0.5
-
-        LM = np.eye(len(lat_lng_list)) - np.dot(np.dot(D_Normal, A), D_Normal)
-
-        LM = 2 * LM / np.max(LM) - np.eye(len(A))
-
-        return LM
+                adjacent_matrix[i][j] = GraphBuilder.haversine(lat_lng_list[i][0], lat_lng_list[i][1],
+                                                               lat_lng_list[j][0], lat_lng_list[j][1])
+        adjacent_matrix = (adjacent_matrix <= threshold).astype(np.float32)
+        return adjacent_matrix
 
     @staticmethod
-    def interaction_graph(interaction_matrix, threshold=500):
-        A = np.zeros([len(interaction_matrix), len(interaction_matrix)])
-        D = np.eye(len(interaction_matrix))
-        for i in range(len(interaction_matrix)):
-            for j in range(len(interaction_matrix)):
-                if i == j:
-                    continue
-                interaction = interaction_matrix[i][j]
-                if interaction > threshold:
-                    A[i][j] = 1
-            D[i, i] = 1 if np.sum(A[i, :]) == 0 else np.sum(A[i, :])
-
-        D_Normal = np.linalg.inv(D) ** 0.5
-
-        LM = np.eye(len(interaction_matrix)) - np.dot(np.dot(D_Normal, A), D_Normal)
-
-        LM = 2 * LM / np.max(LM) - np.eye(len(A))
-
-        return LM
+    def interaction_adjacent(interaction_matrix, threshold):
+        return (interaction_matrix >= threshold).astype(np.float32)
 
     @staticmethod
-    def adjacent_to_lm(matrix):
-        A = np.zeros([len(matrix), len(matrix)])
-        D = np.eye(len(matrix))
-        for i in range(len(matrix)):
-            for j in range(len(matrix)):
-                if i == j:
-                    continue
-                A[i][j] = matrix[i][j]
-            D[i, i] = 1 if np.sum(A[i, :]) == 0 else np.sum(A[i, :])
-        D_Normal = np.linalg.inv(D) ** 0.5
-        LM = np.eye(len(matrix)) - np.dot(np.dot(D_Normal, A), D_Normal)
-        LM = 2 * LM / np.max(LM) - np.eye(len(A))
-        return LM
+    def adjacent_to_laplacian(adjacent_matrix):
+        adjacent_matrix -= np.diag(np.diag(adjacent_matrix))
+        diagonal_matrix = np.diag(np.sum(adjacent_matrix, axis=0) ** -0.5)
+        diagonal_matrix[np.isinf(diagonal_matrix)] = 0
+        laplacian_matrix = np.eye(len(adjacent_matrix)) - np.dot(np.dot(diagonal_matrix, adjacent_matrix),
+                                                                 diagonal_matrix)
+        laplacian_matrix = 2 * laplacian_matrix / np.max(laplacian_matrix) - np.eye(len(adjacent_matrix))
+        return laplacian_matrix
 
 
 # Graph Attention Layer
@@ -170,7 +121,7 @@ class GAL(object):
             tmp_e = tf.nn.softmax(activation(tf.reshape(tmp_e, [-1, 1, num_node, num_node])), axis=-1)
 
             e_multi_head.append(tmp_e)
-        
+
         alpha = tf.concat(e_multi_head, axis=1)
 
         # Averaging

@@ -21,8 +21,8 @@ train: True
 lr: 0.00001
 early_stop_length: 100
 early_stop_patience: 0.1
-max_epoch: 200000
-batch_size: 128
+max_epoch: 20000
+batch_size: 32
 
 group: Chicago
 mark: 0

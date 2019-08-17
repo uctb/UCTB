@@ -1,4 +1,5 @@
 import nni
+import GPUtil
 
 from UCTB.dataset import GridTrafficLoader
 from UCTB.model import ST_ResNet
@@ -6,7 +7,7 @@ from UCTB.evaluation import metric
 
 args = {
     'dataset': 'DiDi',
-    'city': 'Xian',
+    'city': 'Chengdu',
     'num_residual_unit': 4,
     'conv_filters': 64,
     'kernel_size': 3,
@@ -22,6 +23,17 @@ if nni_params:
     args.update(nni_params)
     code_version += ('_' + str(nni_sid))
 
+deviceIDs = GPUtil.getAvailable(order='memory', limit=2, maxLoad=1, maxMemory=0.7,
+                                includeNan=False, excludeID=[], excludeUUID=[])
+
+if len(deviceIDs) == 0:
+    current_device = '-1'
+else:
+    if nni_params:
+        current_device = str(deviceIDs[int(nni_sid) % len(deviceIDs)])
+    else:
+        current_device = str(deviceIDs[0])
+
 # Config data loader
 data_loader = GridTrafficLoader(dataset=args['dataset'], city=args['city'], closeness_len=6, period_len=7, trend_len=4)
 
@@ -31,7 +43,7 @@ ST_ResNet_Obj = ST_ResNet(closeness_len=data_loader.closeness_len,
                           external_dim=data_loader.external_dim, lr=args['lr'],
                           num_residual_unit=args['num_residual_unit'], conv_filters=args['conv_filters'],
                           kernel_size=args['kernel_size'], width=data_loader.width, height=data_loader.height,
-                          code_version=code_version)
+                          gpu_device=current_device, code_version=code_version)
 
 ST_ResNet_Obj.build()
 

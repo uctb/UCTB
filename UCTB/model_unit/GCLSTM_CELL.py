@@ -35,7 +35,7 @@ _WEIGHTS_VARIABLE_NAME = "kernel"
 
 
 class GCLSTMCell(LayerRNNCell):
-    def __init__(self, K, num_layers, num_nodes, num_units,
+    def __init__(self, gcn_k, num_layers, num_nodes, num_units,
                  use_peepholes=False, cell_clip=None,
                  initializer=None, num_proj=None, proj_clip=None,
                  num_unit_shards=None, num_proj_shards=None,
@@ -53,7 +53,7 @@ class GCLSTMCell(LayerRNNCell):
                 "deprecated and will be removed in Jan 2017.  "
                 "Use a variable scope with a partitioner instead.", self)
 
-        if K < 0:
+        if gcn_k < 0:
             raise ValueError("K should greater than 0")
 
         # Inputs must be 3-dimensional.
@@ -73,7 +73,7 @@ class GCLSTMCell(LayerRNNCell):
         self._state_is_tuple = state_is_tuple
         self._activation = activation or math_ops.tanh
         self._laplacian_matrix = None
-        self._K = K
+        self._K = gcn_k
 
         if num_proj:
             self._state_size = (
@@ -116,8 +116,7 @@ class GCLSTMCell(LayerRNNCell):
 
         maybe_partitioner = (
             partitioned_variables.fixed_size_partitioner(self._num_unit_shards)
-            if self._num_unit_shards is not None
-            else None)
+            if self._num_unit_shards is not None else None)
 
         # f, i, j, o
         self._kernel = self.add_variable(
@@ -165,29 +164,28 @@ class GCLSTMCell(LayerRNNCell):
             return math_ops.matmul(2 * self._laplacian_matrix, T_k_1) - T_k_2
         
     def zero_state(self, batch_size, dtype):
-        state_size = self.state_size
         is_eager = context.executing_eagerly()
         if is_eager and hasattr(self, "_last_zero_state"):
             (last_state_size, last_batch_size, last_dtype,
              last_output) = getattr(self, "_last_zero_state")
             if (last_batch_size == batch_size and
                     last_dtype == dtype and
-                    last_state_size == state_size):
+                    last_state_size == self.state_size):
                 return last_output
         with ops.name_scope(type(self).__name__ + "ZeroState", values=[batch_size]):
-            c = _concat(batch_size, state_size[0])
+            c = _concat(batch_size, self.state_size[0])
             c_size = array_ops.zeros(c, dtype=dtype)
             if not context.executing_eagerly():
-                c_static = _concat(batch_size, state_size[0], static=True)
+                c_static = _concat(batch_size, self.state_size[0], static=True)
                 c_size.set_shape(c_static)
-            h = _concat(batch_size, state_size[1])
+            h = _concat(batch_size, self.state_size[1])
             h_size = array_ops.zeros(h, dtype=dtype)
             if not context.executing_eagerly():
-                h_static = _concat(batch_size, state_size[1], static=True)
+                h_static = _concat(batch_size, self.state_size[1], static=True)
                 h_size.set_shape(h_static)
-            output = nest._sequence_like(state_size, [c_size, h_size])
+            output = nest._sequence_like(self.state_size, [c_size, h_size])
         if is_eager:
-            self._last_zero_state = (state_size, batch_size, dtype, output)
+            self._last_zero_state = (self.state_size, batch_size, dtype, output)
         return output
 
     def call(self, inputs, state):

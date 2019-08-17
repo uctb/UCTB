@@ -9,7 +9,7 @@ trend_len: 4
 graph: Distance-Correlation-Interaction
 
 data_range: all
-train_data_length: all
+train_data_length: '365'
 
 threshold_distance: 1000
 threshold_correlation: 0
@@ -25,4 +25,4 @@ max_epoch: 20000
 batch_size: 32
 
 group: NYC
-mark: C6
+mark: BenchMark

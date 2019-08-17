@@ -43,7 +43,7 @@ class BaseModel(object):
         self._config.gpu_options.allow_growth = True
         self._session = tf.Session(graph=self._graph, config=self._config)
 
-    def build(self):
+    def build(self, init_vars=True):
         with self._graph.as_default():
             ####################################################################
             # Add summary, variable_init and summary
@@ -53,7 +53,8 @@ class BaseModel(object):
             self._variable_init = tf.global_variables_initializer()
             self._summary = self._summary_histogram().name
             ####################################################################
-        self._session.run(self._variable_init)
+        if init_vars:
+            self._session.run(self._variable_init)
 
     def add_summary(self, name, value, global_step):
         value_record = tf.Summary(value=[tf.Summary.Value(tag=name, simple_value=value)])
@@ -85,7 +86,7 @@ class BaseModel(object):
     def fit(self, sequence_length, output_names=('loss', ), op_names=('train_op', ), evaluate_loss_name='loss',
             batch_size=64, max_epoch=10000, validate_ratio=0.1, shuffle_data=True,
             early_stop_method='t-test', early_stop_length=10, early_stop_patience=0.1,
-            verbose=True, save_model=True, **kwargs):
+            verbose=True, save_model=True, auto_load_model=True, **kwargs):
 
         """
         :param sequence_length: int, the sequence length which is use in mini-batch training
@@ -104,18 +105,22 @@ class BaseModel(object):
         :param save_model: Bool, flog to save model or not
         """
 
-        try:
-            self.load(self._code_version)
-            print('Found model in disk')
-            if self._converged:
-                print('Model converged, stop training')
-                return
-            else:
-                print('Model not converged, continue at step', self._global_step)
-                start_epoch = self._global_step
-        except FileNotFoundError:
-            print('No model found, start training')
+        if auto_load_model:
+            try:
+                self.load(self._code_version)
+                print('Found model in disk')
+                if self._converged:
+                    print('Model converged, stop training')
+                    return
+                else:
+                    print('Model not converged, continue at step', self._global_step)
+                    start_epoch = self._global_step
+            except FileNotFoundError:
+                print('No model found, start training')
+                start_epoch = 0
+        else:
             start_epoch = 0
+            print('Not loading model from disk')
 
         if not 0 < validate_ratio < 1:
             raise ValueError('validate_ratio should between (0, 1), given', validate_ratio)

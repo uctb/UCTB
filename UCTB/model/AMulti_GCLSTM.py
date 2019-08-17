@@ -116,7 +116,7 @@ class AMulti_GCLSTM(BaseModel):
                     outputs.append(output)
         return outputs
     
-    def build(self):
+    def build(self, init_vars=True):
         with self._graph.as_default():
 
             temporal_features = []
@@ -226,14 +226,14 @@ class AMulti_GCLSTM(BaseModel):
                 dense_inputs = graph_outputs_list[-1]
 
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
-
-            dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
-
+            
             if self._build_transfer:
                 self._output['feature_map'] = dense_inputs.name
                 source_feature_map = tf.placeholder(tf.float32, dense_inputs.shape)
                 self._input['similar_feature_map'] = source_feature_map.name
                 transfer_loss = tf.reduce_mean(tf.abs(source_feature_map - dense_inputs))
+                
+            dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
 
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
@@ -283,7 +283,7 @@ class AMulti_GCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_op.name
 
-        super(AMulti_GCLSTM, self).build()
+        super(AMulti_GCLSTM, self).build(init_vars)
 
     # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,

@@ -82,8 +82,8 @@ class GridTrafficLoader(object):
             self.train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
         # expand the test data
-        expand_start_index = len(self.train_data)-max(int(self.daily_slots * period_len),
-                                                      int(self.daily_slots * 7 * trend_len), closeness_len)
+        expand_start_index = len(self.train_data) - max(int(self.daily_slots * period_len),
+                                                        int(self.daily_slots * 7 * trend_len), closeness_len)
 
         self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
         self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
@@ -226,7 +226,8 @@ class NodeTrafficLoader(object):
         # traffic feature
         traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
 
-        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], traffic_data_index].astype(np.float32)
+        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], traffic_data_index].astype(
+            np.float32)
 
         # external feature
         external_feature = []
@@ -239,7 +240,7 @@ class NodeTrafficLoader(object):
                            for e in range(data_range[0], num_time_slots + data_range[0])]
         # Hour Feature
         hour_feature = [[(parse(self.dataset.time_range[1]) +
-                         datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
 
         external_feature.append(weekday_feature)
@@ -276,8 +277,6 @@ class NodeTrafficLoader(object):
         self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
         self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
 
-
-
         # init move sample obj
         self.st_move_sample = ST_MoveSample(closeness_len=self.closeness_len,
                                             period_len=self.period_len,
@@ -303,13 +302,13 @@ class NodeTrafficLoader(object):
         if with_tpe:
 
             # Time position embedding
-            self.closeness_tpe = np.array(range(1, self.closeness_len+1), dtype=np.float32)
+            self.closeness_tpe = np.array(range(1, self.closeness_len + 1), dtype=np.float32)
             self.period_tpe = np.array(range(1 * int(self.daily_slots),
-                                       self.period_len * int(self.daily_slots)+1,
-                                       int(self.daily_slots)), dtype=np.float32)
+                                             self.period_len * int(self.daily_slots) + 1,
+                                             int(self.daily_slots)), dtype=np.float32)
             self.trend_tpe = np.array(range(1 * int(self.daily_slots) * 7,
-                                      self.trend_len * int(self.daily_slots) * 7 + 1,
-                                      int(self.daily_slots) * 7), dtype=np.float32)
+                                            self.trend_len * int(self.daily_slots) * 7 + 1,
+                                            int(self.daily_slots) * 7), dtype=np.float32)
 
             self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
                                                [len(self.train_closeness), len(traffic_data_index), 1, 1])
@@ -328,9 +327,9 @@ class NodeTrafficLoader(object):
             self.tpe_dim = self.train_closeness_tpe.shape[-1]
 
             # concat temporal feature with time position embedding
-            self.train_closeness = np.concatenate((self.train_closeness, self.train_closeness_tpe, ), axis=-1)
-            self.train_period = np.concatenate((self.train_period, self.train_period_tpe, ), axis=-1)
-            self.train_trend = np.concatenate((self.train_trend, self.train_trend_tpe, ), axis=-1)
+            self.train_closeness = np.concatenate((self.train_closeness, self.train_closeness_tpe,), axis=-1)
+            self.train_period = np.concatenate((self.train_period, self.train_period_tpe,), axis=-1)
+            self.train_trend = np.concatenate((self.train_trend, self.train_trend_tpe,), axis=-1)
 
             self.test_closeness = np.concatenate((self.test_closeness, self.test_closeness_tpe,), axis=-1)
             self.test_period = np.concatenate((self.test_period, self.test_period_tpe,), axis=-1)
@@ -343,6 +342,7 @@ class NodeTrafficLoader(object):
         if with_lm:
 
             self.LM = []
+            self.AM = []
 
             for graph_name in graph.split('-'):
 
@@ -364,9 +364,8 @@ class NodeTrafficLoader(object):
                         np.array([[float(e1) for e1 in e[1][1:3]] for e in
                                   sorted(self.dataset.node_station_info.items(),
                                          key=lambda x: order_parser(x[1][0]), reverse=False)])
-
-                    self.LM.append(GraphBuilder.distance_graph(lat_lng_list=lat_lng_list[traffic_data_index],
-                                                               threshold=float(threshold_distance)))
+                    self.AM.append(GraphBuilder.distance_adjacent(lat_lng_list, threshold=float(threshold_distance)))
+                    self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
 
                 if graph_name.lower() == 'interaction':
                     monthly_interaction = self.dataset.node_monthly_interaction[:, traffic_data_index, :][:, :,
@@ -377,24 +376,29 @@ class NodeTrafficLoader(object):
                     annually_interaction = np.sum(monthly_interaction[-12:], axis=0)
                     annually_interaction = annually_interaction + annually_interaction.transpose()
 
-                    self.LM.append(GraphBuilder.interaction_graph(annually_interaction,
-                                                                  threshold=float(threshold_interaction)))
+                    self.AM.append(GraphBuilder.interaction_adjacent(annually_interaction,
+                                                                     threshold=float(threshold_interaction)))
+
+                    self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
 
                 if graph_name.lower() == 'correlation':
-                    self.LM.append(GraphBuilder.correlation_graph(self.train_data[-30 * int(self.daily_slots):],
-                                                                  threshold=float(threshold_correlation),
-                                                                  keep_weight=False))
+                    self.AM.append(GraphBuilder.correlation_adjacent(self.train_data[-30 * int(self.daily_slots):],
+                                                                     threshold=float(threshold_correlation)))
+                    self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
 
                 if graph_name.lower() == 'neighbor':
                     self.LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
+                        GraphBuilder.adjacent_to_laplacian(
+                            self.dataset.data.get('contribute_data').get('graph_neighbors')))
 
                 if graph_name.lower() == 'line':
-                    self.LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
+                    self.LM.append(
+                        GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines')))
 
                 if graph_name.lower() == 'transfer':
                     self.LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
+                        GraphBuilder.adjacent_to_laplacian(
+                            self.dataset.data.get('contribute_data').get('graph_transfer')))
 
             self.LM = np.array(self.LM, dtype=np.float32)
 
@@ -420,7 +424,9 @@ class NodeTrafficLoader(object):
             order_parser = lambda x: x
             print('Order by string')
 
-        lat_lng_name_list = [e[1][1:] for e in sorted(self.dataset.node_station_info.items(), key=lambda x: order_parser(x[1][0]), reverse=False)]
+        lat_lng_name_list = [e[1][1:] for e in
+                             sorted(self.dataset.node_station_info.items(), key=lambda x: order_parser(x[1][0]),
+                                    reverse=False)]
         build_order = list(range(len(lat_lng_name_list)))
 
         lng = [float(e[1]) for e in lat_lng_name_list]
@@ -518,9 +524,10 @@ class TransferDataLoader(object):
         self.td_loader = NodeTrafficLoader(**td_params, **model_params)
 
         # fake td data_loader
-        td_params.update({'train_data_length': str(int(td_data_length) + 30)})
+        # td_params.update({'train_data_length': str(int(td_data_length) + 30)})
+        td_params.update({'train_data_length': '1'})
         self.fake_td_loader = NodeTrafficLoader(**td_params, **model_params)
-    
+
     def traffic_sim(self):
 
         assert self.sd_loader.daily_slots == self.td_loader.daily_slots
@@ -556,7 +563,8 @@ class TransferDataLoader(object):
                        int(self.sd_loader.daily_slots)):
 
             sim = cosine_similarity(self.fake_td_loader.train_data.transpose(),
-                                    self.sd_loader.train_data[i:i + self.fake_td_loader.train_data.shape[0]].transpose())
+                                    self.sd_loader.train_data[
+                                    i:i + self.fake_td_loader.train_data.shape[0]].transpose())
 
             max_sim, max_index = np.max(sim, axis=1), np.argmax(sim, axis=1)
 

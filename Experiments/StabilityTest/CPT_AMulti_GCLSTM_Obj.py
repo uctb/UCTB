@@ -85,12 +85,12 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
             for graph_name in graph.split('-'):
                 if graph_name.lower() == 'neighbor':
                     LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_neighbors')))
+                        GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_neighbors')))
                 if graph_name.lower() == 'line':
-                    LM.append(GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_lines')))
+                    LM.append(GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines')))
                 if graph_name.lower() == 'transfer':
                     LM.append(
-                        GraphBuilder.adjacent_to_lm(self.dataset.data.get('contribute_data').get('graph_transfer')))
+                        GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_transfer')))
             if len(LM) > 0:
                 if len(self.LM) == 0:
                     self.LM = np.array(LM, dtype=np.float32)

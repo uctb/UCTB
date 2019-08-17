@@ -1,0 +1,19 @@
+{
+    "threshold_correlation": {"_type":"choice","_value":[0.65]},
+
+    "gcn_k": {"_type":"choice","_value":[1, 2, 3]},
+
+    "batch_size": {"_type":"choice","_value":[128]},
+
+    "lr": {"_type":"choice","_value":[0.00002]},
+
+    "gclstm_layers": {"_type":"choice","_value":[1]},
+
+    "num_filter_conv1x1": {"_type":"choice","_value":[64]},
+
+    "num_hidden_units": {"_type":"choice","_value":[64]},
+
+    "temporal_merge_gal_units": {"_type":"choice","_value":[64]},
+
+    "temporal_merge_gal_num_heads": {"_type":"choice","_value":[2]}
+}

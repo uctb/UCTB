@@ -7,8 +7,27 @@ import statsmodels.api as sm
 import warnings
 warnings.filterwarnings("ignore")
 
-class ARIMA(ModelObject):
 
+class ARIMA(ModelObject):
+    """ARIMA (Autoregressive Integrated Moving Average)
+
+    ARIMA is a generalization of an ARMA (Autoregressive Moving Average) model, used in predicting future points
+    in time series analysis. Since there may be three kinds of series data as closeness, period and trend history,
+    this class trains three different ARIMA models for each node according to the three kinds of history data,
+    and returns average of the predicted values by the models in prediction.
+
+    Args:
+        order (tuple or ``None``): If set to a tuple of 3 integers, it indicates AR orders, intergration orders,
+            and MA orders. If set to ``None``, class will calculate the orders for each series based on
+            ``max_ar``, ``max_ma`` and ``max_d``. Default: ``None``
+        max_ar (int): Maximum number of AR lags to use. Default: 6
+        max_ma (int): Maximum number of MA lags to use. Default: 2
+        max_d (int): Maximum number of degrees of differencing. Default: 2
+        forecast_step (int): The number of predicted future steps. Default: 1
+
+    Attributes:
+        orders (list): It stores the (p, d, q) orders corresponding to each model stored in ``self.models``.
+    """
     def __init__(self, order=None, max_ar=6, max_ma=2, max_d=2, forecast_step=1):
         super(ARIMA, self).__init__()
 
@@ -22,6 +41,21 @@ class ARIMA(ModelObject):
 
     @staticmethod
     def get_order(series, order=None, max_ar=6, max_ma=2, max_d=2):
+        """If ``order`` is ``None``, it simply returns ``order``,
+        otherwise, it calculates the (p, d, q) orders for the series data
+        based on ``max_ar``, ``max_ma`` and ``max_d``.
+
+        Attributes:
+            series (np.ndarray): A series of data with shape as [time_slot_num].
+            order (tuple or ``None'``): If type is tuple, function will return it.
+                If it is ``'None``, function will calculate the orders. Default: ``None``
+            max_ar (int): Maximum number of AR lags to use. Default: 6
+            max_ma (int): Maximum number of MA lags to use. Default: 2
+            max_d (int): Maximum number of degrees of differencing. Default: 2
+
+        Returns:
+            tuple: A tuple of 3 integers. The (p, d, q) orders for the series data.
+        """
         if order is None:
             # difference
             def stationary(series):
@@ -43,7 +77,12 @@ class ARIMA(ModelObject):
         return order
 
     @staticmethod
-    def adf_test(time_series, max_lags=None, verbose=True):
+    def adf_test(time_series, max_lags=None, verbose=False):
+        """Augmented Dickey–Fuller test.
+
+        The Augmented Dickey-Fuller test can be used to test for a unit root in a univariate process
+        in the presence of serial correlation.
+        """
         t = sm.tsa.stattools.adfuller(time_series, maxlag=max_lags)
         if verbose:
             output = pd.DataFrame(
@@ -64,6 +103,19 @@ class ARIMA(ModelObject):
         return t
 
     def _fit(self, data):
+        """The inner fitting method.
+
+        Args:
+            data (np.ndarray): A series of data with shape as [time_slot_num].
+
+        Returns:
+            tuple: (order, model_res)
+
+            order (tuple): The (p, d, q) orders of ARIMA model on data.
+
+            model_res (Results Object): An object that stores parameters of model.
+                It will be ``None`` if errors occurred during fitting.
+        """
         order = self.get_order(data, self.order)
         model = sm.tsa.SARIMAX(data, order=order, max_ar=self.max_ar, max_ma=self.max_ma, max_d=self.max_d)
 
@@ -75,6 +127,23 @@ class ARIMA(ModelObject):
         return order, model_res
 
     def fit(self, X, y=None):
+        """Fitting method.
+
+        Args:
+            X (:obj:`NodeTrafficLoader` or list): The training input samples.
+                If it is a list, it should includes three ndarrays as closeness, period and trend data,
+                each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.
+            y (np.ndarray, optional): The target values of training samples.
+                Its shape is [time_slot_num, node_num, 1]. It will be omitted if ``X`` is an NodeTrafficLoader.
+                Default: ``None``
+
+        Returns:
+            tuple: (models, orders)
+
+            models (list): ``self.models``. Models that are trained on each node's data.
+
+            orders (list): ``self.orders``. The (p, d, q) orders of models that are trained on each node's data.
+        """
 
         self.models = []
         self.orders = []
@@ -108,6 +177,17 @@ class ARIMA(ModelObject):
 
     @staticmethod
     def _predict(model_res, order, X, forecast_step):
+        """The inner prediction method.
+
+        Args:
+            model_res (Results Object): The object of a model as ``_fit`` returns.
+            order (tuple): The (p, d, q) orders of the model.
+            X (np.ndarray): The test series data with shape as [time_slot_num].
+            forecast_step (int): The number of predicted future steps.
+
+        Returns:
+            float: The prediction result.
+        """
         model = sm.tsa.SARIMAX(X, order=order)
 
         try:
@@ -119,7 +199,16 @@ class ARIMA(ModelObject):
         return p
 
     def predict(self, X):
+        """Prediction Method.
 
+        Args:
+            X (:obj:`NodeTrafficLoader` or list): The test input samples.
+                If it is a list, it should includes three ndarrays as closeness, period and trend data,
+                each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.
+
+        Returns:
+            np.ndarray: Prediction results with shape as [time_slot_num, node_num, 1].
+        """
         closeness_feature, period_feature, trend_feature = self.make_test_data(X)
         slot_num = 0
         node_num = 0

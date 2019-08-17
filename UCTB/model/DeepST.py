@@ -5,6 +5,34 @@ from ..model_unit import BaseModel
 
 
 class DeepST(BaseModel):
+    """Deep learning-based prediction model for Spatial-Temporal data (DeepST)
+
+    DeepST is composed of three components: 1) temporal dependent
+    instances: describing temporal closeness, period and seasonal
+    trend; 2) convolutional neural networks: capturing near and
+    far spatial dependencies; 3) early and late fusions: fusing
+    similar and different domains' data.
+
+    Reference: `DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)
+    <https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf>`_.
+
+    Args:
+        closeness_len (int): The length of closeness data history. The former consecutive ``closeness_len`` time slots
+            of data will be used as closeness history.
+        period_len (int): The length of period data history. The data of exact same time slots in former consecutive
+            ``period_len`` days will be used as period history.
+        trend_len (int): The length of trend data history. The data of exact same time slots in former consecutive
+            ``trend_len`` weeks (every seven days) will be used as trend history.
+        width (int): The width of grid data.
+        height (int): The height of grid data.
+        externai_dim (int): Number of dimensions of external data.
+        kernel_size (int): Kernel size in Convolutional neural networks. Default: 3
+        num_conv_filters (int):  the Number of filters in the convolution. Default: 64
+        lr (float): Learning rate. Default: 1e-5
+        code_version (str): Current version of this model code.
+        model_dir (str): The directory to store model files. Default:'model_dir'
+        gpu_device (str): To specify the GPU to use. Default: '0'
+    """
     def __init__(self,
                  closeness_len,
                  period_len,
@@ -111,6 +139,23 @@ class DeepST(BaseModel):
     # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self, closeness_feature=None, period_feature=None, trend_feature=None,
                        target=None, external_feature=None):
+        '''
+        The method to get feet dict for tensorflow model.
+
+        Users may modify this method according to the format of input.
+
+        Args:
+            closeness_feature (np.ndarray or ``None``): The closeness history data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, closeness_len].
+            period_feature (np.ndarray or ``None``): The period history data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, period_len].
+            trend_feature (np.ndarray or ``None``): The trend history data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, trend_len].
+            target (np.ndarray or ``None``): The target value data.
+                If type is np.ndarray, its shape is [time_slot_num, height, width, 1].
+            external_feature (np.ndarray or ``None``): The external feature data.
+                If type is np.ndaaray, its shape is [time_slot_num, feature_num].
+        '''
         feed_dict = {}
         if target is not None:
             feed_dict['target'] = target

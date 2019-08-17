@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.preprocess package &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="uctb-preprocess-package">
+<h1>UCTB.preprocess package<a class="headerlink" href="#uctb-preprocess-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UCTB.preprocess.preprocessor">
+<span id="uctb-preprocess-preprocessor-module"></span><h2>UCTB.preprocess.preprocessor module<a class="headerlink" href="#module-UCTB.preprocess.preprocessor" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.preprocess.preprocessor.MoveSample">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">MoveSample</code><span class="sig-paren">(</span><em class="sig-param">feature_step</em>, <em class="sig-param">feature_stride</em>, <em class="sig-param">feature_length</em>, <em class="sig-param">target_length</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MoveSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.preprocess.preprocessor.MoveSample.general_move_sample">
+<code class="sig-name descname">general_move_sample</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MoveSample.general_move_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="UCTB.preprocess.preprocessor.Normalizer">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">Normalizer</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.Normalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.preprocess.preprocessor.Normalizer.min_max_denormal">
+<code class="sig-name descname">min_max_denormal</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.Normalizer.min_max_denormal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.preprocess.preprocessor.Normalizer.min_max_normal">
+<code class="sig-name descname">min_max_normal</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.Normalizer.min_max_normal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="UCTB.preprocess.preprocessor.ST_MoveSample">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">ST_MoveSample</code><span class="sig-paren">(</span><em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">daily_slots=24</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ST_MoveSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.preprocess.preprocessor.ST_MoveSample.move_sample">
+<code class="sig-name descname">move_sample</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ST_MoveSample.move_sample" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="UCTB.preprocess.preprocessor.SplitData">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">SplitData</code><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.preprocess.preprocessor.SplitData.split_data">
+<em class="property">static </em><code class="sig-name descname">split_data</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ratio_list</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData.split_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.preprocess.preprocessor.SplitData.split_feed_dict">
+<em class="property">static </em><code class="sig-name descname">split_feed_dict</code><span class="sig-paren">(</span><em class="sig-param">feed_dict</em>, <em class="sig-param">sequence_length</em>, <em class="sig-param">ratio_list</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData.split_feed_dict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.preprocess.time_utils">
+<span id="uctb-preprocess-time-utils-module"></span><h2>UCTB.preprocess.time_utils module<a class="headerlink" href="#module-UCTB.preprocess.time_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="UCTB.preprocess.time_utils.is_valid_date">
+<code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_valid_date</code><span class="sig-paren">(</span><em class="sig-param">date_str</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_valid_date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="UCTB.preprocess.time_utils.is_work_day_america">
+<code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_work_day_america</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_america" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="UCTB.preprocess.time_utils.is_work_day_china">
+<code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_work_day_china</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_china" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.preprocess">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-UCTB.preprocess" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Di Chai, Leye Wang, Jin Xu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/UCTB.preprocess.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

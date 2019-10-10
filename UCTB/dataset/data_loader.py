@@ -4,6 +4,7 @@ import numpy as np
 
 from dateutil.parser import parse
 from sklearn.metrics.pairwise import cosine_similarity
+from scipy.stats import pearsonr
 
 from ..preprocess.time_utils import is_work_day_china, is_work_day_america, is_valid_date
 from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
@@ -225,9 +226,9 @@ class NodeTrafficLoader(object):
         num_time_slots = data_range[1] - data_range[0]
 
         # traffic feature
-        traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
+        self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
 
-        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], traffic_data_index].astype(
+        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
             np.float32)
 
         # external feature
@@ -312,18 +313,18 @@ class NodeTrafficLoader(object):
                                             int(self.daily_slots) * 7), dtype=np.float32)
 
             self.train_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
-                                               [len(self.train_closeness), len(traffic_data_index), 1, 1])
+                                               [len(self.train_closeness), len(self.traffic_data_index), 1, 1])
             self.train_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]),
-                                            [len(self.train_period), len(traffic_data_index), 1, 1])
+                                            [len(self.train_period), len(self.traffic_data_index), 1, 1])
             self.train_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]),
-                                           [len(self.train_trend), len(traffic_data_index), 1, 1])
+                                           [len(self.train_trend), len(self.traffic_data_index), 1, 1])
 
             self.test_closeness_tpe = np.tile(np.reshape(self.closeness_tpe, [1, 1, -1, 1]),
-                                              [len(self.test_closeness), len(traffic_data_index), 1, 1])
+                                              [len(self.test_closeness), len(self.traffic_data_index), 1, 1])
             self.test_period_tpe = np.tile(np.reshape(self.period_tpe, [1, 1, -1, 1]),
-                                           [len(self.test_period), len(traffic_data_index), 1, 1])
+                                           [len(self.test_period), len(self.traffic_data_index), 1, 1])
             self.test_trend_tpe = np.tile(np.reshape(self.trend_tpe, [1, 1, -1, 1]),
-                                          [len(self.test_trend), len(traffic_data_index), 1, 1])
+                                          [len(self.test_trend), len(self.traffic_data_index), 1, 1])
 
             self.tpe_dim = self.train_closeness_tpe.shape[-1]
 
@@ -348,29 +349,14 @@ class NodeTrafficLoader(object):
             for graph_name in graph.split('-'):
 
                 if graph_name.lower() == 'distance':
-
-                    # Default order by date
-                    order_parser = parse
-                    try:
-                        for key, value in self.dataset.node_station_info.items():
-                            if is_valid_date(value[0]) is False:
-                                order_parser = lambda x: x
-                                print('Order by string')
-                                break
-                    except:
-                        order_parser = lambda x: x
-                        print('Order by string')
-
-                    lat_lng_list = \
-                        np.array([[float(e1) for e1 in e[1][1:3]] for e in
-                                  sorted(self.dataset.node_station_info.items(),
-                                         key=lambda x: order_parser(x[1][0]), reverse=False)])
-                    self.AM.append(GraphBuilder.distance_adjacent(lat_lng_list, threshold=float(threshold_distance)))
+                    lat_lng_list = np.array([[float(e1) for e1 in e[2:4]] for e in self.dataset.node_station_info])
+                    self.AM.append(GraphBuilder.distance_adjacent(lat_lng_list[self.traffic_data_index],
+                                                                  threshold=float(threshold_distance)))
                     self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
 
                 if graph_name.lower() == 'interaction':
-                    monthly_interaction = self.dataset.node_monthly_interaction[:, traffic_data_index, :][:, :,
-                                          traffic_data_index]
+                    monthly_interaction = self.dataset.node_monthly_interaction[:, self.traffic_data_index, :][:, :,
+                                          self.traffic_data_index]
 
                     monthly_interaction, _ = SplitData.split_data(monthly_interaction, train_test_ratio)
 
@@ -403,7 +389,7 @@ class NodeTrafficLoader(object):
 
             self.LM = np.array(self.LM, dtype=np.float32)
 
-    def st_map(self, zoom=11, style='light'):
+    def st_map(self, zoom=11, style='light', build_order=None):
 
         if self.dataset.node_station_info is None or len(self.dataset.node_station_info) == 0:
             raise ValueError('No station information found in dataset')
@@ -414,25 +400,14 @@ class NodeTrafficLoader(object):
 
         mapboxAccessToken = "pk.eyJ1Ijoicm1ldGZjIiwiYSI6ImNqN2JjN3l3NjBxc3MycXAzNnh6M2oxbGoifQ.WFNVzFwNJ9ILp0Jxa03mCQ"
 
-        order_parser = parse
-        try:
-            for key, value in self.dataset.node_station_info.items():
-                if is_valid_date(value[0]) is False:
-                    order_parser = lambda x: x
-                    print('Order by string')
-                    break
-        except:
-            order_parser = lambda x: x
-            print('Order by string')
+        lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
+        # build_order = build_order or list(range(len(self.dataset.node_station_info)))
 
-        lat_lng_name_list = [e[1][1:] for e in
-                             sorted(self.dataset.node_station_info.items(), key=lambda x: order_parser(x[1][0]),
-                                    reverse=False)]
-        build_order = list(range(len(lat_lng_name_list)))
+        color = ['rgb(255, 0, 0)' if e < 0 else 'rgb(0, 255, 0)' for e in build_order]
 
-        lng = [float(e[1]) for e in lat_lng_name_list]
-        lat = [float(e[0]) for e in lat_lng_name_list]
-        text = [e[-1] for e in lat_lng_name_list]
+        lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
+        lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]
+        text = [str(e) for e in range(len(build_order))]
 
         file_name = self.dataset.dataset + '-' + self.dataset.city + '.html'
 
@@ -443,9 +418,10 @@ class NodeTrafficLoader(object):
             mode='markers',
             marker=dict(
                 size=6,
-                color=['rgb(%s, %s, %s)' % (255,
-                                            195 - e * 195 / max(build_order),
-                                            195 - e * 195 / max(build_order)) for e in build_order],
+                # color=['rgb(%s, %s, %s)' % (255,
+                #                 #                             195 - e * 195 / max(build_order),
+                #                 #                             195 - e * 195 / max(build_order)) for e in build_order],
+                color=color,
                 opacity=1,
             ))]
 
@@ -525,9 +501,7 @@ class TransferDataLoader(object):
         self.sd_loader = NodeTrafficLoader(**sd_params, **model_params)
         self.td_loader = NodeTrafficLoader(**td_params, **model_params)
 
-        # fake td data_loader
-        # td_params.update({'train_data_length': str(int(td_data_length) + 30)})
-        td_params.update({'train_data_length': '1'})
+        td_params.update({'train_data_length': '180'})
         self.fake_td_loader = NodeTrafficLoader(**td_params, **model_params)
 
     def traffic_sim(self):
@@ -557,7 +531,7 @@ class TransferDataLoader(object):
 
     def traffic_sim_fake(self):
 
-        assert self.sd_loader.daily_slots == self.td_loader.daily_slots
+        assert self.sd_loader.daily_slots == self.fake_td_loader.daily_slots
 
         similar_record = []
 
@@ -565,8 +539,7 @@ class TransferDataLoader(object):
                        int(self.sd_loader.daily_slots)):
 
             sim = cosine_similarity(self.fake_td_loader.train_data.transpose(),
-                                    self.sd_loader.train_data[
-                                    i:i + self.fake_td_loader.train_data.shape[0]].transpose())
+                                    self.sd_loader.train_data[i:i + self.fake_td_loader.train_data.shape[0]].transpose())
 
             max_sim, max_index = np.max(sim, axis=1), np.argmax(sim, axis=1)
 
@@ -577,9 +550,55 @@ class TransferDataLoader(object):
                 for index in range(len(similar_record)):
                     if similar_record[index][0] < max_sim[index]:
                         similar_record[index] = [max_sim[index], max_index[index], i,
-                                                 i + self.fake_td_loader.train_data.shape[0]]
-
-        for i in range(len(similar_record)):
-            similar_record[i][2] = similar_record[i][3] - self.td_loader.train_data.shape[0]
+                                                 i + self.td_loader.train_data.shape[0]]
 
         return similar_record
+
+    def checkin_sim(self):
+
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        td_checkin = np.array([e[0] for e in self.td_loader.dataset.data['ExternalFeature']['CheckInFeature']]
+                              )[self.td_loader.traffic_data_index]
+        sd_checkin = np.array([e[0] for e in self.sd_loader.dataset.data['ExternalFeature']['CheckInFeature']]
+                              )[self.sd_loader.traffic_data_index]
+
+        td_checkin = td_checkin / (np.max(td_checkin, axis=1, keepdims=True) + 0.0001)
+        sd_checkin = sd_checkin / (np.max(sd_checkin, axis=1, keepdims=True) + 0.0001)
+
+        # cs = cosine_similarity(td_checkin, sd_checkin)
+
+        # similar_record = [[e[np.argmax(e)], np.argmax(e), ] for e in cs]
+
+        similar_record = []
+        for td_index in range(len(td_checkin)):
+            tmp_sim_record = []
+            for sd_index in range(len(sd_checkin)):
+                r, p = pearsonr(td_checkin[td_index], sd_checkin[sd_index])
+                tmp_sim_record.append([r, sd_index,
+                                       len(self.sd_loader.train_y)-len(self.td_loader.train_y),
+                                       len(self.sd_loader.train_y)])
+            similar_record.append(max(tmp_sim_record, key=lambda x: x[0]))
+
+        return similar_record
+
+    def checkin_sim_sd(self):
+
+        sd_checkin = np.array([e[0] for e in self.sd_loader.dataset.data['ExternalFeature']['CheckInFeature']]
+                              )[self.sd_loader.traffic_data_index]
+        sd_checkin = sd_checkin / (np.max(sd_checkin, axis=1, keepdims=True) + 0.0001)
+
+        cs = cosine_similarity(sd_checkin, sd_checkin) - np.eye(sd_checkin.shape[0])
+
+        return np.array([np.argmax(e) for e in cs], np.int32)
+
+    def poi_sim(self):
+
+        from sklearn.metrics.pairwise import cosine_similarity
+
+        td_checkin = np.array([e[1] for e in self.td_loader.dataset.data['ExternalFeature']['CheckInFeature']]
+                              )[self.td_loader.traffic_data_index]
+        sd_checkin = np.array([e[1] for e in self.sd_loader.dataset.data['ExternalFeature']['CheckInFeature']]
+                              )[self.sd_loader.traffic_data_index]
+
+        return [[e[np.argmax(e)], np.argmax(e), ] for e in cosine_similarity(td_checkin, sd_checkin)]

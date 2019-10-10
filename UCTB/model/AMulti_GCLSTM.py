@@ -41,7 +41,10 @@ class AMulti_GCLSTM(BaseModel):
                  temporal_merge='gal',     # gal
                  graph_merge='gal',        # concat
 
+                 output_activation=tf.nn.sigmoid,
+
                  # Transfer learning
+                 build_sd_regularization=False,
                  build_transfer=False,
                  transfer_ratio=0,
 
@@ -65,12 +68,14 @@ class AMulti_GCLSTM(BaseModel):
         self._temporal_gal_layers = temporal_gal_layers
         self._num_graph = num_graph
         self._external_dim = external_dim
+        self._output_activation = output_activation
 
         self._st_method = st_method
         self._temporal_merge = temporal_merge
         self._graph_merge = graph_merge
 
         self._build_transfer = build_transfer
+        self._build_sd_regularization = build_sd_regularization
         self._transfer_ratio = transfer_ratio
         if self._build_transfer:
             assert 0 <= self._transfer_ratio <= 1
@@ -116,7 +121,7 @@ class AMulti_GCLSTM(BaseModel):
                     outputs.append(output)
         return outputs
     
-    def build(self, init_vars=True):
+    def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
 
             temporal_features = []
@@ -226,13 +231,20 @@ class AMulti_GCLSTM(BaseModel):
                 dense_inputs = graph_outputs_list[-1]
 
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
-            
+
+            if self._build_sd_regularization:
+                sd_sim = tf.placeholder(tf.int32, [None, ])
+                self._input['sd_sim'] = sd_sim.name
+                sd_sim_features = tf.gather(dense_inputs, sd_sim, axis=1)
+                sd_regularization_loss = tf.sqrt(tf.reduce_mean(tf.square(sd_sim_features - dense_inputs)))
+
             if self._build_transfer:
                 self._output['feature_map'] = dense_inputs.name
                 source_feature_map = tf.placeholder(tf.float32, dense_inputs.shape)
                 self._input['similar_feature_map'] = source_feature_map.name
-                transfer_loss = tf.reduce_mean(tf.abs(source_feature_map - dense_inputs))
-                
+                # transfer_loss = tf.reduce_mean(tf.abs(source_feature_map - dense_inputs))
+                transfer_loss = tf.sqrt(tf.reduce_mean(tf.square(source_feature_map - dense_inputs)))
+
             dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
 
             # external dims
@@ -262,13 +274,18 @@ class AMulti_GCLSTM(BaseModel):
                                                 kernel_size=[1, 1],
                                                 kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),
                                                 kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
-                                                activation=tf.nn.sigmoid,
+                                                activation=self._output_activation,
                                                 )(conv1x1_output1)
 
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
-            train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+
+            if self._build_sd_regularization:
+                train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre + sd_regularization_loss * 0.1,
+                                                                     name='train_op')
+            else:
+                train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
 
             if self._build_transfer:
                 transfer_loss = self._transfer_ratio * transfer_loss + (1 - self._transfer_ratio) * loss_pre
@@ -283,7 +300,7 @@ class AMulti_GCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_op.name
 
-        super(AMulti_GCLSTM, self).build(init_vars)
+        super(AMulti_GCLSTM, self).build(init_vars, max_to_keep)
 
     # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,
@@ -291,6 +308,7 @@ class AMulti_GCLSTM(BaseModel):
                        closeness_feature=None,
                        period_feature=None,
                        trend_feature=None,
+                       sd_sim=None,
                        target=None,
                        external_feature=None,
                        similar_feature_map=None):
@@ -309,4 +327,6 @@ class AMulti_GCLSTM(BaseModel):
             feed_dict['period_feature'] = period_feature
         if self._trend_len is not None and self._trend_len > 0:
             feed_dict['trend_feature'] = trend_feature
+        if self._build_sd_regularization and sd_sim is not None:
+            feed_dict['sd_sim'] = sd_sim
         return feed_dict

@@ -1,6 +1,6 @@
 # dataset and city
 dataset: Metro
-city: ShanghaiV1
+city: Shanghai
 
 closeness_len: 6
 period_len: 7

@@ -13,7 +13,7 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
-parser.add_argument('-d', '--data', default='didi_xian.data.yml')
+parser.add_argument('-d', '--data', default='chargestation_beijing.data.yml')
 parser.add_argument('-p', '--update_params', default='')
 
 # Parse params
@@ -36,11 +36,11 @@ if nni_params:
 
 #####################################################################
 # Generate code_version
-code_version = '{}_{}_C{}P{}T{}_G{}_K{}L{}_{}'.format(args['dataset']+args['city'], args['model_version'],
-                                                      args['closeness_len'], args['period_len'],
-                                                      args['trend_len'],
-                                                      ''.join([e[0] for e in args['graph'].split('-')]),
-                                                      args['gcn_k'], args['gcn_layers'], args['mark'])
+code_version = '{}_C{}P{}T{}_G{}_K{}L{}_{}'.format(args['model_version'],
+                                                   args['closeness_len'], args['period_len'],
+                                                   args['trend_len'],
+                                                   ''.join([e[0] for e in args['graph'].split('-')]),
+                                                   args['gcn_k'], args['gcn_layers'], args['mark'])
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################
@@ -140,7 +140,7 @@ prediction = amulti_gclstm_obj.predict(closeness_feature=data_loader.test_closen
                                        external_feature=data_loader.test_ef,
                                        output_names=('prediction', ),
                                        sequence_length=data_loader.test_sequence_len,
-                                       cache_volume=args['batch_size'], )
+                                       cache_volume=int(args['batch_size']), )
 
 test_prediction = prediction['prediction']
 

@@ -12,9 +12,10 @@ from UCTB.evaluation import metric
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
-parser.add_argument('-sd', '--source_data', default='bike_chicago.data.yml')
-parser.add_argument('-td', '--target_data', default='bike_dc.data.yml')
-parser.add_argument('-tdl', '--target_data_length', default='1', type=str)
+parser.add_argument('-sd', '--source_data', default='bike_nyc.data.yml')
+parser.add_argument('-td', '--target_data', default='bike_chicago.data.yml')
+parser.add_argument('-tdl', '--target_data_length', default='3', type=str)
+parser.add_argument('-tfr', '--transfer_ratio', default='0.1', type=str)
 parser.add_argument('-pt', '--pretrain', default='True')
 parser.add_argument('-ft', '--finetune', default='True')
 parser.add_argument('-tr', '--transfer', default='True')
@@ -94,16 +95,19 @@ sd_model = AMulti_GCLSTM(num_node=data_loader.sd_loader.station_number,
                          **sd_params, **model_params)
 sd_model.build(init_vars=True)
 
+transfer_ratio = float(args['transfer_ratio'])
+
 td_model = AMulti_GCLSTM(num_node=data_loader.td_loader.station_number,
                          num_graph=data_loader.td_loader.LM.shape[0],
                          external_dim=data_loader.td_loader.external_dim,
                          tpe_dim=data_loader.td_loader.tpe_dim,
                          code_version=code_version,
                          model_dir=model_dir_path,
-                         transfer_ratio=0.1,
+                         transfer_ratio=transfer_ratio,
                          gpu_device=current_device,
                          **td_params, **model_params)
-td_model.build(init_vars=False)
+
+td_model.build(init_vars=False, max_to_keep=None)
 
 sd_de_normalizer = (lambda x: x) if sd_params['normalize'] is False \
                                 else data_loader.sd_loader.normalizer.min_max_denormal
@@ -124,12 +128,15 @@ print('Number of training samples', data_loader.td_loader.train_sequence_len)
 
 pretrain_model_name = 'Pretrain_' + sub_code_version
 finetune_model_name = 'Finetune_' + sub_code_version + '_' + str(data_loader.td_loader.train_sequence_len)
-transfer_model_name = 'Transfer_' + sub_code_version + '_' + str(data_loader.td_loader.train_sequence_len)
+transfer_model_name = 'Transfer_' + sub_code_version + '_' + str(data_loader.td_loader.train_sequence_len) +\
+                      '_%s' % int((transfer_ratio * 100)) + '%'
+
+writing_obj = [''.join([e for e in sd_params['graph'].split('-')]),
+               args['source_data'].split('.')[0].split('_')[-1],
+               args['target_data'].split('.')[0].split('_')[-1],
+               str(transfer_ratio), '%s天' % args['target_data_length']]
 
 if args['pretrain'] == 'True':
-    print('#################################################################')
-    print('Source Domain Pre-Train')
-
     try:
         sd_model.load(pretrain_model_name)
     except FileNotFoundError:
@@ -198,6 +205,7 @@ if args['pretrain'] == 'True':
     print('#################################################################')
     print('Target Domain Result')
     print(test_rmse, test_mape)
+    writing_obj.append('%.5f' % test_rmse)
 
 if args['finetune'] == 'True':
     try:
@@ -216,14 +224,16 @@ if args['finetune'] == 'True':
                      op_names=('train_op',),
                      batch_size=td_params['batch_size'],
                      max_epoch=td_params['max_epoch'],
-                     validate_ratio=0.1,
+                     validate_ratio=0.3,
                      early_stop_method='t-test',
                      early_stop_length=td_params['early_stop_length'],
                      early_stop_patience=td_params['early_stop_patience'],
                      verbose=True,
-                     save_model=False,
+                     save_model=True,
+                     save_model_name=finetune_model_name,
                      auto_load_model=False)
-        td_model.save(finetune_model_name, global_step=0)
+
+    td_model.load(finetune_model_name)
 
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
@@ -237,6 +247,10 @@ if args['finetune'] == 'True':
 
     finetune_prediction = prediction['prediction']
 
+    finetune_error_station = np.array([metric.rmse(td_de_normalizer(finetune_prediction[:, i]),
+                                                   td_de_normalizer(data_loader.td_loader.test_y[:, i]))
+                                                   for i in range(len(finetune_prediction[0]))])
+
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(finetune_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
                            metric.mape(prediction=td_de_normalizer(finetune_prediction),
@@ -245,41 +259,37 @@ if args['finetune'] == 'True':
     print('#################################################################')
     print('Target Domain Fine-tune')
     print(test_rmse, test_mape)
+    writing_obj.append('%.5f' % test_rmse)
 
 if args['transfer'] == 'True':
 
     try:
         td_model.load(transfer_model_name)
     except FileNotFoundError:
-        td_model.load(pretrain_model_name)
-        traffic_sim = data_loader.traffic_sim()
+        traffic_sim = data_loader.checkin_sim()
 
-        # prepare data:
-        feature_maps = []
-        for record in traffic_sim:
-            # score, index, start, end
-            # sd_transfer_data = data_loader.sd_loader.train_data[record[2]: record[3], :]
-            sd_transfer_data = data_loader.sd_loader.train_data[-data_loader.td_loader.train_data.shape[0]:, :]
+        sd_model.load(pretrain_model_name)
 
-            transfer_closeness, \
-            transfer_period, \
-            transfer_trend, \
-            _ = data_loader.sd_loader.st_move_sample.move_sample(sd_transfer_data)
+        sd_transfer_data = data_loader.sd_loader.train_data[-data_loader.td_loader.train_data.shape[0]:, :]
 
-            fm = sd_model.predict(closeness_feature=transfer_closeness,
-                                  period_feature=transfer_period,
-                                  trend_feature=transfer_trend,
-                                  laplace_matrix=data_loader.sd_loader.LM,
-                                  external_feature=data_loader.sd_loader.train_ef,
-                                  output_names=['feature_map'],
-                                  sequence_length=len(transfer_closeness),
-                                  cache_volume=sd_params['batch_size'])
+        transfer_closeness, \
+        transfer_period, \
+        transfer_trend, \
+        _ = data_loader.sd_loader.st_move_sample.move_sample(sd_transfer_data)
 
-            feature_maps.append(fm['feature_map'][:, record[1]:record[1] + 1, :, :])
+        fm = sd_model.predict(closeness_feature=transfer_closeness,
+                              period_feature=transfer_period,
+                              trend_feature=transfer_trend,
+                              laplace_matrix=data_loader.sd_loader.LM,
+                              external_feature=data_loader.sd_loader.train_ef,
+                              output_names=['feature_map'],
+                              sequence_length=len(transfer_closeness),
+                              cache_volume=sd_params['batch_size'])
 
-        feature_maps = np.concatenate(feature_maps, axis=1)
+        feature_maps = np.take(fm['feature_map'], np.array([e[1] for e in traffic_sim]), axis=1)
 
         # transfer
+        td_model.load(pretrain_model_name)
         td_model.fit(closeness_feature=data_loader.td_loader.train_closeness,
                      period_feature=data_loader.td_loader.train_period,
                      trend_feature=data_loader.td_loader.train_trend,
@@ -288,19 +298,21 @@ if args['transfer'] == 'True':
                      external_feature=data_loader.td_loader.train_ef,
                      similar_feature_map=feature_maps,
                      sequence_length=data_loader.td_loader.train_sequence_len,
-                     output_names=('transfer_loss',),
-                     evaluate_loss_name='transfer_loss',
+                     output_names=('transfer_loss', 'loss'),
+                     evaluate_loss_name='loss',
                      op_names=('transfer_op',),
                      batch_size=td_params['batch_size'],
                      max_epoch=td_params['max_epoch'],
-                     validate_ratio=0.1,
+                     validate_ratio=0.3,
                      early_stop_method='t-test',
                      early_stop_length=td_params['early_stop_length'],
                      early_stop_patience=td_params['early_stop_patience'],
                      verbose=True,
-                     save_model=False,
+                     save_model=True,
+                     save_model_name=transfer_model_name,
                      auto_load_model=False)
-        td_model.save(transfer_model_name, global_step=0)
+
+    td_model.load(transfer_model_name)
 
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
@@ -314,21 +326,31 @@ if args['transfer'] == 'True':
 
     transfer_prediction = prediction['prediction']
 
+    transfer_error_station = np.array([metric.rmse(td_de_normalizer(transfer_prediction[:, i]),
+                                                   td_de_normalizer(data_loader.td_loader.test_y[:, i]))
+                                       for i in range(len(transfer_prediction[0]))])
+
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(transfer_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y),
+                                       threshold=0), \
                            metric.mape(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
     print('#################################################################')
     print('Target Domain Transfer')
     print(test_rmse, test_mape)
+    writing_obj.append('%.5f' % test_rmse)
+
+with open('transfer_record.md', 'a+', encoding='utf-8') as f:
+    f.write('|' + '|'.join(writing_obj) + '|' + '\n')
 
 # Plot
+# data_loader.td_loader.st_map(build_order=finetune_error_station-transfer_error_station)
 
-for index in range(0, data_loader.td_loader.station_number, 10):
-
-    show_prediction(pretrain=pretrain_prediction,
-                    finetune=finetune_prediction,
-                    transfer=transfer_prediction,
-                    target=data_loader.td_loader.test_y,
-                    station_index=index, start=0, end=500)
+# for index in range(0, data_loader.td_loader.station_number, 10):
+#
+#     show_prediction(pretrain=pretrain_prediction,
+#                     finetune=finetune_prediction,
+#                     transfer=transfer_prediction,
+#                     target=data_loader.td_loader.test_y,
+#                     station_index=index, start=0, end=500)

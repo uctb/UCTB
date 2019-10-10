@@ -43,13 +43,13 @@ class BaseModel(object):
         self._config.gpu_options.allow_growth = True
         self._session = tf.Session(graph=self._graph, config=self._config)
 
-    def build(self, init_vars=True):
+    def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
             ####################################################################
             # Add summary, variable_init and summary
             # The variable name of them are fixed
             self.trainable_vars = np.sum([np.prod(v.get_shape().as_list()) for v in tf.trainable_variables()])
-            self._saver = tf.train.Saver()
+            self._saver = tf.train.Saver(max_to_keep=max_to_keep)
             self._variable_init = tf.global_variables_initializer()
             self._summary = self._summary_histogram().name
             ####################################################################
@@ -86,7 +86,8 @@ class BaseModel(object):
     def fit(self, sequence_length, output_names=('loss', ), op_names=('train_op', ), evaluate_loss_name='loss',
             batch_size=64, max_epoch=10000, validate_ratio=0.1, shuffle_data=True,
             early_stop_method='t-test', early_stop_length=10, early_stop_patience=0.1,
-            verbose=True, save_model=True, auto_load_model=True, **kwargs):
+            verbose=True, save_model=True, save_model_name=None, auto_load_model=True,
+            return_outputs=False, **kwargs):
 
         """
         :param sequence_length: int, the sequence length which is use in mini-batch training
@@ -156,9 +157,10 @@ class BaseModel(object):
         if early_stop_method.lower() == 't-test':
             early_stop = EarlyStoppingTTest(length=early_stop_length, p_value_threshold=early_stop_patience)
         else:
-            early_stop = EarlyStopping(patience=early_stop_patience)
+            early_stop = EarlyStopping(patience=int(early_stop_patience))
 
         # start mini-batch training
+        summary_output = []
         for epoch in range(start_epoch, max_epoch):
             train_output_list = []
             for i in range(train_dict_mini_batch.num_batch):
@@ -177,15 +179,19 @@ class BaseModel(object):
             evaluate_loss_value = np.mean(val_output[evaluate_loss_name])
 
             # Add Summary
+            tmp_summary = {}
             for name in output_names:
                 self.add_summary(name='train_' + name, value=np.mean([e[name] for e in train_output_list]),
                                  global_step=epoch)
-                self.add_summary(name='val_' + name, value=evaluate_loss_value, global_step=epoch)
+                self.add_summary(name='val_' + name, value=np.mean(val_output[name]), global_step=epoch)
                 # print training messages
                 if verbose:
                     print('Epoch %s:' % epoch,
                           'train_' + name, np.mean([e[name] for e in train_output_list]),
-                          'val_' + name, evaluate_loss_value)
+                          'val_' + name, np.mean(val_output[name]))
+                    tmp_summary['train_' + name] = np.mean([e[name] for e in train_output_list])
+                    tmp_summary['val_' + name] = np.mean(val_output[name])
+            summary_output.append(tmp_summary)
 
             # manual_summary the histograms
             self.manual_summary(global_step=epoch)
@@ -198,7 +204,10 @@ class BaseModel(object):
             # save the model if evaluate_loss_value is smaller than best_record
             if (best_record is None or evaluate_loss_value < best_record) and save_model:
                 best_record = evaluate_loss_value
-                self.save(self._code_version, epoch)
+                self.save(save_model_name or self._code_version, epoch)
+
+        if return_outputs:
+            return summary_output
 
     def predict(self, sequence_length, output_names=('prediction', ), cache_volume=64, **kwargs):
 

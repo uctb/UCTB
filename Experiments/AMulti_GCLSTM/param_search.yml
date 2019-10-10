@@ -6,7 +6,7 @@ maxTrialNum: 50
 trainingServicePlatform: local
 # The path to Search Space
 #searchSpacePath: lstm_search.json
-searchSpacePath: gc_search.json
+searchSpacePath: params_search.json
 useAnnotation: false
 tuner:
   builtinTunerName: TPE

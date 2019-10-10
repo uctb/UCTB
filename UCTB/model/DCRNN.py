@@ -20,7 +20,6 @@ class DCRNN(BaseModel):
                  cl_decay_steps=1000,
                  target_len=1,
                  lr=1e-4,
-                 batch_size=64,
                  epsilon=1e-3,
                  optimizer_name='Adam',
                  code_version='AMulti-QuickStart',
@@ -42,18 +41,20 @@ class DCRNN(BaseModel):
         self._cl_decay_steps = cl_decay_steps
         self._optimizer_name = optimizer_name
         self._lr = lr
-        self._batch_size = batch_size
+        # self._batch_size = batch_size
         self._epsilon = epsilon
 
-    def build(self, init_vars=True):
+    def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
-            inputs = tf.placeholder(tf.float32, shape=(self._batch_size, self._seq_len,
+            inputs = tf.placeholder(tf.float32, shape=(None, self._seq_len,
                                                        self._num_nodes, self._input_dim), name='inputs')
-            labels = tf.placeholder(tf.float32, shape=(self._batch_size, self._target_len,
+            labels = tf.placeholder(tf.float32, shape=(None, self._target_len,
                                                        self._num_nodes, self._output_dim), name='labels')
 
             diffusion_matrix = tf.placeholder(tf.float32, shape=(self._num_diffusion_matrix, self._num_nodes,
                                                                  self._num_nodes), name='diffusion_matrix')
+
+            batch_size = tf.shape(inputs)[0]
 
             self._input['inputs'] = inputs.name
             self._input['target'] = labels.name
@@ -61,10 +62,11 @@ class DCRNN(BaseModel):
 
             go_symbol = tf.zeros(shape=(tf.shape(inputs)[0], self._num_nodes * self._output_dim))
 
-            cell = DCGRUCell(self._num_rnn_units, diffusion_matrix,
+            cell = DCGRUCell(self._num_rnn_units, self._input_dim, self._num_diffusion_matrix, diffusion_matrix,
                              max_diffusion_step=self._max_diffusion_step, num_nodes=self._num_nodes)
 
-            cell_with_projection = DCGRUCell(self._num_rnn_units, diffusion_matrix,
+            cell_with_projection = DCGRUCell(self._num_rnn_units, self._input_dim,
+                                             self._num_diffusion_matrix, diffusion_matrix,
                                              max_diffusion_step=self._max_diffusion_step,
                                              num_nodes=self._num_nodes, num_proj=self._output_dim)
 
@@ -77,12 +79,12 @@ class DCRNN(BaseModel):
 
             # Outputs: (batch_size, timesteps, num_nodes, output_dim)
             with tf.variable_scope('DCRNN_SEQ'):
-                inputs_unstack = tf.unstack(tf.reshape(inputs, (self._batch_size,
+                inputs_unstack = tf.unstack(tf.reshape(inputs, (batch_size,
                                                                 self._seq_len, self._num_nodes * self._input_dim)),
                                             axis=1)
                 labels_unstack = tf.unstack(
                     tf.reshape(labels[..., :self._output_dim],
-                               (self._batch_size, self._target_len, self._num_nodes * self._output_dim)), axis=1)
+                               (batch_size, self._target_len, self._num_nodes * self._output_dim)), axis=1)
                 labels_unstack.insert(0, go_symbol)
 
                 def _compute_sampling_threshold(global_step, k):
@@ -108,7 +110,7 @@ class DCRNN(BaseModel):
                     # Return the prediction of the model in testing.
                     return prev
 
-                _, enc_state = tf.contrib.rnn.static_rnn(encoding_cells, inputs_unstack, dtype=tf.float32)
+                a, enc_state = tf.contrib.rnn.static_rnn(encoding_cells, inputs_unstack, dtype=tf.float32)
 
                 with tf.variable_scope('train', reuse=False):
                     train_outputs, _ = legacy_seq2seq.rnn_decoder(labels_unstack, enc_state, decoding_cells,
@@ -135,7 +137,7 @@ class DCRNN(BaseModel):
             self._output['loss'] = loss.name
             self._op['train_op'] = train_op.name
 
-        super(DCRNN, self).build(init_vars)
+        super(DCRNN, self).build(init_vars=init_vars, max_to_keep=5)
 
     # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,

@@ -34,11 +34,8 @@ class ST_MGCN(BaseModel):
         self._lr = lr
         self._external_dim = external_dim
 
-
-    def build(self):
-
+    def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
-
             # [batch, T, num_stations, input_dim]
             traffic_flow = tf.placeholder(tf.float32, [None, self._T, None, self._input_dim])
             laplacian_matrix = tf.placeholder(tf.float32, [self._num_graph, None, None])
@@ -73,7 +70,7 @@ class ST_MGCN(BaseModel):
                     x_rnn = tf.reshape(tf.transpose(x_rnn, perm=[0, 2, 1, 3]), [-1, self._T, self._input_dim])
 
                     for lstm_layer_index in range(self._lstm_layers):
-                        x_rnn = tf.keras.layers.LSTM(units=64,
+                        x_rnn = tf.keras.layers.LSTM(units=self._lstm_units,
                                                      activation='tanh',
                                                      dropout=0.1,
                                                      kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
@@ -93,7 +90,7 @@ class ST_MGCN(BaseModel):
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
-                self._input['external_input'] = external_input.name
+                self._input['external_feature'] = external_input.name
                 external_dense = tf.layers.dense(inputs=external_input, units=10)
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 10]),
                                          [1, tf.shape(outputs)[-2], 1])
@@ -112,7 +109,7 @@ class ST_MGCN(BaseModel):
             # record train operation
             self._op['train_op'] = train_operation.name
 
-            super(ST_MGCN, self).build()
+            super(ST_MGCN, self).build(init_vars=init_vars, max_to_keep=max_to_keep)
 
     # Step 1 : Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self, traffic_flow, laplace_matrix, target=None, external_feature=None):
@@ -123,51 +120,5 @@ class ST_MGCN(BaseModel):
         if target is not None:
             feed_dict['target'] = target
         if external_feature is not None:
-            feed_dict['external_input'] = external_feature
+            feed_dict['external_feature'] = external_feature
         return feed_dict
-
-    # Step 2 : build the fit function using BaseModel._fit
-    def fit(self,
-            traffic_flow,
-            laplace_matrix,
-            target,
-            external_feature=None,
-            batch_size=64, max_epoch=10000,
-            validate_ratio=0.1,
-            early_stop_method='t-test',
-            early_stop_length=10,
-            early_stop_patience=0.1):
-
-        feed_dict = self._get_feed_dict(traffic_flow=traffic_flow, laplace_matrix=laplace_matrix,
-                                        target=target, external_feature=external_feature)
-
-        return self._fit(feed_dict=feed_dict,
-                         sequence_index='traffic_flow',
-                         output_names=['loss'],
-                         evaluate_loss_name='loss',
-                         op_names=['train_op'],
-                         batch_size=batch_size,
-                         start_epoch=self._global_step,
-                         max_epoch=max_epoch,
-                         validate_ratio=validate_ratio,
-                         early_stop_method=early_stop_method,
-                         early_stop_length=early_stop_length,
-                         early_stop_patience=early_stop_patience)
-
-    def predict(self, traffic_flow, laplace_matrix, external_feature=None, cache_volume=64):
-
-        feed_dict = self._get_feed_dict(traffic_flow=traffic_flow,
-                                        laplace_matrix=laplace_matrix,
-                                        external_feature=external_feature)
-
-        output = self._predict(feed_dict=feed_dict, output_names=['prediction'], sequence_length=len(traffic_flow),
-                               cache_volume=cache_volume)
-
-        return output['prediction']
-
-    def evaluate(self, traffic_flow, laplace_matrix, target, metrics, external_feature=None, cache_volume=64, **kwargs):
-
-        prediction = self.predict(traffic_flow, laplace_matrix,
-                                  external_feature=external_feature, cache_volume=cache_volume)
-
-        return [e(prediction=prediction, target=target, **kwargs) for e in metrics]

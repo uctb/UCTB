@@ -19,7 +19,7 @@ class DCGRUCell(RNNCell):
         pass
 
     def __init__(self, num_units, input_dim, num_graphs, supports, max_diffusion_step, num_nodes, num_proj=None,
-                 activation=tf.nn.tanh, reuse=None, use_gc_for_ru=True):
+                 activation=tf.nn.tanh, reuse=None, use_gc_for_ru=True, name=None):
         """
 
         :param num_units:
@@ -44,6 +44,7 @@ class DCGRUCell(RNNCell):
         self._use_gc_for_ru = use_gc_for_ru
         self._supports = supports
         self._num_diff_matrix = supports.get_shape()[0].value
+        self._name = name
 
     @property
     def state_size(self):
@@ -135,7 +136,7 @@ class DCGRUCell(RNNCell):
         x = tf.expand_dims(x0, axis=0)
 
         scope = tf.get_variable_scope()
-        with tf.variable_scope(scope):
+        with tf.variable_scope(scope.name + (self.name or ''), reuse=False):
             if self._max_diffusion_step == 0:
                 pass
             else:

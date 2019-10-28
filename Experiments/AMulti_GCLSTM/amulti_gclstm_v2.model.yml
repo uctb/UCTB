@@ -1,5 +1,5 @@
 # network structure parameters
-st_method: 'gclstm'
+st_method: 'GCLSTM'
 temporal_merge: 'concat'
 graph_merge: 'gal'
 

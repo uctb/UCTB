@@ -13,8 +13,8 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
-parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
-parser.add_argument('-p', '--update_params', default='gcn_k:1,gclstm_layers:1,batch_size:16,mark:TEST')
+parser.add_argument('-d', '--data', default='metro_chongqing.data.yml')
+parser.add_argument('-p', '--update_params', default='gcn_k:3')
 
 # Parse params
 terminal_vars = vars(parser.parse_args())
@@ -61,7 +61,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
-deviceIDs = GPUtil.getAvailable(order='load', limit=2, maxLoad=1, maxMemory=0.7,
+deviceIDs = GPUtil.getAvailable(order='memory', limit=2, maxLoad=1, maxMemory=0.7,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
 if len(deviceIDs) == 0:

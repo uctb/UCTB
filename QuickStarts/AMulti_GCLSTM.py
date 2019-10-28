@@ -1,16 +1,20 @@
 from UCTB.dataset import NodeTrafficLoader
-from UCTB.model import AMulti_GCLSTM
+from UCTB.model import AMultiGCLSTM
 from UCTB.evaluation import metric
 
 # Config data loader
-data_loader = NodeTrafficLoader(dataset='Metro', city='ShanghaiV1', closeness_len=6, period_len=7, trend_len=4)
+data_loader = NodeTrafficLoader(dataset='Metro', city='Shanghai', closeness_len=6, period_len=7, trend_len=4)
 
-AMulti_GCLSTM_Obj = AMulti_GCLSTM(closeness_len=data_loader.closeness_len,
-                                  period_len=data_loader.period_len,
-                                  trend_len=data_loader.trend_len,
-                                  num_node=data_loader.station_number,
-                                  num_graph=data_loader.LM.shape[0],
-                                  external_dim=data_loader.external_dim)
+AMulti_GCLSTM_Obj = AMultiGCLSTM(closeness_len=data_loader.closeness_len,
+                                 period_len=data_loader.period_len,
+                                 trend_len=data_loader.trend_len,
+                                 num_node=data_loader.station_number,
+                                 num_graph=data_loader.LM.shape[0],
+                                 external_dim=data_loader.external_dim)
+
+print('Number of trainable variables', AMulti_GCLSTM_Obj.trainable_vars)
+print('Number of training samples', data_loader.train_sequence_len)
+print('Number of nodes', data_loader.station_number)
 
 # Build tf-graph
 AMulti_GCLSTM_Obj.build()

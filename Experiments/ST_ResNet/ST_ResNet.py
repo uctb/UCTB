@@ -51,6 +51,8 @@ print(args['dataset'], args['city'], code_version)
 print('Number of trainable variables', ST_ResNet_Obj.trainable_vars)
 print('Number of training samples', data_loader.train_sequence_len)
 
+print('debug')
+
 # Training
 ST_ResNet_Obj.fit(closeness_feature=data_loader.train_closeness,
                   period_feature=data_loader.train_period,

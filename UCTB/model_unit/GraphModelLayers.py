@@ -142,19 +142,28 @@ class GAL(object):
 # Graph Convolution Layer
 class GCL(object):
 
-    @staticmethod
-    def KthChebyPloy(k, num_nodes, laplacian_matrix, T_k_1=None, T_k_2=None):
-        if k == 0:
-            return tf.eye(num_nodes, dtype=tf.float32)
-        elif k == 1:
-            return laplacian_matrix
-        elif k > 1:
-            return tf.matmul(2 * laplacian_matrix, T_k_1) - T_k_2
+    # @staticmethod
+    # def KthChebyPloy(k, num_nodes, laplacian_matrix, T_k_1=None, T_k_2=None):
+    #     if k == 0:
+    #         return tf.eye(num_nodes, dtype=tf.float32)
+    #     elif k == 1:
+    #         return laplacian_matrix
+    #     elif k > 1:
+    #         return tf.matmul(2 * laplacian_matrix, T_k_1) - T_k_2
 
     @staticmethod
-    def add_gc_layer(inputs, K, laplacian_matrix, activation=tf.nn.tanh):
+    def add_gc_layer(inputs,
+                     gcn_k,
+                     laplacian_matrix,
+                     output_size,
+                     dtype=tf.float32,
+                     use_bias=True,
+                     trainable=True,
+                     initializer=None,
+                     regularizer=None,
+                     activation=tf.nn.tanh):
 
-        # [-1, num_node, num_feature]
+        # [batch_size, num_node, num_feature]
         input_shape = inputs.get_shape().with_rank(3)
 
         num_node = tf.shape(inputs)[-2]
@@ -164,33 +173,42 @@ class GCL(object):
         # reshape from [batch, num_node, num_feature] into [num_node, batch*num_feature]
         gc_input = tf.reshape(tf.transpose(inputs, perm=[1, 0, 2]), [num_node, -1])
 
-        theta = tf.Variable(tf.random_normal([K + 1, ], dtype=tf.float32))
+        # Chebyshev polynomials
+        # Reference: https://github.com/mdeff/cnn_graph
+        gc_outputs = list()
+        # Xt_0 = T_0 X = I X = X.
+        gc_outputs.append(gc_input)
+        # Xt_1 = T_1 X = L X.
+        if gcn_k >= 1:
+            gc_outputs.append(tf.matmul(laplacian_matrix, gc_input))
+        # Xt_k = 2 L Xt_k-1 - Xt_k-2.
+        for k in range(2, gcn_k+1):
+            gc_outputs.append(2 * tf.matmul(laplacian_matrix, gc_outputs[-1]) - gc_outputs[-1])
 
-        chebyPly_inputs = []
-        T = []
-        for i in range(0, K + 1):
-            T.append(GCL.KthChebyPloy(i, num_node, laplacian_matrix,
-                                      None if i < 1 else T[i - 1], None if i < 2 else T[i - 2]))
-            chebyPly_inputs.append(theta[i] * tf.matmul(T[-1], gc_input))
+        # [gcn_k+1, number_nodes, batch*num_feature]
+        gc_outputs = tf.reshape(gc_outputs, [gcn_k+1, num_node, -1, num_feature])
+        # [batch, number_nodes, num_feature, gcn_k+1]
+        gc_outputs = tf.transpose(gc_outputs, [2, 1, 3, 0])
+        # [batch*number_nodes, num_feature*gcn_k+1]
+        gc_outputs = tf.reshape(gc_outputs, [-1, num_feature*(gcn_k+1)])
 
-        gc_output = tf.tanh(tf.reduce_sum(chebyPly_inputs, axis=0))
+        output_weight = tf.get_variable("weights", shape=[num_feature*(gcn_k+1), output_size],
+                                        trainable=trainable, dtype=dtype,
+                                        initializer=initializer, regularizer=regularizer)
+        gc_outputs = tf.matmul(gc_outputs, output_weight)
 
-        gc_output = tf.transpose(tf.reshape(gc_output, [num_node, -1, num_feature]), perm=[1, 0, 2])
+        if use_bias:
+            biases = tf.get_variable("biases", [output_size], dtype=dtype,
+                                     initializer=tf.constant_initializer(0, dtype=dtype))
+            gc_outputs = tf.nn.bias_add(gc_outputs, biases)
 
-        return activation(gc_output)
+        gc_outputs = tf.reshape(gc_outputs, [-1, num_node, output_size])
 
-    @staticmethod
-    def add_multi_gc_layers(inputs, K, L, laplacian_matrix, activation=tf.nn.tanh):
-        with tf.variable_scope('multi_gcl', reuse=False):
-            for i in range(L):
-                inputs = GCL.add_gc_layer(inputs, K, laplacian_matrix, activation)
-        return inputs
+        return activation(gc_outputs)
 
-
-if __name__ == '__main__':
-
-    graph = tf.Graph()
-
-    with graph.as_default():
-        a = tf.placeholder(tf.float32, [300, 7, 6])
-        print(GAL.add_ga_layer(a, units=16, num_head=8))
+    # @staticmethod
+    # def add_multi_gc_layers(inputs, K, L, laplacian_matrix, activation=tf.nn.tanh):
+    #     with tf.variable_scope('multi_gcl', reuse=False):
+    #         for i in range(L):
+    #             inputs = GCL.add_gc_layer(inputs, K, laplacian_matrix, activation)
+    #     return inputs

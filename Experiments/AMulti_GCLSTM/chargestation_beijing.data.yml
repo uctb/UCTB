@@ -19,10 +19,10 @@ normalize: True
 train: True
 
 lr: 1e-5
-early_stop_length: 2000
+early_stop_length: 200
 early_stop_patience: 0.1
-max_epoch: 30000
+max_epoch: 20000
 batch_size: 64
 
 group: Beijing
-mark: BenchMark
+mark: BM

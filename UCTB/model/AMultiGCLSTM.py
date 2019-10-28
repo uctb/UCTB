@@ -1,11 +1,13 @@
+import keras
 import tensorflow as tf
 
 from ..model_unit import BaseModel
-from ..model_unit import GCLSTMCell
 from ..model_unit import GAL, GCL
+from ..model_unit import DCGRUCell
+from ..model_unit import GCLSTMCell
 
 
-class AMulti_GCLSTM(BaseModel):
+class AMultiGCLSTM(BaseModel):
     def __init__(self,
                  num_node,
                  external_dim,
@@ -15,8 +17,8 @@ class AMulti_GCLSTM(BaseModel):
 
                  # gcn parameters
                  num_graph=1,
-                 gcn_k=(1, ),
-                 gcn_layers=(1, ),
+                 gcn_k=1,
+                 gcn_layers=1,
                  gclstm_layers=1,
 
                  # dense units
@@ -37,7 +39,7 @@ class AMulti_GCLSTM(BaseModel):
                  temporal_merge_gal_num_heads=2,
 
                  # network structure parameters
-                 st_method='gclstm',       # gclstm
+                 st_method='GCLSTM',       # gclstm
                  temporal_merge='gal',     # gal
                  graph_merge='gal',        # concat
 
@@ -53,7 +55,7 @@ class AMulti_GCLSTM(BaseModel):
                  model_dir='model_dir',
                  gpu_device='0', **kwargs):
 
-        super(AMulti_GCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
+        super(AMultiGCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         self._num_node = num_node
         self._gcn_k = gcn_k
@@ -91,43 +93,13 @@ class AMulti_GCLSTM(BaseModel):
         self._num_filter_conv1x1 = num_filter_conv1x1
         self._lr = lr
     
-    def dynamic_rnn(self, temporal_data, time_length, graph_index, laplace_matrix, variable_scope_name):
-        with self._graph.as_default():
-            with tf.variable_scope(variable_scope_name, reuse=False):
-                outputs = []
-                if hasattr(self._gcn_k, '__len__'):
-                    if len(self._gcn_k) != self._num_graph:
-                        raise ValueError('Please provide K,L for each graph or set K,L to integer')
-                    gc_lstm_cells = [
-                        GCLSTMCell(self._gcn_k[graph_index], self._gcn_layer[graph_index], self._num_node,
-                                   self._num_hidden_unit, state_is_tuple=True,
-                                   initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32))
-                        for _ in range(self._gclstm_layers)]
-                else:
-                    gc_lstm_cells = [
-                        GCLSTMCell(self._gcn_k, self._gcn_layer, self._num_node,
-                                   self._num_hidden_unit, state_is_tuple=True,
-                                   initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32))
-                        for _ in range(self._gclstm_layers)]
-                for cell in gc_lstm_cells:
-                    cell.laplacian_matrix = tf.transpose(laplace_matrix[graph_index])
-                cell_state_list = [cell.zero_state(tf.shape(temporal_data)[0], dtype=tf.float32)
-                                   for cell in gc_lstm_cells]
-                for i in range(0, time_length):
-                    output = temporal_data[:, :, i:i + 1, 0]
-                    for cell_index in range(len(gc_lstm_cells)):
-                        output, cell_state_list[cell_index] = gc_lstm_cells[cell_index](output,
-                                                                                        cell_state_list[cell_index])
-                    outputs.append(output)
-        return outputs
-    
     def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
 
             temporal_features = []
 
             if self._closeness_len is not None and self._closeness_len > 0:
-                if self._st_method == 'gclstm':
+                if self._st_method == 'gclstm' or 'DCRNNN':
                     closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1],
                                                        name='closeness_feature')
                 elif self._st_method == 'gal_gcn':
@@ -137,7 +109,7 @@ class AMulti_GCLSTM(BaseModel):
                 temporal_features.append([self._closeness_len, closeness_feature, 'closeness_feature'])
 
             if self._period_len is not None and self._period_len > 0:
-                if self._st_method == 'gclstm':
+                if self._st_method == 'gclstm' or 'DCRNNN':
                     period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1],
                                                     name='period_feature')
                 elif self._st_method == 'gal_gcn':
@@ -147,7 +119,7 @@ class AMulti_GCLSTM(BaseModel):
                 temporal_features.append([self._period_len, period_feature, 'period_feature'])
 
             if self._trend_len is not None and self._trend_len > 0:
-                if self._st_method == 'gclstm':
+                if self._st_method == 'gclstm' or 'DCRNNN':
                     trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1],
                                                    name='trend_feature')
                 elif self._st_method == 'gal_gcn':
@@ -168,19 +140,50 @@ class AMulti_GCLSTM(BaseModel):
 
             for graph_index in range(self._num_graph):
 
-                if self._st_method == 'gclstm':
+                if self._st_method in ['GCLSTM', 'DCRNN', 'GRU']:
 
                     outputs_temporal = []
 
                     for time_step, target_tensor, given_name in temporal_features:
 
-                        outputs = self.dynamic_rnn(temporal_data=target_tensor,
-                                                   time_length=time_step,
-                                                   graph_index=graph_index,
-                                                   laplace_matrix=laplace_matrix,
-                                                   variable_scope_name='GCLSTM_%s_%s' % (graph_index, given_name))
+                        if self._st_method == 'GCLSTM':
 
-                        st_outputs = tf.reshape(outputs[-1], [-1, 1, self._num_hidden_unit])
+                            multi_layer_cell = tf.keras.layers.StackedRNNCells(
+                                [GCLSTMCell(units=self._num_hidden_unit, num_nodes=self._num_node,
+                                            laplacian_matrix=laplace_matrix[graph_index],
+                                            gcn_k=self._gcn_k, gcn_l=self._gcn_layer)
+                                 for _ in range(self._gclstm_layers)])
+
+                            outputs = tf.keras.layers.RNN(multi_layer_cell)(tf.reshape(target_tensor, [-1, time_step, 1]))
+
+                            st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
+
+                        elif self._st_method == 'DCRNN':
+
+                            cell = DCGRUCell(self._num_hidden_unit, 1, self._num_graph,
+                                             # laplace_matrix will be diffusion_matrix when self._st_method == 'DCRNN'
+                                             laplace_matrix,
+                                             max_diffusion_step=self._gcn_k,
+                                             num_nodes=self._num_node, name=str(graph_index) + given_name)
+
+                            encoding_cells = [cell] * self._gclstm_layers
+                            encoding_cells = tf.contrib.rnn.MultiRNNCell(encoding_cells, state_is_tuple=True)
+
+                            inputs_unstack = tf.unstack(tf.reshape(target_tensor, [-1, self._num_node, time_step]),
+                                                        axis=-1)
+
+                            outputs, _ = \
+                                tf.contrib.rnn.static_rnn(encoding_cells, inputs_unstack, dtype=tf.float32)
+
+                            st_outputs = tf.reshape(outputs[-1], [-1, 1, self._num_hidden_unit])
+
+                        elif self._st_method == 'GRU':
+
+                            cell = tf.keras.layers.GRUCell(units=self._num_hidden_unit)
+                            multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
+                            outputs = tf.keras.layers.RNN(multi_layer_gru)(
+                                tf.reshape(target_tensor, [-1, time_step, 1]))
+                            st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
 
                         outputs_temporal.append(st_outputs)
 
@@ -196,30 +199,31 @@ class AMulti_GCLSTM(BaseModel):
 
                         graph_outputs_list.append(tf.reduce_mean(gal_output, axis=-2, keepdims=True))
 
-                elif self._st_method == 'gal_gcn':
-
-                    attention_input = tf.reshape(tf.concat([e[1] for e in temporal_features], axis=-2),
-                                                 [-1, sum([e[0] for e in temporal_features]), 1 + self._tpe_dim])
-                    attention_output_list = []
-                    for loop_index in range(self._temporal_gal_layers):
-                        with tf.variable_scope('res_temporal_gal_%s' % loop_index, reuse=False):
-                            attention_input = GAL.add_residual_ga_layer(attention_input,
-                                                                        num_head=self._temporal_gal_num_heads,
-                                                                        units=self._temporal_gal_units)
-                            attention_output_list.append(attention_input)
-
-                    graph_output = GCL.add_gc_layer(tf.reshape(tf.reduce_mean(attention_output_list[-1], axis=-2),
-                                                               [-1, self._num_node, attention_output_list[-1].get_shape()[-1].value]),
-                                                    K=self._gcn_k, laplacian_matrix=laplace_matrix[graph_index])
-
-                    graph_outputs_list.append(tf.reshape(graph_output, [-1, 1, graph_output.get_shape()[-1].value]))
+                # elif self._st_method == 'gal_gcn':
+                #
+                #     attention_input = tf.reshape(tf.concat([e[1] for e in temporal_features], axis=-2),
+                #                                  [-1, sum([e[0] for e in temporal_features]), 1 + self._tpe_dim])
+                #     attention_output_list = []
+                #     for loop_index in range(self._temporal_gal_layers):
+                #         with tf.variable_scope('res_temporal_gal_%s' % loop_index, reuse=False):
+                #             attention_input = GAL.add_residual_ga_layer(attention_input,
+                #                                                         num_head=self._temporal_gal_num_heads,
+                #                                                         units=self._temporal_gal_units)
+                #             attention_output_list.append(attention_input)
+                #
+                #     graph_output = GCL.add_gc_layer(tf.reshape(tf.reduce_mean(attention_output_list[-1], axis=-2),
+                #                                                [-1, self._num_node, attention_output_list[-1].get_shape()[-1].value]),
+                #                                     K=self._gcn_k, laplacian_matrix=laplace_matrix[graph_index])
+                #
+                #     graph_outputs_list.append(tf.reshape(graph_output, [-1, 1, graph_output.get_shape()[-1].value]))
 
             if self._num_graph > 1:
 
                 if self._graph_merge == 'gal':
                     # (graph, inputs_name, units, num_head, activation=tf.nn.leaky_relu)
                     _, gal_output = GAL.add_ga_layer_matrix(inputs=tf.concat(graph_outputs_list, axis=-2),
-                                                            units=self._graph_merge_gal_units, num_head=self._graph_merge_gal_num_heads)
+                                                            units=self._graph_merge_gal_units,
+                                                            num_head=self._graph_merge_gal_num_heads)
                     dense_inputs = tf.reduce_mean(gal_output, axis=-2, keepdims=True)
 
                 elif self._graph_merge == 'concat':
@@ -245,7 +249,15 @@ class AMulti_GCLSTM(BaseModel):
                 # transfer_loss = tf.reduce_mean(tf.abs(source_feature_map - dense_inputs))
                 transfer_loss = tf.sqrt(tf.reduce_mean(tf.square(source_feature_map - dense_inputs)))
 
-            dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
+            # dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
+            #
+            # batch_mean, batch_variance = tf.nn.moments(dense_inputs, [0, 1, 2], keep_dims=False)
+            #
+            # decay = 0.99
+            # train_mean = tf.assign(pop_mean, pop_mean * decay + batch_mean * (1 - decay))
+            # train_variance = tf.assign(pop_variance, pop_variance * decay + batch_variance * (1 - decay))
+
+            dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
 
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
@@ -300,7 +312,7 @@ class AMulti_GCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_op.name
 
-        super(AMulti_GCLSTM, self).build(init_vars, max_to_keep)
+        super(AMultiGCLSTM, self).build(init_vars, max_to_keep)
 
     # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,

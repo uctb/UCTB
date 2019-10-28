@@ -6,7 +6,7 @@ closeness_len: 6
 period_len: 7
 trend_len: 4
 
-graph: Correlation # Distance- -Interaction
+graph: Distance-Interaction-Correlation
 
 data_range: all
 train_data_length: all
@@ -25,4 +25,4 @@ max_epoch: 50000
 batch_size: 64
 
 group: Xian
-mark: BenchMarkV1
+mark: BM

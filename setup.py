@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="UCTB",
-    version="0.0.5",
+    version="0.2.0",
     author="Di Chai, Leye Wang, Jin Xu",
     author_email="dchai@connect.ust.hk",
     description="Urban Computing ToolBox",
@@ -14,6 +14,8 @@ setuptools.setup(
     url="https://github.com/Di-Chai/UCTB",
     packages=setuptools.find_packages(),
     install_requires=['hmmlearn>=0.2.1',
+                      'keras',
+                      'GPUtil',
                       'numpy>=1.16.2',
                       'pandas>=0.24.2',
                       'python-dateutil',

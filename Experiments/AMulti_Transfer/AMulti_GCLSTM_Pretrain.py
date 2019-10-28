@@ -5,7 +5,7 @@ import GPUtil
 import numpy as np
 
 from UCTB.dataset import TransferDataLoader
-from UCTB.model import AMulti_GCLSTM
+from UCTB.model import AMultiGCLSTM
 from UCTB.evaluation import metric
 
 #####################################################################
@@ -83,26 +83,26 @@ if len(deviceIDs) == 0:
 else:
     current_device = str(deviceIDs[0])
 
-sd_model = AMulti_GCLSTM(num_node=data_loader.sd_loader.station_number,
-                         num_graph=data_loader.sd_loader.LM.shape[0],
-                         external_dim=data_loader.sd_loader.external_dim,
-                         tpe_dim=data_loader.sd_loader.tpe_dim,
-                         code_version=code_version,
-                         model_dir=model_dir_path,
-                         gpu_device=current_device,
-                         transfer_ratio=0,
-                         **sd_params, **model_params)
+sd_model = AMultiGCLSTM(num_node=data_loader.sd_loader.station_number,
+                        num_graph=data_loader.sd_loader.LM.shape[0],
+                        external_dim=data_loader.sd_loader.external_dim,
+                        tpe_dim=data_loader.sd_loader.tpe_dim,
+                        code_version=code_version,
+                        model_dir=model_dir_path,
+                        gpu_device=current_device,
+                        transfer_ratio=0,
+                        **sd_params, **model_params)
 sd_model.build()
 
-td_model = AMulti_GCLSTM(num_node=data_loader.td_loader.station_number,
-                         num_graph=data_loader.td_loader.LM.shape[0],
-                         external_dim=data_loader.td_loader.external_dim,
-                         tpe_dim=data_loader.td_loader.tpe_dim,
-                         code_version=code_version,
-                         model_dir=model_dir_path,
-                         transfer_ratio=0.1,
-                         gpu_device=current_device,
-                         **td_params, **model_params)
+td_model = AMultiGCLSTM(num_node=data_loader.td_loader.station_number,
+                        num_graph=data_loader.td_loader.LM.shape[0],
+                        external_dim=data_loader.td_loader.external_dim,
+                        tpe_dim=data_loader.td_loader.tpe_dim,
+                        code_version=code_version,
+                        model_dir=model_dir_path,
+                        transfer_ratio=0.1,
+                        gpu_device=current_device,
+                        **td_params, **model_params)
 td_model.build()
 
 sd_de_normalizer = (lambda x: x) if sd_params['normalize'] is False \

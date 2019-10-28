@@ -1,5 +1,5 @@
 # network structure parameters
-st_method: 'gal_gcn'
+st_method: 'DCRNN'
 temporal_merge: 'gal'
 graph_merge: 'gal'
 

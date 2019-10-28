@@ -14,7 +14,7 @@ from .GBRT import GBRT
 from .DeepST import DeepST
 from .ST_ResNet import ST_ResNet
 
-from .AMulti_GCLSTM import AMulti_GCLSTM
+from .AMultiGCLSTM import AMultiGCLSTM
 
 from .DCRNN import DCRNN
 

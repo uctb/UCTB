@@ -25,4 +25,4 @@ max_epoch: 20000
 batch_size: 32
 
 group: Chicago
-mark: BenchMark
+mark: BM

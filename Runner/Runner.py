@@ -76,17 +76,10 @@ import os
 # os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml -p graph:Interaction')
 # os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
 #           '-p graph:Distance-Correlation')
-os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
-          '-p graph:Distance-Correlation-Interaction,gcn_k:1,gclstm_layers:1,batch_size:16,mark:K11')
-os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
-          '-p graph:Distance-Correlation-Interaction,gcn_k:1,gclstm_layers:2,batch_size:32,mark:K12')
-os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
-          '-p graph:Distance-Correlation-Interaction,gcn_k:1,gclstm_layers:3,batch_size:32,mark:K13')
-
-os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
-          '-p graph:Distance-Correlation-Interaction,gcn_k:2,gclstm_layers:1,batch_size:16,mark:K21')
-os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
-          '-p graph:Distance-Correlation-Interaction,gcn_k:3,gclstm_layers:1,batch_size:16,mark:K31')
+# os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_chengdu.data.yml '
+#           '-p graph:Distance-Correlation-Interaction')
+# os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d didi_chengdu.data.yml '
+#           '-p graph:Distance-Correlation-Interaction')
 
 ###############################################
 # BenchMark Metro

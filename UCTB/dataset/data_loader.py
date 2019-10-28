@@ -1,3 +1,4 @@
+import os
 import copy
 import datetime
 import numpy as np
@@ -389,7 +390,7 @@ class NodeTrafficLoader(object):
 
             self.LM = np.array(self.LM, dtype=np.float32)
 
-    def st_map(self, zoom=11, style='light', build_order=None):
+    def st_map(self, zoom=11, style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp', build_order=None):
 
         if self.dataset.node_station_info is None or len(self.dataset.node_station_info) == 0:
             raise ValueError('No station information found in dataset')
@@ -398,12 +399,14 @@ class NodeTrafficLoader(object):
         import plotly
         from plotly.graph_objs import Scattermapbox, Layout
 
-        mapboxAccessToken = "pk.eyJ1Ijoicm1ldGZjIiwiYSI6ImNqN2JjN3l3NjBxc3MycXAzNnh6M2oxbGoifQ.WFNVzFwNJ9ILp0Jxa03mCQ"
+        mapboxAccessToken = "pk.eyJ1Ijoicm1ldGZjIiwiYSI6ImNrMW02YmwxbjAxN24zam9kNGVtMm5raWIifQ.FXKqZCxsFK-dGLLNdeRJHw"
+
+        # os.environ['MAPBOX_API_KEY'] = mapboxAccessToken
 
         lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
-        # build_order = build_order or list(range(len(self.dataset.node_station_info)))
+        build_order = build_order or list(range(len(self.dataset.node_station_info)))
 
-        color = ['rgb(255, 0, 0)' if e < 0 else 'rgb(0, 255, 0)' for e in build_order]
+        color = ['rgb(255, 0, 0)' for _ in build_order]
 
         lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
         lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]

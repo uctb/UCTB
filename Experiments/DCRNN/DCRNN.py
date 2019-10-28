@@ -16,7 +16,7 @@ class my_data_loader(NodeTrafficLoader):
             d_mat_inv = np.diag(d_inv)
             random_walk_mx = d_mat_inv.dot(adjacent_mx)
             return random_walk_mx
-        assert len(self.AM) == 1
+        # assert len(self.AM) == 1
 
         diffusion_matrix = []
         if filter_type == "random_walk":
@@ -35,11 +35,11 @@ def param_parser():
     parser.add_argument('--City', default='Chengdu')
     # network parameter
     parser.add_argument('--CT', default='6', type=int)
-    parser.add_argument('--PT', default='0', type=int)
-    parser.add_argument('--TT', default='0', type=int)
+    parser.add_argument('--PT', default='7', type=int)
+    parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Distance')
+    parser.add_argument('--Graph', default='Distance-Correlation-Interaction')
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--LSTMLayers', default='3', type=int)
     # Training data parameters

@@ -18,7 +18,7 @@ threshold_interaction: 500
 normalize: True
 train: True
 
-lr: 0.00005
+lr: 0.00001
 early_stop_length: 100
 early_stop_patience: 0.1
 max_epoch: 20000

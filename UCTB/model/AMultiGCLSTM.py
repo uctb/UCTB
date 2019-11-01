@@ -140,7 +140,7 @@ class AMultiGCLSTM(BaseModel):
 
             for graph_index in range(self._num_graph):
 
-                if self._st_method in ['GCLSTM', 'DCRNN', 'GRU']:
+                if self._st_method in ['GCLSTM', 'DCRNN', 'GRU', 'LSTM']:
 
                     outputs_temporal = []
 
@@ -180,6 +180,14 @@ class AMultiGCLSTM(BaseModel):
                         elif self._st_method == 'GRU':
 
                             cell = tf.keras.layers.GRUCell(units=self._num_hidden_unit)
+                            multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
+                            outputs = tf.keras.layers.RNN(multi_layer_gru)(
+                                tf.reshape(target_tensor, [-1, time_step, 1]))
+                            st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
+
+                        elif self._st_method == 'LSTM':
+
+                            cell = tf.keras.layers.LSTMCell(units=self._num_hidden_unit)
                             multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
                             outputs = tf.keras.layers.RNN(multi_layer_gru)(
                                 tf.reshape(target_tensor, [-1, time_step, 1]))

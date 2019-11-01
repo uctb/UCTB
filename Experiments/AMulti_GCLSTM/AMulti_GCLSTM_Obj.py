@@ -12,9 +12,9 @@ from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v1.model.yml')
+parser.add_argument('-m', '--model', default='amulti_gclstm_v0.model.yml')
 parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
-parser.add_argument('-p', '--update_params', default='gcn_k:1,gclstm_layers:1,batch_size:16,mark:TEST')
+parser.add_argument('-p', '--update_params', default='')
 
 # Parse params
 terminal_vars = vars(parser.parse_args())
@@ -78,8 +78,8 @@ amulti_gclstm_obj = AMultiGCLSTM(num_node=data_loader.station_number,
                                  closeness_len=args['closeness_len'],
                                  period_len=args['period_len'],
                                  trend_len=args['trend_len'],
-                                 gcn_k=int(args['gcn_k']),
-                                 gcn_layers=int(args['gcn_layers']),
+                                 gcn_k=int(args.get('gcn_k', 0)),
+                                 gcn_layers=int(args.get('gcn_layers', 0)),
                                  gclstm_layers=int(args['gclstm_layers']),
                                  num_hidden_units=args['num_hidden_units'],
                                  num_filter_conv1x1=args['num_filter_conv1x1'],

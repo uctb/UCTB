@@ -61,7 +61,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
-deviceIDs = GPUtil.getAvailable(order='load', limit=2, maxLoad=1, maxMemory=0.7,
+deviceIDs = GPUtil.getAvailable(order='last', limit=8, maxLoad=1, maxMemory=0.7,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
 if len(deviceIDs) == 0:

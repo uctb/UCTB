@@ -9,9 +9,9 @@ from UCTB.model_unit import GraphBuilder
 
 class RoadDataLoader(NodeTrafficLoader):
 
-    def __init__(self, dataset, graph, with_lm=True, **kwargs):
+    def __init__(self,dataset,graph, with_lm=True, **kwargs):
 
-        super(RoadDataLoader, self).__init__(dataset=dataset, graph=graph, with_lm=True, **kwargs)
+        super(RoadDataLoader, self).__init__(dataset=dataset,graph=graph, with_lm=True, **kwargs)
 
         if with_lm:
             for graph_name in graph.split('-'):

@@ -1,0 +1,20 @@
+authorName: lychen
+experimentName: hm_parameter_search
+trialConcurrency: 2
+maxExecDuration: 24h
+maxTrialNum: 200
+trainingServicePlatform: local
+# The path to Search Space
+searchSpacePath: hm_search_space.json
+useAnnotation: false
+tuner:
+  builtinTunerName: TPE
+# The path and the running command of trial
+trial:
+
+  ## all  *.pkl data should be in data_root
+  # Chai :  D:\\LiyueChen\\Data\\
+  # Leye1 : E:\\chenliyue\Data\\
+  command: python HM.py --Dataset DiDi_Chengdu_RoadTTI.pkl
+  codeDir: .
+  gpuNum: 0

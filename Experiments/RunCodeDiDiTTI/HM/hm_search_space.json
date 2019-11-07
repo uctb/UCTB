@@ -1,0 +1,5 @@
+{
+    "CT": {"_type": "randint", "_value": [0,7]},
+    "PT": {"_type": "randint", "_value": [0,8]},
+    "TT": {"_type": "randint", "_value": [0,5]}
+}

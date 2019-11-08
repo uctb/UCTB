@@ -24,7 +24,7 @@ for index, city in enumerate(tqdm(city_ls)):
     print("dataset", dataset)
 
     os.system(
-        'python DCRNN.py --Dataset {} --Graph Correlation-Road_Distance --Group {}'.format(dataset, city))
+        'python DCRNN.py --Dataset {} --Graph Correlation-Road_Distance --threshold 6500 --Group {}'.format(dataset, city))
 
 
     print("************************************************")

@@ -9,6 +9,7 @@ from ..RoadDataLoader import RoadDataLoader
 
 class my_data_loader(RoadDataLoader):
 
+
     def diffusion_matrix(self, filter_type='random_walk'):
         def calculate_random_walk_matrix(adjacent_mx):
             d = np.array(adjacent_mx.sum(1))
@@ -45,7 +46,10 @@ def param_parser():
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
     parser.add_argument('--L', default='1', type=int)
-    parser.add_argument('--Graph', default='Distance-Correlation')
+    parser.add_argument('--Graph', default='Road_Distance-Correlation')
+    # threshold_road_distance
+    parser.add_argument('--threshold', default='6500',type=int)
+    
     parser.add_argument('--LSTMUnits', default='64', type=int)
     parser.add_argument('--LSTMLayers', default='3', type=int)
     # Training data parameters
@@ -82,7 +86,7 @@ code_version = 'DCRNN_{}_K{}L{}_{}'.format(''.join([e[0] for e in args.Graph.spl
 data_loader = my_data_loader(dataset=args.Dataset, city=None,
                              data_range=args.DataRange, train_data_length=args.TrainDays,
                              closeness_len=int(args.CT), period_len=int(args.PT), trend_len=int(args.TT),
-                             threshold_interaction=args.TI, threshold_distance=args.TD,
+                             threshold_road_distance=args.threshold,
                              threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True)
 
 print('Code version',args.Dataset, code_version)

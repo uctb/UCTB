@@ -11,7 +11,7 @@ class RoadDataLoader(NodeTrafficLoader):
 
     def __init__(self, dataset,threshold_road_distance, graph, with_lm=True, **kwargs):
 
-        super(RoadDataLoader, self).__init__(dataset=dataset,threshold_road_distance=threshold_road_distance graph=graph, with_lm=True, **kwargs)
+        super(RoadDataLoader, self).__init__(dataset=dataset,graph=graph, with_lm=True, **kwargs)
 
         if with_lm:
             for graph_name in graph.split('-'):

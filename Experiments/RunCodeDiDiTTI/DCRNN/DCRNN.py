@@ -4,7 +4,7 @@ import numpy as np
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import DCRNN
 from UCTB.evaluation import metric
-from RoadDataLoader import RoadDataLoader
+from ..RoadDataLoader import RoadDataLoader
 
 
 class my_data_loader(RoadDataLoader):
@@ -85,7 +85,7 @@ data_loader = my_data_loader(dataset=args.Dataset, city=None,
                              threshold_interaction=args.TI, threshold_distance=args.TD,
                              threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True)
 
-print('Code version', "DiDi TTI", city, code_version)
+print('Code version',args.Dataset, code_version)
 
 print('Number of training samples', data_loader.train_sequence_len)
 

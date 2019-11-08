@@ -9,7 +9,7 @@ from UCTB.model import AMultiGCLSTM
 from UCTB.model_unit import GraphBuilder
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
-from RoadDataLoader import RoadDataLoader
+from ..RoadDataLoader import RoadDataLoader
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
@@ -57,9 +57,8 @@ data_loader = RoadDataLoader(dataset=args['Dataset'], city=None,
                                 closeness_len=args['closeness_len'],
                                 period_len=args['period_len'],
                                 trend_len=args['trend_len'],
-                                threshold_distance=args['threshold_distance'],
                                 threshold_correlation=args['threshold_correlation'],
-                                threshold_interaction=args['threshold_interaction'],
+                                threshold_road_distance=args['threshold_road_distance'],
                                 normalize=args['normalize'],
                                 graph=args['graph'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,

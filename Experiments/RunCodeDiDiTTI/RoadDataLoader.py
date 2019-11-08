@@ -9,9 +9,9 @@ from UCTB.model_unit import GraphBuilder
 
 class RoadDataLoader(NodeTrafficLoader):
 
-    def __init__(self, dataset, graph, with_lm=True, **kwargs):
+    def __init__(self, dataset,threshold_road_distance, graph, with_lm=True, **kwargs):
 
-        super(RoadDataLoader, self).__init__(dataset=dataset, graph=graph, with_lm=True, **kwargs)
+        super(RoadDataLoader, self).__init__(dataset=dataset,threshold_road_distance=threshold_road_distance graph=graph, with_lm=True, **kwargs)
 
         if with_lm:
             for graph_name in graph.split('-'):
@@ -21,7 +21,7 @@ class RoadDataLoader(NodeTrafficLoader):
                     # build adjacency matrix
                     
                     adj_path = os.path.join(os.getcwd(),"{}_adjacency.tmp".format(dataset))
-                    #adjacency matrix exists .load it 
+                    #adjacency matrix exists. load it 
                     if os.path.exists(adj_path):
                         with open(adj_path,"rb") as fptmp:
                             adjacency = pickle.load(fptmp)
@@ -31,6 +31,12 @@ class RoadDataLoader(NodeTrafficLoader):
                         adjacency = PointlistToAdjacency([extrLatLng(x) for x in self.dataset.data['Node']['StationInfo']])
                         with open(adj_path,"wb") as fptmp:
                             pickle.dump(adjacency,fptmp)
+
+                    #threshold Road_distance 
+                    
+                    threshold = threshold_road_distance
+                    
+                    adjacency = (adjacency <= threshold).astype(np.float32)
 
                     ###################################################################
                     self.AM.append(adjacency)

@@ -9,14 +9,13 @@ closeness_len: 6
 period_len: 7
 trend_len: 4
 
-graph: Distance-Correlation
+graph: Road_distance-Correlation
 
 data_range: all
 train_data_length: all
 
-threshold_distance: 7500
 threshold_correlation: 0.65
-threshold_interaction: 30
+threshold_road_distance: 6500
 
 normalize: True
 train: True

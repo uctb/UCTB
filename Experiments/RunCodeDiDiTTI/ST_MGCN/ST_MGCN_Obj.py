@@ -6,7 +6,7 @@ import numpy as np
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import ST_MGCN
 from UCTB.evaluation import metric
-from RoadDataLoader import RoadDataLoader
+from ..RoadDataLoader import RoadDataLoader
 
 def amulti_gclstm_param_parser():
     import argparse

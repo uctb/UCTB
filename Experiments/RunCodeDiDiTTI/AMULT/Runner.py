@@ -21,37 +21,37 @@ for index, city in enumerate(tqdm(city_ls)):
 
     dataset = os.path.join(data_root, "DiDi_{}_RoadTTI.pkl".format(city))
 
-    print("dataset",dataset)
+    print("dataset", dataset)
+
+    # run AMulti_GCLSTM V1 V2 V3
+    #gcn_k:1,gclstm_layers:1,batch_size:16
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Correlation,Dataset:"{}",group:{}_AMulti,mark:V1'.format(dataset, city))
 
     os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Correlation,Dataset:"{}",group:{}_DiDiTTI,mark:V1_graph_corrlation'.format(dataset, city))
+              ' -p graph:Road_Distance,Dataset:"{}",group:{}_AMulti,mark:V1'.format(dataset, city))
 
     os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Road_Distance,Dataset:"{}",group:{}_DiDiTTI,mark:V1_graph_Road_Distance'.format(dataset, city))
+              ' -p graph:Correlation-Road_Distance,Dataset:"{}",group:{}_AMulti,mark:V1'.format(dataset, city))
 
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Correlation,Dataset:"{}",group:{}_AMulti,mark:V2'.format(dataset, city))
 
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Road_Distance,Dataset:"{}",group:{}_AMulti,mark:V2'.format(dataset, city))
+
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Correlation-Road_Distance,Dataset:"{}",group:{}_AMulti,mark:V2'.format(dataset, city))
+
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v3.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Correlation,Dataset:"{}",group:{}_AMulti,mark:V3'.format(dataset, city))
+
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v3.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Road_Distance,Dataset:"{}",group:{}_AMulti,mark:V3'.format(dataset, city))
+
+    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v3.model.yml -d DiDi_RoadTTI.yml' +
+              ' -p graph:Correlation-Road_Distance,Dataset:"{}",group:{}_AMulti,mark:V3'.format(dataset, city))
+
+    # run TMeta-LSTM-GAL
     os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Correlation-Road_Distance,Dataset:"{}",group:{}_DiDiTTI,mark:V1_graph_graph_corrlation_Road_Distance'.format(dataset, city))
-
-
-    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Correlation,Dataset:"{}",group:{}_DiDiTTI,mark:V2_graph_corrlation'.format(dataset, city))
-
-    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Road_Distance,Dataset:"{}",group:{}_DiDiTTI,mark:V2_graph_Road_Distance'.format(dataset, city))
-
-
-    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v2.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Correlation-Road_Distance,Dataset:"{}",group:{}_DiDiTTI,mark:V2_graph_graph_corrlation_Road_Distance'.format(dataset, city))
-
-
-
-    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v3.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Correlation,Dataset:"{}",group:{}_DiDiTTI,mark:V3_graph_corrlation'.format(dataset, city))
-
-    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v3.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Road_Distance,Dataset:"{}",group:{}_DiDiTTI,mark:V3_graph_Road_Distance'.format(dataset, city))
-
-
-    os.system('python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v3.model.yml -d DiDi_RoadTTI.yml' +
-              ' -p graph:Correlation-Road_Distance,Dataset:"{}",group:{}_DiDiTTI,mark:V3_graph_graph_corrlation_Road_Distance'.format(dataset, city))
+              ' -p st_method:LSTM,graph:Road_Distance,Dataset:"{}",group:{}_TMeta,mark:V1'.format(dataset, city))

@@ -15,6 +15,6 @@ trial:
   ## all  *.pkl data should be in data_root
   # Chai :  D:\\LiyueChen\\Data\\
   # Leye1 : E:\\chenliyue\Data\\
-  command: python HM.py --Dataset DiDi_Chengdu_RoadTTI.pkl
+  command: python HM.py --Dataset E:\\DiDiTTIDataset\\handledData\\DiDi_Haikou_RoadTTI.pkl
   codeDir: .
   gpuNum: 0

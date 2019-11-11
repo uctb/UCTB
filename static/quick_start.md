@@ -5,93 +5,82 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import HM
 from UCTB.evaluation import metric
 
-# Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', with_lm=False)
-start_index = data_loader.traffic_data.shape[0] - data_loader.test_data.shape[0]
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', closeness_len=1, period_len=1, trend_len=2,
+                                with_lm=False, normalize=False)
 
-# Build model
-hm_obj = HM(d=7, h=0)
+hm_obj = HM(c=data_loader.closeness_len, p=data_loader.period_len, t=data_loader.trend_len)
 
-# Predict
-prediction = hm_obj.predict(start_index, data_loader.traffic_data, time_fitness=data_loader.dataset.time_fitness)
+prediction = hm_obj.predict(closeness_feature=data_loader.test_closeness,
+                            period_feature=data_loader.test_period,
+                            trend_feature=data_loader.test_trend)
 
-print('RMSE', metric.rmse(prediction, data_loader.test_data, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
 ```
 
 ## Quick Start with ARIMA
 
 ```python
 import numpy as np
+
 from UCTB.model import ARIMA
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
 
-# Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC')
 
-prediction = []
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', closeness_len=24, period_len=0, trend_len=0,
+                                with_lm=False, normalize=False)
 
+test_prediction_collector = []
 for i in range(data_loader.station_number):
-
-    print('*************************************************************')
-    print('Station', i)
-
     try:
-        
-        # Train the ARIMA model
-        model_obj = ARIMA(data_loader.train_data[:, i], [6, 0, 2])
-        
-        # Predict
-        p = model_obj.predict(data_loader.test_x[:, :, i, 0])
-        
+        model_obj = ARIMA(time_sequence=data_loader.train_closeness[:, i, -1, 0],
+                          order=[6, 0, 1], seasonal_order=[0, 0, 0, 0])
+        test_prediction = model_obj.predict(time_sequences=data_loader.test_closeness[:, i, :, 0],
+                                            forecast_step=1)
     except Exception as e:
         print('Converge failed with error', e)
-        print('Using zero as prediction')
-        p = np.zeros([data_loader.test_x[:, :, i, 0].shape[0], 1])
+        print('Using last as prediction')
+        test_prediction = data_loader.test_closeness[:, i, -1:, :]
+    test_prediction_collector.append(test_prediction)
+    print('Station', i, 'finished')
 
-    prediction.append(p)
+test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y, threshold=0)
 
-    print(np.concatenate(prediction, axis=-1).shape)
-
-prediction = np.expand_dims(np.concatenate(prediction, axis=-1), 2)
-
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('test_rmse', test_rmse)
 ```
 
 ## Quick Start with HMM
 
 ```python
 import numpy as np
+
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import HMM
 from UCTB.evaluation import metric
 
-# Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', with_lm=False)
+data_loader = NodeTrafficLoader(dataset='DiDi', city='Xian',
+                                closeness_len=12, period_len=0, trend_len=0,
+                                with_lm=False, normalize=False)
 
 prediction = []
-
 for station_index in range(data_loader.station_number):
-    
+    # train the hmm model
     try:
-        
-        # Train the HMM model
-        hmm = HMM(num_components=8, n_iter=1000)
-        hmm.fit(data_loader.train_data[:, station_index:station_index+1])
-        
-        # Predict
+        hmm = HMM(num_components=8, n_iter=100)
+        hmm.fit(data_loader.train_closeness[:, station_index:station_index+1, -1, 0])
+        # predict
         p = []
-        for time_index in range(data_loader.test_x.shape[0]):
-            p.append(hmm.predict(data_loader.test_x[time_index, :, station_index, :], length=1))
-            
+        for time_index in range(data_loader.test_closeness.shape[0]):
+            p.append(hmm.predict(data_loader.test_closeness[time_index, station_index, :, :], length=1))
     except Exception as e:
         print('Failed at station', station_index, 'with error', e)
-        p = [[0] for _ in range(data_loader.test_x.shape[0])]
+        # using zero as prediction
+        p = [[[0]] for _ in range(data_loader.test_closeness.shape[0])]
 
-    prediction.append(p)
-    
-prediction = np.transpose(prediction, (1, 0, 2))
+    prediction.append(np.array(p)[:, :, 0])
+    print('Node', station_index, 'finished')
 
+prediction = np.array(prediction).transpose([1, 0, 2])
 print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
 ```
 
@@ -99,31 +88,37 @@ print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
 
 ```python
 import numpy as np
+
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import XGBoost
 from UCTB.evaluation import metric
 
-# Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', with_lm=False)
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', closeness_len=6, period_len=7, trend_len=4,
+                                with_lm=False, normalize=False)
 
-prediction = []
+prediction_test = []
 
 for i in range(data_loader.station_number):
 
     print('*************************************************************')
     print('Station', i)
-    
-    # Train the XGBoost model
-    model = XGBoost(max_depth=10)
-    model.fit(data_loader.train_x[:, :, i, 0], data_loader.train_y[:, i], num_boost_round=20)
-	
-    # Predict
-    p = model.predict(data_loader.test_x[:, :, i, 0]).reshape([-1, 1])
-    prediction.append(p)
 
-prediction = np.concatenate(prediction, axis=-1)
+    model = XGBoost(n_estimators=100, max_depth=3, objective='reg:squarederror')
 
-print('RMSE', metric.rmse(prediction, data_loader.test_y.reshape([-1, data_loader.station_number]), threshold=0))
+    model.fit(np.concatenate((data_loader.train_closeness[:, i, :, 0],
+                              data_loader.train_period[:, i, :, 0],
+                              data_loader.train_trend[:, i, :, 0],), axis=-1),
+              data_loader.train_y[:, i, 0])
+
+    p_test = model.predict(np.concatenate((data_loader.test_closeness[:, i, :, 0],
+                                           data_loader.test_period[:, i, :, 0],
+                                           data_loader.test_trend[:, i, :, 0],), axis=-1))
+
+    prediction_test.append(p_test.reshape([-1, 1, 1]))
+
+prediction_test = np.concatenate(prediction_test, axis=-2)
+
+print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0))
 ```
 
 ------

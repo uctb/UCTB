@@ -12,6 +12,7 @@ Currently the package supported the following models: ([Details](./static/curren
 - XGBoost
 - DeepST
 - ST-ResNet
+- DCRNN
 - AMulti-GCLSTM
 
 UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.
@@ -33,15 +34,20 @@ pip install --upgrade UCTB
 The following required package will be installed or upgraded with UCTB:
 
 ```bash
-'hmmlearn>=0.2.1',
-'numpy>=1.16.2',
-'pandas>=0.24.2',
+'hmmlearn',
+'keras',
+'GPUtil',
+'numpy',
+'pandas',
 'python-dateutil',
-'scikit-learn>=0.20.3',
-'scipy>=1.2.1',
-'statsmodels>=0.9.0',
-'wget>=3.2',
-'xgboost>=0.82'
+'scikit-learn',
+'scipy',
+'statsmodels',
+'wget',
+'xgboost',
+'nni',
+'chinesecalendar',
+'PyYAML'
 ```
 
 ## Quick start
@@ -50,33 +56,42 @@ The following required package will be installed or upgraded with UCTB:
 
 ```python
 from UCTB.dataset import NodeTrafficLoader
-from UCTB.model import AMulti_GCLSTM
+from UCTB.model import AMultiGCLSTM
 from UCTB.evaluation import metric
 
 # Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC')
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', graph='Correlation',
+                                closeness_len=6, period_len=7, trend_len=4, normalize=True)
 
-AMulti_GCLSTM_Obj = AMulti_GCLSTM(T=6, num_node=data_loader.station_number,
-                                  num_graph=data_loader.LM.shape[0],
-                                  external_dim=data_loader.external_dim)
+# Init model object
+AMulti_GCLSTM_Obj = AMultiGCLSTM(closeness_len=data_loader.closeness_len,
+                                 period_len=data_loader.period_len,
+                                 trend_len=data_loader.trend_len,
+                                 num_node=data_loader.station_number,
+                                 num_graph=data_loader.LM.shape[0])
 
+# Build tf-graph
 AMulti_GCLSTM_Obj.build()
-
 # Training
-AMulti_GCLSTM_Obj.fit(input=data_loader.train_x,
+AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
+                      period_feature=data_loader.train_period,
+                      trend_feature=data_loader.train_trend,
                       laplace_matrix=data_loader.LM,
                       target=data_loader.train_y,
-                      external_feature=data_loader.train_ef)
+                      sequence_length=data_loader.train_sequence_len)
 
-# Evaluate
-test_rmse = AMulti_GCLSTM_Obj.evaluate(input=data_loader.test_x,
+# Predict
+prediction = AMulti_GCLSTM_Obj.predict(closeness_feature=data_loader.test_closeness,
+                                       period_feature=data_loader.test_period,
+                                       trend_feature=data_loader.test_trend,
                                        laplace_matrix=data_loader.LM,
                                        target=data_loader.test_y,
-                                       external_feature=data_loader.test_ef,
-                                       metrics=[metric.rmse],
-                                       threshold=0)
+                                       output_names=['prediction'],
+                                       sequence_length=data_loader.test_sequence_len)
 
-print('Test result', test_rmse)
+# Evaluate
+print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
+                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0))
 ```
 
 - [Quick start with other models](./static/quick_start.html)

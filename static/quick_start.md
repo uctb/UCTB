@@ -58,7 +58,7 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import HMM
 from UCTB.evaluation import metric
 
-data_loader = NodeTrafficLoader(dataset='DiDi', city='Xian',
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC',
                                 closeness_len=12, period_len=0, trend_len=0,
                                 with_lm=False, normalize=False)
 

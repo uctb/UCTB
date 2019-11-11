@@ -3,7 +3,7 @@ from UCTB.model import AMultiGCLSTM
 from UCTB.evaluation import metric
 
 # Config data loader
-data_loader = NodeTrafficLoader(dataset='Metro', city='Shanghai', closeness_len=6, period_len=7, trend_len=4)
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', closeness_len=6, period_len=7, trend_len=4)
 
 AMulti_GCLSTM_Obj = AMultiGCLSTM(closeness_len=data_loader.closeness_len,
                                  period_len=data_loader.period_len,
@@ -26,7 +26,7 @@ AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
                       laplace_matrix=data_loader.LM,
                       target=data_loader.train_y,
                       external_feature=data_loader.train_ef,
-                      sequence_length=data_loader.train_sequence_len)
+                      sequence_length=data_loader.train_sequence_len,)
 
 # Predict
 prediction = AMulti_GCLSTM_Obj.predict(closeness_feature=data_loader.test_closeness,

@@ -19,10 +19,10 @@ def amulti_gclstm_param_parser():
     parser.add_argument('--PT', default='7', type=int)
     parser.add_argument('--TT', default='4', type=int)
     parser.add_argument('--K', default='1', type=int)
-    parser.add_argument('--L', default='2', type=int)
+    parser.add_argument('--L', default='1', type=int)
     parser.add_argument('--Graph', default='Distance-Correlation-Line')
     parser.add_argument('--LSTMUnits', default='128', type=int)
-    parser.add_argument('--LSTMLayers', default='2', type=int)
+    parser.add_argument('--LSTMLayers', default='3', type=int)
     # Training data parameters
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='365')

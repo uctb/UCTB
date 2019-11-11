@@ -142,15 +142,6 @@ class GAL(object):
 # Graph Convolution Layer
 class GCL(object):
 
-    # @staticmethod
-    # def KthChebyPloy(k, num_nodes, laplacian_matrix, T_k_1=None, T_k_2=None):
-    #     if k == 0:
-    #         return tf.eye(num_nodes, dtype=tf.float32)
-    #     elif k == 1:
-    #         return laplacian_matrix
-    #     elif k > 1:
-    #         return tf.matmul(2 * laplacian_matrix, T_k_1) - T_k_2
-
     @staticmethod
     def add_gc_layer(inputs,
                      gcn_k,
@@ -206,9 +197,14 @@ class GCL(object):
 
         return activation(gc_outputs)
 
-    # @staticmethod
-    # def add_multi_gc_layers(inputs, K, L, laplacian_matrix, activation=tf.nn.tanh):
-    #     with tf.variable_scope('multi_gcl', reuse=False):
-    #         for i in range(L):
-    #             inputs = GCL.add_gc_layer(inputs, K, laplacian_matrix, activation)
-    #     return inputs
+    @staticmethod
+    def add_multi_gc_layers(inputs, gcn_k, gcn_l, output_size, laplacian_matrix, activation=tf.nn.tanh):
+        with tf.variable_scope('multi_gcl', reuse=False):
+            for i in range(gcn_l):
+                with tf.variable_scope('gcl_%s' % i, reuse=False):
+                    inputs = GCL.add_gc_layer(inputs=inputs,
+                                              gcn_k=gcn_k,
+                                              laplacian_matrix=laplacian_matrix,
+                                              output_size=output_size,
+                                              activation=activation)
+        return inputs

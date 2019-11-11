@@ -5,9 +5,8 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
 
 
-data_loader = NodeTrafficLoader(dataset='DiDi', city='Xian',
-                                closeness_len=24, period_len=0, trend_len=0,
-                                with_lm=False, with_tpe=False, normalize=False)
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', closeness_len=24, period_len=0, trend_len=0,
+                                with_lm=False, normalize=False)
 
 test_rmse_collector = []
 
@@ -15,8 +14,7 @@ for i in range(data_loader.station_number):
 
     try:
         model_obj = ARIMA(time_sequence=data_loader.train_closeness[:, i, -1, 0],
-                          order=[6, 0, 1],
-                          seasonal_order=[0, 0, 0, 0])
+                          order=[6, 0, 1], seasonal_order=[0, 0, 0, 0])
 
         test_prediction = model_obj.predict(time_sequences=data_loader.test_closeness[:, i, :, 0],
                                             forecast_step=1)

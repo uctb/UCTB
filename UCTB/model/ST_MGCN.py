@@ -52,7 +52,7 @@ class ST_MGCN(BaseModel):
             for graph_index in range(self._num_graph):
                 with tf.variable_scope('CGRNN_Graph%s' % graph_index, reuse=False):
                     f_k_g = GCL.add_multi_gc_layers(tf.reshape(traffic_flow, [-1, station_number, self._input_dim]),
-                                                    K=1, L=1,
+                                                    gcn_k=1, gcn_l=1, output_size=self._input_dim,
                                                     laplacian_matrix=laplacian_matrix[graph_index],
                                                     activation=tf.nn.tanh)
 
@@ -78,10 +78,7 @@ class ST_MGCN(BaseModel):
                                                                       else False)\
                                                     (x_rnn)
 
-                    x_rnn = tf.reshape(x_rnn, [-1, station_number, self._lstm_units])
-
-                    H = GCL.add_multi_gc_layers(x_rnn, K=self._gcl_k, L=self._gcl_l,
-                                                laplacian_matrix=laplacian_matrix[graph_index])
+                    H = tf.reshape(x_rnn, [-1, station_number, self._lstm_units])
 
                     outputs.append(H)
 

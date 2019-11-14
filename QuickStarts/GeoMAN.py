@@ -3,13 +3,14 @@ from UCTB.preprocess import MoveSample
 from UCTB.model import GeoMAN
 from UCTB.evaluation import metric
 import numpy as np
+import time
 
 
 class GeoMAN_DataLoader(NodeTrafficLoader):
     def __init__(self, node_id=0, input_steps=12, output_steps=1, **kwargs):
         super(GeoMAN_DataLoader, self).__init__(closeness_len=input_steps,
                                                 period_len=input_steps,
-                                                trend_len=input_steps,  # TODO modify this
+                                                trend_len=input_steps,
                                                 target_length=output_steps,
                                                 **kwargs)
         self.node_id = node_id  # specify a node to train and predict
@@ -33,10 +34,11 @@ class GeoMAN_DataLoader(NodeTrafficLoader):
         seq_len = ext_features.shape[0]
 
         global_attn_states = [d[:seq_len] for d in
-                              [closeness, period]]  # , trend]]  # TODO add trend # clip length to align
+                              [closeness, period, trend]]  # TODO add trend # clip length to align
 
         global_features = global_attn_states[0]  # target to predict is closeness
-        global_features = global_features.transpose([0, 2, 1, 3]).reshape(-1, self.input_steps, self.station_number)  # (batch_size, n_steps_encoder, n_sensors)
+        global_features = global_features.transpose([0, 2, 1, 3]).reshape(-1, self.input_steps,
+                                                                          self.station_number)  # (batch_size, n_steps_encoder, n_sensors)
 
         local_features = [f[:, self.node_id, :, :] for f in global_attn_states]  # pick the records of that node
         local_features = np.concatenate(local_features, axis=2)  # (batch_size, n_steps_encoder, n_input_encoder)
@@ -51,11 +53,9 @@ class GeoMAN_DataLoader(NodeTrafficLoader):
         return local_features, global_features, local_attn_states, global_attn_states, ext_features, y
 
 
-
-import time
 start_time = time.time()
 
-data_loader = GeoMAN_DataLoader(dataset='Bike', city='NYC', node_id=0, input_steps=12, output_steps=1)
+data_loader = GeoMAN_DataLoader(dataset='Bike', city='NYC', node_id=0, input_steps=1, output_steps=1)
 model = GeoMAN(total_sensers=data_loader.station_number,
                input_dim=data_loader.input_dim,
                external_dim=data_loader.external_dim,
@@ -73,12 +73,12 @@ model.fit(local_features=data_loader.train_local_features,
           sequence_length=data_loader.train_seq_len)
 
 results = model.predict(local_features=data_loader.test_local_features,
-              global_features=data_loader.test_global_features,
-              local_attn_states=data_loader.test_local_attn_states,
-              global_attn_states=data_loader.test_global_attn_states,
-              external_features=data_loader.test_external_features,
-              targets=data_loader.test_y,
-              sequence_length=data_loader.test_seq_len)
+                        global_features=data_loader.test_global_features,
+                        local_attn_states=data_loader.test_local_attn_states,
+                        global_attn_states=data_loader.test_global_attn_states,
+                        external_features=data_loader.test_external_features,
+                        targets=data_loader.test_y,
+                        sequence_length=data_loader.test_seq_len)
 
 print('RMSE', metric.rmse(results['prediction'], data_loader.test_y, threshold=0))
-print("--- %s seconds ---" % (time.time() - start_time))
+print("Finish in %s seconds." % (time.time() - start_time))

@@ -1,4 +1,5 @@
 import tensorflow as tf
+from tensorflow.contrib.framework import nest
 from ..model_unit import BaseModel
 
 
@@ -28,8 +29,7 @@ class GeoMAN(BaseModel):
                  code_version='GeoMAN-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0',
-                 **kwargs
-                 ):
+                 **kwargs):
         super(GeoMAN, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         # Architecture
@@ -50,7 +50,6 @@ class GeoMAN(BaseModel):
         self._lambda_l2_reg = lambda_l2_reg
         self._gc_rate = gc_rate
 
-    @tf.function
     def build(self):
         with self._graph.as_default():
             with tf.variable_scope('inputs'):
@@ -134,7 +133,7 @@ class GeoMAN(BaseModel):
                         def _local_spatial_attention(query):
                             # If the query is a tuple (when stacked RNN/LSTM), flatten it
                             if hasattr(query, "__iter__"):
-                                query_list = tf.nest.flatten(query)
+                                query_list = nest.flatten(query)
                                 for q in query_list:
                                     ndims = q.get_shape().ndims
                                     if ndims:
@@ -167,7 +166,7 @@ class GeoMAN(BaseModel):
 
                         def _global_spatial_attention(query):
                             if hasattr(query, "__iter__"):
-                                query_list = tf.nest.flatten(query)
+                                query_list = nest.flatten(query)
                                 for q in query_list:  # Check that ndims == 2 if specified.
                                     ndims = q.get_shape().ndims
                                     if ndims:
@@ -234,7 +233,7 @@ class GeoMAN(BaseModel):
 
                     def _attention(query):
                         if hasattr(query, "__iter__"):
-                            query_list = tf.nest.flatten(query)
+                            query_list = nest.flatten(query)
                             for q in query_list:  # Check that ndims == 2 if specified.
                                 ndims = q.get_shape().ndims
                                 if ndims:

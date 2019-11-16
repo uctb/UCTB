@@ -50,7 +50,7 @@ class GeoMAN(BaseModel):
         self._lambda_l2_reg = lambda_l2_reg
         self._gc_rate = gc_rate
 
-    def build(self):
+    def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
             with tf.variable_scope('inputs'):
                 local_features = tf.placeholder(tf.float32, shape=[None, self._n_steps_encoder, self._n_input_encoder],
@@ -321,7 +321,7 @@ class GeoMAN(BaseModel):
                 # record op
                 self._op['train_op'] = train_op.name
 
-        super(GeoMAN, self).build()
+        super(GeoMAN, self).build(init_vars=init_vars, max_to_keep=5)
 
     def _get_feed_dict(self,
                        local_features,

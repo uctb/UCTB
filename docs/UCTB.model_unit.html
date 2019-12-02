@@ -26,8 +26,6 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="uctb-model-unit-package">
@@ -40,7 +38,7 @@
 <dl class="class">
 <dt id="UCTB.model_unit.BaseModel.BaseModel">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.BaseModel.</code><code class="sig-name descname">BaseModel</code><span class="sig-paren">(</span><em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.add_summary">
 <code class="sig-name descname">add_summary</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em>, <em class="sig-param">global_step</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.add_summary" title="Permalink to this definition">¶</a></dt>
@@ -48,7 +46,7 @@
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.build" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.build" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -58,7 +56,7 @@
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">sequence_length</em>, <em class="sig-param">output_names=('loss'</em>, <em class="sig-param">)</em>, <em class="sig-param">op_names=('train_op'</em>, <em class="sig-param">)</em>, <em class="sig-param">evaluate_loss_name='loss'</em>, <em class="sig-param">batch_size=64</em>, <em class="sig-param">max_epoch=10000</em>, <em class="sig-param">validate_ratio=0.1</em>, <em class="sig-param">shuffle_data=True</em>, <em class="sig-param">early_stop_method='t-test'</em>, <em class="sig-param">early_stop_length=10</em>, <em class="sig-param">early_stop_patience=0.1</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">save_model=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.fit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">sequence_length</em>, <em class="sig-param">output_names=('loss'</em>, <em class="sig-param">)</em>, <em class="sig-param">op_names=('train_op'</em>, <em class="sig-param">)</em>, <em class="sig-param">evaluate_loss_name='loss'</em>, <em class="sig-param">batch_size=64</em>, <em class="sig-param">max_epoch=10000</em>, <em class="sig-param">validate_ratio=0.1</em>, <em class="sig-param">shuffle_data=True</em>, <em class="sig-param">early_stop_method='t-test'</em>, <em class="sig-param">early_stop_length=10</em>, <em class="sig-param">early_stop_patience=0.1</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">save_model=True</em>, <em class="sig-param">save_model_name=None</em>, <em class="sig-param">auto_load_model=True</em>, <em class="sig-param">return_outputs=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.fit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -122,178 +120,18 @@ the whole validation dataset</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-UCTB.model_unit.GCLSTM_CELL">
-<span id="uctb-model-unit-gclstm-cell-module"></span><h2>UCTB.model_unit.GCLSTM_CELL module<a class="headerlink" href="#module-UCTB.model_unit.GCLSTM_CELL" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GCLSTM_CELL.</code><code class="sig-name descname">GCLSTMCell</code><span class="sig-paren">(</span><em class="sig-param">K</em>, <em class="sig-param">num_layers</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">num_units</em>, <em class="sig-param">use_peepholes=False</em>, <em class="sig-param">cell_clip=None</em>, <em class="sig-param">initializer=None</em>, <em class="sig-param">num_proj=None</em>, <em class="sig-param">proj_clip=None</em>, <em class="sig-param">num_unit_shards=None</em>, <em class="sig-param">num_proj_shards=None</em>, <em class="sig-param">forget_bias=1.0</em>, <em class="sig-param">state_is_tuple=True</em>, <em class="sig-param">activation=None</em>, <em class="sig-param">reuse=None</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.ops.rnn_cell_impl.LayerRNNCell</span></code></p>
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.KthChebyPloy">
-<code class="sig-name descname">KthChebyPloy</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">T_k_1=None</em>, <em class="sig-param">T_k_2=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.KthChebyPloy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">inputs_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates the variables of the layer.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.call">
-<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">state</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.call" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>inputs</strong> – Input tensor, or list/tuple of input tensors.</p></li>
-<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.laplacian_matrix">
-<em class="property">property </em><code class="sig-name descname">laplacian_matrix</code><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.laplacian_matrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.output_size">
-<em class="property">property </em><code class="sig-name descname">output_size</code><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.output_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>size of outputs produced by this cell.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Integer or TensorShape</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.state_size">
-<em class="property">property </em><code class="sig-name descname">state_size</code><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.state_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.zero_state">
-<code class="sig-name descname">zero_state</code><span class="sig-paren">(</span><em class="sig-param">batch_size</em>, <em class="sig-param">dtype</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCLSTM_CELL.GCLSTMCell.zero_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_size</strong> – int, float, or unit Tensor representing the batch size.</p></li>
-<li><p><strong>dtype</strong> – the data type to use for the state.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="uctb-model-unit-gclstm-cell-module">
+<h2>UCTB.model_unit.GCLSTM_CELL module<a class="headerlink" href="#uctb-model-unit-gclstm-cell-module" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-UCTB.model_unit.GCN_LSTM_CELL">
-<span id="uctb-model-unit-gcn-lstm-cell-module"></span><h2>UCTB.model_unit.GCN_LSTM_CELL module<a class="headerlink" href="#module-UCTB.model_unit.GCN_LSTM_CELL" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GCN_LSTM_CELL.</code><code class="sig-name descname">GCN_LSTMCell</code><span class="sig-paren">(</span><em class="sig-param">K</em>, <em class="sig-param">num_layers</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">num_units</em>, <em class="sig-param">use_peepholes=False</em>, <em class="sig-param">cell_clip=None</em>, <em class="sig-param">initializer=None</em>, <em class="sig-param">num_proj=None</em>, <em class="sig-param">proj_clip=None</em>, <em class="sig-param">num_unit_shards=None</em>, <em class="sig-param">num_proj_shards=None</em>, <em class="sig-param">forget_bias=1.0</em>, <em class="sig-param">state_is_tuple=True</em>, <em class="sig-param">activation=None</em>, <em class="sig-param">reuse=None</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.ops.rnn_cell_impl.LayerRNNCell</span></code></p>
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.KthChebyPloy">
-<code class="sig-name descname">KthChebyPloy</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">T_k_1=None</em>, <em class="sig-param">T_k_2=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.KthChebyPloy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">inputs_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates the variables of the layer.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.call">
-<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">state</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.call" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is where the layer’s logic lives.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>inputs</strong> – Input tensor, or list/tuple of input tensors.</p></li>
-<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>A tensor or list/tuple of tensors.</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.laplacian_matrix">
-<em class="property">property </em><code class="sig-name descname">laplacian_matrix</code><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.laplacian_matrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.output_size">
-<em class="property">property </em><code class="sig-name descname">output_size</code><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.output_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>size of outputs produced by this cell.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>Integer or TensorShape</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.state_size">
-<em class="property">property </em><code class="sig-name descname">state_size</code><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.state_size" title="Permalink to this definition">¶</a></dt>
-<dd><p>size(s) of state(s) used by this cell.</p>
-<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
-or TensorShapes.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.zero_state">
-<code class="sig-name descname">zero_state</code><span class="sig-paren">(</span><em class="sig-param">batch_size</em>, <em class="sig-param">dtype</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GCN_LSTM_CELL.GCN_LSTMCell.zero_state" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return zero-filled state tensor(s).</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>batch_size</strong> – int, float, or unit Tensor representing the batch size.</p></li>
-<li><p><strong>dtype</strong> – the data type to use for the state.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>If <cite>state_size</cite> is an int or TensorShape, then the return value is a
-<cite>N-D</cite> tensor of shape <cite>[batch_size, state_size]</cite> filled with zeros.</p>
-<p>If <cite>state_size</cite> is a nested list or tuple, then the return value is
-a nested list or tuple (of the same structure) of <cite>2-D</cite> tensors with
-the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</p>
-</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
+<div class="section" id="uctb-model-unit-gcn-lstm-cell-module">
+<h2>UCTB.model_unit.GCN_LSTM_CELL module<a class="headerlink" href="#uctb-model-unit-gcn-lstm-cell-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-UCTB.model_unit.GraphModelLayers">
 <span id="uctb-model-unit-graphmodellayers-module"></span><h2>UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#module-UCTB.model_unit.GraphModelLayers" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GAL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">
 <em class="property">static </em><code class="sig-name descname">add_ga_layer_matrix</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">units</em>, <em class="sig-param">num_head</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix" title="Permalink to this definition">¶</a></dt>
@@ -314,20 +152,15 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
 <dl class="class">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GCL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="UCTB.model_unit.GraphModelLayers.GCL.KthChebyPloy">
-<em class="property">static </em><code class="sig-name descname">KthChebyPloy</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">T_k_1=None</em>, <em class="sig-param">T_k_2=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.KthChebyPloy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">
-<em class="property">static </em><code class="sig-name descname">add_gc_layer</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">K</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">add_gc_layer</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">gcn_k</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">output_size</em>, <em class="sig-param">dtype=tf.float32</em>, <em class="sig-param">use_bias=True</em>, <em class="sig-param">trainable=True</em>, <em class="sig-param">initializer=None</em>, <em class="sig-param">regularizer=None</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers">
-<em class="property">static </em><code class="sig-name descname">add_multi_gc_layers</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">K</em>, <em class="sig-param">L</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><code class="sig-name descname">add_multi_gc_layers</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">gcn_k</em>, <em class="sig-param">gcn_l</em>, <em class="sig-param">output_size</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -335,20 +168,20 @@ the shapes <cite>[batch_size, s]</cite> for each s in <cite>state_size</cite>.</
 <dl class="class">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GraphBuilder</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
-<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_lm">
-<em class="property">static </em><code class="sig-name descname">adjacent_to_lm</code><span class="sig-paren">(</span><em class="sig-param">matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_lm" title="Permalink to this definition">¶</a></dt>
+<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_laplacian">
+<em class="property">static </em><code class="sig-name descname">adjacent_to_laplacian</code><span class="sig-paren">(</span><em class="sig-param">adjacent_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_laplacian" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_graph">
-<em class="property">static </em><code class="sig-name descname">correlation_graph</code><span class="sig-paren">(</span><em class="sig-param">traffic_data</em>, <em class="sig-param">threshold=0</em>, <em class="sig-param">keep_weight=False</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_graph" title="Permalink to this definition">¶</a></dt>
+<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_adjacent">
+<em class="property">static </em><code class="sig-name descname">correlation_adjacent</code><span class="sig-paren">(</span><em class="sig-param">traffic_data</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_adjacent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_graph">
-<em class="property">static </em><code class="sig-name descname">distance_graph</code><span class="sig-paren">(</span><em class="sig-param">lat_lng_list</em>, <em class="sig-param">threshold=1000</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_graph" title="Permalink to this definition">¶</a></dt>
+<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_adjacent">
+<em class="property">static </em><code class="sig-name descname">distance_adjacent</code><span class="sig-paren">(</span><em class="sig-param">lat_lng_list</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_adjacent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -359,8 +192,8 @@ on the earth (specified in decimal degrees)</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_graph">
-<em class="property">static </em><code class="sig-name descname">interaction_graph</code><span class="sig-paren">(</span><em class="sig-param">interaction_matrix</em>, <em class="sig-param">threshold=500</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_graph" title="Permalink to this definition">¶</a></dt>
+<dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent">
+<em class="property">static </em><code class="sig-name descname">interaction_adjacent</code><span class="sig-paren">(</span><em class="sig-param">interaction_matrix</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -373,7 +206,6 @@ on the earth (specified in decimal degrees)</p>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -402,8 +234,8 @@ on the earth (specified in decimal degrees)</p>
       &copy;2019, Di Chai, Leye Wang, Jin Xu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/UCTB.model_unit.rst.txt"

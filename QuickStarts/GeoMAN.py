@@ -8,6 +8,22 @@ import time
 
 class GeoMAN_DataLoader(NodeTrafficLoader):
     def __init__(self, input_steps=12, output_steps=1, **kwargs):
+        """A wrapper of ``NodeTrafficLoader`` to make its data form compatible with GeoMAN's inputs.
+
+        Args:
+            input_steps (int): The length of historical input data, a.k.a, input timesteps. Default: 12
+            output_steps (int): The number of steps that need prediction by one piece of history data, a.k.a,
+                output timesteps. Have to be 1 now. Default: 1
+            **kwargs (dict): Used to pass other parameters to class ``NodeTrafficLoader``.
+
+        Attributes:
+            train_local_features (list): A list, where each element corresponds to the ``local_features`` in GeoMAN's
+                feed dict of one sensor (node)  and the length of list is ``station_number``. Uses indexes of it to
+                specify a target sensor, e.g., ``train_local_features[i]`` for sensor ``i``.
+            train_local_attn_states (list): A list containing each sensor's ``local_attn_states``
+            train_y (list): A list containing each sensor's label ndarray.
+            train_seq_len (int): The total sample number of training data set, which will be used in mini-batch training.
+        """
         super(GeoMAN_DataLoader, self).__init__(closeness_len=input_steps,
                                                 period_len=input_steps,
                                                 trend_len=input_steps,
@@ -28,6 +44,16 @@ class GeoMAN_DataLoader(NodeTrafficLoader):
         self.test_seq_len = self.test_external_features.shape[0]
 
     def process_data(self, trend, period, closeness, ef, y):
+        """Process features to GeoMAN's acceptable forms
+
+        Different from other models, GeoMAN needs all the inputs that have the same timesteps, so we generate
+        ``closeness``, ``period`` and ``trend`` from a fixed length. After that, we simply concatenate these three
+        features into a single matrix ``global_attn_states``. Based on it, we can eventually construct all the inputs
+        of GeoMAN, including ``local_features``, ``global_features``, ``local_attn_states`` and
+        ``global_attn_states``. Moreover, since the original eternal features in ``NodeTrafficLoader`` are timeless,
+        we handle them with ``move_ef`` to generate timesteps as a workaround.
+
+        """
         # apply timestep to external features, which will make its length shorter
         _, ext_features = self.move_ef.general_move_sample(ef)
         seq_len = ext_features.shape[0]

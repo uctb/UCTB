@@ -3,10 +3,42 @@ from tensorflow.contrib.framework import nest
 from ..model_unit import BaseModel
 
 
-# Modified from the codes that released by the author of IJCAI'2018 paper
-# https://github.com/yoshall/GeoMAN
-
 class GeoMAN(BaseModel):
+    """Multi-level Attention Networks for Geo-sensory Time Series Prediction (GeoMAN)
+
+            GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global
+            spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal
+            dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,
+            meteorology, time of day and land use).
+
+            Reference:
+                `GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Junbo Zhang et al., 2016)
+                <https://www.ijcai.org/proceedings/2018/0476.pdf>`_.
+
+                `An easy implement of GeoMAN using TensorFlow (yoshall & CastleLiang)
+                <https://github.com/yoshall/GeoMAN>`_.
+
+            Args:
+                total_sensers (int): The number of total sensors used in global attention mechanism.
+                input_dim (int): The number of dimensions of the target sensor's input.
+                external_dim (int): The number of dimensions of the external features.
+                output_dim (int): The number of dimensions of the target sensor's output.
+                input_steps (int): The length of historical input data, a.k.a, input timesteps.
+                output_steps (int): The number of steps that need prediction by one piece of history data, a.k.a, output
+                    timesteps. Have to be 1 now.
+                n_stacked_layers (int): The number of LSTM layers stacked in both encoder and decoder (These two are the
+                    same). Default: 2
+                n_encoder_hidden_units (int): The number of hidden units in each layer of encoder. Default: 128
+                n_decoder_hidden_units (int): The number of hidden units in each layer of decoder. Default: 128
+                dropout_rate (float): Dropout rate of LSTM layers in both encoder and decoder. Default: 0.3
+                lr (float): Learning rate. Default: 0.001
+                gc_rate (float): A clipping ratio for all the gradients. This operation normalizes all gradients so that
+                    their L2-norms are less than or equal to ``gc_rate``. Default: 2.5
+                code_version (str): Current version of this model code. Default: 'GeoMAN-QuickStart'
+                model_dir (str): The directory to store model files. Default:'model_dir'
+                gpu_device (str): To specify the GPU to use. Default: '0'
+                **kwargs (dict): Reserved for future use. May be used to pass parameters to class ``BaseModel``.
+            """
     def __init__(self,
                  total_sensers,
                  input_dim,
@@ -14,22 +46,17 @@ class GeoMAN(BaseModel):
                  output_dim,
                  input_steps,
                  output_steps,
-
-                 # Architecture
                  n_stacked_layers=2,
                  n_encoder_hidden_units=128,
                  n_decoder_hidden_units=128,
-
-                 # Hyperparamters
                  dropout_rate=0.3,
                  lr=0.001,
-                 lambda_l2_reg=0.001,
                  gc_rate=2.5,
-
                  code_version='GeoMAN-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0',
                  **kwargs):
+
         super(GeoMAN, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         # Architecture
@@ -47,7 +74,6 @@ class GeoMAN(BaseModel):
         # Hyperparameters
         self._dropout_rate = dropout_rate
         self._lr = lr
-        self._lambda_l2_reg = lambda_l2_reg
         self._gc_rate = gc_rate
 
     def build(self, init_vars=True, max_to_keep=5):
@@ -87,15 +113,14 @@ class GeoMAN(BaseModel):
                     with tf.variable_scope(f'LSTM_{i}'):
                         cell = tf.contrib.rnn.BasicLSTMCell(n_hidden_units,
                                                             forget_bias=1.0,
-                                                            state_is_tuple=True,
-                                                            )
+                                                            state_is_tuple=True)
                         cell = tf.nn.rnn_cell.DropoutWrapper(cell, output_keep_prob=1.0 - self._dropout_rate)
                         cells.append(cell)
                 encoder_cell = tf.contrib.rnn.MultiRNNCell(cells)
                 return encoder_cell
 
             def _loop_function(prev):
-                """loop function used in the decoder to generate the next inupt"""
+                """loop function used in the decoder to generate the next input"""
                 return predict_layer(prev)
 
             def _get_MSE_loss(y_true, y_pred):
@@ -107,7 +132,7 @@ class GeoMAN(BaseModel):
                 for tf_var in tf.trainable_variables():
                     if 'kernel:' in tf_var.name or 'bias:' in tf_var.name:
                         reg_loss += tf.reduce_mean(tf.nn.l2_loss(tf_var))
-                return self._lambda_l2_reg * reg_loss
+                return 0.001 * reg_loss
 
             def _spatial_attention(local_features,  # x and X
                                    global_features,
@@ -184,7 +209,7 @@ class GeoMAN(BaseModel):
                                 # where:
                                 #     sim: a vector with length n_sensors, describing the sim between the target sensor and the others
                                 #     lambda: a trade-off.
-                                # softmax((1 - lambda) * s +lambda *sim)
+                                # attention_weights = tf.softmax((1-self.sm_rate)*score+self.sm_rate*self.similarity_graph)
                             return attention_weights
 
                     # Init
@@ -217,7 +242,6 @@ class GeoMAN(BaseModel):
                                     inital_states,  # the first time, the output of encoder
                                     attention_states,  # h_o
                                     decoder_cells):
-
                 batch_size = tf.shape(decoder_inputs[0])[0]
                 output_size = decoder_cells.output_size
                 input_size = decoder_inputs[0].get_shape().with_rank(2)[1]  # ?
@@ -274,8 +298,7 @@ class GeoMAN(BaseModel):
                         prev_decoder_output = output
                 return outputs, state
 
-                # Handle data
-
+            # Handle data
             local_features, global_features, external_features, targets, decoder_inputs = input_transform(
                 local_features, global_features, external_features, targets)
 
@@ -330,6 +353,24 @@ class GeoMAN(BaseModel):
                        global_attn_states,
                        external_features,
                        targets):
+        """The method to get feet dict for tensorflow model.
+
+        Users may modify this method according to the format of input.
+
+        Args:
+            local_features (np.ndarray): All the time series generated by the target sensor i, including one target
+                series and other feature series, with shape `(batch, input_steps, input_dim)`.
+            global_features (np.ndarray): Target series generated by all the sensors, with shape `(batch, input_steps,
+                total_sensors)`.
+            local_attn_states (np.ndarray): Equals to ``local_features`` swapped ``input_steps`` and ``input_dim`` axis,
+                with shape `(batch, input_dim, input_steps)`.
+            global_attn_states (np.ndarray): All time series generated by all sensors, with shape `(batch,
+                total_sensors, input_dim, input_steps)`.
+            external_features (np.ndarray): Fused external factors, e.g., temporal factors: meteorology and spatial
+                factors: POIs density, with shape `(batch, output_steps, external_dim)`. All features have to be
+                time series.
+            targets (np.ndarray): Target sensor's labels, with shape `(batch, output_steps, output_dim)`.
+        """
         feed_dict = {'local_features': local_features, 'global_features': global_features,
                      'local_attn_states': local_attn_states, 'global_attn_states': global_attn_states,
                      'external_features': external_features, 'targets': targets}
@@ -340,6 +381,7 @@ def input_transform(local_features,
                     global_features,
                     external_features,
                     targets):
+    """Split the model's inputs from matrices to lists on timesteps axis."""
     local_features = split_timesteps(local_features)
     global_features = split_timesteps(global_features)
     external_features = split_timesteps(external_features)
@@ -349,12 +391,13 @@ def input_transform(local_features,
 
 
 def split_timesteps(inputs):
-    """
-    inputs (batch, timestep, feature) -> len([[batch, feature], ..., ]) = timesteps
-    """
+    """Split the input matrix from (batch, timesteps, input_dim) to a step list ([[batch, input_dim], ..., ])."""
     timesteps = inputs.get_shape()[1].value
     feature_dims = inputs.get_shape()[2].value
     inputs = tf.transpose(inputs, [1, 0, 2])
     inputs = tf.reshape(inputs, [-1, feature_dims])
     inputs = tf.split(inputs, timesteps, 0)
     return inputs
+
+
+

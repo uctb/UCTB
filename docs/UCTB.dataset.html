@@ -26,8 +26,6 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="uctb-dataset-package">
@@ -40,19 +38,19 @@
 <dl class="class">
 <dt id="UCTB.dataset.data_loader.GridTrafficLoader">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">GridTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.GridTrafficLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 </dd></dl>
 
 <dl class="class">
 <dt id="UCTB.dataset.data_loader.NodeTrafficLoader">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">NodeTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">graph='Correlation'</em>, <em class="sig-param">threshold_distance=1000</em>, <em class="sig-param">threshold_correlation=0</em>, <em class="sig-param">threshold_interaction=500</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">with_lm=True</em>, <em class="sig-param">with_tpe=False</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The data loader that extracts and processes data from a <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSet</span></code> object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A string containing path of the dataset pickle file or a string of name of the dataset.</p></li>
-<li><p><strong>city</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – <code class="docutils literal notranslate"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city.
+<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – A string containing path of the dataset pickle file or a string of name of the dataset.</p></li>
+<li><p><strong>city</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – <code class="docutils literal notranslate"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city.
 Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>data_range</strong> – The range of data extracted from <code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> to be further used. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, all data in
 <code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> will be used. If set to a float between 0.0 and 1.0, the relative former proportion of data in
@@ -60,32 +58,32 @@ Default: <code class="docutils literal notranslate"><span class="pre">None</span
 (<em>end</em> - 1) day of data in <code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> will be used. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
 <li><p><strong>train_data_length</strong> – The length of train data. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, all data in the split train set will be used.
 If set to int, the latest <code class="docutils literal notranslate"><span class="pre">train_data_length</span></code> days of data will be used as train set. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
-<li><p><strong>test_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – The ratio of test set as data will be split into train set and test set. Default: 0.1</p></li>
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+<li><p><strong>test_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – The ratio of test set as data will be split into train set and test set. Default: 0.1</p></li>
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
 of data will be used as closeness history. Default: 6</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history. Default: 7</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history. Default: 4</p></li>
-<li><p><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
+<li><p><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
 Default: 1</p></li>
-<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Types of graphs used in neural methods. Graphs should be a subset of { <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code>,
+<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Types of graphs used in neural methods. Graphs should be a subset of { <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code>,
 <code class="docutils literal notranslate"><span class="pre">'Distance'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Interaction'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Line'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Neighbor'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Transfer'</span></code> } and concatenated by <code class="docutils literal notranslate"><span class="pre">'-'</span></code>,
 and <em>dataset</em> should have data of selected graphs. Default: <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code></p></li>
-<li><p><strong>threshold_distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Used in building of distance graph. If distance of two nodes in meters is larger
+<li><p><strong>threshold_distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Used in building of distance graph. If distance of two nodes in meters is larger
 than <code class="docutils literal notranslate"><span class="pre">threshold_distance</span></code>, the corresponding position of the distance graph will be 1 and otherwise
 0.the corresponding Default: 1000</p></li>
-<li><p><strong>threshold_correlation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Used in building of correlation graph. If the Pearson correlation coefficient is
+<li><p><strong>threshold_correlation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Used in building of correlation graph. If the Pearson correlation coefficient is
 larger than <code class="docutils literal notranslate"><span class="pre">threshold_correlation</span></code>, the corresponding position of the correlation graph will be 1
 and otherwise 0. Default: 0</p></li>
-<li><p><strong>threshold_interaction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Used in building of interatction graph. If in the latest 12 months, the number of
+<li><p><strong>threshold_interaction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Used in building of interatction graph. If in the latest 12 months, the number of
 times of interaction between two nodes is larger than <code class="docutils literal notranslate"><span class="pre">threshold_interaction</span></code>, the corresponding position
 of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
-<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, do min-max normalization on data. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, do min-max normalization on data. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
 <li><p><strong>workday_parser</strong> – Used to build external features to be used in neural methods. Default: <code class="docutils literal notranslate"><span class="pre">is_work_day_america</span></code></p></li>
-<li><p><strong>with_lm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build graphs according to <code class="docutils literal notranslate"><span class="pre">graph</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
-<li><p><strong>with_tpe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build time position embeddings. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
-<li><p><strong>data_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – The dataset directory. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, a directory will be created. If
+<li><p><strong>with_lm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build graphs according to <code class="docutils literal notranslate"><span class="pre">graph</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>with_tpe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build time position embeddings. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>data_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – The dataset directory. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, a directory will be created. If
 <code class="docutils literal notranslate"><span class="pre">dataset</span></code> is file path, <code class="docutils literal notranslate"><span class="pre">data_dir</span></code> should be <code class="docutils literal notranslate"><span class="pre">None</span></code> too. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </dd>
@@ -107,7 +105,7 @@ of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
 <dd><p>The number of time slots in one single day.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -118,7 +116,7 @@ of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
 <dd><p>The number of nodes.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -129,7 +127,7 @@ of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
 <dd><p>The number of dimensions of external features.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -168,7 +166,7 @@ and construction.</p>
 <dd><p>If <code class="docutils literal notranslate"><span class="pre">with_lm</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the list of Laplacian matrices of graphs listed in <code class="docutils literal notranslate"><span class="pre">graph</span></code>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,7 +180,7 @@ and construction.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>node</strong> (int or <code class="docutils literal notranslate"><span class="pre">'all'</span></code>) – To specify the index of certain node. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, return the concatenation
 result of all nodes. If set to an integer, it will be the index of the selected node. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
-<li><p><strong>is_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">train_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">train_trend</span></code> will be
+<li><p><strong>is_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">train_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">train_trend</span></code> will be
 concatenated. If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">test_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">test_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">test_trend</span></code> will be
 concatenated. Default: True</p></li>
 </ul>
@@ -206,7 +204,7 @@ On the second dimension, data are arranged as</p>
 
 <dl class="method">
 <dt id="UCTB.dataset.data_loader.NodeTrafficLoader.st_map">
-<code class="sig-name descname">st_map</code><span class="sig-paren">(</span><em class="sig-param">zoom=11</em>, <em class="sig-param">style='light'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.st_map" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">st_map</code><span class="sig-paren">(</span><em class="sig-param">zoom=11</em>, <em class="sig-param">style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp'</em>, <em class="sig-param">build_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.st_map" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -214,7 +212,22 @@ On the second dimension, data are arranged as</p>
 <dl class="class">
 <dt id="UCTB.dataset.data_loader.TransferDataLoader">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">TransferDataLoader</code><span class="sig-paren">(</span><em class="sig-param">sd_params</em>, <em class="sig-param">td_params</em>, <em class="sig-param">model_params</em>, <em class="sig-param">td_data_length=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.dataset.data_loader.TransferDataLoader.checkin_sim">
+<code class="sig-name descname">checkin_sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.checkin_sim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.dataset.data_loader.TransferDataLoader.checkin_sim_sd">
+<code class="sig-name descname">checkin_sim_sd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.checkin_sim_sd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.dataset.data_loader.TransferDataLoader.poi_sim">
+<code class="sig-name descname">poi_sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.poi_sim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="UCTB.dataset.data_loader.TransferDataLoader.traffic_sim">
 <code class="sig-name descname">traffic_sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.traffic_sim" title="Permalink to this definition">¶</a></dt>
@@ -233,13 +246,13 @@ On the second dimension, data are arranged as</p>
 <dl class="class">
 <dt id="UCTB.dataset.dataset.DataSet">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.dataset.</code><code class="sig-name descname">DataSet</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_dir=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object storing basic data from a formatted pickle file.</p>
 <p>See also <a class="reference external" href="https://di-chai.github.io/UCTB/static/tutorial.html">Build your own datasets</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – A string containing path of the dataset pickle file or a string of name of the dataset.</p></li>
+<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – A string containing path of the dataset pickle file or a string of name of the dataset.</p></li>
 <li><p><strong>city</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – <code class="docutils literal notranslate"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 <li><p><strong>data_dir</strong> (str or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – The dataset directory. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, a directory will be created.
 If <code class="docutils literal notranslate"><span class="pre">dataset</span></code> is file path, <code class="docutils literal notranslate"><span class="pre">data_dir</span></code> should be <code class="docutils literal notranslate"><span class="pre">None</span></code> too. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
@@ -253,7 +266,7 @@ If <code class="docutils literal notranslate"><span class="pre">dataset</span></
 store supplementary data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -265,7 +278,7 @@ store supplementary data.</p>
 range of the data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -276,7 +289,7 @@ range of the data.</p>
 <dd><p>From <code class="docutils literal notranslate"><span class="pre">data['TimeFitness']</span></code> indicating how many minutes is a single time slot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -316,7 +329,7 @@ other notes]}. It’s from <code class="docutils literal notranslate"><span clas
 Its an optional attribute and can be set as an empty list if distance graph is not needed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -331,7 +344,6 @@ Its an optional attribute and can be set as an empty list if distance graph is n
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -360,8 +372,8 @@ Its an optional attribute and can be set as an empty list if distance graph is n
       &copy;2019, Di Chai, Leye Wang, Jin Xu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/UCTB.dataset.rst.txt"

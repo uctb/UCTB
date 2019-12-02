@@ -4,10 +4,10 @@ UCTB.model package
 Submodules
 ----------
 
-UCTB.model.AMulti\_GCLSTM module
---------------------------------
+UCTB.model.AMultiGCLSTM module
+------------------------------
 
-.. automodule:: UCTB.model.AMulti_GCLSTM
+.. automodule:: UCTB.model.AMultiGCLSTM
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,6 +20,14 @@ UCTB.model.ARIMA module
    :undoc-members:
    :show-inheritance:
 
+UCTB.model.DCRNN module
+-----------------------
+
+.. automodule:: UCTB.model.DCRNN
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 UCTB.model.DeepST module
 ------------------------
 
@@ -28,10 +36,10 @@ UCTB.model.DeepST module
    :undoc-members:
    :show-inheritance:
 
-UCTB.model.GBRT module
-----------------------
+UCTB.model.GeoMAN module
+------------------------
 
-.. automodule:: UCTB.model.GBRT
+.. automodule:: UCTB.model.GeoMAN
    :members:
    :undoc-members:
    :show-inheritance:
@@ -48,14 +56,6 @@ UCTB.model.HMM module
 ---------------------
 
 .. automodule:: UCTB.model.HMM
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-UCTB.model.ModelObject module
------------------------------
-
-.. automodule:: UCTB.model.ModelObject
    :members:
    :undoc-members:
    :show-inheritance:

@@ -26,8 +26,6 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          
-
           <div class="body" role="main">
             
   <div class="section" id="uctb-model-package">
@@ -35,20 +33,15 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-UCTB.model.AMulti_GCLSTM">
-<span id="uctb-model-amulti-gclstm-module"></span><h2>UCTB.model.AMulti_GCLSTM module<a class="headerlink" href="#module-UCTB.model.AMulti_GCLSTM" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-UCTB.model.AMultiGCLSTM">
+<span id="uctb-model-amultigclstm-module"></span><h2>UCTB.model.AMultiGCLSTM module<a class="headerlink" href="#module-UCTB.model.AMultiGCLSTM" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="UCTB.model.AMulti_GCLSTM.AMulti_GCLSTM">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AMulti_GCLSTM.</code><code class="sig-name descname">AMulti_GCLSTM</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=(1</em>, <em class="sig-param">)</em>, <em class="sig-param">gcn_layers=(1</em>, <em class="sig-param">)</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_filter_conv1x1=32</em>, <em class="sig-param">tpe_dim=None</em>, <em class="sig-param">temporal_gal_units=32</em>, <em class="sig-param">temporal_gal_num_heads=2</em>, <em class="sig-param">temporal_gal_layers=4</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='gclstm'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">build_transfer=False</em>, <em class="sig-param">transfer_ratio=0</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='AMulti-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMulti_GCLSTM.AMulti_GCLSTM" title="Permalink to this definition">¶</a></dt>
+<dt id="UCTB.model.AMultiGCLSTM.AMultiGCLSTM">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AMultiGCLSTM.</code><code class="sig-name descname">AMultiGCLSTM</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_layers=1</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_filter_conv1x1=32</em>, <em class="sig-param">tpe_dim=None</em>, <em class="sig-param">temporal_gal_units=32</em>, <em class="sig-param">temporal_gal_num_heads=2</em>, <em class="sig-param">temporal_gal_layers=4</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='GCLSTM'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">output_activation=&lt;function sigmoid&gt;</em>, <em class="sig-param">build_sd_regularization=False</em>, <em class="sig-param">build_transfer=False</em>, <em class="sig-param">transfer_ratio=0</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='AMulti-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMultiGCLSTM.AMultiGCLSTM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
 <dl class="method">
-<dt id="UCTB.model.AMulti_GCLSTM.AMulti_GCLSTM.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMulti_GCLSTM.AMulti_GCLSTM.build" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.AMulti_GCLSTM.AMulti_GCLSTM.dynamic_rnn">
-<code class="sig-name descname">dynamic_rnn</code><span class="sig-paren">(</span><em class="sig-param">temporal_data</em>, <em class="sig-param">time_length</em>, <em class="sig-param">graph_index</em>, <em class="sig-param">laplace_matrix</em>, <em class="sig-param">variable_scope_name</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMulti_GCLSTM.AMulti_GCLSTM.dynamic_rnn" title="Permalink to this definition">¶</a></dt>
+<dt id="UCTB.model.AMultiGCLSTM.AMultiGCLSTM.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMultiGCLSTM.AMultiGCLSTM.build" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -58,161 +51,36 @@
 <span id="uctb-model-arima-module"></span><h2>UCTB.model.ARIMA module<a class="headerlink" href="#module-UCTB.model.ARIMA" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.ARIMA.ARIMA">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ARIMA.</code><code class="sig-name descname">ARIMA</code><span class="sig-paren">(</span><em class="sig-param">Autoregressive Integrated Moving Average</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#UCTB.model.ModelObject.ModelObject" title="UCTB.model.ModelObject.ModelObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model.ModelObject.ModelObject</span></code></a></p>
-<p>ARIMA is a generalization of an ARMA (Autoregressive Moving Average) model, used in predicting future points
-in time series analysis. Since there may be three kinds of series data as closeness, period and trend history,
-this class trains three different ARIMA models for each node according to the three kinds of history data,
-and returns average of the predicted values by the models in prediction.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>order</strong> (tuple or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – If set to a tuple of 3 integers, it indicates AR orders, intergration orders,
-and MA orders. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, class will calculate the orders for each series based on
-<code class="docutils literal notranslate"><span class="pre">max_ar</span></code>, <code class="docutils literal notranslate"><span class="pre">max_ma</span></code> and <code class="docutils literal notranslate"><span class="pre">max_d</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
-<li><p><strong>max_ar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum number of AR lags to use. Default: 6</p></li>
-<li><p><strong>max_ma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum number of MA lags to use. Default: 2</p></li>
-<li><p><strong>max_d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum number of degrees of differencing. Default: 2</p></li>
-<li><p><strong>forecast_step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The number of predicted future steps. Default: 1</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="attribute">
-<dt id="UCTB.model.ARIMA.ARIMA.orders">
-<code class="sig-name descname">orders</code><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.orders" title="Permalink to this definition">¶</a></dt>
-<dd><p>It stores the (p, d, q) orders corresponding to each model stored in <code class="docutils literal notranslate"><span class="pre">self.models</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ARIMA.</code><code class="sig-name descname">ARIMA</code><span class="sig-paren">(</span><em class="sig-param">time_sequence</em>, <em class="sig-param">order=None</em>, <em class="sig-param">seasonal_order=(0</em>, <em class="sig-param">0</em>, <em class="sig-param">0</em>, <em class="sig-param">0)</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=4</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model.ARIMA.ARIMA.adf_test">
-<em class="property">static </em><code class="sig-name descname">adf_test</code><span class="sig-paren">(</span><em class="sig-param">time_series</em>, <em class="sig-param">max_lags=None</em>, <em class="sig-param">verbose=False</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.adf_test" title="Permalink to this definition">¶</a></dt>
-<dd><p>Augmented Dickey–Fuller test.</p>
-<p>The Augmented Dickey-Fuller test can be used to test for a unit root in a univariate process
-in the presence of serial correlation.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ARIMA.ARIMA.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fitting method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or list) – The training input samples.
-If it is a list, it should includes three ndarrays as closeness, period and trend data,
-each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.
-Its shape is [time_slot_num, node_num, 1]. It will be omitted if <code class="docutils literal notranslate"><span class="pre">X</span></code> is an NodeTrafficLoader.
-Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>(models, orders)</p>
-<p>models (list): <code class="docutils literal notranslate"><span class="pre">self.models</span></code>. Models that are trained on each node’s data.</p>
-<p>orders (list): <code class="docutils literal notranslate"><span class="pre">self.orders</span></code>. The (p, d, q) orders of models that are trained on each node’s data.</p>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
-</dd>
-</dl>
-</dd></dl>
+<em class="property">static </em><code class="sig-name descname">adf_test</code><span class="sig-paren">(</span><em class="sig-param">time_series</em>, <em class="sig-param">max_lags=None</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.adf_test" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.ARIMA.ARIMA.get_order">
-<em class="property">static </em><code class="sig-name descname">get_order</code><span class="sig-paren">(</span><em class="sig-param">series</em>, <em class="sig-param">order=None</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=2</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.get_order" title="Permalink to this definition">¶</a></dt>
-<dd><p>If <code class="docutils literal notranslate"><span class="pre">order</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, it simply returns <code class="docutils literal notranslate"><span class="pre">order</span></code>,
-otherwise, it calculates the (p, d, q) orders for the series data
-based on <code class="docutils literal notranslate"><span class="pre">max_ar</span></code>, <code class="docutils literal notranslate"><span class="pre">max_ma</span></code> and <code class="docutils literal notranslate"><span class="pre">max_d</span></code>.</p>
-<dl class="attribute">
-<dt id="UCTB.model.ARIMA.ARIMA.series">
-<code class="sig-name descname">series</code><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.series" title="Permalink to this definition">¶</a></dt>
-<dd><p>A series of data with shape as [time_slot_num].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.ARIMA.ARIMA.order">
-<code class="sig-name descname">order</code><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.order" title="Permalink to this definition">¶</a></dt>
-<dd><p>If type is tuple, function will return it.
-If it is <code class="docutils literal notranslate"><span class="pre">'None</span></code>, function will calculate the orders. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>tuple or <code class="docutils literal notranslate"><span class="pre">None'</span></code></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.ARIMA.ARIMA.max_ar">
-<code class="sig-name descname">max_ar</code><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.max_ar" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maximum number of AR lags to use. Default: 6</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.ARIMA.ARIMA.max_ma">
-<code class="sig-name descname">max_ma</code><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.max_ma" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maximum number of MA lags to use. Default: 2</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.ARIMA.ARIMA.max_d">
-<code class="sig-name descname">max_d</code><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.max_d" title="Permalink to this definition">¶</a></dt>
-<dd><p>Maximum number of degrees of differencing. Default: 2</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>A tuple of 3 integers. The (p, d, q) orders for the series data.</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
-</dd>
-</dl>
-</dd></dl>
+<code class="sig-name descname">get_order</code><span class="sig-paren">(</span><em class="sig-param">series</em>, <em class="sig-param">order=None</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=2</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.get_order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.ARIMA.ARIMA.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prediction Method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or list) – The test input samples.
-If it is a list, it should includes three ndarrays as closeness, period and trend data,
-each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Prediction results with shape as [time_slot_num, node_num, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">time_sequences</em>, <em class="sig-param">forecast_step=1</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.model.DCRNN">
+<span id="uctb-model-dcrnn-module"></span><h2>UCTB.model.DCRNN module<a class="headerlink" href="#module-UCTB.model.DCRNN" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.model.DCRNN.DCRNN">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DCRNN.</code><code class="sig-name descname">DCRNN</code><span class="sig-paren">(</span><em class="sig-param">num_nodes</em>, <em class="sig-param">num_diffusion_matrix</em>, <em class="sig-param">num_rnn_units=64</em>, <em class="sig-param">num_rnn_layers=1</em>, <em class="sig-param">max_diffusion_step=2</em>, <em class="sig-param">seq_len=6</em>, <em class="sig-param">use_curriculum_learning=False</em>, <em class="sig-param">input_dim=1</em>, <em class="sig-param">output_dim=1</em>, <em class="sig-param">cl_decay_steps=1000</em>, <em class="sig-param">target_len=1</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">epsilon=0.001</em>, <em class="sig-param">optimizer_name='Adam'</em>, <em class="sig-param">code_version='AMulti-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DCRNN.DCRNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.model.DCRNN.DCRNN.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DCRNN.DCRNN.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -233,21 +101,21 @@ similar and different domains’ data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
 of data will be used as closeness history.</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The width of grid data.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The height of grid data.</p></li>
-<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
-<li><p><strong>num_conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Current version of this model code.</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The width of grid data.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The height of grid data.</p></li>
+<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
+<li><p><strong>num_conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code.</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
 </ul>
 </dd>
 </dl>
@@ -259,66 +127,64 @@ of data will be used as closeness history.</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="module-UCTB.model.GBRT">
-<span id="uctb-model-gbrt-module"></span><h2>UCTB.model.GBRT module<a class="headerlink" href="#module-UCTB.model.GBRT" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-UCTB.model.GeoMAN">
+<span id="uctb-model-geoman-module"></span><h2>UCTB.model.GeoMAN module<a class="headerlink" href="#module-UCTB.model.GeoMAN" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="UCTB.model.GBRT.GBRT">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GBRT.</code><code class="sig-name descname">GBRT</code><span class="sig-paren">(</span><em class="sig-param">n_estimators=100</em>, <em class="sig-param">max_depth=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GBRT.GBRT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#UCTB.model.ModelObject.ModelObject" title="UCTB.model.ModelObject.ModelObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model.ModelObject.ModelObject</span></code></a></p>
-<p>Gradient Boosting for regression.</p>
+<dt id="UCTB.model.GeoMAN.GeoMAN">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">GeoMAN</code><span class="sig-paren">(</span><em class="sig-param">total_sensers</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">output_dim</em>, <em class="sig-param">input_steps</em>, <em class="sig-param">output_steps</em>, <em class="sig-param">n_stacked_layers=2</em>, <em class="sig-param">n_encoder_hidden_units=128</em>, <em class="sig-param">n_decoder_hidden_units=128</em>, <em class="sig-param">dropout_rate=0.3</em>, <em class="sig-param">lr=0.001</em>, <em class="sig-param">gc_rate=2.5</em>, <em class="sig-param">code_version='GeoMAN-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.GeoMAN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<p>Multi-level Attention Networks for Geo-sensory Time Series Prediction (GeoMAN)</p>
+<p>GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global
+spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal
+dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,
+meteorology, time of day and land use).</p>
+<dl>
+<dt>Reference:</dt><dd><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0476.pdf">GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Junbo Zhang et al., 2016)</a>.</p>
+<p><a class="reference external" href="https://github.com/yoshall/GeoMAN">An easy implement of GeoMAN using TensorFlow (yoshall &amp; CastleLiang)</a>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The number of boosting stages to perform. Default: 100</p></li>
-<li><p><strong>max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Maximum depth of the individual regression estimators.
-The maximum depth limits the number of nodes in the tree. Default: 5</p></li>
+<li><p><strong>total_sensers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of total sensors used in global attention mechanism.</p></li>
+<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of dimensions of the target sensor’s input.</p></li>
+<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of dimensions of the external features.</p></li>
+<li><p><strong>output_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of dimensions of the target sensor’s output.</p></li>
+<li><p><strong>input_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of historical input data, a.k.a, input timesteps.</p></li>
+<li><p><strong>output_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of steps that need prediction by one piece of history data, a.k.a, output
+timesteps. Have to be 1 now.</p></li>
+<li><p><strong>n_stacked_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of LSTM layers stacked in both encoder and decoder (These two are the
+same). Default: 2</p></li>
+<li><p><strong>n_encoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of hidden units in each layer of encoder. Default: 128</p></li>
+<li><p><strong>n_decoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of hidden units in each layer of decoder. Default: 128</p></li>
+<li><p><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Dropout rate of LSTM layers in both encoder and decoder. Default: 0.3</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 0.001</p></li>
+<li><p><strong>gc_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – A clipping ratio for all the gradients. This operation normalizes all gradients so that
+their L2-norms are less than or equal to <code class="docutils literal notranslate"><span class="pre">gc_rate</span></code>. Default: 2.5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code. Default: ‘GeoMAN-QuickStart’</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Reserved for future use. May be used to pass parameters to class <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="method">
-<dt id="UCTB.model.GBRT.GBRT.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GBRT.GBRT.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Training method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or np.ndarray) – The training input samples.
-If it is an NodeTrafficLoader, closeness, period and trend history data will be concatenated in training.
-If it is an ndarray, its shape should be [time_slot_num, node_num, feature_num, 1].</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.
-Its shape is [time_slot_num, node_num, 1]. It will be omitted if <code class="docutils literal notranslate"><span class="pre">X</span></code> is an NodeTrafficLoader.
-Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>It returns <code class="docutils literal notranslate"><span class="pre">self.models</span></code>, which stores the models that are trained on each node’s data.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
-</dd>
-</dl>
+<dt id="UCTB.model.GeoMAN.GeoMAN.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.GeoMAN.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.model.GBRT.GBRT.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GBRT.GBRT.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prediction method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or np.ndarray) – The test input samples.
-If it is an ndarray, its shape should be [time_slot_num, node_num, feature_num, 1].
-If it is an NodeTrafficLoader, method will concatenate closeness, period and trend history data
-in prediction.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Prediction results with shape as [time_slot_num, node_num, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
+<dl class="function">
+<dt id="UCTB.model.GeoMAN.input_transform">
+<code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">input_transform</code><span class="sig-paren">(</span><em class="sig-param">local_features</em>, <em class="sig-param">global_features</em>, <em class="sig-param">external_features</em>, <em class="sig-param">targets</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.input_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the model’s inputs from matrices to lists on timesteps axis.</p>
 </dd></dl>
 
+<dl class="function">
+<dt id="UCTB.model.GeoMAN.split_timesteps">
+<code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">split_timesteps</code><span class="sig-paren">(</span><em class="sig-param">inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.split_timesteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Split the input matrix from (batch, timesteps, input_dim) to a step list ([[batch, input_dim], …, ]).</p>
 </dd></dl>
 
 </div>
@@ -326,45 +192,12 @@ in prediction.</p>
 <span id="uctb-model-hm-module"></span><h2>UCTB.model.HM module<a class="headerlink" href="#module-UCTB.model.HM" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.HM.HM">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HM.</code><code class="sig-name descname">HM</code><span class="sig-paren">(</span><em class="sig-param">c=0</em>, <em class="sig-param">p=0</em>, <em class="sig-param">t=4</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#UCTB.model.ModelObject.ModelObject" title="UCTB.model.ModelObject.ModelObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model.ModelObject.ModelObject</span></code></a></p>
-<p>Historical Mean. A naive method that simply return average of hisrory data of each time slot.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The number of time slots of closeness history of one data sample. Default: 0</p></li>
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The number of time slots of period history of one data sample. Default: 0</p></li>
-<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The number of time slots of trend history of one data sample. Default: 4</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.HM.HM.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X=None</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>HM doesn’t need fitting.</p>
-</dd></dl>
-
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HM.</code><code class="sig-name descname">HM</code><span class="sig-paren">(</span><em class="sig-param">c</em>, <em class="sig-param">p</em>, <em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model.HM.HM.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prediction method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Dataloader</span></code> or list) – The test input samples.
-If it is a list, it should includes three ndarrays as closeness, period and trend data,
-each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AssertionError" title="(in Python v3.7)"><strong>AssertionError</strong></a> – If <code class="docutils literal notranslate"><span class="pre">X</span></code> has shorter history data as c/p/t required.</p>
-</dd>
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>Results with shape as [time_slot_num, node_num, 1].</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">closeness_feature</em>, <em class="sig-param">period_feature</em>, <em class="sig-param">trend_feature</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -373,193 +206,17 @@ each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an em
 <span id="uctb-model-hmm-module"></span><h2>UCTB.model.HMM module<a class="headerlink" href="#module-UCTB.model.HMM" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.HMM.HMM">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HMM.</code><code class="sig-name descname">HMM</code><span class="sig-paren">(</span><em class="sig-param">num_components=16</em>, <em class="sig-param">n_iter=1000</em>, <em class="sig-param">hmm_kernel=&lt;class 'hmmlearn.hmm.GaussianHMM'&gt;</em>, <em class="sig-param">predict_length=1</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#UCTB.model.ModelObject.ModelObject" title="UCTB.model.ModelObject.ModelObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model.ModelObject.ModelObject</span></code></a></p>
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HMM.</code><code class="sig-name descname">HMM</code><span class="sig-paren">(</span><em class="sig-param">num_components</em>, <em class="sig-param">n_iter</em>, <em class="sig-param">hmm_kernal=&lt;class 'hmmlearn.hmm.GaussianHMM'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model.HMM.HMM.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fitting method. Will be over ridden by derived class.</p>
-</dd></dl>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.HMM.HMM.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prediction method. Will be over ridden by derived class.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-UCTB.model.ModelObject">
-<span id="uctb-model-modelobject-module"></span><h2>UCTB.model.ModelObject module<a class="headerlink" href="#module-UCTB.model.ModelObject" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.ModelObject.ModelObject">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ModelObject.</code><code class="sig-name descname">ModelObject</code><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>The base class of model.</p>
-<dl class="attribute">
-<dt id="UCTB.model.ModelObject.ModelObject.test_y">
-<code class="sig-name descname">test_y</code><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.test_y" title="Permalink to this definition">¶</a></dt>
-<dd><p>If <code class="docutils literal notranslate"><span class="pre">make_test_data()</span></code> has a <code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> as input, its <code class="docutils literal notranslate"><span class="pre">test_y</span></code> will be
-stored and used in <code class="docutils literal notranslate"><span class="pre">eval()</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.ModelObject.ModelObject.models">
-<code class="sig-name descname">models</code><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.models" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of models applied to each node.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model.ModelObject.ModelObject.results">
-<code class="sig-name descname">results</code><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.results" title="Permalink to this definition">¶</a></dt>
-<dd><p>A list of results on data of each node by <code class="docutils literal notranslate"><span class="pre">predict()</span></code>. It can also be an
-ndarray with the shape of [node_num, test_time_slot_num].</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a> or np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.eval">
-<code class="sig-name descname">eval</code><span class="sig-paren">(</span><em class="sig-param">data=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.eval" title="Permalink to this definition">¶</a></dt>
-<dd><p>Evaluatoin method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>data</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The actual values of testing data with shape as [time_slot_num, node_num, 1].
-It can be omitted if object has stored data in <code class="docutils literal notranslate"><span class="pre">self.test_y</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The RMSE (Root Mean Squared Error) of predicted results and actual values.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fitting method. Will be over ridden by derived class.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.make_test_data">
-<code class="sig-name descname">make_test_data</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.make_test_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method to make test data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or list) – The test input samples.
-If it is a list, it should includes three ndarrays as closeness, period and trend data,
-each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.
-If it is an NodeTrafficLoader, class will automatically set <code class="docutils literal notranslate"><span class="pre">self.test_y</span></code> as <code class="docutils literal notranslate"><span class="pre">X.test_y</span></code>.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The processed test input samples.
-A tuple of closeness, period and trend data,
-each is an ndarray with shape as [time_slot_num, node_num, feature_num, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.make_test_data_concat">
-<code class="sig-name descname">make_test_data_concat</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.make_test_data_concat" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method to make test data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or np.ndarray) – The test input samples.
-If it is an ndarray, its shape should be [time_slot_num, node_num, feature_num, 1].
-If it is an NodeTrafficLoader, closeness, period and trend history data will be concatenated,
-and class will automatically set <code class="docutils literal notranslate"><span class="pre">self.test_y</span></code> as <code class="docutils literal notranslate"><span class="pre">X.test_y</span></code>.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>The processed test input samples with shape as [time_slot_num, node_num, feature_num, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.make_train_data">
-<em class="property">static </em><code class="sig-name descname">make_train_data</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.make_train_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method to make training data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or list) – The training input samples.
-If it is a list, it should includes three ndarrays as closeness, period and trend data,
-each either has a shape of [time_slot_num, node_num, feature_num, 1] or is an empty ndarray.</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.
-Its shape is [time_slot_num, node_num, 1]. It will be omitted if <code class="docutils literal notranslate"><span class="pre">X</span></code> is an NodeTrafficLoader.
-Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>(train_x, train_y)</p>
-<p>train_x (tuple): The processed training input samples. A list of closeness, period and trend data,
-each is an ndarray with shape as [time_slot_num, node_num, feature_num, 1].</p>
-<p>train_y (np.ndarray): The processed target values with shape as [time_slot_num, node_num, 1].</p>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.make_train_data_concat">
-<em class="property">static </em><code class="sig-name descname">make_train_data_concat</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.make_train_data_concat" title="Permalink to this definition">¶</a></dt>
-<dd><p>A method to make training data.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or np.ndarray) – The training input samples.
-If it is an NodeTrafficLoader, closeness, period and trend history data will be concatenated.
-If it is an ndarray, its shape should be [time_slot_num, node_num, feature_num, 1].</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.
-Its shape is [time_slot_num, node_num, 1]. It will be omitted if <code class="docutils literal notranslate"><span class="pre">X</span></code> is an NodeTrafficLoader.
-Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>(train_x, train_y)</p>
-<p>train_x (np.ndarray): The processed training input samples.
-If <code class="docutils literal notranslate"><span class="pre">X</span></code> is a <code class="docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code>, function will concatenate it training closeness, period and trend
-history data. Its shape is [time_slot_num, node_num, feature_num, 1].</p>
-<p>train_y (np.ndarray): The processed target values with shape [time_slot_num, node_num, 1].</p>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ModelObject.ModelObject.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ModelObject.ModelObject.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prediction method. Will be over ridden by derived class.</p>
-</dd></dl>
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">length</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -572,56 +229,8 @@ history data. Its shape is [time_slot_num, node_num, feature_num, 1].</p>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model.ST_MGCN.ST_MGCN.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN.build" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN.build" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ST_MGCN.ST_MGCN.evaluate">
-<code class="sig-name descname">evaluate</code><span class="sig-paren">(</span><em class="sig-param">traffic_flow</em>, <em class="sig-param">laplace_matrix</em>, <em class="sig-param">target</em>, <em class="sig-param">metrics</em>, <em class="sig-param">external_feature=None</em>, <em class="sig-param">cache_volume=64</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN.evaluate" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ST_MGCN.ST_MGCN.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">traffic_flow</em>, <em class="sig-param">laplace_matrix</em>, <em class="sig-param">target</em>, <em class="sig-param">external_feature=None</em>, <em class="sig-param">batch_size=64</em>, <em class="sig-param">max_epoch=10000</em>, <em class="sig-param">validate_ratio=0.1</em>, <em class="sig-param">early_stop_method='t-test'</em>, <em class="sig-param">early_stop_length=10</em>, <em class="sig-param">early_stop_patience=0.1</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN.fit" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>sequence_length</strong> – int, the sequence length which is use in mini-batch training</p></li>
-<li><p><strong>output_names</strong> – list, [output_tensor1_name, output_tensor1_name, …]</p></li>
-<li><p><strong>op_names</strong> – list, [operation1_name, operation2_name, …]</p></li>
-<li><p><strong>evaluate_loss_name</strong> – str, should be on of the output_names, evaluate_loss_name was use in
-early-stopping</p></li>
-<li><p><strong>batch_size</strong> – int, default 64, batch size</p></li>
-<li><p><strong>max_epoch</strong> – int, default 10000, max number of epochs</p></li>
-<li><p><strong>validate_ratio</strong> – float, default 0.1, the ration of data that will be used as validation dataset</p></li>
-<li><p><strong>shuffle_data</strong> – bool, default True, whether shuffle data in mini-batch train</p></li>
-<li><p><strong>early_stop_method</strong> – should be ‘t-test’ or ‘naive’, both method are explained in train.EarlyStopping</p></li>
-<li><p><strong>early_stop_length</strong> – int, must provide when early_stop_method=’t-test’</p></li>
-<li><p><strong>early_stop_patience</strong> – int, must provide when early_stop_method=’naive’</p></li>
-<li><p><strong>verbose</strong> – Bool, flag to print training information or not</p></li>
-<li><p><strong>save_model</strong> – Bool, flog to save model or not</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.ST_MGCN.ST_MGCN.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">traffic_flow</em>, <em class="sig-param">laplace_matrix</em>, <em class="sig-param">external_feature=None</em>, <em class="sig-param">cache_volume=64</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN.predict" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>output_names</strong> – list, [output_tensor_name1, output_tensor_name2, …]</p></li>
-<li><p><strong>sequence_length</strong> – int, the length of sequence, which is use in mini-batch training</p></li>
-<li><p><strong>cache_volume</strong> – int, default 64, we need to set cache_volume if the cache can not hold
-the whole validation dataset</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, …}</p>
-</dd>
-</dl>
-</dd></dl>
 
 </dd></dl>
 
@@ -630,7 +239,7 @@ the whole validation dataset</p></li>
 <span id="uctb-model-st-resnet-module"></span><h2>UCTB.model.ST_ResNet module<a class="headerlink" href="#module-UCTB.model.ST_ResNet" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.ST_ResNet.ST_ResNet">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_ResNet.</code><code class="sig-name descname">ST_ResNet</code><span class="sig-paren">(</span><em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_residual_unit=4</em>, <em class="sig-param">kernal_size=3</em>, <em class="sig-param">lr=5e-05</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">code_version='QuickStart'</em>, <em class="sig-param">conv_filters=64</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_ResNet.</code><code class="sig-name descname">ST_ResNet</code><span class="sig-paren">(</span><em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_residual_unit=4</em>, <em class="sig-param">kernel_size=3</em>, <em class="sig-param">lr=5e-05</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">code_version='QuickStart'</em>, <em class="sig-param">conv_filters=64</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
 <p>ST-ResNet is a deep-learning model with an end-to-end structure
 based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
@@ -638,22 +247,22 @@ based on unique properties of spatio-temporal data making use of convolution and
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The width of grid data.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The height of grid data.</p></li>
-<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The width of grid data.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The height of grid data.</p></li>
+<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
 of data will be used as closeness history.</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
-<li><p><strong>num_residual_unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Number of residual units. Default: 4</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Current version of this model code.</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+<li><p><strong>num_residual_unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of residual units. Default: 4</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code.</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
 </ul>
 </dd>
 </dl>
@@ -670,50 +279,16 @@ of data will be used as closeness history.</p></li>
 <dl class="class">
 <dt id="UCTB.model.XGBoost.XGBoost">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.XGBoost.</code><code class="sig-name descname">XGBoost</code><span class="sig-paren">(</span><em class="sig-param">n_estimators=10</em>, <em class="sig-param">max_depth=5</em>, <em class="sig-param">verbosity=0</em>, <em class="sig-param">objective='reg:squarederror'</em>, <em class="sig-param">eval_metric='rmse'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="#UCTB.model.ModelObject.ModelObject" title="UCTB.model.ModelObject.ModelObject"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model.ModelObject.ModelObject</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="method">
 <dt id="UCTB.model.XGBoost.XGBoost.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.fit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Training method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or np.ndarray) – The training input samples.
-If it is an NodeTrafficLoader, closeness, period and trend history data will be concatenated in training.
-If it is an ndarray, its shape should be [time_slot_num, node_num, feature_num, 1].</p></li>
-<li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.
-Its shape is [time_slot_num, node_num, 1]. It will be omitted if <code class="docutils literal notranslate"><span class="pre">X</span></code> is an NodeTrafficLoader.
-Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>It returns <code class="docutils literal notranslate"><span class="pre">self.models</span></code>, which stores the models that are trained on each node’s data.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
-</dd>
-</dl>
-</dd></dl>
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.XGBoost.XGBoost.predict">
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Prediction method.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>X</strong> (<code class="xref py py-obj docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> or np.ndarray) – The test input samples.
-If it is an ndarray, its shape should be [time_slot_num, node_num, feature_num, 1].
-If it is an NodeTrafficLoader, method will concatenate closeness, period and trend history data
-in prediction.</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Prediction results with shape as [time_slot_num, node_num, 1].</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
+<dd></dd></dl>
 
 </dd></dl>
 
@@ -725,7 +300,6 @@ in prediction.</p>
 
 
           </div>
-          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -754,8 +328,8 @@ in prediction.</p>
       &copy;2019, Di Chai, Leye Wang, Jin Xu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
       <a href="_sources/UCTB.model.rst.txt"

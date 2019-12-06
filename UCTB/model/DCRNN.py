@@ -22,7 +22,7 @@ class DCRNN(BaseModel):
                  lr=1e-4,
                  epsilon=1e-3,
                  optimizer_name='Adam',
-                 code_version='AMulti-QuickStart',
+                 code_version='DCRNN-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0', **kwargs):
 

@@ -8,7 +8,7 @@ from UCTB.model import ST_MGCN
 from UCTB.evaluation import metric
 
 
-def amulti_gclstm_param_parser():
+def stmeta_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
@@ -44,7 +44,7 @@ def amulti_gclstm_param_parser():
     return parser
 
 
-parser = amulti_gclstm_param_parser()
+parser = stmeta_param_parser()
 args = vars(parser.parse_args())
 
 nni_params = nni.get_next_parameter()

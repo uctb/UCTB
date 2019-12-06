@@ -64,7 +64,7 @@ def show_prediction(pretrain, finetune, transfer, target, station_index, start=0
 #####################################################################
 # Generate code_version
 group = 'STMeta_Transfer'
-code_version = 'AMultiGCLSTM_SD_{}_TD_{}'.format(args['source_data'].split('.')[0].split('_')[-1],
+code_version = 'STMeta_SD_{}_TD_{}'.format(args['source_data'].split('.')[0].split('_')[-1],
                                                  args['target_data'].split('.')[0].split('_')[-1])
 
 sub_code_version = 'C{}P{}T{}_G{}'.format(sd_params['closeness_len'], sd_params['period_len'], sd_params['trend_len'],

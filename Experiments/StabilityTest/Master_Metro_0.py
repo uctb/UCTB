@@ -4,7 +4,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params = ('python CPT_AMulti_GCLSTM_Simplify_Obj.py '
+shared_params = ('python CPT_STMeta_Simplify_Obj.py '
                  '--Dataset Metro '
                  '--GLL 1 '
                  '--LSTMUnits 64 '

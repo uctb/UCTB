@@ -2,7 +2,7 @@ import os
 import numpy as np
 
 from UCTB.dataset import NodeTrafficLoader_CPT
-from UCTB.model import AMulti_GCLSTM_V1
+from UCTB.model import STMeta_V1
 from UCTB.evaluation import metric
 from UCTB.model_unit import GraphBuilder
 from UCTB.preprocess import is_work_day_china
@@ -10,7 +10,7 @@ from UCTB.preprocess import is_work_day_china
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 
 
-def cpt_amulti_gclstm_param_parser():
+def cpt_stmeta_param_parser():
     import argparse
     parser = argparse.ArgumentParser(description="Argument Parser")
     # data source
@@ -98,11 +98,11 @@ class SubwayTrafficLoader(NodeTrafficLoader_CPT):
                     self.LM = np.concatenate((self.LM, LM), axis=0)
 
 
-parser = cpt_amulti_gclstm_param_parser()
+parser = cpt_stmeta_param_parser()
 args = vars(parser.parse_args())
 
 model_dir = os.path.join(model_dir_path, args['Group'])
-code_version = 'CPT_AMultiGCLSTM_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
+code_version = 'CPT_STMeta_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
                                                       args['K'], args['L'], args['CodeVersion'])
 
 # Config data loader
@@ -116,58 +116,58 @@ data_loader = SubwayTrafficLoader(dataset=args['Dataset'], city=args['City'],
 
 de_normalizer = None if args['Normalize'] == 'False' else data_loader.normalizer.min_max_denormal
 
-CPT_AMulti_GCLSTM_Obj = AMulti_GCLSTM_V1(num_node=data_loader.station_number,
-                                         num_graph=data_loader.LM.shape[0],
-                                         external_dim=data_loader.external_dim,
-                                         C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
-                                         GCN_K=int(args['K']),
-                                         GCN_layers=int(args['L']),
-                                         GCLSTM_layers=int(args['GLL']),
-                                         gal_units=int(args['GALUnits']),
-                                         gal_num_heads=int(args['GALHeads']),
-                                         num_hidden_units=int(args['LSTMUnits']),
-                                         num_filter_conv1x1=int(args['DenseUnits']),
-                                         lr=float(args['lr']),
-                                         code_version=code_version,
-                                         model_dir=model_dir,
-                                         GPU_DEVICE=args['Device'])
+CPT_STMeta_Obj = STMeta_V1(num_node=data_loader.station_number,
+                                  num_graph=data_loader.LM.shape[0],
+                                  external_dim=data_loader.external_dim,
+                                  C_T=int(args['CT']), P_T=int(args['PT']), T_T=int(args['TT']),
+                                  GCN_K=int(args['K']),
+                                  GCN_layers=int(args['L']),
+                                  GCLSTM_layers=int(args['GLL']),
+                                  gal_units=int(args['GALUnits']),
+                                  gal_num_heads=int(args['GALHeads']),
+                                  num_hidden_units=int(args['LSTMUnits']),
+                                  num_filter_conv1x1=int(args['DenseUnits']),
+                                  lr=float(args['lr']),
+                                  code_version=code_version,
+                                  model_dir=model_dir,
+                                  GPU_DEVICE=args['Device'])
 
 import json
 
-with open(os.path.join(CPT_AMulti_GCLSTM_Obj._log_dir, 'params.json'), 'w') as f:
+with open(os.path.join(CPT_STMeta_Obj._log_dir, 'params.json'), 'w') as f:
     json.dump(args, f)
 
-CPT_AMulti_GCLSTM_Obj.build()
+CPT_STMeta_Obj.build()
 
 print(args['Dataset'], args['City'], code_version)
-print('Number of trainable variables', CPT_AMulti_GCLSTM_Obj.trainable_vars)
+print('Number of trainable variables', CPT_STMeta_Obj.trainable_vars)
 
 # Training
 if args['Train'] == 'True':
-    CPT_AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
-                              period_feature=data_loader.train_period,
-                              trend_feature=data_loader.train_trend,
-                              laplace_matrix=data_loader.LM,
-                              target=data_loader.train_y,
-                              external_feature=data_loader.train_ef,
-                              early_stop_method='t-test',
-                              early_stop_length=int(args['ESlength']),
-                              early_stop_patience=float(args['patience']),
-                              batch_size=int(args['BatchSize']),
-                              max_epoch=int(args['Epoch']))
+    CPT_STMeta_Obj.fit(closeness_feature=data_loader.train_closeness,
+                       period_feature=data_loader.train_period,
+                       trend_feature=data_loader.train_trend,
+                       laplace_matrix=data_loader.LM,
+                       target=data_loader.train_y,
+                       external_feature=data_loader.train_ef,
+                       early_stop_method='t-test',
+                       early_stop_length=int(args['ESlength']),
+                       early_stop_patience=float(args['patience']),
+                       batch_size=int(args['BatchSize']),
+                       max_epoch=int(args['Epoch']))
 
-CPT_AMulti_GCLSTM_Obj.load(code_version)
+CPT_STMeta_Obj.load(code_version)
 
 # Evaluate
-test_error = CPT_AMulti_GCLSTM_Obj.evaluate(closeness_feature=data_loader.test_closeness,
-                                            period_feature=data_loader.test_period,
-                                            trend_feature=data_loader.test_trend,
-                                            laplace_matrix=data_loader.LM,
-                                            target=data_loader.test_y,
-                                            external_feature=data_loader.test_ef,
-                                            cache_volume=int(args['BatchSize']),
-                                            metrics=[metric.rmse, metric.mape],
-                                            de_normalizer=de_normalizer,
-                                            threshold=0)
+test_error = CPT_STMeta_Obj.evaluate(closeness_feature=data_loader.test_closeness,
+                                     period_feature=data_loader.test_period,
+                                     trend_feature=data_loader.test_trend,
+                                     laplace_matrix=data_loader.LM,
+                                     target=data_loader.test_y,
+                                     external_feature=data_loader.test_ef,
+                                     cache_volume=int(args['BatchSize']),
+                                     metrics=[metric.rmse, metric.mape],
+                                     de_normalizer=de_normalizer,
+                                     threshold=0)
 
 print('Test result', test_error)

@@ -5,17 +5,16 @@ import GPUtil
 import numpy as np
 
 from UCTB.dataset import TransferDataLoader
-from UCTB.model import AMultiGCLSTM
+from UCTB.model import STMeta
 from UCTB.evaluation import metric
-from UCTB.train import EarlyStoppingTTest
 
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v4.model.yml')
+parser.add_argument('-m', '--model', default='STMeta_v4.model.yml')
 parser.add_argument('-sd', '--source_data', default='bike_nyc.data.yml')
-parser.add_argument('-td', '--target_data', default='bike_dc.data.yml')
-parser.add_argument('-tdl', '--target_data_length', default='1', type=str)
+parser.add_argument('-td', '--target_data', default='bike_chicago.data.yml')
+parser.add_argument('-tdl', '--target_data_length', default='3', type=str)
 parser.add_argument('-tfr', '--transfer_ratio', default='0.1', type=str)
 parser.add_argument('-pt', '--pretrain', default='True')
 parser.add_argument('-ft', '--finetune', default='True')
@@ -63,7 +62,7 @@ def show_prediction(pretrain, finetune, transfer, target, station_index, start=0
 
 #####################################################################
 # Generate code_version
-group = 'AMulti_Transfer'
+group = 'STMeta_Transfer'
 code_version = 'AMultiGCLSTM_SD_{}_TD_{}'.format(args['source_data'].split('.')[0].split('_')[-1],
                                                  args['target_data'].split('.')[0].split('_')[-1])
 
@@ -85,28 +84,28 @@ if len(deviceIDs) == 0:
 else:
     current_device = str(deviceIDs[0])
 
-sd_model = AMultiGCLSTM(num_node=data_loader.sd_loader.station_number,
-                        num_graph=data_loader.sd_loader.LM.shape[0],
-                        external_dim=data_loader.sd_loader.external_dim,
-                        tpe_dim=data_loader.sd_loader.tpe_dim,
-                        code_version=code_version,
-                        model_dir=model_dir_path,
-                        gpu_device=current_device,
-                        transfer_ratio=0,
-                        **sd_params, **model_params)
+sd_model = STMeta(num_node=data_loader.sd_loader.station_number,
+                  num_graph=data_loader.sd_loader.LM.shape[0],
+                  external_dim=data_loader.sd_loader.external_dim,
+                  tpe_dim=data_loader.sd_loader.tpe_dim,
+                  code_version=code_version,
+                  model_dir=model_dir_path,
+                  gpu_device=current_device,
+                  transfer_ratio=0,
+                  **sd_params, **model_params)
 sd_model.build(init_vars=True)
 
 transfer_ratio = float(args['transfer_ratio'])
 
-td_model = AMultiGCLSTM(num_node=data_loader.td_loader.station_number,
-                        num_graph=data_loader.td_loader.LM.shape[0],
-                        external_dim=data_loader.td_loader.external_dim,
-                        tpe_dim=data_loader.td_loader.tpe_dim,
-                        code_version=code_version,
-                        model_dir=model_dir_path,
-                        transfer_ratio=transfer_ratio,
-                        gpu_device=current_device,
-                        **td_params, **model_params)
+td_model = STMeta(num_node=data_loader.td_loader.station_number,
+                  num_graph=data_loader.td_loader.LM.shape[0],
+                  external_dim=data_loader.td_loader.external_dim,
+                  tpe_dim=data_loader.td_loader.tpe_dim,
+                  code_version=code_version,
+                  model_dir=model_dir_path,
+                  transfer_ratio=transfer_ratio,
+                  gpu_device=current_device,
+                  **td_params, **model_params)
 
 td_model.build(init_vars=False, max_to_keep=None)
 
@@ -132,16 +131,12 @@ finetune_model_name = 'Finetune_' + sub_code_version + '_' + str(data_loader.td_
 transfer_model_name = 'Transfer_' + sub_code_version + '_' + str(data_loader.td_loader.train_sequence_len) +\
                       '_%s' % int((transfer_ratio * 100)) + '%'
 
-writing_obj = [args['source_data'].split('.')[0].split('_')[-1],
+writing_obj = [''.join([e for e in sd_params['graph'].split('-')]),
+               args['source_data'].split('.')[0].split('_')[-1],
                args['target_data'].split('.')[0].split('_')[-1],
                str(transfer_ratio), '%s天' % args['target_data_length']]
 
-rmse_threshold = 0
-
 if args['pretrain'] == 'True':
-    print('#################################################################')
-    print('Source Domain Pre-Train')
-
     try:
         sd_model.load(pretrain_model_name)
     except FileNotFoundError:
@@ -180,7 +175,7 @@ if args['pretrain'] == 'True':
     test_prediction = prediction['prediction']
 
     test_rmse, test_mape = metric.rmse(prediction=sd_de_normalizer(test_prediction),
-                                       target=sd_de_normalizer(data_loader.sd_loader.test_y), threshold=rmse_threshold), \
+                                       target=sd_de_normalizer(data_loader.sd_loader.test_y), threshold=0), \
                            metric.mape(prediction=sd_de_normalizer(test_prediction),
                                        target=sd_de_normalizer(data_loader.sd_loader.test_y), threshold=0)
 
@@ -203,7 +198,7 @@ if args['pretrain'] == 'True':
     pretrain_prediction = prediction['prediction']
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(pretrain_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=rmse_threshold), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
                            metric.mape(prediction=td_de_normalizer(pretrain_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
@@ -229,7 +224,7 @@ if args['finetune'] == 'True':
                      op_names=('train_op',),
                      batch_size=td_params['batch_size'],
                      max_epoch=td_params['max_epoch'],
-                     validate_ratio=0.8,
+                     validate_ratio=0.3,
                      early_stop_method='t-test',
                      early_stop_length=td_params['early_stop_length'],
                      early_stop_patience=td_params['early_stop_patience'],
@@ -257,7 +252,7 @@ if args['finetune'] == 'True':
                                                    for i in range(len(finetune_prediction[0]))])
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(finetune_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=rmse_threshold), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
                            metric.mape(prediction=td_de_normalizer(finetune_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
@@ -271,12 +266,9 @@ if args['transfer'] == 'True':
     try:
         td_model.load(transfer_model_name)
     except FileNotFoundError:
-
-        # save model for feature map
-        sd_model.load(pretrain_model_name)
-        sd_model.save(transfer_model_name, global_step=0)
-
         traffic_sim = data_loader.checkin_sim()
+
+        sd_model.load(pretrain_model_name)
 
         sd_transfer_data = data_loader.sd_loader.train_data[-data_loader.td_loader.train_data.shape[0]:, :]
 
@@ -285,48 +277,40 @@ if args['transfer'] == 'True':
         transfer_trend, \
         _ = data_loader.sd_loader.st_move_sample.move_sample(sd_transfer_data)
 
-        def callback_updating_fm():
-            global feature_maps
-            sd_model.load(transfer_model_name)
-            fm = sd_model.predict(closeness_feature=transfer_closeness,
-                                  period_feature=transfer_period,
-                                  trend_feature=transfer_trend,
-                                  laplace_matrix=data_loader.sd_loader.LM,
-                                  external_feature=data_loader.sd_loader.train_ef,
-                                  output_names=['feature_map'],
-                                  sequence_length=len(transfer_closeness),
-                                  cache_volume=sd_params['batch_size'])
-            return np.take(fm['feature_map'], np.array([e[1] for e in traffic_sim]), axis=1)
+        fm = sd_model.predict(closeness_feature=transfer_closeness,
+                              period_feature=transfer_period,
+                              trend_feature=transfer_trend,
+                              laplace_matrix=data_loader.sd_loader.LM,
+                              external_feature=data_loader.sd_loader.train_ef,
+                              output_names=['feature_map'],
+                              sequence_length=len(transfer_closeness),
+                              cache_volume=sd_params['batch_size'])
 
+        feature_maps = np.take(fm['feature_map'], np.array([e[1] for e in traffic_sim]), axis=1)
 
-        early_stop = EarlyStoppingTTest(length=20, p_value_threshold=0.1)
-
-        for epoch in range(td_params['max_epoch']):
-            # transfer
-            output_dict = td_model.fit(closeness_feature=data_loader.td_loader.train_closeness,
-                                       period_feature=data_loader.td_loader.train_period,
-                                       trend_feature=data_loader.td_loader.train_trend,
-                                       laplace_matrix=data_loader.td_loader.LM,
-                                       target=data_loader.td_loader.train_y,
-                                       external_feature=data_loader.td_loader.train_ef,
-                                       similar_feature_map=callback_updating_fm(),
-                                       sequence_length=data_loader.td_loader.train_sequence_len,
-                                       output_names=('transfer_loss', 'loss'),
-                                       evaluate_loss_name='loss',
-                                       op_names=('transfer_op',),
-                                       batch_size=td_params['batch_size'],
-                                       max_epoch=1,
-                                       validate_ratio=0.8,
-                                       early_stop_method='t-test',
-                                       early_stop_length=td_params['early_stop_length'],
-                                       early_stop_patience=td_params['early_stop_patience'],
-                                       verbose=True,
-                                       save_model=True,
-                                       save_model_name=transfer_model_name,
-                                       auto_load_model=False,
-                                       return_outputs=True)
-            if early_stop.stop(output_dict[-1]['val_loss']):
-                break
+        # transfer
+        td_model.load(pretrain_model_name)
+        td_model.fit(closeness_feature=data_loader.td_loader.train_closeness,
+                     period_feature=data_loader.td_loader.train_period,
+                     trend_feature=data_loader.td_loader.train_trend,
+                     laplace_matrix=data_loader.td_loader.LM,
+                     target=data_loader.td_loader.train_y,
+                     external_feature=data_loader.td_loader.train_ef,
+                     similar_feature_map=feature_maps,
+                     sequence_length=data_loader.td_loader.train_sequence_len,
+                     output_names=('transfer_loss', 'loss'),
+                     evaluate_loss_name='loss',
+                     op_names=('transfer_op',),
+                     batch_size=td_params['batch_size'],
+                     max_epoch=td_params['max_epoch'],
+                     validate_ratio=0.3,
+                     early_stop_method='t-test',
+                     early_stop_length=td_params['early_stop_length'],
+                     early_stop_patience=td_params['early_stop_patience'],
+                     verbose=True,
+                     save_model=True,
+                     save_model_name=transfer_model_name,
+                     auto_load_model=False)
 
     td_model.load(transfer_model_name)
 
@@ -348,7 +332,7 @@ if args['transfer'] == 'True':
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y),
-                                       threshold=rmse_threshold), \
+                                       threshold=0), \
                            metric.mape(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 

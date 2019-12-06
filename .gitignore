@@ -29,3 +29,4 @@ build/
 *.pkl
 model_dir/
 .ipynb_checkpoints/
+@*

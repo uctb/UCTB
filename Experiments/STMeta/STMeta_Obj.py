@@ -5,14 +5,14 @@ import argparse
 import GPUtil
 
 from UCTB.dataset import NodeTrafficLoader
-from UCTB.model import AMultiGCLSTM
+from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('-m', '--model', default='amulti_gclstm_v0.model.yml')
+parser.add_argument('-m', '--model', default='STMeta_v0.model.yml')
 parser.add_argument('-d', '--data', default='didi_chengdu.data.yml')
 parser.add_argument('-p', '--update_params', default='')
 
@@ -72,75 +72,75 @@ else:
     else:
         current_device = str(deviceIDs[0])
 
-amulti_gclstm_obj = AMultiGCLSTM(num_node=data_loader.station_number,
-                                 num_graph=data_loader.LM.shape[0],
-                                 external_dim=data_loader.external_dim,
-                                 closeness_len=args['closeness_len'],
-                                 period_len=args['period_len'],
-                                 trend_len=args['trend_len'],
-                                 gcn_k=int(args.get('gcn_k', 0)),
-                                 gcn_layers=int(args.get('gcn_layers', 0)),
-                                 gclstm_layers=int(args['gclstm_layers']),
-                                 num_hidden_units=args['num_hidden_units'],
-                                 num_filter_conv1x1=args['num_filter_conv1x1'],
-                                 # temporal attention parameters
-                                 tpe_dim=data_loader.tpe_dim,
-                                 temporal_gal_units=args.get('temporal_gal_units'),
-                                 temporal_gal_num_heads=args.get('temporal_gal_num_heads'),
-                                 temporal_gal_layers=args.get('temporal_gal_layers'),
-                                 # merge parameters
-                                 graph_merge_gal_units=args['graph_merge_gal_units'],
-                                 graph_merge_gal_num_heads=args['graph_merge_gal_num_heads'],
-                                 temporal_merge_gal_units=args['temporal_merge_gal_units'],
-                                 temporal_merge_gal_num_heads=args['temporal_merge_gal_num_heads'],
-                                 # network structure parameters
-                                 st_method=args['st_method'],  # gclstm
-                                 temporal_merge=args['temporal_merge'],  # gal
-                                 graph_merge=args['graph_merge'],  # concat
-                                 build_transfer=args['build_transfer'],
-                                 lr=float(args['lr']),
-                                 code_version=code_version,
-                                 model_dir=model_dir_path,
-                                 gpu_device=current_device)
+STMeta_obj = STMeta(num_node=data_loader.station_number,
+                    num_graph=data_loader.LM.shape[0],
+                    external_dim=data_loader.external_dim,
+                    closeness_len=args['closeness_len'],
+                    period_len=args['period_len'],
+                    trend_len=args['trend_len'],
+                    gcn_k=int(args.get('gcn_k', 0)),
+                    gcn_layers=int(args.get('gcn_layers', 0)),
+                    gclstm_layers=int(args['gclstm_layers']),
+                    num_hidden_units=args['num_hidden_units'],
+                    num_filter_conv1x1=args['num_filter_conv1x1'],
+                    # temporal attention parameters
+                    tpe_dim=data_loader.tpe_dim,
+                    temporal_gal_units=args.get('temporal_gal_units'),
+                    temporal_gal_num_heads=args.get('temporal_gal_num_heads'),
+                    temporal_gal_layers=args.get('temporal_gal_layers'),
+                    # merge parameters
+                    graph_merge_gal_units=args['graph_merge_gal_units'],
+                    graph_merge_gal_num_heads=args['graph_merge_gal_num_heads'],
+                    temporal_merge_gal_units=args['temporal_merge_gal_units'],
+                    temporal_merge_gal_num_heads=args['temporal_merge_gal_num_heads'],
+                    # network structure parameters
+                    st_method=args['st_method'],  # gclstm
+                    temporal_merge=args['temporal_merge'],  # gal
+                    graph_merge=args['graph_merge'],  # concat
+                    build_transfer=args['build_transfer'],
+                    lr=float(args['lr']),
+                    code_version=code_version,
+                    model_dir=model_dir_path,
+                    gpu_device=current_device)
 
-amulti_gclstm_obj.build()
+STMeta_obj.build()
 
 print(args['dataset'], args['city'], code_version)
-print('Number of trainable variables', amulti_gclstm_obj.trainable_vars)
+print('Number of trainable variables', STMeta_obj.trainable_vars)
 print('Number of training samples', data_loader.train_sequence_len)
 
 # # Training
 if args['train']:
-    amulti_gclstm_obj.fit(closeness_feature=data_loader.train_closeness,
-                          period_feature=data_loader.train_period,
-                          trend_feature=data_loader.train_trend,
-                          laplace_matrix=data_loader.LM,
-                          target=data_loader.train_y,
-                          external_feature=data_loader.train_ef,
-                          sequence_length=data_loader.train_sequence_len,
-                          output_names=('loss', ),
-                          evaluate_loss_name='loss',
-                          op_names=('train_op', ),
-                          batch_size=int(args['batch_size']),
-                          max_epoch=int(args['max_epoch']),
-                          validate_ratio=0.1,
-                          early_stop_method='t-test',
-                          early_stop_length=args['early_stop_length'],
-                          early_stop_patience=args['early_stop_patience'],
-                          verbose=True,
-                          save_model=True)
+    STMeta_obj.fit(closeness_feature=data_loader.train_closeness,
+                   period_feature=data_loader.train_period,
+                   trend_feature=data_loader.train_trend,
+                   laplace_matrix=data_loader.LM,
+                   target=data_loader.train_y,
+                   external_feature=data_loader.train_ef,
+                   sequence_length=data_loader.train_sequence_len,
+                   output_names=('loss', ),
+                   evaluate_loss_name='loss',
+                   op_names=('train_op', ),
+                   batch_size=int(args['batch_size']),
+                   max_epoch=int(args['max_epoch']),
+                   validate_ratio=0.1,
+                   early_stop_method='t-test',
+                   early_stop_length=args['early_stop_length'],
+                   early_stop_patience=args['early_stop_patience'],
+                   verbose=True,
+                   save_model=True)
 
-amulti_gclstm_obj.load(code_version)
+STMeta_obj.load(code_version)
 
-prediction = amulti_gclstm_obj.predict(closeness_feature=data_loader.test_closeness,
-                                       period_feature=data_loader.test_period,
-                                       trend_feature=data_loader.test_trend,
-                                       laplace_matrix=data_loader.LM,
-                                       target=data_loader.test_y,
-                                       external_feature=data_loader.test_ef,
-                                       output_names=('prediction', ),
-                                       sequence_length=data_loader.test_sequence_len,
-                                       cache_volume=int(args['batch_size']), )
+prediction = STMeta_obj.predict(closeness_feature=data_loader.test_closeness,
+                                period_feature=data_loader.test_period,
+                                trend_feature=data_loader.test_trend,
+                                laplace_matrix=data_loader.LM,
+                                target=data_loader.test_y,
+                                external_feature=data_loader.test_ef,
+                                output_names=('prediction', ),
+                                sequence_length=data_loader.test_sequence_len,
+                                cache_volume=int(args['batch_size']), )
 
 test_prediction = prediction['prediction']
 
@@ -152,7 +152,7 @@ test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loade
                        metric.mape(prediction=test_prediction, target=data_loader.test_y, threshold=0)
 
 # Evaluate
-val_loss = amulti_gclstm_obj.load_event_scalar('val_loss')
+val_loss = STMeta_obj.load_event_scalar('val_loss')
 
 best_val_loss = min([e[-1] for e in val_loss])
 
@@ -164,7 +164,7 @@ print('Test result', test_rmse, test_mape)
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600
-print('Converged using %.2f hour / %s epochs' % (time_consumption, amulti_gclstm_obj._global_step))
+print('Converged using %.2f hour / %s epochs' % (time_consumption, STMeta_obj._global_step))
 if nni_params:
     nni.report_final_result({
         'default': best_val_loss,

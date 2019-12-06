@@ -12,7 +12,7 @@ from .XGBoost import XGBoost
 from .DeepST import DeepST
 from .ST_ResNet import ST_ResNet
 
-from .AMultiGCLSTM import AMultiGCLSTM
+from .STMeta import STMeta
 
 from .DCRNN import DCRNN
 

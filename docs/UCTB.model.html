@@ -33,20 +33,6 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="module-UCTB.model.AMultiGCLSTM">
-<span id="uctb-model-amultigclstm-module"></span><h2>UCTB.model.AMultiGCLSTM module<a class="headerlink" href="#module-UCTB.model.AMultiGCLSTM" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.AMultiGCLSTM.AMultiGCLSTM">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AMultiGCLSTM.</code><code class="sig-name descname">AMultiGCLSTM</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_layers=1</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_filter_conv1x1=32</em>, <em class="sig-param">tpe_dim=None</em>, <em class="sig-param">temporal_gal_units=32</em>, <em class="sig-param">temporal_gal_num_heads=2</em>, <em class="sig-param">temporal_gal_layers=4</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='GCLSTM'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">output_activation=&lt;function sigmoid&gt;</em>, <em class="sig-param">build_sd_regularization=False</em>, <em class="sig-param">build_transfer=False</em>, <em class="sig-param">transfer_ratio=0</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='AMulti-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMultiGCLSTM.AMultiGCLSTM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<dl class="method">
-<dt id="UCTB.model.AMultiGCLSTM.AMultiGCLSTM.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AMultiGCLSTM.AMultiGCLSTM.build" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-UCTB.model.ARIMA">
 <span id="uctb-model-arima-module"></span><h2>UCTB.model.ARIMA module<a class="headerlink" href="#module-UCTB.model.ARIMA" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
@@ -216,6 +202,20 @@ their L2-norms are less than or equal to <code class="docutils literal notransla
 <dl class="method">
 <dt id="UCTB.model.HMM.HMM.predict">
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">length</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.model.STMeta">
+<span id="uctb-model-stmeta-module"></span><h2>UCTB.model.STMeta module<a class="headerlink" href="#module-UCTB.model.STMeta" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.model.STMeta.STMeta">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.STMeta.</code><code class="sig-name descname">STMeta</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_layers=1</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_filter_conv1x1=32</em>, <em class="sig-param">tpe_dim=None</em>, <em class="sig-param">temporal_gal_units=32</em>, <em class="sig-param">temporal_gal_num_heads=2</em>, <em class="sig-param">temporal_gal_layers=4</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='GCLSTM'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">output_activation=&lt;function sigmoid&gt;</em>, <em class="sig-param">build_sd_regularization=False</em>, <em class="sig-param">build_transfer=False</em>, <em class="sig-param">transfer_ratio=0</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='STMeta-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<dl class="method">
+<dt id="UCTB.model.STMeta.STMeta.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta.build" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

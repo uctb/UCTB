@@ -4,14 +4,6 @@ UCTB.model package
 Submodules
 ----------
 
-UCTB.model.AMultiGCLSTM module
-------------------------------
-
-.. automodule:: UCTB.model.AMultiGCLSTM
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 UCTB.model.ARIMA module
 -----------------------
 
@@ -56,6 +48,14 @@ UCTB.model.HMM module
 ---------------------
 
 .. automodule:: UCTB.model.HMM
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+UCTB.model.STMeta module
+------------------------
+
+.. automodule:: UCTB.model.STMeta
    :members:
    :undoc-members:
    :show-inheritance:

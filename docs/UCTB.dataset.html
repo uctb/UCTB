@@ -186,15 +186,12 @@ concatenated. Default: True</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><p>Function returns an ndarray with shape as
+<dd class="field-even"><p>Function returns an ndarray with shape as
 [time_slot_num, <code class="docutils literal notranslate"><span class="pre">station_number</span></code>, <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> + <code class="docutils literal notranslate"><span class="pre">period_len</span></code> + <code class="docutils literal notranslate"><span class="pre">trend_len</span></code>, 1],
 and time_slot_num is the temporal length of train set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>
 or the temporal length of test set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.
-On the second dimension, data are arranged as</p>
-<blockquote>
-<div><p><code class="docutils literal notranslate"><span class="pre">earlier</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">trend</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">trend</span></code>.</p>
-</div></blockquote>
-</p>
+On the second dimension, data are arranged as
+<code class="docutils literal notranslate"><span class="pre">earlier</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">trend</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">trend</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>np.ndarray</p>

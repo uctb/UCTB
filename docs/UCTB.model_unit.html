@@ -120,11 +120,70 @@ the whole validation dataset</p></li>
 </dd></dl>
 
 </div>
-<div class="section" id="uctb-model-unit-gclstm-cell-module">
-<h2>UCTB.model_unit.GCLSTM_CELL module<a class="headerlink" href="#uctb-model-unit-gclstm-cell-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="uctb-model-unit-gcn-lstm-cell-module">
-<h2>UCTB.model_unit.GCN_LSTM_CELL module<a class="headerlink" href="#uctb-model-unit-gcn-lstm-cell-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-UCTB.model_unit.DCRNN_CELL">
+<span id="uctb-model-unit-dcrnn-cell-module"></span><h2>UCTB.model_unit.DCRNN_CELL module<a class="headerlink" href="#module-UCTB.model_unit.DCRNN_CELL" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.DCRNN_CELL.</code><code class="sig-name descname">DCGRUCell</code><span class="sig-paren">(</span><em class="sig-param">num_units</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">num_graphs</em>, <em class="sig-param">supports</em>, <em class="sig-param">max_diffusion_step</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">num_proj=None</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em>, <em class="sig-param">reuse=None</em>, <em class="sig-param">use_gc_for_ru=True</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.ops.rnn_cell_impl.RNNCell</span></code></p>
+<p>Graph Convolution Gated Recurrent Unit cell.</p>
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is where the layer’s logic lives.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Input tensor, or list/tuple of input tensors.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor or list/tuple of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape">
+<code class="sig-name descname">compute_output_shape</code><span class="sig-paren">(</span><em class="sig-param">input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes the output shape of the layer.</p>
+<p>Assumes that the layer will be built
+to match that input shape provided.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_shape</strong> – Shape tuple (tuple of integers)
+or list of shape tuples (one per output tensor of the layer).
+Shape tuples can include None for free dimensions,
+instead of an integer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An input shape tuple.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size">
+<em class="property">property </em><code class="sig-name descname">output_size</code><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>size of outputs produced by this cell.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>Integer or TensorShape</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size">
+<em class="property">property </em><code class="sig-name descname">state_size</code><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>size(s) of state(s) used by this cell.</p>
+<p>It can be represented by an Integer, a TensorShape or a tuple of Integers
+or TensorShapes.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-UCTB.model_unit.GraphModelLayers">
 <span id="uctb-model-unit-graphmodellayers-module"></span><h2>UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#module-UCTB.model_unit.GraphModelLayers" title="Permalink to this headline">¶</a></h2>
@@ -194,6 +253,42 @@ on the earth (specified in decimal degrees)</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent">
 <em class="property">static </em><code class="sig-name descname">interaction_adjacent</code><span class="sig-paren">(</span><em class="sig-param">interaction_matrix</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-UCTB.model_unit.ST_RNN">
+<span id="uctb-model-unit-st-rnn-module"></span><h2>UCTB.model_unit.ST_RNN module<a class="headerlink" href="#module-UCTB.model_unit.ST_RNN" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.ST_RNN.</code><code class="sig-name descname">GCLSTMCell</code><span class="sig-paren">(</span><em class="sig-param">units</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_l=1</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.layers.recurrent.LSTMCell</span></code></p>
+<dl class="method">
+<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.build" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">states</em>, <em class="sig-param">training=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.call" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is where the layer’s logic lives.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inputs</strong> – Input tensor, or list/tuple of input tensors.</p></li>
+<li><p><strong>**kwargs</strong> – Additional keyword arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A tensor or list/tuple of tensors.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell.kth_cheby_ploy">
+<code class="sig-name descname">kth_cheby_ploy</code><span class="sig-paren">(</span><em class="sig-param">k</em>, <em class="sig-param">tk1=None</em>, <em class="sig-param">tk2=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.kth_cheby_ploy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>

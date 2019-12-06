@@ -7,7 +7,7 @@ from ..model_unit import DCGRUCell
 from ..model_unit import GCLSTMCell
 
 
-class AMultiGCLSTM(BaseModel):
+class STMeta(BaseModel):
     def __init__(self,
                  num_node,
                  external_dim,
@@ -51,11 +51,11 @@ class AMultiGCLSTM(BaseModel):
                  transfer_ratio=0,
 
                  lr=1e-4,
-                 code_version='AMulti-QuickStart',
+                 code_version='STMeta-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0', **kwargs):
 
-        super(AMultiGCLSTM, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
+        super(STMeta, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         self._num_node = num_node
         self._gcn_k = gcn_k
@@ -320,7 +320,7 @@ class AMultiGCLSTM(BaseModel):
             # record train operation
             self._op['train_op'] = train_op.name
 
-        super(AMultiGCLSTM, self).build(init_vars, max_to_keep)
+        super(STMeta, self).build(init_vars, max_to_keep)
 
     # Define your '_get_feed_dict function‘, map your input to the tf-model
     def _get_feed_dict(self,

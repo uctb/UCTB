@@ -12,6 +12,6 @@ tuner:
   builtinTunerName: TPE
 # The path and the running command of trial
 trial:
-  command: python AMulti_GCLSTM_Obj.py -m amulti_gclstm_v1.model.yml -d didi_xian.data.yml
+  command: python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml
   codeDir: .
   gpuNum: 1

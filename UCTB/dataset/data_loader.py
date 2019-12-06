@@ -465,7 +465,7 @@ class NodeTrafficLoader(object):
             and time_slot_num is the temporal length of train set data if ``is_train`` is ``True``
             or the temporal length of test set data if ``is_train`` is ``False``.
             On the second dimension, data are arranged as
-             ``earlier closeness -> later closeness -> earlier period -> later period -> earlier trend -> later trend``.
+            ``earlier closeness -> later closeness -> earlier period -> later period -> earlier trend -> later trend``.
         """
 
         if is_train:

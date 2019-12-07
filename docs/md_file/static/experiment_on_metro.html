@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Experiments on subway traffic-flow prediction &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="experiments-on-subway-traffic-flow-prediction">
+<h1>Experiments on subway traffic-flow prediction<a class="headerlink" href="#experiments-on-subway-traffic-flow-prediction" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>Experiment Setting</p>
+<ul>
+<li><p>Dataset</p>
+<p>|        Attributes        |  <strong>Chongqing</strong>  |  <strong>Shanghai</strong>   |
+| :———————-: | :————-: | :————-: |
+|        Time span         | 2016.08-2017.07 | 2017.07-2017.09 |
+| Number of riding records |    409277117    |    403071370    |
+|    Number of stations    |       113       |       288       |
+|     Number of lines      |        5        |       14        |</p>
+</li>
+</ul>
+<p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life.</p>
+<p>Network parameter setting (AMulti-GCLSTM model)</p>
+<ul>
+<li><p>Following shows the parameters we used and a short explanation of the parameter meaning.  To know more about the parameter, please refer to the API reference.</p>
+<p>| Parameter  | Value |                  Meaning                   |
+| :——–: | :—: | :—————————————-: |
+|    GLL     |   2   |          number of GCLSTM layers           |
+| LSTMUnits  |  256  |       number of hidden units in LSTM       |
+|  GALUnits  |  256  |       number of units used in GAtteL       |
+|  GALHeads  |   2   |       number of multi-head in GAtteL       |
+| DenseUnits |  32   | number of units in penultimate dense layer |
+|     TC     |   0   |           correlation threshold            |
+|     TD     | 1000  |             distance threshold             |
+|     TI     |  500  |           interaction threshold            |
+|     lr     | 3e-4  |               learning rate                |</p>
+</li>
+</ul>
+</li>
+<li><p>Experiment Results</p>
+<ul class="simple">
+<li><p>AMulti-GCLSTM uses correlation graph and neighbor graph.</p></li>
+</ul>
+</li>
+</ul>
+<p>|               | Chongqing |  Shanghai  |
+| :———–: | :——-: | :——–: |
+|      HM       | 786.01197 | 1247.56662 |
+|     ARIMA     | 660.28378 | 967.16123  |
+|      HMM      | 660.28378 | 614.19177  |
+|    XGBoost    | 289.70050 | 416.58629  |
+|     LSTM      | 239.97653 | 408.09871  |
+| AMulti-GCLSTM | 138.81463 | 251.38817  |</p>
+<div class="section" id="adding-period-and-closeness-feature-into-mode">
+<h2>Adding period and closeness feature into mode<a class="headerlink" href="#adding-period-and-closeness-feature-into-mode" title="Permalink to this headline">¶</a></h2>
+<p>|               | Chongqing | Shanghai |
+| :———–: | :——-: | :——: |
+|      HM       | 227.0985  |          |
+|     ARIMA     |           |          |
+|    XGBoost    | 134.9760  |          |
+|     GBRT      | 120.3337  |          |
+|     LSTM      | 124.6012  |          |
+|   DG-GCLSTM   |           |          |
+|   IG-GCLSTM   |           |          |
+|   CG-GCLSTM   |           |          |
+| AMulti-GCLSTM |           |          |</p>
+<p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

@@ -10,10 +10,10 @@ from UCTB.utils import multiple_process
 
 parser = argparse.ArgumentParser(description="Argument Parser")
 # data source
-parser.add_argument('--Dataset', default='Metro')
-parser.add_argument('--City', default='Shanghai')
+parser.add_argument('--Dataset', default='Bike')
+parser.add_argument('--City', default='NYC')
 # network parameter
-parser.add_argument('--CT', default='200', type=int)
+parser.add_argument('--CT', default='24', type=int)
 
 parser.add_argument('--ar', default='6', type=int)
 parser.add_argument('--d', default='0', type=int)
@@ -25,7 +25,7 @@ parser.add_argument('--sma', default='0', type=int)
 parser.add_argument('--sp', default='0', type=int)
 
 parser.add_argument('--DataRange', default='All')
-parser.add_argument('--TrainDays', default='60')
+parser.add_argument('--TrainDays', default='365')
 
 args = vars(parser.parse_args())
 
@@ -79,7 +79,7 @@ def reduce_fn(a, b):
 
 if __name__ == '__main__':
 
-    n_job = 10
+    n_job = 8
 
     result = multiple_process(distribute_list=range(data_loader.station_number),
                               partition_func=lambda data, i, n_job:

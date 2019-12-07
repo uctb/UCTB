@@ -82,7 +82,7 @@ STMeta_obj = STMeta(num_node=data_loader.station_number,
                     gcn_layers=int(args.get('gcn_layers', 0)),
                     gclstm_layers=int(args['gclstm_layers']),
                     num_hidden_units=args['num_hidden_units'],
-                    num_filter_conv1x1=args['num_filter_conv1x1'],
+                    num_dense_units=args['num_filter_conv1x1'],
                     # temporal attention parameters
                     tpe_dim=data_loader.tpe_dim,
                     temporal_gal_units=args.get('temporal_gal_units'),

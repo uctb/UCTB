@@ -1,0 +1,147 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Experiments on bike traffic-flow prediction &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="experiments-on-bike-traffic-flow-prediction">
+<h1>Experiments on bike traffic-flow prediction<a class="headerlink" href="#experiments-on-bike-traffic-flow-prediction" title="Permalink to this headline">¶</a></h1>
+<ul>
+<li><p>Experiment Setting</p>
+<ul>
+<li><p>Dataset</p>
+<p>|        Attributes        | <strong>New York City</strong> |   <strong>Chicago</strong>   |     <strong>DC</strong>      |
+| :———————-: | :—————: | :————-: | :————-: |
+|        Time span         |  2013.03-2017.09  | 2013.06-2017.12 | 2013.07-2017.09 |
+| Number of riding records |    49,669,470     |   13,826,196    |   13,763,675    |
+|    Number of stations    |        827        |       586       |       531       |</p>
+</li>
+</ul>
+<p>Following shows a map-visualization of bike stations in NYC, the latest built stations have deeper color.</p>
+<img src="../src/image/Bike_NYC_STMAP.PNG"><p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life. The remaining station number are 717, 444 and 378 for NYC, Chicago and DC, respectively.</p>
+<ul>
+<li><p>Network parameter setting (AMulti-GCLSTM model)</p>
+<p>Following shows the parameters we used and a short explanation of the parameter meaning.  To know more about the parameter, please refer to the API reference.</p>
+</li>
+</ul>
+</li>
+<li><p>Experiment Results</p>
+<ul class="simple">
+<li><p>CG-GCLSTM Only use correlation graph in the model</p></li>
+<li><p>DG-GCLSTM Only use distance graph in the model</p></li>
+<li><p>IG-GCLSTM Only use interaction graph in the model</p></li>
+</ul>
+</li>
+</ul>
+<div class="section" id="only-closeness-feature-will-delete-in-future-version">
+<h2>Only closeness feature (will delete in future version)<a class="headerlink" href="#only-closeness-feature-will-delete-in-future-version" title="Permalink to this headline">¶</a></h2>
+<p>|                       |   NYC   | Chicago |   DC    |
+| :——————-: | :—–: | :—–: | :—–: |
+|          HM           | 6.79734 | 4.68078 | 3.66747 |
+|         ARIMA         | 5.60477 | 3.79739 | 3.31826 |
+|          HMM          | 5.42030 | 3.79743 | 3.20889 |
+|        XGBoost        | 5.32069 | 3.75124 | 3.14101 |
+|         LSTM          | 5.13307 | 3.69806 | 3.14331 |
+|       CG-GCLSTM       | 4.64375 | 3.38255 | 2.87655 |
+|       DG-GCLSTM       | 4.67169 | 3.51243 | 2.98404 |
+|       IG-GCLSTM       | 4.77809 | 3.45625 | 2.68370 |
+| ST_MGCN (Multi-Graph) | 4.41732 |         |         |
+|     AMulti-GCLSTM     | 4.22640 | 3.02301 | 2.58584 |</p>
+</div>
+<div class="section" id="latest-result">
+<h2>Latest result<a class="headerlink" href="#latest-result" title="Permalink to this headline">¶</a></h2>
+<p>|                       |        NYC         |      Chicago       |         DC         |
+| :——————-: | :—————-: | :—————-: | :—————-: |
+| HM（params searched） | 3.99224 (C1-P1-T3) | 2.97693 (C1-P1-T2) | 2.63165 (C2-P1-T3) |
+|        XGBoost        |      4.14909       |      3.02530       |      2.73286       |
+|         GBRT          |      3.94348       |      2.85847       |      2.63935       |
+|         LSTM          |      3.78497       |      2.79078       |      2.54752       |
+|       DG-GCLSTM       |      3.63207       |      2.71876       |      2.53863       |
+|       IG-GCLSTM       |      3.78816       |      2.70131       |      2.46214       |
+|       CG-GCLSTM       |      3.69656       |      2.79812       |      2.45815       |
+|   AMulti-GCLSTM-V1    |      3.50475       |    <strong>2.65511</strong>     |      2.42582       |
+|   AMulti-GCLSTM-V2    |    <strong>3.43870</strong>     |      2.66379       |    <strong>2.41111</strong>     |</p>
+<ul>
+<li><p>Model training records</p>
+<p>Following data was collected on a Windows PC with <em>CPU : Interl i7 8700K, Memory: 32 GB, GPU: Nvidia GTX 1080Ti</em>.</p>
+</li>
+</ul>
+<p>|        <code class="docutils literal notranslate"><span class="pre">NYC</span> <span class="pre">City</span></code>         | SingleGraph-GCLSTM(Average) | AMulti-GCLSTM | ST_MGCN  |
+| :—————————: | :————————-: | :———–: | :——: |
+| Number of trainable variables |                             |               |  249245  |
+|   Converaged training time    |                             |               | 51 hours |</p>
+<ul class="simple">
+<li><p>Source Code</p></li>
+</ul>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">./Experiment/AMultiGCLSTM_Master_Bike.py</span></code> to train the model or view evaluation results.</p>
+<p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

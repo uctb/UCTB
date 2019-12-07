@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>3. Quick start &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4. Tutorial" href="tutorial.html" />
+    <link rel="prev" title="2. Installation" href="installation.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="4. Tutorial"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="2. Installation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="quick-start">
+<h1>3. Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quick-start-with-amulti-gclstm">
+<h2>3.1. Quick start with AMulti-GCLSTM<a class="headerlink" href="#quick-start-with-amulti-gclstm" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">AMultiGCLSTM</span>
+<span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
+
+<span class="c1"># Config data loader</span>
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span>
+                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Init model object</span>
+<span class="n">AMulti_GCLSTM_Obj</span> <span class="o">=</span> <span class="n">AMultiGCLSTM</span><span class="p">(</span><span class="n">closeness_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span>
+                                 <span class="n">period_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">period_len</span><span class="p">,</span>
+                                 <span class="n">trend_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">trend_len</span><span class="p">,</span>
+                                 <span class="n">num_node</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">,</span>
+                                 <span class="n">num_graph</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Build tf-graph</span>
+<span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="c1"># Training</span>
+<span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">,</span>
+                      <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">,</span>
+                      <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">,</span>
+                      <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
+                      <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">,</span>
+                      <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_sequence_len</span><span class="p">)</span>
+
+<span class="c1"># Predict</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">,</span>
+                                       <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">,</span>
+                                       <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">,</span>
+                                       <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
+                                       <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span>
+                                       <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">],</span>
+                                       <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_sequence_len</span><span class="p">)</span>
+
+<span class="c1"># Evaluate</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>
+                                 <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">),</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="quick-start-with-other-models">
+<h2>3.2. <a class="reference external" href="./static/quick_start.html">Quick start with other models</a><a class="headerlink" href="#quick-start-with-other-models" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="installation.html"
+                        title="previous chapter">2. Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="tutorial.html"
+                        title="next chapter">4. Tutorial</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="tutorial.html" title="4. Tutorial"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="installation.html" title="2. Installation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

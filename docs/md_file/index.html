@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>1. Urban Computing ToolBox &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2. Introduction" href="introduction.html" />
+    <link rel="prev" title="Welcome to UCTB’s documentation!" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="2. Introduction"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to UCTB’s documentation!"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="urban-computing-toolbox">
+<h1>1. <a class="reference external" href="https://github.com/Di-Chai/UCTB">Urban Computing ToolBox</a><a class="headerlink" href="#urban-computing-toolbox" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>1.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><strong>Urban Computing ToolBox</strong> is a package providing spatial-temporal predicting models. It contains both conventional models and state-of-art models.</p>
+<p>Currently the package supported the following models: (<a class="reference external" href="./static/current_supported_models.html">Details</a>)</p>
+<ul class="simple">
+<li><p>HM</p></li>
+<li><p>HMM</p></li>
+<li><p>ARIMA</p></li>
+<li><p>XGBoost</p></li>
+<li><p>DeepST</p></li>
+<li><p>ST-ResNet</p></li>
+<li><p>DCRNN</p></li>
+<li><p>AMulti-GCLSTM</p></li>
+</ul>
+<p>UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.</p>
+</div>
+<div class="section" id="installation">
+<h2>1.2. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="step-1-install-tensorflow">
+<h3>1.2.1. Step 1 : Install TensorFlow<a class="headerlink" href="#step-1-install-tensorflow" title="Permalink to this headline">¶</a></h3>
+<p>You can skip to step 2 if you already installed tensorflow.</p>
+<p>You can refer to this page <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a> to install tensorflow, if you have a Nvidia GPU installed on you computer, we highly recommend you to install GPU version of tensorflow.</p>
+</div>
+<div class="section" id="step-2-install-uctb">
+<h3>1.2.2. Step 2 : Install UCTB<a class="headerlink" href="#step-2-install-uctb" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade UCTB
+</pre></div>
+</div>
+<p>The following required package will be installed or upgraded with UCTB:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;hmmlearn&#39;</span>,
+<span class="s1">&#39;keras&#39;</span>,
+<span class="s1">&#39;GPUtil&#39;</span>,
+<span class="s1">&#39;numpy&#39;</span>,
+<span class="s1">&#39;pandas&#39;</span>,
+<span class="s1">&#39;python-dateutil&#39;</span>,
+<span class="s1">&#39;scikit-learn&#39;</span>,
+<span class="s1">&#39;scipy&#39;</span>,
+<span class="s1">&#39;statsmodels&#39;</span>,
+<span class="s1">&#39;wget&#39;</span>,
+<span class="s1">&#39;xgboost&#39;</span>,
+<span class="s1">&#39;nni&#39;</span>,
+<span class="s1">&#39;chinesecalendar&#39;</span>,
+<span class="s1">&#39;PyYAML&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="quick-start">
+<h2>1.3. Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="section" id="quick-start-with-amulti-gclstm">
+<h3>1.3.1. Quick start with AMulti-GCLSTM<a class="headerlink" href="#quick-start-with-amulti-gclstm" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">AMultiGCLSTM</span>
+<span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
+
+<span class="c1"># Config data loader</span>
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span>
+                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="c1"># Init model object</span>
+<span class="n">AMulti_GCLSTM_Obj</span> <span class="o">=</span> <span class="n">AMultiGCLSTM</span><span class="p">(</span><span class="n">closeness_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span>
+                                 <span class="n">period_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">period_len</span><span class="p">,</span>
+                                 <span class="n">trend_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">trend_len</span><span class="p">,</span>
+                                 <span class="n">num_node</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">,</span>
+                                 <span class="n">num_graph</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="c1"># Build tf-graph</span>
+<span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="c1"># Training</span>
+<span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">,</span>
+                      <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">,</span>
+                      <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">,</span>
+                      <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
+                      <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">,</span>
+                      <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_sequence_len</span><span class="p">)</span>
+
+<span class="c1"># Predict</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">,</span>
+                                       <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">,</span>
+                                       <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">,</span>
+                                       <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
+                                       <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span>
+                                       <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">],</span>
+                                       <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_sequence_len</span><span class="p">)</span>
+
+<span class="c1"># Evaluate</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>
+                                 <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">),</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p><a class="reference external" href="./static/quick_start.html">Quick start with other models</a></p></li>
+</ul>
+<div class="section" id="tutorial">
+<h2>1.4. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Compare different version of AMulti-GCLSTM</p></li>
+<li></li>
+</ul>
+<div class="section" id="use-datasets-from-uctb">
+<h3>1.4.1. <a class="reference external" href="./static/tutorial.html">Use datasets from UCTB</a><a class="headerlink" href="#use-datasets-from-uctb" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="build-your-own-datasets">
+<h3>1.4.2. <a class="reference external" href="./static/tutorial.html">Build your own datasets</a><a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="use-build-in-models-from-uctb">
+<h3>1.4.3. Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="build-your-own-model-using-uctb">
+<h3>1.4.4. Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="api-reference">
+<h2>1.5. API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="section" id="model-class">
+<h3>1.5.1. Model Class<a class="headerlink" href="#model-class" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="modelunit-class">
+<h3>1.5.2. ModelUnit Class<a class="headerlink" href="#modelunit-class" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="evaluation-class">
+<h3>1.5.3. Evaluation Class<a class="headerlink" href="#evaluation-class" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="training-class">
+<h3>1.5.4. Training Class<a class="headerlink" href="#training-class" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="full-examples">
+<h2>1.6. Full examples<a class="headerlink" href="#full-examples" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="section" id="experiments-on-bike-traffic-flow-prediction">
+<h3>1.6.1. <a class="reference external" href="./static/experiment_on_bike.html">Experiments on bike traffic-flow prediction</a><a class="headerlink" href="#experiments-on-bike-traffic-flow-prediction" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="experiments-on-metro-traffic-flow-prediction">
+<h3>1.6.2. <a class="reference external" href="./static/experiment_on_metro.html">Experiments on metro traffic-flow prediction</a><a class="headerlink" href="#experiments-on-metro-traffic-flow-prediction" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="experiments-on-didi-order-demand-prediction">
+<h3>1.6.3. <a class="reference external" href="./static/experiment_on_didi.html">Experiments on didi order demand prediction</a><a class="headerlink" href="#experiments-on-didi-order-demand-prediction" title="Permalink to this headline">¶</a></h3>
+</div>
+<li><p>Experiments on charge station demand prediction</p></li>
+</div>
+<div class="section" id="contribute-to-uctb-delay">
+<h2>1.7. Contribute to UCTB (Delay)<a class="headerlink" href="#contribute-to-uctb-delay" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li></li>
+</ul>
+<div class="section" id="contribute-data">
+<h3>1.7.1. Contribute Data<a class="headerlink" href="#contribute-data" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="contribute-models">
+<h3>1.7.2. Contribute Models<a class="headerlink" href="#contribute-models" title="Permalink to this headline">¶</a></h3>
+</div>
+<li></li>
+<div class="section" id="contribute-model-units">
+<h3>1.7.3. Contribute Model-Units<a class="headerlink" href="#contribute-model-units" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">Welcome to UCTB’s documentation!</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="introduction.html"
+                        title="next chapter">2. Introduction</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="introduction.html" title="2. Introduction"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="Welcome to UCTB’s documentation!"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

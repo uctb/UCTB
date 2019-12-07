@@ -11,6 +11,13 @@ from ..train.EarlyStopping import *
 
 
 class BaseModel(object):
+    """BaseModel is the base class for many models, such as STMeta, ST-MGCN and ST_ResNet,
+        you can also build your own model using this class. More information can be found in tutorial.
+    Args:
+        code_version: Current version of this model code, which will be used as filename for saving the model.
+        model_dir: The directory to store model files. Default:'model_dir'.
+        gpu_device: To specify the GPU to use. Default: '0'.
+    """
 
     def __init__(self, code_version, model_dir, gpu_device):
 
@@ -44,6 +51,11 @@ class BaseModel(object):
         self._session = tf.Session(graph=self._graph, config=self._config)
 
     def build(self, init_vars=True, max_to_keep=5):
+        """
+        Args
+            init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
+            max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.
+        """
         with self._graph.as_default():
             ####################################################################
             # Add summary, variable_init and summary
@@ -90,20 +102,25 @@ class BaseModel(object):
             return_outputs=False, **kwargs):
 
         """
-        :param sequence_length: int, the sequence length which is use in mini-batch training
-        :param output_names: list, [output_tensor1_name, output_tensor1_name, ...]
-        :param op_names: list, [operation1_name, operation2_name, ...]
-        :param evaluate_loss_name: str, should be on of the output_names, evaluate_loss_name was use in
-                                   early-stopping
-        :param batch_size: int, default 64, batch size
-        :param max_epoch: int, default 10000, max number of epochs
-        :param validate_ratio: float, default 0.1, the ration of data that will be used as validation dataset
-        :param shuffle_data: bool, default True, whether shuffle data in mini-batch train
-        :param early_stop_method: should be 't-test' or 'naive', both method are explained in train.EarlyStopping
-        :param early_stop_length: int, must provide when early_stop_method='t-test'
-        :param early_stop_patience: int, must provide when early_stop_method='naive'
-        :param verbose: Bool, flag to print training information or not
-        :param save_model: Bool, flog to save model or not
+        Args:
+            sequence_length: int, the sequence length which is use in mini-batch training
+            output_names: list, [output_tensor1_name, output_tensor1_name, ...]
+            op_names: list, [operation1_name, operation2_name, ...]
+            evaluate_loss_name: str, should be on of the output_names, evaluate_loss_name was use in
+                                       early-stopping
+            batch_size: int, default 64, batch size
+            max_epoch: int, default 10000, max number of epochs
+            validate_ratio: float, default 0.1, the ration of data that will be used as validation dataset
+            shuffle_data: bool, default True, whether shuffle data in mini-batch train
+            early_stop_method: should be 't-test' or 'naive', both method are explained in train.EarlyStopping
+            early_stop_length: int, must provide when early_stop_method='t-test'
+            early_stop_patience: int, must provide when early_stop_method='naive'
+            verbose: Bool, flag to print training information or not
+            save_model: Bool, flog to save model or not
+            save_model_name: String, filename for saving the model, which will overwrite the code_version.
+            auto_load_model: Bool, the "fit" function will automatically load the model from disk, if exists,
+                before the training. Set to False to disable the auto-loading.
+            return_outputs: Bool, set True to return the training log, otherwise nothing will be returned
         """
 
         if auto_load_model:
@@ -212,11 +229,12 @@ class BaseModel(object):
     def predict(self, sequence_length, output_names=('prediction', ), cache_volume=64, **kwargs):
 
         '''
-        :param output_names: list, [output_tensor_name1, output_tensor_name2, ...]
-        :param sequence_length: int, the length of sequence, which is use in mini-batch training
-        :param cache_volume: int, default 64, we need to set cache_volume if the cache can not hold
-                             the whole validation dataset
-        :return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, ...}
+        Args:
+            output_names: list, [output_tensor_name1, output_tensor_name2, ...]
+            sequence_length: int, the length of sequence, which is use in mini-batch training
+            cache_volume: int, default 64, we need to set cache_volume if the cache can not hold
+                                 the whole validation dataset
+            :return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, ...}
         '''
 
         # Get feed_dict
@@ -259,6 +277,12 @@ class BaseModel(object):
             return []
 
     def save(self, subscript, global_step):
+        """
+        Args:
+            subscript: String, subscript will be appended to the code version as the model filename,
+                and save the corresponding model using this filename
+            global_step: Int, current training steps
+        """
         save_dir_subscript = os.path.join(self._log_dir, subscript)
         # delete if exist
         # if os.path.isdir(save_dir_subscript):
@@ -269,6 +293,11 @@ class BaseModel(object):
                          global_step=global_step)
 
     def load(self, subscript):
+        """
+        Args:
+            subscript: String, subscript will be appended to the code version as the model file name,
+                and load the corresponding model using this filename
+        """
         save_dir_subscript = os.path.join(self._log_dir, subscript)
         if len(os.listdir(save_dir_subscript)) == 0:
             print('model Not Found')
@@ -286,9 +315,17 @@ class BaseModel(object):
                     self._converged = True
 
     def close(self):
+        """
+        Close the session, release memory.
+        """
         self._session.close()
 
     def load_event_scalar(self, scalar_name='val_loss'):
+        """
+        Args:
+            scalar_name: load the corresponding scalar name from tensorboard-file,
+                e.g. load_event_scalar('val_loss)
+        """
         event_files = [e for e in os.listdir(self._log_dir) if e.startswith('events.out')]
         result = []
         for f in event_files:

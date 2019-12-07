@@ -1,0 +1,260 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Stable Test Records &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="stable-test-records">
+<h1>Stable Test Records<a class="headerlink" href="#stable-test-records" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="didi-chengdu">
+<h2>DiDi Chengdu<a class="headerlink" href="#didi-chengdu" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="parameters-for-building-graph">
+<h3>Parameters for building graph<a class="headerlink" href="#parameters-for-building-graph" title="Permalink to this headline">¶</a></h3>
+<p>| Notation |          explanation           | value |
+| :——: | :—————————-: | :—: |
+|    TD    |  threshold of distance graph   | 7500m |
+|    TI    | threshold of interaction graph |  30   |
+|    TC    | threshold of correlation graph | 0.65  |</p>
+</div>
+<div class="section" id="parameters-for-building-model">
+<h3>Parameters for building model<a class="headerlink" href="#parameters-for-building-model" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;PT&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="nt">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">5e-05</span><span class="p">,</span>
+    <span class="nt">&quot;TT&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;DenseUnits&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="nt">&quot;GALUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;LSTMUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;ESlength&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="nt">&quot;patience&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="nt">&quot;Normalize&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;TI&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="nt">&quot;CT&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nt">&quot;K&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;GALHeads&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;Graph&quot;</span><span class="p">:</span> <span class="s2">&quot;Distance-Interaction-Correlation&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;GLL&quot;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>|   实验编号   |   模型版本含义   |         Test-RMSE值          | Test-MAPE |
+| :———-: | :————–: | :————————–: | :——-: |
+|      1       | AMulti-GCLSTM-V2 |           6.98410            |  0.35470  |
+|      2       | AMulti-GCLSTM-V2 |           7.06971            |  0.36585  |
+|      3       | AMulti-GCLSTM-V2 |           7.00403            |  0.34867  |
+|      4       | AMulti-GCLSTM-V2 |           7.04557            |  0.34797  |
+|      5       | AMulti-GCLSTM-V2 |           7.05717            |  0.36398  |
+|      6       | AMulti-GCLSTM-V2 |           6.97287            |  0.34735  |
+|      7       | AMulti-GCLSTM-V2 |           7.03885            |  0.35656  |
+|      8       | AMulti-GCLSTM-V2 |           7.09894            |  0.36024  |
+|      9       | AMulti-GCLSTM-V2 |           7.02147            |  0.33930  |
+| 均值、标准差 |                  | 均值 7.03252，标准差 0.03865 |           |
+|   平均耗时   |                  |          0.5h~1.5h           |           |</p>
+</div>
+</div>
+<div class="section" id="didi-xian">
+<h2>DiDi Xian<a class="headerlink" href="#didi-xian" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;TrainDays&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;DenseUnits&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="nt">&quot;GALUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;Graph&quot;</span><span class="p">:</span> <span class="s2">&quot;Distance-Interaction-Correlation&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;CT&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nt">&quot;Train&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;DiDi&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;GLL&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;TD&quot;</span><span class="p">:</span> <span class="mf">7500.0</span><span class="p">,</span>
+    <span class="nt">&quot;GALHeads&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;patience&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="nt">&quot;Epoch&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="nt">&quot;CodeVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;ST0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;TT&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;TC&quot;</span><span class="p">:</span> <span class="mf">0.65</span><span class="p">,</span>
+    <span class="nt">&quot;Device&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;PT&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="nt">&quot;ESlength&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="nt">&quot;LSTMUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;TI&quot;</span><span class="p">:</span> <span class="mf">30.0</span><span class="p">,</span>
+    <span class="nt">&quot;Normalize&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;City&quot;</span><span class="p">:</span> <span class="s2">&quot;Xian&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">5e-05</span><span class="p">,</span>
+    <span class="nt">&quot;DataRange&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;BatchSize&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+    <span class="nt">&quot;K&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;Group&quot;</span><span class="p">:</span> <span class="s2">&quot;Xian&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>AMulti-GCLSTM-V2 多次实验结果，每次实验耗时 0.5h~1.5h</p>
+<p>| 实验编号 | Test-RMSE | Test-MAPE |
+| :——: | :——-: | :——-: |
+|    1     |  5.80502  |  0.36022  |
+|    2     |  5.88970  |  0.35590  |
+|    3     |  6.00412  |  0.45126  |
+|    4     |  5.93798  |  0.37956  |
+|    5     |  6.01064  |  0.39242  |
+|    6     |  5.89309  |  0.40803  |
+|    7     |  5.84786  |  0.35915  |
+|    8     |  5.88188  |  0.36777  |
+|    9     |  5.97407  |  0.42393  |
+|    10    |  5.80497  |  0.37014  |</p>
+<p>最终结果：Test-RMSE 均值 5.90493，标准差 0.07142</p>
+<p>Metro Shanghai</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;TrainDays&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;patience&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="nt">&quot;Train&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;TT&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;City&quot;</span><span class="p">:</span> <span class="s2">&quot;ShanghaiV1&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;ESlength&quot;</span><span class="p">:</span> <span class="mi">500</span><span class="p">,</span>
+    <span class="nt">&quot;K&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;GLL&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;LSTMUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;Normalize&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;PT&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="nt">&quot;Epoch&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="nt">&quot;GALUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;TI&quot;</span><span class="p">:</span> <span class="mf">100.0</span><span class="p">,</span>
+    <span class="nt">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">2e-05</span><span class="p">,</span>
+    <span class="nt">&quot;Dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;Metro&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;DenseUnits&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="nt">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;Group&quot;</span><span class="p">:</span> <span class="s2">&quot;Shanghai&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Graph&quot;</span><span class="p">:</span> <span class="s2">&quot;Distance-line-Correlation&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;DataRange&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;GALHeads&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;CodeVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;ST_Sim_0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;CT&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nt">&quot;TD&quot;</span><span class="p">:</span> <span class="mf">5000.0</span><span class="p">,</span>
+    <span class="nt">&quot;TC&quot;</span><span class="p">:</span> <span class="mf">0.7</span><span class="p">,</span>
+    <span class="nt">&quot;BatchSize&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+    <span class="nt">&quot;Device&quot;</span><span class="p">:</span> <span class="s2">&quot;1&quot;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>AMulti-GCLSTM-V2 多次实验结果，每次实验耗时 6.5h~7.5h</p>
+<p>| 实验编号 | Test-RMSE | Test-MAPE |
+| :——: | :——-: | :——-: |
+|    1     | 148.88104 |  0.13178  |
+|    2     | 149.58350 |  0.14325  |
+|    3     | 168.16162 |  0.14498  |
+|    4     | 155.88750 |  0.19575  |
+|    5     | 155.09171 |  0.18060  |
+|    6     | 166.13303 |  0.18040  |
+|    7     | 157.08799 |  0.15245  |</p>
+<p>最终结果：Test-RMSE 均值 157.26091，标准差 6.90058</p>
+</div>
+<div class="section" id="chargestation-beijing">
+<h2>ChargeStation Beijing<a class="headerlink" href="#chargestation-beijing" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="nt">&quot;GALUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;TD&quot;</span><span class="p">:</span> <span class="mf">1000.0</span><span class="p">,</span>
+    <span class="nt">&quot;TI&quot;</span><span class="p">:</span> <span class="mf">500.0</span><span class="p">,</span>
+    <span class="nt">&quot;K&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;Train&quot;</span><span class="p">:</span> <span class="s2">&quot;False&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;CT&quot;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="nt">&quot;patience&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="nt">&quot;ESlength&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+    <span class="nt">&quot;Graph&quot;</span><span class="p">:</span> <span class="s2">&quot;Distance-Correlation&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;Normalize&quot;</span><span class="p">:</span> <span class="s2">&quot;True&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;lr&quot;</span><span class="p">:</span> <span class="mf">2e-05</span><span class="p">,</span>
+    <span class="nt">&quot;Device&quot;</span><span class="p">:</span> <span class="s2">&quot;0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;BatchSize&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+    <span class="nt">&quot;LSTMUnits&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+    <span class="nt">&quot;City&quot;</span><span class="p">:</span> <span class="s2">&quot;Beijing&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;TrainDays&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;CodeVersion&quot;</span><span class="p">:</span> <span class="s2">&quot;ST_Sim1_0&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;TT&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+    <span class="nt">&quot;GALHeads&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+    <span class="nt">&quot;DenseUnits&quot;</span><span class="p">:</span> <span class="mi">32</span><span class="p">,</span>
+    <span class="nt">&quot;PT&quot;</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+    <span class="nt">&quot;Group&quot;</span><span class="p">:</span> <span class="s2">&quot;Beijing&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;L&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="nt">&quot;DataRange&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;TC&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+    <span class="nt">&quot;Epoch&quot;</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span>
+    <span class="nt">&quot;Dataset&quot;</span><span class="p">:</span> <span class="s2">&quot;ChargeStation&quot;</span><span class="p">,</span>
+    <span class="nt">&quot;GLL&quot;</span><span class="p">:</span> <span class="mi">1</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>AMulti-GCLSTM-V2 多次实验结果 (暂时只跑了4次)，每次实验耗时约 10h</p>
+<p>| 实验编号 | Test-RMSE | Test-MAPE |
+| :——: | :——-: | :——-: |
+|    1     |  0.80954  |  0.22925  |
+|    2     |  0.82956  |  0.23242  |
+|    3     |  0.82393  |  0.22467  |
+|    4     |  0.81360  |  0.22932  |</p>
+<p>最终结果：Test-RMSE 均值 0.81915，标准差 0.0079745</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

@@ -8,13 +8,18 @@ Welcome to UCTB's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :numbered:
 
+   md_file/introduction.md
 
+   md_file/installation.md
 
-Indices and tables
-==================
+   md_file/installation.md
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   md_file/quickstart.md
+
+   md_file/tutorial.md
+
+   APIReference.rst
+
+   md_file/all_results.md

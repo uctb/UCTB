@@ -7,6 +7,27 @@ from tensorflow.contrib import legacy_seq2seq
 
 
 class DCRNN(BaseModel):
+    """
+    Args:
+        num_nodes(int): Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.
+        num_diffusion_matrix: Number of diffusion matrix used in model.
+        num_rnn_units: Number of RNN units.
+        num_rnn_layers: Number of RNN layers
+        max_diffusion_step: Number of diffusion steps
+        seq_len: Input sequence length
+        use_curriculum_learning(bool): model's prediction (True) or the previous ground truth in training (False).
+        input_dim: Dimension of the input feature
+        output_dim: Dimension of the output feature
+        cl_decay_steps: When use_curriculum_learning=True, cl_decay_steps is used to adjust the ratio of using ground
+            true labels, where with more training steps, the ratio drops.
+        target_len(int): Output sequence length.
+        lr(float): Learning rate
+        epsilon: epsilon in Adam
+        optimizer_name(str): 'sgd' or 'Adam' optimizer
+        code_version(str): Current version of this model code, which will be used as filename for saving the model
+        model_dir(str): The directory to store model files. Default:'model_dir'.
+        gpu_device(str): To specify the GPU to use. Default: '0'.
+    """
     def __init__(self,
                  num_nodes,
                  num_diffusion_matrix,
@@ -90,8 +111,8 @@ class DCRNN(BaseModel):
                 def _compute_sampling_threshold(global_step, k):
                     """
                     Computes the sampling probability for scheduled sampling using inverse sigmoid.
-                    :param global_step:
-                    :param k:
+                    global_step:
+                    k:
                     :return:
                     """
                     return tf.cast(k / (k + tf.exp(global_step / k)), tf.float32)

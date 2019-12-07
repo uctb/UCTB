@@ -10,14 +10,14 @@ from UCTB.preprocess import SplitData
 
 parser = argparse.ArgumentParser(description="Argument Parser")
 # data source
-parser.add_argument('--Dataset', default='Metro')
-parser.add_argument('--City', default='Chongqing')
+parser.add_argument('--Dataset', default='Bike')
+parser.add_argument('--City', default='NYC')
 # network parameter
-parser.add_argument('--CT', default='168', type=int)
+parser.add_argument('--CT', default='24', type=int)
 
-parser.add_argument('--ar', default='3', type=int)
+parser.add_argument('--ar', default='6', type=int)
 parser.add_argument('--d', default='0', type=int)
-parser.add_argument('--ma', default='0', type=int)
+parser.add_argument('--ma', default='1', type=int)
 
 parser.add_argument('--sar', default='0', type=int)
 parser.add_argument('--sd', default='0', type=int)
@@ -25,7 +25,7 @@ parser.add_argument('--sma', default='0', type=int)
 parser.add_argument('--sp', default='0', type=int)
 
 parser.add_argument('--DataRange', default='All')
-parser.add_argument('--TrainDays', default='60')
+parser.add_argument('--TrainDays', default='365')
 
 args = vars(parser.parse_args())
 

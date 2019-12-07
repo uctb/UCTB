@@ -4,8 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>UCTB.model_unit package &#8212; UCTB  documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <title>5.3. UCTB.model_unit package &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
@@ -14,14 +14,28 @@
     <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-   
-  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
-  
-  
-  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
-
+    <link rel="next" title="5.4. UCTB.model package" href="UCTB.model.html" />
+    <link rel="prev" title="5.2. UCTB.preprocess package" href="UCTB.preprocess.html" /> 
   </head><body>
-  
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="UCTB.model.html" title="5.4. UCTB.model package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="UCTB.preprocess.html" title="5.2. UCTB.preprocess package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="APIReference.html" accesskey="U">5. API Reference</a> &#187;</li> 
+      </ul>
+    </div>  
 
     <div class="document">
       <div class="documentwrapper">
@@ -29,16 +43,29 @@
           <div class="body" role="main">
             
   <div class="section" id="uctb-model-unit-package">
-<h1>UCTB.model_unit package<a class="headerlink" href="#uctb-model-unit-package" title="Permalink to this headline">¶</a></h1>
+<h1>5.3. UCTB.model_unit package<a class="headerlink" href="#uctb-model-unit-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<h2>5.3.1. Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-UCTB.model_unit.BaseModel">
-<span id="uctb-model-unit-basemodel-module"></span><h2>UCTB.model_unit.BaseModel module<a class="headerlink" href="#module-UCTB.model_unit.BaseModel" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-unit-basemodel-module"></span><h2>5.3.2. UCTB.model_unit.BaseModel module<a class="headerlink" href="#module-UCTB.model_unit.BaseModel" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model_unit.BaseModel.BaseModel">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.BaseModel.</code><code class="sig-name descname">BaseModel</code><span class="sig-paren">(</span><em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="simple">
+<dt>BaseModel is the base class for many models, such as STMeta, ST-MGCN and ST_ResNet,</dt><dd><p>you can also build your own model using this class. More information can be found in tutorial.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>code_version</strong> – Current version of this model code, which will be used as filename for saving the model.</p></li>
+<li><p><strong>model_dir</strong> – The directory to store model files. Default:’model_dir’.</p></li>
+<li><p><strong>gpu_device</strong> – To specify the GPU to use. Default: ‘0’.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.add_summary">
 <code class="sig-name descname">add_summary</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em>, <em class="sig-param">global_step</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.add_summary" title="Permalink to this definition">¶</a></dt>
@@ -47,12 +74,18 @@
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.build">
 <code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.build" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Args</dt><dd><p>init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
+max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.close">
 <code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.close" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Close the session, release memory.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.fit">
@@ -74,6 +107,10 @@ early-stopping</p></li>
 <li><p><strong>early_stop_patience</strong> – int, must provide when early_stop_method=’naive’</p></li>
 <li><p><strong>verbose</strong> – Bool, flag to print training information or not</p></li>
 <li><p><strong>save_model</strong> – Bool, flog to save model or not</p></li>
+<li><p><strong>save_model_name</strong> – String, filename for saving the model, which will overwrite the code_version.</p></li>
+<li><p><strong>auto_load_model</strong> – Bool, the “fit” function will automatically load the model from disk, if exists,
+before the training. Set to False to disable the auto-loading.</p></li>
+<li><p><strong>return_outputs</strong> – Bool, set True to return the training log, otherwise nothing will be returned</p></li>
 </ul>
 </dd>
 </dl>
@@ -82,12 +119,24 @@ early-stopping</p></li>
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.load">
 <code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">subscript</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>subscript</strong> – String, subscript will be appended to the code version as the model file name,
+and load the corresponding model using this filename</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.load_event_scalar">
 <code class="sig-name descname">load_event_scalar</code><span class="sig-paren">(</span><em class="sig-param">scalar_name='val_loss'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load_event_scalar" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>scalar_name</strong> – load the corresponding scalar name from tensorboard-file,
+e.g. load_event_scalar(‘val_loss)</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.manual_summary">
@@ -106,22 +155,29 @@ early-stopping</p></li>
 the whole validation dataset</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, …}</p>
-</dd>
 </dl>
+<p>:param : return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, …}</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.BaseModel.BaseModel.save">
 <code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">subscript</em>, <em class="sig-param">global_step</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>subscript</strong> – String, subscript will be appended to the code version as the model filename,
+and save the corresponding model using this filename</p></li>
+<li><p><strong>global_step</strong> – Int, current training steps</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
 </div>
 <div class="section" id="module-UCTB.model_unit.DCRNN_CELL">
-<span id="uctb-model-unit-dcrnn-cell-module"></span><h2>UCTB.model_unit.DCRNN_CELL module<a class="headerlink" href="#module-UCTB.model_unit.DCRNN_CELL" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-unit-dcrnn-cell-module"></span><h2>5.3.3. UCTB.model_unit.DCRNN_CELL module<a class="headerlink" href="#module-UCTB.model_unit.DCRNN_CELL" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.DCRNN_CELL.</code><code class="sig-name descname">DCGRUCell</code><span class="sig-paren">(</span><em class="sig-param">num_units</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">num_graphs</em>, <em class="sig-param">supports</em>, <em class="sig-param">max_diffusion_step</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">num_proj=None</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em>, <em class="sig-param">reuse=None</em>, <em class="sig-param">use_gc_for_ru=True</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell" title="Permalink to this definition">¶</a></dt>
@@ -186,7 +242,7 @@ or TensorShapes.</p>
 
 </div>
 <div class="section" id="module-UCTB.model_unit.GraphModelLayers">
-<span id="uctb-model-unit-graphmodellayers-module"></span><h2>UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#module-UCTB.model_unit.GraphModelLayers" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-unit-graphmodellayers-module"></span><h2>5.3.4. UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#module-UCTB.model_unit.GraphModelLayers" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GAL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
@@ -259,7 +315,7 @@ on the earth (specified in decimal degrees)</p>
 
 </div>
 <div class="section" id="module-UCTB.model_unit.ST_RNN">
-<span id="uctb-model-unit-st-rnn-module"></span><h2>UCTB.model_unit.ST_RNN module<a class="headerlink" href="#module-UCTB.model_unit.ST_RNN" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-unit-st-rnn-module"></span><h2>5.3.5. UCTB.model_unit.ST_RNN module<a class="headerlink" href="#module-UCTB.model_unit.ST_RNN" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model_unit.ST_RNN.GCLSTMCell">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.ST_RNN.</code><code class="sig-name descname">GCLSTMCell</code><span class="sig-paren">(</span><em class="sig-param">units</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_l=1</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
@@ -295,7 +351,7 @@ on the earth (specified in decimal degrees)</p>
 
 </div>
 <div class="section" id="module-UCTB.model_unit">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-UCTB.model_unit" title="Permalink to this headline">¶</a></h2>
+<span id="module-contents"></span><h2>5.3.6. Module contents<a class="headerlink" href="#module-UCTB.model_unit" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -304,13 +360,13 @@ on the earth (specified in decimal degrees)</p>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="index.html">Documentation overview</a><ul>
-  </ul></li>
-</ul>
-</div>
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="UCTB.preprocess.html"
+                        title="previous chapter">5.2. UCTB.preprocess package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="UCTB.model.html"
+                        title="next chapter">5.4. UCTB.model package</a></p>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
@@ -325,20 +381,28 @@ on the earth (specified in decimal degrees)</p>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="footer">
-      &copy;2019, Di Chai, Leye Wang, Jin Xu.
-      
-      |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
-      
-      |
-      <a href="_sources/UCTB.model_unit.rst.txt"
-          rel="nofollow">Page source</a>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="UCTB.model.html" title="5.4. UCTB.model package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="UCTB.preprocess.html" title="5.2. UCTB.preprocess package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="APIReference.html" >5. API Reference</a> &#187;</li> 
+      </ul>
     </div>
-
-    
-
-    
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
   </body>
 </html>

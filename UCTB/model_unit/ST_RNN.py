@@ -5,8 +5,6 @@ from tensorflow.python.keras import backend as K
 from tensorflow.python.keras.utils import tf_utils
 from tensorflow.python.ops import array_ops, linalg_ops, math_ops
 
-from ..model_unit import GCL
-
 
 def _generate_dropout_mask(ones, rate, training=None, count=1):
     def dropped_inputs():

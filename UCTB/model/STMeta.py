@@ -8,6 +8,49 @@ from ..model_unit import GCLSTMCell
 
 
 class STMeta(BaseModel):
+    """
+        Args:
+            num_node(int): Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.
+            external_dim(int): Dimension of the external feature, e.g. temperature and wind are two dimension.
+            closeness_len(int): The length of closeness data history. The former consecutive ``closeness_len`` time slots
+            of data will be used as closeness history.
+            period_len(int): The length of period data history. The data of exact same time slots in former consecutive
+            ``period_len`` days will be used as period history.
+            trend_len(int): The length of trend data history. The data of exact same time slots in former consecutive
+            ``trend_len`` weeks (every seven days) will be used as trend history.
+            num_graph(int): Number of graphs used in STMeta.
+            gcn_k(int): The highest order of Chebyshev Polynomial approximation in GCN.
+            gcn_layers(int): Number of GCN layers.
+            gclstm_layers(int): Number of STRNN layers, it works on all modes of STMeta such as GCLSTM and DCRNN.
+            num_hidden_units(int): Number of hidden units of RNN.
+            num_dense_units(int): Number of dense units.
+            graph_merge_gal_units(int): Number of units in GAL for merging different graph features.
+                Only works when graph_merge='gal'
+            graph_merge_gal_num_heads(int): Number of heads in GAL for merging different graph features.
+                Only works when graph_merge='gal'
+            temporal_merge_gal_units(int): Number of units in GAL for merging different temporal features.
+                Only works when temporal_merge='gal'
+            temporal_merge_gal_num_heads(int): Number of heads in GAL for merging different temporal features.
+                Only works when temporal_merge='gal'
+            st_method(str): must in ['GCLSTM', 'DCRNN', 'GRU', 'LSTM'], which refers to different
+                spatial-temporal modeling methods.
+                'GCLSTM': GCN for modeling spatial feature, LSTM for modeling temporal feature.
+                'DCRNN': Diffusion Convolution for modeling spatial feature, GRU for modeling temporam frature.
+                'GRU': Ignore the spatial, and model the temporal feature using GRU
+                'LSTM': Ignore the spatial, and model the temporal feature using LSTM
+            temporal_merge(str): must in ['gal', 'concat'], refers to different temporal merging methods,
+                'gal': merge using GAL,
+                'concat': merge by concat and dense
+            graph_merge(str): must in ['gal', 'concat'], refers to different graph merging methods,
+                'gal': merge using GAL,
+                'concat': merge by concat and dense
+            output_activation(function): activation function, e.g. tf.nn.tanh
+            lr(float): Learning rate. Default: 1e-5
+            code_version(str): Current version of this model code, which will be used as filename for saving the model
+            model_dir(str): The directory to store model files. Default:'model_dir'.
+            gpu_device(str): To specify the GPU to use. Default: '0'.
+        """
+
     def __init__(self,
                  num_node,
                  external_dim,
@@ -24,13 +67,7 @@ class STMeta(BaseModel):
                  # dense units
                  num_hidden_units=64,
                  # LSTM units
-                 num_filter_conv1x1=32,
-
-                 # temporal attention parameters
-                 tpe_dim=None,
-                 temporal_gal_units=32,
-                 temporal_gal_num_heads=2,
-                 temporal_gal_layers=4,
+                 num_dense_units=32,
 
                  # merge parameters
                  graph_merge_gal_units=32,
@@ -39,16 +76,11 @@ class STMeta(BaseModel):
                  temporal_merge_gal_num_heads=2,
 
                  # network structure parameters
-                 st_method='GCLSTM',       # gclstm
-                 temporal_merge='gal',     # gal
-                 graph_merge='gal',        # concat
+                 st_method='GCLSTM',  # gclstm
+                 temporal_merge='gal',  # gal
+                 graph_merge='gal',  # concat
 
                  output_activation=tf.nn.sigmoid,
-
-                 # Transfer learning
-                 build_sd_regularization=False,
-                 build_transfer=False,
-                 transfer_ratio=0,
 
                  lr=1e-4,
                  code_version='STMeta-QuickStart',
@@ -65,9 +97,6 @@ class STMeta(BaseModel):
         self._temporal_merge_gal_units = temporal_merge_gal_units
         self._temporal_merge_gal_num_heads = temporal_merge_gal_num_heads
         self._gclstm_layers = gclstm_layers
-        self._temporal_gal_units = temporal_gal_units
-        self._temporal_gal_num_heads = temporal_gal_num_heads
-        self._temporal_gal_layers = temporal_gal_layers
         self._num_graph = num_graph
         self._external_dim = external_dim
         self._output_activation = output_activation
@@ -76,21 +105,11 @@ class STMeta(BaseModel):
         self._temporal_merge = temporal_merge
         self._graph_merge = graph_merge
 
-        self._build_transfer = build_transfer
-        self._build_sd_regularization = build_sd_regularization
-        self._transfer_ratio = transfer_ratio
-        if self._build_transfer:
-            assert 0 <= self._transfer_ratio <= 1
-
-        self._tpe_dim = tpe_dim
-        if st_method == 'gal_gcn':
-            assert self._tpe_dim
-
         self._closeness_len = int(closeness_len)
         self._period_len = int(period_len)
         self._trend_len = int(trend_len)
         self._num_hidden_unit = num_hidden_units
-        self._num_filter_conv1x1 = num_filter_conv1x1
+        self._num_dense_units = num_dense_units
         self._lr = lr
     
     def build(self, init_vars=True, max_to_keep=5):
@@ -99,32 +118,20 @@ class STMeta(BaseModel):
             temporal_features = []
 
             if self._closeness_len is not None and self._closeness_len > 0:
-                if self._st_method == 'gclstm' or 'DCRNNN':
-                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1],
-                                                       name='closeness_feature')
-                elif self._st_method == 'gal_gcn':
-                    closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1 + self._tpe_dim],
-                                                       name='closeness_feature')
+                closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1],
+                                                   name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name
                 temporal_features.append([self._closeness_len, closeness_feature, 'closeness_feature'])
 
             if self._period_len is not None and self._period_len > 0:
-                if self._st_method == 'gclstm' or 'DCRNNN':
-                    period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1],
-                                                    name='period_feature')
-                elif self._st_method == 'gal_gcn':
-                    period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1 + self._tpe_dim],
-                                                    name='period_feature')
+                period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1],
+                                                name='period_feature')
                 self._input['period_feature'] = period_feature.name
                 temporal_features.append([self._period_len, period_feature, 'period_feature'])
 
             if self._trend_len is not None and self._trend_len > 0:
-                if self._st_method == 'gclstm' or 'DCRNNN':
-                    trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1],
-                                                   name='trend_feature')
-                elif self._st_method == 'gal_gcn':
-                    trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1 + self._tpe_dim],
-                                                   name='trend_feature')
+                trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1],
+                                               name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name
                 temporal_features.append([self._trend_len, trend_feature, 'trend_feature'])
 
@@ -207,24 +214,6 @@ class STMeta(BaseModel):
 
                         graph_outputs_list.append(tf.reduce_mean(gal_output, axis=-2, keepdims=True))
 
-                # elif self._st_method == 'gal_gcn':
-                #
-                #     attention_input = tf.reshape(tf.concat([e[1] for e in temporal_features], axis=-2),
-                #                                  [-1, sum([e[0] for e in temporal_features]), 1 + self._tpe_dim])
-                #     attention_output_list = []
-                #     for loop_index in range(self._temporal_gal_layers):
-                #         with tf.variable_scope('res_temporal_gal_%s' % loop_index, reuse=False):
-                #             attention_input = GAL.add_residual_ga_layer(attention_input,
-                #                                                         num_head=self._temporal_gal_num_heads,
-                #                                                         units=self._temporal_gal_units)
-                #             attention_output_list.append(attention_input)
-                #
-                #     graph_output = GCL.add_gc_layer(tf.reshape(tf.reduce_mean(attention_output_list[-1], axis=-2),
-                #                                                [-1, self._num_node, attention_output_list[-1].get_shape()[-1].value]),
-                #                                     K=self._gcn_k, laplacian_matrix=laplace_matrix[graph_index])
-                #
-                #     graph_outputs_list.append(tf.reshape(graph_output, [-1, 1, graph_output.get_shape()[-1].value]))
-
             if self._num_graph > 1:
 
                 if self._graph_merge == 'gal':
@@ -244,27 +233,6 @@ class STMeta(BaseModel):
 
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
 
-            if self._build_sd_regularization:
-                sd_sim = tf.placeholder(tf.int32, [None, ])
-                self._input['sd_sim'] = sd_sim.name
-                sd_sim_features = tf.gather(dense_inputs, sd_sim, axis=1)
-                sd_regularization_loss = tf.sqrt(tf.reduce_mean(tf.square(sd_sim_features - dense_inputs)))
-
-            if self._build_transfer:
-                self._output['feature_map'] = dense_inputs.name
-                source_feature_map = tf.placeholder(tf.float32, dense_inputs.shape)
-                self._input['similar_feature_map'] = source_feature_map.name
-                # transfer_loss = tf.reduce_mean(tf.abs(source_feature_map - dense_inputs))
-                transfer_loss = tf.sqrt(tf.reduce_mean(tf.square(source_feature_map - dense_inputs)))
-
-            # dense_inputs = tf.layers.batch_normalization(dense_inputs, axis=-1, name='feature_map')
-            #
-            # batch_mean, batch_variance = tf.nn.moments(dense_inputs, [0, 1, 2], keep_dims=False)
-            #
-            # decay = 0.99
-            # train_mean = tf.assign(pop_mean, pop_mean * decay + batch_mean * (1 - decay))
-            # train_variance = tf.assign(pop_variance, pop_variance * decay + batch_variance * (1 - decay))
-
             dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
 
             # external dims
@@ -276,42 +244,38 @@ class STMeta(BaseModel):
                                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
                 dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
 
-            conv1x1_output0 = tf.keras.layers.Conv2D(filters=self._num_filter_conv1x1,
-                                                     kernel_size=[1, 1],
-                                                     activation=tf.nn.tanh,
-                                                     kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),
-                                                     kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
-                                                     )(dense_inputs)
+            dense_output0 = tf.keras.layers.Dense(units=self._num_dense_units,
+                                                  activation=tf.nn.tanh,
+                                                  use_bias=True,
+                                                  kernel_initializer='glorot_uniform',
+                                                  bias_initializer='zeros',
+                                                  kernel_regularizer=tf.keras.regularizers.l2(0.01),
+                                                  bias_regularizer=tf.keras.regularizers.l2(0.01)
+                                                  )(dense_inputs)
 
-            conv1x1_output1 = tf.keras.layers.Conv2D(filters=self._num_filter_conv1x1,
-                                                     kernel_size=[1, 1],
-                                                     kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),
-                                                     kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
-                                                     activation=tf.nn.tanh,
-                                                     )(conv1x1_output0)
+            dense_output1 = tf.keras.layers.Dense(units=self._num_dense_units,
+                                                  activation=tf.nn.tanh,
+                                                  use_bias=True,
+                                                  kernel_initializer='glorot_uniform',
+                                                  bias_initializer='zeros',
+                                                  kernel_regularizer=tf.keras.regularizers.l2(0.01),
+                                                  bias_regularizer=tf.keras.regularizers.l2(0.01)
+                                                  )(dense_output0)
 
-            pre_output = tf.keras.layers.Conv2D(filters=1,
-                                                kernel_size=[1, 1],
-                                                kernel_initializer=tf.contrib.layers.xavier_initializer(dtype=tf.float32),
-                                                kernel_regularizer=tf.contrib.layers.l2_regularizer(1e-4),
-                                                activation=self._output_activation,
-                                                )(conv1x1_output1)
+            pre_output = tf.keras.layers.Dense(units=1,
+                                               activation=tf.nn.tanh,
+                                               use_bias=True,
+                                               kernel_initializer='glorot_uniform',
+                                               bias_initializer='zeros',
+                                               kernel_regularizer=tf.keras.regularizers.l2(0.01),
+                                               bias_regularizer=tf.keras.regularizers.l2(0.01)
+                                               )(dense_output1)
 
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
 
-            if self._build_sd_regularization:
-                train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre + sd_regularization_loss * 0.1,
-                                                                     name='train_op')
-            else:
-                train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
-
-            if self._build_transfer:
-                transfer_loss = self._transfer_ratio * transfer_loss + (1 - self._transfer_ratio) * loss_pre
-                transfer_op = tf.train.AdamOptimizer(self._lr).minimize(transfer_loss, name='transfer_op')
-                self._output['transfer_loss'] = transfer_loss.name
-                self._op['transfer_op'] = transfer_op.name
+            train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
 
             # record output
             self._output['prediction'] = prediction.name
@@ -328,17 +292,13 @@ class STMeta(BaseModel):
                        closeness_feature=None,
                        period_feature=None,
                        trend_feature=None,
-                       sd_sim=None,
                        target=None,
-                       external_feature=None,
-                       similar_feature_map=None):
+                       external_feature=None):
         feed_dict = {
             'laplace_matrix': laplace_matrix,
         }
         if target is not None:
             feed_dict['target'] = target
-        if similar_feature_map is not None:
-            feed_dict['similar_feature_map'] = similar_feature_map
         if self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_feature'] = external_feature
         if self._closeness_len is not None and self._closeness_len > 0:
@@ -347,6 +307,4 @@ class STMeta(BaseModel):
             feed_dict['period_feature'] = period_feature
         if self._trend_len is not None and self._trend_len > 0:
             feed_dict['trend_feature'] = trend_feature
-        if self._build_sd_regularization and sd_sim is not None:
-            feed_dict['sd_sim'] = sd_sim
         return feed_dict

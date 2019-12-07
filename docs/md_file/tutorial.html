@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>4. Tutorial &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="3. Quick start" href="quickstart.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="3. Quick start"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<h1>4. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="use-datasets-from-uctb-not-yet-finished">
+<h2>4.1. Use datasets from UCTB (Not yet finished)<a class="headerlink" href="#use-datasets-from-uctb-not-yet-finished" title="Permalink to this headline">¶</a></h2>
+<p>UCTB provides <strong>bike traffic data of three cities: NYC, Chicago and DC</strong>. A dataset api was provided to accuse these data.</p>
+<p>For example if we want to use the bike data of NYC, we first initialize a data loader object</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Following are some examples to help you know more about the data:</p>
+<p>Input:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># traffic data </span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Data time range&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_range</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Traffic data shape:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="c1"># The first dimension of data_loader.traffic_data is the length of time-sequence.</span>
+<span class="c1"># the second dimension is the number of stations</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Time fitness:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_fitness</span><span class="p">,</span> <span class="s1">&#39;minutes&#39;</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Time sequence length:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Number of stations:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Data <span class="nb">time</span> range <span class="o">[</span><span class="s1">&#39;2013-07-01&#39;</span>, <span class="s1">&#39;2017-09-30&#39;</span><span class="o">]</span>
+Traffic data shape: <span class="o">(</span><span class="m">37248</span>, <span class="m">717</span><span class="o">)</span>
+Time fitness: <span class="m">60</span> minutes
+Time sequence length: <span class="m">37248</span>
+Number of stations: <span class="m">717</span>
+</pre></div>
+</div>
+<p>Input:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<img src='src/image/toturial_p1_dataplot.png' width=50%></div>
+<div class="section" id="build-your-own-datasets-not-yet-finished">
+<h2>4.2. Build your own datasets (Not yet finished)<a class="headerlink" href="#build-your-own-datasets-not-yet-finished" title="Permalink to this headline">¶</a></h2>
+<p>A genereal data templeate is provided as following:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">release_data</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;TimeRange&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">,</span> <span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">],</span>
+    <span class="s2">&quot;TimeFitness&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="c1"># minutes</span>
+    
+    <span class="s2">&quot;Node&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;TrafficNode&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># with shape [time, num-of-node]</span>
+        <span class="s2">&quot;TrafficMonthlyInteraction&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># with shape [month, num-of-node. num-of-node]</span>
+        <span class="s2">&quot;StationInfo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">time</span><span class="p">,</span> <span class="c1"># Could alos be integer</span>
+                             <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">,</span> <span class="n">name</span><span class="p">]},</span>
+        <span class="s2">&quot;POI&quot;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+	
+    <span class="s2">&quot;Grid&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;TrafficGrid&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;GridLatLng&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s2">&quot;POI&quot;</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;ExternalFeature&quot;</span><span class="p">:</span> <span class="p">{</span>
+         <span class="s2">&quot;Weather&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">time</span><span class="p">,</span> <span class="n">weather</span><span class="o">-</span><span class="n">feature</span><span class="o">-</span><span class="n">dim</span><span class="p">]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-build-in-models-from-uctb">
+<h2>4.3. Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="build-your-own-model-using-uctb">
+<h2>4.4. Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="quickstart.html"
+                        title="previous chapter">3. Quick start</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="quickstart.html" title="3. Quick start"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

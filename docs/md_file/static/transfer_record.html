@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Check-In与POI数据处理方法 &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="check-inpoi">
+<h1>Check-In与POI数据处理方法<a class="headerlink" href="#check-inpoi" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>数据详情<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ol>
+<li><p>时间范围：Apr 2012 ~ Sept 2013</p></li>
+<li><p>三个城市的POI数量与check-in数量</p>
+<p>|  城市   | POI数量(计算城市中心为原点、半径为50km的POI数量) | 日均check-in数量(粗略计算所有站点附近1km的checkin数量总和) |
+| :—–: | :———————————————-: | :——————————————————–: |
+|   NYC   |                      71310                       |                  工作日11707，节假日11358                  |
+| Chicago |                      21949                       |                   工作日2549，节假日2692                   |
+|   DC    |                      21087                       |                   工作日6049，节假日5450                   |</p>
+</li>
+</ol>
+</div>
+<div class="section" id="check-in">
+<h2>Check-In 特征计算方法<a class="headerlink" href="#check-in" title="Permalink to this headline">¶</a></h2>
+<p>计算 2013-07-15 到 2013-09-15 之间，各个自行车站点附近1km的checkin总数量，按照工作日和节假日分开，即每个站点的特征维度为48，分别为工作日、节假日的24小时checkin</p>
+</div>
+<div class="section" id="poi">
+<h2>POI特征计算方法<a class="headerlink" href="#poi" title="Permalink to this headline">¶</a></h2>
+<p>一共有428种POI，每个站点统计附近1km出现的POI类型，即每个站点有428维特征</p>
+</div>
+<div class="section" id="id2">
+<h2>特征相似度方法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>Cosine Similarity</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h1>使用Check-In数据进行相似站点的匹配<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
+<p>|   SD    |   TD    | transfer-ratio | TD-训练样本数量 | TD-Direct |    TD-FT    | TD-Transfer |
+| :—–: | :—–: | :—–: | :————-: | :——-: | :———: | :———: |
+|dc|nyc|0.1|1天|5.35244|<strong>5.15155</strong>|8.97297|
+|dc|nyc|0.1|3天|5.35244|<strong>4.83186</strong>|5.60889|
+|dc|nyc|0.1|5天|5.35244|<strong>4.79484</strong>|4.86073|
+|dc|nyc|0.1|7天|5.35244|<strong>4.83927</strong>|5.09481|
+|dc|chicago|0.1|1天|<strong>3.65903</strong>|3.67704|35.02312|
+|dc|chicago|0.1|3天|3.65903|<strong>3.38682</strong>|4.10283|
+|dc|chicago|0.1|5天|3.65903|<strong>3.39081</strong>|3.44701|
+|dc|chicago|0.1|7天|3.65903|<strong>3.16186</strong>|3.36458|
+|chicago|nyc|0.1|1天|7.48254|<strong>6.19588</strong>|8.28328|
+|chicago|nyc|0.1|3天|7.48254|<strong>5.57436</strong>|5.89025|
+|chicago|nyc|0.1|5天|7.48254|<strong>5.54711</strong>|5.64965|
+|chicago|nyc|0.1|7天|7.48254|<strong>5.26407</strong>|6.34057|
+|chicago|dc|0.1|1天|4.32390|<strong>3.87629</strong>|5.78612|
+|chicago|dc|0.1|3天|<strong>4.32390</strong>|4.99620|4.85723|
+|chicago|dc|0.1|5天|4.32390|<strong>3.26380</strong>|3.38408|
+|chicago|dc|0.1|7天|4.32390|<strong>3.15168</strong>|3.27858|
+|nyc|chicago|0.1|1天|5.17356|<strong>4.43069</strong>|12.75022|
+|nyc|chicago|0.1|3天|5.17356|<strong>3.94628</strong>|4.34232|
+|nyc|chicago|0.1|5天|5.17356|<strong>3.93868</strong>|4.52421|
+|nyc|chicago|0.1|7天|5.17356|3.46738|<strong>3.44230</strong>|
+|nyc|dc|0.1|1天|4.11176|<strong>3.58924</strong>|4.46261|
+|nyc|dc|0.1|3天|4.11176|<strong>3.29204</strong>|4.51947|
+|nyc|dc|0.1|5天|4.11176|<strong>3.22782</strong>|3.44588|
+|nyc|dc|0.1|7天|4.11176|<strong>3.09117</strong>|3.17292|</p>
+</div>
+<div class="section" id="id4">
+<h1>使用POI信息进行相似站点匹配<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
+<p>|   SD    |   TD    | transfer-ratio | TD-训练样本数量 | TD-Direct |    TD-FT    | TD-Transfer |
+| :—–: | :—–: | :—–: | :————-: | :——-: | :———: | :———: |
+|dc|nyc|0.1|1天|5.35244|<strong>5.15155</strong>|7.74238|
+|dc|nyc|0.1|3天|5.35244|<strong>4.83186</strong>|5.22502|
+|dc|nyc|0.1|5天|5.35244|<strong>4.79484</strong>|5.14237|
+|dc|nyc|0.1|7天|5.35244|<strong>4.83927</strong>|5.11173|
+|dc|chicago|0.1|1天|<strong>3.65903</strong>|3.67704|42.10733|
+|dc|chicago|0.1|3天|3.65903|<strong>3.38682</strong>|4.01524|
+|dc|chicago|0.1|5天|3.65903|<strong>3.39081</strong>|3.80654|
+|dc|chicago|0.1|7天|3.65903|<strong>3.16186</strong>|3.40228|
+|chicago|nyc|0.1|1天|7.48254|<strong>6.19588</strong>|9.68558|
+|chicago|nyc|0.1|3天|7.48254|<strong>5.57436</strong>|6.06141|
+|chicago|nyc|0.1|5天|7.48254|<strong>5.54711</strong>|5.64207|
+|chicago|nyc|0.1|7天|7.48254|<strong>5.26407</strong>|5.95202|
+|chicago|dc|0.1|1天|4.32390|<strong>3.87629</strong>|7.71124|
+|chicago|dc|0.1|3天|<strong>4.32390</strong>|4.99620|5.20308|
+|chicago|dc|0.1|5天|4.32390|<strong>3.26380</strong>|3.41202|
+|chicago|dc|0.1|7天|4.32390|<strong>3.15168</strong>|3.36520|
+|nyc|chicago|0.1|1天|5.17356|<strong>4.43069</strong>|8.70660|
+|nyc|chicago|0.1|3天|5.17356|<strong>3.94628</strong>|4.68907|
+|nyc|chicago|0.1|5天|5.17356|<strong>3.93868</strong>|4.71885|
+|nyc|chicago|0.1|7天|5.17356|<strong>3.46738</strong>|3.54126|
+|nyc|dc|0.1|1天|4.11176|<strong>3.58924</strong>|4.54878|
+|nyc|dc|0.1|3天|4.11176|<strong>3.29204</strong>|6.51714|
+|nyc|dc|0.1|5天|4.11176|<strong>3.22782</strong>|3.50503|
+|nyc|dc|0.1|7天|4.11176|<strong>3.09117</strong>|3.35844|</p>
+<p>|   SD    |   TD    | transfer-ratio | TD-训练样本数量 | TD-Direct |    TD-FT    | TD-Transfer |
+| :—–: | :—–: | :—–: | :————-: | :——-: | :———: | :———: |
+|dc|nyc|0.2|1天|5.35244|<strong>5.15155</strong>|8.01029|
+|dc|nyc|0.2|3天|5.35244|<strong>4.83186</strong>|5.52622|
+|dc|nyc|0.2|5天|5.35244|<strong>4.79484</strong>|5.30417|
+|dc|nyc|0.2|7天|5.35244|<strong>4.83927</strong>|6.07645|
+|dc|nyc|0.2|9天|5.35244|<strong>4.93593</strong>|5.96554|
+|dc|chicago|0.2|1天|<strong>3.65903</strong>|3.67704|46.02469|
+|dc|chicago|0.2|3天|3.65903|<strong>3.38682</strong>|4.22828|
+|dc|chicago|0.2|5天|3.65903|<strong>3.39081</strong>|4.37432|
+|dc|chicago|0.2|7天|3.65903|<strong>3.16186</strong>|3.56052|
+|dc|chicago|0.2|9天|3.65903|<strong>3.12768</strong>|3.39922|
+|nyc|chicago|0.2|1天|5.17356|<strong>4.43069</strong>|11.41116|
+|nyc|chicago|0.2|3天|5.17356|<strong>3.94628</strong>|4.55703|
+|nyc|chicago|0.2|5天|5.17356|<strong>3.93868</strong>|4.31149|
+|nyc|chicago|0.2|7天|5.17356|<strong>3.46738</strong>|3.59811|
+|nyc|chicago|0.2|9天|5.17356|<strong>3.37643</strong>|3.48236|
+|nyc|dc|0.2|1天|4.11176|<strong>3.58924</strong>|5.95973|
+|nyc|dc|0.2|3天|4.11176|<strong>3.29204</strong>|5.09110|
+|nyc|dc|0.2|5天|4.11176|<strong>3.22782</strong>|4.01670|
+|nyc|dc|0.2|7天|4.11176|<strong>3.09117</strong>|3.34005|
+|nyc|dc|0.2|9天|4.11176|<strong>3.02813</strong>|3.31671|
+|chicago|nyc|0.2|1天|7.48254|<strong>6.19588</strong>|9.18276|
+|chicago|nyc|0.2|3天|7.48254|<strong>5.57436</strong>|5.94807|
+|chicago|nyc|0.2|5天|7.48254|<strong>5.54711</strong>|6.02357|
+|chicago|nyc|0.2|7天|7.48254|<strong>5.26407</strong>|6.02906|
+|chicago|nyc|0.2|9天|7.48254|<strong>5.21905</strong>|5.96555|
+|chicago|dc|0.2|1天|4.32390|<strong>3.87629</strong>|5.75511|
+|chicago|dc|0.2|3天|<strong>4.32390</strong>|4.99620|7.56254|
+|chicago|dc|0.2|5天|4.32390|<strong>3.26380</strong>|4.44143|
+|chicago|dc|0.2|7天|4.32390|<strong>3.15168</strong>|3.65643|
+|chicago|dc|0.2|9天|4.32390|<strong>3.13602</strong>|3.25901|</p>
+</div>
+<div class="section" id="transfer">
+<h1>分析Transfer效果在城市中的分布<a class="headerlink" href="#transfer" title="Permalink to this headline">¶</a></h1>
+<p>绿色的点表示transfer效果好于finetune，红色代表差于finetune</p>
+<div class="section" id="target-city-dc">
+<h2>Target City DC<a class="headerlink" href="#target-city-dc" title="Permalink to this headline">¶</a></h2>
+<p>左侧为 Chicago=&gt;DC，Overall result ：Finetune 3.13602，Transfer 3.25901</p>
+<p>右侧为 NYC=&gt;DC，Overall result ：Finetune 3.02813，Transfer 3.31671</p>
+<p><img alt="1567254312266" src="md_file\static\..%5Csrc%5Cimage%5Ctransfer_dc.png" /></p>
+</div>
+<div class="section" id="target-city-nyc">
+<h2>Target City NYC<a class="headerlink" href="#target-city-nyc" title="Permalink to this headline">¶</a></h2>
+<p>左侧为 DC =&gt; NYC，Overall result ：Finetune 4.93593，Transfer 5.96554</p>
+<p>右侧为 Chicago =&gt;NYC，Overall result ：Finetune 5.21905，Transfer 5.96555</p>
+<p><img alt="1567253682671" src="md_file\static\..%5Csrc%5Cimage%5Ctransfer_nyc.png" /></p>
+</div>
+<div class="section" id="target-city-chicago">
+<h2>Target City Chicago<a class="headerlink" href="#target-city-chicago" title="Permalink to this headline">¶</a></h2>
+<p>左侧为 NYC=&gt;Chicago，Overall result ：Finetune 3.37643，Transfer 3.48236</p>
+<p>右侧为 DC=&gt;Chicago，Overall result ：Finetune 3.12768，Transfer 3.39922</p>
+<p><img alt="1567255183794" src="md_file\static\..%5Csrc%5Cimage%5Ctransfer_chicago.png" /></p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">UCTB  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+    </div>
+  </body>
+</html>

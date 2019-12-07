@@ -5,7 +5,21 @@ from ..model_unit.GraphModelLayers import GCL
 
 
 class ST_MGCN(BaseModel):
-
+    """
+    Args:
+        T(int): Input sequence length
+        input_dim(int): Input feature dimension
+        num_graph(int): Number of graphs used in the model.
+        gcl_k(int): The highest order of Chebyshev Polynomial approximation in GCN.
+        gcl_l(int): Number of GCN layers.
+        lstm_units(int): Number of hidden units of RNN.
+        lstm_layers(int): Number of LSTM layers.
+        lr(float): Learning rate
+        external_dim(int): Dimension of the external feature, e.g. temperature and wind are two dimension.
+        code_version(str): Current version of this model code, which will be used as filename for saving the model
+        model_dir(str): The directory to store model files. Default:'model_dir'.
+        gpu_device(str): To specify the GPU to use. Default: '0'.
+    """
     def __init__(self,
                  T,
                  input_dim,

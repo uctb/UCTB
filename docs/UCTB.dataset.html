@@ -190,6 +190,39 @@ and construction.</p>
 <code class="sig-name descname">build_graph</code><span class="sig-paren">(</span><em class="sig-param">graph_name</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.build_graph" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.make_concat">
+<code class="sig-name descname">make_concat</code><span class="sig-paren">(</span><em class="sig-param">node='all'</em>, <em class="sig-param">is_train=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.make_concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to concatenate all closeness, period and trend history data to use as inputs of models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (int or <code class="docutils literal notranslate"><span class="pre">'all'</span></code>) – To specify the index of certain node. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, return the concatenation
+result of all nodes. If set to an integer, it will be the index of the selected node. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
+<li><p><strong>is_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">train_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">train_trend</span></code> will be
+concatenated. If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">test_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">test_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">test_trend</span></code> will be
+concatenated. Default: True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Function returns an ndarray with shape as
+[time_slot_num, <code class="docutils literal notranslate"><span class="pre">station_number</span></code>, <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> + <code class="docutils literal notranslate"><span class="pre">period_len</span></code> + <code class="docutils literal notranslate"><span class="pre">trend_len</span></code>, 1],
+and time_slot_num is the temporal length of train set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>
+or the temporal length of test set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+On the second dimension, data are arranged as
+<code class="docutils literal notranslate"><span class="pre">earlier</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">trend</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">trend</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.st_map">
+<code class="sig-name descname">st_map</code><span class="sig-paren">(</span><em class="sig-param">zoom=11</em>, <em class="sig-param">style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp'</em>, <em class="sig-param">build_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.st_map" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
 <dl class="class">
@@ -222,39 +255,6 @@ and construction.</p>
 <dd></dd></dl>
 
 </dd></dl>
-
-<dl class="function">
-<dt id="UCTB.dataset.data_loader.make_concat">
-<code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">make_concat</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">node='all'</em>, <em class="sig-param">is_train=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.make_concat" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function to concatenate all closeness, period and trend history data to use as inputs of models.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>node</strong> (int or <code class="docutils literal notranslate"><span class="pre">'all'</span></code>) – To specify the index of certain node. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, return the concatenation
-result of all nodes. If set to an integer, it will be the index of the selected node. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
-<li><p><strong>is_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">train_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">train_trend</span></code> will be
-concatenated. If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">test_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">test_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">test_trend</span></code> will be
-concatenated. Default: True</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Function returns an ndarray with shape as
-[time_slot_num, <code class="docutils literal notranslate"><span class="pre">station_number</span></code>, <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> + <code class="docutils literal notranslate"><span class="pre">period_len</span></code> + <code class="docutils literal notranslate"><span class="pre">trend_len</span></code>, 1],
-and time_slot_num is the temporal length of train set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>
-or the temporal length of test set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.
-On the second dimension, data are arranged as
-<code class="docutils literal notranslate"><span class="pre">earlier</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">trend</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">trend</span></code>.</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.dataset.data_loader.st_map">
-<code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">st_map</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">zoom=11</em>, <em class="sig-param">style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp'</em>, <em class="sig-param">build_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.st_map" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 <div class="section" id="module-UCTB.dataset.dataset">
@@ -405,7 +405,7 @@ Its an optional attribute and can be set as an empty list if distance graph is n
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, UCTB group.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
     </div>
   </body>
 </html>

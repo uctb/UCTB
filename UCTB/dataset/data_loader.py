@@ -397,7 +397,6 @@ class NodeTrafficLoader(object):
                 self.dataset.data.get('contribute_data').get('graph_transfer'))
         return AM, LM
 
-
     def st_map(self, zoom=11, style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp', build_order=None):
         if self.dataset.node_station_info is None or len(self.dataset.node_station_info) == 0:
             raise ValueError('No station information found in dataset')
@@ -455,7 +454,6 @@ class NodeTrafficLoader(object):
 
         fig = dict(data=bikeStations, layout=layout)
         plotly.offline.plot(fig, filename=file_name)
-
 
     def make_concat(self, node='all', is_train=True):
         """A function to concatenate all closeness, period and trend history data to use as inputs of models.

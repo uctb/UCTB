@@ -6,6 +6,13 @@ from ..model_unit.GraphModelLayers import GCL
 
 class ST_MGCN(BaseModel):
     """
+
+    References:
+        - `Spatiotemporal multi-graph convolution network for ride-hailing demand forecasting (Geng Xu, et al., 2019)
+          <http://www-scf.usc.edu/~yaguang/papers/aaai19_multi_graph_convolution.pdf>`_.
+        - `A PyTorch implementation of the ST-MGCN model  (shawnwang-tech)
+          <https://github.com/shawnwang-tech/ST-MGCN-pytorch>`_.
+
     Args:
         T(int): Input sequence length
         input_dim(int): Input feature dimension

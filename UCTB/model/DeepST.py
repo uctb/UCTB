@@ -13,8 +13,9 @@ class DeepST(BaseModel):
     far spatial dependencies; 3) early and late fusions: fusing
     similar and different domains' data.
 
-    Reference: `DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)
-    <https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf>`_.
+    Reference:
+        - `DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)
+          <https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf>`_.
 
     Args:
         closeness_len (int): The length of closeness data history. The former consecutive ``closeness_len`` time slots

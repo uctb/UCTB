@@ -8,6 +8,13 @@ from tensorflow.contrib import legacy_seq2seq
 
 class DCRNN(BaseModel):
     """
+
+    References:
+        - `Diffusion convolutional recurrent neural network: Data-driven traffic forecasting (Li Yaguang, et al., 2017)
+          <https://arxiv.org/pdf/1707.01926.pdf>`_.
+        - `A TensorFlow implementation of Diffusion Convolutional Recurrent Neural Network (liyaguang)
+          <https://github.com/liyaguang/DCRNN>`_.
+
     Args:
         num_nodes(int): Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.
         num_diffusion_matrix: Number of diffusion matrix used in model.

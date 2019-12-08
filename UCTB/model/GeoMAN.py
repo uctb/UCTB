@@ -11,12 +11,11 @@ class GeoMAN(BaseModel):
             dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,
             meteorology, time of day and land use).
 
-            Reference:
-                `GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang, Yuxuan, et al., 2018)
-                <https://www.ijcai.org/proceedings/2018/0476.pdf>`_.
-
-                `An easy implement of GeoMAN using TensorFlow (yoshall & CastleLiang)
-                <https://github.com/yoshall/GeoMAN>`_.
+            References:
+                - `GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang Yuxuan, et al., 2018)
+                  <https://www.ijcai.org/proceedings/2018/0476.pdf>`_.
+                - `An easy implement of GeoMAN using TensorFlow (yoshall & CastleLiang)
+                  <https://github.com/yoshall/GeoMAN>`_.
 
             Args:
                 total_sensers (int): The number of total sensors used in global attention mechanism.

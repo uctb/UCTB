@@ -77,6 +77,11 @@
 <dt id="UCTB.model.DCRNN.DCRNN">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DCRNN.</code><code class="sig-name descname">DCRNN</code><span class="sig-paren">(</span><em class="sig-param">num_nodes</em>, <em class="sig-param">num_diffusion_matrix</em>, <em class="sig-param">num_rnn_units=64</em>, <em class="sig-param">num_rnn_layers=1</em>, <em class="sig-param">max_diffusion_step=2</em>, <em class="sig-param">seq_len=6</em>, <em class="sig-param">use_curriculum_learning=False</em>, <em class="sig-param">input_dim=1</em>, <em class="sig-param">output_dim=1</em>, <em class="sig-param">cl_decay_steps=1000</em>, <em class="sig-param">target_len=1</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">epsilon=0.001</em>, <em class="sig-param">optimizer_name='Adam'</em>, <em class="sig-param">code_version='DCRNN-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DCRNN.DCRNN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1707.01926.pdf">Diffusion convolutional recurrent neural network: Data-driven traffic forecasting (Li Yaguang, et al., 2017)</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/liyaguang/DCRNN">A TensorFlow implementation of Diffusion Convolutional Recurrent Neural Network (liyaguang)</a>.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -124,7 +129,12 @@ instances: describing temporal closeness, period and seasonal
 trend; 2) convolutional neural networks: capturing near and
 far spatial dependencies; 3) early and late fusions: fusing
 similar and different domains’ data.</p>
-<p>Reference: <a class="reference external" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)</a>.</p>
+<dl class="simple">
+<dt>Reference:</dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)</a>.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -168,11 +178,11 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal
 dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,
 meteorology, time of day and land use).</p>
-<dl>
-<dt>Reference:</dt><dd><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0476.pdf">GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang, Yuxuan, et al., 2018)</a>.</p>
-<p><a class="reference external" href="https://github.com/yoshall/GeoMAN">An easy implement of GeoMAN using TensorFlow (yoshall &amp; CastleLiang)</a>.</p>
-</dd>
-</dl>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0476.pdf">GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang Yuxuan, et al., 2018)</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/yoshall/GeoMAN">An easy implement of GeoMAN using TensorFlow (yoshall &amp; CastleLiang)</a>.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -322,6 +332,11 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dt id="UCTB.model.ST_MGCN.ST_MGCN">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_MGCN.</code><code class="sig-name descname">ST_MGCN</code><span class="sig-paren">(</span><em class="sig-param">T</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">num_graph</em>, <em class="sig-param">gcl_k</em>, <em class="sig-param">gcl_l</em>, <em class="sig-param">lstm_units</em>, <em class="sig-param">lstm_layers</em>, <em class="sig-param">lr</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="http://www-scf.usc.edu/~yaguang/papers/aaai19_multi_graph_convolution.pdf">Spatiotemporal multi-graph convolution network for ride-hailing demand forecasting (Geng Xu, et al., 2019)</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/shawnwang-tech/ST-MGCN-pytorch">A PyTorch implementation of the ST-MGCN model  (shawnwang-tech)</a>.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -359,7 +374,11 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
 <p>ST-ResNet is a deep-learning model with an end-to-end structure
 based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
-<p>Reference: <a class="reference external" href="https://arxiv.org/pdf/1610.00081.pdf">Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)</a>.</p>
+<p class="rubric">References</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1610.00081.pdf">Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)</a>.</p></li>
+<li><p><a class="reference external" href="https://github.com/lucktroy/DeepST/tree/master/scripts/papers/AAAI17">Github code (lucktroy)</a>.</p></li>
+</ul>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -463,7 +482,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+        &#169; Copyright 2019, UCTB group.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>

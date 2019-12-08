@@ -7,9 +7,11 @@ class ST_ResNet(BaseModel):
     """ST-ResNet is a deep-learning model with an end-to-end structure
     based on unique properties of spatio-temporal data making use of convolution and residual units.
 
-    Reference: `Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)
-    <https://arxiv.org/pdf/1610.00081.pdf>`_.
-
+    References:
+        - `Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)
+          <https://arxiv.org/pdf/1610.00081.pdf>`_.
+        - `Github code (lucktroy)
+          <https://github.com/lucktroy/DeepST/tree/master/scripts/papers/AAAI17>`_.
     Args:
         width (int): The width of grid data.
         height (int): The height of grid data.

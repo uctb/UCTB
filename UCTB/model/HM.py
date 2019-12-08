@@ -5,7 +5,16 @@ warnings.filterwarnings("ignore")
 
 
 class HM(object):
+    '''
+    Historical Mean. A naive method that simply return average of hisrory data of each time slot.
 
+    Args:
+        c(int): The number of time slots of closeness history. 
+        p (int): The number of time slots of period history which presents daily feature.
+        t (int): The number of time slots of trend history which presents weekly feature.
+        Note that `(c, p, t)` cannot all be zero at the same time. They denote how many
+        features should be considerd in average.
+    '''
     def __init__(self, c, p, t):
 
         self.c = c
@@ -16,7 +25,9 @@ class HM(object):
             raise ValueError('c p t cannot all be zero at the same time')
 
     def predict(self, closeness_feature, period_feature, trend_feature):
-
+        '''
+        Give closeness, period and trend history values and then use their averages as predict.
+        '''
         prediction = []
 
         if self.c > 0:

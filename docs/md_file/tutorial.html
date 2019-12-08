@@ -43,55 +43,61 @@
             
   <div class="section" id="tutorial">
 <h1>4. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="use-datasets-from-uctb-not-yet-finished">
-<h2>4.1. Use datasets from UCTB (Not yet finished)<a class="headerlink" href="#use-datasets-from-uctb-not-yet-finished" title="Permalink to this headline">¶</a></h2>
-<p>UCTB provides <strong>bike traffic data of three cities: NYC, Chicago and DC</strong>. A dataset api was provided to accuse these data.</p>
-<p>For example if we want to use the bike data of NYC, we first initialize a data loader object</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">)</span>
+<div class="section" id="use-datasets-from-uctb">
+<h2>4.1. Use datasets from UCTB<a class="headerlink" href="#use-datasets-from-uctb" title="Permalink to this headline">¶</a></h2>
+<p>UCTB is designed for urban computing in various scenarios. Currently, It presets a public dataset about bikesharing. This dataset was collected from U.S. open data portals, including 49 million, 13 million, and 14 million historical flow records in <a class="reference external" href="https://www.citibikenyc.com/system-data">New York City</a> (<code class="docutils literal notranslate"><span class="pre">NYC</span></code>), <a class="reference external" href="https://www.divvybikes.com/system-data">Chicago</a> (<code class="docutils literal notranslate"><span class="pre">Chicago</span></code>) and <a class="reference external" href="https://www.capitalbikeshare.com/system-data">Washington, D.C</a> (<code class="docutils literal notranslate"><span class="pre">DC</span></code>), respectively. Each record contains the start station, start time, stop station, stop time, etc. We predict the number of bikesharing demands in each station (i.e., the number of bike borrowers).</p>
+<p>In the future version, we consider releasing more datasets covering other applications such as ridesharing, metro traffic flow, and electrical charging station usage. <strong>If you are interested in this project, making a contribution to the dataset is strongly welcomed :)</strong></p>
+<p>To help better accuse dataset, UCTB provides data loader APIs <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code>, which can be used to preprocess data, including data division, normalization, and extract temporal and spatial knowledge.</p>
+<p>In the following tutorial, we illustrate how to use <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code> APIs to inspect the bikesharing dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset.data_loader</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 </pre></div>
 </div>
-<p>Following are some examples to help you know more about the data:</p>
-<p>Input:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># traffic data </span>
+<p>We use 10% (<code class="docutils literal notranslate"><span class="pre">data_range=0.1</span></code>) of the bike data in New York as an example. Firstly, let’s initialize a <code class="docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Take a look at the necessary information about the dataset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Traffic data </span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Data time range&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_range</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Traffic data shape:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="c1"># The first dimension of data_loader.traffic_data is the length of time-sequence.</span>
-<span class="c1"># the second dimension is the number of stations</span>
+<span class="c1"># The second dimension is the number of stations.</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Time fitness:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_fitness</span><span class="p">,</span> <span class="s1">&#39;minutes&#39;</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Time sequence length:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Number of stations:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Output:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Data <span class="nb">time</span> range <span class="o">[</span><span class="s1">&#39;2013-07-01&#39;</span>, <span class="s1">&#39;2017-09-30&#39;</span><span class="o">]</span>
-Traffic data shape: <span class="o">(</span><span class="m">37248</span>, <span class="m">717</span><span class="o">)</span>
-Time fitness: <span class="m">60</span> minutes
-Time sequence length: <span class="m">37248</span>
-Number of stations: <span class="m">717</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">time</span> <span class="nb">range</span> <span class="p">[</span><span class="s1">&#39;2013-07-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-09-30&#39;</span><span class="p">]</span>
+<span class="n">Traffic</span> <span class="n">data</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">3724</span><span class="p">,</span> <span class="mi">717</span><span class="p">)</span>
+<span class="n">Time</span> <span class="n">fitness</span><span class="p">:</span> <span class="mi">60</span> <span class="n">minutes</span>
+<span class="n">Time</span> <span class="n">sequence</span> <span class="n">length</span><span class="p">:</span> <span class="mi">3724</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">stations</span><span class="p">:</span> <span class="mi">717</span>
 </pre></div>
 </div>
-<p>Input:</p>
+<p>Visualize the distribution of the traffic data:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>Output:</p>
-<img src='src/image/toturial_p1_dataplot.png' width=50%></div>
-<div class="section" id="build-your-own-datasets-not-yet-finished">
-<h2>4.2. Build your own datasets (Not yet finished)<a class="headerlink" href="#build-your-own-datasets-not-yet-finished" title="Permalink to this headline">¶</a></h2>
-<p>A genereal data templeate is provided as following:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">release_data</span> <span class="o">=</span> <span class="p">{</span>
+<p><img alt="png" src="../_images/toturial_p1_dataplot.png" /></p>
+</div>
+<div class="section" id="build-your-own-datasets">
+<h2>4.2. Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h2>
+<p>To make loader APIs compatible with your own data, you can store it in a <code class="docutils literal notranslate"><span class="pre">dict</span></code> variable with formats as follows.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s say ``my_dataset`` is your dataset.</span>
+<span class="n">my_dataset</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;TimeRange&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">,</span> <span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">],</span>
-    <span class="s2">&quot;TimeFitness&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="c1"># minutes</span>
+    <span class="s2">&quot;TimeFitness&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span> <span class="c1"># Minutes</span>
     
     <span class="s2">&quot;Node&quot;</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s2">&quot;TrafficNode&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># with shape [time, num-of-node]</span>
-        <span class="s2">&quot;TrafficMonthlyInteraction&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># with shape [month, num-of-node. num-of-node]</span>
-        <span class="s2">&quot;StationInfo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">time</span><span class="p">,</span> <span class="c1"># Could alos be integer</span>
+        <span class="s2">&quot;TrafficNode&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># With shape [time, num-of-node]</span>
+        <span class="s2">&quot;TrafficMonthlyInteraction&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># With shape [month, num-of-node. num-of-node]</span>
+        <span class="s2">&quot;StationInfo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">time</span><span class="p">,</span> <span class="c1"># Could also be int</span>
                              <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">,</span> <span class="n">name</span><span class="p">]},</span>
         <span class="s2">&quot;POI&quot;</span><span class="p">:</span> <span class="p">[]</span>
     <span class="p">},</span>
-	
+
     <span class="s2">&quot;Grid&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;TrafficGrid&quot;</span><span class="p">:</span> <span class="p">[],</span>
         <span class="s2">&quot;GridLatLng&quot;</span><span class="p">:</span> <span class="p">[],</span>
@@ -104,12 +110,128 @@ Number of stations: <span class="m">717</span>
 <span class="p">}</span>
 </pre></div>
 </div>
+<p>And then save it with package <code class="docutils literal notranslate"><span class="pre">pickle</span></code> to a local path <code class="docutils literal notranslate"><span class="pre">pkl_file_name</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
+<span class="n">pkl_file_name</span> <span class="o">=</span> <span class="s1">&#39;./my_dataset.pkl&#39;</span>  
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pkl_file_name</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+    <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">my_dataset</span><span class="p">,</span> <span class="n">handle</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="n">pickle</span><span class="o">.</span><span class="n">HIGHEST_PROTOCOL</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Finally, you can make uses of your dataset by UCTB’s loader APIs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">pkl_file_name</span><span class="p">)</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="use-build-in-models-from-uctb">
 <h2>4.3. Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="use-single-temporal-feature-in-regression">
+<h3>4.3.1. Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h3>
+<p>UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or for all stations. You can find the concrete instruction in <code class="docutils literal notranslate"><span class="pre">UCTB.model</span></code>.</p>
+<p>The following example shows how to use a <strong>Hidden Markov model</strong> to handle a simple time series predicting problem. We will predict the the number of bikesharing demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code>(i.e., the number of bike borrowers) for a specific station <code class="docutils literal notranslate"><span class="pre">target_node</span></code>. In this case, the model takes a few recent timesteps in the past as inputs and then predict the future.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">HMM</span>
+<span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
+<span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
+</pre></div>
 </div>
-<div class="section" id="build-your-own-model-using-uctb">
-<h2>4.4. Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
+                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Split the data into train and test set.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">target_node</span> <span class="o">=</span> <span class="mi">233</span>
+<span class="n">train_x</span><span class="p">,</span> <span class="n">test_x</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">:</span><span class="n">target_node</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Inspect the shape of data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2967</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">745</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">745</span><span class="p">,)</span>
+</pre></div>
+</div>
+<p>Build the model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">HMM</span><span class="p">(</span><span class="n">num_components</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now, we can fit the model to the train dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">train_x</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="p">:</span> <span class="n">converged</span>
+</pre></div>
+</div>
+<p>When the model is converged, we make predictions on test data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">test_x</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can evaluate the performance of the model by build-in <code class="docutils literal notranslate"><span class="pre">UCTB.evaluation</span></code> APIs.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_rmse</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">test_rmse</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.76137200105079</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="use-multiple-temporal-features-in-regression">
+<h3>4.3.2. Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h3>
+<p>In this case, let’s take more temporal knowledge about <code class="docutils literal notranslate"><span class="pre">target_node</span></code> into account. Specifically, we will concatenate factors, including <code class="docutils literal notranslate"><span class="pre">closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">period</span></code>, and <code class="docutils literal notranslate"><span class="pre">trend</span></code>, and use <strong>XGBoost</strong> as the predicting model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">XGBoost</span>
+<span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
+<span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
+
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
+                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">target_node</span> <span class="o">=</span> <span class="mi">233</span>
+<span class="n">train_closeness</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">train_period</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">train_trend</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">test_closeness</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">test_period</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">test_trend</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">test_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+
+<span class="n">train_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">train_closeness</span><span class="p">,</span> <span class="n">train_period</span><span class="p">,</span> <span class="n">train_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">test_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">test_closeness</span><span class="p">,</span> <span class="n">test_period</span><span class="p">,</span> <span class="n">test_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">train_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:linear&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">RMSE</span> <span class="mf">3.3267457</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="build-your-own-model-using-uctb-not-yet-finished">
+<h2>4.4. Build your own model using UCTB (Not yet finished)<a class="headerlink" href="#build-your-own-model-using-uctb-not-yet-finished" title="Permalink to this headline">¶</a></h2>
+<hr class="docutils" />
+<p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
 </div>
 </div>
 
@@ -159,7 +281,7 @@ Number of stations: <span class="m">717</span>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, UCTB group.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

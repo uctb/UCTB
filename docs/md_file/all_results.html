@@ -41,190 +41,1180 @@
 <h1>6. Results on different datasets<a class="headerlink" href="#results-on-different-datasets" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="amultigclstm-version">
 <h2>6.1. AMultiGCLSTM Version<a class="headerlink" href="#amultigclstm-version" title="Permalink to this headline">¶</a></h2>
-<p>|                         Version Name                         | Temporal Feature Process | Temporal Merge Method | Multi-Graph Merge Method |
-| :———————————————————-: | :———————-: | :——————-: | :———————-: |
-|                       AMulti-GCLSTM-V1                       |          GCLSTM          |          GAL          |           GAL            |
-|                       AMulti-GCLSTM-V2                       |          GCLSTM          |     Concat+Dense      |           GAL            |
-| ~~AMulti-GCLSTM-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索) |           RGAL           |          GAL          |           GAL            |</p>
-<p>By default, we use <code class="docutils literal notranslate"><span class="pre">AMulti-GCLSTM-V1</span></code> to run LSTM and single graph model tests.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Version Name</th>
+<th align="center">Temporal Feature Process</th>
+<th align="center">Temporal Merge Method</th>
+<th align="center">Multi-Graph Merge Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">AMulti-GCLSTM-V1</td>
+<td align="center">GCLSTM</td>
+<td align="center">GAL</td>
+<td align="center">GAL</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2</td>
+<td align="center">GCLSTM</td>
+<td align="center">Concat+Dense</td>
+<td align="center">GAL</td>
+</tr>
+<tr>
+<td align="center">~~AMulti-GCLSTM-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索)</td>
+<td align="center">RGAL</td>
+<td align="center">GAL</td>
+<td align="center">GAL</td>
+</tr>
+</tbody>
+</table><p>By default, we use <code class="docutils literal notranslate"><span class="pre">AMulti-GCLSTM-V1</span></code> to run LSTM and single graph model tests.</p>
 </div>
 <div class="section" id="search-space">
 <h2>6.2. Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h2>
-<p>|      Model       |                         Search Space                         |
-| :————–: | :———————————————————-: |
-|        HM        |               <code class="docutils literal notranslate"><span class="pre">CT:</span> <span class="pre">0~6</span></code>, <code class="docutils literal notranslate"><span class="pre">PT:</span> <span class="pre">0~7</span></code>, <code class="docutils literal notranslate"><span class="pre">TT:</span> <span class="pre">0~4</span></code>                |
-|      ARIMA       |                                                              |
-|       HMM        |                                                              |
-|    ST_ResNet     |                           <code class="docutils literal notranslate"><span class="pre">待补充</span></code>                           |
-|     XGBoost      | <code class="docutils literal notranslate"><span class="pre">CT:</span> <span class="pre">0~12</span></code>, <code class="docutils literal notranslate"><span class="pre">PT:</span> <span class="pre">0~14</span></code>, <code class="docutils literal notranslate"><span class="pre">TT:</span> <span class="pre">0~4</span></code>, <code class="docutils literal notranslate"><span class="pre">estimater:</span> <span class="pre">10~200</span></code>, <code class="docutils literal notranslate"><span class="pre">depth:</span> <span class="pre">2~10</span></code> |
-|       GBRT       | <code class="docutils literal notranslate"><span class="pre">CT:</span> <span class="pre">0~12</span></code>, <code class="docutils literal notranslate"><span class="pre">PT:</span> <span class="pre">0~14</span></code>, <code class="docutils literal notranslate"><span class="pre">TT:</span> <span class="pre">0~4</span></code>, <code class="docutils literal notranslate"><span class="pre">estimater:</span> <span class="pre">10~200</span></code>, <code class="docutils literal notranslate"><span class="pre">depth:</span> <span class="pre">2~10</span></code> |
-|       LSTM       | <code class="docutils literal notranslate"><span class="pre">lstm_layers:</span> <span class="pre">1~3</span></code>, <code class="docutils literal notranslate"><span class="pre">lstm_hidden_units:</span> <span class="pre">32~128</span> </code>, <code class="docutils literal notranslate"><span class="pre">dense_units:</span> <span class="pre">32~128</span></code>, <code class="docutils literal notranslate"><span class="pre">temp_merge_heads:</span> <span class="pre">2~4</span></code>, <code class="docutils literal notranslate"><span class="pre">temp_merge_units:</span> <span class="pre">32~128</span></code> |
-| AMulti-GCLSTM-V1 | <code class="docutils literal notranslate"><span class="pre">gcn_k:</span> <span class="pre">1~3</span></code>, <code class="docutils literal notranslate"><span class="pre">gcn_l:</span> <span class="pre">1~3</span></code> <code class="docutils literal notranslate"><span class="pre">gclstm_layers:</span> <span class="pre">1~3</span></code>, <code class="docutils literal notranslate"><span class="pre">lstm_hidden_units:</span> <span class="pre">64~256</span> </code>, <code class="docutils literal notranslate"><span class="pre">dense_units:</span> <span class="pre">32~128</span></code>, <code class="docutils literal notranslate"><span class="pre">temp_merge_heads:</span> <span class="pre">2~4</span></code>, <code class="docutils literal notranslate"><span class="pre">temp_merge_units:</span> <span class="pre">32~128</span></code> |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Model</th>
+<th align="center">Search Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>CT: 0~6</code>, <code>PT: 0~7</code>, <code>TT: 0~4</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">HMM</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ST_ResNet</td>
+<td align="center"><code>待补充</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center"><code>lstm_layers: 1~3</code>, <code>lstm_hidden_units: 32~128</code>, <code>dense_units: 32~128</code>, <code>temp_merge_heads: 2~4</code>, <code>temp_merge_units: 32~128</code></td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1</td>
+<td align="center"><code>gcn_k: 1~3</code>, <code>gcn_l: 1~3</code> <code>gclstm_layers: 1~3</code>, <code>lstm_hidden_units: 64~256</code>, <code>dense_units: 32~128</code>, <code>temp_merge_heads: 2~4</code>, <code>temp_merge_units: 32~128</code></td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="results-on-bike">
 <h2>6.3. Results on Bike<a class="headerlink" href="#results-on-bike" title="Permalink to this headline">¶</a></h2>
-<p>|                                     |          NYC           |         Chicago         |           DC            |
-| :———————————: | :——————–: | :———————: | :———————: |
-|                 HM                  |    3.99224 <code class="docutils literal notranslate"><span class="pre">1-1-3</span></code>     |     2.97693 <code class="docutils literal notranslate"><span class="pre">1-1-2</span></code>     |     2.63165 <code class="docutils literal notranslate"><span class="pre">2-1-3</span></code>     |
-|              ARIMA(C)               |        5.60928         |         3.83584         |         3.60450         |
-|             ARIMA(CPT)              |        5.16804         |         3.68593         |         3.08102         |
-|     SARIMA((3,0,1), (1,0,0,24))     |        4.67416         |         3.35526         |         3.02791         |
-|               XGBoost               | 4.12407 <code class="docutils literal notranslate"><span class="pre">12-10-0-20-5</span></code> |  2.92569 <code class="docutils literal notranslate"><span class="pre">9-7-0-20-5</span></code>   | 2.65671 <code class="docutils literal notranslate"><span class="pre">12-14-2-20-5</span></code>  |
-|                GBRT                 | 3.99907 <code class="docutils literal notranslate"><span class="pre">12-7-4-100-5</span></code> | 2.84257 <code class="docutils literal notranslate"><span class="pre">12-14-2-100-5</span></code> | 2.61768 <code class="docutils literal notranslate"><span class="pre">12-14-2-100-5</span></code> |
-|           ST_MGCN (G/DCI)           |        3.72380         |         2.88300         |         2.48560         |
-|            DCRNN(G/D C)             |        4.18666         |         3.27759         |         3.08616         |
-|           DCRNN(G/C CPT)            |        3.87324         |         2.95404         |         2.42749         |
-|              LSTM (C)               |        4.55677         |         3.37004         |         2.91518         |
-|             LSTM (CPT)              |        3.78497         |         2.79078         |         2.54752         |
-|              GRU(CPT)               |        3.53425         |         2.76421         |         2.54121         |
-|              DG-GCLSTM              |        3.63207         |         2.71876         |         2.53863         |
-|              IG-GCLSTM              |        3.78816         |         2.70131         |         2.46214         |
-|              CG-GCLSTM              |        3.69656         |         2.79812         |         2.45815         |
-| AMulti-GCLSTM-V1 <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |        3.50475         |       <strong>2.65511</strong>       |         2.42582         |
-| AMulti-GCLSTM-V1 <code class="docutils literal notranslate"><span class="pre">2-1-1-64-32-2-64</span></code> |        3.51352         |         2.76366         |         2.44217         |
-|          AMulti-GCLSTM-V2           |      <strong>3.43870</strong>       |         2.66379         |         2.41111         |
-|          AMulti-GCLSTM-V3           |        3.47834         |         2.66180         |       <strong>2.38844</strong>       |</p>
-<div class="section" id="parameter-search-on-bike">
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">3.99224 <code>1-1-3</code></td>
+<td align="center">2.97693 <code>1-1-2</code></td>
+<td align="center">2.63165 <code>2-1-3</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">5.60928</td>
+<td align="center">3.83584</td>
+<td align="center">3.60450</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center">5.16804</td>
+<td align="center">3.68593</td>
+<td align="center">3.08102</td>
+</tr>
+<tr>
+<td align="center">SARIMA((3,0,1), (1,0,0,24))</td>
+<td align="center">4.67416</td>
+<td align="center">3.35526</td>
+<td align="center">3.02791</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">4.12407 <code>12-10-0-20-5</code></td>
+<td align="center">2.92569 <code>9-7-0-20-5</code></td>
+<td align="center">2.65671 <code>12-14-2-20-5</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">3.99907 <code>12-7-4-100-5</code></td>
+<td align="center">2.84257 <code>12-14-2-100-5</code></td>
+<td align="center">2.61768 <code>12-14-2-100-5</code></td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center">3.72380</td>
+<td align="center">2.88300</td>
+<td align="center">2.48560</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">4.18666</td>
+<td align="center">3.27759</td>
+<td align="center">3.08616</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">3.87324</td>
+<td align="center">2.95404</td>
+<td align="center">2.42749</td>
+</tr>
+<tr>
+<td align="center">LSTM (C)</td>
+<td align="center">4.55677</td>
+<td align="center">3.37004</td>
+<td align="center">2.91518</td>
+</tr>
+<tr>
+<td align="center">LSTM (CPT)</td>
+<td align="center">3.78497</td>
+<td align="center">2.79078</td>
+<td align="center">2.54752</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center">3.53425</td>
+<td align="center">2.76421</td>
+<td align="center">2.54121</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM</td>
+<td align="center">3.63207</td>
+<td align="center">2.71876</td>
+<td align="center">2.53863</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM</td>
+<td align="center">3.78816</td>
+<td align="center">2.70131</td>
+<td align="center">2.46214</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM</td>
+<td align="center">3.69656</td>
+<td align="center">2.79812</td>
+<td align="center">2.45815</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 <code>1-1-1-64-32-2-64</code></td>
+<td align="center">3.50475</td>
+<td align="center"><strong>2.65511</strong></td>
+<td align="center">2.42582</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 <code>2-1-1-64-32-2-64</code></td>
+<td align="center">3.51352</td>
+<td align="center">2.76366</td>
+<td align="center">2.44217</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2</td>
+<td align="center"><strong>3.43870</strong></td>
+<td align="center">2.66379</td>
+<td align="center">2.41111</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V3</td>
+<td align="center">3.47834</td>
+<td align="center">2.66180</td>
+<td align="center"><strong>2.38844</strong></td>
+</tr>
+</tbody>
+</table><div class="section" id="parameter-search-on-bike">
 <h3>6.3.1. Parameter Search on bike<a class="headerlink" href="#parameter-search-on-bike" title="Permalink to this headline">¶</a></h3>
-<p>| <strong>NYC</strong> (Training data = 1 year) | gcn_k=1 | gcn_k=2 | gcn_k=3 |
-| :——————————: | :—–: | :—–: | :—–: |
-|          batch_size=16           |         |         |         |
-|          batch_size=32           |         |         |         |
-|          batch_size=64           |         |         |         |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><strong>NYC</strong> (Training data = 1 year)</th>
+<th align="center">gcn_k=1</th>
+<th align="center">gcn_k=2</th>
+<th align="center">gcn_k=3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">batch_size=16</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">batch_size=32</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">batch_size=64</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <div class="section" id="results-on-didi">
 <h2>6.4. Results on DiDi<a class="headerlink" href="#results-on-didi" title="Permalink to this headline">¶</a></h2>
-<p>| <font color='#ff0000'><strong>City: Xi’an</strong></font> |            Params            |  val-rmse   | test-rmse | # Params |      Converged Time       |
-| :——————————————: | :————————–: | :———: | :——-: | :——-: | :———————–: |
-|                      HM                      |          <code class="docutils literal notranslate"><span class="pre">1-1-2</span></code> ✅           |   6.82453   |  6.18623  |    —    |            —            |
-|                   ARIMA(C)                   |              –              |   8.87565   |  9.47478  |    –     |            –             |
-|                 ARIMA (CPT)                  |              –              |   7.96953   |  7.47729  |    —    |            —            |
-|          SARIMA (3,0,1), (1,0,0,24)          |                              |   7.85844   |  7.61127  |           |                           |
-|                   XGBoost                    |       <code class="docutils literal notranslate"><span class="pre">12-0-2-10-5</span> </code>✅        |   6.90805   |  6.73346  |    —    |            —            |
-|                     GBRT                     |        <code class="docutils literal notranslate"><span class="pre">9-0-2-50-2</span> </code>✅        |   6.95321   |  6.44639  |    —    |            —            |
-|                  ST-ResNet                   |          ✅ <code class="docutils literal notranslate"><span class="pre">待补充</span></code>          | <strong>6.41107</strong> |  6.08476  | <code class="docutils literal notranslate"><span class="pre">待补充</span></code>  |         0.55 hour         |
-|               ST_MGCN (G/DCI)                |           <code class="docutils literal notranslate"><span class="pre">待补充</span></code>           |   7.51881   |  5.87456  |  248985   |   1.31 hour 300 epochs    |
-|                DCRNN (G/D C)                 |                              |   7.29442   |  8.20254  |   50368   | 2.10 hour / 10000 epochs  |
-|               DCRNN (G/C CPT)                |             —              |   8.47345   |  6.26264  |  149056   | 12.01 hour / 7930 epochs  |
-|                   LSTM(C)                    |        <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>        |   6.52844   |  7.39970  |   28992   |  6.09 hour 50000 epochs   |
-|                  LSTM(CPT)                   |        <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>        |   7.29442   |  5.81410  |   62786   |         1.48 hour         |
-|                   GRU(CPT)                   |                              |   7.48624   |  5.89073  |           |                           |
-|                 DG-GCLSTM-V1                 |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.97208   |  5.79428  |   62789   |         4.55 hour         |
-|                 IG-GCLSTM-V1                 |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   7.19536   |  5.87106  |   62789   |         4.40 hour         |
-|                 CG-GCLSTM-V1                 |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.97782   |  5.94440  |   62789   |         0.93 hour         |
-|           AMulti-GCLSTM-V1 (G/DC)            |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.67733   |  5.79875  |  130379   |         9.71 hour         |
-|           AMulti-GCLSTM-V1 (G/DCI)           |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.61686   |  5.89154  |  189521   |         8.99 hour         |
-|           AMulti-GCLSTM-V1 (G/DCI)           | <code class="docutils literal notranslate"><span class="pre">2-1-1-64-32-2-64</span></code> (batch64) |   6.72327   |  5.83256  |  638911   |  2.04 hour / 2780 epochs  |
-|           AMulti-GCLSTM-V2(G/DCI)            |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.68180   |  5.75596  |  180561   | 22.74 hour / 50000 epochs |
-|           AMulti-GCLSTM-V3(G/DCI)            |                              |   6.68701   |  5.95507  |  488447   |                           |</p>
-<p>| <font color='#ff0000'><strong>City: Chengdu</strong></font> |      Params (Searched)       |  val-rmse   | test-rmse | # Params |      Converged Time      |
-| :——————————————–: | :————————–: | :———: | :——-: | :——-: | :———————-: |
-|                       HM                       |          <code class="docutils literal notranslate"><span class="pre">0-1-4</span></code> ✅           |   7.27949   |  7.35477  |    —    |           —            |
-|                    ARIMA(C)                    |             —              |  12.23546   | 12.52656  |    —    |           —            |
-|                  ARIMA (CPT)                   |             —              |   9.56320   |  9.89791  |    —    |           —            |
-|            SARIMA (3,0,1)(1,0,0,24)            |                              |   9.26459   |  9.33176  |           |                          |
-|           SARIMA (3,0,1)(1,0,0,128)            |                              |             |           |           |                          |
-|                    XGBoost                     |       <code class="docutils literal notranslate"><span class="pre">9-14-4-20-2</span></code> ✅        |   7.68706   |  7.73836  |    —    |           —            |
-|                      GBRT                      |       <code class="docutils literal notranslate"><span class="pre">12-7-2-50-5</span> </code>✅        |   7.54566   |  7.58831  |    —    |           —            |
-|                   ST-ResNet                    |          ✅ <code class="docutils literal notranslate"><span class="pre">待补充</span></code>          | <strong>6.31050</strong> |  7.14638  | <code class="docutils literal notranslate"><span class="pre">待补充</span></code>  |        0.15 hour         |
-|                ST_MGCN (G/DCI)                 |           <code class="docutils literal notranslate"><span class="pre">待补充</span></code>           |   6.55319   |  7.03217  |  248985   | 1.60 hour /  422 epochs  |
-|                  DCRNN(G/D C)                  |                              |  10.33887   | 11.50550  |   50368   | 2.52 hour / 10000 epochs |
-|                 DCRNN(G/C CPT)                 |             —              |   6.70479   |  7.21055  |  149056   |        0.87 hour         |
-|                    LSTM(C)                     |        <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>        |   9.12553   | 10.11386  |   28992   | 3.61 hour / 50000 epochs |
-|                   LSTM(CPT)                    |        <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>        |   6.46543   |  7.04884  |   62786   |        1.27 hour         |
-|                   GRU (CPT)                    |                              |   6.53480   |  7.04935  |   50111   | 4.49 hour / 6051 epochs  |
-|                  DG-GCLSTM-V1                  |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.56428   |  7.04343  |   62789   |        7.39 hour         |
-|                  IG-GCLSTM-V1                  |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.49908   |  7.02130  |   62789   |        2.70 hour         |
-|                  CG-GCLSTM-V1                  |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.77519   |  7.27282  |   62789   |        2.31 hour         |
-|            AMulti-GCLSTM-V1 (G/DC)             |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.54396   |  7.10324  |  130379   |        4.16 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)            |      <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>      |   6.63979   |  7.06246  |  189521   |        1.66 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)            | <code class="docutils literal notranslate"><span class="pre">2-1-1-64-32-2-64</span></code> (batch64) |   6.55178   |  7.0402   |  638911   | 1.43 hour / 2017 epochs  |
-|            AMulti-GCLSTM-V2 (G/DCI)            |                              |   6.59178   |  7.09710  |  180561   |        12.92 hour        |
-|            AMulti-GCLSTM-V3 (G/DCI)            |                              |   6.64110   |  7.04358  |  488447   |                          |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Xi'an</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>1-1-2</code> ✅</td>
+<td align="center">6.82453</td>
+<td align="center">6.18623</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">--</td>
+<td align="center">8.87565</td>
+<td align="center">9.47478</td>
+<td align="center">--</td>
+<td align="center">--</td>
+</tr>
+<tr>
+<td align="center">ARIMA (CPT)</td>
+<td align="center">--</td>
+<td align="center">7.96953</td>
+<td align="center">7.47729</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA (3,0,1), (1,0,0,24)</td>
+<td align="center"></td>
+<td align="center">7.85844</td>
+<td align="center">7.61127</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-0-2-10-5</code>✅</td>
+<td align="center">6.90805</td>
+<td align="center">6.73346</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>9-0-2-50-2</code>✅</td>
+<td align="center">6.95321</td>
+<td align="center">6.44639</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST-ResNet</td>
+<td align="center">✅ <code>待补充</code></td>
+<td align="center"><strong>6.41107</strong></td>
+<td align="center">6.08476</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">0.55 hour</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">7.51881</td>
+<td align="center">5.87456</td>
+<td align="center">248985</td>
+<td align="center">1.31 hour 300 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN (G/D C)</td>
+<td align="center"></td>
+<td align="center">7.29442</td>
+<td align="center">8.20254</td>
+<td align="center">50368</td>
+<td align="center">2.10 hour / 10000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN (G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">8.47345</td>
+<td align="center">6.26264</td>
+<td align="center">149056</td>
+<td align="center">12.01 hour / 7930 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">6.52844</td>
+<td align="center">7.39970</td>
+<td align="center">28992</td>
+<td align="center">6.09 hour 50000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">7.29442</td>
+<td align="center">5.81410</td>
+<td align="center">62786</td>
+<td align="center">1.48 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">7.48624</td>
+<td align="center">5.89073</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.97208</td>
+<td align="center">5.79428</td>
+<td align="center">62789</td>
+<td align="center">4.55 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">7.19536</td>
+<td align="center">5.87106</td>
+<td align="center">62789</td>
+<td align="center">4.40 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.97782</td>
+<td align="center">5.94440</td>
+<td align="center">62789</td>
+<td align="center">0.93 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.67733</td>
+<td align="center">5.79875</td>
+<td align="center">130379</td>
+<td align="center">9.71 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.61686</td>
+<td align="center">5.89154</td>
+<td align="center">189521</td>
+<td align="center">8.99 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code> (batch64)</td>
+<td align="center">6.72327</td>
+<td align="center">5.83256</td>
+<td align="center">638911</td>
+<td align="center">2.04 hour / 2780 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2(G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.68180</td>
+<td align="center">5.75596</td>
+<td align="center">180561</td>
+<td align="center">22.74 hour / 50000 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V3(G/DCI)</td>
+<td align="center"></td>
+<td align="center">6.68701</td>
+<td align="center">5.95507</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Chengdu</strong></font></th>
+<th align="center">Params (Searched)</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code> ✅</td>
+<td align="center">7.27949</td>
+<td align="center">7.35477</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">---</td>
+<td align="center">12.23546</td>
+<td align="center">12.52656</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA (CPT)</td>
+<td align="center">---</td>
+<td align="center">9.56320</td>
+<td align="center">9.89791</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA (3,0,1)(1,0,0,24)</td>
+<td align="center"></td>
+<td align="center">9.26459</td>
+<td align="center">9.33176</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">SARIMA (3,0,1)(1,0,0,128)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>9-14-4-20-2</code> ✅</td>
+<td align="center">7.68706</td>
+<td align="center">7.73836</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-7-2-50-5</code>✅</td>
+<td align="center">7.54566</td>
+<td align="center">7.58831</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST-ResNet</td>
+<td align="center">✅ <code>待补充</code></td>
+<td align="center"><strong>6.31050</strong></td>
+<td align="center">7.14638</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">0.15 hour</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">6.55319</td>
+<td align="center">7.03217</td>
+<td align="center">248985</td>
+<td align="center">1.60 hour /  422 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center"></td>
+<td align="center">10.33887</td>
+<td align="center">11.50550</td>
+<td align="center">50368</td>
+<td align="center">2.52 hour / 10000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">6.70479</td>
+<td align="center">7.21055</td>
+<td align="center">149056</td>
+<td align="center">0.87 hour</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">9.12553</td>
+<td align="center">10.11386</td>
+<td align="center">28992</td>
+<td align="center">3.61 hour / 50000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">6.46543</td>
+<td align="center">7.04884</td>
+<td align="center">62786</td>
+<td align="center">1.27 hour</td>
+</tr>
+<tr>
+<td align="center">GRU (CPT)</td>
+<td align="center"></td>
+<td align="center">6.53480</td>
+<td align="center">7.04935</td>
+<td align="center">50111</td>
+<td align="center">4.49 hour / 6051 epochs</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.56428</td>
+<td align="center">7.04343</td>
+<td align="center">62789</td>
+<td align="center">7.39 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.49908</td>
+<td align="center">7.02130</td>
+<td align="center">62789</td>
+<td align="center">2.70 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.77519</td>
+<td align="center">7.27282</td>
+<td align="center">62789</td>
+<td align="center">2.31 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.54396</td>
+<td align="center">7.10324</td>
+<td align="center">130379</td>
+<td align="center">4.16 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.63979</td>
+<td align="center">7.06246</td>
+<td align="center">189521</td>
+<td align="center">1.66 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code> (batch64)</td>
+<td align="center">6.55178</td>
+<td align="center">7.0402</td>
+<td align="center">638911</td>
+<td align="center">1.43 hour / 2017 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">6.59178</td>
+<td align="center">7.09710</td>
+<td align="center">180561</td>
+<td align="center">12.92 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V3 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">6.64110</td>
+<td align="center">7.04358</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="results-on-metro">
 <h2>6.5. Results on Metro<a class="headerlink" href="#results-on-metro" title="Permalink to this headline">¶</a></h2>
-<p>| <font color='#ff0000'><strong>City: Chongqing</strong></font> |       Params       |   val-rmse   |  test-rmse   | # Params |      Converged Time      |
-| :———————————————-: | :—————-: | :———-: | :———-: | :——-: | :———————-: |
-|                        HM                        |     <code class="docutils literal notranslate"><span class="pre">0-1-4</span></code> ✅      |  208.73630   |  120.30723   |    —    |           —            |
-|                     ARIMA(C)                     |        —         |  547.82632   |  578.18563   |    —    |           —            |
-|                    ARIMA(PT)                     |        —         |  341.55182   |  341.55182   |    —    |           —            |
-|                    ARIMA(CPT)                    |        —         |  721.23909   |  680.03948   |    —    |           —            |
-|              SARIMA(3,0,1 1,0,0,24)              |                    |   544.3288   |  564.30905   |           |                          |
-|                     XGBoost                      |  <code class="docutils literal notranslate"><span class="pre">9-14-2-200-5</span></code> ✅  |  115.05053   |  117.05069   |    —    |           —            |
-|                       GBRT                       | <code class="docutils literal notranslate"><span class="pre">12-10-4-200-5</span> </code>✅  |  118.89574   |  113.92276   |    —    |           —            |
-|                 ST_MGCN (G/DCI)                  |      <code class="docutils literal notranslate"><span class="pre">待补充</span></code>      |  105.19451   |  118.86668   |  248985   |  40.38 hour 2189 epochs  |
-|                   DCRNN(G/D C)                   |        —         |   93.04695   |  122.31121   |           |                          |
-|                  DCRNN(G/C CPT)                  |        —         |  177.18455   |  118.75352   |  371008   |  2.97 hour / 431 epochs  |
-|                     LSTM(C)                      |   <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>   |  172.48973   |  196.175732  |   28992   | 5.72 hour / 20000 epochs |
-|                    LSTM(CPT)                     |   <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>   |  128.78950   |   97.50337   |   62786   |        13.46 hour        |
-|                     GRU(CPT)                     |                    |  113.36167   |   89.47513   |           |                          |
-|                   DG-GCLSTM-V1                   | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |  113.54371   |  100.45433   |   62789   |        15.55 hour        |
-|                   IG-GCLSTM-V1                   | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |  116.70645   |   93.73172   |   62789   |        15.36 hour        |
-|                   CG-GCLSTM-V1                   | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |  106.80433   |   99.53486   |   62789   |        15.21 hour        |
-|             AMulti-GCLSTM-V1 (G/DC)              | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   86.27438   | <strong>90.83853</strong> |  130379   |        29.63 hour        |
-|             AMulti-GCLSTM-V1 (G/DCI)             | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> | <strong>84.69295</strong> |   92.74990   |  189521   |        38.91 hour        |
-|             AMulti-GCLSTM-V1 (G/DCI)             | <code class="docutils literal notranslate"><span class="pre">2-1-1-64-32-2-64</span></code> |   98.12365   |  102.22088   |  638911   | 23.91 hour / 6887 epochs |
-|             AMulti-GCLSTM-V2 (G/DCI)             |                    |   95.93984   |   98.86152   |  180561   |        30.64 hour        |
-|             AMulti-GCLSTM-V3(G/DCI)              |                    |   93.19236   |   101.7806   |  488447   |                          |</p>
-<p>| <font color='#ff0000'><strong>City: Shanghai</strong></font> |       Params       |   val-rmse    |   test-rmse   | # Params |      Converged Time       |
-| :———————————————: | :—————-: | :———–: | :———–: | :——-: | :———————–: |
-|                       HM                        |     <code class="docutils literal notranslate"><span class="pre">0-1-4</span></code> ✅      |   114.48651   |   197.97092   |    —    |            —            |
-|                    ARIMA(C)                     |        —         |   831.0219    |   792.1597    |    —    |            —            |
-|                    ARIMA(PT)                    |        —         |   567.51166   |   546.38855   |    —    |            —            |
-|                   ARIMA(CPT)                    |        —         |   660.60764   |   666.52287   |    —    |            —            |
-|           SARIMA((3,0,1), (1,0,0,24))           |                    |   820.3219    |   802.2262    |           |                           |
-|          SARIMA((3,0,1), (1,0,0,168))           |                    |      —      |   801.2712    |           |                           |
-|                     XGBoost                     |   <code class="docutils literal notranslate"><span class="pre">3-7-0-50-5</span></code> ✅   | <strong>103.81190</strong> |   185.00447   |    —    |            —            |
-|                      GBRT                       | <code class="docutils literal notranslate"><span class="pre">12-10-0-100-2</span> </code>✅  |   105.85584   |   186.74502   |    —    |            —            |
-|                 ST_MGCN (G/DCI)                 |      <code class="docutils literal notranslate"><span class="pre">待补充</span></code>      |   119.74849   |   181.55171   |  248985   |  3.35 hour / 694 epochs   |
-|                  DCRNN(G/D C)                   |        —         |   293.57379   |   326.97357   |   50368   | 4.17 hour / 20000 epochs  |
-|                 DCRNN(G/C CPT)                  |        —         |   137.01097   |   195.22157   |  371008   |  1.43 hour / 770 epochs   |
-|                     LSTM(C)                     |   <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>   |   349.61013   |   368.8468    |   28992   | 2.61 hour / 20000 epochs  |
-|                    LSTM(CPT)                    |   <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>   |   131.92126   |   182.28558   |   62786   |         5.01 hour         |
-|                    GRU(CPT)                     |                    |   136.16528   |   180.65565   |           | 5.89 hour / 20000 epochs  |
-|                  DG-GCLSTM-V1                   | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   137.98910   |   171.62920   |   62789   |         6.11 hour         |
-|                  IG-GCLSTM-V1                   | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   136.83477   |   168.94954   |   62789   |         5.71 hour         |
-|                  CG-GCLSTM-V1                   | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   141.37688   |   189.21147   |   62789   |         2.34 hour         |
-|             AMulti-GCLSTM-V1 (G/DC)             | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   133.77488   |   162.10970   |  130379   |         9.70 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)             | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   131.04696   | <strong>151.11746</strong> |  189521   |        11.96 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)             | <code class="docutils literal notranslate"><span class="pre">2-1-1-64-32-2-64</span></code> |   131.71449   |   166.59117   |  638911   |  3.85 hour / 4904 epochs  |
-|            AMulti-GCLSTM-V2 (G/DCI)             | <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code> |   131.95754   |   158.21953   |  180561   | 13.27 hour / 20000 epochs |
-|            AMulti-GCLSTM-V3 (G/DCI)             |                    |   128.10709   |   156.58867   |  488447   |    12.45 hour / 11010     |</p>
-<p>Metro 上的period、trend特征性更强，所以仅使用closeness效果很差</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Chongqing</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code> ✅</td>
+<td align="center">208.73630</td>
+<td align="center">120.30723</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">---</td>
+<td align="center">547.82632</td>
+<td align="center">578.18563</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(PT)</td>
+<td align="center">---</td>
+<td align="center">341.55182</td>
+<td align="center">341.55182</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center">---</td>
+<td align="center">721.23909</td>
+<td align="center">680.03948</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA(3,0,1 1,0,0,24)</td>
+<td align="center"></td>
+<td align="center">544.3288</td>
+<td align="center">564.30905</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>9-14-2-200-5</code> ✅</td>
+<td align="center">115.05053</td>
+<td align="center">117.05069</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-4-200-5</code>✅</td>
+<td align="center">118.89574</td>
+<td align="center">113.92276</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">105.19451</td>
+<td align="center">118.86668</td>
+<td align="center">248985</td>
+<td align="center">40.38 hour 2189 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">---</td>
+<td align="center">93.04695</td>
+<td align="center">122.31121</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">177.18455</td>
+<td align="center">118.75352</td>
+<td align="center">371008</td>
+<td align="center">2.97 hour / 431 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">172.48973</td>
+<td align="center">196.175732</td>
+<td align="center">28992</td>
+<td align="center">5.72 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">128.78950</td>
+<td align="center">97.50337</td>
+<td align="center">62786</td>
+<td align="center">13.46 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">113.36167</td>
+<td align="center">89.47513</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">113.54371</td>
+<td align="center">100.45433</td>
+<td align="center">62789</td>
+<td align="center">15.55 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">116.70645</td>
+<td align="center">93.73172</td>
+<td align="center">62789</td>
+<td align="center">15.36 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">106.80433</td>
+<td align="center">99.53486</td>
+<td align="center">62789</td>
+<td align="center">15.21 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">86.27438</td>
+<td align="center"><strong>90.83853</strong></td>
+<td align="center">130379</td>
+<td align="center">29.63 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center"><strong>84.69295</strong></td>
+<td align="center">92.74990</td>
+<td align="center">189521</td>
+<td align="center">38.91 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code></td>
+<td align="center">98.12365</td>
+<td align="center">102.22088</td>
+<td align="center">638911</td>
+<td align="center">23.91 hour / 6887 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">95.93984</td>
+<td align="center">98.86152</td>
+<td align="center">180561</td>
+<td align="center">30.64 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V3(G/DCI)</td>
+<td align="center"></td>
+<td align="center">93.19236</td>
+<td align="center">101.7806</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Shanghai</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code> ✅</td>
+<td align="center">114.48651</td>
+<td align="center">197.97092</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">---</td>
+<td align="center">831.0219</td>
+<td align="center">792.1597</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(PT)</td>
+<td align="center">---</td>
+<td align="center">567.51166</td>
+<td align="center">546.38855</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center">---</td>
+<td align="center">660.60764</td>
+<td align="center">666.52287</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA((3,0,1), (1,0,0,24))</td>
+<td align="center"></td>
+<td align="center">820.3219</td>
+<td align="center">802.2262</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">SARIMA((3,0,1), (1,0,0,168))</td>
+<td align="center"></td>
+<td align="center">---</td>
+<td align="center">801.2712</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>3-7-0-50-5</code> ✅</td>
+<td align="center"><strong>103.81190</strong></td>
+<td align="center">185.00447</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-0-100-2</code>✅</td>
+<td align="center">105.85584</td>
+<td align="center">186.74502</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">119.74849</td>
+<td align="center">181.55171</td>
+<td align="center">248985</td>
+<td align="center">3.35 hour / 694 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">---</td>
+<td align="center">293.57379</td>
+<td align="center">326.97357</td>
+<td align="center">50368</td>
+<td align="center">4.17 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">137.01097</td>
+<td align="center">195.22157</td>
+<td align="center">371008</td>
+<td align="center">1.43 hour / 770 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">349.61013</td>
+<td align="center">368.8468</td>
+<td align="center">28992</td>
+<td align="center">2.61 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">131.92126</td>
+<td align="center">182.28558</td>
+<td align="center">62786</td>
+<td align="center">5.01 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">136.16528</td>
+<td align="center">180.65565</td>
+<td align="center"></td>
+<td align="center">5.89 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">137.98910</td>
+<td align="center">171.62920</td>
+<td align="center">62789</td>
+<td align="center">6.11 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">136.83477</td>
+<td align="center">168.94954</td>
+<td align="center">62789</td>
+<td align="center">5.71 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">141.37688</td>
+<td align="center">189.21147</td>
+<td align="center">62789</td>
+<td align="center">2.34 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">133.77488</td>
+<td align="center">162.10970</td>
+<td align="center">130379</td>
+<td align="center">9.70 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">131.04696</td>
+<td align="center"><strong>151.11746</strong></td>
+<td align="center">189521</td>
+<td align="center">11.96 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code></td>
+<td align="center">131.71449</td>
+<td align="center">166.59117</td>
+<td align="center">638911</td>
+<td align="center">3.85 hour / 4904 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">131.95754</td>
+<td align="center">158.21953</td>
+<td align="center">180561</td>
+<td align="center">13.27 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V3 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">128.10709</td>
+<td align="center">156.58867</td>
+<td align="center">488447</td>
+<td align="center">12.45 hour / 11010</td>
+</tr>
+</tbody>
+</table><p>Metro 上的period、trend特征性更强，所以仅使用closeness效果很差</p>
 <div class="section" id="parameter-search-on-metro">
 <h3>6.5.1. Parameter Search on Metro<a class="headerlink" href="#parameter-search-on-metro" title="Permalink to this headline">¶</a></h3>
-<p>| <strong>Shanghai</strong>  |  gcn_k=1  |  gcn_k=2  |  gcn_k=3  |
-| :———–: | :——-: | :——-: | :——-: |
-| batch_size=16 | 146.00493 | 165.69554 | 170.96187 |
-| batch_size=32 | 159.56485 | 156.99149 | 183.77316 |
-| batch_size=64 | 171.51431 | 164.5659  | 192.27948 |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><strong>Shanghai</strong></th>
+<th align="center">gcn_k=1</th>
+<th align="center">gcn_k=2</th>
+<th align="center">gcn_k=3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">batch_size=16</td>
+<td align="center">146.00493</td>
+<td align="center">165.69554</td>
+<td align="center">170.96187</td>
+</tr>
+<tr>
+<td align="center">batch_size=32</td>
+<td align="center">159.56485</td>
+<td align="center">156.99149</td>
+<td align="center">183.77316</td>
+</tr>
+<tr>
+<td align="center">batch_size=64</td>
+<td align="center">171.51431</td>
+<td align="center">164.5659</td>
+<td align="center">192.27948</td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <div class="section" id="results-on-charge-station">
 <h2>6.6. Results on Charge-Station<a class="headerlink" href="#results-on-charge-station" title="Permalink to this headline">¶</a></h2>
-<p>| <font color='#ff0000'><strong>City: Beijing</strong></font> |               Params               |  val-rmse   |  test-rmse   | # Params |      Converged Time       |
-| :——————————————–: | :——————————–: | :———: | :———-: | :——-: | :———————–: |
-|                       HM                       |             <code class="docutils literal notranslate"><span class="pre">2-0-2</span></code> ✅              |   0.99617   |   1.01610    |    —    |            —            |
-|                    ARIMA(C)                    |                                    |   0.96335   |   0.98236    |    —    |            —            |
-|                   ARIMA(CPT)                   |                                    |   1.49936   |   1.56517    |    —    |            —            |
-|                     SARIMA                     |                                    |   0.83333   |   0.87392    |           |                           |
-|                    XGBoost                     |          <code class="docutils literal notranslate"><span class="pre">12-7-0-20-2</span></code> ✅           |   0.79800   |   0.83381    |    —    |            —            |
-|                      GBRT                      |         <code class="docutils literal notranslate"><span class="pre">12-10-0-100-2</span> </code>✅          |   0.79771   |   0.82814    |    —    |            —            |
-|                 ST_MGCN (G/DC)                 |              <code class="docutils literal notranslate"><span class="pre">待补充</span></code>              |   0.59853   |   0.82714    |  166025   |   1.57 hour  253 epochs   |
-|                  DCRNN(G/D C)                  |                                    |   0.70646   |   0.98871    |   50368   | 7.20 hour / 10000 epochs  |
-|                 DCRNN(G/C CPT)                 |                                    |   0.62888   |   0.84680    |   50368   |         0.35 hour         |
-|                    LSTM(C)                     |           <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>           |   1.17335   |   1.58560    |   28992   |  1.04 hour / 441 epochs   |
-|                   LSTM(CPT)                    |           <code class="docutils literal notranslate"><span class="pre">1-64-32-2-64</span></code>           |   0.59935   |   0.83322    |   62786   |         9.68 hour         |
-|                    GRU(CPT)                    |                                    |   0.61381   |   0.84800    |           |                           |
-|                  DG-GCLSTM-V1                  |         <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>         |   0.59233   |   0.83743    |   62789   |        12.70 hour         |
-|                  CG-GCLSTM-V1                  |         <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>         | <strong>0.57863</strong> |   0.82140    |   62789   |        17.43 hour         |
-|            AMulti-GCLSTM-V1 (G/DC)             |         <code class="docutils literal notranslate"><span class="pre">1-1-1-64-32-2-64</span></code>         |   0.57868   | <strong>0.815518</strong> |  130379   | 26.27 hour / 20000 epochs |
-|            AMulti-GCLSTM-V1 (G/DC)             | <code class="docutils literal notranslate"><span class="pre">2-1-1-64-32-2-64</span></code> (batch_size 64) |   0.58788   |   0.83315    |  638911   |                           |
-|            AMulti-GCLSTM-V2 (G/DC)             |                                    |   0.58936   |   0.82144    |  129867   | 16.48 hour / 16491 epochs |
-|            AMulti-GCLSTM-V3 (G/DC)             |                                    |   0.56721   |   0.81541    |  488447   |                           |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Beijing</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>2-0-2</code> ✅</td>
+<td align="center">0.99617</td>
+<td align="center">1.01610</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center"></td>
+<td align="center">0.96335</td>
+<td align="center">0.98236</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center"></td>
+<td align="center">1.49936</td>
+<td align="center">1.56517</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA</td>
+<td align="center"></td>
+<td align="center">0.83333</td>
+<td align="center">0.87392</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-7-0-20-2</code> ✅</td>
+<td align="center">0.79800</td>
+<td align="center">0.83381</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-0-100-2</code>✅</td>
+<td align="center">0.79771</td>
+<td align="center">0.82814</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DC)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">0.59853</td>
+<td align="center">0.82714</td>
+<td align="center">166025</td>
+<td align="center">1.57 hour  253 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center"></td>
+<td align="center">0.70646</td>
+<td align="center">0.98871</td>
+<td align="center">50368</td>
+<td align="center">7.20 hour / 10000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center"></td>
+<td align="center">0.62888</td>
+<td align="center">0.84680</td>
+<td align="center">50368</td>
+<td align="center">0.35 hour</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">1.17335</td>
+<td align="center">1.58560</td>
+<td align="center">28992</td>
+<td align="center">1.04 hour / 441 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">0.59935</td>
+<td align="center">0.83322</td>
+<td align="center">62786</td>
+<td align="center">9.68 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">0.61381</td>
+<td align="center">0.84800</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">0.59233</td>
+<td align="center">0.83743</td>
+<td align="center">62789</td>
+<td align="center">12.70 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center"><strong>0.57863</strong></td>
+<td align="center">0.82140</td>
+<td align="center">62789</td>
+<td align="center">17.43 hour</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">0.57868</td>
+<td align="center"><strong>0.815518</strong></td>
+<td align="center">130379</td>
+<td align="center">26.27 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code> (batch_size 64)</td>
+<td align="center">0.58788</td>
+<td align="center">0.83315</td>
+<td align="center">638911</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V2 (G/DC)</td>
+<td align="center"></td>
+<td align="center">0.58936</td>
+<td align="center">0.82144</td>
+<td align="center">129867</td>
+<td align="center">16.48 hour / 16491 epochs</td>
+</tr>
+<tr>
+<td align="center">AMulti-GCLSTM-V3 (G/DC)</td>
+<td align="center"></td>
+<td align="center">0.56721</td>
+<td align="center">0.81541</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
 </div>
 
 
@@ -267,7 +1257,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

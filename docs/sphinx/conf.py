@@ -52,8 +52,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'UCTB'
-copyright = '2019, Di Chai, Leye Wang, Jin Xu'
-author = 'Di Chai, Leye Wang, Jin Xu'
+copyright = '2019, UCTB group'
+author = 'UCTB group'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

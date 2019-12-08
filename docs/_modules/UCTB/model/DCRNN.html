@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model.DCRNN &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model.DCRNN</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">..model_unit</span> <span class="k">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">..model_unit</span> <span class="k">import</span> <span class="n">DCGRUCell</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.contrib</span> <span class="k">import</span> <span class="n">legacy_seq2seq</span>
+
+
+<div class="viewcode-block" id="DCRNN"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.DCRNN.DCRNN">[docs]</a><span class="k">class</span> <span class="nc">DCRNN</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        num_nodes(int): Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</span>
+<span class="sd">        num_diffusion_matrix: Number of diffusion matrix used in model.</span>
+<span class="sd">        num_rnn_units: Number of RNN units.</span>
+<span class="sd">        num_rnn_layers: Number of RNN layers</span>
+<span class="sd">        max_diffusion_step: Number of diffusion steps</span>
+<span class="sd">        seq_len: Input sequence length</span>
+<span class="sd">        use_curriculum_learning(bool): model&#39;s prediction (True) or the previous ground truth in training (False).</span>
+<span class="sd">        input_dim: Dimension of the input feature</span>
+<span class="sd">        output_dim: Dimension of the output feature</span>
+<span class="sd">        cl_decay_steps: When use_curriculum_learning=True, cl_decay_steps is used to adjust the ratio of using ground</span>
+<span class="sd">            true labels, where with more training steps, the ratio drops.</span>
+<span class="sd">        target_len(int): Output sequence length.</span>
+<span class="sd">        lr(float): Learning rate</span>
+<span class="sd">        epsilon: epsilon in Adam</span>
+<span class="sd">        optimizer_name(str): &#39;sgd&#39; or &#39;Adam&#39; optimizer</span>
+<span class="sd">        code_version(str): Current version of this model code, which will be used as filename for saving the model</span>
+<span class="sd">        model_dir(str): The directory to store model files. Default:&#39;model_dir&#39;.</span>
+<span class="sd">        gpu_device(str): To specify the GPU to use. Default: &#39;0&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">num_nodes</span><span class="p">,</span>
+                 <span class="n">num_diffusion_matrix</span><span class="p">,</span>
+                 <span class="n">num_rnn_units</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span>
+                 <span class="n">num_rnn_layers</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">max_diffusion_step</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">seq_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                 <span class="n">use_curriculum_learning</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">output_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">cl_decay_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+                 <span class="n">target_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span>
+                 <span class="n">epsilon</span><span class="o">=</span><span class="mf">1e-3</span><span class="p">,</span>
+                 <span class="n">optimizer_name</span><span class="o">=</span><span class="s1">&#39;Adam&#39;</span><span class="p">,</span>
+                 <span class="n">code_version</span><span class="o">=</span><span class="s1">&#39;DCRNN-QuickStart&#39;</span><span class="p">,</span>
+                 <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;model_dir&#39;</span><span class="p">,</span>
+                 <span class="n">gpu_device</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">DCRNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">code_version</span><span class="o">=</span><span class="n">code_version</span><span class="p">,</span> <span class="n">model_dir</span><span class="o">=</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">gpu_device</span><span class="o">=</span><span class="n">gpu_device</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span> <span class="o">=</span> <span class="n">num_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_diffusion_matrix</span> <span class="o">=</span> <span class="n">num_diffusion_matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_rnn_units</span> <span class="o">=</span> <span class="n">num_rnn_units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_rnn_layers</span> <span class="o">=</span> <span class="n">num_rnn_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_max_diffusion_step</span> <span class="o">=</span> <span class="n">max_diffusion_step</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_seq_len</span> <span class="o">=</span> <span class="n">seq_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_use_curriculum_learning</span> <span class="o">=</span> <span class="n">use_curriculum_learning</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">input_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">=</span> <span class="n">output_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_target_len</span> <span class="o">=</span> <span class="n">target_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cl_decay_steps</span> <span class="o">=</span> <span class="n">cl_decay_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer_name</span> <span class="o">=</span> <span class="n">optimizer_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="c1"># self._batch_size = batch_size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span> <span class="o">=</span> <span class="n">epsilon</span>
+
+<div class="viewcode-block" id="DCRNN.build"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.DCRNN.DCRNN.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_seq_len</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;inputs&#39;</span><span class="p">)</span>
+            <span class="n">labels</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_len</span><span class="p">,</span>
+                                                       <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;labels&#39;</span><span class="p">)</span>
+
+            <span class="n">diffusion_matrix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_diffusion_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span><span class="p">,</span>
+                                                                 <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;diffusion_matrix&#39;</span><span class="p">)</span>
+
+            <span class="n">batch_size</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">labels</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;diffusion_matrix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">diffusion_matrix</span><span class="o">.</span><span class="n">name</span>
+
+            <span class="n">go_symbol</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span><span class="p">))</span>
+
+            <span class="n">cell</span> <span class="o">=</span> <span class="n">DCGRUCell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_rnn_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_diffusion_matrix</span><span class="p">,</span> <span class="n">diffusion_matrix</span><span class="p">,</span>
+                             <span class="n">max_diffusion_step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_diffusion_step</span><span class="p">,</span> <span class="n">num_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span><span class="p">)</span>
+
+            <span class="n">cell_with_projection</span> <span class="o">=</span> <span class="n">DCGRUCell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_rnn_units</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">_num_diffusion_matrix</span><span class="p">,</span> <span class="n">diffusion_matrix</span><span class="p">,</span>
+                                             <span class="n">max_diffusion_step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_max_diffusion_step</span><span class="p">,</span>
+                                             <span class="n">num_nodes</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span><span class="p">,</span> <span class="n">num_proj</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span><span class="p">)</span>
+
+            <span class="n">encoding_cells</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_rnn_layers</span>
+            <span class="n">decoding_cells</span> <span class="o">=</span> <span class="p">[</span><span class="n">cell</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_rnn_layers</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">cell_with_projection</span><span class="p">]</span>
+            <span class="n">encoding_cells</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">(</span><span class="n">encoding_cells</span><span class="p">,</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">decoding_cells</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">(</span><span class="n">decoding_cells</span><span class="p">,</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="n">global_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">get_or_create_global_step</span><span class="p">()</span>
+
+            <span class="c1"># Outputs: (batch_size, timesteps, num_nodes, output_dim)</span>
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;DCRNN_SEQ&#39;</span><span class="p">):</span>
+                <span class="n">inputs_unstack</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span>
+                                                                <span class="bp">self</span><span class="o">.</span><span class="n">_seq_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">)),</span>
+                                            <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">labels_unstack</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">unstack</span><span class="p">(</span>
+                    <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span><span class="p">],</span>
+                               <span class="p">(</span><span class="n">batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_target_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_nodes</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span><span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">labels_unstack</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">go_symbol</span><span class="p">)</span>
+
+                <span class="k">def</span> <span class="nf">_compute_sampling_threshold</span><span class="p">(</span><span class="n">global_step</span><span class="p">,</span> <span class="n">k</span><span class="p">):</span>
+                    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                    Computes the sampling probability for scheduled sampling using inverse sigmoid.</span>
+<span class="sd">                    global_step:</span>
+<span class="sd">                    k:</span>
+<span class="sd">                    :return:</span>
+<span class="sd">                    &quot;&quot;&quot;</span>
+                    <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">k</span> <span class="o">/</span> <span class="p">(</span><span class="n">k</span> <span class="o">+</span> <span class="n">tf</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">global_step</span> <span class="o">/</span> <span class="n">k</span><span class="p">)),</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+                <span class="k">def</span> <span class="nf">_loop_function_train</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="c1"># Return either the model&#39;s prediction or the previous ground truth in training.</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_use_curriculum_learning</span><span class="p">:</span>
+                        <span class="n">c</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">random_uniform</span><span class="p">((),</span> <span class="n">minval</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">maxval</span><span class="o">=</span><span class="mf">1.</span><span class="p">)</span>
+                        <span class="n">threshold</span> <span class="o">=</span> <span class="n">_compute_sampling_threshold</span><span class="p">(</span><span class="n">global_step</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cl_decay_steps</span><span class="p">)</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">less</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">threshold</span><span class="p">),</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">labels_unstack</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">prev</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="n">labels_unstack</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="k">return</span> <span class="n">result</span>
+
+                <span class="k">def</span> <span class="nf">_loop_function_test</span><span class="p">(</span><span class="n">prev</span><span class="p">,</span> <span class="n">i</span><span class="p">):</span>
+                    <span class="c1"># Return the prediction of the model in testing.</span>
+                    <span class="k">return</span> <span class="n">prev</span>
+
+                <span class="n">a</span><span class="p">,</span> <span class="n">enc_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">static_rnn</span><span class="p">(</span><span class="n">encoding_cells</span><span class="p">,</span> <span class="n">inputs_unstack</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                    <span class="n">train_outputs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">legacy_seq2seq</span><span class="o">.</span><span class="n">rnn_decoder</span><span class="p">(</span><span class="n">labels_unstack</span><span class="p">,</span> <span class="n">enc_state</span><span class="p">,</span> <span class="n">decoding_cells</span><span class="p">,</span>
+                                                                  <span class="n">loop_function</span><span class="o">=</span><span class="n">_loop_function_train</span><span class="p">)</span>
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                    <span class="n">test_outputs</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">legacy_seq2seq</span><span class="o">.</span><span class="n">rnn_decoder</span><span class="p">(</span><span class="n">labels_unstack</span><span class="p">,</span> <span class="n">enc_state</span><span class="p">,</span> <span class="n">decoding_cells</span><span class="p">,</span>
+                                                                 <span class="n">loop_function</span><span class="o">=</span><span class="n">_loop_function_test</span><span class="p">)</span>
+
+            <span class="c1"># Project the output to output_dim.</span>
+            <span class="n">train_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">train_outputs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">test_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">test_outputs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1"># Configure optimizer</span>
+            <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lr</span><span class="p">,</span> <span class="n">epsilon</span><span class="o">=</span><span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_epsilon</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_optimizer_name</span> <span class="o">==</span> <span class="s1">&#39;sgd&#39;</span><span class="p">:</span>
+                <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lr</span><span class="p">)</span>
+
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">train_outputs</span> <span class="o">-</span> <span class="n">labels</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])))</span>
+
+            <span class="n">train_op</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">test_outputs</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">[</span><span class="s1">&#39;train_op&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_op</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">DCRNN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">init_vars</span><span class="o">=</span><span class="n">init_vars</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
+    <span class="c1"># Define your &#39;_get_feed_dict function‘, map your input to the tf-model</span>
+    <span class="k">def</span> <span class="nf">_get_feed_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">inputs</span><span class="p">,</span>
+                       <span class="n">diffusion_matrix</span><span class="p">,</span>
+                       <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,):</span>
+        <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;inputs&#39;</span><span class="p">:</span> <span class="n">inputs</span><span class="p">,</span>
+            <span class="s1">&#39;diffusion_matrix&#39;</span><span class="p">:</span> <span class="n">diffusion_matrix</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">feed_dict</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="k">return</span> <span class="n">feed_dict</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

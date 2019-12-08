@@ -37,36 +37,49 @@
 <h1>Results on different datasets<a class="headerlink" href="#results-on-different-datasets" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="stmeta-version">
 <h2>STMeta Version<a class="headerlink" href="#stmeta-version" title="Permalink to this headline">¶</a></h2>
+<p>As introduced in <a class="reference external" href="../static/current_supported_models.html#stmeta">currently supported models</a>, STMeta is a meta-model that can be implemented by different deep learning techniques based on its applications. Here we realize three versions of STMeta to evaluate its generalizability. The main differences between these three variants are the techniques used in spatio-temporal modeling and aggregation units:</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
 <th align="center">Version Name</th>
-<th align="center">Temporal Feature Process</th>
-<th align="center">Temporal Merge Method</th>
-<th align="center">Multi-Graph Merge Method</th>
+<th align="center">Spatio-Temporal Unit</th>
+<th align="center">Temporal Aggregation Unit</th>
+<th align="center">Spatial Aggregation Unit</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td align="center">STMeta-V1</td>
-<td align="center">GCLSTM</td>
-<td align="center">GAL</td>
+<td align="center"><a href="../../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.ST_RNN.GCLSTMCelll">GCLSTM</a></td>
+<td align="center"><a href="../../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.GraphModelLayers.GA">GAL</a></td>
 <td align="center">GAL</td>
 </tr>
 <tr>
 <td align="center">STMeta-V2</td>
 <td align="center">GCLSTM</td>
-<td align="center">Concat+Dense</td>
+<td align="center">Concat &amp; Dense</td>
 <td align="center">GAL</td>
 </tr>
 <tr>
-<td align="center">~~STMeta-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索)</td>
-<td align="center">RGAL</td>
+<td align="center">STMeta-V3</td>
+<td align="center"><a href="../../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.DCRNN_CELL.DCGRUCell">DCGRU</a></td>
 <td align="center">GAL</td>
 <td align="center">GAL</td>
 </tr>
 </tbody>
 </table><p>By default, we use <code class="docutils literal notranslate"><span class="pre">STMeta-V1</span></code> to run LSTM and single graph model tests.</p>
+<p>References:</p>
+<ul>
+<li><p>GCLSTM (Graph Convolutional Long short-term Memory):</p>
+<p><a class="reference external" href="https://arxiv.org/pdf/1807.10934">Chai, D., Wang, L., &amp; Yang, Q. (2018, November). Bike flow prediction with multi-graph convolutional networks</a></p>
+</li>
+<li><p>DCGRU (Diffusion Convolutional Gated Recurrent Unit):</p>
+<p><a class="reference external" href="https://arxiv.org/pdf/1707.01926.pdf">Li, Y., Yu, R., Shahabi, C., &amp; Liu, Y. (2017). Diffusion convolutional recurrent neural network: Data-driven traffic forecasting</a></p>
+</li>
+<li><p>GAL (Graph Attention Layer):</p>
+<p><a class="reference external" href="https://arxiv.org/pdf/1710.10903.pdf">Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., &amp; Bengio, Y. (2017). Graph attention networks</a></p>
+</li>
+</ul>
 </div>
 <div class="section" id="search-space">
 <h2>Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h2>
@@ -1246,7 +1259,7 @@
       </ul>
     </div>
     <div class="footer" role="contentinfo">
-        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>

@@ -2,13 +2,26 @@
 
 ## STMeta Version
 
-|                         Version Name                         | Temporal Feature Process | Temporal Merge Method | Multi-Graph Merge Method |
-| :----------------------------------------------------------: | :----------------------: | :-------------------: | :----------------------: |
-|                       STMeta-V1                       |          GCLSTM          |          GAL          |           GAL            |
-|                       STMeta-V2                       |          GCLSTM          |     Concat+Dense      |           GAL            |
-| ~~STMeta-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索) |           RGAL           |          GAL          |           GAL            |
+As introduced in [Currently Supported Models](./static/current_supported_models.html#stmeta), STMeta is a meta-model that can be implemented by different deep learning techniques based on its applications. Here we realize three versions of STMeta to evaluate its generalizability. The main differences between these three variants are the techniques used in spatio-temporal modeling and aggregation units:
+
+| Version Name |                     Spatio-Temporal Unit                     |                  Temporal Aggregation Unit                   | Spatial Aggregation Unit |
+| :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------: |
+|  STMeta-V1   | [GCLSTM](../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.ST_RNN.GCLSTMCell) | [GAL](../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.GraphModelLayers.GAL) |           GAL            |
+|  STMeta-V2   |                            GCLSTM                            |                        Concat & Dense                        |           GAL            |
+|  STMeta-V3   | [DCGRU](../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.DCRNN_CELL.DCGRUCell) |                             GAL                              |           GAL            |
 
 By default, we use `STMeta-V1` to run LSTM and single graph model tests.
+
+References:
+
+- GCLSTM (Graph Convolutional Long short-term Memory):
+  [Chai, D., Wang, L., & Yang, Q. (2018, November). Bike flow prediction with multi-graph convolutional networks](https://arxiv.org/pdf/1807.10934) 
+
+- DCGRU (Diffusion Convolutional Gated Recurrent Unit):
+  [Li, Y., Yu, R., Shahabi, C., & Liu, Y. (2017). Diffusion convolutional recurrent neural network: Data-driven traffic forecasting](https://arxiv.org/pdf/1707.01926.pdf)  
+  
+- GAL (Graph Attention Layer):
+  [Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., & Bengio, Y. (2017). Graph attention networks](https://arxiv.org/pdf/1710.10903.pdf) 
 
 ## Search Space
 

@@ -1,0 +1,115 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model.XGBoost &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model.XGBoost</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="XGBoost"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.XGBoost.XGBoost">[docs]</a><span class="k">class</span> <span class="nc">XGBoost</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">verbosity</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:squarederror&#39;</span><span class="p">,</span> <span class="n">eval_metric</span><span class="o">=</span><span class="s1">&#39;rmse&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;XGBoost is an optimized distributed gradient boosting machine learning algorithm.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            n_estimators (int): Number of boosting iterations. Default: 10</span>
+<span class="sd">            max_depth (int): Maximum tree depth for base learners. Default: 5</span>
+<span class="sd">            verbosity (int): The degree of verbosity. Valid values are 0 (silent) - 3 (debug). Default: 0</span>
+<span class="sd">            objective (string or callable):</span>
+<span class="sd">                Specify the learning task and the corresponding learning objective or</span>
+<span class="sd">                a custom objective function to be used. Default: ``&#39;reg:squarederror&#39;``</span>
+<span class="sd">            eval_metric (str, list of str, or callable, optional):</span>
+<span class="sd">                If a str, should be a built-in evaluation metric to use. See more in</span>
+<span class="sd">                `API Reference of XGBoost Library &lt;https://xgboost.readthedocs.io/en/latest/python/python_api.html&gt;`_.</span>
+<span class="sd">                Default: ``&#39;rmse&#39;``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="n">max_depth</span><span class="p">,</span>
+            <span class="s1">&#39;verbosity &#39;</span><span class="p">:</span> <span class="n">verbosity</span><span class="p">,</span>
+            <span class="s1">&#39;objective&#39;</span><span class="p">:</span> <span class="n">objective</span><span class="p">,</span>
+            <span class="s1">&#39;eval_metric&#39;</span><span class="p">:</span> <span class="n">eval_metric</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span> <span class="o">=</span> <span class="n">n_estimators</span>
+
+<div class="viewcode-block" id="XGBoost.fit"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.XGBoost.XGBoost.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="n">train_matrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">train_matrix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_estimators</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XGBoost.predict"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.XGBoost.XGBoost.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+        <span class="n">test_matrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_matrix</span><span class="p">)</span></div></div>
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

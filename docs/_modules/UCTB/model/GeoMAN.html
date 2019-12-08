@@ -1,0 +1,480 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model.GeoMAN &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model.GeoMAN</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.contrib.framework</span> <span class="k">import</span> <span class="n">nest</span>
+<span class="kn">from</span> <span class="nn">..model_unit</span> <span class="k">import</span> <span class="n">BaseModel</span>
+
+
+<div class="viewcode-block" id="GeoMAN"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.GeoMAN.GeoMAN">[docs]</a><span class="k">class</span> <span class="nc">GeoMAN</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Multi-level Attention Networks for Geo-sensory Time Series Prediction (GeoMAN)</span>
+
+<span class="sd">            GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global</span>
+<span class="sd">            spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal</span>
+<span class="sd">            dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,</span>
+<span class="sd">            meteorology, time of day and land use).</span>
+
+<span class="sd">            Reference:</span>
+<span class="sd">                `GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang, Yuxuan, et al., 2018)</span>
+<span class="sd">                &lt;https://www.ijcai.org/proceedings/2018/0476.pdf&gt;`_.</span>
+
+<span class="sd">                `An easy implement of GeoMAN using TensorFlow (yoshall &amp; CastleLiang)</span>
+<span class="sd">                &lt;https://github.com/yoshall/GeoMAN&gt;`_.</span>
+
+<span class="sd">            Args:</span>
+<span class="sd">                total_sensers (int): The number of total sensors used in global attention mechanism.</span>
+<span class="sd">                input_dim (int): The number of dimensions of the target sensor&#39;s input.</span>
+<span class="sd">                external_dim (int): The number of dimensions of the external features.</span>
+<span class="sd">                output_dim (int): The number of dimensions of the target sensor&#39;s output.</span>
+<span class="sd">                input_steps (int): The length of historical input data, a.k.a, input timesteps.</span>
+<span class="sd">                output_steps (int): The number of steps that need prediction by one piece of history data, a.k.a, output</span>
+<span class="sd">                    timesteps. Have to be 1 now.</span>
+<span class="sd">                n_stacked_layers (int): The number of LSTM layers stacked in both encoder and decoder (These two are the</span>
+<span class="sd">                    same). Default: 2</span>
+<span class="sd">                n_encoder_hidden_units (int): The number of hidden units in each layer of encoder. Default: 128</span>
+<span class="sd">                n_decoder_hidden_units (int): The number of hidden units in each layer of decoder. Default: 128</span>
+<span class="sd">                dropout_rate (float): Dropout rate of LSTM layers in both encoder and decoder. Default: 0.3</span>
+<span class="sd">                lr (float): Learning rate. Default: 0.001</span>
+<span class="sd">                gc_rate (float): A clipping ratio for all the gradients. This operation normalizes all gradients so that</span>
+<span class="sd">                    their L2-norms are less than or equal to ``gc_rate``. Default: 2.5</span>
+<span class="sd">                code_version (str): Current version of this model code. Default: &#39;GeoMAN-QuickStart&#39;</span>
+<span class="sd">                model_dir (str): The directory to store model files. Default:&#39;model_dir&#39;</span>
+<span class="sd">                gpu_device (str): To specify the GPU to use. Default: &#39;0&#39;</span>
+<span class="sd">                **kwargs (dict): Reserved for future use. May be used to pass parameters to class ``BaseModel``.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">total_sensers</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="p">,</span>
+                 <span class="n">external_dim</span><span class="p">,</span>
+                 <span class="n">output_dim</span><span class="p">,</span>
+                 <span class="n">input_steps</span><span class="p">,</span>
+                 <span class="n">output_steps</span><span class="p">,</span>
+                 <span class="n">n_stacked_layers</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                 <span class="n">n_encoder_hidden_units</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                 <span class="n">n_decoder_hidden_units</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span>
+                 <span class="n">dropout_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                 <span class="n">lr</span><span class="o">=</span><span class="mf">0.001</span><span class="p">,</span>
+                 <span class="n">gc_rate</span><span class="o">=</span><span class="mf">2.5</span><span class="p">,</span>
+                 <span class="n">code_version</span><span class="o">=</span><span class="s1">&#39;GeoMAN-QuickStart&#39;</span><span class="p">,</span>
+                 <span class="n">model_dir</span><span class="o">=</span><span class="s1">&#39;model_dir&#39;</span><span class="p">,</span>
+                 <span class="n">gpu_device</span><span class="o">=</span><span class="s1">&#39;0&#39;</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">GeoMAN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">code_version</span><span class="o">=</span><span class="n">code_version</span><span class="p">,</span> <span class="n">model_dir</span><span class="o">=</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">gpu_device</span><span class="o">=</span><span class="n">gpu_device</span><span class="p">)</span>
+
+        <span class="c1"># Architecture</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_stacked_layers</span> <span class="o">=</span> <span class="n">n_stacked_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_encoder_hidden_units</span> <span class="o">=</span> <span class="n">n_encoder_hidden_units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_decoder_hidden_units</span> <span class="o">=</span> <span class="n">n_decoder_hidden_units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_output_decoder</span> <span class="o">=</span> <span class="n">output_dim</span>  <span class="c1"># n_output_decoder</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_encoder</span> <span class="o">=</span> <span class="n">input_steps</span>  <span class="c1"># encoder_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_decoder</span> <span class="o">=</span> <span class="n">output_steps</span>  <span class="c1"># decoder_steps</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_input_encoder</span> <span class="o">=</span> <span class="n">input_dim</span>  <span class="c1"># n_input_encoder</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_sensers</span> <span class="o">=</span> <span class="n">total_sensers</span>  <span class="c1"># n_sensers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_n_external_input</span> <span class="o">=</span> <span class="n">external_dim</span>  <span class="c1"># external_dim</span>
+
+        <span class="c1"># Hyperparameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dropout_rate</span> <span class="o">=</span> <span class="n">dropout_rate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gc_rate</span> <span class="o">=</span> <span class="n">gc_rate</span>
+
+<div class="viewcode-block" id="GeoMAN.build"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.GeoMAN.GeoMAN.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;inputs&#39;</span><span class="p">):</span>
+                <span class="n">local_features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_encoder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_input_encoder</span><span class="p">],</span>
+                                                <span class="n">name</span><span class="o">=</span><span class="s1">&#39;local_features&#39;</span><span class="p">)</span>
+                <span class="n">global_features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_encoder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_sensers</span><span class="p">],</span>
+                                                 <span class="n">name</span><span class="o">=</span><span class="s1">&#39;global_features&#39;</span><span class="p">)</span>
+                <span class="n">external_features</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                                                   <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_decoder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_external_input</span><span class="p">],</span>
+                                                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;external_features&#39;</span><span class="p">)</span>
+                <span class="n">local_attn_states</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                                                   <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_input_encoder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_encoder</span><span class="p">],</span>
+                                                   <span class="n">name</span><span class="o">=</span><span class="s1">&#39;local_attn_states&#39;</span><span class="p">)</span>
+                <span class="n">global_attn_states</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_sensers</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_input_encoder</span><span class="p">,</span>
+                                                                       <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_encoder</span><span class="p">],</span>
+                                                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;global_attn_states&#39;</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;ground_truth&#39;</span><span class="p">):</span>
+                <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_steps_decoder</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_n_output_decoder</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;local_features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_features</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;global_features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">global_features</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;external_features&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">external_features</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;local_attn_states&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">local_attn_states</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;global_attn_states&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">global_attn_states</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;targets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">targets</span><span class="o">.</span><span class="n">name</span>
+
+            <span class="n">predict_layer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_output_decoder</span><span class="p">,</span>
+                                                  <span class="n">kernel_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">truncated_normal_initializer</span><span class="p">,</span>
+                                                  <span class="n">bias_initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mf">0.</span><span class="p">),</span>
+                                                  <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">_build_cells</span><span class="p">(</span><span class="n">n_hidden_units</span><span class="p">):</span>
+                <span class="n">cells</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_stacked_layers</span><span class="p">):</span>
+                    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;LSTM_</span><span class="si">{i}</span><span class="s1">&#39;</span><span class="p">):</span>
+                        <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">n_hidden_units</span><span class="p">,</span>
+                                                            <span class="n">forget_bias</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+                                                            <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                        <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">rnn_cell</span><span class="o">.</span><span class="n">DropoutWrapper</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">output_keep_prob</span><span class="o">=</span><span class="mf">1.0</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dropout_rate</span><span class="p">)</span>
+                        <span class="n">cells</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cell</span><span class="p">)</span>
+                <span class="n">encoder_cell</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">(</span><span class="n">cells</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">encoder_cell</span>
+
+            <span class="k">def</span> <span class="nf">_loop_function</span><span class="p">(</span><span class="n">prev</span><span class="p">):</span>
+                <span class="sd">&quot;&quot;&quot;loop function used in the decoder to generate the next input&quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="n">predict_layer</span><span class="p">(</span><span class="n">prev</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">_get_MSE_loss</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">pow</span><span class="p">(</span><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;MSE_loss&#39;</span><span class="p">)</span>
+
+            <span class="k">def</span> <span class="nf">_get_l2reg_loss</span><span class="p">():</span>
+                <span class="c1"># l2 loss</span>
+                <span class="n">reg_loss</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">tf_var</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="s1">&#39;kernel:&#39;</span> <span class="ow">in</span> <span class="n">tf_var</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="s1">&#39;bias:&#39;</span> <span class="ow">in</span> <span class="n">tf_var</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
+                        <span class="n">reg_loss</span> <span class="o">+=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">l2_loss</span><span class="p">(</span><span class="n">tf_var</span><span class="p">))</span>
+                <span class="k">return</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="n">reg_loss</span>
+
+            <span class="k">def</span> <span class="nf">_spatial_attention</span><span class="p">(</span><span class="n">local_features</span><span class="p">,</span>  <span class="c1"># x and X</span>
+                                   <span class="n">global_features</span><span class="p">,</span>
+                                   <span class="n">local_attention_states</span><span class="p">,</span>
+                                   <span class="n">global_attention_states</span><span class="p">,</span>
+                                   <span class="n">encoder_cells</span><span class="p">,</span>  <span class="c1"># to acquire h_{t-1}, s_{t-1}</span>
+                                   <span class="p">):</span>
+                <span class="n">batch_size</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">local_features</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">output_size</span> <span class="o">=</span> <span class="n">encoder_cells</span><span class="o">.</span><span class="n">output_size</span>
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;spatial_attention&#39;</span><span class="p">):</span>
+                    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;local_spatial_attn&#39;</span><span class="p">):</span>
+                        <span class="n">local_attn_length</span> <span class="o">=</span> <span class="n">local_attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># n_input_encoder</span>
+                        <span class="n">local_attn_size</span> <span class="o">=</span> <span class="n">local_attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># n_steps_encoder</span>
+                        <span class="n">local_attn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">local_attn_length</span><span class="p">])</span>
+
+                        <span class="c1">#  Add local features in attention</span>
+                        <span class="n">x_ik</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">local_attention_states</span><span class="p">,</span>
+                                          <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">local_attn_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_attn_size</span><span class="p">])</span>  <span class="c1"># features</span>
+                        <span class="n">Ul</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;spati_atten_Ul&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_attn_size</span><span class="p">,</span> <span class="n">local_attn_size</span><span class="p">])</span>
+                        <span class="n">Ul_x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">x_ik</span><span class="p">,</span> <span class="n">Ul</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;SAME&#39;</span><span class="p">)</span>  <span class="c1"># U_l * x^{i,k}</span>
+                        <span class="n">vl</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;spati_atten_vl&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">local_attn_size</span><span class="p">])</span>  <span class="c1"># v_l</span>
+
+                        <span class="k">def</span> <span class="nf">_local_spatial_attention</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+                            <span class="c1"># If the query is a tuple (when stacked RNN/LSTM), flatten it</span>
+                            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+                                <span class="n">query_list</span> <span class="o">=</span> <span class="n">nest</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">query_list</span><span class="p">:</span>
+                                    <span class="n">ndims</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">ndims</span>
+                                    <span class="k">if</span> <span class="n">ndims</span><span class="p">:</span>
+                                        <span class="k">assert</span> <span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span>
+                                <span class="n">query</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;local_spatial_attn_Wl&#39;</span><span class="p">):</span>
+                                <span class="n">h_s</span> <span class="o">=</span> <span class="n">query</span>
+                                <span class="n">Wl_hs_bl</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">local_attn_size</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">h_s</span><span class="p">)</span>
+                                <span class="n">Wl_hs_bl</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Wl_hs_bl</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">local_attn_size</span><span class="p">])</span>
+                                <span class="n">score</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">vl</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">Wl_hs_bl</span> <span class="o">+</span> <span class="n">Ul_x</span><span class="p">),</span>
+                                                      <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>  <span class="c1"># ! Ux is a 4 dims matrix, have to use reduce_sum here</span>
+                                <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                            <span class="k">return</span> <span class="n">attention_weights</span>
+
+                    <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;global_spatial_attn&#39;</span><span class="p">):</span>
+                        <span class="n">global_attn_length</span> <span class="o">=</span> <span class="n">global_attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># n_sensor</span>
+                        <span class="n">global_n_input</span> <span class="o">=</span> <span class="n">global_attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># n_input_dim</span>
+                        <span class="n">global_attn_size</span> <span class="o">=</span> <span class="n">global_attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>  <span class="c1"># n_input_dim</span>
+                        <span class="n">global_attn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">global_attn_length</span><span class="p">])</span>
+
+                        <span class="c1"># Add global features in attention</span>
+                        <span class="n">Xl</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">global_attention_states</span><span class="p">,</span>
+                                        <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">global_attn_length</span><span class="p">,</span> <span class="n">global_n_input</span><span class="p">,</span> <span class="n">global_attn_size</span><span class="p">])</span>
+                        <span class="n">Wg_ug</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;spati_atten_Wg_ug&#39;</span><span class="p">,</span>
+                                                <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">global_n_input</span><span class="p">,</span> <span class="n">global_attn_size</span><span class="p">,</span> <span class="n">global_attn_size</span><span class="p">])</span>
+                        <span class="n">Wg_Xl_ug</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">Xl</span><span class="p">,</span> <span class="n">Wg_ug</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
+                        <span class="n">vg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;spati_atten_vg&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">local_attn_size</span><span class="p">])</span>
+
+                        <span class="c1"># TODO: add U_g * y^l here, where y^l is the first column of local inputs.</span>
+
+                        <span class="k">def</span> <span class="nf">_global_spatial_attention</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+                            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+                                <span class="n">query_list</span> <span class="o">=</span> <span class="n">nest</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                                <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">query_list</span><span class="p">:</span>  <span class="c1"># Check that ndims == 2 if specified.</span>
+                                    <span class="n">ndims</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">ndims</span>
+                                    <span class="k">if</span> <span class="n">ndims</span><span class="p">:</span>
+                                        <span class="k">assert</span> <span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span>
+                                <span class="n">query</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;global_spatial_attn_Wl&#39;</span><span class="p">):</span>
+                                <span class="n">h_s</span> <span class="o">=</span> <span class="n">query</span>
+                                <span class="n">Wg_hs_bg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">global_attn_size</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">h_s</span><span class="p">)</span>
+                                <span class="n">Wg_hs_bg</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">Wg_hs_bg</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">global_attn_size</span><span class="p">])</span>
+                                <span class="n">score</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">vg</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">Wg_hs_bg</span> <span class="o">+</span> <span class="n">Wg_Xl_ug</span><span class="p">),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+                                <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                                <span class="c1"># Sometimes it&#39;s not easy to find a measurement to denote similarity between sensors,</span>
+                                <span class="c1"># here we omit such prior knowledge in eq.[4].</span>
+                                <span class="c1"># You can use &quot;a = nn_ops.softmax((1-lambda)*s + lambda*sim)&quot; to encode similarity info,</span>
+                                <span class="c1"># where:</span>
+                                <span class="c1">#     sim: a vector with length n_sensors, describing the sim between the target sensor and the others</span>
+                                <span class="c1">#     lambda: a trade-off.</span>
+                                <span class="c1"># attention_weights = tf.softmax((1-self.sm_rate)*score+self.sm_rate*self.similarity_graph)</span>
+                            <span class="k">return</span> <span class="n">attention_weights</span>
+
+                    <span class="c1"># Init</span>
+                    <span class="n">zeros</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">)]</span>
+                    <span class="n">initial_state</span> <span class="o">=</span> <span class="p">[</span><span class="n">zeros</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">encoder_cells</span><span class="o">.</span><span class="n">_cells</span><span class="p">))]</span>
+                    <span class="n">state</span> <span class="o">=</span> <span class="n">initial_state</span>
+
+                    <span class="c1"># For each timestep</span>
+                    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="n">attn_weights</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">local_input</span><span class="p">,</span> <span class="n">global_input</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">local_features</span><span class="p">,</span> <span class="n">global_features</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable_scope</span><span class="p">()</span><span class="o">.</span><span class="n">reuse_variables</span><span class="p">()</span>
+
+                        <span class="n">local_context_vector</span> <span class="o">=</span> <span class="n">local_attn</span> <span class="o">*</span> <span class="n">local_input</span>
+                        <span class="n">global_context_vector</span> <span class="o">=</span> <span class="n">global_attn</span> <span class="o">*</span> <span class="n">global_input</span>
+                        <span class="n">x_t</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">local_context_vector</span><span class="p">,</span> <span class="n">global_context_vector</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">encoder_output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">encoder_cells</span><span class="p">(</span><span class="n">x_t</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>  <span class="c1"># Update states</span>
+
+                        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;local_spatial_attn&#39;</span><span class="p">):</span>
+                            <span class="n">local_attn</span> <span class="o">=</span> <span class="n">_local_spatial_attention</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+                        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;global_spatial_attn&#39;</span><span class="p">):</span>
+                            <span class="n">global_attn</span> <span class="o">=</span> <span class="n">_global_spatial_attention</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+                        <span class="n">attn_weights</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">local_attn</span><span class="p">,</span> <span class="n">global_attn</span><span class="p">))</span>
+                        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">encoder_output</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">attn_weights</span>
+
+            <span class="k">def</span> <span class="nf">_temporal_attention</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span>
+                                    <span class="n">external_features</span><span class="p">,</span>
+                                    <span class="n">inital_states</span><span class="p">,</span>  <span class="c1"># the first time, the output of encoder</span>
+                                    <span class="n">attention_states</span><span class="p">,</span>  <span class="c1"># h_o</span>
+                                    <span class="n">decoder_cells</span><span class="p">):</span>
+                <span class="n">batch_size</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">output_size</span> <span class="o">=</span> <span class="n">decoder_cells</span><span class="o">.</span><span class="n">output_size</span>
+                <span class="n">input_size</span> <span class="o">=</span> <span class="n">decoder_inputs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># ?</span>
+                <span class="n">state</span> <span class="o">=</span> <span class="n">inital_states</span>
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;temperal_attention&#39;</span><span class="p">):</span>
+                    <span class="n">attn_length</span> <span class="o">=</span> <span class="n">attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+                    <span class="n">attn_size</span> <span class="o">=</span> <span class="n">attention_states</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+                    <span class="n">h_o</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">attention_states</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">attn_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">attn_size</span><span class="p">])</span>
+                    <span class="n">W_d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;temperal_attn_Wd&#39;</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">attn_size</span><span class="p">,</span> <span class="n">attn_size</span><span class="p">])</span>
+                    <span class="n">W_h</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">conv2d</span><span class="p">(</span><span class="n">h_o</span><span class="p">,</span> <span class="n">W_d</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;SAME&#39;</span><span class="p">)</span>
+                    <span class="n">v_d</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s1">&#39;temperal_attn_vd&#39;</span><span class="p">,</span> <span class="p">[</span><span class="n">attn_size</span><span class="p">])</span>
+
+                    <span class="k">def</span> <span class="nf">_attention</span><span class="p">(</span><span class="n">query</span><span class="p">):</span>
+                        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="s2">&quot;__iter__&quot;</span><span class="p">):</span>
+                            <span class="n">query_list</span> <span class="o">=</span> <span class="n">nest</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">query_list</span><span class="p">:</span>  <span class="c1"># Check that ndims == 2 if specified.</span>
+                                <span class="n">ndims</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">ndims</span>
+                                <span class="k">if</span> <span class="n">ndims</span><span class="p">:</span>
+                                    <span class="k">assert</span> <span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span>
+                            <span class="n">query</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">query_list</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;attention&#39;</span><span class="p">):</span>
+                            <span class="n">d_s</span> <span class="o">=</span> <span class="n">query</span>
+                            <span class="n">W_ds_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">attn_size</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">d_s</span><span class="p">)</span>
+                            <span class="n">W_ds_b</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">W_ds_b</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">attn_size</span><span class="p">])</span>
+                            <span class="n">score</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">v_d</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">W_ds_b</span> <span class="o">+</span> <span class="n">W_h</span><span class="p">),</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+                            <span class="n">attention_weights</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">score</span><span class="p">)</span>
+                            <span class="n">context_vector</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span>
+                                <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">attention_weights</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">attn_length</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span> <span class="o">*</span> <span class="n">h_o</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+                            <span class="n">context_vector</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">context_vector</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">attn_size</span><span class="p">])</span>
+                        <span class="k">return</span> <span class="n">context_vector</span>
+
+                    <span class="c1"># Init</span>
+                    <span class="n">inital_attn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">batch_size</span><span class="p">,</span> <span class="n">output_size</span><span class="p">])</span>
+                    <span class="n">attn</span> <span class="o">=</span> <span class="n">inital_attn</span>
+                    <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+
+                    <span class="n">prev_decoder_output</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># d_{t-1}</span>
+                    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">decoder_input</span><span class="p">,</span> <span class="n">external_input</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span> <span class="n">external_features</span><span class="p">)):</span>
+                        <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable_scope</span><span class="p">()</span><span class="o">.</span><span class="n">reuse_variables</span><span class="p">()</span>
+                        <span class="k">if</span> <span class="n">prev_decoder_output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">_loop_function</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;loop_function&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+                                <span class="n">decoder_input</span> <span class="o">=</span> <span class="n">_loop_function</span><span class="p">(</span><span class="n">prev_decoder_output</span><span class="p">)</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">decoder_input</span><span class="p">,</span> <span class="n">external_input</span><span class="p">,</span> <span class="n">attn</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                        <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">input_size</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+                        <span class="n">decoder_output</span><span class="p">,</span> <span class="n">state</span> <span class="o">=</span> <span class="n">decoder_cells</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+                        <span class="c1"># Update attention weights</span>
+                        <span class="n">attn</span> <span class="o">=</span> <span class="n">_attention</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+                        <span class="c1"># Attention output projection</span>
+                        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s2">&quot;attn_output_projection&quot;</span><span class="p">):</span>
+                            <span class="n">x</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">decoder_output</span><span class="p">,</span> <span class="n">attn</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                            <span class="n">output</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">Dense</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+                        <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+                        <span class="n">prev_decoder_output</span> <span class="o">=</span> <span class="n">output</span>
+                <span class="k">return</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">state</span>
+
+            <span class="c1"># Handle data</span>
+            <span class="n">local_features</span><span class="p">,</span> <span class="n">global_features</span><span class="p">,</span> <span class="n">external_features</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">decoder_inputs</span> <span class="o">=</span> <span class="n">input_transform</span><span class="p">(</span>
+                <span class="n">local_features</span><span class="p">,</span> <span class="n">global_features</span><span class="p">,</span> <span class="n">external_features</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+            <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;GeoMAN&#39;</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;encoder&#39;</span><span class="p">):</span>
+                    <span class="n">encoder_cells</span> <span class="o">=</span> <span class="n">_build_cells</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_encoder_hidden_units</span><span class="p">)</span>
+                    <span class="n">encoder_outputs</span><span class="p">,</span> <span class="n">encoder_state</span><span class="p">,</span> <span class="n">attn_weights</span> <span class="o">=</span> <span class="n">_spatial_attention</span><span class="p">(</span><span class="n">local_features</span><span class="p">,</span>
+                                                                                      <span class="n">global_features</span><span class="p">,</span>
+                                                                                      <span class="n">local_attn_states</span><span class="p">,</span>
+                                                                                      <span class="n">global_attn_states</span><span class="p">,</span>
+                                                                                      <span class="n">encoder_cells</span><span class="p">)</span>
+                    <span class="n">top_states</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">encoder_cells</span><span class="o">.</span><span class="n">output_size</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">encoder_outputs</span><span class="p">]</span>
+                    <span class="n">attention_states</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">top_states</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;decoder&#39;</span><span class="p">):</span>
+                    <span class="n">decoder_cells</span> <span class="o">=</span> <span class="n">_build_cells</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_n_decoder_hidden_units</span><span class="p">)</span>
+                    <span class="n">decoder_outputs</span><span class="p">,</span> <span class="n">states</span> <span class="o">=</span> <span class="n">_temporal_attention</span><span class="p">(</span><span class="n">decoder_inputs</span><span class="p">,</span>
+                                                                  <span class="n">external_features</span><span class="p">,</span>
+                                                                  <span class="n">encoder_state</span><span class="p">,</span>
+                                                                  <span class="n">attention_states</span><span class="p">,</span>
+                                                                  <span class="n">decoder_cells</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;prediction&#39;</span><span class="p">):</span>
+                    <span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
+                    <span class="k">for</span> <span class="n">decoder_output</span> <span class="ow">in</span> <span class="n">decoder_outputs</span><span class="p">:</span>
+                        <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">predict_layer</span><span class="p">(</span><span class="n">decoder_output</span><span class="p">))</span>
+                    <span class="n">predictions</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;predictions&#39;</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">):</span>
+                    <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;targets&#39;</span><span class="p">)</span>
+                    <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">_get_MSE_loss</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">predictions</span><span class="p">),</span> <span class="n">_get_l2reg_loss</span><span class="p">(),</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">)</span>
+
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;train_op&#39;</span><span class="p">):</span>
+                    <span class="n">global_step</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">get_or_create_global_step</span><span class="p">()</span>
+                    <span class="n">optimizer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lr</span><span class="p">)</span>
+                    <span class="n">gradients</span><span class="p">,</span> <span class="n">variables</span> <span class="o">=</span> <span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">optimizer</span><span class="o">.</span><span class="n">compute_gradients</span><span class="p">(</span><span class="n">loss</span><span class="p">))</span>
+                    <span class="n">gradients</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">clip_by_global_norm</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gc_rate</span><span class="p">)</span>  <span class="c1"># clip norm</span>
+                    <span class="n">train_op</span> <span class="o">=</span> <span class="n">optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients</span><span class="p">,</span> <span class="n">variables</span><span class="p">),</span> <span class="n">global_step</span><span class="p">)</span>
+
+                <span class="c1"># record output</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">predictions</span><span class="o">.</span><span class="n">name</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">name</span>
+                <span class="c1"># record op</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">[</span><span class="s1">&#39;train_op&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_op</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">GeoMAN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">init_vars</span><span class="o">=</span><span class="n">init_vars</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_feed_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">local_features</span><span class="p">,</span>
+                       <span class="n">global_features</span><span class="p">,</span>
+                       <span class="n">local_attn_states</span><span class="p">,</span>
+                       <span class="n">global_attn_states</span><span class="p">,</span>
+                       <span class="n">external_features</span><span class="p">,</span>
+                       <span class="n">targets</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;The method to get feet dict for tensorflow model.</span>
+
+<span class="sd">        Users may modify this method according to the format of input.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            local_features (np.ndarray): All the time series generated by the target sensor i, including one target</span>
+<span class="sd">                series and other feature series, with shape `(batch, input_steps, input_dim)`.</span>
+<span class="sd">            global_features (np.ndarray): Target series generated by all the sensors, with shape `(batch, input_steps,</span>
+<span class="sd">                total_sensors)`.</span>
+<span class="sd">            local_attn_states (np.ndarray): Equals to ``local_features`` swapped ``input_steps`` and ``input_dim`` axis,</span>
+<span class="sd">                with shape `(batch, input_dim, input_steps)`.</span>
+<span class="sd">            global_attn_states (np.ndarray): All time series generated by all sensors, with shape `(batch,</span>
+<span class="sd">                total_sensors, input_dim, input_steps)`.</span>
+<span class="sd">            external_features (np.ndarray): Fused external factors, e.g., temporal factors: meteorology and spatial</span>
+<span class="sd">                factors: POIs density, with shape `(batch, output_steps, external_dim)`. All features have to be</span>
+<span class="sd">                time series.</span>
+<span class="sd">            targets (np.ndarray): Target sensor&#39;s labels, with shape `(batch, output_steps, output_dim)`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;local_features&#39;</span><span class="p">:</span> <span class="n">local_features</span><span class="p">,</span> <span class="s1">&#39;global_features&#39;</span><span class="p">:</span> <span class="n">global_features</span><span class="p">,</span>
+                     <span class="s1">&#39;local_attn_states&#39;</span><span class="p">:</span> <span class="n">local_attn_states</span><span class="p">,</span> <span class="s1">&#39;global_attn_states&#39;</span><span class="p">:</span> <span class="n">global_attn_states</span><span class="p">,</span>
+                     <span class="s1">&#39;external_features&#39;</span><span class="p">:</span> <span class="n">external_features</span><span class="p">,</span> <span class="s1">&#39;targets&#39;</span><span class="p">:</span> <span class="n">targets</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">feed_dict</span></div>
+
+
+<div class="viewcode-block" id="input_transform"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.GeoMAN.input_transform">[docs]</a><span class="k">def</span> <span class="nf">input_transform</span><span class="p">(</span><span class="n">local_features</span><span class="p">,</span>
+                    <span class="n">global_features</span><span class="p">,</span>
+                    <span class="n">external_features</span><span class="p">,</span>
+                    <span class="n">targets</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split the model&#39;s inputs from matrices to lists on timesteps axis.&quot;&quot;&quot;</span>
+    <span class="n">local_features</span> <span class="o">=</span> <span class="n">split_timesteps</span><span class="p">(</span><span class="n">local_features</span><span class="p">)</span>
+    <span class="n">global_features</span> <span class="o">=</span> <span class="n">split_timesteps</span><span class="p">(</span><span class="n">global_features</span><span class="p">)</span>
+    <span class="n">external_features</span> <span class="o">=</span> <span class="n">split_timesteps</span><span class="p">(</span><span class="n">external_features</span><span class="p">)</span>
+    <span class="n">targets</span> <span class="o">=</span> <span class="n">split_timesteps</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+    <span class="n">decoder_inputs</span> <span class="o">=</span> <span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">targets</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)]</span> <span class="o">+</span> <span class="n">targets</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># useless when loop func is employed</span>
+    <span class="k">return</span> <span class="n">local_features</span><span class="p">,</span> <span class="n">global_features</span><span class="p">,</span> <span class="n">external_features</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">decoder_inputs</span></div>
+
+
+<div class="viewcode-block" id="split_timesteps"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.GeoMAN.split_timesteps">[docs]</a><span class="k">def</span> <span class="nf">split_timesteps</span><span class="p">(</span><span class="n">inputs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split the input matrix from (batch, timesteps, input_dim) to a step list ([[batch, input_dim], ..., ]).&quot;&quot;&quot;</span>
+    <span class="n">timesteps</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">feature_dims</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">feature_dims</span><span class="p">])</span>
+    <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">timesteps</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">inputs</span></div>
+
+
+
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model_unit.GraphModelLayers &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model_unit.GraphModelLayers</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">math</span> <span class="k">import</span> <span class="n">radians</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span><span class="p">,</span> <span class="n">asin</span><span class="p">,</span> <span class="n">sqrt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="k">import</span> <span class="n">pearsonr</span>
+
+
+<div class="viewcode-block" id="GraphBuilder"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GraphBuilder">[docs]</a><span class="k">class</span> <span class="nc">GraphBuilder</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphBuilder.haversine"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GraphBuilder.haversine">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">haversine</span><span class="p">(</span><span class="n">lat1</span><span class="p">,</span> <span class="n">lon1</span><span class="p">,</span> <span class="n">lat2</span><span class="p">,</span> <span class="n">lon2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate the great circle distance between two points</span>
+<span class="sd">        on the earth (specified in decimal degrees)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">radians</span><span class="p">,</span> <span class="p">[</span><span class="n">lon1</span><span class="p">,</span> <span class="n">lat1</span><span class="p">,</span> <span class="n">lon2</span><span class="p">,</span> <span class="n">lat2</span><span class="p">])</span>
+
+        <span class="c1"># haversine</span>
+        <span class="n">dlon</span> <span class="o">=</span> <span class="n">lon2</span> <span class="o">-</span> <span class="n">lon1</span>
+        <span class="n">dlat</span> <span class="o">=</span> <span class="n">lat2</span> <span class="o">-</span> <span class="n">lat1</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">sin</span><span class="p">(</span><span class="n">dlat</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span> <span class="o">+</span> <span class="n">cos</span><span class="p">(</span><span class="n">lat1</span><span class="p">)</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">lat2</span><span class="p">)</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">dlon</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">asin</span><span class="p">(</span><span class="n">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="mi">6371</span>
+
+        <span class="k">return</span> <span class="n">c</span> <span class="o">*</span> <span class="n">r</span> <span class="o">*</span> <span class="mi">1000</span></div>
+
+<div class="viewcode-block" id="GraphBuilder.correlation_adjacent"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_adjacent">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">correlation_adjacent</span><span class="p">(</span><span class="n">traffic_data</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="n">adjacent_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">r</span><span class="p">,</span> <span class="n">p_value</span> <span class="o">=</span> <span class="n">pearsonr</span><span class="p">(</span><span class="n">traffic_data</span><span class="p">[:,</span> <span class="n">i</span><span class="p">],</span> <span class="n">traffic_data</span><span class="p">[:,</span> <span class="n">j</span><span class="p">])</span>
+                <span class="n">adjacent_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">else</span> <span class="n">r</span>
+        <span class="n">adjacent_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">adjacent_matrix</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adjacent_matrix</span></div>
+
+<div class="viewcode-block" id="GraphBuilder.distance_adjacent"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_adjacent">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">distance_adjacent</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="n">adjacent_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">)])</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">)):</span>
+                <span class="n">adjacent_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">GraphBuilder</span><span class="o">.</span><span class="n">haversine</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                                                               <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">adjacent_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">adjacent_matrix</span> <span class="o">&lt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">adjacent_matrix</span></div>
+
+<div class="viewcode-block" id="GraphBuilder.interaction_adjacent"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">interaction_adjacent</span><span class="p">(</span><span class="n">interaction_matrix</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">interaction_matrix</span> <span class="o">&gt;=</span> <span class="n">threshold</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GraphBuilder.adjacent_to_laplacian"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_laplacian">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">adjacent_to_laplacian</span><span class="p">(</span><span class="n">adjacent_matrix</span><span class="p">):</span>
+        <span class="n">adjacent_matrix</span> <span class="o">-=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">adjacent_matrix</span><span class="p">))</span>
+        <span class="n">diagonal_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">adjacent_matrix</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="o">**</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">)</span>
+        <span class="n">diagonal_matrix</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">diagonal_matrix</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">adjacent_matrix</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">diagonal_matrix</span><span class="p">,</span> <span class="n">adjacent_matrix</span><span class="p">),</span>
+                                                                 <span class="n">diagonal_matrix</span><span class="p">)</span>
+        <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">laplacian_matrix</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">laplacian_matrix</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">adjacent_matrix</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">laplacian_matrix</span></div></div>
+
+
+<span class="c1"># Graph Attention Layer</span>
+<div class="viewcode-block" id="GAL"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GAL">[docs]</a><span class="k">class</span> <span class="nc">GAL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GAL.attention_merge_weight"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">attention_merge_weight</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">leaky_relu</span><span class="p">):</span>
+
+        <span class="n">inputs_shape</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">num_node</span> <span class="o">=</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">num_feature</span> <span class="o">=</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">num_feature</span><span class="p">,</span> <span class="n">units</span> <span class="o">*</span> <span class="n">num_head</span><span class="p">]))</span>
+
+        <span class="c1"># linear transform</span>
+        <span class="n">l_t</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_feature</span><span class="p">]),</span> <span class="n">W</span><span class="p">)</span>
+        <span class="n">l_t</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">l_t</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_node</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">units</span><span class="p">])</span>
+
+        <span class="c1"># compute attention</span>
+        <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">units</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num_head</span><span class="p">]))</span>
+
+        <span class="n">e</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_node</span><span class="p">):</span>
+            <span class="n">multi_head_result</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_head</span><span class="p">):</span>
+                <span class="n">multi_head_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">l_t</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="p">:],</span> <span class="n">l_t</span><span class="p">[:,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="p">:]],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">a</span><span class="p">[:,</span> <span class="n">k</span><span class="p">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">multi_head_result</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+
+        <span class="n">e</span> <span class="o">=</span> <span class="n">activation</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">num_node</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">alpha</span></div>
+
+<div class="viewcode-block" id="GAL.add_ga_layer_matrix"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_ga_layer_matrix</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">):</span>
+
+        <span class="n">inputs_shape</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">num_node</span> <span class="o">=</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">num_feature</span> <span class="o">=</span> <span class="n">inputs_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="n">W</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">num_feature</span><span class="p">,</span> <span class="n">units</span> <span class="o">*</span> <span class="n">num_head</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+
+        <span class="c1"># linear transform</span>
+        <span class="n">l_t</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_feature</span><span class="p">]),</span> <span class="n">W</span><span class="p">)</span>
+        <span class="n">l_t</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">l_t</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_node</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">units</span><span class="p">])</span>
+
+        <span class="n">a</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Variable</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">random_normal</span><span class="p">([</span><span class="n">units</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span> <span class="n">num_head</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+
+        <span class="n">e_multi_head</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">for</span> <span class="n">head_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_head</span><span class="p">):</span>
+
+            <span class="n">l_t_i</span> <span class="o">=</span> <span class="n">l_t</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">head_index</span><span class="p">,</span> <span class="p">:]</span>
+            <span class="n">a_i</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:,</span> <span class="n">head_index</span><span class="p">:</span><span class="n">head_index</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+
+            <span class="n">l_t_i_0</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">l_t_i</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_node</span><span class="p">)]</span> <span class="o">*</span> <span class="n">num_node</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">l_t_i_1</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">l_t_i</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">e</span><span class="p">]</span><span class="o">*</span><span class="n">num_node</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_node</span><span class="p">)])</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">tmp_e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">((</span><span class="n">l_t_i_0</span><span class="p">,</span> <span class="n">l_t_i_1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">units</span><span class="o">*</span><span class="mi">2</span><span class="p">]),</span> <span class="n">a_i</span><span class="p">)</span>
+            <span class="n">tmp_e</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">softmax</span><span class="p">(</span><span class="n">activation</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tmp_e</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_node</span><span class="p">,</span> <span class="n">num_node</span><span class="p">])),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">e_multi_head</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_e</span><span class="p">)</span>
+
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">e_multi_head</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Averaging</span>
+        <span class="n">gc_output</span> <span class="o">=</span> <span class="n">activation</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">l_t</span><span class="p">,</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">])),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">gc_output</span></div>
+
+<div class="viewcode-block" id="GAL.add_residual_ga_layer"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_residual_ga_layer</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">):</span>
+
+        <span class="n">_</span><span class="p">,</span> <span class="n">gc_output</span> <span class="o">=</span> <span class="n">GAL</span><span class="o">.</span><span class="n">add_ga_layer_matrix</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">num_head</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">)</span>
+
+        <span class="n">gc_output_residual</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">gc_output</span><span class="p">,</span> <span class="n">inputs</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">gc_output_residual</span></div></div>
+
+
+<span class="c1"># Graph Convolution Layer</span>
+<div class="viewcode-block" id="GCL"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GCL">[docs]</a><span class="k">class</span> <span class="nc">GCL</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+<div class="viewcode-block" id="GCL.add_gc_layer"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_gc_layer</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span>
+                     <span class="n">gcn_k</span><span class="p">,</span>
+                     <span class="n">laplacian_matrix</span><span class="p">,</span>
+                     <span class="n">output_size</span><span class="p">,</span>
+                     <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+                     <span class="n">use_bias</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">trainable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                     <span class="n">initializer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">regularizer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">):</span>
+
+        <span class="c1"># [batch_size, num_node, num_feature]</span>
+        <span class="n">input_shape</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">with_rank</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+        <span class="n">num_node</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">inputs</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">num_feature</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="c1"># GC on inputs</span>
+        <span class="c1"># reshape from [batch, num_node, num_feature] into [num_node, batch*num_feature]</span>
+        <span class="n">gc_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">perm</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span> <span class="p">[</span><span class="n">num_node</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># Chebyshev polynomials</span>
+        <span class="c1"># Reference: https://github.com/mdeff/cnn_graph</span>
+        <span class="n">gc_outputs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="c1"># Xt_0 = T_0 X = I X = X.</span>
+        <span class="n">gc_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">gc_input</span><span class="p">)</span>
+        <span class="c1"># Xt_1 = T_1 X = L X.</span>
+        <span class="k">if</span> <span class="n">gcn_k</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">gc_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">laplacian_matrix</span><span class="p">,</span> <span class="n">gc_input</span><span class="p">))</span>
+        <span class="c1"># Xt_k = 2 L Xt_k-1 - Xt_k-2.</span>
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">gcn_k</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">gc_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">laplacian_matrix</span><span class="p">,</span> <span class="n">gc_outputs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">gc_outputs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="c1"># [gcn_k+1, number_nodes, batch*num_feature]</span>
+        <span class="n">gc_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">,</span> <span class="p">[</span><span class="n">gcn_k</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_node</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_feature</span><span class="p">])</span>
+        <span class="c1"># [batch, number_nodes, num_feature, gcn_k+1]</span>
+        <span class="n">gc_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="c1"># [batch*number_nodes, num_feature*gcn_k+1]</span>
+        <span class="n">gc_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_feature</span><span class="o">*</span><span class="p">(</span><span class="n">gcn_k</span><span class="o">+</span><span class="mi">1</span><span class="p">)])</span>
+
+        <span class="n">output_weight</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s2">&quot;weights&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="n">num_feature</span><span class="o">*</span><span class="p">(</span><span class="n">gcn_k</span><span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="n">output_size</span><span class="p">],</span>
+                                        <span class="n">trainable</span><span class="o">=</span><span class="n">trainable</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                                        <span class="n">initializer</span><span class="o">=</span><span class="n">initializer</span><span class="p">,</span> <span class="n">regularizer</span><span class="o">=</span><span class="n">regularizer</span><span class="p">)</span>
+        <span class="n">gc_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">,</span> <span class="n">output_weight</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">use_bias</span><span class="p">:</span>
+            <span class="n">biases</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">get_variable</span><span class="p">(</span><span class="s2">&quot;biases&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">output_size</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
+                                     <span class="n">initializer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">constant_initializer</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">))</span>
+            <span class="n">gc_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">bias_add</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">,</span> <span class="n">biases</span><span class="p">)</span>
+
+        <span class="n">gc_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">num_node</span><span class="p">,</span> <span class="n">output_size</span><span class="p">])</span>
+
+        <span class="k">return</span> <span class="n">activation</span><span class="p">(</span><span class="n">gc_outputs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCL.add_multi_gc_layers"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">add_multi_gc_layers</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">gcn_k</span><span class="p">,</span> <span class="n">gcn_l</span><span class="p">,</span> <span class="n">output_size</span><span class="p">,</span> <span class="n">laplacian_matrix</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;multi_gcl&#39;</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">gcn_l</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;gcl_</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">i</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                    <span class="n">inputs</span> <span class="o">=</span> <span class="n">GCL</span><span class="o">.</span><span class="n">add_gc_layer</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
+                                              <span class="n">gcn_k</span><span class="o">=</span><span class="n">gcn_k</span><span class="p">,</span>
+                                              <span class="n">laplacian_matrix</span><span class="o">=</span><span class="n">laplacian_matrix</span><span class="p">,</span>
+                                              <span class="n">output_size</span><span class="o">=</span><span class="n">output_size</span><span class="p">,</span>
+                                              <span class="n">activation</span><span class="o">=</span><span class="n">activation</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">inputs</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

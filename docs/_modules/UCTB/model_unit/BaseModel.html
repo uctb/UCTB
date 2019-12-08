@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model_unit.BaseModel &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model_unit.BaseModel</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">tensorboard.backend.event_processing</span> <span class="k">import</span> <span class="n">event_accumulator</span>
+
+<span class="kn">from</span> <span class="nn">..train.MiniBatchTrain</span> <span class="k">import</span> <span class="n">MiniBatchFeedDict</span>
+<span class="kn">from</span> <span class="nn">..preprocess.preprocessor</span> <span class="k">import</span> <span class="n">SplitData</span>
+<span class="kn">from</span> <span class="nn">..train.EarlyStopping</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="BaseModel"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel">[docs]</a><span class="k">class</span> <span class="nc">BaseModel</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;BaseModel is the base class for many models, such as STMeta, ST-MGCN and ST_ResNet,</span>
+<span class="sd">        you can also build your own model using this class. More information can be found in tutorial.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        code_version: Current version of this model code, which will be used as filename for saving the model.</span>
+<span class="sd">        model_dir: The directory to store model files. Default:&#39;model_dir&#39;.</span>
+<span class="sd">        gpu_device: To specify the GPU to use. Default: &#39;0&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">code_version</span><span class="p">,</span> <span class="n">model_dir</span><span class="p">,</span> <span class="n">gpu_device</span><span class="p">):</span>
+
+        <span class="c1"># model input and output</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_op</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_variable_init</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_saver</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_code_version</span> <span class="o">=</span> <span class="n">code_version</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_model_dir</span> <span class="o">=</span> <span class="n">model_dir</span>
+
+        <span class="c1"># TF Graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_converged</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_model_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_code_version</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary_writer</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">FileWriter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">trainable_vars</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1"># TF Session</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_GPU_DEVICE</span> <span class="o">=</span> <span class="n">gpu_device</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_DEVICE_ORDER&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;PCI_BUS_ID&quot;</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;CUDA_VISIBLE_DEVICES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_GPU_DEVICE</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">ConfigProto</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">gpu_options</span><span class="o">.</span><span class="n">allow_growth</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseModel.build"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args</span>
+<span class="sd">            init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.</span>
+<span class="sd">            max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+            <span class="c1">####################################################################</span>
+            <span class="c1"># Add summary, variable_init and summary</span>
+            <span class="c1"># The variable name of them are fixed</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">trainable_vars</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()</span><span class="o">.</span><span class="n">as_list</span><span class="p">())</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">()])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_saver</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Saver</span><span class="p">(</span><span class="n">max_to_keep</span><span class="o">=</span><span class="n">max_to_keep</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_variable_init</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">global_variables_initializer</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_summary</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_summary_histogram</span><span class="p">()</span><span class="o">.</span><span class="n">name</span>
+            <span class="c1">####################################################################</span>
+        <span class="k">if</span> <span class="n">init_vars</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_variable_init</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseModel.add_summary"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.add_summary">[docs]</a>    <span class="k">def</span> <span class="nf">add_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">global_step</span><span class="p">):</span>
+        <span class="n">value_record</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">Summary</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">tf</span><span class="o">.</span><span class="n">Summary</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">tag</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">simple_value</span><span class="o">=</span><span class="n">value</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary_writer</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="n">value_record</span><span class="p">,</span> <span class="n">global_step</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_summary_histogram</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+            <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">tf</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">():</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">histogram</span><span class="p">(</span><span class="n">var</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary_writer</span><span class="o">.</span><span class="n">add_graph</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">summary</span><span class="o">.</span><span class="n">merge_all</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feed_dict</span><span class="p">,</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">op_names</span><span class="p">):</span>
+        <span class="n">feed_dict_tf</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">feed_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">feed_dict_tf</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="n">name</span><span class="p">])]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="n">output_tensor_list</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">output_names</span><span class="p">]</span>
+        <span class="n">output_tensor_list</span> <span class="o">+=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">get_operation_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">op_names</span><span class="p">]</span>
+
+        <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">output_tensor_list</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="n">feed_dict_tf</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="n">output_names</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span> <span class="n">outputs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">output_names</span><span class="p">))}</span>
+
+    <span class="k">def</span> <span class="nf">_get_feed_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">kwargs</span>
+
+<div class="viewcode-block" id="BaseModel.fit"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span> <span class="p">),</span> <span class="n">op_names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;train_op&#39;</span><span class="p">,</span> <span class="p">),</span> <span class="n">evaluate_loss_name</span><span class="o">=</span><span class="s1">&#39;loss&#39;</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="n">max_epoch</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">validate_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">shuffle_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">early_stop_method</span><span class="o">=</span><span class="s1">&#39;t-test&#39;</span><span class="p">,</span> <span class="n">early_stop_length</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">early_stop_patience</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+            <span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_model</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">save_model_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auto_load_model</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">return_outputs</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            sequence_length: int, the sequence length which is use in mini-batch training</span>
+<span class="sd">            output_names: list, [output_tensor1_name, output_tensor1_name, ...]</span>
+<span class="sd">            op_names: list, [operation1_name, operation2_name, ...]</span>
+<span class="sd">            evaluate_loss_name: str, should be on of the output_names, evaluate_loss_name was use in</span>
+<span class="sd">                                       early-stopping</span>
+<span class="sd">            batch_size: int, default 64, batch size</span>
+<span class="sd">            max_epoch: int, default 10000, max number of epochs</span>
+<span class="sd">            validate_ratio: float, default 0.1, the ration of data that will be used as validation dataset</span>
+<span class="sd">            shuffle_data: bool, default True, whether shuffle data in mini-batch train</span>
+<span class="sd">            early_stop_method: should be &#39;t-test&#39; or &#39;naive&#39;, both method are explained in train.EarlyStopping</span>
+<span class="sd">            early_stop_length: int, must provide when early_stop_method=&#39;t-test&#39;</span>
+<span class="sd">            early_stop_patience: int, must provide when early_stop_method=&#39;naive&#39;</span>
+<span class="sd">            verbose: Bool, flag to print training information or not</span>
+<span class="sd">            save_model: Bool, flog to save model or not</span>
+<span class="sd">            save_model_name: String, filename for saving the model, which will overwrite the code_version.</span>
+<span class="sd">            auto_load_model: Bool, the &quot;fit&quot; function will automatically load the model from disk, if exists,</span>
+<span class="sd">                before the training. Set to False to disable the auto-loading.</span>
+<span class="sd">            return_outputs: Bool, set True to return the training log, otherwise nothing will be returned</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="n">auto_load_model</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_code_version</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Found model in disk&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_converged</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Model converged, stop training&#39;</span><span class="p">)</span>
+                    <span class="k">return</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Model not converged, continue at step&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="p">)</span>
+                    <span class="n">start_epoch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;No model found, start training&#39;</span><span class="p">)</span>
+                <span class="n">start_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start_epoch</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Not loading model from disk&#39;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">validate_ratio</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;validate_ratio should between (0, 1), given&#39;</span><span class="p">,</span> <span class="n">validate_ratio</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">evaluate_loss_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">output_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;evaluate_loss_name not shown in&#39;</span><span class="p">,</span> <span class="n">output_names</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">op_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No operation given&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Running Operation&#39;</span><span class="p">,</span> <span class="n">op_names</span><span class="p">)</span>
+
+        <span class="c1"># Get feed_dict</span>
+        <span class="n">feed_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_feed_dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Split data into train-data and validation data</span>
+        <span class="n">train_feed_dict</span><span class="p">,</span> <span class="n">val_feed_dict</span> <span class="o">=</span> <span class="n">SplitData</span><span class="o">.</span><span class="n">split_feed_dict</span><span class="p">(</span><span class="n">feed_dict</span><span class="p">,</span>
+                                                                   <span class="n">sequence_length</span><span class="o">=</span><span class="n">sequence_length</span><span class="p">,</span>
+                                                                   <span class="n">ratio_list</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span> <span class="o">-</span> <span class="n">validate_ratio</span><span class="p">,</span> <span class="n">validate_ratio</span><span class="p">])</span>
+
+        <span class="n">train_sequence_length</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">sequence_length</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">validate_ratio</span><span class="p">))</span>
+        <span class="n">val_sequence_len</span> <span class="o">=</span> <span class="n">sequence_length</span> <span class="o">-</span> <span class="n">train_sequence_length</span>
+
+        <span class="c1"># build mini-batch data source on train-data</span>
+        <span class="n">train_dict_mini_batch</span> <span class="o">=</span> <span class="n">MiniBatchFeedDict</span><span class="p">(</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">train_feed_dict</span><span class="p">,</span>
+                                                  <span class="n">sequence_length</span><span class="o">=</span><span class="n">train_sequence_length</span><span class="p">,</span>
+                                                  <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+                                                  <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle_data</span><span class="p">)</span>
+
+        <span class="c1"># record the best result of &quot;evaluate_loss_name&quot;</span>
+        <span class="n">best_record</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># init early stopping object</span>
+        <span class="k">if</span> <span class="n">early_stop_method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;t-test&#39;</span><span class="p">:</span>
+            <span class="n">early_stop</span> <span class="o">=</span> <span class="n">EarlyStoppingTTest</span><span class="p">(</span><span class="n">length</span><span class="o">=</span><span class="n">early_stop_length</span><span class="p">,</span> <span class="n">p_value_threshold</span><span class="o">=</span><span class="n">early_stop_patience</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">early_stop</span> <span class="o">=</span> <span class="n">EarlyStopping</span><span class="p">(</span><span class="n">patience</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">early_stop_patience</span><span class="p">))</span>
+
+        <span class="c1"># start mini-batch training</span>
+        <span class="n">summary_output</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">start_epoch</span><span class="p">,</span> <span class="n">max_epoch</span><span class="p">):</span>
+            <span class="n">train_output_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">train_dict_mini_batch</span><span class="o">.</span><span class="n">num_batch</span><span class="p">):</span>
+                <span class="c1"># train</span>
+                <span class="n">train_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">feed_dict</span><span class="o">=</span><span class="n">train_dict_mini_batch</span><span class="o">.</span><span class="n">get_batch</span><span class="p">(),</span>
+                                         <span class="n">output_names</span><span class="o">=</span><span class="n">output_names</span><span class="p">,</span>
+                                         <span class="n">op_names</span><span class="o">=</span><span class="n">op_names</span><span class="p">)</span>
+                <span class="n">train_output_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">train_output</span><span class="p">)</span>
+
+            <span class="c1"># validation</span>
+            <span class="n">val_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="o">**</span><span class="n">val_feed_dict</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="n">output_names</span><span class="p">,</span>
+                                      <span class="n">sequence_length</span><span class="o">=</span><span class="n">val_sequence_len</span><span class="p">,</span>
+                                      <span class="n">cache_volume</span><span class="o">=</span><span class="n">batch_size</span><span class="p">)</span>
+
+            <span class="c1"># Here we only care about the evaluate_loss_value</span>
+            <span class="n">evaluate_loss_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">val_output</span><span class="p">[</span><span class="n">evaluate_loss_name</span><span class="p">])</span>
+
+            <span class="c1"># Add Summary</span>
+            <span class="n">tmp_summary</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">output_names</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;train_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">train_output_list</span><span class="p">]),</span>
+                                 <span class="n">global_step</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;val_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">val_output</span><span class="p">[</span><span class="n">name</span><span class="p">]),</span> <span class="n">global_step</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+                <span class="c1"># print training messages</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Epoch </span><span class="si">%s</span><span class="s1">:&#39;</span> <span class="o">%</span> <span class="n">epoch</span><span class="p">,</span>
+                          <span class="s1">&#39;train_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">train_output_list</span><span class="p">]),</span>
+                          <span class="s1">&#39;val_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">val_output</span><span class="p">[</span><span class="n">name</span><span class="p">]))</span>
+                    <span class="n">tmp_summary</span><span class="p">[</span><span class="s1">&#39;train_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">train_output_list</span><span class="p">])</span>
+                    <span class="n">tmp_summary</span><span class="p">[</span><span class="s1">&#39;val_&#39;</span> <span class="o">+</span> <span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">val_output</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+            <span class="n">summary_output</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_summary</span><span class="p">)</span>
+
+            <span class="c1"># manual_summary the histograms</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manual_summary</span><span class="p">(</span><span class="n">global_step</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">early_stop</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">evaluate_loss_value</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">save_model</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s1">&#39;Converged&#39;</span><span class="p">)</span>
+                <span class="k">break</span>
+
+            <span class="c1"># save the model if evaluate_loss_value is smaller than best_record</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">best_record</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">evaluate_loss_value</span> <span class="o">&lt;</span> <span class="n">best_record</span><span class="p">)</span> <span class="ow">and</span> <span class="n">save_model</span><span class="p">:</span>
+                <span class="n">best_record</span> <span class="o">=</span> <span class="n">evaluate_loss_value</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">save_model_name</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_code_version</span><span class="p">,</span> <span class="n">epoch</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">return_outputs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">summary_output</span></div>
+
+<div class="viewcode-block" id="BaseModel.predict"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">output_names</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;prediction&#39;</span><span class="p">,</span> <span class="p">),</span> <span class="n">cache_volume</span><span class="o">=</span><span class="mi">64</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            output_names: list, [output_tensor_name1, output_tensor_name2, ...]</span>
+<span class="sd">            sequence_length: int, the length of sequence, which is use in mini-batch training</span>
+<span class="sd">            cache_volume: int, default 64, we need to set cache_volume if the cache can not hold</span>
+<span class="sd">                                 the whole validation dataset</span>
+<span class="sd">            :return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, ...}</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+
+        <span class="c1"># Get feed_dict</span>
+        <span class="n">feed_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_feed_dict</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cache_volume</span> <span class="ow">and</span> <span class="n">sequence_length</span><span class="p">:</span>
+            <span class="c1"># storing the prediction result</span>
+            <span class="n">outputs_list</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">outputs_dict</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">cache_volume</span><span class="p">):</span>
+                <span class="n">tmp_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">({</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span><span class="o">+</span><span class="n">cache_volume</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">sequence_length</span> <span class="k">else</span> <span class="n">value</span>
+                                        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">feed_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+                                       <span class="n">output_names</span><span class="p">,</span> <span class="n">op_names</span><span class="o">=</span><span class="p">[])</span>
+                <span class="n">outputs_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmp_output</span><span class="p">)</span>
+            <span class="c1"># stack the output together</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">outputs_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">outputs_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">outputs_list</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">outputs_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_run</span><span class="p">(</span><span class="n">feed_dict</span><span class="p">,</span> <span class="n">output_names</span><span class="p">,</span> <span class="n">op_names</span><span class="o">=</span><span class="p">[])</span>
+
+        <span class="k">return</span> <span class="n">outputs_dict</span></div>
+
+<div class="viewcode-block" id="BaseModel.manual_summary"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.manual_summary">[docs]</a>    <span class="k">def</span> <span class="nf">manual_summary</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">global_step</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_summary_writer</span><span class="o">.</span><span class="n">add_summary</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_summary</span><span class="p">)),</span>
+                                         <span class="n">global_step</span><span class="o">=</span><span class="n">global_step</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="n">save_dir_subscript</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_code_version</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">,</span> <span class="s1">&#39;log.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;a+&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">text</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_get_log</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">save_dir_subscript</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_code_version</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">,</span> <span class="s1">&#39;log.txt&#39;</span><span class="p">)):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">,</span> <span class="s1">&#39;log.txt&#39;</span><span class="p">),</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">f</span><span class="o">.</span><span class="n">readlines</span><span class="p">()]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="BaseModel.save"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.save">[docs]</a>    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscript</span><span class="p">,</span> <span class="n">global_step</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            subscript: String, subscript will be appended to the code version as the model filename,</span>
+<span class="sd">                and save the corresponding model using this filename</span>
+<span class="sd">            global_step: Int, current training steps</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">save_dir_subscript</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">,</span> <span class="n">subscript</span><span class="p">)</span>
+        <span class="c1"># delete if exist</span>
+        <span class="c1"># if os.path.isdir(save_dir_subscript):</span>
+        <span class="c1">#     shutil.rmtree(save_dir_subscript, ignore_errors=True)</span>
+        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_saver</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">sess</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span> <span class="n">save_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">,</span> <span class="n">subscript</span><span class="p">),</span>
+                         <span class="n">global_step</span><span class="o">=</span><span class="n">global_step</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BaseModel.load"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.load">[docs]</a>    <span class="k">def</span> <span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscript</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            subscript: String, subscript will be appended to the code version as the model file name,</span>
+<span class="sd">                and load the corresponding model using this filename</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">save_dir_subscript</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">,</span> <span class="n">subscript</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;model Not Found&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="n">subscript</span><span class="p">,</span> <span class="s1">&#39;model not found&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">meta_file</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">subscript</span><span class="p">)</span> <span class="ow">and</span> <span class="n">e</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.meta&#39;</span><span class="p">)]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">meta_file</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_saver</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">sess</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="p">,</span>
+                                <span class="n">save_path</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">save_dir_subscript</span><span class="p">,</span> <span class="n">subscript</span> <span class="o">+</span> <span class="s1">&#39;-</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_global_step</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># parse the log-file</span>
+            <span class="n">log_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_log</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">log_list</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;converged&#39;</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_converged</span> <span class="o">=</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="BaseModel.close"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close the session, release memory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_session</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="BaseModel.load_event_scalar"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.load_event_scalar">[docs]</a>    <span class="k">def</span> <span class="nf">load_event_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">scalar_name</span><span class="o">=</span><span class="s1">&#39;val_loss&#39;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Args:</span>
+<span class="sd">            scalar_name: load the corresponding scalar name from tensorboard-file,</span>
+<span class="sd">                e.g. load_event_scalar(&#39;val_loss)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">event_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">)</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;events.out&#39;</span><span class="p">)]</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">event_files</span><span class="p">:</span>
+            <span class="n">ea</span> <span class="o">=</span> <span class="n">event_accumulator</span><span class="o">.</span><span class="n">EventAccumulator</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_log_dir</span><span class="p">,</span> <span class="n">f</span><span class="p">))</span>
+            <span class="n">ea</span><span class="o">.</span><span class="n">Reload</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">scalar_name</span> <span class="ow">in</span> <span class="n">ea</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">Keys</span><span class="p">():</span>
+                <span class="n">result</span> <span class="o">+=</span> <span class="p">[[</span><span class="n">e</span><span class="o">.</span><span class="n">wall_time</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">step</span><span class="p">,</span> <span class="n">e</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">ea</span><span class="o">.</span><span class="n">scalars</span><span class="o">.</span><span class="n">Items</span><span class="p">(</span><span class="n">scalar_name</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

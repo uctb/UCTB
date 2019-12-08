@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model_unit.ST_RNN &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model_unit.ST_RNN</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow.python.framework</span> <span class="k">import</span> <span class="n">dtypes</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">K</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.keras.utils</span> <span class="k">import</span> <span class="n">tf_utils</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.ops</span> <span class="k">import</span> <span class="n">array_ops</span><span class="p">,</span> <span class="n">linalg_ops</span><span class="p">,</span> <span class="n">math_ops</span>
+
+
+<span class="k">def</span> <span class="nf">_generate_dropout_mask</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="n">rate</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">dropped_inputs</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">ones</span><span class="p">,</span> <span class="n">rate</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="n">K</span><span class="o">.</span><span class="n">in_train_phase</span><span class="p">(</span><span class="n">dropped_inputs</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+        <span class="p">]</span>
+    <span class="k">return</span> <span class="n">K</span><span class="o">.</span><span class="n">in_train_phase</span><span class="p">(</span><span class="n">dropped_inputs</span><span class="p">,</span> <span class="n">ones</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GCLSTMCell"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.ST_RNN.GCLSTMCell">[docs]</a><span class="k">class</span> <span class="nc">GCLSTMCell</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTMCell</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">units</span><span class="p">,</span> <span class="n">num_nodes</span><span class="p">,</span> <span class="n">laplacian_matrix</span><span class="p">,</span> <span class="n">gcn_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">gcn_l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">units</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_units</span> <span class="o">=</span> <span class="n">units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span> <span class="o">=</span> <span class="n">num_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">=</span> <span class="n">gcn_k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gcn_l</span> <span class="o">=</span> <span class="n">gcn_l</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_laplacian_matrix</span> <span class="o">=</span> <span class="n">laplacian_matrix</span>
+
+    <span class="nd">@tf_utils</span><span class="o">.</span><span class="n">shape_type_conversion</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GCLSTMCell</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span>
+        <span class="n">input_dim</span> <span class="o">=</span> <span class="n">input_shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">input_dim</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;kernel&#39;</span><span class="p">,</span>
+            <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_initializer</span><span class="p">,</span>
+            <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_regularizer</span><span class="p">,</span>
+            <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">kernel_constraint</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">recurrent_kernel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_weight</span><span class="p">(</span>
+            <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+            <span class="n">name</span><span class="o">=</span><span class="s1">&#39;recurrent_kernel&#39;</span><span class="p">,</span>
+            <span class="n">initializer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recurrent_initializer</span><span class="p">,</span>
+            <span class="n">regularizer</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recurrent_regularizer</span><span class="p">,</span>
+            <span class="n">constraint</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">recurrent_constraint</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GCLSTMCell.kth_cheby_ploy"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.ST_RNN.GCLSTMCell.kth_cheby_ploy">[docs]</a>    <span class="k">def</span> <span class="nf">kth_cheby_ploy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">tk1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tk2</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">linalg_ops</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtypes</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">k</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laplacian_matrix</span>
+        <span class="k">elif</span> <span class="n">k</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">math_ops</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">_laplacian_matrix</span><span class="p">,</span> <span class="n">tk1</span><span class="p">)</span> <span class="o">-</span> <span class="n">tk2</span></div>
+
+<div class="viewcode-block" id="GCLSTMCell.call"><a class="viewcode-back" href="../../../UCTB.model_unit.html#UCTB.model_unit.ST_RNN.GCLSTMCell.call">[docs]</a>    <span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">states</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dropout_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dropout_mask</span> <span class="o">=</span> <span class="n">_generate_dropout_mask</span><span class="p">(</span>
+                <span class="n">array_ops</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">inputs</span><span class="p">),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">,</span>
+                <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">recurrent_dropout</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_recurrent_dropout_mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recurrent_dropout_mask</span> <span class="o">=</span> <span class="n">_generate_dropout_mask</span><span class="p">(</span>
+                <span class="n">array_ops</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">recurrent_dropout</span><span class="p">,</span>
+                <span class="n">training</span><span class="o">=</span><span class="n">training</span><span class="p">,</span>
+                <span class="n">count</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+        <span class="n">input_dim</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">get_shape</span><span class="p">()[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+
+        <span class="c1"># dropout matrices for input units</span>
+        <span class="n">dp_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dropout_mask</span>
+        <span class="c1"># dropout matrices for recurrent units</span>
+        <span class="n">rec_dp_mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recurrent_dropout_mask</span>
+
+        <span class="n">h_tm1</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># previous memory state</span>
+        <span class="n">c_tm1</span> <span class="o">=</span> <span class="n">states</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># previous carry state</span>
+
+        <span class="k">if</span> <span class="mf">0.</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">&lt;</span> <span class="mf">1.</span><span class="p">:</span>
+            <span class="n">inputs</span> <span class="o">*=</span> <span class="n">dp_mask</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="mf">0.</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">recurrent_dropout</span> <span class="o">&lt;</span> <span class="mf">1.</span><span class="p">:</span>
+            <span class="n">h_tm1</span> <span class="o">*=</span> <span class="n">rec_dp_mask</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># inputs has shape: [batch * num_nodes, input_dim]</span>
+        <span class="c1"># h_tm1 has shape: [batch * num_nodes, units]</span>
+        <span class="n">inputs_before_gcn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">]),</span>
+                                                    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">h_tm1_before_gcn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h_tm1</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">]),</span>
+                                                   <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]),</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+        <span class="n">t</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">inputs_after_gcn</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="n">h_tm1_after_gcn</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">kth_cheby_ploy</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">tk1</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">tk2</span><span class="o">=</span><span class="kc">None</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">t</span><span class="p">[</span><span class="n">i</span> <span class="o">-</span> <span class="mi">2</span><span class="p">]))</span>
+            <span class="n">inputs_after_gcn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">inputs_before_gcn</span><span class="p">))</span>
+            <span class="n">h_tm1_after_gcn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">t</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">h_tm1_before_gcn</span><span class="p">))</span>
+
+        <span class="n">inputs_after_gcn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs_after_gcn</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_dim</span><span class="p">])</span>
+        <span class="n">h_tm1_after_gcn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">h_tm1_after_gcn</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_num_node</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_units</span><span class="p">])</span>
+
+        <span class="n">inputs_after_gcn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">inputs_after_gcn</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">input_dim</span><span class="p">])</span>
+        <span class="n">h_tm1_after_gcn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">h_tm1_after_gcn</span><span class="p">,</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_gcn_k</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">])</span>
+
+        <span class="n">z</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">inputs_after_gcn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">+=</span> <span class="n">K</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">h_tm1_after_gcn</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">recurrent_kernel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_bias</span><span class="p">:</span>
+            <span class="n">z</span> <span class="o">=</span> <span class="n">K</span><span class="o">.</span><span class="n">bias_add</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">bias</span><span class="p">)</span>
+
+        <span class="n">z0</span> <span class="o">=</span> <span class="n">z</span><span class="p">[:,</span> <span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">]</span>
+        <span class="n">z1</span> <span class="o">=</span> <span class="n">z</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">:</span><span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">]</span>
+        <span class="n">z2</span> <span class="o">=</span> <span class="n">z</span><span class="p">[:,</span> <span class="mi">2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">:</span><span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">]</span>
+        <span class="n">z3</span> <span class="o">=</span> <span class="n">z</span><span class="p">[:,</span> <span class="mi">3</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">units</span><span class="p">:]</span>
+
+        <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">z0</span><span class="p">,</span> <span class="n">z1</span><span class="p">,</span> <span class="n">z2</span><span class="p">,</span> <span class="n">z3</span><span class="p">)</span>
+        <span class="n">c</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_compute_carry_and_output_fused</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">c_tm1</span><span class="p">)</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="n">o</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">activation</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">h</span><span class="p">,</span> <span class="p">[</span><span class="n">h</span><span class="p">,</span> <span class="n">c</span><span class="p">]</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

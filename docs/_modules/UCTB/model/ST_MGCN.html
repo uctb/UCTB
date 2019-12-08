@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.model.ST_MGCN &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.model.ST_MGCN</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="kn">from</span> <span class="nn">..model_unit</span> <span class="k">import</span> <span class="n">BaseModel</span>
+<span class="kn">from</span> <span class="nn">..model_unit.GraphModelLayers</span> <span class="k">import</span> <span class="n">GCL</span>
+
+
+<div class="viewcode-block" id="ST_MGCN"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.ST_MGCN.ST_MGCN">[docs]</a><span class="k">class</span> <span class="nc">ST_MGCN</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Args:</span>
+<span class="sd">        T(int): Input sequence length</span>
+<span class="sd">        input_dim(int): Input feature dimension</span>
+<span class="sd">        num_graph(int): Number of graphs used in the model.</span>
+<span class="sd">        gcl_k(int): The highest order of Chebyshev Polynomial approximation in GCN.</span>
+<span class="sd">        gcl_l(int): Number of GCN layers.</span>
+<span class="sd">        lstm_units(int): Number of hidden units of RNN.</span>
+<span class="sd">        lstm_layers(int): Number of LSTM layers.</span>
+<span class="sd">        lr(float): Learning rate</span>
+<span class="sd">        external_dim(int): Dimension of the external feature, e.g. temperature and wind are two dimension.</span>
+<span class="sd">        code_version(str): Current version of this model code, which will be used as filename for saving the model</span>
+<span class="sd">        model_dir(str): The directory to store model files. Default:&#39;model_dir&#39;.</span>
+<span class="sd">        gpu_device(str): To specify the GPU to use. Default: &#39;0&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">T</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="p">,</span>
+                 <span class="n">num_graph</span><span class="p">,</span>
+                 <span class="n">gcl_k</span><span class="p">,</span>
+                 <span class="n">gcl_l</span><span class="p">,</span>
+                 <span class="n">lstm_units</span><span class="p">,</span>
+                 <span class="n">lstm_layers</span><span class="p">,</span>
+                 <span class="n">lr</span><span class="p">,</span>
+                 <span class="n">external_dim</span><span class="p">,</span>
+                 <span class="n">code_version</span><span class="p">,</span>
+                 <span class="n">model_dir</span><span class="p">,</span>
+                 <span class="n">gpu_device</span><span class="p">):</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">ST_MGCN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">code_version</span><span class="o">=</span><span class="n">code_version</span><span class="p">,</span>
+                                      <span class="n">model_dir</span><span class="o">=</span><span class="n">model_dir</span><span class="p">,</span>
+                                      <span class="n">gpu_device</span><span class="o">=</span><span class="n">gpu_device</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_T</span> <span class="o">=</span> <span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">input_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_num_graph</span> <span class="o">=</span> <span class="n">num_graph</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gcl_k</span> <span class="o">=</span> <span class="n">gcl_k</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gcl_l</span> <span class="o">=</span> <span class="n">gcl_l</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lstm_units</span> <span class="o">=</span> <span class="n">lstm_units</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lstm_layers</span> <span class="o">=</span> <span class="n">lstm_layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lr</span> <span class="o">=</span> <span class="n">lr</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_external_dim</span> <span class="o">=</span> <span class="n">external_dim</span>
+
+<div class="viewcode-block" id="ST_MGCN.build"><a class="viewcode-back" href="../../../UCTB.model.html#UCTB.model.ST_MGCN.ST_MGCN.build">[docs]</a>    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
+            <span class="c1"># [batch, T, num_stations, input_dim]</span>
+            <span class="n">traffic_flow</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_T</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">])</span>
+            <span class="n">laplacian_matrix</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_graph</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">])</span>
+            <span class="n">target</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;traffic_flow&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">traffic_flow</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;laplace_matrix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">laplacian_matrix</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span><span class="o">.</span><span class="n">name</span>
+
+            <span class="n">station_number</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">traffic_flow</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+
+            <span class="n">outputs</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="k">for</span> <span class="n">graph_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_num_graph</span><span class="p">):</span>
+                <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s1">&#39;CGRNN_Graph</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">graph_index</span><span class="p">,</span> <span class="n">reuse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+                    <span class="n">f_k_g</span> <span class="o">=</span> <span class="n">GCL</span><span class="o">.</span><span class="n">add_multi_gc_layers</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">traffic_flow</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">station_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">]),</span>
+                                                    <span class="n">gcn_k</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">gcn_l</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">output_size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">,</span>
+                                                    <span class="n">laplacian_matrix</span><span class="o">=</span><span class="n">laplacian_matrix</span><span class="p">[</span><span class="n">graph_index</span><span class="p">],</span>
+                                                    <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">tanh</span><span class="p">)</span>
+
+                    <span class="n">f_k_g</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">f_k_g</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_T</span><span class="p">,</span> <span class="n">station_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">])</span>
+
+                    <span class="n">x_hat</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">f_k_g</span><span class="p">,</span> <span class="n">traffic_flow</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+                    <span class="n">z</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">x_hat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+                    <span class="n">s</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">),</span>
+                                        <span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">use_bias</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">sigmoid</span><span class="p">)</span>
+
+                    <span class="n">x_rnn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span><span class="n">traffic_flow</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">station_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">]))</span>
+
+                    <span class="n">x_rnn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">x_rnn</span><span class="p">,</span> <span class="n">perm</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">]),</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_T</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span><span class="p">])</span>
+
+                    <span class="k">for</span> <span class="n">lstm_layer_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lstm_layers</span><span class="p">):</span>
+                        <span class="n">x_rnn</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">LSTM</span><span class="p">(</span><span class="n">units</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_lstm_units</span><span class="p">,</span>
+                                                     <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;tanh&#39;</span><span class="p">,</span>
+                                                     <span class="n">dropout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                     <span class="n">kernel_regularizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">l2_regularizer</span><span class="p">(</span><span class="mf">1e-4</span><span class="p">),</span>
+                                                     <span class="n">return_sequences</span><span class="o">=</span><span class="kc">True</span> <span class="k">if</span> <span class="n">lstm_layer_index</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">_lstm_layers</span><span class="o">-</span><span class="mi">1</span>
+                                                                      <span class="k">else</span> <span class="kc">False</span><span class="p">)</span>\
+                                                    <span class="p">(</span><span class="n">x_rnn</span><span class="p">)</span>
+
+                    <span class="n">H</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">x_rnn</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">station_number</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lstm_units</span><span class="p">])</span>
+
+                    <span class="n">outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+
+            <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reduce_sum</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="c1"># external dims</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_external_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_external_dim</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">external_input</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_external_dim</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;external_feature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">external_input</span><span class="o">.</span><span class="n">name</span>
+                <span class="n">external_dense</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">inputs</span><span class="o">=</span><span class="n">external_input</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+                <span class="n">external_dense</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">external_dense</span><span class="p">,</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">]),</span>
+                                         <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">outputs</span><span class="p">)[</span><span class="o">-</span><span class="mi">2</span><span class="p">],</span> <span class="mi">1</span><span class="p">])</span>
+                <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">outputs</span><span class="p">,</span> <span class="n">external_dense</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">prediction</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">layers</span><span class="o">.</span><span class="n">dense</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">square</span><span class="p">(</span><span class="n">prediction</span> <span class="o">-</span> <span class="n">target</span><span class="p">)))</span>
+
+            <span class="n">train_operation</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_lr</span><span class="p">)</span><span class="o">.</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;train_op&#39;</span><span class="p">)</span>
+
+            <span class="c1"># record output</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prediction</span><span class="o">.</span><span class="n">name</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_output</span><span class="p">[</span><span class="s1">&#39;loss&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">loss</span><span class="o">.</span><span class="n">name</span>
+
+            <span class="c1"># record train operation</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_op</span><span class="p">[</span><span class="s1">&#39;train_op&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">train_operation</span><span class="o">.</span><span class="n">name</span>
+
+            <span class="nb">super</span><span class="p">(</span><span class="n">ST_MGCN</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="n">init_vars</span><span class="o">=</span><span class="n">init_vars</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="n">max_to_keep</span><span class="p">)</span></div>
+
+    <span class="c1"># Step 1 : Define your &#39;_get_feed_dict function‘, map your input to the tf-model</span>
+    <span class="k">def</span> <span class="nf">_get_feed_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">traffic_flow</span><span class="p">,</span> <span class="n">laplace_matrix</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">external_feature</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">feed_dict</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;traffic_flow&#39;</span><span class="p">:</span> <span class="n">traffic_flow</span><span class="p">,</span>
+            <span class="s1">&#39;laplace_matrix&#39;</span><span class="p">:</span> <span class="n">laplace_matrix</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">target</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">feed_dict</span><span class="p">[</span><span class="s1">&#39;target&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span>
+        <span class="k">if</span> <span class="n">external_feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">feed_dict</span><span class="p">[</span><span class="s1">&#39;external_feature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">external_feature</span>
+        <span class="k">return</span> <span class="n">feed_dict</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

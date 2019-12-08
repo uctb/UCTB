@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>UCTB.train.MiniBatchTrain &#8212; UCTB  documentation</title>
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for UCTB.train.MiniBatchTrain</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+
+<div class="viewcode-block" id="MiniBatchTrain"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrain">[docs]</a><span class="k">class</span> <span class="nc">MiniBatchTrain</span><span class="p">():</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">):</span>
+        <span class="c1"># The first dimension of X should be sample size</span>
+        <span class="c1"># The first dimension of Y should be sample size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__X</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_batch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">)</span> \
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="MiniBatchTrain.shuffle"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+        <span class="n">xy</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">xy</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">xy</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">e</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">xy</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MiniBatchTrain.get_batch"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch">[docs]</a>    <span class="k">def</span> <span class="nf">get_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span><span class="p">:</span>
+            <span class="n">batch_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__X</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">]</span>
+            <span class="n">batch_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Y</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">batch_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__X</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">:</span> <span class="p">]</span>
+            <span class="n">batch_y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__Y</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">:</span> <span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="n">batch_x</span><span class="p">,</span> <span class="n">batch_y</span></div>
+
+<div class="viewcode-block" id="MiniBatchTrain.restart"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrain.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="mi">0</span></div></div>
+
+
+<div class="viewcode-block" id="MiniBatchTrainMultiData"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData">[docs]</a><span class="k">class</span> <span class="nc">MiniBatchTrainMultiData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">data</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_batch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">)</span> \
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="MiniBatchTrainMultiData.shuffle"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">middle</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">middle</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MiniBatchTrainMultiData.get_batch"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch">[docs]</a>    <span class="k">def</span> <span class="nf">get_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">__batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__sample_size</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">e</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="MiniBatchTrainMultiData.restart"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__batch_counter</span> <span class="o">=</span> <span class="mi">0</span></div></div>
+
+
+<div class="viewcode-block" id="MiniBatchFeedDict"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchFeedDict">[docs]</a><span class="k">class</span> <span class="nc">MiniBatchFeedDict</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feed_dict</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span> <span class="o">=</span> <span class="n">sequence_length</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_values</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">feed_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">sequence_length</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_values</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_batch_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_values</span> <span class="o">=</span> <span class="n">MiniBatchFeedDict</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_values</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_batch</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span><span class="p">)</span> \
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="MiniBatchFeedDict.get_batch"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch">[docs]</a>    <span class="k">def</span> <span class="nf">get_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_sequence_length</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_names</span><span class="p">)):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_batch_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dynamic_data_values</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_dict</span></div>
+
+<div class="viewcode-block" id="MiniBatchFeedDict.shuffle"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">shuffle</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">middle</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">data</span><span class="p">))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">middle</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">middle</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="MiniBatchFeedDict.restart"><a class="viewcode-back" href="../../../UCTB.train.html#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart">[docs]</a>    <span class="k">def</span> <span class="nf">restart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_counter</span> <span class="o">=</span> <span class="mi">0</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">UCTB  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu, Wenjie Yang, Liyue Chen.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
+    </div>
+  </body>
+</html>

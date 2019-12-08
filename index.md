@@ -50,6 +50,20 @@ The following required package will be installed or upgraded with UCTB:
 'PyYAML'
 ```
 
+### UCTB Docker
+
+You can also  use UCTB by docker. First pull uctb docker from docker hub.
+
+```bash
+docker pull dichai/uctb:v0.2.0
+```
+
+And  you then can run it.
+
+```bash
+docker run  --runtime=nvidia  -it -d dichai/uctb:v0.2.0 /bin/bash
+```
+
 ## Quick start
 
 - ##### Quick start with AMulti-GCLSTM

@@ -20,6 +20,21 @@ def _generate_dropout_mask(ones, rate, training=None, count=1):
 
 class GCLSTMCell(tf.keras.layers.LSTMCell):
 
+    """
+    GCLSTMCell is one of our implemented ST-RNN models in handling the spatial and temporal features.
+    We performed GCN on both LSTM inputs and hidden-states. The code is inherited from tf.keras.layers.LSTMCell,
+    thus it can be used almost the same as LSTMCell except that you need to provide the GCN parameters
+    in the __init__ function.
+
+    Args:
+        units(int): number of units of LSTM
+        num_nodes(int): number of nodes in the graph
+        laplacian_matrix(ndarray): laplacian matrix used in GCN, with shape [num_node, num_node]
+        gcn_k(int): highest order of Chebyshev Polynomial approximation in GCN
+        gcn_l(int): number of GCN layers
+        kwargs: other parameters supported by LSTMCell, such as activation, kernel_initializer ... and so on.
+    """
+
     def __init__(self, units, num_nodes, laplacian_matrix, gcn_k=1, gcn_l=1, **kwargs):
 
         super().__init__(units, **kwargs)

@@ -320,6 +320,22 @@ on the earth (specified in decimal degrees)</p>
 <dt id="UCTB.model_unit.ST_RNN.GCLSTMCell">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.ST_RNN.</code><code class="sig-name descname">GCLSTMCell</code><span class="sig-paren">(</span><em class="sig-param">units</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_l=1</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.layers.recurrent.LSTMCell</span></code></p>
+<p>GCLSTMCell is one of our implemented ST-RNN models in handling the spatial and temporal features.
+We performed GCN on both LSTM inputs and hidden-states. The code is inherited from tf.keras.layers.LSTMCell,
+thus it can be used almost the same as LSTMCell except that you need to provide the GCN parameters
+in the __init__ function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of units of LSTM</p></li>
+<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of nodes in the graph</p></li>
+<li><p><strong>laplacian_matrix</strong> (<em>ndarray</em>) – laplacian matrix used in GCN, with shape [num_node, num_node]</p></li>
+<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – highest order of Chebyshev Polynomial approximation in GCN</p></li>
+<li><p><strong>gcn_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of GCN layers</p></li>
+<li><p><strong>kwargs</strong> – other parameters supported by LSTMCell, such as activation, kernel_initializer … and so on.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model_unit.ST_RNN.GCLSTMCell.build">
 <code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.build" title="Permalink to this definition">¶</a></dt>

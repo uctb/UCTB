@@ -194,14 +194,11 @@
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">XGBoost</span>
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
+
+<span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                 <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">target_node</span> <span class="o">=</span> <span class="mi">233</span>
+<span class="n">target_node</span> <span class="o">=</span> <span class="mi">233</span>
 <span class="n">train_closeness</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">train_period</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">train_trend</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
@@ -211,34 +208,19 @@
 <span class="n">test_period</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">test_trend</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">test_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">train_closeness</span><span class="p">,</span> <span class="n">train_period</span><span class="p">,</span> <span class="n">train_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">train_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">train_closeness</span><span class="p">,</span> <span class="n">train_period</span><span class="p">,</span> <span class="n">train_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">test_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">test_closeness</span><span class="p">,</span> <span class="n">test_period</span><span class="p">,</span> <span class="n">test_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">train_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">train_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">test_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="k">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2307</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">2307</span><span class="p">,)</span>
-<span class="p">(</span><span class="mi">745</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">745</span><span class="p">,)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:linear&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:linear&#39;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">RMSE</span> <span class="mf">3.3267457</span>

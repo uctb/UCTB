@@ -203,17 +203,10 @@ import matplotlib.pyplot as plt
 from UCTB.model import XGBoost
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
-```
 
-
-```python
 data_loader = NodeTrafficLoader(data_range=0.1, dataset='Bike', city='NYC',
                                 closeness_len=6, period_len=7, trend_len=4,
                                 test_ratio=0.2, normalize=False, with_lm=False, with_tpe=False)
-```
-
-
-```python
 target_node = 233
 train_closeness = data_loader.train_closeness[:, target_node, :, 0]
 train_period = data_loader.train_period[:, target_node, :, 0]
@@ -224,43 +217,18 @@ test_closeness = data_loader.test_closeness[:, target_node, :, 0]
 test_period = data_loader.test_period[:, target_node, :, 0]
 test_trend = data_loader.test_trend[:, target_node, :, 0]
 test_y = data_loader.test_y[:, target_node, 0]
-```
 
-
-```python
 train_X = np.concatenate([train_closeness, train_period, train_trend], axis=-1)
 test_X = np.concatenate([test_closeness, test_period, test_trend], axis=-1)
-```
 
-
-```python
 print(train_X.shape)
 print(train_y.shape)
 print(test_X.shape)
 print(test_y.shape)
-```
 
-    (2307, 17)
-    (2307,)
-    (745, 17)
-    (745,)
-
-```python
 model = XGBoost(n_estimators=100, max_depth=3, objective='reg:linear')
-```
-
-
-```python
 model.fit(train_X, train_y)
-```
-
-
-```python
 predictions = model.predict(test_X)
-```
-
-
-```python
 print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
 ```
 

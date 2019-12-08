@@ -185,6 +185,7 @@ class NodeTrafficLoader(object):
             ``test_y`` has similar shape and construction.
         LM (list): If ``with_lm`` is ``True``, the list of Laplacian matrices of graphs listed in ``graph``.
     """
+
     def __init__(self,
                  dataset,
                  city=None,
@@ -255,10 +256,10 @@ class NodeTrafficLoader(object):
 
         if test_ratio > 1 or test_ratio < 0:
             raise ValueError('test_ratio ')
-        train_test_ratio = [1 - test_ratio, test_ratio]
+        self.train_test_ratio = [1 - test_ratio, test_ratio]
 
-        self.train_data, self.test_data = SplitData.split_data(self.traffic_data, train_test_ratio)
-        self.train_ef, self.test_ef = SplitData.split_data(external_feature, train_test_ratio)
+        self.train_data, self.test_data = SplitData.split_data(self.traffic_data, self.train_test_ratio)
+        self.train_ef, self.test_ef = SplitData.split_data(external_feature, self.train_test_ratio)
 
         # Normalize the traffic data
         if normalize:
@@ -343,155 +344,162 @@ class NodeTrafficLoader(object):
             self.tpe_dim = None
 
         if with_lm:
-
-            self.LM = []
             self.AM = []
+            self.LM = []
+            self.threshold_distance = threshold_distance
+            self.threshold_correlation = threshold_correlation
+            self.threshold_interaction = threshold_interaction
 
             for graph_name in graph.split('-'):
-
-                if graph_name.lower() == 'distance':
-                    lat_lng_list = np.array([[float(e1) for e1 in e[2:4]] for e in self.dataset.node_station_info])
-                    self.AM.append(GraphBuilder.distance_adjacent(lat_lng_list[self.traffic_data_index],
-                                                                  threshold=float(threshold_distance)))
-                    self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
-
-                if graph_name.lower() == 'interaction':
-                    monthly_interaction = self.dataset.node_monthly_interaction[:, self.traffic_data_index, :][:, :,
-                                          self.traffic_data_index]
-
-                    monthly_interaction, _ = SplitData.split_data(monthly_interaction, train_test_ratio)
-
-                    annually_interaction = np.sum(monthly_interaction[-12:], axis=0)
-                    annually_interaction = annually_interaction + annually_interaction.transpose()
-
-                    self.AM.append(GraphBuilder.interaction_adjacent(annually_interaction,
-                                                                     threshold=float(threshold_interaction)))
-
-                    self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
-
-                if graph_name.lower() == 'correlation':
-                    self.AM.append(GraphBuilder.correlation_adjacent(self.train_data[-30 * int(self.daily_slots):],
-                                                                     threshold=float(threshold_correlation)))
-                    self.LM.append(GraphBuilder.adjacent_to_laplacian(self.AM[-1]))
-
-                if graph_name.lower() == 'neighbor':
-                    self.LM.append(
-                        GraphBuilder.adjacent_to_laplacian(
-                            self.dataset.data.get('contribute_data').get('graph_neighbors')))
-
-                if graph_name.lower() == 'line':
-                    self.LM.append(
-                        GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines')))
-
-                if graph_name.lower() == 'transfer':
-                    self.LM.append(
-                        GraphBuilder.adjacent_to_laplacian(
-                            self.dataset.data.get('contribute_data').get('graph_transfer')))
+                AM, LM = self.build_graph(graph_name)
+                if AM is not None:
+                    self.AM.append(AM)
+                if LM is not None:
+                    self.LM.append(LM)
 
             self.LM = np.array(self.LM, dtype=np.float32)
 
-    def st_map(self, zoom=11, style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp', build_order=None):
+    def build_graph(self, graph_name):
+        AM, LM = None, None
+        if graph_name.lower() == 'distance':
+            lat_lng_list = np.array([[float(e1) for e1 in e[2:4]] for e in self.dataset.node_station_info])
+            AM = GraphBuilder.distance_adjacent(lat_lng_list[self.traffic_data_index],
+                                                threshold=float(self.threshold_distance))
+            LM = GraphBuilder.adjacent_to_laplacian(AM)
 
-        if self.dataset.node_station_info is None or len(self.dataset.node_station_info) == 0:
-            raise ValueError('No station information found in dataset')
+        if graph_name.lower() == 'interaction':
+            monthly_interaction = self.dataset.node_monthly_interaction[:, self.traffic_data_index, :][:, :,
+                                  self.traffic_data_index]
 
-        import numpy as np
-        import plotly
-        from plotly.graph_objs import Scattermapbox, Layout
+            monthly_interaction, _ = SplitData.split_data(monthly_interaction, self.train_test_ratio)
 
-        mapboxAccessToken = "pk.eyJ1Ijoicm1ldGZjIiwiYSI6ImNrMW02YmwxbjAxN24zam9kNGVtMm5raWIifQ.FXKqZCxsFK-dGLLNdeRJHw"
+            annually_interaction = np.sum(monthly_interaction[-12:], axis=0)
+            annually_interaction = annually_interaction + annually_interaction.transpose()
 
-        # os.environ['MAPBOX_API_KEY'] = mapboxAccessToken
+            AM = GraphBuilder.interaction_adjacent(annually_interaction,
+                                                   threshold=float(self.threshold_interaction))
+            LM = GraphBuilder.adjacent_to_laplacian(AM)
 
-        lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
-        build_order = build_order or list(range(len(self.dataset.node_station_info)))
+        if graph_name.lower() == 'correlation':
+            AM = GraphBuilder.correlation_adjacent(self.train_data[-30 * int(self.daily_slots):],
+                                                   threshold=float(self.threshold_correlation))
+            LM = GraphBuilder.adjacent_to_laplacian(AM)
 
-        color = ['rgb(255, 0, 0)' for _ in build_order]
+        if graph_name.lower() == 'neighbor':
+            LM = GraphBuilder.adjacent_to_laplacian(
+                self.dataset.data.get('contribute_data').get('graph_neighbors'))
 
-        lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
-        lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]
-        text = [str(e) for e in range(len(build_order))]
+        if graph_name.lower() == 'line':
+            LM = GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines'))
 
-        file_name = self.dataset.dataset + '-' + self.dataset.city + '.html'
+        if graph_name.lower() == 'transfer':
+            LM = GraphBuilder.adjacent_to_laplacian(
+                self.dataset.data.get('contribute_data').get('graph_transfer'))
+        return AM, LM
 
-        bikeStations = [Scattermapbox(
-            lon=lng,
-            lat=lat,
-            text=text,
-            mode='markers',
-            marker=dict(
-                size=6,
-                # color=['rgb(%s, %s, %s)' % (255,
-                #                 #                             195 - e * 195 / max(build_order),
-                #                 #                             195 - e * 195 / max(build_order)) for e in build_order],
-                color=color,
-                opacity=1,
-            ))]
 
-        layout = Layout(
-            title='Bike Station Location & The latest built stations with deeper color',
-            autosize=True,
-            hovermode='closest',
-            showlegend=False,
-            mapbox=dict(
-                accesstoken=mapboxAccessToken,
-                bearing=0,
-                center=dict(
-                    lat=np.median(lat),
-                    lon=np.median(lng)
-                ),
-                pitch=0,
-                zoom=zoom,
-                style=style
+def st_map(self, zoom=11, style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp', build_order=None):
+    if self.dataset.node_station_info is None or len(self.dataset.node_station_info) == 0:
+        raise ValueError('No station information found in dataset')
+
+    import numpy as np
+    import plotly
+    from plotly.graph_objs import Scattermapbox, Layout
+
+    mapboxAccessToken = "pk.eyJ1Ijoicm1ldGZjIiwiYSI6ImNrMW02YmwxbjAxN24zam9kNGVtMm5raWIifQ.FXKqZCxsFK-dGLLNdeRJHw"
+
+    # os.environ['MAPBOX_API_KEY'] = mapboxAccessToken
+
+    lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
+    build_order = build_order or list(range(len(self.dataset.node_station_info)))
+
+    color = ['rgb(255, 0, 0)' for _ in build_order]
+
+    lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
+    lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]
+    text = [str(e) for e in range(len(build_order))]
+
+    file_name = self.dataset.dataset + '-' + self.dataset.city + '.html'
+
+    bikeStations = [Scattermapbox(
+        lon=lng,
+        lat=lat,
+        text=text,
+        mode='markers',
+        marker=dict(
+            size=6,
+            # color=['rgb(%s, %s, %s)' % (255,
+            #                 #                             195 - e * 195 / max(build_order),
+            #                 #                             195 - e * 195 / max(build_order)) for e in build_order],
+            color=color,
+            opacity=1,
+        ))]
+
+    layout = Layout(
+        title='Bike Station Location & The latest built stations with deeper color',
+        autosize=True,
+        hovermode='closest',
+        showlegend=False,
+        mapbox=dict(
+            accesstoken=mapboxAccessToken,
+            bearing=0,
+            center=dict(
+                lat=np.median(lat),
+                lon=np.median(lng)
             ),
-        )
+            pitch=0,
+            zoom=zoom,
+            style=style
+        ),
+    )
 
-        fig = dict(data=bikeStations, layout=layout)
-        plotly.offline.plot(fig, filename=file_name)
+    fig = dict(data=bikeStations, layout=layout)
+    plotly.offline.plot(fig, filename=file_name)
 
-    def make_concat(self, node='all', is_train=True):
-        """A function to concatenate all closeness, period and trend history data to use as inputs of models.
 
-        Args:
-            node (int or ``'all'``): To specify the index of certain node. If set to ``'all'``, return the concatenation
-                result of all nodes. If set to an integer, it will be the index of the selected node. Default: ``'all'``
-            is_train (bool): If set to ``True``, ``train_closeness``, ``train_period``, and ``train_trend`` will be
-                concatenated. If set to ``False``, ``test_closeness``, ``test_period``, and ``test_trend`` will be
-                concatenated. Default: True
+def make_concat(self, node='all', is_train=True):
+    """A function to concatenate all closeness, period and trend history data to use as inputs of models.
 
-        Returns:
-            np.ndarray: Function returns an ndarray with shape as
-            [time_slot_num, ``station_number``, ``closeness_len`` + ``period_len`` + ``trend_len``, 1],
-            and time_slot_num is the temporal length of train set data if ``is_train`` is ``True``
-            or the temporal length of test set data if ``is_train`` is ``False``.
-            On the second dimension, data are arranged as
-            ``earlier closeness -> later closeness -> earlier period -> later period -> earlier trend -> later trend``.
-        """
+    Args:
+        node (int or ``'all'``): To specify the index of certain node. If set to ``'all'``, return the concatenation
+            result of all nodes. If set to an integer, it will be the index of the selected node. Default: ``'all'``
+        is_train (bool): If set to ``True``, ``train_closeness``, ``train_period``, and ``train_trend`` will be
+            concatenated. If set to ``False``, ``test_closeness``, ``test_period``, and ``test_trend`` will be
+            concatenated. Default: True
 
-        if is_train:
-            length = len(self.train_y)
-            closeness = self.train_closeness
-            period = self.train_period
-            trend = self.train_trend
-        else:
-            length = len(self.test_y)
-            closeness = self.test_closeness
-            period = self.test_period
-            trend = self.test_trend
-        if node == 'all':
-            node = list(range(self.station_number))
-        else:
-            node = [node]
-        history = np.zeros([length, len(node), self.closeness_len + self.period_len + self.trend_len])
-        for i in range(len(node)):
-            for c in range(self.closeness_len):
-                history[:, i, c] = closeness[:, node[i], c, -1]
-            for p in range(self.period_len):
-                history[:, i, self.closeness_len + p] = period[:, node[i], p, -1]
-            for t in range(self.trend_len):
-                history[:, i, self.closeness_len + self.period_len + t] = trend[:, node[i], t, -1]
-        history = np.expand_dims(history, 3)
-        return history
+    Returns:
+        np.ndarray: Function returns an ndarray with shape as
+        [time_slot_num, ``station_number``, ``closeness_len`` + ``period_len`` + ``trend_len``, 1],
+        and time_slot_num is the temporal length of train set data if ``is_train`` is ``True``
+        or the temporal length of test set data if ``is_train`` is ``False``.
+        On the second dimension, data are arranged as
+        ``earlier closeness -> later closeness -> earlier period -> later period -> earlier trend -> later trend``.
+    """
+
+    if is_train:
+        length = len(self.train_y)
+        closeness = self.train_closeness
+        period = self.train_period
+        trend = self.train_trend
+    else:
+        length = len(self.test_y)
+        closeness = self.test_closeness
+        period = self.test_period
+        trend = self.test_trend
+    if node == 'all':
+        node = list(range(self.station_number))
+    else:
+        node = [node]
+    history = np.zeros([length, len(node), self.closeness_len + self.period_len + self.trend_len])
+    for i in range(len(node)):
+        for c in range(self.closeness_len):
+            history[:, i, c] = closeness[:, node[i], c, -1]
+        for p in range(self.period_len):
+            history[:, i, self.closeness_len + p] = period[:, node[i], p, -1]
+        for t in range(self.trend_len):
+            history[:, i, self.closeness_len + self.period_len + t] = trend[:, node[i], t, -1]
+    history = np.expand_dims(history, 3)
+    return history
 
 
 class TransferDataLoader(object):
@@ -542,7 +550,8 @@ class TransferDataLoader(object):
                        int(self.sd_loader.daily_slots)):
 
             sim = cosine_similarity(self.fake_td_loader.train_data.transpose(),
-                                    self.sd_loader.train_data[i:i + self.fake_td_loader.train_data.shape[0]].transpose())
+                                    self.sd_loader.train_data[
+                                    i:i + self.fake_td_loader.train_data.shape[0]].transpose())
 
             max_sim, max_index = np.max(sim, axis=1), np.argmax(sim, axis=1)
 
@@ -579,7 +588,7 @@ class TransferDataLoader(object):
             for sd_index in range(len(sd_checkin)):
                 r, p = pearsonr(td_checkin[td_index], sd_checkin[sd_index])
                 tmp_sim_record.append([r, sd_index,
-                                       len(self.sd_loader.train_y)-len(self.td_loader.train_y),
+                                       len(self.sd_loader.train_y) - len(self.td_loader.train_y),
                                        len(self.sd_loader.train_y)])
             similar_record.append(max(tmp_sim_record, key=lambda x: x[0]))
 

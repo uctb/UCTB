@@ -12,7 +12,7 @@ class GeoMAN(BaseModel):
             meteorology, time of day and land use).
 
             Reference:
-                `GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Junbo Zhang et al., 2016)
+                `GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang, Yuxuan, et al., 2018)
                 <https://www.ijcai.org/proceedings/2018/0476.pdf>`_.
 
                 `An easy implement of GeoMAN using TensorFlow (yoshall & CastleLiang)

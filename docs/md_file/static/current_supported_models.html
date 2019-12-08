@@ -35,21 +35,54 @@
             
   <div class="section" id="currently-supported-models">
 <h1>Currently Supported Models<a class="headerlink" href="#currently-supported-models" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="historical-mean">
-<h2>Historical Mean<a class="headerlink" href="#historical-mean" title="Permalink to this headline">¶</a></h2>
-<p>Currently Historical Mean method predicts the flow at a certain time slot according to the historical mean value of a specific number of nearest previous time slots.</p>
-</div>
 <div class="section" id="arima-autoregressive-integrated-moving-average">
 <h2>ARIMA (Autoregressive Integrated Moving Average)<a class="headerlink" href="#arima-autoregressive-integrated-moving-average" title="Permalink to this headline">¶</a></h2>
 <p>ARIMA is a simple and widely used time series prediction model.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
-<li><p><a class="reference external" href="https://www3.nd.edu/~busiforc/handouts/ARIMA%20Engineering%20Article.pdf">Williams, B. M., &amp; Hoel, L. A. (2003). Modeling and forecasting vehicular traffic flow as a seasonal ARIMA process: Theoretical basis and empirical results</a></p></li>
+<li><p><a class="reference external" href="https://www3.nd.edu/%7Ebusiforc/handouts/ARIMA%20Engineering%20Article.pdf">Williams, B. M., &amp; Hoel, L. A. (2003). Modeling and forecasting vehicular traffic flow as a seasonal ARIMA process: Theoretical basis and empirical results</a></p></li>
 </ul>
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code></p></li>
 </ul>
+</div>
+<div class="section" id="dcrnn-diffusion-convolutional-recurrent-neural-network">
+<h2>DCRNN (Diffusion Convolutional Recurrent Neural Network)<a class="headerlink" href="#dcrnn-diffusion-convolutional-recurrent-neural-network" title="Permalink to this headline">¶</a></h2>
+<p>DCRNN is a deep learning framework for traffic forecasting that incorporates both spatial and temporal dependency in the traffic flow. It captures the spatial dependency using bidirectional random walks on the graph, and the temporal dependency using the encoder-decoder architecture with scheduled sampling.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://arxiv.org/abs/1707.01926">Li, Y., Yu, R., Shahabi, C., &amp; Liu, Y. (2017). Diffusion convolutional recurrent neural network: Data-driven traffic forecasting</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="deepst-deep-learning-based-prediction-model-for-spatial-temporal-data">
+<h2>DeepST (Deep learning-based prediction model for Spatial-Temporal data)<a class="headerlink" href="#deepst-deep-learning-based-prediction-model-for-spatial-temporal-data" title="Permalink to this headline">¶</a></h2>
+<p>DeepST is composed of three components: 1) temporal dependent instances: describing temporal closeness, period and seasonal trend; 2) convolutional neural networks: capturing near and far spatial dependencies; 3) early and late fusions: fusing similar and different domains’ data.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">Zhang, J., Zheng, Y., Qi, D., Li, R., &amp; Yi, X. (2016, October). DNN-based prediction model for spatio-temporal data</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction">
+<h2>GeoMAN (Multi-level Attention Networks for Geo-sensory Time Series Prediction)<a class="headerlink" href="#geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction" title="Permalink to this headline">¶</a></h2>
+<p>GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global  spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal  dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,  meteorology, time of day and land use).</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0476.pdf">Liang, Y., Ke, S., Zhang, J., Yi, X., &amp; Zheng, Y. (2018, July). GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="hm-historical-mean">
+<h2>HM (Historical Mean)<a class="headerlink" href="#hm-historical-mean" title="Permalink to this headline">¶</a></h2>
+<p>HM is a constant model and always forecasts the sample mean of the historical data.</p>
 </div>
 <div class="section" id="hmm-hidden-markov-model">
 <h2>HMM (Hidden Markov Model)<a class="headerlink" href="#hmm-hidden-markov-model" title="Permalink to this headline">¶</a></h2>
@@ -63,6 +96,35 @@
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">hmmlearn</span></code></p></li>
 </ul>
 </div>
+<div class="section" id="st-mgcn-spatiotemporal-multi-graph-convolution-network">
+<h2>ST-MGCN (Spatiotemporal Multi-graph Convolution Network)<a class="headerlink" href="#st-mgcn-spatiotemporal-multi-graph-convolution-network" title="Permalink to this headline">¶</a></h2>
+<p>ST-MGCN is a deep learning based model which encoded the non-Euclidean correlations among regions using multiple graphs and explicitly captured them using multi-graph convolution.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/7785328">Geng, X., Li, Y., Wang, L., Zhang, L., Yang, Q., Ye, J., &amp; Liu, Y. (2019). Spatiotemporal multi-graph convolution network for ride-hailing demand forecasting</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="st-resnet">
+<h2>ST-ResNet<a class="headerlink" href="#st-resnet" title="Permalink to this headline">¶</a></h2>
+<p>ST-ResNet is a deep-learning model with an end-to-end structure based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://arxiv.org/pdf/1610.00081.pdf">Zhang, J., Zheng, Y., &amp; Qi, D. (2017, February). Deep spatio-temporal residual networks for citywide crowd flows prediction</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="stmeta">
+<h2>STMeta<a class="headerlink" href="#stmeta" title="Permalink to this headline">¶</a></h2>
+<p>STMeta is our prediction model, which requires extra graph information as input, and combines Graph Convolution LSTM and Attention mechanism.</p>
+<ul class="simple">
+<li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code></p></li>
+</ul>
+</div>
 <div class="section" id="xgboost">
 <h2>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h2>
 <p>XGBoost is a gradient boosting machine learning algorithm widely used in flow prediction and other machine learning prediction areas.</p>
@@ -73,13 +135,6 @@
 </ul>
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">xgboost</span></code></p></li>
-</ul>
-</div>
-<div class="section" id="amulti-gclstm">
-<h2>AMulti-GCLSTM<a class="headerlink" href="#amulti-gclstm" title="Permalink to this headline">¶</a></h2>
-<p>AMulti-GCLSTM (Attention-Fused Multi-Graph Convolutional LSTM Networks) is our prediction model, which requires extra graph information as input, and combines Graph Convolution LSTM and Attention mechanism.</p>
-<ul class="simple">
-<li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code></p></li>
 </ul>
 <hr class="docutils" />
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
@@ -120,7 +175,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

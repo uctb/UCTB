@@ -35,24 +35,27 @@
             
   <div class="section" id="experiments-on-charge-station-demand-station">
 <h1>Experiments on Charge-Station demand station<a class="headerlink" href="#experiments-on-charge-station-demand-station" title="Permalink to this headline">¶</a></h1>
-<ul>
+<ul class="simple">
 <li><p>Experiment Setting</p>
 <ul>
-<li><p>Dataset</p>
-<p>|        Attributes        | <strong>Beijing</strong> |
-| :———————-: | :———: |
-|        Time span         |             |
-| Number of riding records |             |
-|    Number of stations    |     629     |</p>
+<li><p>Dataset</p></li>
+</ul>
 </li>
 </ul>
-<p>Following shows a map-visualization of bike stations in NYC, the latest built stations have deeper color.</p>
-<img src="../src/image/Bike_NYC_STMAP.PNG"><p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life. The remaining station number are 717, 444 and 378 for NYC, Chicago and DC, respectively.</p>
+<pre><code>|        Attributes        | **Beijing** |
+| :----------------------: | :---------: |
+|        Time span         |             |
+| Number of riding records |             |
+|    Number of stations    |     629     |
+</code></pre><p>Following shows a map-visualization of bike stations in NYC, the latest built stations have deeper color.</p>
+  <img src="../src/image/Bike_NYC_STMAP.PNG"><p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life. The remaining station number are 717, 444 and 378 for NYC, Chicago and DC, respectively.</p>
 <ul>
-<li><p>Network parameter setting (AMulti-GCLSTM model)</p>
+<li><p>Network parameter setting (STMeta model)</p>
 <p>Following shows the parameters we used and a short explanation of the parameter meaning.  To know more about the parameter, please refer to the API reference.</p>
-<p>| Parameter  | Value |                  Meaning                   |
-| :——–: | :—: | :—————————————-: |
+</li>
+</ul>
+<pre><code>| Parameter  | Value |                  Meaning                   |
+| :--------: | :---: | :----------------------------------------: |
 |    GLL     |   1   |          number of GCLSTM layers           |
 | LSTMUnits  |  64   |       number of hidden units in LSTM       |
 |  GALUnits  |  64   |       number of units used in GAtteL       |
@@ -60,57 +63,165 @@
 | DenseUnits |  32   | number of units in penultimate dense layer |
 |     TC     |   0   |           correlation threshold            |
 |     TD     | 1000  |             distance threshold             |
-|     TI     |  500  |           interaction threshold            |</p>
-</li>
-</ul>
-</li>
+|     TI     |  500  |           interaction threshold            |
+</code></pre><ul class="simple">
 <li><p>Experiment Results</p>
-<ul class="simple">
+<ul>
 <li><p>CG-GCLSTM Only use correlation graph in the model</p></li>
 <li><p>DG-GCLSTM Only use distance graph in the model</p></li>
 <li><p>IG-GCLSTM Only use interaction graph in the model</p></li>
 </ul>
 </li>
 </ul>
-<p>|                       | Beijing |
-| :——————-: | :—–: |
-|          HM           | 1.13594 |
-|         ARIMA         | 5.60477 |
-|          HMM          | 5.42030 |
-|        XGBoost        | 5.32069 |
-|         LSTM          | 5.13307 |
-|       CG-GCLSTM       | 4.64375 |
-|       DG-GCLSTM       | 4.67169 |
-|       IG-GCLSTM       | 4.77809 |
-| ST_MGCN (Multi-Graph) | 4.41732 |
-|     AMulti-GCLSTM     | 4.22640 |</p>
-<p>Add trend and period into feature:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Beijing</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">1.13594</td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center">5.60477</td>
+</tr>
+<tr>
+<td align="center">HMM</td>
+<td align="center">5.42030</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">5.32069</td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">5.13307</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM</td>
+<td align="center">4.64375</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM</td>
+<td align="center">4.67169</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM</td>
+<td align="center">4.77809</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (Multi-Graph)</td>
+<td align="center">4.41732</td>
+</tr>
+<tr>
+<td align="center">STMeta</td>
+<td align="center">4.22640</td>
+</tr>
+</tbody>
+</table><p>Add trend and period into feature:</p>
 <p>(C6-P7-T4) means the length of closeness, period and trend are 6, 7, and 4 respective.</p>
 <p>Default C6-P7-T4</p>
-<p>|               |   NYC   | Chicago |   DC    |
-| :———–: | :—–: | :—–: | :—–: |
-| HM (C6-P7-T4) | 4.55474 | 3.28585 | 2.74502 |
-| HM (C0-P7-T4) | 4.27844 | 3.18290 | 2.68013 |
-|    XGBoost    | 4.14909 | 3.02530 | 2.73286 |
-|     GBRT      | 3.94348 | 2.85847 | 2.63935 |
-|     LSTM      | 3.92746 | 2.92663 | 2.65197 |
-|   DG-GCLSTM   | 3.88572 | 3.00055 | 2.60095 |
-|   IG-GCLSTM   | 3.79187 | 2.97707 | 2.58739 |
-|   CG-GCLSTM   | 3.77422 | 2.98797 | 2.59339 |
-| AMulti-GCLSTM | 3.73464 | 2.79475 | 2.47565 |</p>
-<ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM (C6-P7-T4)</td>
+<td align="center">4.55474</td>
+<td align="center">3.28585</td>
+<td align="center">2.74502</td>
+</tr>
+<tr>
+<td align="center">HM (C0-P7-T4)</td>
+<td align="center">4.27844</td>
+<td align="center">3.18290</td>
+<td align="center">2.68013</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">4.14909</td>
+<td align="center">3.02530</td>
+<td align="center">2.73286</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">3.94348</td>
+<td align="center">2.85847</td>
+<td align="center">2.63935</td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">3.92746</td>
+<td align="center">2.92663</td>
+<td align="center">2.65197</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM</td>
+<td align="center">3.88572</td>
+<td align="center">3.00055</td>
+<td align="center">2.60095</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM</td>
+<td align="center">3.79187</td>
+<td align="center">2.97707</td>
+<td align="center">2.58739</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM</td>
+<td align="center">3.77422</td>
+<td align="center">2.98797</td>
+<td align="center">2.59339</td>
+</tr>
+<tr>
+<td align="center">STMeta</td>
+<td align="center">3.73464</td>
+<td align="center">2.79475</td>
+<td align="center">2.47565</td>
+</tr>
+</tbody>
+</table><ul>
 <li><p>Model training records</p>
 <p>Following data was collected on a Windows PC with <em>CPU : Interl i7 8700K, Memory: 32 GB, GPU: Nvidia GTX 1080Ti</em>.</p>
 </li>
 </ul>
-<p>|        <code class="docutils literal notranslate"><span class="pre">NYC</span> <span class="pre">City</span></code>         | SingleGraph-GCLSTM(Average) | AMulti-GCLSTM | ST_MGCN  |
-| :—————————: | :————————-: | :———–: | :——: |
-| Number of trainable variables |            19749            |     61993     |  249245  |
-|   Converaged training time    |           2 hours           |    6 hours    | 51 hours |</p>
-<ul class="simple">
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><code>NYC City</code></th>
+<th align="center">SingleGraph-GCLSTM(Average)</th>
+<th align="center">STMeta</th>
+<th align="center">ST_MGCN</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Number of trainable variables</td>
+<td align="center">19749</td>
+<td align="center">61993</td>
+<td align="center">249245</td>
+</tr>
+<tr>
+<td align="center">Converaged training time</td>
+<td align="center">2 hours</td>
+<td align="center">6 hours</td>
+<td align="center">51 hours</td>
+</tr>
+</tbody>
+</table><ul class="simple">
 <li><p>Source Code</p></li>
 </ul>
-<p>Use the <code class="docutils literal notranslate"><span class="pre">./Experiment/AMultiGCLSTM_Master_Bike.py</span></code> to train the model or view evaluation results.</p>
+<p>Use the <code class="docutils literal notranslate"><span class="pre">./Experiment/STMeta_Master_Bike.py</span></code> to train the model or view evaluation results.</p>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
 </div>
 
@@ -148,7 +259,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

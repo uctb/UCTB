@@ -39,12 +39,32 @@
 <h2>DiDi Chengdu<a class="headerlink" href="#didi-chengdu" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="parameters-for-building-graph">
 <h3>Parameters for building graph<a class="headerlink" href="#parameters-for-building-graph" title="Permalink to this headline">¶</a></h3>
-<p>| Notation |          explanation           | value |
-| :——: | :—————————-: | :—: |
-|    TD    |  threshold of distance graph   | 7500m |
-|    TI    | threshold of interaction graph |  30   |
-|    TC    | threshold of correlation graph | 0.65  |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Notation</th>
+<th align="center">explanation</th>
+<th align="center">value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">TD</td>
+<td align="center">threshold of distance graph</td>
+<td align="center">7500m</td>
+</tr>
+<tr>
+<td align="center">TI</td>
+<td align="center">threshold of interaction graph</td>
+<td align="center">30</td>
+</tr>
+<tr>
+<td align="center">TC</td>
+<td align="center">threshold of correlation graph</td>
+<td align="center">0.65</td>
+</tr>
+</tbody>
+</table></div>
 <div class="section" id="parameters-for-building-model">
 <h3>Parameters for building model<a class="headerlink" href="#parameters-for-building-model" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
@@ -67,20 +87,84 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>|   实验编号   |   模型版本含义   |         Test-RMSE值          | Test-MAPE |
-| :———-: | :————–: | :————————–: | :——-: |
-|      1       | AMulti-GCLSTM-V2 |           6.98410            |  0.35470  |
-|      2       | AMulti-GCLSTM-V2 |           7.06971            |  0.36585  |
-|      3       | AMulti-GCLSTM-V2 |           7.00403            |  0.34867  |
-|      4       | AMulti-GCLSTM-V2 |           7.04557            |  0.34797  |
-|      5       | AMulti-GCLSTM-V2 |           7.05717            |  0.36398  |
-|      6       | AMulti-GCLSTM-V2 |           6.97287            |  0.34735  |
-|      7       | AMulti-GCLSTM-V2 |           7.03885            |  0.35656  |
-|      8       | AMulti-GCLSTM-V2 |           7.09894            |  0.36024  |
-|      9       | AMulti-GCLSTM-V2 |           7.02147            |  0.33930  |
-| 均值、标准差 |                  | 均值 7.03252，标准差 0.03865 |           |
-|   平均耗时   |                  |          0.5h~1.5h           |           |</p>
-</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">实验编号</th>
+<th align="center">模型版本含义</th>
+<th align="center">Test-RMSE值</th>
+<th align="center">Test-MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">STMeta-V2</td>
+<td align="center">6.98410</td>
+<td align="center">0.35470</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.06971</td>
+<td align="center">0.36585</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.00403</td>
+<td align="center">0.34867</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.04557</td>
+<td align="center">0.34797</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.05717</td>
+<td align="center">0.36398</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">STMeta-V2</td>
+<td align="center">6.97287</td>
+<td align="center">0.34735</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.03885</td>
+<td align="center">0.35656</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.09894</td>
+<td align="center">0.36024</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">STMeta-V2</td>
+<td align="center">7.02147</td>
+<td align="center">0.33930</td>
+</tr>
+<tr>
+<td align="center">均值、标准差</td>
+<td align="center"></td>
+<td align="center">均值 7.03252，标准差 0.03865</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">平均耗时</td>
+<td align="center"></td>
+<td align="center">0.5h~1.5h</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
 </div>
 <div class="section" id="didi-xian">
 <h2>DiDi Xian<a class="headerlink" href="#didi-xian" title="Permalink to this headline">¶</a></h2>
@@ -116,20 +200,68 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>AMulti-GCLSTM-V2 多次实验结果，每次实验耗时 0.5h~1.5h</p>
-<p>| 实验编号 | Test-RMSE | Test-MAPE |
-| :——: | :——-: | :——-: |
-|    1     |  5.80502  |  0.36022  |
-|    2     |  5.88970  |  0.35590  |
-|    3     |  6.00412  |  0.45126  |
-|    4     |  5.93798  |  0.37956  |
-|    5     |  6.01064  |  0.39242  |
-|    6     |  5.89309  |  0.40803  |
-|    7     |  5.84786  |  0.35915  |
-|    8     |  5.88188  |  0.36777  |
-|    9     |  5.97407  |  0.42393  |
-|    10    |  5.80497  |  0.37014  |</p>
-<p>最终结果：Test-RMSE 均值 5.90493，标准差 0.07142</p>
+<p>STMeta-V2 多次实验结果，每次实验耗时 0.5h~1.5h</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">实验编号</th>
+<th align="center">Test-RMSE</th>
+<th align="center">Test-MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">5.80502</td>
+<td align="center">0.36022</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">5.88970</td>
+<td align="center">0.35590</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">6.00412</td>
+<td align="center">0.45126</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">5.93798</td>
+<td align="center">0.37956</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">6.01064</td>
+<td align="center">0.39242</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">5.89309</td>
+<td align="center">0.40803</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">5.84786</td>
+<td align="center">0.35915</td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center">5.88188</td>
+<td align="center">0.36777</td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">5.97407</td>
+<td align="center">0.42393</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">5.80497</td>
+<td align="center">0.37014</td>
+</tr>
+</tbody>
+</table><p>最终结果：Test-RMSE 均值 5.90493，标准差 0.07142</p>
 <p>Metro Shanghai</p>
 <div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="nt">&quot;TrainDays&quot;</span><span class="p">:</span> <span class="s2">&quot;All&quot;</span><span class="p">,</span>
@@ -163,17 +295,53 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>AMulti-GCLSTM-V2 多次实验结果，每次实验耗时 6.5h~7.5h</p>
-<p>| 实验编号 | Test-RMSE | Test-MAPE |
-| :——: | :——-: | :——-: |
-|    1     | 148.88104 |  0.13178  |
-|    2     | 149.58350 |  0.14325  |
-|    3     | 168.16162 |  0.14498  |
-|    4     | 155.88750 |  0.19575  |
-|    5     | 155.09171 |  0.18060  |
-|    6     | 166.13303 |  0.18040  |
-|    7     | 157.08799 |  0.15245  |</p>
-<p>最终结果：Test-RMSE 均值 157.26091，标准差 6.90058</p>
+<p>STMeta-V2 多次实验结果，每次实验耗时 6.5h~7.5h</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">实验编号</th>
+<th align="center">Test-RMSE</th>
+<th align="center">Test-MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">148.88104</td>
+<td align="center">0.13178</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">149.58350</td>
+<td align="center">0.14325</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">168.16162</td>
+<td align="center">0.14498</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">155.88750</td>
+<td align="center">0.19575</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">155.09171</td>
+<td align="center">0.18060</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">166.13303</td>
+<td align="center">0.18040</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center">157.08799</td>
+<td align="center">0.15245</td>
+</tr>
+</tbody>
+</table><p>最终结果：Test-RMSE 均值 157.26091，标准差 6.90058</p>
 </div>
 <div class="section" id="chargestation-beijing">
 <h2>ChargeStation Beijing<a class="headerlink" href="#chargestation-beijing" title="Permalink to this headline">¶</a></h2>
@@ -209,14 +377,38 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>AMulti-GCLSTM-V2 多次实验结果 (暂时只跑了4次)，每次实验耗时约 10h</p>
-<p>| 实验编号 | Test-RMSE | Test-MAPE |
-| :——: | :——-: | :——-: |
-|    1     |  0.80954  |  0.22925  |
-|    2     |  0.82956  |  0.23242  |
-|    3     |  0.82393  |  0.22467  |
-|    4     |  0.81360  |  0.22932  |</p>
-<p>最终结果：Test-RMSE 均值 0.81915，标准差 0.0079745</p>
+<p>STMeta-V2 多次实验结果 (暂时只跑了4次)，每次实验耗时约 10h</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">实验编号</th>
+<th align="center">Test-RMSE</th>
+<th align="center">Test-MAPE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">1</td>
+<td align="center">0.80954</td>
+<td align="center">0.22925</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">0.82956</td>
+<td align="center">0.23242</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">0.82393</td>
+<td align="center">0.22467</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">0.81360</td>
+<td align="center">0.22932</td>
+</tr>
+</tbody>
+</table><p>最终结果：Test-RMSE 均值 0.81915，标准差 0.0079745</p>
 </div>
 </div>
 
@@ -254,7 +446,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

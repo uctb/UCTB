@@ -39,8 +39,8 @@
             
   <div class="section" id="results-on-different-datasets">
 <h1>6. Results on different datasets<a class="headerlink" href="#results-on-different-datasets" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="amultigclstm-version">
-<h2>6.1. AMultiGCLSTM Version<a class="headerlink" href="#amultigclstm-version" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="stmeta-version">
+<h2>6.1. STMeta Version<a class="headerlink" href="#stmeta-version" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -52,25 +52,25 @@
 </thead>
 <tbody>
 <tr>
-<td align="center">AMulti-GCLSTM-V1</td>
+<td align="center">STMeta-V1</td>
 <td align="center">GCLSTM</td>
 <td align="center">GAL</td>
 <td align="center">GAL</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2</td>
+<td align="center">STMeta-V2</td>
 <td align="center">GCLSTM</td>
 <td align="center">Concat+Dense</td>
 <td align="center">GAL</td>
 </tr>
 <tr>
-<td align="center">~~AMulti-GCLSTM-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索)</td>
+<td align="center">~~STMeta-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索)</td>
 <td align="center">RGAL</td>
 <td align="center">GAL</td>
 <td align="center">GAL</td>
 </tr>
 </tbody>
-</table><p>By default, we use <code class="docutils literal notranslate"><span class="pre">AMulti-GCLSTM-V1</span></code> to run LSTM and single graph model tests.</p>
+</table><p>By default, we use <code class="docutils literal notranslate"><span class="pre">STMeta-V1</span></code> to run LSTM and single graph model tests.</p>
 </div>
 <div class="section" id="search-space">
 <h2>6.2. Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h2>
@@ -111,7 +111,7 @@
 <td align="center"><code>lstm_layers: 1~3</code>, <code>lstm_hidden_units: 32~128</code>, <code>dense_units: 32~128</code>, <code>temp_merge_heads: 2~4</code>, <code>temp_merge_units: 32~128</code></td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1</td>
+<td align="center">STMeta-V1</td>
 <td align="center"><code>gcn_k: 1~3</code>, <code>gcn_l: 1~3</code> <code>gclstm_layers: 1~3</code>, <code>lstm_hidden_units: 64~256</code>, <code>dense_units: 32~128</code>, <code>temp_merge_heads: 2~4</code>, <code>temp_merge_units: 32~128</code></td>
 </tr>
 </tbody>
@@ -219,25 +219,25 @@
 <td align="center">2.45815</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 <code>1-1-1-64-32-2-64</code></td>
+<td align="center">STMeta-V1 <code>1-1-1-64-32-2-64</code></td>
 <td align="center">3.50475</td>
 <td align="center"><strong>2.65511</strong></td>
 <td align="center">2.42582</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 <code>2-1-1-64-32-2-64</code></td>
+<td align="center">STMeta-V1 <code>2-1-1-64-32-2-64</code></td>
 <td align="center">3.51352</td>
 <td align="center">2.76366</td>
 <td align="center">2.44217</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2</td>
+<td align="center">STMeta-V2</td>
 <td align="center"><strong>3.43870</strong></td>
 <td align="center">2.66379</td>
 <td align="center">2.41111</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V3</td>
+<td align="center">STMeta-V3</td>
 <td align="center">3.47834</td>
 <td align="center">2.66180</td>
 <td align="center"><strong>2.38844</strong></td>
@@ -419,7 +419,7 @@
 <td align="center">0.93 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center">STMeta-V1 (G/DC)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">6.67733</td>
 <td align="center">5.79875</td>
@@ -427,7 +427,7 @@
 <td align="center">9.71 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">6.61686</td>
 <td align="center">5.89154</td>
@@ -435,7 +435,7 @@
 <td align="center">8.99 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>2-1-1-64-32-2-64</code> (batch64)</td>
 <td align="center">6.72327</td>
 <td align="center">5.83256</td>
@@ -443,7 +443,7 @@
 <td align="center">2.04 hour / 2780 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2(G/DCI)</td>
+<td align="center">STMeta-V2(G/DCI)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">6.68180</td>
 <td align="center">5.75596</td>
@@ -451,7 +451,7 @@
 <td align="center">22.74 hour / 50000 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V3(G/DCI)</td>
+<td align="center">STMeta-V3(G/DCI)</td>
 <td align="center"></td>
 <td align="center">6.68701</td>
 <td align="center">5.95507</td>
@@ -608,7 +608,7 @@
 <td align="center">2.31 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center">STMeta-V1 (G/DC)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">6.54396</td>
 <td align="center">7.10324</td>
@@ -616,7 +616,7 @@
 <td align="center">4.16 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">6.63979</td>
 <td align="center">7.06246</td>
@@ -624,7 +624,7 @@
 <td align="center">1.66 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>2-1-1-64-32-2-64</code> (batch64)</td>
 <td align="center">6.55178</td>
 <td align="center">7.0402</td>
@@ -632,7 +632,7 @@
 <td align="center">1.43 hour / 2017 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2 (G/DCI)</td>
+<td align="center">STMeta-V2 (G/DCI)</td>
 <td align="center"></td>
 <td align="center">6.59178</td>
 <td align="center">7.09710</td>
@@ -640,7 +640,7 @@
 <td align="center">12.92 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V3 (G/DCI)</td>
+<td align="center">STMeta-V3 (G/DCI)</td>
 <td align="center"></td>
 <td align="center">6.64110</td>
 <td align="center">7.04358</td>
@@ -792,7 +792,7 @@
 <td align="center">15.21 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center">STMeta-V1 (G/DC)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">86.27438</td>
 <td align="center"><strong>90.83853</strong></td>
@@ -800,7 +800,7 @@
 <td align="center">29.63 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center"><strong>84.69295</strong></td>
 <td align="center">92.74990</td>
@@ -808,7 +808,7 @@
 <td align="center">38.91 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>2-1-1-64-32-2-64</code></td>
 <td align="center">98.12365</td>
 <td align="center">102.22088</td>
@@ -816,7 +816,7 @@
 <td align="center">23.91 hour / 6887 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2 (G/DCI)</td>
+<td align="center">STMeta-V2 (G/DCI)</td>
 <td align="center"></td>
 <td align="center">95.93984</td>
 <td align="center">98.86152</td>
@@ -824,7 +824,7 @@
 <td align="center">30.64 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V3(G/DCI)</td>
+<td align="center">STMeta-V3(G/DCI)</td>
 <td align="center"></td>
 <td align="center">93.19236</td>
 <td align="center">101.7806</td>
@@ -981,7 +981,7 @@
 <td align="center">2.34 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center">STMeta-V1 (G/DC)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">133.77488</td>
 <td align="center">162.10970</td>
@@ -989,7 +989,7 @@
 <td align="center">9.70 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">131.04696</td>
 <td align="center"><strong>151.11746</strong></td>
@@ -997,7 +997,7 @@
 <td align="center">11.96 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DCI)</td>
+<td align="center">STMeta-V1 (G/DCI)</td>
 <td align="center"><code>2-1-1-64-32-2-64</code></td>
 <td align="center">131.71449</td>
 <td align="center">166.59117</td>
@@ -1005,7 +1005,7 @@
 <td align="center">3.85 hour / 4904 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2 (G/DCI)</td>
+<td align="center">STMeta-V2 (G/DCI)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">131.95754</td>
 <td align="center">158.21953</td>
@@ -1013,7 +1013,7 @@
 <td align="center">13.27 hour / 20000 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V3 (G/DCI)</td>
+<td align="center">STMeta-V3 (G/DCI)</td>
 <td align="center"></td>
 <td align="center">128.10709</td>
 <td align="center">156.58867</td>
@@ -1182,7 +1182,7 @@
 <td align="center">17.43 hour</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center">STMeta-V1 (G/DC)</td>
 <td align="center"><code>1-1-1-64-32-2-64</code></td>
 <td align="center">0.57868</td>
 <td align="center"><strong>0.815518</strong></td>
@@ -1190,7 +1190,7 @@
 <td align="center">26.27 hour / 20000 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V1 (G/DC)</td>
+<td align="center">STMeta-V1 (G/DC)</td>
 <td align="center"><code>2-1-1-64-32-2-64</code> (batch_size 64)</td>
 <td align="center">0.58788</td>
 <td align="center">0.83315</td>
@@ -1198,7 +1198,7 @@
 <td align="center"></td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V2 (G/DC)</td>
+<td align="center">STMeta-V2 (G/DC)</td>
 <td align="center"></td>
 <td align="center">0.58936</td>
 <td align="center">0.82144</td>
@@ -1206,7 +1206,7 @@
 <td align="center">16.48 hour / 16491 epochs</td>
 </tr>
 <tr>
-<td align="center">AMulti-GCLSTM-V3 (G/DC)</td>
+<td align="center">STMeta-V3 (G/DC)</td>
 <td align="center"></td>
 <td align="center">0.56721</td>
 <td align="center">0.81541</td>

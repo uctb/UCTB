@@ -35,23 +35,25 @@
             
   <div class="section" id="experiments-on-didi-traffic-flow-prediction">
 <h1>Experiments on DiDi traffic-flow prediction<a class="headerlink" href="#experiments-on-didi-traffic-flow-prediction" title="Permalink to this headline">¶</a></h1>
-<ul>
+<ul class="simple">
 <li><p>Experiment Setting</p>
 <ul>
-<li><p>Dataset</p>
-<p>|        Attributes        |    <strong>Xi’an</strong>    |   <strong>Chengdu</strong>   |
-| :———————-: | :————-: | :————-: |
-|        Time span         | 2016.10-2016.11 | 2016.10-2016.11 |
-| Number of riding records |     5922891     |     8439537     |
-|    Number of stations    |       253       |       256       |</p>
+<li><p>Dataset</p></li>
+</ul>
 </li>
 </ul>
-<p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life.</p>
-<p>Network parameter setting (AMulti-GCLSTM model)</p>
-<ul>
-<li><p>Following shows the parameters we used and a short explanation of the parameter meaning.  To know more about the parameter, please refer to the API reference.</p>
-<p>| Parameter  | Value |                  Meaning                   |
-| :——–: | :—: | :—————————————-: |
+<pre><code>|        Attributes        |    **Xi'an**    |   **Chengdu**   |
+| :----------------------: | :-------------: | :-------------: |
+|        Time span         | 2016.10-2016.11 | 2016.10-2016.11 |
+| Number of riding records |     5922891     |     8439537     |
+|    Number of stations    |       253       |       256       |
+</code></pre><p>In the data preprocessing stage, we removed the stations with average daily traffic flow smaller than 1, since predictions for these stations are not significant in real life.</p>
+<p>Network parameter setting (STMeta model)</p>
+<ul class="simple">
+<li><p>Following shows the parameters we used and a short explanation of the parameter meaning.  To know more about the parameter, please refer to the API reference.</p></li>
+</ul>
+<pre><code>| Parameter  | Value |                  Meaning                   |
+| :--------: | :---: | :----------------------------------------: |
 |    GLL     |   2   |          number of GCLSTM layers           |
 | LSTMUnits  |  256  |       number of hidden units in LSTM       |
 |  GALUnits  |  256  |       number of units used in GAtteL       |
@@ -60,38 +62,112 @@
 |     TC     |   0   |           correlation threshold            |
 |     TD     | 1000  |             distance threshold             |
 |     TI     |  500  |           interaction threshold            |
-|     lr     | 5e-4  |               learning rate                |</p>
-</li>
-</ul>
-</li>
+|     lr     | 5e-4  |               learning rate                |
+</code></pre><ul class="simple">
 <li><p>Experiment Results</p>
-<ul class="simple">
-<li><p>AMulti-GCLSTM uses correlation graph and interaction graph on Xi’an dataset, and uses correlation graph and interaction graph on Chengdu dataset.</p></li>
+<ul>
+<li><p>STMeta uses correlation graph and interaction graph on Xi’an dataset, and uses correlation graph and interaction graph on Chengdu dataset.</p></li>
 </ul>
 </li>
 </ul>
-<p>|               |  Xi’an   | Chengdu  |
-| :———–: | :——: | :——: |
-|      HM       | 10.13594 | 14.14511 |
-|     ARIMA     | 10.11464 | 14.53216 |
-|      HMM      | 10.3239  | 15.24771 |
-|    XGBoost    | 8.72033  | 10.73894 |
-|     LSTM      | 9.31375  | 12.05271 |
-| AMulti-GCLSTM | 7.20868  | 8.88920  |</p>
-<div class="section" id="adding-period-and-closeness-feature-into-mode">
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Xi'an</th>
+<th align="center">Chengdu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">10.13594</td>
+<td align="center">14.14511</td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center">10.11464</td>
+<td align="center">14.53216</td>
+</tr>
+<tr>
+<td align="center">HMM</td>
+<td align="center">10.3239</td>
+<td align="center">15.24771</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">8.72033</td>
+<td align="center">10.73894</td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">9.31375</td>
+<td align="center">12.05271</td>
+</tr>
+<tr>
+<td align="center">STMeta</td>
+<td align="center">7.20868</td>
+<td align="center">8.88920</td>
+</tr>
+</tbody>
+</table><div class="section" id="adding-period-and-closeness-feature-into-mode">
 <h2>Adding period and closeness feature into mode<a class="headerlink" href="#adding-period-and-closeness-feature-into-mode" title="Permalink to this headline">¶</a></h2>
-<p>|               |  Xi’an  | Chengdu |
-| :———–: | :—–: | :—–: |
-|      HM       |         |         |
-|     ARIMA     |         |         |
-|    XGBoost    |         |         |
-|     GBRT      |         |         |
-|     LSTM      | 6.33135 | 6.97385 |
-|   DG-GCLSTM   | 6.50630 | 7.16565 |
-|   IG-GCLSTM   | 6.02866 | 7.20899 |
-|   CG-GCLSTM   | 5.90418 | 7.09994 |
-| AMulti-GCLSTM | 5.94591 | 7.26551 |</p>
-<p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">Xi'an</th>
+<th align="center">Chengdu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">6.33135</td>
+<td align="center">6.97385</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM</td>
+<td align="center">6.50630</td>
+<td align="center">7.16565</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM</td>
+<td align="center">6.02866</td>
+<td align="center">7.20899</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM</td>
+<td align="center">5.90418</td>
+<td align="center">7.09994</td>
+</tr>
+<tr>
+<td align="center">STMeta</td>
+<td align="center">5.94591</td>
+<td align="center">7.26551</td>
+</tr>
+</tbody>
+</table><p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
 </div>
 </div>
 
@@ -129,7 +205,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2019, Di Chai, Leye Wang, Jin Xu.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.2.1.
     </div>
   </body>
 </html>

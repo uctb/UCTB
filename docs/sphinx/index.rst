@@ -14,8 +14,6 @@ Welcome to UCTB's documentation!
 
    md_file/installation.md
 
-   md_file/installation.md
-
    md_file/quickstart.md
 
    md_file/tutorial.md

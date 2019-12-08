@@ -1,14 +1,14 @@
 # Results on different datasets
 
-## AMultiGCLSTM Version
+## STMeta Version
 
 |                         Version Name                         | Temporal Feature Process | Temporal Merge Method | Multi-Graph Merge Method |
 | :----------------------------------------------------------: | :----------------------: | :-------------------: | :----------------------: |
-|                       AMulti-GCLSTM-V1                       |          GCLSTM          |          GAL          |           GAL            |
-|                       AMulti-GCLSTM-V2                       |          GCLSTM          |     Concat+Dense      |           GAL            |
-| ~~AMulti-GCLSTM-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索) |           RGAL           |          GAL          |           GAL            |
+|                       STMeta-V1                       |          GCLSTM          |          GAL          |           GAL            |
+|                       STMeta-V2                       |          GCLSTM          |     Concat+Dense      |           GAL            |
+| ~~STMeta-V3~~ (目前该方法收敛较差 误差较大 网络结构待探索) |           RGAL           |          GAL          |           GAL            |
 
-By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
+By default, we use `STMeta-V1` to run LSTM and single graph model tests.
 
 ## Search Space
 
@@ -21,7 +21,7 @@ By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
 |     XGBoost      | `CT: 0~12`, `PT: 0~14`, `TT: 0~4`, `estimater: 10~200`, `depth: 2~10` |
 |       GBRT       | `CT: 0~12`, `PT: 0~14`, `TT: 0~4`, `estimater: 10~200`, `depth: 2~10` |
 |       LSTM       | `lstm_layers: 1~3`, `lstm_hidden_units: 32~128 `, `dense_units: 32~128`, `temp_merge_heads: 2~4`, `temp_merge_units: 32~128` |
-| AMulti-GCLSTM-V1 | `gcn_k: 1~3`, `gcn_l: 1~3` `gclstm_layers: 1~3`, `lstm_hidden_units: 64~256 `, `dense_units: 32~128`, `temp_merge_heads: 2~4`, `temp_merge_units: 32~128` |
+| STMeta-V1 | `gcn_k: 1~3`, `gcn_l: 1~3` `gclstm_layers: 1~3`, `lstm_hidden_units: 64~256 `, `dense_units: 32~128`, `temp_merge_heads: 2~4`, `temp_merge_units: 32~128` |
 
 ## Results on Bike
 
@@ -42,10 +42,10 @@ By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
 |              DG-GCLSTM              |        3.63207         |         2.71876         |         2.53863         |
 |              IG-GCLSTM              |        3.78816         |         2.70131         |         2.46214         |
 |              CG-GCLSTM              |        3.69656         |         2.79812         |         2.45815         |
-| AMulti-GCLSTM-V1 `1-1-1-64-32-2-64` |        3.50475         |       **2.65511**       |         2.42582         |
-| AMulti-GCLSTM-V1 `2-1-1-64-32-2-64` |        3.51352         |         2.76366         |         2.44217         |
-|          AMulti-GCLSTM-V2           |      **3.43870**       |         2.66379         |         2.41111         |
-|          AMulti-GCLSTM-V3           |        3.47834         |         2.66180         |       **2.38844**       |
+| STMeta-V1 `1-1-1-64-32-2-64` |        3.50475         |       **2.65511**       |         2.42582         |
+| STMeta-V1 `2-1-1-64-32-2-64` |        3.51352         |         2.76366         |         2.44217         |
+|          STMeta-V2           |      **3.43870**       |         2.66379         |         2.41111         |
+|          STMeta-V3           |        3.47834         |         2.66180         |       **2.38844**       |
 
 #### Parameter Search on bike
 
@@ -75,11 +75,11 @@ By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
 |                 DG-GCLSTM-V1                 |      `1-1-1-64-32-2-64`      |   6.97208   |  5.79428  |   62789   |         4.55 hour         |
 |                 IG-GCLSTM-V1                 |      `1-1-1-64-32-2-64`      |   7.19536   |  5.87106  |   62789   |         4.40 hour         |
 |                 CG-GCLSTM-V1                 |      `1-1-1-64-32-2-64`      |   6.97782   |  5.94440  |   62789   |         0.93 hour         |
-|           AMulti-GCLSTM-V1 (G/DC)            |      `1-1-1-64-32-2-64`      |   6.67733   |  5.79875  |  130379   |         9.71 hour         |
-|           AMulti-GCLSTM-V1 (G/DCI)           |      `1-1-1-64-32-2-64`      |   6.61686   |  5.89154  |  189521   |         8.99 hour         |
-|           AMulti-GCLSTM-V1 (G/DCI)           | `2-1-1-64-32-2-64` (batch64) |   6.72327   |  5.83256  |  638911   |  2.04 hour / 2780 epochs  |
-|           AMulti-GCLSTM-V2(G/DCI)            |      `1-1-1-64-32-2-64`      |   6.68180   |  5.75596  |  180561   | 22.74 hour / 50000 epochs |
-|           AMulti-GCLSTM-V3(G/DCI)            |                              |   6.68701   |  5.95507  |  488447   |                           |
+|           STMeta-V1 (G/DC)            |      `1-1-1-64-32-2-64`      |   6.67733   |  5.79875  |  130379   |         9.71 hour         |
+|           STMeta-V1 (G/DCI)           |      `1-1-1-64-32-2-64`      |   6.61686   |  5.89154  |  189521   |         8.99 hour         |
+|           STMeta-V1 (G/DCI)           | `2-1-1-64-32-2-64` (batch64) |   6.72327   |  5.83256  |  638911   |  2.04 hour / 2780 epochs  |
+|           STMeta-V2(G/DCI)            |      `1-1-1-64-32-2-64`      |   6.68180   |  5.75596  |  180561   | 22.74 hour / 50000 epochs |
+|           STMeta-V3(G/DCI)            |                              |   6.68701   |  5.95507  |  488447   |                           |
 
 | <font color='#ff0000'>**City: Chengdu**</font> |      Params (Searched)       |  val-rmse   | test-rmse | \# Params |      Converged Time      |
 | :--------------------------------------------: | :--------------------------: | :---------: | :-------: | :-------: | :----------------------: |
@@ -100,11 +100,11 @@ By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
 |                  DG-GCLSTM-V1                  |      `1-1-1-64-32-2-64`      |   6.56428   |  7.04343  |   62789   |        7.39 hour         |
 |                  IG-GCLSTM-V1                  |      `1-1-1-64-32-2-64`      |   6.49908   |  7.02130  |   62789   |        2.70 hour         |
 |                  CG-GCLSTM-V1                  |      `1-1-1-64-32-2-64`      |   6.77519   |  7.27282  |   62789   |        2.31 hour         |
-|            AMulti-GCLSTM-V1 (G/DC)             |      `1-1-1-64-32-2-64`      |   6.54396   |  7.10324  |  130379   |        4.16 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)            |      `1-1-1-64-32-2-64`      |   6.63979   |  7.06246  |  189521   |        1.66 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)            | `2-1-1-64-32-2-64` (batch64) |   6.55178   |  7.0402   |  638911   | 1.43 hour / 2017 epochs  |
-|            AMulti-GCLSTM-V2 (G/DCI)            |                              |   6.59178   |  7.09710  |  180561   |        12.92 hour        |
-|            AMulti-GCLSTM-V3 (G/DCI)            |                              |   6.64110   |  7.04358  |  488447   |                          |
+|            STMeta-V1 (G/DC)             |      `1-1-1-64-32-2-64`      |   6.54396   |  7.10324  |  130379   |        4.16 hour         |
+|            STMeta-V1 (G/DCI)            |      `1-1-1-64-32-2-64`      |   6.63979   |  7.06246  |  189521   |        1.66 hour         |
+|            STMeta-V1 (G/DCI)            | `2-1-1-64-32-2-64` (batch64) |   6.55178   |  7.0402   |  638911   | 1.43 hour / 2017 epochs  |
+|            STMeta-V2 (G/DCI)            |                              |   6.59178   |  7.09710  |  180561   |        12.92 hour        |
+|            STMeta-V3 (G/DCI)            |                              |   6.64110   |  7.04358  |  488447   |                          |
 
 ## Results on Metro
 
@@ -126,11 +126,11 @@ By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
 |                   DG-GCLSTM-V1                   | `1-1-1-64-32-2-64` |  113.54371   |  100.45433   |   62789   |        15.55 hour        |
 |                   IG-GCLSTM-V1                   | `1-1-1-64-32-2-64` |  116.70645   |   93.73172   |   62789   |        15.36 hour        |
 |                   CG-GCLSTM-V1                   | `1-1-1-64-32-2-64` |  106.80433   |   99.53486   |   62789   |        15.21 hour        |
-|             AMulti-GCLSTM-V1 (G/DC)              | `1-1-1-64-32-2-64` |   86.27438   | **90.83853** |  130379   |        29.63 hour        |
-|             AMulti-GCLSTM-V1 (G/DCI)             | `1-1-1-64-32-2-64` | **84.69295** |   92.74990   |  189521   |        38.91 hour        |
-|             AMulti-GCLSTM-V1 (G/DCI)             | `2-1-1-64-32-2-64` |   98.12365   |  102.22088   |  638911   | 23.91 hour / 6887 epochs |
-|             AMulti-GCLSTM-V2 (G/DCI)             |                    |   95.93984   |   98.86152   |  180561   |        30.64 hour        |
-|             AMulti-GCLSTM-V3(G/DCI)              |                    |   93.19236   |   101.7806   |  488447   |                          |
+|             STMeta-V1 (G/DC)              | `1-1-1-64-32-2-64` |   86.27438   | **90.83853** |  130379   |        29.63 hour        |
+|             STMeta-V1 (G/DCI)             | `1-1-1-64-32-2-64` | **84.69295** |   92.74990   |  189521   |        38.91 hour        |
+|             STMeta-V1 (G/DCI)             | `2-1-1-64-32-2-64` |   98.12365   |  102.22088   |  638911   | 23.91 hour / 6887 epochs |
+|             STMeta-V2 (G/DCI)             |                    |   95.93984   |   98.86152   |  180561   |        30.64 hour        |
+|             STMeta-V3(G/DCI)              |                    |   93.19236   |   101.7806   |  488447   |                          |
 
 | <font color='#ff0000'>**City: Shanghai**</font> |       Params       |   val-rmse    |   test-rmse   | \# Params |      Converged Time       |
 | :---------------------------------------------: | :----------------: | :-----------: | :-----------: | :-------: | :-----------------------: |
@@ -151,11 +151,11 @@ By default, we use `AMulti-GCLSTM-V1` to run LSTM and single graph model tests.
 |                  DG-GCLSTM-V1                   | `1-1-1-64-32-2-64` |   137.98910   |   171.62920   |   62789   |         6.11 hour         |
 |                  IG-GCLSTM-V1                   | `1-1-1-64-32-2-64` |   136.83477   |   168.94954   |   62789   |         5.71 hour         |
 |                  CG-GCLSTM-V1                   | `1-1-1-64-32-2-64` |   141.37688   |   189.21147   |   62789   |         2.34 hour         |
-|             AMulti-GCLSTM-V1 (G/DC)             | `1-1-1-64-32-2-64` |   133.77488   |   162.10970   |  130379   |         9.70 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)             | `1-1-1-64-32-2-64` |   131.04696   | **151.11746** |  189521   |        11.96 hour         |
-|            AMulti-GCLSTM-V1 (G/DCI)             | `2-1-1-64-32-2-64` |   131.71449   |   166.59117   |  638911   |  3.85 hour / 4904 epochs  |
-|            AMulti-GCLSTM-V2 (G/DCI)             | `1-1-1-64-32-2-64` |   131.95754   |   158.21953   |  180561   | 13.27 hour / 20000 epochs |
-|            AMulti-GCLSTM-V3 (G/DCI)             |                    |   128.10709   |   156.58867   |  488447   |    12.45 hour / 11010     |
+|             STMeta-V1 (G/DC)             | `1-1-1-64-32-2-64` |   133.77488   |   162.10970   |  130379   |         9.70 hour         |
+|            STMeta-V1 (G/DCI)             | `1-1-1-64-32-2-64` |   131.04696   | **151.11746** |  189521   |        11.96 hour         |
+|            STMeta-V1 (G/DCI)             | `2-1-1-64-32-2-64` |   131.71449   |   166.59117   |  638911   |  3.85 hour / 4904 epochs  |
+|            STMeta-V2 (G/DCI)             | `1-1-1-64-32-2-64` |   131.95754   |   158.21953   |  180561   | 13.27 hour / 20000 epochs |
+|            STMeta-V3 (G/DCI)             |                    |   128.10709   |   156.58867   |  488447   |    12.45 hour / 11010     |
 
 Metro 上的period、trend特征性更强，所以仅使用closeness效果很差
 
@@ -185,8 +185,8 @@ Metro 上的period、trend特征性更强，所以仅使用closeness效果很差
 |                    GRU(CPT)                    |                                    |   0.61381   |   0.84800    |           |                           |
 |                  DG-GCLSTM-V1                  |         `1-1-1-64-32-2-64`         |   0.59233   |   0.83743    |   62789   |        12.70 hour         |
 |                  CG-GCLSTM-V1                  |         `1-1-1-64-32-2-64`         | **0.57863** |   0.82140    |   62789   |        17.43 hour         |
-|            AMulti-GCLSTM-V1 (G/DC)             |         `1-1-1-64-32-2-64`         |   0.57868   | **0.815518** |  130379   | 26.27 hour / 20000 epochs |
-|            AMulti-GCLSTM-V1 (G/DC)             | `2-1-1-64-32-2-64` (batch_size 64) |   0.58788   |   0.83315    |  638911   |                           |
-|            AMulti-GCLSTM-V2 (G/DC)             |                                    |   0.58936   |   0.82144    |  129867   | 16.48 hour / 16491 epochs |
-|            AMulti-GCLSTM-V3 (G/DC)             |                                    |   0.56721   |   0.81541    |  488447   |                           |
+|            STMeta-V1 (G/DC)             |         `1-1-1-64-32-2-64`         |   0.57868   | **0.815518** |  130379   | 26.27 hour / 20000 epochs |
+|            STMeta-V1 (G/DC)             | `2-1-1-64-32-2-64` (batch_size 64) |   0.58788   |   0.83315    |  638911   |                           |
+|            STMeta-V2 (G/DC)             |                                    |   0.58936   |   0.82144    |  129867   | 16.48 hour / 16491 epochs |
+|            STMeta-V3 (G/DC)             |                                    |   0.56721   |   0.81541    |  488447   |                           |
 

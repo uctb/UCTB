@@ -43,10 +43,10 @@
             
   <div class="section" id="quick-start">
 <h1>3. Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="quick-start-with-amulti-gclstm">
-<h2>3.1. Quick start with AMulti-GCLSTM<a class="headerlink" href="#quick-start-with-amulti-gclstm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-start-with-stmeta">
+<h2>3.1. Quick start with STMeta<a class="headerlink" href="#quick-start-with-stmeta" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
-<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">AMultiGCLSTM</span>
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">STMeta</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
 
 <span class="c1"># Config data loader</span>
@@ -54,16 +54,16 @@
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># Init model object</span>
-<span class="n">AMulti_GCLSTM_Obj</span> <span class="o">=</span> <span class="n">AMultiGCLSTM</span><span class="p">(</span><span class="n">closeness_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span>
+<span class="n">STMeta_Obj</span> <span class="o">=</span> <span class="n">STMeta</span><span class="p">(</span><span class="n">closeness_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span>
                                  <span class="n">period_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">period_len</span><span class="p">,</span>
                                  <span class="n">trend_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">trend_len</span><span class="p">,</span>
                                  <span class="n">num_node</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">,</span>
                                  <span class="n">num_graph</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
 <span class="c1"># Build tf-graph</span>
-<span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+<span class="n">STMeta_Obj</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
 <span class="c1"># Training</span>
-<span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">,</span>
+<span class="n">STMeta_Obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">,</span>
                       <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">,</span>
                       <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">,</span>
                       <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
@@ -71,7 +71,7 @@
                       <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_sequence_len</span><span class="p">)</span>
 
 <span class="c1"># Predict</span>
-<span class="n">prediction</span> <span class="o">=</span> <span class="n">AMulti_GCLSTM_Obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">,</span>
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">STMeta_Obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">,</span>
                                        <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">,</span>
                                        <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">,</span>
                                        <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>

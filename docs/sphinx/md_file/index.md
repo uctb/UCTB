@@ -13,7 +13,7 @@ Currently the package supported the following models: ([Details](./static/curren
 - DeepST
 - ST-ResNet
 - DCRNN
-- AMulti-GCLSTM
+- STMeta
 
 UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.
 
@@ -52,11 +52,11 @@ The following required package will be installed or upgraded with UCTB:
 
 ## Quick start
 
-- ##### Quick start with AMulti-GCLSTM
+- ##### Quick start with STMeta
 
 ```python
 from UCTB.dataset import NodeTrafficLoader
-from UCTB.model import AMultiGCLSTM
+from UCTB.model import STMeta
 from UCTB.evaluation import metric
 
 # Config data loader
@@ -64,16 +64,16 @@ data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', graph='Correlation',
                                 closeness_len=6, period_len=7, trend_len=4, normalize=True)
 
 # Init model object
-AMulti_GCLSTM_Obj = AMultiGCLSTM(closeness_len=data_loader.closeness_len,
+STMeta_Obj = STMeta(closeness_len=data_loader.closeness_len,
                                  period_len=data_loader.period_len,
                                  trend_len=data_loader.trend_len,
                                  num_node=data_loader.station_number,
                                  num_graph=data_loader.LM.shape[0])
 
 # Build tf-graph
-AMulti_GCLSTM_Obj.build()
+STMeta_Obj.build()
 # Training
-AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
+STMeta_Obj.fit(closeness_feature=data_loader.train_closeness,
                       period_feature=data_loader.train_period,
                       trend_feature=data_loader.train_trend,
                       laplace_matrix=data_loader.LM,
@@ -81,7 +81,7 @@ AMulti_GCLSTM_Obj.fit(closeness_feature=data_loader.train_closeness,
                       sequence_length=data_loader.train_sequence_len)
 
 # Predict
-prediction = AMulti_GCLSTM_Obj.predict(closeness_feature=data_loader.test_closeness,
+prediction = STMeta_Obj.predict(closeness_feature=data_loader.test_closeness,
                                        period_feature=data_loader.test_period,
                                        trend_feature=data_loader.test_trend,
                                        laplace_matrix=data_loader.LM,
@@ -98,7 +98,7 @@ print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denor
 
 ## Tutorial
 
-- Compare different version of AMulti-GCLSTM
+- Compare different version of STMeta
 
 - ##### [Use datasets from UCTB](./static/tutorial.html)
 

@@ -247,15 +247,36 @@ or TensorShapes.</p>
 <dt id="UCTB.model_unit.GraphModelLayers.GAL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GAL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class provides static methods for adding Graph Attention Layer.</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">
 <em class="property">static </em><code class="sig-name descname">add_ga_layer_matrix</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">units</em>, <em class="sig-param">num_head</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>This method use Multi-head attention technique to add Graph Attention Layer.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>input</strong> (<em>ndarray</em>) – The set of node features data, with shape [batch, num_node, num_featuer].</p></li>
+<li><p><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of merge_gal_units used in GAL.</p></li>
+<li><p><strong>num_head</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of multi-head used in GAL.</p></li>
+<li><p><strong>activation</strong> (<em>function</em>) – activation function. default:tf.nn.tanh.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The weight matrix after softmax function.
+gc_output: The final GAL aggregated feature representation from input feature.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>alpha</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer">
 <em class="property">static </em><code class="sig-name descname">add_residual_ga_layer</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">units</em>, <em class="sig-param">num_head</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Call the add_ga_layer_matrix function to build the Graph Attention Layer,
+and add the residual layer to optimize the deep neural network.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight">
@@ -268,15 +289,36 @@ or TensorShapes.</p>
 <dt id="UCTB.model_unit.GraphModelLayers.GCL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GCL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class provides static methods for adding Graph Convolution Layer.</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">
 <em class="property">static </em><code class="sig-name descname">add_gc_layer</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">gcn_k</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">output_size</em>, <em class="sig-param">dtype=tf.float32</em>, <em class="sig-param">use_bias=True</em>, <em class="sig-param">trainable=True</em>, <em class="sig-param">initializer=None</em>, <em class="sig-param">regularizer=None</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>Input</strong> (<em>ndarray</em>) – The input features with shape [batch, num_node, num_feature].</p></li>
+<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
+<li><p><strong>laplacian_matrix</strong> (<em>ndarray</em>) – Laplacian matrix used in GCN, with shape [num_node, num_node].</p></li>
+<li><p><strong>output_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of output channels.</p></li>
+<li><p><strong>dtype</strong> – Data type. default:tf.float32.</p></li>
+<li><p><strong>use_bias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – It determines whether to add bias in the output. default:True.</p></li>
+<li><p><strong>trainable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – It determines whether <cite>weights</cite> tensor can be trained. default:True.</p></li>
+<li><p><strong>initializer</strong> – It determines whether the “weight” tensor is initialized. default:None.</p></li>
+<li><p><strong>regularizer</strong> – It determines whether the “weight” tensor is regularized. default:None.</p></li>
+<li><p><strong>activation</strong> (<em>function</em>) – activation function. default:tf.nn.tanh.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns the result of convolution of <cite>inputs</cite> and <cite>laplacian_matrix</cite></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers">
 <em class="property">static </em><code class="sig-name descname">add_multi_gc_layers</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">gcn_k</em>, <em class="sig-param">gcn_l</em>, <em class="sig-param">output_size</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Call add_gc_layer function to add multi Graph Convolution Layer.`gcn_l` is the number of layers added.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -284,20 +326,44 @@ or TensorShapes.</p>
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GraphBuilder</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class provides static methods for transforming raw data into various graphs.
+eg: correlation, distance, interaction graph.</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_laplacian">
 <em class="property">static </em><code class="sig-name descname">adjacent_to_laplacian</code><span class="sig-paren">(</span><em class="sig-param">adjacent_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.adjacent_to_laplacian" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Turn adjacent_matrix into Laplace matrix.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_adjacent">
 <em class="property">static </em><code class="sig-name descname">correlation_adjacent</code><span class="sig-paren">(</span><em class="sig-param">traffic_data</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.correlation_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate correlation graph based on pearson coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>traffic_data</strong> (<em>ndarray</em>) – numpy array with shape [sequence_length, num_node].</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – float between [-1, 1], nodes with Pearson Correlation coefficient
+larger than this threshold will be linked together.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_adjacent">
 <em class="property">static </em><code class="sig-name descname">distance_adjacent</code><span class="sig-paren">(</span><em class="sig-param">lat_lng_list</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.distance_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate distance graph based on geographic distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_lng_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – A list of geographic locations. The format of each element
+in the list is [latitude, longitude].</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – (meters) nodes with geographic distacne smaller than this
+threshold will be linked together.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.haversine">
@@ -309,7 +375,22 @@ on the earth (specified in decimal degrees)</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent">
 <em class="property">static </em><code class="sig-name descname">interaction_adjacent</code><span class="sig-paren">(</span><em class="sig-param">interaction_matrix</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GraphBuilder.interaction_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Binarize interaction_matrix based on threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interaction_matrix</strong> (<em>ndarray</em>) – <p>with shape [num_node, num_node], where each
+element represents the number of interactions during a certain time,</p>
+<blockquote>
+<div><p>e.g. 6 monthes, between the corresponding nodes.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – nodes with number of interactions between them
+greater than this threshold will be linked together.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

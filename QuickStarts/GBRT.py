@@ -9,7 +9,7 @@ closeness_len = 6
 period_len = 7
 trend_len = 4
 
-data_loader = NodeTrafficLoader(dataset='DiDi', city='Xian',
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC',
                                 closeness_len=closeness_len, period_len=period_len, trend_len=trend_len,
                                 with_lm=False, normalize=False)
 

@@ -211,15 +211,34 @@ triggers early stop, otherwise <code class="docutils literal notranslate"><span 
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchFeedDict</code><span class="sig-paren">(</span><em class="sig-param">feed_dict</em>, <em class="sig-param">sequence_length</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Get small batches of data from dict for training at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feed_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Data dictionary consisting of key-value pairs.</p></li>
+<li><p><strong>sequence_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Only divide value in <cite>feed_dict</cite> whose length is equal
+to <cite>sequence_length</cite> into several batches.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of data for one training session.</p></li>
+<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set <cite>True</cite>, the input dict will be shuffled. default:True.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch">
 <code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>For the <cite>value</cite> in <cite>feed_dict</cite> whose length is equal to sequence_length, divide the <cite>value</cite>
+into several batches, and return one batch in order each time. For those whose length is not
+equal to sequence_length, do not change <a href="#id1"><span class="problematic" id="id2">`</span></a>value`and return it directly. There are internal variables
+to record the number of batches currently generated. When the last data is not enough to
+generate a batch, a batch of data from the tail is returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart">
 <code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the variable that records the number of batches currently generated to 0, so that
+we can call the <cite>get_batch</cite> method to generate training data in batches from scratch.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle">
@@ -232,20 +251,36 @@ triggers early stop, otherwise <code class="docutils literal notranslate"><span 
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchTrain</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em>, <em class="sig-param">batch_size</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Get small batches of data for training at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>) – Input features. The first dimension of X should be sample size.</p></li>
+<li><p><strong>Y</strong> (<em>ndarray</em>) – Target values. The first dimension of Y should be sample size.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of data for one training session.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch">
 <code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns a batch of X, Y pairs each time. There are internal variables
+to record the number of batches currently generated. When the last data
+is not enough to generate a batch, a batch of data from the tail is returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.restart">
 <code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.restart" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the variable that records the number of batches currently generated to 0, so that
+we can call the <cite>get_batch</cite> method to generate training data in batches from scratch.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle">
 <em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Input (X, Y) pairs, shuffle and return it.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -253,15 +288,30 @@ triggers early stop, otherwise <code class="docutils literal notranslate"><span 
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchTrainMultiData</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Get small batches of data for training at once.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em>) – Input data. Its first dimension should be sample size.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of data for one training session.</p></li>
+<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If set <cite>True</cite>, the input data will be shuffled. default:True.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch">
 <code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Returns a batch of data each time. There are internal variables
+to record the number of batches currently generated. When the last data
+is not enough to generate a batch, a batch of data from the tail is returned.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart">
 <code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Set the variable that records the number of batches currently generated to 0, so that
+we can call the <cite>get_batch</cite> method to generate training data in batches from scratch.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle">

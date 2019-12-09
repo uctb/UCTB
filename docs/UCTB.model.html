@@ -53,20 +53,64 @@
 <dt id="UCTB.model.ARIMA.ARIMA">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ARIMA.</code><code class="sig-name descname">ARIMA</code><span class="sig-paren">(</span><em class="sig-param">time_sequence</em>, <em class="sig-param">order=None</em>, <em class="sig-param">seasonal_order=(0</em>, <em class="sig-param">0</em>, <em class="sig-param">0</em>, <em class="sig-param">0)</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=4</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ARIMA is a generalization of an ARMA (Autoregressive Moving Average) model, used in predicting
+future points in time series analysis.</p>
+<p>Since there may be three kinds of series data as closeness, period and trend history, this class
+trains three different ARIMA models for each node according  to the three kinds of history data,
+and returns average of the predicted values by the models in prediction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>time_sequence</strong> (<em>array_like</em>) – The observation value of time_series.</p></li>
+<li><p><strong>order</strong> (<em>iterable</em>) – It stores the (p, d, q) orders of the model for the number of AR parameters
+, differences, MA parameters. If set to None, ARIMA class will calculate the orders for
+each series based on max_ar, max_ma and max_d. Default: None</p></li>
+<li><p><strong>seasonal_order</strong> (<em>iterable</em>) – It stores the (P,D,Q,s) order of the seasonal ARIMA model for the
+AR parameters, differences, MA parameters, and periodicity. <cite>s</cite> is an integer giving the
+periodicity (number of periods in season).</p></li>
+<li><p><strong>max_ar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum number of AR lags to use. Default: 6</p></li>
+<li><p><strong>max_ma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum number of MA lags to use. Default: 4</p></li>
+<li><p><strong>max_d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum number of degrees of differencing. Default: 2</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>Attribute:</dt><dd><p>order(iterable): (p, d, q) orders for ARIMA model.
+seasonal_order(iterable): (P,D,Q,s) order for seasonal ARIMA model.
+model_res(): Fit method for likelihood based models.</p>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model.ARIMA.ARIMA.adf_test">
 <em class="property">static </em><code class="sig-name descname">adf_test</code><span class="sig-paren">(</span><em class="sig-param">time_series</em>, <em class="sig-param">max_lags=None</em>, <em class="sig-param">verbose=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.adf_test" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Augmented Dickey–Fuller test. The Augmented Dickey-Fuller test can be used to test for
+a unit root in a univariate process in the presence of serial correlation.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.ARIMA.ARIMA.get_order">
 <code class="sig-name descname">get_order</code><span class="sig-paren">(</span><em class="sig-param">series</em>, <em class="sig-param">order=None</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=2</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.get_order" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>If order is None, it simply returns order, otherwise, it calculates the (p, d, q) orders
+for the series data based on max_ar, max_ma and max_d.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.ARIMA.ARIMA.predict">
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">time_sequences</em>, <em class="sig-param">forecast_step=1</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA.predict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Argues:</dt><dd><p>time_sequences: The input time_series features.
+forecast_step: The number of predicted future steps. Default: 1</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Prediction results with shape of (len(time_sequence)/forecast_step,forecast_step=,1).</p>
+</dd>
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 
@@ -237,10 +281,23 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dt id="UCTB.model.HM.HM">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HM.</code><code class="sig-name descname">HM</code><span class="sig-paren">(</span><em class="sig-param">c</em>, <em class="sig-param">p</em>, <em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Historical Mean. A naive method that simply return average of hisrory data of each time slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of time slots of closeness history.</p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of time slots of period history which presents daily feature.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of time slots of trend history which presents weekly feature.</p></li>
+<li><p><strong>that `</strong> (<em>Note</em>) – </p></li>
+<li><p><strong>should be considerd in average.</strong> (<em>features</em>) – </p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model.HM.HM.predict">
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">closeness_feature</em>, <em class="sig-param">period_feature</em>, <em class="sig-param">trend_feature</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM.predict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Give closeness, period and trend history values and then use their averages as predict.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -418,15 +475,48 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dt id="UCTB.model.XGBoost.XGBoost">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.XGBoost.</code><code class="sig-name descname">XGBoost</code><span class="sig-paren">(</span><em class="sig-param">n_estimators=10</em>, <em class="sig-param">max_depth=5</em>, <em class="sig-param">verbosity=0</em>, <em class="sig-param">objective='reg:squarederror'</em>, <em class="sig-param">eval_metric='rmse'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>XGBoost is an optimized distributed gradient boosting machine learning algorithm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>*n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of boosting iterations. Default: 10</p></li>
+<li><p><strong>*max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum tree depth for base learners. Default: 5</p></li>
+<li><p><strong>*verbosity</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The degree of verbosity. Valid values are 0 (silent) - 3 (debug). Default: 0</p></li>
+<li><p><strong>*objective</strong> (<em>string</em><em> or </em><em>callable</em>) – Specify the learning task and the corresponding learning objective or
+a custom objective function to be used. Default: <code class="docutils literal notranslate"><span class="pre">'reg:squarederror'</span></code></p></li>
+<li><p><strong>*eval_metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>list of str</em><em>, or </em><em>callable</em><em>, </em><em>optional</em>) – If a str, should be a built-in evaluation metric to use. See more in
+<a class="reference external" href="https://xgboost.readthedocs.io/en/latest/python/python_api.html">API Reference of XGBoost Library</a>.
+Default: <code class="docutils literal notranslate"><span class="pre">'rmse'</span></code></p></li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="UCTB.model.XGBoost.XGBoost.fit">
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Training method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>np.ndarray/scipy.sparse/pd.DataFrame/dt.Frame</em>) – The training input samples.</p></li>
+<li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="UCTB.model.XGBoost.XGBoost.predict">
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.predict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Prediction method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Predicted values with shape as [time_slot_num, node_num, 1].</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

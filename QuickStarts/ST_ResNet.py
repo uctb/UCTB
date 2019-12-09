@@ -3,7 +3,7 @@ from UCTB.model import ST_ResNet
 from UCTB.evaluation import metric
 
 # Config data loader
-data_loader = GridTrafficLoader(dataset='DiDi', city='Xian', closeness_len=6, period_len=7, trend_len=4)
+data_loader = GridTrafficLoader(dataset='Bike', city='Chicago', closeness_len=6, period_len=7, trend_len=4)
 
 ST_ResNet_Obj = ST_ResNet(closeness_len=data_loader.closeness_len,
                           period_len=data_loader.period_len,

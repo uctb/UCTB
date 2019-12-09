@@ -3,7 +3,7 @@ from UCTB.model import DeepST
 from UCTB.evaluation import metric
 
 # Config data loader
-data_loader = GridTrafficLoader(dataset='DiDi', city='Xian', closeness_len=6, period_len=7, trend_len=4)
+data_loader = GridTrafficLoader(dataset='Bike', city='NYC', closeness_len=6, period_len=7, trend_len=4)
 
 deep_st_obj = DeepST(closeness_len=data_loader.closeness_len,
                      period_len=data_loader.period_len,

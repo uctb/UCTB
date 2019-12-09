@@ -4,7 +4,7 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import XGBoost
 from UCTB.evaluation import metric
 
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', closeness_len=6, period_len=7, trend_len=4,
+data_loader = NodeTrafficLoader(dataset='Bike', city='DC', closeness_len=6, period_len=7, trend_len=4,
                                 with_lm=False, normalize=False)
 
 prediction_test = []

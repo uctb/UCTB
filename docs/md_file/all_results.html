@@ -1,233 +1,1419 @@
-<!doctype html>
-<html>
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>all_results</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
-html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
-iframe { margin: auto; }
-a.url { word-break: break-all; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
-#write.first-line-indent p { text-indent: 2em; }
-#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
-#write.first-line-indent li { margin-left: 2em; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-body.typora-export { padding-left: 30px; padding-right: 30px; }
-.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
-@media screen and (max-width: 500px) {
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
-}
-#write li > figure:last-child { margin-bottom: 0.5rem; }
-#write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
-button, input, select, textarea { color: inherit; font: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-*, ::after, ::before { box-sizing: border-box; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-p { line-height: inherit; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
-p { orphans: 4; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
-sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
-figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
-tr { break-inside: avoid; break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
-table.md-table td { min-width: 32px; }
-.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
-.CodeMirror-linenumber { user-select: none; }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-#write pre { white-space: pre-wrap; }
-#write.fences-no-line-wrapping pre { white-space: pre; }
-#write pre.ty-contain-cm { white-space: normal; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-#write .md-fences.mock-cm { white-space: pre-wrap; }
-.md-fences.md-fences-with-lineno { padding-left: 0px; }
-#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
-.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
-.CodeMirror-line, twitterwidget { break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
-.footnotes + .footnotes { margin-top: 0px; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li .mathjax-block, li p { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child, li > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
-#write .footnote-line { white-space: pre-wrap; }
-@media print {
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
-}
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
-p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
-p > .md-image:only-child { display: inline-block; width: 100%; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.md-math-block { width: 100%; }
-.md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
-.md-task-list-item { position: relative; list-style-type: none; }
-.task-list-item.md-task-list-item { padding-left: 0px; }
-.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc-content::after, .md-toc::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { text-decoration: underline; }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) {
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
-}
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: "."; }
-code, pre, samp, tt { font-family: var(--monospace); }
-kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
-code { text-align: left; vertical-align: initial; }
-a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { transition: none 0s ease 0s; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
-.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
-[lang="mermaid"] .node text { font-size: 1rem; }
-table tr th { border-bottom: 0px; }
-video { max-width: 100%; display: block; margin: 0px auto; }
-iframe { max-width: 100%; width: 100%; border: none; }
-.highlight td, .highlight tr { border: 0px; }
-svg[id^="mermaidChart"] { line-height: 1em; }
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>6. Results on different datasets &mdash; UCTB  documentation</title>
+  
 
+  
+  
 
-:root { --control-text-color: #777; --side-bar-bg-color: #f6f8fa ; }
-html { font-size: 16px; -webkit-font-smoothing: subpixel-antialiased; }
-body { font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", 微软雅黑, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; color: rgb(36, 41, 46); line-height: 1.5; font-weight: 400; -webkit-font-smoothing: unset; }
-#write { max-width: 860px; margin: 0px auto; padding: 20px 30px 100px; }
-#write > ol:first-child, #write > ul:first-child { margin-top: 30px; }
-body > :first-child { margin-top: 0px !important; }
-body > :last-child { margin-bottom: 0px !important; }
-a { color: rgb(65, 131, 196); }
-h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1.8rem; margin-bottom: 1rem; line-height: 1.4; cursor: text; color: rgb(20, 35, 49); }
-h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
-h1 code, h1 tt, h2 code, h2 tt, h3 code, h3 tt, h4 code, h4 tt, h5 code, h5 tt, h6 code, h6 tt { font-size: inherit; }
-h1 { text-align: center; padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; margin: 1em auto 1.2em; }
-h1::after { border-bottom: 2px dashed rgb(175, 236, 158); content: ""; width: 100px; display: block; margin: 0.2em auto 0px; height: 2px; }
-h2 { font-size: 1.75em; padding-left: 9px; line-height: 1.4; border-left: 6px solid rgb(204, 229, 255); }
-h3 { font-size: 1.5em; line-height: 1.43; }
-h3::before { border-radius: 50%; background-color: rgb(158, 208, 255); content: ""; width: 6px; display: inline-block; height: 6px; vertical-align: middle; margin-bottom: 0.18em; margin-right: 8px; }
-#write > h3.md-focus::before, #write > h4.md-focus::before { background-color: transparent; width: auto; height: auto; }
-h4 { font-size: 1.25em; }
-h4::before { background-color: rgb(158, 208, 255); content: ""; width: 6px; display: inline-block; height: 2px; vertical-align: middle; margin-bottom: 0.18em; margin-right: 8px; }
-h5 { font-size: 1em; }
-h6 { font-size: 1em; color: rgb(119, 119, 119); }
-blockquote, dl, ol, p, table, ul { margin: 0.8em 0px; }
-li > ol, li > ul { margin: 0px; }
-hr { height: 0.25em; padding: 0px; margin: 24px 0px; background-color: rgb(225, 228, 232); border: 0px; }
-a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6, body > h1:first-child, body > h1:first-child + h2, body > h2:first-child, body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child { margin-top: 0px; padding-top: 0px; }
-h1 p, h2 p, h3 p, h4 p, h5 p, h6 p { margin-top: 0px; }
-li p.first { display: inline-block; }
-ol, ul { padding-left: 30px; }
-ol:first-child, ul:first-child { margin-top: 0px; }
-ol:last-child, ul:last-child { margin-bottom: 0px; }
-blockquote { border-left: 4px dotted rgb(229, 232, 232); padding: 0px 12px; color: rgb(68, 68, 68); font-size: 0.9em; }
-blockquote blockquote { padding-right: 0px; }
-table { padding: 0px; word-break: initial; }
-table tr { border-top: 1px solid rgb(218, 223, 230); margin: 0px; padding: 0px; }
-table.md-table tr:nth-child(2n) { background-color: rgb(250, 251, 252); }
-table tr td, table tr th { border: 1px solid rgb(218, 223, 230); text-align: left; margin: 0px; padding: 6px 13px; }
-table tr td:first-child, table tr th:first-child { margin-top: 0px; }
-table tr td:last-child, table tr th:last-child { margin-bottom: 0px; }
-.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); }
-.md-fences, code, tt { font-size: 90%; border-radius: 3px; font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace, "PingFang SC", "Microsoft YaHei", 微软雅黑; }
-code, tt { margin: 0px 2px; padding: 2px 4px; background-color: rgb(226, 240, 255); }
-.md-fences { background-color: rgb(246, 248, 250); margin-bottom: 15px; margin-top: 15px; padding: 12px 1em; }
-.md-task-list-item > input { margin-left: -1.45em; margin-top: calc(1em - 10px); }
-@media print {
-  body { font-size: 11px; font-weight: 400; }
-  pre, table { break-inside: avoid; }
-  pre { overflow-wrap: break-word; }
-}
-#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 250, 246); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
-.mathjax-block > .code-tooltip { bottom: 0.375rem; }
-#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
-#write > h4.md-focus::before, #write > h5.md-focus::before, #write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-.md-image > .md-meta { border: 1px solid rgb(221, 221, 221); border-radius: 3px; font-family: "SF Mono", Consolas, "PingFang SC", "Liberation Mono", Courier, monospace, "Microsoft YaHei", 微软雅黑; padding: 2px 4px 0px; font-size: 0.9em; color: inherit; }
-.md-tag { color: inherit; }
-.md-toc { margin-top: 20px; padding-bottom: 20px; }
-.sidebar-tabs { border-bottom: none; }
-#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
-#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
-.typora-quick-open-item { padding-top: 3px; }
-.typora-quick-open-list { margin-top: 4px; }
-.typora-quick-open-item-path { margin-top: -2px; }
-#md-notification::before { top: 10px; }
-.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
-.context-menu, .megamenu-content, footer, header { font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", 微软雅黑, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
-.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color) ; }
-.md-lang { color: rgb(180, 101, 77); }
-.pin-outline #outline-content .outline-active strong, .pin-outline .outline-active { color: rgb(35, 35, 35); font-weight: 600; }
-.outline-label { color: rgb(100, 100, 100); font-weight: 400; }
-.file-list-item-summary { font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", 微软雅黑, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-b, h1, h2, h3, h4, h5, h6, strong { font-weight: 600; }
-h1, table tr th { font-weight: 400; }
-.file-list-item-file-name { font-weight: 500; }
+  
 
- .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
-</style>
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="UCTB  documentation" href="../index.html"/>
+        <link rel="prev" title="5.7. UCTB.utils package" href="../UCTB.utils.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
 </head>
-<body class='typora-export os-windows' >
-<div  id='write'  class = 'is-node'><h1><a name="-results-on-different-datasets" class="md-header-anchor"></a><span>Results on different datasets</span></h1><p><span>Our running code and detailed parameter settings can be found in </span><a href='./all_results_setting.html'><span>Experiment Setting</span></a><span>.</span></p><h2><a name="results-on-bike" class="md-header-anchor"></a><span>Results on Bike</span></h2><h3><a name="dataset-statistics" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>New York City</span></strong></th><th style='text-align:center;' ><strong><span>Chicago</span></strong></th><th style='text-align:center;' ><strong><span>DC</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2013.03-2017.09</span></td><td style='text-align:center;' ><span>2013.07-2017.09</span></td><td style='text-align:center;' ><span>2013.07-2017.09</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>49,100,694</span></td><td style='text-align:center;' ><span>13,130,969</span></td><td style='text-align:center;' ><span>13,763,675</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>820</span></td><td style='text-align:center;' ><span>585</span></td><td style='text-align:center;' ><span>532</span></td></tr></tbody></table></figure><p><span> Following shows a map-visualization of bike stations in NYC.</span></p><p><img src="../src/image/NYC.jpg" referrerpolicy="no-referrer" alt="NYC"></p><h3><a name="experiment-results" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>NYC</span></strong></th><th style='text-align:center;' ><strong><span>Chicago</span></strong></th><th style='text-align:center;' ><strong><span>DC</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>3.99224</span></td><td style='text-align:center;' ><span>2.97693</span></td><td style='text-align:center;' ><span>2.63165</span></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>5.60928</span></td><td style='text-align:center;' ><span>3.83584</span></td><td style='text-align:center;' ><span>3.60450</span></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>4.12407</span></td><td style='text-align:center;' ><span>2.92569</span></td><td style='text-align:center;' ><span>2.65671</span></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>3.99907</span></td><td style='text-align:center;' ><span>2.84257</span></td><td style='text-align:center;' ><span>2.61768</span></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DCI)</span></td><td style='text-align:center;' ><span>3.72380</span></td><td style='text-align:center;' ><span>2.88300</span></td><td style='text-align:center;' ><span>2.48560</span></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>4.18666</span></td><td style='text-align:center;' ><span>3.27759</span></td><td style='text-align:center;' ><span>3.08616</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>4.55677</span></td><td style='text-align:center;' ><span>3.37004</span></td><td style='text-align:center;' ><span>2.91518</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1</span></td><td style='text-align:center;' ><span>3.50475</span></td><td style='text-align:center;' ><strong><span>2.65511</span></strong></td><td style='text-align:center;' ><span>2.42582</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2</span></td><td style='text-align:center;' ><strong><span>3.43870</span></strong></td><td style='text-align:center;' ><span>2.66379</span></td><td style='text-align:center;' ><span>2.41111</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3</span></td><td style='text-align:center;' ><span>3.47834</span></td><td style='text-align:center;' ><span>2.66180</span></td><td style='text-align:center;' ><strong><span>2.38844</span></strong></td></tr></tbody></table></figure><p>&nbsp;</p><h2><a name="results-on-didi" class="md-header-anchor"></a><span>Results on DiDi</span></h2><h3><a name="dataset-statistics-n87" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>Xi&#39;an</span></strong></th><th style='text-align:center;' ><strong><span>Chengdu</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2016.10-2016.11</span></td><td style='text-align:center;' ><span>2016.10-2016.11</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>5,922,961</span></td><td style='text-align:center;' ><span>8,439,537</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>256</span></td><td style='text-align:center;' ><span>256</span></td></tr></tbody></table></figure><p><span>Following shows a map-visualization of 256 grid-based ride-sharing stations in Chengdu.</span></p><p><img src="../src/image/Chengdu.jpg" referrerpolicy="no-referrer"></p><h3><a name="experiment-results-n107" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>Xi’an</span></strong></th><th style='text-align:center;' ><strong><span>Chengdu</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>6.18623</span></td><td style='text-align:center;' ><span>7.35477</span></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>9.47478</span></td><td style='text-align:center;' ><span>12.52656</span></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>6.73346</span></td><td style='text-align:center;' ><span>7.73836</span></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>6.44639</span></td><td style='text-align:center;' ><span>7.58831</span></td></tr><tr><td style='text-align:center;' ><span>ST-ResNet</span></td><td style='text-align:center;' ><span>6.08476</span></td><td style='text-align:center;' ><span>7.14638</span></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DCI)</span></td><td style='text-align:center;' ><span>5.87456</span></td><td style='text-align:center;' ><strong><span>7.03217 </span></strong></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>8.20254</span></td><td style='text-align:center;' ><span>11.50550</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>7.39970</span></td><td style='text-align:center;' ><span>10.11386</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1 (G/DCI)</span></td><td style='text-align:center;' ><span>5.89154</span></td><td style='text-align:center;' ><span>7.06246</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2(G/DCI)</span></td><td style='text-align:center;' ><strong><span>5.75596</span></strong></td><td style='text-align:center;' ><span>7.09710</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3(G/DCI)</span></td><td style='text-align:center;' ><span>5.95507</span></td><td style='text-align:center;' ><span>7.04358</span></td></tr></tbody></table></figure><h2><a name="results-on-metro" class="md-header-anchor"></a><span>Results on Metro</span></h2><h3><a name="dataset-statistics-n158" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>Chongqing</span></strong></th><th style='text-align:center;' ><strong><span>Shanghai</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2016.08-2017.07</span></td><td style='text-align:center;' ><span>2016.07-2016.09</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>409,277,117</span></td><td style='text-align:center;' ><span>333,149,034</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>113</span></td><td style='text-align:center;' ><span>288</span></td></tr></tbody></table></figure><p><span>Following shows a map-visualization of 288 metro stations in Shanghai.</span></p><p><img src="../src/image/Shanghai.jpg" referrerpolicy="no-referrer"></p><h3><a name="experiment-results-n178" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>Chongqing</span></strong></th><th style='text-align:center;' ><strong><span>Shanghai</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>120.30723</span></td><td style='text-align:center;' ><span>197.97092</span></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>578.18563</span></td><td style='text-align:center;' ><span>792.1597</span></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>117.05069</span></td><td style='text-align:center;' ><span>185.00447</span></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>113.92276</span></td><td style='text-align:center;' ><span>186.74502</span></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DCI)</span></td><td style='text-align:center;' ><span>118.86668</span></td><td style='text-align:center;' ><span>181.55171</span></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>122.31121</span></td><td style='text-align:center;' ><span>326.97357</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>196.175732</span></td><td style='text-align:center;' ><span>368.8468</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1 (G/DCI)</span></td><td style='text-align:center;' ><strong><span>92.74990</span></strong></td><td style='text-align:center;' ><strong><span>151.11746</span></strong></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2(G/DCI)</span></td><td style='text-align:center;' ><span>98.86152</span></td><td style='text-align:center;' ><span>158.21953</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3(G/DCI)</span></td><td style='text-align:center;' ><span>101.7806</span></td><td style='text-align:center;' ><span>156.58867</span></td></tr></tbody></table></figure><p><span>The period and trend features are more obvious in Metro dataset, so the performance is poor if only use closeness feature.</span></p><h2><a name="results-on-charge-station" class="md-header-anchor"></a><span>Results on Charge-Station</span></h2><h3><a name="dataset-statistics-n226" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>Beijing</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2018.03-2018.08</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>1,272,961</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>629</span></td></tr></tbody></table></figure><p><span>Following shows a map-visualization of  629 EV charging stations in Beijing.</span></p><p><img src="../src/image/Beijing.jpg" referrerpolicy="no-referrer"></p><h3><a name="experiment-results-n242" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>Beijing</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>1.01610</span></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>0.98236</span></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>0.83381</span></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>0.82814</span></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DC)</span></td><td style='text-align:center;' ><span>0.82714</span></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>0.98871</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>1.58560</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1 (G/DC)</span></td><td style='text-align:center;' ><strong><span>0.815518</span></strong></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2(G/DC)</span></td><td style='text-align:center;' ><span>0.82144</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3(G/DC)</span></td><td style='text-align:center;' ><span>0.81541</span></td></tr></tbody></table></figure><p>&nbsp;</p></div>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> UCTB
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">4. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">6. Results on different datasets</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#stmeta-version">6.1. STMeta Version</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#search-space">6.2. Search Space</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#results-on-bike">6.3. Results on Bike</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-search-on-bike">6.3.1. Parameter Search on bike</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#results-on-didi">6.4. Results on DiDi</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#results-on-metro">6.5. Results on Metro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#parameter-search-on-metro">6.5.1. Parameter Search on Metro</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#results-on-charge-station">6.6. Results on Charge-Station</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UCTB</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>6. Results on different datasets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_file/all_results.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="results-on-different-datasets">
+<h1>6. Results on different datasets<a class="headerlink" href="#results-on-different-datasets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="stmeta-version">
+<h2>6.1. STMeta Version<a class="headerlink" href="#stmeta-version" title="Permalink to this headline">¶</a></h2>
+<p>As introduced in <a class="reference external" href="./static/current_supported_models.html#stmeta">Currently Supported Models</a>, STMeta is a meta-model that can be implemented by different deep learning techniques based on its applications. Here we realize three versions of STMeta to evaluate its generalizability. The main differences between these three variants are the techniques used in spatio-temporal modeling and aggregation units:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Version Name</th>
+<th align="center">Spatio-Temporal Unit</th>
+<th align="center">Temporal Aggregation Unit</th>
+<th align="center">Spatial Aggregation Unit</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center"><a href="../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.ST_RNN.GCLSTMCell">GCLSTM</a></td>
+<td align="center"><a href="../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.GraphModelLayers.GAL">GAL</a></td>
+<td align="center">GAL</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center">GCLSTM</td>
+<td align="center">Concat &amp; Dense</td>
+<td align="center">GAL</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center"><a href="../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.DCRNN_CELL.DCGRUCell">DCGRU</a></td>
+<td align="center">GAL</td>
+<td align="center">GAL</td>
+</tr>
+</tbody>
+</table><p>By default, we use <code class="docutils literal notranslate"><span class="pre">STMeta-V1</span></code> to run LSTM and single graph model tests.</p>
+<p>References:</p>
+<ul class="simple">
+<li><p>GCLSTM (Graph Convolutional Long short-term Memory):
+<a class="reference external" href="https://arxiv.org/pdf/1807.10934">Chai, D., Wang, L., &amp; Yang, Q. (2018, November). Bike flow prediction with multi-graph convolutional networks</a></p></li>
+<li><p>DCGRU (Diffusion Convolutional Gated Recurrent Unit):
+<a class="reference external" href="https://arxiv.org/pdf/1707.01926.pdf">Li, Y., Yu, R., Shahabi, C., &amp; Liu, Y. (2017). Diffusion convolutional recurrent neural network: Data-driven traffic forecasting</a></p></li>
+<li><p>GAL (Graph Attention Layer):
+<a class="reference external" href="https://arxiv.org/pdf/1710.10903.pdf">Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., &amp; Bengio, Y. (2017). Graph attention networks</a></p></li>
+</ul>
+</div>
+<div class="section" id="search-space">
+<h2>6.2. Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Model</th>
+<th align="center">Search Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>CT: 0~6</code>, <code>PT: 0~7</code>, <code>TT: 0~4</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">HMM</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">ST_ResNet</td>
+<td align="center"><code>待补充</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center"><code>lstm_layers: 1~3</code>, <code>lstm_hidden_units: 32~128</code>, <code>dense_units: 32~128</code>, <code>temp_merge_heads: 2~4</code>, <code>temp_merge_units: 32~128</code></td>
+</tr>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center"><code>gcn_k: 1~3</code>, <code>gcn_l: 1~3</code> <code>gclstm_layers: 1~3</code>, <code>lstm_hidden_units: 64~256</code>, <code>dense_units: 32~128</code>, <code>temp_merge_heads: 2~4</code>, <code>temp_merge_units: 32~128</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="results-on-bike">
+<h2>6.3. Results on Bike<a class="headerlink" href="#results-on-bike" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">3.99224 <code>1-1-3</code></td>
+<td align="center">2.97693 <code>1-1-2</code></td>
+<td align="center">2.63165 <code>2-1-3</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">5.60928</td>
+<td align="center">3.83584</td>
+<td align="center">3.60450</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center">5.16804</td>
+<td align="center">3.68593</td>
+<td align="center">3.08102</td>
+</tr>
+<tr>
+<td align="center">SARIMA((3,0,1), (1,0,0,24))</td>
+<td align="center">4.67416</td>
+<td align="center">3.35526</td>
+<td align="center">3.02791</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">4.12407 <code>12-10-0-20-5</code></td>
+<td align="center">2.92569 <code>9-7-0-20-5</code></td>
+<td align="center">2.65671 <code>12-14-2-20-5</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">3.99907 <code>12-7-4-100-5</code></td>
+<td align="center">2.84257 <code>12-14-2-100-5</code></td>
+<td align="center">2.61768 <code>12-14-2-100-5</code></td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center">3.72380</td>
+<td align="center">2.88300</td>
+<td align="center">2.48560</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">4.18666</td>
+<td align="center">3.27759</td>
+<td align="center">3.08616</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">3.87324</td>
+<td align="center">2.95404</td>
+<td align="center">2.42749</td>
+</tr>
+<tr>
+<td align="center">LSTM (C)</td>
+<td align="center">4.55677</td>
+<td align="center">3.37004</td>
+<td align="center">2.91518</td>
+</tr>
+<tr>
+<td align="center">LSTM (CPT)</td>
+<td align="center">3.78497</td>
+<td align="center">2.79078</td>
+<td align="center">2.54752</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center">3.53425</td>
+<td align="center">2.76421</td>
+<td align="center">2.54121</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM</td>
+<td align="center">3.63207</td>
+<td align="center">2.71876</td>
+<td align="center">2.53863</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM</td>
+<td align="center">3.78816</td>
+<td align="center">2.70131</td>
+<td align="center">2.46214</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM</td>
+<td align="center">3.69656</td>
+<td align="center">2.79812</td>
+<td align="center">2.45815</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 <code>1-1-1-64-32-2-64</code></td>
+<td align="center">3.50475</td>
+<td align="center"><strong>2.65511</strong></td>
+<td align="center">2.42582</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 <code>2-1-1-64-32-2-64</code></td>
+<td align="center">3.51352</td>
+<td align="center">2.76366</td>
+<td align="center">2.44217</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center"><strong>3.43870</strong></td>
+<td align="center">2.66379</td>
+<td align="center">2.41111</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center">3.47834</td>
+<td align="center">2.66180</td>
+<td align="center"><strong>2.38844</strong></td>
+</tr>
+</tbody>
+</table><div class="section" id="parameter-search-on-bike">
+<h3>6.3.1. Parameter Search on bike<a class="headerlink" href="#parameter-search-on-bike" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><strong>NYC</strong> (Training data = 1 year)</th>
+<th align="center">gcn_k=1</th>
+<th align="center">gcn_k=2</th>
+<th align="center">gcn_k=3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">batch_size=16</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">batch_size=32</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">batch_size=64</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="results-on-didi">
+<h2>6.4. Results on DiDi<a class="headerlink" href="#results-on-didi" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Xi'an</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>1-1-2</code> ✅</td>
+<td align="center">6.82453</td>
+<td align="center">6.18623</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">--</td>
+<td align="center">8.87565</td>
+<td align="center">9.47478</td>
+<td align="center">--</td>
+<td align="center">--</td>
+</tr>
+<tr>
+<td align="center">ARIMA (CPT)</td>
+<td align="center">--</td>
+<td align="center">7.96953</td>
+<td align="center">7.47729</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA (3,0,1), (1,0,0,24)</td>
+<td align="center"></td>
+<td align="center">7.85844</td>
+<td align="center">7.61127</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-0-2-10-5</code>✅</td>
+<td align="center">6.90805</td>
+<td align="center">6.73346</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>9-0-2-50-2</code>✅</td>
+<td align="center">6.95321</td>
+<td align="center">6.44639</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST-ResNet</td>
+<td align="center">✅ <code>待补充</code></td>
+<td align="center"><strong>6.41107</strong></td>
+<td align="center">6.08476</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">0.55 hour</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">7.51881</td>
+<td align="center">5.87456</td>
+<td align="center">248985</td>
+<td align="center">1.31 hour 300 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN (G/D C)</td>
+<td align="center"></td>
+<td align="center">7.29442</td>
+<td align="center">8.20254</td>
+<td align="center">50368</td>
+<td align="center">2.10 hour / 10000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN (G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">8.47345</td>
+<td align="center">6.26264</td>
+<td align="center">149056</td>
+<td align="center">12.01 hour / 7930 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">6.52844</td>
+<td align="center">7.39970</td>
+<td align="center">28992</td>
+<td align="center">6.09 hour 50000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">7.29442</td>
+<td align="center">5.81410</td>
+<td align="center">62786</td>
+<td align="center">1.48 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">7.48624</td>
+<td align="center">5.89073</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.97208</td>
+<td align="center">5.79428</td>
+<td align="center">62789</td>
+<td align="center">4.55 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">7.19536</td>
+<td align="center">5.87106</td>
+<td align="center">62789</td>
+<td align="center">4.40 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.97782</td>
+<td align="center">5.94440</td>
+<td align="center">62789</td>
+<td align="center">0.93 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.67733</td>
+<td align="center">5.79875</td>
+<td align="center">130379</td>
+<td align="center">9.71 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.61686</td>
+<td align="center">5.89154</td>
+<td align="center">189521</td>
+<td align="center">8.99 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code> (batch64)</td>
+<td align="center">6.72327</td>
+<td align="center">5.83256</td>
+<td align="center">638911</td>
+<td align="center">2.04 hour / 2780 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2(G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.68180</td>
+<td align="center">5.75596</td>
+<td align="center">180561</td>
+<td align="center">22.74 hour / 50000 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3(G/DCI)</td>
+<td align="center"></td>
+<td align="center">6.68701</td>
+<td align="center">5.95507</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Chengdu</strong></font></th>
+<th align="center">Params (Searched)</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code> ✅</td>
+<td align="center">7.27949</td>
+<td align="center">7.35477</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">---</td>
+<td align="center">12.23546</td>
+<td align="center">12.52656</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA (CPT)</td>
+<td align="center">---</td>
+<td align="center">9.56320</td>
+<td align="center">9.89791</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA (3,0,1)(1,0,0,24)</td>
+<td align="center"></td>
+<td align="center">9.26459</td>
+<td align="center">9.33176</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">SARIMA (3,0,1)(1,0,0,128)</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>9-14-4-20-2</code> ✅</td>
+<td align="center">7.68706</td>
+<td align="center">7.73836</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-7-2-50-5</code>✅</td>
+<td align="center">7.54566</td>
+<td align="center">7.58831</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST-ResNet</td>
+<td align="center">✅ <code>待补充</code></td>
+<td align="center"><strong>6.31050</strong></td>
+<td align="center">7.14638</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">0.15 hour</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">6.55319</td>
+<td align="center">7.03217</td>
+<td align="center">248985</td>
+<td align="center">1.60 hour /  422 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center"></td>
+<td align="center">10.33887</td>
+<td align="center">11.50550</td>
+<td align="center">50368</td>
+<td align="center">2.52 hour / 10000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">6.70479</td>
+<td align="center">7.21055</td>
+<td align="center">149056</td>
+<td align="center">0.87 hour</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">9.12553</td>
+<td align="center">10.11386</td>
+<td align="center">28992</td>
+<td align="center">3.61 hour / 50000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">6.46543</td>
+<td align="center">7.04884</td>
+<td align="center">62786</td>
+<td align="center">1.27 hour</td>
+</tr>
+<tr>
+<td align="center">GRU (CPT)</td>
+<td align="center"></td>
+<td align="center">6.53480</td>
+<td align="center">7.04935</td>
+<td align="center">50111</td>
+<td align="center">4.49 hour / 6051 epochs</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.56428</td>
+<td align="center">7.04343</td>
+<td align="center">62789</td>
+<td align="center">7.39 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.49908</td>
+<td align="center">7.02130</td>
+<td align="center">62789</td>
+<td align="center">2.70 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.77519</td>
+<td align="center">7.27282</td>
+<td align="center">62789</td>
+<td align="center">2.31 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.54396</td>
+<td align="center">7.10324</td>
+<td align="center">130379</td>
+<td align="center">4.16 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">6.63979</td>
+<td align="center">7.06246</td>
+<td align="center">189521</td>
+<td align="center">1.66 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code> (batch64)</td>
+<td align="center">6.55178</td>
+<td align="center">7.0402</td>
+<td align="center">638911</td>
+<td align="center">1.43 hour / 2017 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">6.59178</td>
+<td align="center">7.09710</td>
+<td align="center">180561</td>
+<td align="center">12.92 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">6.64110</td>
+<td align="center">7.04358</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="results-on-metro">
+<h2>6.5. Results on Metro<a class="headerlink" href="#results-on-metro" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Chongqing</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code> ✅</td>
+<td align="center">208.73630</td>
+<td align="center">120.30723</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">---</td>
+<td align="center">547.82632</td>
+<td align="center">578.18563</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(PT)</td>
+<td align="center">---</td>
+<td align="center">341.55182</td>
+<td align="center">341.55182</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center">---</td>
+<td align="center">721.23909</td>
+<td align="center">680.03948</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA(3,0,1 1,0,0,24)</td>
+<td align="center"></td>
+<td align="center">544.3288</td>
+<td align="center">564.30905</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>9-14-2-200-5</code> ✅</td>
+<td align="center">115.05053</td>
+<td align="center">117.05069</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-4-200-5</code>✅</td>
+<td align="center">118.89574</td>
+<td align="center">113.92276</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">105.19451</td>
+<td align="center">118.86668</td>
+<td align="center">248985</td>
+<td align="center">40.38 hour 2189 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">---</td>
+<td align="center">93.04695</td>
+<td align="center">122.31121</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">177.18455</td>
+<td align="center">118.75352</td>
+<td align="center">371008</td>
+<td align="center">2.97 hour / 431 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">172.48973</td>
+<td align="center">196.175732</td>
+<td align="center">28992</td>
+<td align="center">5.72 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">128.78950</td>
+<td align="center">97.50337</td>
+<td align="center">62786</td>
+<td align="center">13.46 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">113.36167</td>
+<td align="center">89.47513</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">113.54371</td>
+<td align="center">100.45433</td>
+<td align="center">62789</td>
+<td align="center">15.55 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">116.70645</td>
+<td align="center">93.73172</td>
+<td align="center">62789</td>
+<td align="center">15.36 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">106.80433</td>
+<td align="center">99.53486</td>
+<td align="center">62789</td>
+<td align="center">15.21 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">86.27438</td>
+<td align="center"><strong>90.83853</strong></td>
+<td align="center">130379</td>
+<td align="center">29.63 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center"><strong>84.69295</strong></td>
+<td align="center">92.74990</td>
+<td align="center">189521</td>
+<td align="center">38.91 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code></td>
+<td align="center">98.12365</td>
+<td align="center">102.22088</td>
+<td align="center">638911</td>
+<td align="center">23.91 hour / 6887 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">95.93984</td>
+<td align="center">98.86152</td>
+<td align="center">180561</td>
+<td align="center">30.64 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3(G/DCI)</td>
+<td align="center"></td>
+<td align="center">93.19236</td>
+<td align="center">101.7806</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Shanghai</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code> ✅</td>
+<td align="center">114.48651</td>
+<td align="center">197.97092</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">---</td>
+<td align="center">831.0219</td>
+<td align="center">792.1597</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(PT)</td>
+<td align="center">---</td>
+<td align="center">567.51166</td>
+<td align="center">546.38855</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center">---</td>
+<td align="center">660.60764</td>
+<td align="center">666.52287</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA((3,0,1), (1,0,0,24))</td>
+<td align="center"></td>
+<td align="center">820.3219</td>
+<td align="center">802.2262</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">SARIMA((3,0,1), (1,0,0,168))</td>
+<td align="center"></td>
+<td align="center">---</td>
+<td align="center">801.2712</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>3-7-0-50-5</code> ✅</td>
+<td align="center"><strong>103.81190</strong></td>
+<td align="center">185.00447</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-0-100-2</code>✅</td>
+<td align="center">105.85584</td>
+<td align="center">186.74502</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">119.74849</td>
+<td align="center">181.55171</td>
+<td align="center">248985</td>
+<td align="center">3.35 hour / 694 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">---</td>
+<td align="center">293.57379</td>
+<td align="center">326.97357</td>
+<td align="center">50368</td>
+<td align="center">4.17 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center">---</td>
+<td align="center">137.01097</td>
+<td align="center">195.22157</td>
+<td align="center">371008</td>
+<td align="center">1.43 hour / 770 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">349.61013</td>
+<td align="center">368.8468</td>
+<td align="center">28992</td>
+<td align="center">2.61 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">131.92126</td>
+<td align="center">182.28558</td>
+<td align="center">62786</td>
+<td align="center">5.01 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">136.16528</td>
+<td align="center">180.65565</td>
+<td align="center"></td>
+<td align="center">5.89 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">137.98910</td>
+<td align="center">171.62920</td>
+<td align="center">62789</td>
+<td align="center">6.11 hour</td>
+</tr>
+<tr>
+<td align="center">IG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">136.83477</td>
+<td align="center">168.94954</td>
+<td align="center">62789</td>
+<td align="center">5.71 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">141.37688</td>
+<td align="center">189.21147</td>
+<td align="center">62789</td>
+<td align="center">2.34 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">133.77488</td>
+<td align="center">162.10970</td>
+<td align="center">130379</td>
+<td align="center">9.70 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">131.04696</td>
+<td align="center"><strong>151.11746</strong></td>
+<td align="center">189521</td>
+<td align="center">11.96 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code></td>
+<td align="center">131.71449</td>
+<td align="center">166.59117</td>
+<td align="center">638911</td>
+<td align="center">3.85 hour / 4904 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2 (G/DCI)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">131.95754</td>
+<td align="center">158.21953</td>
+<td align="center">180561</td>
+<td align="center">13.27 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3 (G/DCI)</td>
+<td align="center"></td>
+<td align="center">128.10709</td>
+<td align="center">156.58867</td>
+<td align="center">488447</td>
+<td align="center">12.45 hour / 11010</td>
+</tr>
+</tbody>
+</table><p>Metro 上的period、trend特征性更强，所以仅使用closeness效果很差</p>
+<div class="section" id="parameter-search-on-metro">
+<h3>6.5.1. Parameter Search on Metro<a class="headerlink" href="#parameter-search-on-metro" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><strong>Shanghai</strong></th>
+<th align="center">gcn_k=1</th>
+<th align="center">gcn_k=2</th>
+<th align="center">gcn_k=3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">batch_size=16</td>
+<td align="center">146.00493</td>
+<td align="center">165.69554</td>
+<td align="center">170.96187</td>
+</tr>
+<tr>
+<td align="center">batch_size=32</td>
+<td align="center">159.56485</td>
+<td align="center">156.99149</td>
+<td align="center">183.77316</td>
+</tr>
+<tr>
+<td align="center">batch_size=64</td>
+<td align="center">171.51431</td>
+<td align="center">164.5659</td>
+<td align="center">192.27948</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="results-on-charge-station">
+<h2>6.6. Results on Charge-Station<a class="headerlink" href="#results-on-charge-station" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><font color='#ff0000'><strong>City: Beijing</strong></font></th>
+<th align="center">Params</th>
+<th align="center">val-rmse</th>
+<th align="center">test-rmse</th>
+<th align="center"># Params</th>
+<th align="center">Converged Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>2-0-2</code> ✅</td>
+<td align="center">0.99617</td>
+<td align="center">1.01610</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center"></td>
+<td align="center">0.96335</td>
+<td align="center">0.98236</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ARIMA(CPT)</td>
+<td align="center"></td>
+<td align="center">1.49936</td>
+<td align="center">1.56517</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">SARIMA</td>
+<td align="center"></td>
+<td align="center">0.83333</td>
+<td align="center">0.87392</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-7-0-20-2</code> ✅</td>
+<td align="center">0.79800</td>
+<td align="center">0.83381</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-0-100-2</code>✅</td>
+<td align="center">0.79771</td>
+<td align="center">0.82814</td>
+<td align="center">---</td>
+<td align="center">---</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DC)</td>
+<td align="center"><code>待补充</code></td>
+<td align="center">0.59853</td>
+<td align="center">0.82714</td>
+<td align="center">166025</td>
+<td align="center">1.57 hour  253 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center"></td>
+<td align="center">0.70646</td>
+<td align="center">0.98871</td>
+<td align="center">50368</td>
+<td align="center">7.20 hour / 10000 epochs</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/C CPT)</td>
+<td align="center"></td>
+<td align="center">0.62888</td>
+<td align="center">0.84680</td>
+<td align="center">50368</td>
+<td align="center">0.35 hour</td>
+</tr>
+<tr>
+<td align="center">LSTM(C)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">1.17335</td>
+<td align="center">1.58560</td>
+<td align="center">28992</td>
+<td align="center">1.04 hour / 441 epochs</td>
+</tr>
+<tr>
+<td align="center">LSTM(CPT)</td>
+<td align="center"><code>1-64-32-2-64</code></td>
+<td align="center">0.59935</td>
+<td align="center">0.83322</td>
+<td align="center">62786</td>
+<td align="center">9.68 hour</td>
+</tr>
+<tr>
+<td align="center">GRU(CPT)</td>
+<td align="center"></td>
+<td align="center">0.61381</td>
+<td align="center">0.84800</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">DG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">0.59233</td>
+<td align="center">0.83743</td>
+<td align="center">62789</td>
+<td align="center">12.70 hour</td>
+</tr>
+<tr>
+<td align="center">CG-GCLSTM-V1</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center"><strong>0.57863</strong></td>
+<td align="center">0.82140</td>
+<td align="center">62789</td>
+<td align="center">17.43 hour</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><code>1-1-1-64-32-2-64</code></td>
+<td align="center">0.57868</td>
+<td align="center"><strong>0.815518</strong></td>
+<td align="center">130379</td>
+<td align="center">26.27 hour / 20000 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><code>2-1-1-64-32-2-64</code> (batch_size 64)</td>
+<td align="center">0.58788</td>
+<td align="center">0.83315</td>
+<td align="center">638911</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">STMeta-V2 (G/DC)</td>
+<td align="center"></td>
+<td align="center">0.58936</td>
+<td align="center">0.82144</td>
+<td align="center">129867</td>
+<td align="center">16.48 hour / 16491 epochs</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3 (G/DC)</td>
+<td align="center"></td>
+<td align="center">0.56721</td>
+<td align="center">0.81541</td>
+<td align="center">488447</td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../UCTB.utils.html" class="btn btn-neutral" title="5.7. UCTB.utils package" accesskey="p">← Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, UCTB group.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
 </body>
 </html>

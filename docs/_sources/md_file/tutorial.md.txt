@@ -259,17 +259,17 @@ print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
 
 #### Build your own model using UCTB
 
-UCTB provides extendable APIs to build your own model. Currently, it can support the running of all the ``1.x`` version of Tensorflow-based models. In the following tutorial, we will show you how to takes the least efforts to implement a UCTB model.
+UCTB provides extendable APIs to build your own model. Currently, it can support the running of all the ``1.x`` version of **Tensorflow-based** models. In the following tutorial, we will show you how to takes the least efforts to implement a UCTB model.
 
-Commonly, a new model needs to inherit ``BaseModel`` to acquire the features provided by UCTB, such as batch division, early stopping, etc. The necessary components for a subclass of ``BaseModel`` should include:
+Commonly, a new model needs to inherit ``BaseModel`` to acquire the features provided by UCTB, such as batch division, early stopping, etc. The necessary components for a subclass of ``BaseModel`` include:
 
 - ``self.__init__()``. Define the model's parameters related to the architecture. You should call the super class's constructor at first.
 - ``self.build()``. Build the architecture here. You should construct the graph at the beginning of this function and call the super class's ``build()`` function at the end.
-- ``self._input``. A ``dict`` used to record the acceptable inputs of the model, whose keys are the parameter names in ``model.fit()`` and ``model.predict()`` and values are the name of related tensors.
-- ``self._output``. A ``dict`` used to record the outputs of the model. You should fill the required keys ``prediction`` and ``loss`` with the names of tensors in your case.
-- ``self._op``. A ``dict`` used to define all the operations for the model. Common usage for it is to record the **training operation**, for example, the minimizing loss operation of an optimizer. Use key ``train_op`` to record it.
+- ``self._input``. The ``dict`` used to record the acceptable inputs of the model, whose keys are the parameter names in ``model.fit()`` and ``model.predict()`` and values are the name of related tensors.
+- ``self._output``. The ``dict`` used to record the outputs of the model. You should fill the required keys ``prediction`` and ``loss`` with the names of tensors in your case.
+- ``self._op``. The ``dict`` used to define all the operations for the model. Basic usage for it is to record the **training operation**, for example, the minimizing loss operation of an optimizer. Use key ``train_op`` to record it.
 
-For more examples, you can refer to the implementations of build-in models in ``UCTB.model``.
+For more examples, you can refer to the implementations of build-in models in [``UCTB.model``](../UCTB.model.html#uctb-model-package).
 
 
 ```python
@@ -297,10 +297,10 @@ class MyModel(BaseModel):
             self._output['loss'] = loss.name
             self._op['train_op'] = train_op.name
             
-        super(LSTM, self).build(init_vars=init_vars, max_to_keep=5) 
+        super(MyModel, self).build(init_vars=init_vars, max_to_keep=5) 
 ```
 
-Next, in a concrete case, we will realize a **Long short-term memory (LSTM)** model to make the all-station prediction that accepts time series of all `717` stations and predict the future as a whole. 
+Next, in a concrete case, we will realize a **Long short-term memory (LSTM)** model to make the all-station prediction that accepts time series of `717` stations and predict the future of them as a whole. 
 
 For the mechanism of LSTM, you can refer to 
 [Gers, F. A., Schmidhuber, J., & Cummins, F. (1999). Learning to forget: Continual prediction with LSTM](https://www.researchgate.net/profile/Felix_Gers/publication/12292425_Learning_to_Forget_Continual_Prediction_with_LSTM/links/5759414608ae9a9c954e84c5/Learning-to-Forget-Continual-Prediction-with-LSTM.pdf).
@@ -374,7 +374,7 @@ class LSTM(BaseModel):
         super(LSTM, self).build(init_vars=init_vars, max_to_keep=5) 
 ```
 
-Loading the dataset by loader, and transform them to the formation your model accepts. If the loader APIs are not filled your demands, you can inherit loader and wrapper it to your desires (see [Quickstart](./quickstart.html) for more details).
+Load the dataset by loader and transform them into the formats your model accepts. If the loader APIs are not filled your demands, you can inherit loader and wrapper it according to your desires (see [Quickstart](./quickstart.html) for more details).
 
 
 ```python
@@ -405,8 +405,7 @@ print(model.trainable_vars)  # count the trainble parameters
 
     6821581
 
-Use your model to training and predicting.
-``model.fit()`` method presets lots of useful functions, such as batch division and early stopping. Check them in [``UCTB.model_unit.BaseModel.BaseModel.fit``](../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.fit).
+Use your model to training and predicting. ``model.fit()`` method presets lots of useful functions, such as batch division and early stopping. Check them in [``UCTB.model_unit.BaseModel.BaseModel.fit``](../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.fit).
 
 
 ```python
@@ -424,7 +423,7 @@ model.fit(inputs=data_loader.train_closeness,
     Epoch 1: train_loss 0.015499311 val_loss 0.015820855
     Epoch 2: train_loss 0.015298592 val_loss 0.015657894
     Epoch 3: train_loss 0.015163456 val_loss 0.015559187
-    Epoch 4: train_loss 0.01506681 val_loss 0.015342651
+    Epoch 4: train_loss 0.015066812 val_loss 0.015342651
     Epoch 5: train_loss 0.015016247 val_loss 0.015287879
     Epoch 6: train_loss 0.014899823 val_loss 0.015249459
     Epoch 7: train_loss 0.014773054 val_loss 0.015098239
@@ -446,6 +445,8 @@ print('Test result', metric.rmse(prediction=predictions, target=targets, thresho
 ```
 
     Test result 2.9765626570592545
+
+Since we only use a short period of the dataset (``data_range=0.1``) in this toy example, the result looks good compared with the [experiment](./all_results.html#results-on-bike). You can also take a try to test the completed dataset on your model. 
 
 ------
 

@@ -84,8 +84,12 @@
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#step-1-install-tensorflow">2.1. Step 1: Install TensorFlow</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#step-2-install-uctb">2.2. Step 2: Install UCTB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#install-uctb">2.1. Install UCTB</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#step-1-install-tensorflow">2.1.1. Step 1: Install TensorFlow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#step-2-install-uctb">2.1.2. Step 2: Install UCTB</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#uctb-docker">2.2. UCTB Docker</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. Quick start</a></li>
@@ -152,13 +156,15 @@
             
   <div class="section" id="installation">
 <h1>2. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="install-uctb">
+<h2>2.1. Install UCTB<a class="headerlink" href="#install-uctb" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="step-1-install-tensorflow">
-<h2>2.1. Step 1: Install TensorFlow<a class="headerlink" href="#step-1-install-tensorflow" title="Permalink to this headline">¶</a></h2>
+<h3>2.1.1. Step 1: Install TensorFlow<a class="headerlink" href="#step-1-install-tensorflow" title="Permalink to this headline">¶</a></h3>
 <p>You can skip to step 2 if you already installed tensorflow.</p>
 <p>You can refer to this page <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a> to install tensorflow, if you have a Nvidia GPU installed on you computer, we highly recommend you to install GPU version of tensorflow.</p>
 </div>
 <div class="section" id="step-2-install-uctb">
-<h2>2.2. Step 2: Install UCTB<a class="headerlink" href="#step-2-install-uctb" title="Permalink to this headline">¶</a></h2>
+<h3>2.1.2. Step 2: Install UCTB<a class="headerlink" href="#step-2-install-uctb" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade UCTB
 </pre></div>
 </div>
@@ -177,6 +183,18 @@
 <span class="s1">&#39;nni&#39;</span>,
 <span class="s1">&#39;chinesecalendar&#39;</span>,
 <span class="s1">&#39;PyYAML&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="uctb-docker">
+<h2>2.2. UCTB Docker<a class="headerlink" href="#uctb-docker" title="Permalink to this headline">¶</a></h2>
+<p>You can also  use UCTB by docker. First pull uctb docker from docker hub.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull dichai/uctb:v0.2.0
+</pre></div>
+</div>
+<p>And  you then can run it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run  --runtime<span class="o">=</span>nvidia  -it -d dichai/uctb:v0.2.0 /bin/bash
 </pre></div>
 </div>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>

@@ -19,6 +19,8 @@ UCTB is a flexible and open package. You can use the data we provided or use you
 
 ## Installation
 
+### Install UCTB
+
 ##### Step 1: Install TensorFlow
 
 You can skip to step 2 if you already installed tensorflow.
@@ -48,6 +50,20 @@ The following required package will be installed or upgraded with UCTB:
 'nni',
 'chinesecalendar',
 'PyYAML'
+```
+
+### UCTB Docker
+
+You can also  use UCTB by docker. First pull uctb docker from docker hub.
+
+```bash
+docker pull dichai/uctb:v0.2.0
+```
+
+And  you then can run it.
+
+```bash
+docker run  --runtime=nvidia  -it -d dichai/uctb:v0.2.0 /bin/bash
 ```
 
 ## Quick start

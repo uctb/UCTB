@@ -109,9 +109,9 @@ data_loader = NodeTrafficLoader(dataset=pkl_file_name)
 
 ##### Use single temporal feature in regression
 
-UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or for all stations. You can find the concrete instruction in ``UCTB.model``.
+UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in [``UCTB.model``](./static/current_supported_models.html).
 
-The following example shows how to use a **Hidden Markov model** to handle a simple time series predicting problem. We will predict the the number of bikesharing demands ``test_y``(i.e., the number of bike borrowers) for a specific station ``target_node``. In this case, the model takes a few recent timesteps in the past as inputs and then predict the future.
+The following example shows how to use a **Hidden Markov model (HMM)** to handle a simple time series predicting a problem. We will try to predict the bike demands ``test_y`` of a fixed station ``target_node`` in New York City by checking back the historical demands in recent time slots ``train_closeness``.
 
 
 ```python
@@ -121,25 +121,41 @@ import matplotlib.pyplot as plt
 from UCTB.model import HMM
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
+
+target_node = 233
 ```
+
+When initializing the loader, we use past ``12`` time slots (timesteps) of closeness as input, ``1`` timestep in the next as output and set the timesteps of other features ``period_len``, ``period_len`` to zero. 
 
 
 ```python
 data_loader = NodeTrafficLoader(data_range=0.1, dataset='Bike', city='NYC',
                                 closeness_len=12, period_len=0, trend_len=0,
-                                test_ratio=0.2, normalize=False, with_lm=False, with_tpe=False)
+                                target_length=1, test_ratio=0.2, 
+                                normalize=False, with_lm=False, with_tpe=False)
 ```
 
-Split the data into train and test set.
+The well-loaded data contain all ``717`` stations' data. Therefore it is needed to specify the target station by ``target_station``.
+
+```python
+print(data_loader.train_closeness.shape)
+print(data_loader.test_closeness.shape)
+print(data_loader.test_y.shape)
+```
+
+```python
+(2967, 717, 12, 1)
+(745, 717, 12, 1)
+(745, 717, 1)
+```
 
 
 ```python
-target_node = 233
 train_x, test_x = data_loader.train_closeness[:, target_node:target_node+1, -1, 0], data_loader.test_closeness[:, target_node, :, :]
 test_y = data_loader.test_y[:, target_node, 0]
 ```
 
-Inspect the shape of data.
+Inspect the shape of data. Here are the all we need for one-station prediction.
 
 
 ```python
@@ -153,14 +169,14 @@ print(test_y.shape)
     (745,)
 
 
-Build the model.
+Build the HMM model.
 
 
 ```python
 model = HMM(num_components=8, n_iter=50)
 ```
 
-Now, we can fit the model to the train dataset.
+Now, we can fit the model with the train dataset.
 
 
 ```python
@@ -185,7 +201,7 @@ We can evaluate the performance of the model by build-in ``UCTB.evaluation`` API
 
 ```python
 test_rmse = metric.rmse(predictions, test_y, threshold=0)
-test_rmse
+print(test_rmse)
 ```
 
 
@@ -193,7 +209,7 @@ test_rmse
 
 ##### Use multiple temporal features in regression
 
-In this case, let's take more temporal knowledge about ``target_node`` into account. Specifically, we will concatenate factors, including ``closeness``, ``period``, and ``trend``, and use **XGBoost** as the predicting model.
+In this case, let's take more temporal knowledge related to ``target_node`` into account. We will concatenate factors including ``closeness``, ``period``, and ``trend``, and use **XGBoost** as the predicting model.
 
 
 ```python
@@ -204,12 +220,15 @@ from UCTB.model import XGBoost
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
 
+target_node = 233
+
 data_loader = NodeTrafficLoader(data_range=0.1, dataset='Bike', city='NYC',
                                 closeness_len=6, period_len=7, trend_len=4,
-                                test_ratio=0.2, normalize=False, with_lm=False, with_tpe=False)
-target_node = 233
+                                target_length=1, test_ratio=0.2, 
+                                normalize=False, with_lm=False, with_tpe=False)
+
 train_closeness = data_loader.train_closeness[:, target_node, :, 0]
-train_period = data_loader.train_period[:, target_node, :, 0]
+train_period = data_loader.train_period[:, target_nodze, :, 0]
 train_trend = data_loader.train_trend[:, target_node, :, 0]
 train_y = data_loader.train_y[:, target_node, 0]
 
@@ -232,11 +251,201 @@ predictions = model.predict(test_X)
 print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
 ```
 
+    (2307, 17)
+    (2307,)
+    (745, 17)
+    (745,)
     Test RMSE 3.3267457
 
-#### Build your own model using UCTB (Not yet finished)
+#### Build your own model using UCTB
+
+UCTB provides extendable APIs to build your own model. Currently, it can support the running of all the ``1.x`` version of Tensorflow-based models. In the following tutorial, we will show you how to takes the least efforts to implement a UCTB model.
+
+Commonly, a new model needs to inherit ``BaseModel`` to acquire the features provided by UCTB, such as batch division, early stopping, etc. The necessary components for a subclass of ``BaseModel`` should include:
+
+- ``self.__init__()``. Define the model's parameters related to the architecture. You should call the super class's constructor at first.
+- ``self.build()``. Build the architecture here. You should construct the graph at the beginning of this function and call the super class's ``build()`` function at the end.
+- ``self._input``. A ``dict`` used to record the acceptable inputs of the model, whose keys are the parameter names in ``model.fit()`` and ``model.predict()`` and values are the name of related tensors.
+- ``self._output``. A ``dict`` used to record the outputs of the model. You should fill the required keys ``prediction`` and ``loss`` with the names of tensors in your case.
+- ``self._op``. A ``dict`` used to define all the operations for the model. Common usage for it is to record the **training operation**, for example, the minimizing loss operation of an optimizer. Use key ``train_op`` to record it.
+
+For more examples, you can refer to the implementations of build-in models in ``UCTB.model``.
 
 
+```python
+from UCTB.model_unit import BaseModel
+
+class MyModel(BaseModel):
+    def __init__(self,
+                 
+                 code_version='0',
+                 model_dir='my_model',
+                 gpu_device='0',
+                ):
+        super(MyModel, self).__init__(code_version=code_version, 
+                                      model_dir=model_dir, gpu_device=gpu_device)
+        ...
+        
+    def build(self, init_vars=True, max_to_keep=5):
+        with self._graph.as_default():
+            ...
+            self._input['inputs'] = inputs.name
+            self._input['targets'] = targets.name
+            
+            ...
+            self._output['prediction'] = predictions.name
+            self._output['loss'] = loss.name
+            self._op['train_op'] = train_op.name
+            
+        super(LSTM, self).build(init_vars=init_vars, max_to_keep=5) 
+```
+
+Next, in a concrete case, we will realize a **Long short-term memory (LSTM)** model to make the all-station prediction that accepts time series of all `717` stations and predict the future as a whole. 
+
+For the mechanism of LSTM, you can refer to 
+[Gers, F. A., Schmidhuber, J., & Cummins, F. (1999). Learning to forget: Continual prediction with LSTM](https://www.researchgate.net/profile/Felix_Gers/publication/12292425_Learning_to_Forget_Continual_Prediction_with_LSTM/links/5759414608ae9a9c954e84c5/Learning-to-Forget-Continual-Prediction-with-LSTM.pdf).
+
+
+```python
+import numpy as np
+import tensorflow as tf
+from UCTB.dataset import NodeTrafficLoader
+from UCTB.model_unit import BaseModel
+from UCTB.preprocess import SplitData
+from UCTB.evaluation import metric
+```
+
+
+```python
+class LSTM(BaseModel):
+    def __init__(self,
+                 num_stations, 
+                 num_layers, 
+                 num_units, 
+                 input_steps, 
+                 input_dim,
+                 output_steps,
+                 output_dim,
+                 code_version='0',
+                 model_dir='my_lstm',
+                 gpu_device='0'):
+        super(LSTM, self).__init__(code_version=code_version, 
+                                   model_dir=model_dir, gpu_device=gpu_device)
+        self.num_stations = num_stations
+        self.num_layers = num_layers
+        self.num_units = num_units
+        self.input_steps = input_steps
+        self.input_dim = input_dim
+        self.output_steps = output_steps
+        self.output_dim = output_dim
+        
+    def build(self, init_vars=True, max_to_keep=5):
+        with self._graph.as_default():
+            inputs = tf.placeholder(tf.float32, shape=(None, self.num_stations, 
+                                                       self.input_steps, self.input_dim))
+            targets = tf.placeholder(tf.float32, shape=(None, self.num_stations,
+                                                       self.output_steps, self.output_dim))
+            # record the inputs of the model
+            self._input['inputs'] = inputs.name
+            self._input['targets'] = targets.name
+
+            inputs = tf.reshape(inputs, (-1, self.input_steps, self.num_stations*self.input_dim))
+            
+            def get_a_cell(num_units):
+                lstm = tf.nn.rnn_cell.BasicLSTMCell(num_units, state_is_tuple=True)
+                return lstm
+            
+            stacked_cells = tf.contrib.rnn.MultiRNNCell([get_a_cell(self.num_units) for _ in range(self.num_layers)], state_is_tuple=True)
+            outputs, final_state = tf.nn.dynamic_rnn(stacked_cells, inputs, dtype=tf.float32)
+            
+            stacked_outputs = tf.reshape(outputs, shape=(-1, self.num_units*self.input_steps))
+            predictions = tf.layers.dense(stacked_outputs, self.output_steps*self.num_stations*self.output_dim)
+            predictions = tf.reshape(predictions, shape=(-1, self.num_stations, self.output_steps, self.output_dim))
+            
+            loss = tf.sqrt(tf.reduce_mean(tf.square(predictions - targets)))
+            train_op = tf.train.AdamOptimizer().minimize(loss)
+            
+            # record the outputs and the operation of the model
+            self._output['prediction'] = predictions.name
+            self._output['loss'] = loss.name
+            self._op['train_op'] = train_op.name
+        
+        # must call super class' function to build 
+        super(LSTM, self).build(init_vars=init_vars, max_to_keep=5) 
+```
+
+Loading the dataset by loader, and transform them to the formation your model accepts. If the loader APIs are not filled your demands, you can inherit loader and wrapper it to your desires (see [Quickstart](./quickstart.html) for more details).
+
+
+```python
+data_loader = NodeTrafficLoader(data_range=0.1, dataset='Bike', city='NYC',
+                                closeness_len=6, period_len=0, trend_len=0,
+                                target_length=1, test_ratio=0.2, 
+                                normalize=True, with_lm=False, with_tpe=False)
+train_y = np.expand_dims(data_loader.train_y, axis=-1)
+test_y = np.expand_dims(data_loader.test_y, axis=-1)
+```
+
+
+```python
+model = LSTM(num_stations=data_loader.station_number, 
+             num_layers=2,
+             num_units=512, 
+             input_steps=6, 
+             input_dim=1, 
+             output_steps=1, 
+             output_dim=1)
+```
+
+
+```python
+model.build()
+print(model.trainable_vars)  # count the trainble parameters
+```
+
+    6821581
+
+Use your model to training and predicting.
+``model.fit()`` method presets lots of useful functions, such as batch division and early stopping. Check them in [``UCTB.model_unit.BaseModel.BaseModel.fit``](../UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel.fit).
+
+
+```python
+model.fit(inputs=data_loader.train_closeness,
+          targets=train_y,
+          max_epoch=10,
+          batch_size=64,
+          sequence_length=data_loader.train_sequence_len,
+          validate_ratio=0.1)
+```
+
+    No model found, start training
+    Running Operation ('train_op',)
+    Epoch 0: train_loss 0.016053785 val_loss 0.01606118
+    Epoch 1: train_loss 0.015499311 val_loss 0.015820855
+    Epoch 2: train_loss 0.015298592 val_loss 0.015657894
+    Epoch 3: train_loss 0.015163456 val_loss 0.015559187
+    Epoch 4: train_loss 0.01506681 val_loss 0.015342651
+    Epoch 5: train_loss 0.015016247 val_loss 0.015287879
+    Epoch 6: train_loss 0.014899823 val_loss 0.015249459
+    Epoch 7: train_loss 0.014773054 val_loss 0.015098239
+    Epoch 8: train_loss 0.014655286 val_loss 0.015097916
+    Epoch 9: train_loss 0.014558283 val_loss 0.015108417
+
+```python
+predictions = model.predict(inputs=data_loader.test_closeness, 
+                            sequence_length=data_loader.test_sequence_len)
+```
+
+Reverse the normalization by ``data_loader`` and evaluate the results:
+
+
+```python
+predictions = data_loader.normalizer.min_max_denormal(predictions['prediction'])
+targets = data_loader.normalizer.min_max_denormal(test_y)
+print('Test result', metric.rmse(prediction=predictions, target=targets, threshold=0))
+```
+
+    Test result 2.9765626570592545
 
 ------
 

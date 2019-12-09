@@ -1,306 +1,881 @@
-<!doctype html>
-<html>
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
-<title>all_results_setting</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
-html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
-body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
-iframe { margin: auto; }
-a.url { word-break: break-all; }
-a:active, a:hover { outline: 0px; }
-.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
-#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
-#write.first-line-indent p { text-indent: 2em; }
-#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
-#write.first-line-indent li { margin-left: 2em; }
-.for-image #write { padding-left: 8px; padding-right: 8px; }
-body.typora-export { padding-left: 30px; padding-right: 30px; }
-.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
-@media screen and (max-width: 500px) {
-  body.typora-export { padding-left: 0px; padding-right: 0px; }
-  #write { padding-left: 20px; padding-right: 20px; }
-  .CodeMirror-sizer { margin-left: 0px !important; }
-  .CodeMirror-gutters { display: none !important; }
-}
-#write li > figure:last-child { margin-bottom: 0.5rem; }
-#write ol, #write ul { position: relative; }
-img { max-width: 100%; vertical-align: middle; }
-button, input, select, textarea { color: inherit; font: inherit; }
-input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
-*, ::after, ::before { box-sizing: border-box; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
-#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
-p { line-height: inherit; }
-h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
-p { orphans: 4; }
-h1 { font-size: 2rem; }
-h2 { font-size: 1.8rem; }
-h3 { font-size: 1.6rem; }
-h4 { font-size: 1.4rem; }
-h5 { font-size: 1.2rem; }
-h6 { font-size: 1rem; }
-.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
-.hidden { display: none; }
-.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
-a { cursor: pointer; }
-sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
-sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
-#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
-figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
-figure > table { margin: 0px !important; }
-tr { break-inside: avoid; break-after: auto; }
-thead { display: table-header-group; }
-table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
-table.md-table td { min-width: 32px; }
-.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
-.CodeMirror-linenumber { user-select: none; }
-.CodeMirror { text-align: left; }
-.CodeMirror-placeholder { opacity: 0.3; }
-.CodeMirror pre { padding: 0px 4px; }
-.CodeMirror-lines { padding: 0px; }
-div.hr:focus { cursor: none; }
-#write pre { white-space: pre-wrap; }
-#write.fences-no-line-wrapping pre { white-space: pre; }
-#write pre.ty-contain-cm { white-space: normal; }
-.CodeMirror-gutters { margin-right: 4px; }
-.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
-.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
-#write .md-fences.mock-cm { white-space: pre-wrap; }
-.md-fences.md-fences-with-lineno { padding-left: 0px; }
-#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
-.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
-.CodeMirror-line, twitterwidget { break-inside: avoid; }
-.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
-.footnotes + .footnotes { margin-top: 0px; }
-.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
-li div { padding-top: 0px; }
-blockquote { margin: 1rem 0px; }
-li .mathjax-block, li p { margin: 0.5rem 0px; }
-li { margin: 0px; position: relative; }
-blockquote > :last-child { margin-bottom: 0px; }
-blockquote > :first-child, li > :first-child { margin-top: 0px; }
-.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
-#write .footnote-line { white-space: pre-wrap; }
-@media print {
-  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
-  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
-  .typora-export * { -webkit-print-color-adjust: exact; }
-  html.blink-to-pdf { font-size: 13px; }
-  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
-  .typora-export #write::after { height: 0px; }
-}
-.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
-a img, img a { cursor: pointer; }
-pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
-p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
-p > .md-image:only-child { display: inline-block; width: 100%; }
-#write .MathJax_Display { margin: 0.8em 0px 0px; }
-.md-math-block { width: 100%; }
-.md-math-block:not(:empty)::after { display: none; }
-[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
-.md-task-list-item { position: relative; list-style-type: none; }
-.task-list-item.md-task-list-item { padding-left: 0px; }
-.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
-.math { font-size: 1rem; }
-.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
-.md-toc-content { position: relative; margin-left: 0px; }
-.md-toc-content::after, .md-toc::after { display: none; }
-.md-toc-item { display: block; color: rgb(65, 131, 196); }
-.md-toc-item a { text-decoration: none; }
-.md-toc-inner:hover { text-decoration: underline; }
-.md-toc-inner { display: inline-block; cursor: pointer; }
-.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
-.md-toc-h2 .md-toc-inner { margin-left: 2em; }
-.md-toc-h3 .md-toc-inner { margin-left: 4em; }
-.md-toc-h4 .md-toc-inner { margin-left: 6em; }
-.md-toc-h5 .md-toc-inner { margin-left: 8em; }
-.md-toc-h6 .md-toc-inner { margin-left: 10em; }
-@media screen and (max-width: 48em) {
-  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
-  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
-  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
-  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
-}
-a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
-.footnote-line a:not(.reversefootnote) { color: inherit; }
-.md-attr { display: none; }
-.md-fn-count::after { content: "."; }
-code, pre, samp, tt { font-family: var(--monospace); }
-kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
-.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
-code { text-align: left; vertical-align: initial; }
-a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
-.md-inline-math .MathJax_SVG .noError { display: none !important; }
-.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
-.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
-.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
-.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
-.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
-.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
-.MathJax_SVG * { transition: none 0s ease 0s; }
-.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
-.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
-.md-diagram-panel > svg { max-width: 100%; }
-[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
-[lang="mermaid"] .node text { font-size: 1rem; }
-table tr th { border-bottom: 0px; }
-video { max-width: 100%; display: block; margin: 0px auto; }
-iframe { max-width: 100%; width: 100%; border: none; }
-.highlight td, .highlight tr { border: 0px; }
-svg[id^="mermaidChart"] { line-height: 1em; }
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Experiment Setting on different datasets &mdash; UCTB  documentation</title>
+  
 
+  
+  
 
-.CodeMirror { height: auto; }
-.CodeMirror.cm-s-inner { background: inherit; }
-.CodeMirror-scroll { overflow: auto hidden; z-index: 3; }
-.CodeMirror-gutter-filler, .CodeMirror-scrollbar-filler { background-color: rgb(255, 255, 255); }
-.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); background: inherit; white-space: nowrap; }
-.CodeMirror-linenumber { padding: 0px 3px 0px 5px; text-align: right; color: rgb(153, 153, 153); }
-.cm-s-inner .cm-keyword { color: rgb(119, 0, 136); }
-.cm-s-inner .cm-atom, .cm-s-inner.cm-atom { color: rgb(34, 17, 153); }
-.cm-s-inner .cm-number { color: rgb(17, 102, 68); }
-.cm-s-inner .cm-def { color: rgb(0, 0, 255); }
-.cm-s-inner .cm-variable { color: rgb(0, 0, 0); }
-.cm-s-inner .cm-variable-2 { color: rgb(0, 85, 170); }
-.cm-s-inner .cm-variable-3 { color: rgb(0, 136, 85); }
-.cm-s-inner .cm-string { color: rgb(170, 17, 17); }
-.cm-s-inner .cm-property { color: rgb(0, 0, 0); }
-.cm-s-inner .cm-operator { color: rgb(152, 26, 26); }
-.cm-s-inner .cm-comment, .cm-s-inner.cm-comment { color: rgb(170, 85, 0); }
-.cm-s-inner .cm-string-2 { color: rgb(255, 85, 0); }
-.cm-s-inner .cm-meta { color: rgb(85, 85, 85); }
-.cm-s-inner .cm-qualifier { color: rgb(85, 85, 85); }
-.cm-s-inner .cm-builtin { color: rgb(51, 0, 170); }
-.cm-s-inner .cm-bracket { color: rgb(153, 153, 119); }
-.cm-s-inner .cm-tag { color: rgb(17, 119, 0); }
-.cm-s-inner .cm-attribute { color: rgb(0, 0, 204); }
-.cm-s-inner .cm-header, .cm-s-inner.cm-header { color: rgb(0, 0, 255); }
-.cm-s-inner .cm-quote, .cm-s-inner.cm-quote { color: rgb(0, 153, 0); }
-.cm-s-inner .cm-hr, .cm-s-inner.cm-hr { color: rgb(153, 153, 153); }
-.cm-s-inner .cm-link, .cm-s-inner.cm-link { color: rgb(0, 0, 204); }
-.cm-negative { color: rgb(221, 68, 68); }
-.cm-positive { color: rgb(34, 153, 34); }
-.cm-header, .cm-strong { font-weight: 700; }
-.cm-del { text-decoration: line-through; }
-.cm-em { font-style: italic; }
-.cm-link { text-decoration: underline; }
-.cm-error { color: red; }
-.cm-invalidchar { color: red; }
-.cm-constant { color: rgb(38, 139, 210); }
-.cm-defined { color: rgb(181, 137, 0); }
-div.CodeMirror span.CodeMirror-matchingbracket { color: rgb(0, 255, 0); }
-div.CodeMirror span.CodeMirror-nonmatchingbracket { color: rgb(255, 34, 34); }
-.cm-s-inner .CodeMirror-activeline-background { background: inherit; }
-.CodeMirror { position: relative; overflow: hidden; }
-.CodeMirror-scroll { height: 100%; outline: 0px; position: relative; box-sizing: content-box; background: inherit; }
-.CodeMirror-sizer { position: relative; }
-.CodeMirror-gutter-filler, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-vscrollbar { position: absolute; z-index: 6; display: none; }
-.CodeMirror-vscrollbar { right: 0px; top: 0px; overflow: hidden; }
-.CodeMirror-hscrollbar { bottom: 0px; left: 0px; overflow: hidden; }
-.CodeMirror-scrollbar-filler { right: 0px; bottom: 0px; }
-.CodeMirror-gutter-filler { left: 0px; bottom: 0px; }
-.CodeMirror-gutters { position: absolute; left: 0px; top: 0px; padding-bottom: 30px; z-index: 3; }
-.CodeMirror-gutter { white-space: normal; height: 100%; box-sizing: content-box; padding-bottom: 30px; margin-bottom: -32px; display: inline-block; }
-.CodeMirror-gutter-wrapper { position: absolute; z-index: 4; background: 0px 0px !important; border: none !important; }
-.CodeMirror-gutter-background { position: absolute; top: 0px; bottom: 0px; z-index: 4; }
-.CodeMirror-gutter-elt { position: absolute; cursor: default; z-index: 4; }
-.CodeMirror-lines { cursor: text; }
-.CodeMirror pre { border-radius: 0px; border-width: 0px; background: 0px 0px; font-family: inherit; font-size: inherit; margin: 0px; white-space: pre; overflow-wrap: normal; color: inherit; z-index: 2; position: relative; overflow: visible; }
-.CodeMirror-wrap pre { overflow-wrap: break-word; white-space: pre-wrap; word-break: normal; }
-.CodeMirror-code pre { border-right: 30px solid transparent; width: fit-content; }
-.CodeMirror-wrap .CodeMirror-code pre { border-right: none; width: auto; }
-.CodeMirror-linebackground { position: absolute; left: 0px; right: 0px; top: 0px; bottom: 0px; z-index: 0; }
-.CodeMirror-linewidget { position: relative; z-index: 2; overflow: auto; }
-.CodeMirror-wrap .CodeMirror-scroll { overflow-x: hidden; }
-.CodeMirror-measure { position: absolute; width: 100%; height: 0px; overflow: hidden; visibility: hidden; }
-.CodeMirror-measure pre { position: static; }
-.CodeMirror div.CodeMirror-cursor { position: absolute; visibility: hidden; border-right: none; width: 0px; }
-.CodeMirror div.CodeMirror-cursor { visibility: hidden; }
-.CodeMirror-focused div.CodeMirror-cursor { visibility: inherit; }
-.cm-searching { background: rgba(255, 255, 0, 0.4); }
-@media print {
-  .CodeMirror div.CodeMirror-cursor { visibility: hidden; }
-}
+  
 
+  
+  
+    
 
-:root { --control-text-color: #777; --side-bar-bg-color: #f6f8fa ; }
-html { font-size: 16px; -webkit-font-smoothing: subpixel-antialiased; }
-body { font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", 微软雅黑, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; color: rgb(36, 41, 46); line-height: 1.5; font-weight: 400; -webkit-font-smoothing: unset; }
-#write { max-width: 860px; margin: 0px auto; padding: 20px 30px 100px; }
-#write > ol:first-child, #write > ul:first-child { margin-top: 30px; }
-body > :first-child { margin-top: 0px !important; }
-body > :last-child { margin-bottom: 0px !important; }
-a { color: rgb(65, 131, 196); }
-h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1.8rem; margin-bottom: 1rem; line-height: 1.4; cursor: text; color: rgb(20, 35, 49); }
-h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
-h1 code, h1 tt, h2 code, h2 tt, h3 code, h3 tt, h4 code, h4 tt, h5 code, h5 tt, h6 code, h6 tt { font-size: inherit; }
-h1 { text-align: center; padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; margin: 1em auto 1.2em; }
-h1::after { border-bottom: 2px dashed rgb(175, 236, 158); content: ""; width: 100px; display: block; margin: 0.2em auto 0px; height: 2px; }
-h2 { font-size: 1.75em; padding-left: 9px; line-height: 1.4; border-left: 6px solid rgb(204, 229, 255); }
-h3 { font-size: 1.5em; line-height: 1.43; }
-h3::before { border-radius: 50%; background-color: rgb(158, 208, 255); content: ""; width: 6px; display: inline-block; height: 6px; vertical-align: middle; margin-bottom: 0.18em; margin-right: 8px; }
-#write > h3.md-focus::before, #write > h4.md-focus::before { background-color: transparent; width: auto; height: auto; }
-h4 { font-size: 1.25em; }
-h4::before { background-color: rgb(158, 208, 255); content: ""; width: 6px; display: inline-block; height: 2px; vertical-align: middle; margin-bottom: 0.18em; margin-right: 8px; }
-h5 { font-size: 1em; }
-h6 { font-size: 1em; color: rgb(119, 119, 119); }
-blockquote, dl, ol, p, table, ul { margin: 0.8em 0px; }
-li > ol, li > ul { margin: 0px; }
-hr { height: 0.25em; padding: 0px; margin: 24px 0px; background-color: rgb(225, 228, 232); border: 0px; }
-a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6, body > h1:first-child, body > h1:first-child + h2, body > h2:first-child, body > h3:first-child, body > h4:first-child, body > h5:first-child, body > h6:first-child { margin-top: 0px; padding-top: 0px; }
-h1 p, h2 p, h3 p, h4 p, h5 p, h6 p { margin-top: 0px; }
-li p.first { display: inline-block; }
-ol, ul { padding-left: 30px; }
-ol:first-child, ul:first-child { margin-top: 0px; }
-ol:last-child, ul:last-child { margin-bottom: 0px; }
-blockquote { border-left: 4px dotted rgb(229, 232, 232); padding: 0px 12px; color: rgb(68, 68, 68); font-size: 0.9em; }
-blockquote blockquote { padding-right: 0px; }
-table { padding: 0px; word-break: initial; }
-table tr { border-top: 1px solid rgb(218, 223, 230); margin: 0px; padding: 0px; }
-table.md-table tr:nth-child(2n) { background-color: rgb(250, 251, 252); }
-table tr td, table tr th { border: 1px solid rgb(218, 223, 230); text-align: left; margin: 0px; padding: 6px 13px; }
-table tr td:first-child, table tr th:first-child { margin-top: 0px; }
-table tr td:last-child, table tr th:last-child { margin-bottom: 0px; }
-.CodeMirror-gutters { border-right: 1px solid rgb(221, 221, 221); }
-.md-fences, code, tt { font-size: 90%; border-radius: 3px; font-family: "SF Mono", Consolas, "Liberation Mono", Menlo, Courier, monospace, "PingFang SC", "Microsoft YaHei", 微软雅黑; }
-code, tt { margin: 0px 2px; padding: 2px 4px; background-color: rgb(226, 240, 255); }
-.md-fences { background-color: rgb(246, 248, 250); margin-bottom: 15px; margin-top: 15px; padding: 12px 1em; }
-.md-task-list-item > input { margin-left: -1.45em; margin-top: calc(1em - 10px); }
-@media print {
-  body { font-size: 11px; font-weight: 400; }
-  pre, table { break-inside: avoid; }
-  pre { overflow-wrap: break-word; }
-}
-#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 250, 246); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
-.mathjax-block > .code-tooltip { bottom: 0.375rem; }
-#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
-#write > h4.md-focus::before, #write > h5.md-focus::before, #write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
-.md-image > .md-meta { border: 1px solid rgb(221, 221, 221); border-radius: 3px; font-family: "SF Mono", Consolas, "PingFang SC", "Liberation Mono", Courier, monospace, "Microsoft YaHei", 微软雅黑; padding: 2px 4px 0px; font-size: 0.9em; color: inherit; }
-.md-tag { color: inherit; }
-.md-toc { margin-top: 20px; padding-bottom: 20px; }
-.sidebar-tabs { border-bottom: none; }
-#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
-#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
-.typora-quick-open-item { padding-top: 3px; }
-.typora-quick-open-list { margin-top: 4px; }
-.typora-quick-open-item-path { margin-top: -2px; }
-#md-notification::before { top: 10px; }
-.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
-.context-menu, .megamenu-content, footer, header { font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", 微软雅黑, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
-.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color) ; }
-.md-lang { color: rgb(180, 101, 77); }
-.pin-outline #outline-content .outline-active strong, .pin-outline .outline-active { color: rgb(35, 35, 35); font-weight: 600; }
-.outline-label { color: rgb(100, 100, 100); font-weight: 400; }
-.file-list-item-summary { font-family: "SF UI Text", "PingFang SC", -apple-system, -apple-system-body, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", 微软雅黑, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"; }
-b, h1, h2, h3, h4, h5, h6, strong { font-weight: 600; }
-h1, table tr th { font-weight: 400; }
-.file-list-item-file-name { font-weight: 500; }
+  
 
- .typora-export li, .typora-export p, .typora-export,  .footnote-line {white-space: normal;} 
-</style>
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="UCTB  documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
 </head>
-<body class='typora-export os-windows' >
-<div  id='write'  class = 'is-node'><h1><a name="experiment-setting-on-different-datasets" class="md-header-anchor"></a><span>Experiment Setting on different datasets</span></h1><h2><a name="stmeta-version" class="md-header-anchor"></a><span>STMeta Version</span></h2><figure><table><thead><tr><th style='text-align:center;' ><span>Version Name</span></th><th style='text-align:center;' ><span>Temporal Feature Process</span></th><th style='text-align:center;' ><span>Temporal Merge Method</span></th><th style='text-align:center;' ><span>Multi-Graph Merge Method</span></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>STMeta-V1</span></td><td style='text-align:center;' ><span>GCLSTM</span></td><td style='text-align:center;' ><span>GAL</span></td><td style='text-align:center;' ><span>GAL</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2</span></td><td style='text-align:center;' ><span>GCLSTM</span></td><td style='text-align:center;' ><span>Concat&amp;Dense</span></td><td style='text-align:center;' ><span>GAL</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3</span></td><td style='text-align:center;' ><span>DCRNN</span></td><td style='text-align:center;' ><span>GAL</span></td><td style='text-align:center;' ><span>GAL</span></td></tr></tbody></table></figure><p><span>By default, we use </span><code>STMeta-V1</code><span> to run LSTM and single graph model tests.</span></p><h2><a name="search-space" class="md-header-anchor"></a><span>Search Space</span></h2><figure><table><thead><tr><th style='text-align:center;' ><span>Model</span></th><th style='text-align:center;' ><span>Search Space</span></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><code>CT: 0~6</code><span>, </span><code>PT: 0~7</code><span>, </span><code>TT: 0~4</code></td></tr><tr><td style='text-align:center;' ><span>ARIMA</span></td><td style='text-align:center;' ><code>CT:168</code><span>,</span><code>p:3</code><span>, </span><code>d:0</code><span>, </span><code>q:0</code></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><code>CT: 0~12</code><span>, </span><code>PT: 0~14</code><span>, </span><code>TT: 0~4</code><span>, </span><code>estimater: 10~200</code><span>, </span><code>depth: 2~10</code></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><code>CT: 0~12</code><span>, </span><code>PT: 0~14</code><span>, </span><code>TT: 0~4</code><span>, </span><code>estimater: 10~200</code><span>, </span><code>depth: 2~10</code></td></tr></tbody></table></figure><h2><a name="results-on-bike" class="md-header-anchor"></a><span>Results on Bike</span></h2><h3><a name="dataset-statistics" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>New York City</span></strong></th><th style='text-align:center;' ><strong><span>Chicago</span></strong></th><th style='text-align:center;' ><strong><span>DC</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2013.03-2017.09</span></td><td style='text-align:center;' ><span>2013.07-2017.09</span></td><td style='text-align:center;' ><span>2013.07-2017.09</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>49,100,694</span></td><td style='text-align:center;' ><span>13,130,969</span></td><td style='text-align:center;' ><span>13,763,675</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>820</span></td><td style='text-align:center;' ><span>585</span></td><td style='text-align:center;' ><span>532</span></td></tr></tbody></table></figure><h3><a name="experiment-setting" class="md-header-anchor"></a><span>Experiment Setting</span></h3><ul><li><p><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/bike_trial.py'><span>ST_MGCN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/bike_trial.py'><span>DCRNN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><span>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</span></p><p><span>All four models can be run by specifying data files and model files on  </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py'><span>STMeta_Obj.py</span></a><span>.</span></p><p><span>Data Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_nyc.data.yml'><span>bike_nyc.data.yml</span></a><span> , </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_chicago.data.yml'><span>bike_chicago.data.yml</span></a><span>, </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_dc.data.yml'><span>bike_dc.data.yml</span></a></p><ul><li><p><span>LSTM (C)</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 130px;"></div><div class="CodeMirror-gutters" style="display: none; height: 130px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml'><span>STMeta_v0.model.yml</span></a></p></li><li><p><span>STMeta-V1 </span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 130px;"></div><div class="CodeMirror-gutters" style="display: none; height: 130px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml'><span>STMeta_v1.model.yml</span></a></p></li><li><p><span>STMeta-V2</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 130px;"></div><div class="CodeMirror-gutters" style="display: none; height: 130px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml'><span>STMeta_v2.model.yml</span></a></p></li><li><p><span>STMeta-V3</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 130px;"></div><div class="CodeMirror-gutters" style="display: none; height: 130px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml'><span>STMeta_v3.model.yml</span></a></p></li></ul></li></ul><h3><a name="experiment-results" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>NYC</span></strong></th><th style='text-align:center;' ><strong><span>Chicago</span></strong></th><th style='text-align:center;' ><strong><span>DC</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>3.99224 </span><code>1-1-3</code></td><td style='text-align:center;' ><span>2.97693 </span><code>1-1-2</code></td><td style='text-align:center;' ><span>2.63165 </span><code>2-1-3</code></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>5.60928 </span><code>168-3-0-0</code></td><td style='text-align:center;' ><span>3.83584 </span><code>168-3-0-0</code></td><td style='text-align:center;' ><span>3.60450 </span><code>168-3-0-0</code></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>4.12407 </span><code>12-10-0-20-5</code></td><td style='text-align:center;' ><span>2.92569 </span><code>9-7-0-20-5</code></td><td style='text-align:center;' ><span>2.65671 </span><code>12-14-2-20-5</code></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>3.99907 </span><code>12-7-4-100-5</code></td><td style='text-align:center;' ><span>2.84257 </span><code>12-14-2-100-5</code></td><td style='text-align:center;' ><span>2.61768 </span><code>12-14-2-100-5</code></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DCI)</span></td><td style='text-align:center;' ><span>3.72380</span></td><td style='text-align:center;' ><span>2.88300</span></td><td style='text-align:center;' ><span>2.48560</span></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>4.18666</span></td><td style='text-align:center;' ><span>3.27759</span></td><td style='text-align:center;' ><span>3.08616</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>4.55677</span></td><td style='text-align:center;' ><span>3.37004</span></td><td style='text-align:center;' ><span>2.91518</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1</span></td><td style='text-align:center;' ><span>3.50475</span></td><td style='text-align:center;' ><strong><span>2.65511</span></strong></td><td style='text-align:center;' ><span>2.42582</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2</span></td><td style='text-align:center;' ><strong><span>3.43870</span></strong></td><td style='text-align:center;' ><span>2.66379</span></td><td style='text-align:center;' ><span>2.41111</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3</span></td><td style='text-align:center;' ><span>3.47834</span></td><td style='text-align:center;' ><span>2.66180</span></td><td style='text-align:center;' ><strong><span>2.38844</span></strong></td></tr></tbody></table></figure><h2><a name="results-on-didi" class="md-header-anchor"></a><span>Results on DiDi</span></h2><h3><a name="dataset-statistics-n150" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>Xi&#39;an</span></strong></th><th style='text-align:center;' ><strong><span>Chengdu</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2016.10-2016.11</span></td><td style='text-align:center;' ><span>2016.10-2016.11</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>5,922,961</span></td><td style='text-align:center;' ><span>8,439,537</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>256</span></td><td style='text-align:center;' ><span>256</span></td></tr></tbody></table></figure><h3><a name="experiment-setting-n168" class="md-header-anchor"></a><span>Experiment Setting</span></h3><ul><li><p><span>ST-ResNet</span></p><figure><table><thead><tr><th style='text-align:center;' ><span>ST-ResNet Search Space</span></th></tr></thead><tbody><tr><td style='text-align:center;' ><code>residual_units:2~6</code><span>, </span><code>conv_filter:[32, 64, 128]</code><span>, </span><code>kernal_size:3~5</code><span>,</span><code>lr:[0.0001, 0.00002, 0.00004, 0.00008, 0.00001]</code><span>,</span><code>batch_size:[32, 64, 128, 256]</code></td></tr></tbody></table></figure><p><span>The best parameters found are following.</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation" style=""><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">args</span> = {</span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'dataset'</span>: <span class="cm-string">'DiDi'</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'city'</span>: <span class="cm-string">'Chengdu'</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'num_residual_unit'</span>: <span class="cm-number">4</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'conv_filters'</span>: <span class="cm-number">64</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'kernel_size'</span>: <span class="cm-number">3</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'lr'</span>: <span class="cm-number">1e-5</span>,</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-string">'batch_size'</span>: <span class="cm-number">32</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;">}</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 194px;"></div><div class="CodeMirror-gutters" style="display: none; height: 194px;"></div></div></div></pre><p><span>We can modify </span><code>city</code><span> parameter to </span><code>Chengdu</code><span> or </span><code>Xian</code><span> in </span><a href=' https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_ResNet/ST_ResNet.py '><span>ST_ResNet.py</span></a><span> , and then run it.</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="bash"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="bash"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> python ST_ResNet.py </span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 22px;"></div><div class="CodeMirror-gutters" style="display: none; height: 22px;"></div></div></div></pre></li><li><p><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/didi_trial.py'><span>ST_MGCN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><a href=' https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/didi_trial.py '><span>DCRNN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><span>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</span></p><p><span>All four models can be run by specifying data files and model files on </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py'><span>STMeta_Obj.py</span></a><span>.</span></p><p><span>Data Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_xian.data.yml'><span>didi_xian.data.yml</span></a><span> , </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_chengdu.data.yml'><span>didi_chengdu.data.yml</span></a><span>.</span></p><ul><li><p><span>LSTM (C) </span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml'><span>STMeta_v0.model.yml</span></a></p></li><li><p><span>STMeta-V1</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml'><span>STMeta_v1.model.yml</span></a></p></li><li><p><span>STMeta-V2</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded md-focus" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap CodeMirror-focused" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp;<span class="cm-variable cm-error">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>) &nbsp; </span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>  Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml'><span>STMeta_v2.model.yml</span></a></p></li><li><p><span>STMeta-V3</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Interaction'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml'><span>STMeta_v3.model.yml</span></a></p></li></ul></li></ul><h3><a name="experiment-results-n206" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>Xi’an</span></strong></th><th style='text-align:center;' ><strong><span>Chengdu</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>6.18623 </span><code>1-1-2</code></td><td style='text-align:center;' ><span>7.35477 </span><code>0-1-4</code></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>9.47478 </span><code>168-3-0-0</code></td><td style='text-align:center;' ><span>12.52656 </span><code>168-3-0-0</code></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>6.73346 </span><code>12-0-2-10-5</code></td><td style='text-align:center;' ><span>7.73836</span><code>9-14-4-20-2</code></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>6.44639 </span><code>9-0-2-50-2</code></td><td style='text-align:center;' ><span>7.58831 </span><code>12-7-2-50-5</code></td></tr><tr><td style='text-align:center;' ><span>ST-ResNet</span></td><td style='text-align:center;' ><span>6.08476</span></td><td style='text-align:center;' ><span>7.14638</span></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DCI)</span></td><td style='text-align:center;' ><span>5.87456</span></td><td style='text-align:center;' ><strong><span>7.03217</span></strong></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>8.20254</span></td><td style='text-align:center;' ><span>11.50550</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>7.39970</span></td><td style='text-align:center;' ><span>10.11386</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1 (G/DCI)</span></td><td style='text-align:center;' ><span>5.89154</span></td><td style='text-align:center;' ><span>7.06246</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2(G/DCI)</span></td><td style='text-align:center;' ><strong><span>5.75596</span></strong></td><td style='text-align:center;' ><span>7.09710</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3(G/DCI)</span></td><td style='text-align:center;' ><span>5.95507</span></td><td style='text-align:center;' ><span>7.04358</span></td></tr></tbody></table></figure><h2><a name="results-on-metro" class="md-header-anchor"></a><span>Results on Metro</span></h2><h3><a name="dataset-statistics-n257" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>Chongqing</span></strong></th><th style='text-align:center;' ><strong><span>Shanghai</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2016.08-2017.07</span></td><td style='text-align:center;' ><span>2016.07-2016.09</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>409,277,117</span></td><td style='text-align:center;' ><span>333,149,034</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>113</span></td><td style='text-align:center;' ><span>288</span></td></tr></tbody></table></figure><h3><a name="experiment-setting-n275" class="md-header-anchor"></a><span>Experiment Setting</span></h3><ul><li><p><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metro_trial.py '><span>ST_MGCN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metro_trial.py'><span>DCRNN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><span>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</span></p><p><span>All four models can be run by specifying data files and model files on </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py'><span>STMeta_Obj.py</span></a><span>.</span></p><p><span>Data Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_chongqing.data.yml'><span>metro_chongqing.data.yml</span></a><span> , </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_shanghai.data.yml'><span>metro_shanghai.data.yml</span></a></p><ul><li><p><span>LSTM (C) </span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml'><span>STMeta_v0.model.yml</span></a></p></li><li><p><span>STMeta-V1</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Line'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Line'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre></li></ul><p><span> </span><span>	</span><span> Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml'><span>STMeta_v1.model.yml</span></a></p><ul><li><p><span>STMeta-V2</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Line'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Line'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml'><span>STMeta_v2.model.yml</span></a></p></li><li><p><span>STMeta-V3</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Line'</span>)</span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '</span></span></pre><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">'-p graph:Distance-Correlation-Line'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 86px;"></div><div class="CodeMirror-gutters" style="display: none; height: 86px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml'><span>STMeta_v3.model.yml</span></a></p></li></ul></li></ul><h3><a name="experiment-results-n303" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>Chongqing</span></strong></th><th style='text-align:center;' ><strong><span>Shanghai</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>120.30723 </span><code>0-1-4</code></td><td style='text-align:center;' ><span>197.97092</span><code>0-1-4</code></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>578.18563 </span><code>168-3-0-0</code></td><td style='text-align:center;' ><span>792.1597 </span><code>168-3-0-0</code></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>117.05069 </span><code>9-14-2-200-5</code></td><td style='text-align:center;' ><span>185.00447</span><code>3-7-0-50-5</code></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>113.92276 1</span><code>2-10-4-200-5</code></td><td style='text-align:center;' ><span>186.74502 </span><code>12-10-0-100-2</code></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DCI)</span></td><td style='text-align:center;' ><span>118.86668</span></td><td style='text-align:center;' ><span>181.55171</span></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>122.31121</span></td><td style='text-align:center;' ><span>326.97357</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>196.175732</span></td><td style='text-align:center;' ><span>368.8468</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1 (G/DCI)</span></td><td style='text-align:center;' ><strong><span>92.74990</span></strong></td><td style='text-align:center;' ><strong><span>151.11746</span></strong></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2(G/DCI)</span></td><td style='text-align:center;' ><span>98.86152</span></td><td style='text-align:center;' ><span>158.21953</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3(G/DCI)</span></td><td style='text-align:center;' ><span>101.7806</span></td><td style='text-align:center;' ><span>156.58867</span></td></tr></tbody></table></figure><p><span>The period and trend features are more obvious in Metro dataset, so the performance is poor if only use closeness feature.</span></p><h2><a name="results-on-charge-station" class="md-header-anchor"></a><span>Results on Charge-Station</span></h2><h3><a name="dataset-statistics-n351" class="md-header-anchor"></a><span>Dataset Statistics</span></h3><figure><table><thead><tr><th style='text-align:center;' ><span>Attributes</span></th><th style='text-align:center;' ><strong><span>Beijing</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>Time span</span></td><td style='text-align:center;' ><span>2018.03-2018.08</span></td></tr><tr><td style='text-align:center;' ><span>Number of riding records</span></td><td style='text-align:center;' ><span>1,272,961</span></td></tr><tr><td style='text-align:center;' ><span>Number of stations</span></td><td style='text-align:center;' ><span>629</span></td></tr></tbody></table></figure><h3><a name="experiment-setting-n365" class="md-header-anchor"></a><span>Experiment Setting</span></h3><ul><li><p><a href=' https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/cs_trial.py '><span>ST_MGCN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><a href=' https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/cs_trial.py '><span>DCRNN</span></a><span> Run Code &amp; Setting.</span></p></li><li><p><span>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</span></p><p><span>All four models can be run by specifying data files and model files on </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py'><span>STMeta_Obj.py</span></a><span>.</span></p><p><span>Data Files: </span><a href=' https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/chargestation_beijing.data.yml'><span>chargestation_beijing.data.yml</span></a><span>.</span></p><ul><li><p><span>LSTM (C) </span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC'</span>)</span></pre></div></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 43px;"></div><div class="CodeMirror-gutters" style="display: none; height: 43px;"></div></div></div></pre><p><span>Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml'><span>STMeta_v0.model.yml</span></a></p></li><li><p><span>STMeta-V1</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v1.model.yml'</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -d chargestation_beijing.data.yml -p graph:Distance-Correlation'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 43px;"></div><div class="CodeMirror-gutters" style="display: none; height: 43px;"></div></div></div></pre><p><span>  Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml'><span>STMeta_v1.model.yml</span></a></p></li><li><p><span>STMeta-V2</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v2.model.yml'</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -d chargestation_beijing.data.yml -p graph:Distance-Correlation'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 43px;"></div><div class="CodeMirror-gutters" style="display: none; height: 43px;"></div></div></div></pre></li></ul><p><span>   Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml'><span>STMeta_v2.model.yml</span></a></p><ul><li><p><span>STMeta-V3</span></p><pre spellcheck="false" class="md-fences md-end-block ty-contain-cm modeLoaded" lang="python"><div class="CodeMirror cm-s-inner CodeMirror-wrap" lang="python"><div style="overflow: hidden; position: relative; width: 3px; height: 0px; top: 0px; left: 4px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" tabindex="0" style="position: absolute; bottom: -1em; padding: 0px; width: 1000px; height: 1em; outline: none;"></textarea></div><div class="CodeMirror-scrollbar-filler" cm-not-content="true"></div><div class="CodeMirror-gutter-filler" cm-not-content="true"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="margin-left: 0px; margin-bottom: 0px; border-right-width: 0px; padding-right: 0px; padding-bottom: 0px;"><div style="position: relative; top: 0px;"><div class="CodeMirror-lines" role="presentation"><div role="presentation" style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre><span>xxxxxxxxxx</span></pre></div><div class="CodeMirror-measure"></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code" role="presentation"><div class="CodeMirror-activeline" style="position: relative;"><div class="CodeMirror-activeline-background CodeMirror-linebackground"></div><div class="CodeMirror-gutter-background CodeMirror-activeline-gutter" style="left: 0px; width: 0px;"></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"><span class="cm-variable">os</span>.<span class="cm-property">system</span>(<span class="cm-string">'python STMeta_Obj.py -m STMeta_v3.model.yml'</span></span></pre></div><pre class=" CodeMirror-line " role="presentation"><span role="presentation" style="padding-right: 0.1px;"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<span class="cm-string">' -d chargestation_beijing.data.yml -p graph:Distance-Correlation'</span>)</span></pre></div></div></div></div></div><div style="position: absolute; height: 0px; width: 1px; border-bottom: 0px solid transparent; top: 43px;"></div><div class="CodeMirror-gutters" style="display: none; height: 43px;"></div></div></div></pre></li></ul><p><span>   Model Files: </span><a href='https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml'><span>STMeta_v3.model.yml</span></a></p></li></ul><h3><a name="experiment-results-n393" class="md-header-anchor"></a><span>Experiment Results</span></h3><figure><table><thead><tr><th style='text-align:center;' >&nbsp;</th><th style='text-align:center;' ><strong><span>Beijing</span></strong></th></tr></thead><tbody><tr><td style='text-align:center;' ><span>HM</span></td><td style='text-align:center;' ><span>1.01610 </span><code>2-0-2</code></td></tr><tr><td style='text-align:center;' ><span>ARIMA(C)</span></td><td style='text-align:center;' ><span>0.98236 </span><code>168-3-0-0</code></td></tr><tr><td style='text-align:center;' ><span>XGBoost</span></td><td style='text-align:center;' ><span>0.83381 </span><code>12-7-0-20-2</code></td></tr><tr><td style='text-align:center;' ><span>GBRT</span></td><td style='text-align:center;' ><span>0.82814 </span><code>12-10-0-100-2</code></td></tr><tr><td style='text-align:center;' ><span>ST_MGCN (G/DC)</span></td><td style='text-align:center;' ><span>0.82714</span></td></tr><tr><td style='text-align:center;' ><span>DCRNN(G/D C)</span></td><td style='text-align:center;' ><span>0.98871</span></td></tr><tr><td style='text-align:center;' ><span>LSTM (C)</span></td><td style='text-align:center;' ><span>1.58560</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V1 (G/DC)</span></td><td style='text-align:center;' ><strong><span>0.815518</span></strong></td></tr><tr><td style='text-align:center;' ><span>STMeta-V2(G/DC)</span></td><td style='text-align:center;' ><span>0.82144</span></td></tr><tr><td style='text-align:center;' ><span>STMeta-V3(G/DC)</span></td><td style='text-align:center;' ><span>0.81541</span></td></tr></tbody></table></figure><p>&nbsp;</p></div>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> UCTB
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">4. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all_results.html">6. Results on different datasets</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">UCTB</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>Experiment Setting on different datasets</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/md_file/all_results_setting.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="experiment-setting-on-different-datasets">
+<h1>Experiment Setting on different datasets<a class="headerlink" href="#experiment-setting-on-different-datasets" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="stmeta-version">
+<h2>STMeta Version<a class="headerlink" href="#stmeta-version" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Version Name</th>
+<th align="center">Temporal Feature Process</th>
+<th align="center">Temporal Merge Method</th>
+<th align="center">Multi-Graph Merge Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center">GCLSTM</td>
+<td align="center">GAL</td>
+<td align="center">GAL</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center">GCLSTM</td>
+<td align="center">Concat&amp;Dense</td>
+<td align="center">GAL</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center">DCRNN</td>
+<td align="center">GAL</td>
+<td align="center">GAL</td>
+</tr>
+</tbody>
+</table><p>By default, we use <code class="docutils literal notranslate"><span class="pre">STMeta-V1</span></code> to run LSTM and single graph model tests.</p>
+</div>
+<div class="section" id="search-space">
+<h2>Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Model</th>
+<th align="center">Search Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>CT: 0~6</code>, <code>PT: 0~7</code>, <code>TT: 0~4</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center"><code>CT:168</code>,<code>p:3</code>, <code>d:0</code>, <code>q:0</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="results-on-bike">
+<h2>Results on Bike<a class="headerlink" href="#results-on-bike" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dataset-statistics">
+<h3>Dataset Statistics<a class="headerlink" href="#dataset-statistics" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Attributes</th>
+<th align="center"><strong>New York City</strong></th>
+<th align="center"><strong>Chicago</strong></th>
+<th align="center"><strong>DC</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Time span</td>
+<td align="center">2013.03-2017.09</td>
+<td align="center">2013.07-2017.09</td>
+<td align="center">2013.07-2017.09</td>
+</tr>
+<tr>
+<td align="center">Number of riding records</td>
+<td align="center">49,100,694</td>
+<td align="center">13,130,969</td>
+<td align="center">13,763,675</td>
+</tr>
+<tr>
+<td align="center">Number of stations</td>
+<td align="center">820</td>
+<td align="center">585</td>
+<td align="center">532</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="experiment-setting">
+<h3>Experiment Setting<a class="headerlink" href="#experiment-setting" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/bike_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/bike_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
+<li><p>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<p>All four models can be run by specifying data files and model files on  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
+<p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_nyc.data.yml">bike_nyc.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_chicago.data.yml">bike_chicago.data.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_dc.data.yml">bike_dc.data.yml</a>.</p>
+<ul>
+<li><p>LSTM (C)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V1</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V2</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V3</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="experiment-results">
+<h3>Experiment Results<a class="headerlink" href="#experiment-results" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><strong>NYC</strong></th>
+<th align="center"><strong>Chicago</strong></th>
+<th align="center"><strong>DC</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">3.99224 <code>1-1-3</code></td>
+<td align="center">2.97693 <code>1-1-2</code></td>
+<td align="center">2.63165 <code>2-1-3</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">5.60928 <code>168-3-0-0</code></td>
+<td align="center">3.83584 <code>168-3-0-0</code></td>
+<td align="center">3.60450 <code>168-3-0-0</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">4.12407 <code>12-10-0-20-5</code></td>
+<td align="center">2.92569 <code>9-7-0-20-5</code></td>
+<td align="center">2.65671 <code>12-14-2-20-5</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">3.99907 <code>12-7-4-100-5</code></td>
+<td align="center">2.84257 <code>12-14-2-100-5</code></td>
+<td align="center">2.61768 <code>12-14-2-100-5</code></td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center">3.72380</td>
+<td align="center">2.88300</td>
+<td align="center">2.48560</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">4.18666</td>
+<td align="center">3.27759</td>
+<td align="center">3.08616</td>
+</tr>
+<tr>
+<td align="center">LSTM (C)</td>
+<td align="center">4.55677</td>
+<td align="center">3.37004</td>
+<td align="center">2.91518</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center">3.50475</td>
+<td align="center"><strong>2.65511</strong></td>
+<td align="center">2.42582</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center"><strong>3.43870</strong></td>
+<td align="center">2.66379</td>
+<td align="center">2.41111</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center">3.47834</td>
+<td align="center">2.66180</td>
+<td align="center"><strong>2.38844</strong></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="results-on-didi">
+<h2>Results on DiDi<a class="headerlink" href="#results-on-didi" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id1">
+<h3>Dataset Statistics<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Attributes</th>
+<th align="center"><strong>Xi'an</strong></th>
+<th align="center"><strong>Chengdu</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Time span</td>
+<td align="center">2016.10-2016.11</td>
+<td align="center">2016.10-2016.11</td>
+</tr>
+<tr>
+<td align="center">Number of riding records</td>
+<td align="center">5,922,961</td>
+<td align="center">8,439,537</td>
+</tr>
+<tr>
+<td align="center">Number of stations</td>
+<td align="center">256</td>
+<td align="center">256</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="id2">
+<h3>Experiment Setting<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>ST-ResNet</p></li>
+</ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">ST-ResNet Search Space</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><code>residual_units:2~6</code>,  <code>conv_filter:[32, 64, 128]</code>,  <code>kernal_size:3~5</code>, <br /><code>lr:[0.0001, 0.00002, 0.00004, 0.00008, 0.00001]</code>, <code>batch_size:[32, 64, 128, 256]</code></td>
+</tr>
+</tbody>
+</table><p>The best parameters found are following.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">&#39;dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;DiDi&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="s1">&#39;Chengdu&#39;</span><span class="p">,</span>
+  <span class="s1">&#39;num_residual_unit&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s1">&#39;conv_filters&#39;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+  <span class="s1">&#39;kernel_size&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s1">&#39;lr&#39;</span><span class="p">:</span> <span class="mf">1e-5</span><span class="p">,</span>
+  <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">32</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>We can modify <code class="docutils literal notranslate"><span class="pre">city</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">Chengdu</span></code> or <code class="docutils literal notranslate"><span class="pre">Xian</span></code> in <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_ResNet/ST_ResNet.py">ST_ResNet.py</a> , and then run it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span> python ST_ResNet.py 
+</pre></div>
+</div>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/didi_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/didi_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
+<li><p>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<p>All four models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
+<p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_xian.data.yml">didi_xian.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_chengdu.data.yml">didi_chengdu.data.yml</a>.</p>
+<ul>
+<li><p>LSTM (C)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V1</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V2</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml &#39;</span>
+            <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml &#39;</span>
+            <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>   
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V3</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Interaction&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h3>Experiment Results<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><strong>Xi’an</strong></th>
+<th align="center"><strong>Chengdu</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">6.18623 <code>1-1-2</code></td>
+<td align="center">7.35477 <code>0-1-4</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">9.47478 <code>168-3-0-0</code></td>
+<td align="center">12.52656 <code>168-3-0-0</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">6.73346 <code>12-0-2-10-5</code></td>
+<td align="center">7.73836<code>9-14-4-20-2</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">6.44639 <code>9-0-2-50-2</code></td>
+<td align="center">7.58831 <code>12-7-2-50-5</code></td>
+</tr>
+<tr>
+<td align="center">ST-ResNet</td>
+<td align="center">6.08476</td>
+<td align="center">7.14638</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center">5.87456</td>
+<td align="center"><strong>7.03217</strong></td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">8.20254</td>
+<td align="center">11.50550</td>
+</tr>
+<tr>
+<td align="center">LSTM (C)</td>
+<td align="center">7.39970</td>
+<td align="center">10.11386</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center">5.89154</td>
+<td align="center">7.06246</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2(G/DCI)</td>
+<td align="center"><strong>5.75596</strong></td>
+<td align="center">7.09710</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3(G/DCI)</td>
+<td align="center">5.95507</td>
+<td align="center">7.04358</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+<div class="section" id="results-on-metro">
+<h2>Results on Metro<a class="headerlink" href="#results-on-metro" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id4">
+<h3>Dataset Statistics<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Attributes</th>
+<th align="center"><strong>Chongqing</strong></th>
+<th align="center"><strong>Shanghai</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Time span</td>
+<td align="center">2016.08-2017.07</td>
+<td align="center">2016.07-2016.09</td>
+</tr>
+<tr>
+<td align="center">Number of riding records</td>
+<td align="center">409,277,117</td>
+<td align="center">333,149,034</td>
+</tr>
+<tr>
+<td align="center">Number of stations</td>
+<td align="center">113</td>
+<td align="center">288</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="id5">
+<h3>Experiment Setting<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metro_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metro_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
+<li><p>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<p>All four models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
+<p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_chongqing.data.yml">metro_chongqing.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_shanghai.data.yml">metro_shanghai.data.yml</a>.</p>
+<ul>
+<li><p>LSTM (C)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml&#39;</span>
+            <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml&#39;</span>
+            <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V1</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml &#39;</span>
+            <span class="s1">&#39;-p graph:Distance-Correlation-Line&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml &#39;</span>
+              <span class="s1">&#39;-p graph:Distance-Correlation-Line&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V2</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Line&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml &#39;</span>
+        <span class="s1">&#39;-p graph:Distance-Correlation-Line&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>.</p>
+<ul>
+<li><p>STMeta-V3</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Line&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml &#39;</span>
+            <span class="s1">&#39;-p graph:Distance-Correlation-Line&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h3>Experiment Results<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><strong>Chongqing</strong></th>
+<th align="center"><strong>Shanghai</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">120.30723 <code>0-1-4</code></td>
+<td align="center">197.97092 <code>0-1-4</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">578.18563 <code>168-3-0-0</code></td>
+<td align="center">792.1597 <code>168-3-0-0</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">117.05069 <code>9-14-2-200-5</code></td>
+<td align="center">185.00447<code>3-7-0-50-5</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">113.92276 1<code>2-10-4-200-5</code></td>
+<td align="center">186.74502 <code>12-10-0-100-2</code></td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DCI)</td>
+<td align="center">118.86668</td>
+<td align="center">181.55171</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">122.31121</td>
+<td align="center">326.97357</td>
+</tr>
+<tr>
+<td align="center">LSTM (C)</td>
+<td align="center">196.175732</td>
+<td align="center">368.8468</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DCI)</td>
+<td align="center"><strong>92.74990</strong></td>
+<td align="center"><strong>151.11746</strong></td>
+</tr>
+<tr>
+<td align="center">STMeta-V2(G/DCI)</td>
+<td align="center">98.86152</td>
+<td align="center">158.21953</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3(G/DCI)</td>
+<td align="center">101.7806</td>
+<td align="center">156.58867</td>
+</tr>
+</tbody>
+</table><p>The period and trend features are more obvious in Metro dataset, so the performance is poor if only use closeness feature.</p>
+</div>
+</div>
+<div class="section" id="results-on-charge-station">
+<h2>Results on Charge-Station<a class="headerlink" href="#results-on-charge-station" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>Dataset Statistics<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Attributes</th>
+<th align="center"><strong>Beijing</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Time span</td>
+<td align="center">2018.03-2018.08</td>
+</tr>
+<tr>
+<td align="center">Number of riding records</td>
+<td align="center">1,272,961</td>
+</tr>
+<tr>
+<td align="center">Number of stations</td>
+<td align="center">629</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="id8">
+<h3>Experiment Setting<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/cs_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/cs_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
+<li><p>LSTM (C) &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<p>All four models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
+<p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/chargestation_beijing.data.yml">chargestation_beijing.data.yml</a>.</p>
+<ul>
+<li><p>LSTM (C)</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V1</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V2</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+            <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>.</p>
+</li>
+<li><p>STMeta-V3</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+            <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id9">
+<h3>Experiment Results<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center"><strong>Beijing</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">1.01610 <code>2-0-2</code></td>
+</tr>
+<tr>
+<td align="center">ARIMA(C)</td>
+<td align="center">0.98236 <code>168-3-0-0</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">0.83381 <code>12-7-0-20-2</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">0.82814 <code>12-10-0-100-2</code></td>
+</tr>
+<tr>
+<td align="center">ST_MGCN (G/DC)</td>
+<td align="center">0.82714</td>
+</tr>
+<tr>
+<td align="center">DCRNN(G/D C)</td>
+<td align="center">0.98871</td>
+</tr>
+<tr>
+<td align="center">LSTM (C)</td>
+<td align="center">1.58560</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1 (G/DC)</td>
+<td align="center"><strong>0.815518</strong></td>
+</tr>
+<tr>
+<td align="center">STMeta-V2(G/DC)</td>
+<td align="center">0.82144</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3(G/DC)</td>
+<td align="center"><strong>0.81541</strong></td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, UCTB group.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
 </body>
 </html>

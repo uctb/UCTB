@@ -1,4 +1,4 @@
-# Results on different datasets
+#   Results on different datasets
 
 ## STMeta Version
 
@@ -35,17 +35,9 @@ Our running code and detailed parameter settings can be found in [Experiment Set
 | Number of riding records |    49,100,694     |   13,130,969    |   13,763,675    |
 |    Number of stations    |        820        |       585       |       532       |
 
-A map-visualization of 820 bike stations in NYC.
+Following shows A map-visualization of bike stations in NYC, Chicago and DC.
 
-<img src="./src/image/Bike_NYC.jpg" style="zoom:70%;height:800px;width:800px;" />
-
- A map-visualization of 585 bike stations in Chicago.
-
-<img src="./src/image/Bike_Chicago.png" style="zoom:70%;height:800px;width:800px;" />
-
- A map-visualization of 532 bike stations in DC.
-
-<img src="./src/image/Bike_DC.png" style="zoom:70%;height:800px;width:800px;" />
+<img src="./src/image/Bike_NYC.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="./src/image/Bike_Chicago.jpg" style="zoom:30%;height:800px;width:800px;"/> <img src="./src/image/Bike_DC.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
@@ -74,13 +66,9 @@ A map-visualization of 820 bike stations in NYC.
 | Number of riding records |    5,922,961    |    8,439,537    |
 |    Number of stations    |       256       |       256       |
 
-A map-visualization of grid-based ride-sharing stations in Xi'an.
+Following shows A map-visualization of grid-based ride-sharing stations in Xi'an and Chengdu.
 
-<img src="./src/image/DiDi_Xian.png" style="zoom:70%;height:800px;width:800px;" />
-
-A map-visualization of grid-based ride-sharing stations in Chengdu.
-
-<img src="./src/image/DiDi_Chengdu.jpg" style="zoom:70%;height:800px;width:800px;" />
+<img src="./src/image/DiDi_Xian.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="./src/image/DiDi_Chengdu.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
@@ -108,13 +96,9 @@ A map-visualization of grid-based ride-sharing stations in Chengdu.
 | Number of riding records |   409,277,117   |   333,149,034   |
 |    Number of stations    |       113       |       288       |
 
-A map-visualization of 113 metro stations in Chongqing.
+Following shows A map-visualization of  metro stations in Chongqing and Shanghai.
 
-<img src="./src/image/Metro_Chongqing.png" style="zoom:70%;height:800px;width:800px;" />
-
-A map-visualization of 288 metro stations in Shanghai.
-
-<img src="./src/image/Metro_Shanghai.jpg" style="zoom:70%;height:800px;width:800px;" />
+<img src="./src/image/Metro_Chongqing.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="./src/image/Metro_Shanghai.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
@@ -145,7 +129,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
 
 Following shows a map-visualization of  629 EV charging stations in Beijing.
 
-<img src="./src/image/EV_Beijing.jpg" style="zoom:70%;height:800px;width:800px;" />
+<img src="./src/image/EV_Beijing.jpg" style="zoom:40%;height:800px;width:800px;" />
 
 ### Experiment Results
 

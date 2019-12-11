@@ -6,13 +6,11 @@
 
 ```From Feb 2019, till now.```
 
-Leye Wang is an assistant professor at Key Lab of High Confidence
-Software Technologies, Peking University, China. His research interests
-include ubiquitous computing, mobile crowdsensing, and urban computing.
-Wang received a Ph.D. in computer science from the Institut
-Telecom SudParis and University Paris 6, France, in 2016, and was a
-postdoc researcher with Hong Kong University of Science and Technology.
-Contact him at leyewang@pku.edu.cn.
+Assistant professor @ Key Lab of High Confidence Software Technologies, Department of Computer Science & Technology, Peking University.
+
+Email: leyewang@pku.edu.cn
+
+[Leye Wang's HomePage](https://cs.pku.edu.cn/info/1174/2334.htm)
 
 #### Key Contributors
 
@@ -20,11 +18,10 @@ Contact him at leyewang@pku.edu.cn.
 
 ```From Feb 2019, till now.```
 
-Di Chai is a Ph.D student in computer science and engineering at Hong
-Kong University of Science and Technology. He got his master degree of
-science from Hong Kong Unviersity of Science and Technology, in 2018.
-His research interests include privacy-preserving machine learning and 
-urban computing. Contact him at dchai@cse.ust.hk
+Ph.D student in computer science and engineering at Hong
+Kong University of Science and Technology.
+
+Email: dchai@cse.ust.hk
 
 ______
 
@@ -32,11 +29,17 @@ ______
 
 ```From Jul 2019 to Aug 2019.```
 
+Undergraduate student in Peking University majoring in Data Science and Big Data Technology.
+
+Email: jinxu@pku.edu.cn
+
 ______
 
 **Wenjie Yang**
 
 ```From Nov 2019, till now.```
+
+Email: 
 
 ______
 
@@ -44,7 +47,8 @@ ______
 
 ```From Nov 2019, till now.```
 
-Chenliyue is a Ph.D student from Peking University. His research interests
- are urban computing and privacy protection.
+Ph.D student from Peking University.
+
+Email: 
 
 ______

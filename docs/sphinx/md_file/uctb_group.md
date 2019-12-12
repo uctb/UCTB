@@ -39,7 +39,9 @@ ______
 
 ```From Nov 2019, till now.```
 
-Email: 
+Undergraduate student in Beijing Forestry University, majoring in Computer Science.
+
+Email: wjyccs(at)gmail(dot)com. 
 
 ______
 

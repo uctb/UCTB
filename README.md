@@ -2,4 +2,4 @@
 
 ## Project HomePage
 
-[HomePage](https://di-chai.github.io/UCTB/index.html)
+[HomePage](./docs/index.html)

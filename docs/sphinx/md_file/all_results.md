@@ -37,7 +37,7 @@ Our running code and detailed parameter settings can be found in [Experiment Set
 
 Following shows A map-visualization of bike stations in NYC, Chicago and DC.
 
-<img src="./src/image/Bike_NYC.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="./src/image/Bike_Chicago.jpg" style="zoom:30%;height:800px;width:800px;"/> <img src="./src/image/Bike_DC.jpg" style="zoom:30%;height:800px;width:800px;" />
+<img src="http://47.94.208.154/image/Bike_NYC.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="http://47.94.208.154/image/Bike_Chicago.jpg" style="zoom:30%;height:800px;width:800px;"/> <img src="http://47.94.208.154/image/Bike_DC.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
@@ -68,7 +68,7 @@ Following shows A map-visualization of bike stations in NYC, Chicago and DC.
 
 Following shows A map-visualization of grid-based ride-sharing stations in Xi'an and Chengdu.
 
-<img src="./src/image/DiDi_Xian.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="./src/image/DiDi_Chengdu.jpg" style="zoom:30%;height:800px;width:800px;" />
+<img src="http://47.94.208.154/image/DiDi_Xian.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="http://47.94.208.154/image/DiDi_Chengdu.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
@@ -98,7 +98,7 @@ Following shows A map-visualization of grid-based ride-sharing stations in Xi'an
 
 Following shows A map-visualization of  metro stations in Chongqing and Shanghai.
 
-<img src="./src/image/Metro_Chongqing.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="./src/image/Metro_Shanghai.jpg" style="zoom:30%;height:800px;width:800px;" />
+<img src="http://47.94.208.154/image/Metro_Chongqing.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="http://47.94.208.154/image/Metro_Shanghai.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
@@ -129,7 +129,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
 
 Following shows a map-visualization of  629 EV charging stations in Beijing.
 
-<img src="./src/image/EV_Beijing.jpg" style="zoom:40%;height:800px;width:800px;" />
+<img src="http://47.94.208.154/image/EV_Beijing.jpg" style="zoom:40%;height:800px;width:800px;" />
 
 ### Experiment Results
 

@@ -16,6 +16,8 @@ DCRNN is a deep learning framework for traffic forecasting that incorporates bot
 - Reference Paper:
 
   + [Li, Y., Yu, R., Shahabi, C., & Liu, Y. (2017). Diffusion convolutional recurrent neural network: Data-driven traffic forecasting](https://arxiv.org/abs/1707.01926)
+- Reference Implementation: 
+  + [A TensorFlow implementation of Diffusion Convolutional Recurrent Neural Network (liyaguang)](https://github.com/liyaguang/DCRNN)
 
 ###  DeepST (Deep learning-based prediction model for Spatial-Temporal data)
 
@@ -32,6 +34,8 @@ GeoMAN consists of two major parts: 1) A multi-level attention mechanism (includ
 - Reference Paper:
 
   + [Liang, Y., Ke, S., Zhang, J., Yi, X., & Zheng, Y. (2018, July). GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction](https://www.ijcai.org/proceedings/2018/0476.pdf)
+- Reference Implementation:
+  + [An easy implement of GeoMAN using TensorFlow (yoshall & CastleLiang)](https://github.com/yoshall/GeoMAN)
 
 ###  HM (Historical Mean)
 
@@ -53,6 +57,8 @@ ST-MGCN is a deep learning based model which encoded the non-Euclidean correlati
 - Reference Paper:
 
   + [Geng, X., Li, Y., Wang, L., Zhang, L., Yang, Q., Ye, J., & Liu, Y. (2019). Spatiotemporal multi-graph convolution network for ride-hailing demand forecasting](https://ieeexplore.ieee.org/abstract/document/7785328)
+- Reference Implementation:
+  + [A PyTorch implementation of the ST-MGCN model  (shawnwang-tech)](https://github.com/shawnwang-tech/ST-MGCN-pytorch)
 
 
 ### ST-ResNet
@@ -61,6 +67,8 @@ ST-ResNet is a deep-learning model with an end-to-end structure based on unique 
 
 - Reference Paper:
   - [Zhang, J., Zheng, Y., & Qi, D. (2017, February). Deep spatio-temporal residual networks for citywide crowd flows prediction](https://arxiv.org/pdf/1610.00081.pdf)
+- Reference Implementation:
+  - [Github repository (lucktroy)](https://github.com/lucktroy/DeepST/tree/master/scripts/papers/AAAI17)
 
 ### STMeta
 

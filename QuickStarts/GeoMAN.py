@@ -90,7 +90,7 @@ model.build()
 results = []
 for node in range(data_loader.station_number):
     each_time = time.time()
-    model._code_version = node  # to train different model for different node
+    model._code_version = str(node)  # to train different model for different node
     model.fit(local_features=data_loader.train_local_features[node],
               global_features=data_loader.train_global_features,
               local_attn_states=data_loader.train_local_attn_states[node],
@@ -108,9 +108,9 @@ for node in range(data_loader.station_number):
                          sequence_length=data_loader.test_seq_len)
     results.append(metric.rmse(pred['prediction'], data_loader.test_y[node], threshold=0))
     seconds = int(time.time() - each_time)
-    print(f'[Node {node}] - {seconds}s - RMSE: {results[-1]}')
+    print('[Node {}] - {}s - RMSE: {}'.format(node, seconds, results[-1]))
 
     # randomize weights again for next node
     model._session.run(model._variable_init)
 
-print(f'Overall average RMSE: {np.mean(results)}')
+print('Overall average RMSE: {}'.format(np.mean(results)))

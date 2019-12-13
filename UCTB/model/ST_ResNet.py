@@ -10,7 +10,7 @@ class ST_ResNet(BaseModel):
     References:
         - `Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)
           <https://arxiv.org/pdf/1610.00081.pdf>`_.
-        - `Github code (lucktroy)
+        - `Github repository (lucktroy)
           <https://github.com/lucktroy/DeepST/tree/master/scripts/papers/AAAI17>`_.
     Args:
         width (int): The width of grid data.

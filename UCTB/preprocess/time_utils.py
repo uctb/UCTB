@@ -6,6 +6,14 @@ america_public_holiday = ['01-01', '01-02', '01-16', '02-12', '02-13', '02-20', 
 
 
 def is_work_day_america(date):
+    """
+    Args:
+        date(string or datetime): e.g. 2019-01-01
+
+    Return:
+        True if date is not holiday in America,
+        otherwise return False.
+    """
     if type(date) is str:
         date = parse(date)
     if date.strftime('%m-%d') in america_public_holiday:
@@ -18,13 +26,28 @@ def is_work_day_america(date):
 
 
 def is_work_day_china(date):
+    """
+    Args:
+        date(string or datetime): e.g. 2019-01-01
+
+    Return:
+        True if date is not holiday in China,
+        otherwise return False.
+    """
     if type(date) is str:
         date = parse(date)
     return is_workday(date)
 
 
 def is_valid_date(date_str):
+    """
+    Args:
+        date_str(string): e.g. 2019-01-01
 
+    Return:
+        True if date_str is valid date,
+        otherwise return False.
+    """
     try:
         date = parse(date_str)
     except:

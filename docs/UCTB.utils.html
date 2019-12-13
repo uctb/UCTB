@@ -82,27 +82,12 @@
           
             
             
-                <ul class="current">
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="md_file/introduction.html">1. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/quickstart.html">3. Quick start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="APIReference.html">5. API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="UCTB.dataset.html">5.1. UCTB.dataset package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.preprocess.html">5.2. UCTB.preprocess package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.model_unit.html">5.3. UCTB.model_unit package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.model.html">5.4. UCTB.model package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.evaluation.html">5.5. UCTB.evaluation package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.train.html">5.6. UCTB.train package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">5.7. UCTB.utils package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">5.7.1. Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-UCTB.utils.multi_threads">5.7.2. UCTB.utils.multi_threads module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-UCTB.utils.st_map">5.7.3. UCTB.utils.st_map module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-UCTB.utils">5.7.4. Module contents</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
 </ul>
 
@@ -174,21 +159,27 @@
 <dl class="function">
 <dt id="UCTB.utils.multi_threads.multiple_process">
 <code class="sig-prename descclassname">UCTB.utils.multi_threads.</code><code class="sig-name descname">multiple_process</code><span class="sig-paren">(</span><em class="sig-param">distribute_list</em>, <em class="sig-param">partition_func</em>, <em class="sig-param">task_func</em>, <em class="sig-param">n_jobs</em>, <em class="sig-param">reduce_func</em>, <em class="sig-param">parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.utils.multi_threads.multiple_process" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="UCTB.utils.multi_threads.task">
-<code class="sig-prename descclassname">UCTB.utils.multi_threads.</code><code class="sig-name descname">task</code><span class="sig-paren">(</span><em class="sig-param">share_queue</em>, <em class="sig-param">locker</em>, <em class="sig-param">data</em>, <em class="sig-param">parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.utils.multi_threads.task" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>distribute_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – The “data” list to be partitioned, such as a list of files which will be
+distributed among different tasks and each task process a part of the files.</p></li>
+<li><p><strong>partition_func</strong> (<em>function</em>) – Partition function will be used to cut the distribute_list, it should accept
+three inputs: distribute_list, i, n_job, where i is the index of jobs (i.e. integer from 0 to n_jobs-1),
+n_jos is the number of threads; partition function should return a data_list for the job_i</p></li>
+<li><p><strong>task_func</strong> (<em>function</em>) – Task function, where the inputs are share_queue, locker, data, parameters, no return.
+pls refer to the DiDi-Data processing codes for more information.</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of threads</p></li>
+<li><p><strong>reduce_func</strong> (<em>function</em>) – Reduce function which combine the outputs from all the threads into one final output.</p></li>
+<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – parameters send to the task function</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
-<div class="section" id="module-UCTB.utils.st_map">
-<span id="uctb-utils-st-map-module"></span><h2>5.7.3. UCTB.utils.st_map module<a class="headerlink" href="#module-UCTB.utils.st_map" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.utils.st_map.st_map">
-<code class="sig-prename descclassname">UCTB.utils.st_map.</code><code class="sig-name descname">st_map</code><span class="sig-paren">(</span><em class="sig-param">lat</em>, <em class="sig-param">lng</em>, <em class="sig-param">build_order</em>, <em class="sig-param">meta_info</em>, <em class="sig-param">file_name</em>, <em class="sig-param">zoom=11</em>, <em class="sig-param">style='light'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.utils.st_map.st_map" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
+<div class="section" id="uctb-utils-st-map-module">
+<h2>5.7.3. UCTB.utils.st_map module<a class="headerlink" href="#uctb-utils-st-map-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-UCTB.utils">
 <span id="module-contents"></span><h2>5.7.4. Module contents<a class="headerlink" href="#module-UCTB.utils" title="Permalink to this headline">¶</a></h2>

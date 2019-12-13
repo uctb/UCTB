@@ -82,27 +82,12 @@
           
             
             
-                <ul class="current">
+                <ul>
 <li class="toctree-l1"><a class="reference internal" href="md_file/introduction.html">1. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/quickstart.html">3. Quick start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="APIReference.html">5. API Reference</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="UCTB.dataset.html">5.1. UCTB.dataset package</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">5.2. UCTB.preprocess package</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#submodules">5.2.1. Submodules</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-UCTB.preprocess.preprocessor">5.2.2. UCTB.preprocess.preprocessor module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-UCTB.preprocess.time_utils">5.2.3. UCTB.preprocess.time_utils module</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#module-UCTB.preprocess">5.2.4. Module contents</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.model_unit.html">5.3. UCTB.model_unit package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.model.html">5.4. UCTB.model package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.evaluation.html">5.5. UCTB.evaluation package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.train.html">5.6. UCTB.train package</a></li>
-<li class="toctree-l2"><a class="reference internal" href="UCTB.utils.html">5.7. UCTB.utils package</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
 </ul>
 
@@ -296,17 +281,44 @@ then this method divides the <cite>value</cite> according to the ratio without c
 <dl class="function">
 <dt id="UCTB.preprocess.time_utils.is_valid_date">
 <code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_valid_date</code><span class="sig-paren">(</span><em class="sig-param">date_str</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_valid_date" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date_str</strong> (<em>string</em>) – e.g. 2019-01-01</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if date_str is valid date,
+otherwise return False.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="UCTB.preprocess.time_utils.is_work_day_america">
 <code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_work_day_america</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_america" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date</strong> (<em>string</em><em> or </em><em>datetime</em>) – e.g. 2019-01-01</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if date is not holiday in America,
+otherwise return False.</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="UCTB.preprocess.time_utils.is_work_day_china">
 <code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_work_day_china</code><span class="sig-paren">(</span><em class="sig-param">date</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_china" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>date</strong> (<em>string</em><em> or </em><em>datetime</em>) – e.g. 2019-01-01</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if date is not holiday in China,
+otherwise return False.</p>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="module-UCTB.preprocess">

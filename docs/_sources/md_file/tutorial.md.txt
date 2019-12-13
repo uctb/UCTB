@@ -54,7 +54,7 @@ plt.show()
 ```
 
 
-![png](src/image/toturial_p1_dataplot.png)
+![png](http://47.94.208.154/image/toturial_p1_dataplot.png)
 
 
 #### Build your own datasets

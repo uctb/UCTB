@@ -1,8 +1,6 @@
 UCTB.evaluation package
 =======================
 
-Submodules
-----------
 
 UCTB.evaluation.metric module
 -----------------------------

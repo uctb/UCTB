@@ -1,9 +1,6 @@
 UCTB.train package
 ==================
 
-Submodules
-----------
-
 UCTB.train.EarlyStopping module
 -------------------------------
 

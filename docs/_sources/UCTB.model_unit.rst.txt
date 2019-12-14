@@ -1,8 +1,6 @@
 UCTB.model\_unit package
 ========================
 
-Submodules
-----------
 
 UCTB.model\_unit.BaseModel module
 ---------------------------------

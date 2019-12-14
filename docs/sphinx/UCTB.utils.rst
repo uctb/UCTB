@@ -1,9 +1,6 @@
 UCTB.utils package
 ==================
 
-Submodules
-----------
-
 UCTB.utils.multi\_threads module
 --------------------------------
 

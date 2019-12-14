@@ -1,9 +1,6 @@
 UCTB.dataset package
 ====================
 
-Submodules
-----------
-
 UCTB.dataset.data\_loader module
 --------------------------------
 

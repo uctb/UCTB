@@ -1,8 +1,6 @@
 UCTB.preprocess package
 =======================
 
-Submodules
-----------
 
 UCTB.preprocess.preprocessor module
 -----------------------------------

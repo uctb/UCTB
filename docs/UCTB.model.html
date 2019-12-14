@@ -151,11 +151,8 @@
             
   <div class="section" id="uctb-model-package">
 <h1>5.4. UCTB.model package<a class="headerlink" href="#uctb-model-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>5.4.1. Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-</div>
 <div class="section" id="module-UCTB.model.ARIMA">
-<span id="uctb-model-arima-module"></span><h2>5.4.2. UCTB.model.ARIMA module<a class="headerlink" href="#module-UCTB.model.ARIMA" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-arima-module"></span><h2>5.4.1. UCTB.model.ARIMA module<a class="headerlink" href="#module-UCTB.model.ARIMA" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.ARIMA.ARIMA">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ARIMA.</code><code class="sig-name descname">ARIMA</code><span class="sig-paren">(</span><em class="sig-param">time_sequence</em>, <em class="sig-param">order=None</em>, <em class="sig-param">seasonal_order=(0</em>, <em class="sig-param">0</em>, <em class="sig-param">0</em>, <em class="sig-param">0)</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=4</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA" title="Permalink to this definition">¶</a></dt>
@@ -223,7 +220,7 @@ forecast_step: The number of predicted future steps. Default: 1</p>
 
 </div>
 <div class="section" id="module-UCTB.model.DCRNN">
-<span id="uctb-model-dcrnn-module"></span><h2>5.4.3. UCTB.model.DCRNN module<a class="headerlink" href="#module-UCTB.model.DCRNN" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-dcrnn-module"></span><h2>5.4.2. UCTB.model.DCRNN module<a class="headerlink" href="#module-UCTB.model.DCRNN" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.DCRNN.DCRNN">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DCRNN.</code><code class="sig-name descname">DCRNN</code><span class="sig-paren">(</span><em class="sig-param">num_nodes</em>, <em class="sig-param">num_diffusion_matrix</em>, <em class="sig-param">num_rnn_units=64</em>, <em class="sig-param">num_rnn_layers=1</em>, <em class="sig-param">max_diffusion_step=2</em>, <em class="sig-param">seq_len=6</em>, <em class="sig-param">use_curriculum_learning=False</em>, <em class="sig-param">input_dim=1</em>, <em class="sig-param">output_dim=1</em>, <em class="sig-param">cl_decay_steps=1000</em>, <em class="sig-param">target_len=1</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">epsilon=0.001</em>, <em class="sig-param">optimizer_name='Adam'</em>, <em class="sig-param">code_version='DCRNN-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DCRNN.DCRNN" title="Permalink to this definition">¶</a></dt>
@@ -269,7 +266,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </div>
 <div class="section" id="module-UCTB.model.DeepST">
-<span id="uctb-model-deepst-module"></span><h2>5.4.4. UCTB.model.DeepST module<a class="headerlink" href="#module-UCTB.model.DeepST" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-deepst-module"></span><h2>5.4.3. UCTB.model.DeepST module<a class="headerlink" href="#module-UCTB.model.DeepST" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.DeepST.DeepST">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DeepST.</code><code class="sig-name descname">DeepST</code><span class="sig-paren">(</span><em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">kernel_size=3</em>, <em class="sig-param">num_conv_filters=64</em>, <em class="sig-param">lr=1e-05</em>, <em class="sig-param">code_version='QuickStart-DeepST'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DeepST.DeepST" title="Permalink to this definition">¶</a></dt>
@@ -319,7 +316,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </div>
 <div class="section" id="module-UCTB.model.GeoMAN">
-<span id="uctb-model-geoman-module"></span><h2>5.4.5. UCTB.model.GeoMAN module<a class="headerlink" href="#module-UCTB.model.GeoMAN" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-geoman-module"></span><h2>5.4.4. UCTB.model.GeoMAN module<a class="headerlink" href="#module-UCTB.model.GeoMAN" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.GeoMAN.GeoMAN">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">GeoMAN</code><span class="sig-paren">(</span><em class="sig-param">total_sensers</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">output_dim</em>, <em class="sig-param">input_steps</em>, <em class="sig-param">output_steps</em>, <em class="sig-param">n_stacked_layers=2</em>, <em class="sig-param">n_encoder_hidden_units=128</em>, <em class="sig-param">n_decoder_hidden_units=128</em>, <em class="sig-param">dropout_rate=0.3</em>, <em class="sig-param">lr=0.001</em>, <em class="sig-param">gc_rate=2.5</em>, <em class="sig-param">code_version='GeoMAN-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.GeoMAN" title="Permalink to this definition">¶</a></dt>
@@ -383,7 +380,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </div>
 <div class="section" id="module-UCTB.model.HM">
-<span id="uctb-model-hm-module"></span><h2>5.4.6. UCTB.model.HM module<a class="headerlink" href="#module-UCTB.model.HM" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-hm-module"></span><h2>5.4.5. UCTB.model.HM module<a class="headerlink" href="#module-UCTB.model.HM" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.HM.HM">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HM.</code><code class="sig-name descname">HM</code><span class="sig-paren">(</span><em class="sig-param">c</em>, <em class="sig-param">p</em>, <em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM" title="Permalink to this definition">¶</a></dt>
@@ -409,27 +406,8 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 </dd></dl>
 
 </div>
-<div class="section" id="module-UCTB.model.HMM">
-<span id="uctb-model-hmm-module"></span><h2>5.4.7. UCTB.model.HMM module<a class="headerlink" href="#module-UCTB.model.HMM" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.HMM.HMM">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HMM.</code><code class="sig-name descname">HMM</code><span class="sig-paren">(</span><em class="sig-param">num_components</em>, <em class="sig-param">n_iter</em>, <em class="sig-param">hmm_kernal=&lt;class 'hmmlearn.hmm.GaussianHMM'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="UCTB.model.HMM.HMM.fit">
-<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.fit" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model.HMM.HMM.predict">
-<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">length</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HMM.HMM.predict" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
 <div class="section" id="module-UCTB.model.STMeta">
-<span id="uctb-model-stmeta-module"></span><h2>5.4.8. UCTB.model.STMeta module<a class="headerlink" href="#module-UCTB.model.STMeta" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-stmeta-module"></span><h2>5.4.6. UCTB.model.STMeta module<a class="headerlink" href="#module-UCTB.model.STMeta" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.STMeta.STMeta">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.STMeta.</code><code class="sig-name descname">STMeta</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_layers=1</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_dense_units=32</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='GCLSTM'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">output_activation=&lt;function sigmoid&gt;</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='STMeta-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta" title="Permalink to this definition">¶</a></dt>
@@ -491,7 +469,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </div>
 <div class="section" id="module-UCTB.model.ST_MGCN">
-<span id="uctb-model-st-mgcn-module"></span><h2>5.4.9. UCTB.model.ST_MGCN module<a class="headerlink" href="#module-UCTB.model.ST_MGCN" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-st-mgcn-module"></span><h2>5.4.7. UCTB.model.ST_MGCN module<a class="headerlink" href="#module-UCTB.model.ST_MGCN" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.ST_MGCN.ST_MGCN">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_MGCN.</code><code class="sig-name descname">ST_MGCN</code><span class="sig-paren">(</span><em class="sig-param">T</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">num_graph</em>, <em class="sig-param">gcl_k</em>, <em class="sig-param">gcl_l</em>, <em class="sig-param">lstm_units</em>, <em class="sig-param">lstm_layers</em>, <em class="sig-param">lr</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN" title="Permalink to this definition">¶</a></dt>
@@ -531,7 +509,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </div>
 <div class="section" id="module-UCTB.model.ST_ResNet">
-<span id="uctb-model-st-resnet-module"></span><h2>5.4.10. UCTB.model.ST_ResNet module<a class="headerlink" href="#module-UCTB.model.ST_ResNet" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-st-resnet-module"></span><h2>5.4.8. UCTB.model.ST_ResNet module<a class="headerlink" href="#module-UCTB.model.ST_ResNet" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.ST_ResNet.ST_ResNet">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_ResNet.</code><code class="sig-name descname">ST_ResNet</code><span class="sig-paren">(</span><em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_residual_unit=4</em>, <em class="sig-param">kernel_size=3</em>, <em class="sig-param">lr=5e-05</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">code_version='QuickStart'</em>, <em class="sig-param">conv_filters=64</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet" title="Permalink to this definition">¶</a></dt>
@@ -577,7 +555,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </div>
 <div class="section" id="module-UCTB.model.XGBoost">
-<span id="uctb-model-xgboost-module"></span><h2>5.4.11. UCTB.model.XGBoost module<a class="headerlink" href="#module-UCTB.model.XGBoost" title="Permalink to this headline">¶</a></h2>
+<span id="uctb-model-xgboost-module"></span><h2>5.4.9. UCTB.model.XGBoost module<a class="headerlink" href="#module-UCTB.model.XGBoost" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.XGBoost.XGBoost">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.XGBoost.</code><code class="sig-name descname">XGBoost</code><span class="sig-paren">(</span><em class="sig-param">n_estimators=10</em>, <em class="sig-param">max_depth=5</em>, <em class="sig-param">verbosity=0</em>, <em class="sig-param">objective='reg:squarederror'</em>, <em class="sig-param">eval_metric='rmse'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost" title="Permalink to this definition">¶</a></dt>

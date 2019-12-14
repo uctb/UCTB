@@ -1,9 +1,6 @@
 UCTB.model package
 ==================
 
-Submodules
-----------
-
 UCTB.model.ARIMA module
 -----------------------
 
@@ -40,14 +37,6 @@ UCTB.model.HM module
 --------------------
 
 .. automodule:: UCTB.model.HM
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-UCTB.model.HMM module
----------------------
-
-.. automodule:: UCTB.model.HMM
    :members:
    :undoc-members:
    :show-inheritance:

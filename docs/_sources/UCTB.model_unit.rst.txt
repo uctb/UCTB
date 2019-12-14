@@ -7,7 +7,6 @@ UCTB.model\_unit.BaseModel module
 
 .. automodule:: UCTB.model_unit.BaseModel
    :members:
-   :undoc-members:
    :show-inheritance:
 
 UCTB.model\_unit.DCRNN\_CELL module
@@ -31,7 +30,6 @@ UCTB.model\_unit.ST\_RNN module
 
 .. automodule:: UCTB.model_unit.ST_RNN
    :members:
-   :undoc-members:
    :show-inheritance:
 
 

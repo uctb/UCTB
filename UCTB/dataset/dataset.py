@@ -7,7 +7,7 @@ import tarfile
 class DataSet(object):
     """An object storing basic data from a formatted pickle file.
 
-    See also `Build your own datasets <https://di-chai.github.io/UCTB/static/tutorial.html>`_.
+    See also `Build your own datasets <./md_file/tutorial.html>`_.
 
     Args:
         dataset (str): A string containing path of the dataset pickle file or a string of name of the dataset.

@@ -1,0 +1,258 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>DiDi Data &mdash; UCTB  documentation</title>
+  
+
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="UCTB  documentation" href="../../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> UCTB
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">3. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">4. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../APIReference.html">5. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all_results.html">6. Results on different datasets</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">UCTB</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+      <li>DiDi Data</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/md_file/static/MakeDatasetDiDi.md.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="didi-data">
+<h1>DiDi Data<a class="headerlink" href="#didi-data" title="Permalink to this headline">¶</a></h1>
+<p>We are especially grateful for the data provided by the DiDi Chuxing GAIA Initiative.</p>
+<p><strong>Step 1</strong>, download data from DiDi, and put the data into the DiDiData dir.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>xian: (download both)
+    https://outreach.didichuxing.com/app-vue/XiAnOct2016?id=6
+    https://outreach.didichuxing.com/app-vue/XiAnNov2016?id=5
+chengdu: (download both)
+    https://outreach.didichuxing.com/app-vue/ChengDuOct2016?id=4
+    https://outreach.didichuxing.com/app-vue/personal?id=1
+</pre></div>
+</div>
+<p>After step1, you will have the following file-tree:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>├── DiDiData
+│   ├── chengdu
+│   │   ├── chengdu_gps_20161001.json
+│   │   ├── chengdu_gps_20161002.json
+│   │   ├── ...
+│   │   └── chengdu_gps_20161130.json
+│   └── xian
+│       ├── xian_gps_20161001.json
+│       ├── xian_gps_20161002.json
+│       ├── ...
+│       └── xian_gps_20161130.json
+├── release_data_dir
+├── create_release_data_didi.py
+├── data_config.py
+├── get_grid_data_didi.py
+├── get_monthly_interaction_didi.py
+├── local_path.py
+└── multi_threads.py
+</pre></div>
+</div>
+<p><strong>Step 2</strong>, run the following codes</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># build the grid data</span>
+<span class="n">python</span> <span class="n">get_grid_data_didi</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">data</span> <span class="n">DiDi</span> <span class="o">--</span><span class="n">city</span> <span class="n">Xian</span> <span class="o">--</span><span class="n">jobs</span> <span class="mi">1</span>
+<span class="n">python</span> <span class="n">get_grid_data_didi</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">data</span> <span class="n">DiDi</span> <span class="o">--</span><span class="n">city</span> <span class="n">Chengdu</span> <span class="o">--</span><span class="n">jobs</span> <span class="mi">1</span>
+
+<span class="c1"># build the monthly interaction data</span>
+<span class="n">python</span> <span class="n">get_monthly_interaction_didi</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">data</span> <span class="n">DiDi</span> <span class="o">--</span><span class="n">city</span> <span class="n">Xian</span> <span class="o">--</span><span class="n">jobs</span> <span class="mi">1</span>
+<span class="n">python</span> <span class="n">get_monthly_interaction_didi</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">data</span> <span class="n">DiDi</span> <span class="o">--</span><span class="n">city</span> <span class="n">Chengdu</span> <span class="o">--</span><span class="n">jobs</span> <span class="mi">1</span>
+
+<span class="c1"># Output the final file</span>
+<span class="n">python</span> <span class="n">create_release_data_didi</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">data</span> <span class="n">DiDi</span> <span class="o">--</span><span class="n">city</span> <span class="n">Xian</span>
+<span class="n">python</span> <span class="n">create_release_data_didi</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">data</span> <span class="n">DiDi</span> <span class="o">--</span><span class="n">city</span> <span class="n">Chengdu</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">jobs</span></code> is the number of threads used by the program. A larger <code class="docutils literal notranslate"><span class="pre">jobs</span></code> will reduce the running time significantly.</p>
+<p>You will see the <code class="docutils literal notranslate"><span class="pre">.pkl</span></code> data in <code class="docutils literal notranslate"><span class="pre">release_data_dir</span></code> after step 2.</p>
+</div>
+
+
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, UCTB group.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE: 'true'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

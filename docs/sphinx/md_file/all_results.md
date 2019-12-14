@@ -204,7 +204,6 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
               '-p graph:Distance-Correlation-Interaction')
     ```
-
     Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
 
   * STMeta-V2
@@ -217,7 +216,6 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
               '-p graph:Distance-Correlation-Interaction')
     ```
-
 
     Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
 
@@ -232,7 +230,7 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
               '-p graph:Distance-Correlation-Interaction')
     ```
 
-      Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
+    Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
 #### Experiment Results
 
@@ -315,33 +313,30 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
               '-p graph:Distance-Correlation-Interaction')
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
               '-p graph:Distance-Correlation-Interaction')
-    
     ```
-
-    Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
-
+    
+    Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).  
+    
   * STMeta-V2
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
                 '-p graph:Distance-Correlation-Interaction')
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
                 '-p graph:Distance-Correlation-Interaction')   
-    
     ```
-
+  
     Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
-
+  
   * STMeta-V3
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
               '-p graph:Distance-Correlation-Interaction')
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
               '-p graph:Distance-Correlation-Interaction')
-    
     ```
-
+    
     Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
 #### Experiment Results
@@ -389,47 +384,42 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
                 ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
     os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
                 ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
-    
     ```
-
+    
     Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml).
-
+    
   * STMeta-V1
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
                 '-p graph:Distance-Correlation-Line')
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
                   '-p graph:Distance-Correlation-Line')
-    
     ```
-
+  
     Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
-
+  
   * STMeta-V2
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
               '-p graph:Distance-Correlation-Line')
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
             '-p graph:Distance-Correlation-Line')
-    
     ```
-
-  Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
-
+    
+    Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
+    
   * STMeta-V3
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
-              '-p graph:Distance-Correlation-Line')
+            '-p graph:Distance-Correlation-Line')
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
                 '-p graph:Distance-Correlation-Line')
-    
     ```
-
-
-  Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
+  
+    Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
 #### Experiment Results
 
@@ -474,10 +464,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
 
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
-    
-    
     ```
-
 
     Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml).
 
@@ -486,10 +473,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
               ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
-    
-    
     ```
-
 
     Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
 
@@ -498,10 +482,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
                 ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
-    
-    
     ```
-
 
     Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
 
@@ -510,10 +491,8 @@ The period and trend features are more obvious in Metro dataset, so the performa
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
                 ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
-    
     ```
-
-
+    
     Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
 #### Experiment Results

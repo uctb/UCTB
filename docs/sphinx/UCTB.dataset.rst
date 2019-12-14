@@ -9,7 +9,6 @@ UCTB.dataset.data\_loader module
 
 .. automodule:: UCTB.dataset.data_loader
    :members:
-   :undoc-members:
    :show-inheritance:
 
 UCTB.dataset.dataset module
@@ -21,10 +20,3 @@ UCTB.dataset.dataset module
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: UCTB.dataset
-   :members:
-   :undoc-members:
-   :show-inheritance:

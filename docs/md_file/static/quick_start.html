@@ -151,7 +151,7 @@
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
 
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">closeness_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-                                <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="n">hm_obj</span> <span class="o">=</span> <span class="n">HM</span><span class="p">(</span><span class="n">c</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">period_len</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">trend_len</span><span class="p">)</span>
 
@@ -159,20 +159,20 @@
                             <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">,</span>
                             <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="quick-start-with-arima">
 <h1>Quick Start with ARIMA<a class="headerlink" href="#quick-start-with-arima" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">ARIMA</span>
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
 
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">closeness_len</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="n">test_prediction_collector</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">):</span>
@@ -182,21 +182,21 @@
         <span class="n">test_prediction</span> <span class="o">=</span> <span class="n">model_obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">time_sequences</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
                                             <span class="n">forecast_step</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Converge failed with error&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Using last as prediction&#39;</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Converge failed with error&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Using last as prediction&#39;</span><span class="p">)</span>
         <span class="n">test_prediction</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span>
     <span class="n">test_prediction_collector</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">test_prediction</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;finished&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s1">&#39;finished&#39;</span><span class="p">)</span>
 
 <span class="n">test_rmse</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">test_prediction_collector</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">),</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_rmse&#39;</span><span class="p">,</span> <span class="n">test_rmse</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;test_rmse&#39;</span><span class="p">,</span> <span class="n">test_rmse</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="quick-start-with-hmm">
 <h1>Quick Start with HMM<a class="headerlink" href="#quick-start-with-hmm" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">HMM</span>
@@ -204,7 +204,7 @@
 
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-                                <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="n">prediction</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">station_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">):</span>
@@ -217,35 +217,35 @@
         <span class="k">for</span> <span class="n">time_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
             <span class="n">p</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">hmm</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[</span><span class="n">time_index</span><span class="p">,</span> <span class="n">station_index</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Failed at station&#39;</span><span class="p">,</span> <span class="n">station_index</span><span class="p">,</span> <span class="s1">&#39;with error&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Failed at station&#39;</span><span class="p">,</span> <span class="n">station_index</span><span class="p">,</span> <span class="s1">&#39;with error&#39;</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
         <span class="c1"># using zero as prediction</span>
         <span class="n">p</span> <span class="o">=</span> <span class="p">[[[</span><span class="mi">0</span><span class="p">]]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
 
     <span class="n">prediction</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">p</span><span class="p">)[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">])</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">,</span> <span class="n">station_index</span><span class="p">,</span> <span class="s1">&#39;finished&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Node&#39;</span><span class="p">,</span> <span class="n">station_index</span><span class="p">,</span> <span class="s1">&#39;finished&#39;</span><span class="p">)</span>
 
 <span class="n">prediction</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prediction</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="quick-start-with-xgboost">
 <h1>Quick Start with XGBoost<a class="headerlink" href="#quick-start-with-xgboost" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">XGBoost</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
 
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                                <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                                <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 
 <span class="n">prediction_test</span> <span class="o">=</span> <span class="p">[]</span>
 
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">):</span>
 
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;*************************************************************&#39;</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;*************************************************************&#39;</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
 
     <span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:squarederror&#39;</span><span class="p">)</span>
 
@@ -262,7 +262,7 @@
 
 <span class="n">prediction_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>

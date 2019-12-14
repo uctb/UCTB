@@ -13,10 +13,3 @@ UCTB.evaluation.metric module
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: UCTB.evaluation
-   :members:
-   :undoc-members:
-   :show-inheritance:

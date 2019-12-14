@@ -21,10 +21,3 @@ UCTB.utils.st\_map module
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: UCTB.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -157,12 +157,6 @@
 <div class="section" id="module-UCTB.dataset.data_loader">
 <span id="uctb-dataset-data-loader-module"></span><h2>5.1.2. UCTB.dataset.data_loader module<a class="headerlink" href="#module-UCTB.dataset.data_loader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="UCTB.dataset.data_loader.GridTrafficLoader">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">GridTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.GridTrafficLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-</dd></dl>
-
-<dl class="class">
 <dt id="UCTB.dataset.data_loader.NodeTrafficLoader">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">NodeTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">graph='Correlation'</em>, <em class="sig-param">threshold_distance=1000</em>, <em class="sig-param">threshold_correlation=0</em>, <em class="sig-param">threshold_interaction=500</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">with_lm=True</em>, <em class="sig-param">with_tpe=False</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
@@ -293,11 +287,6 @@ and construction.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.build_graph">
-<code class="sig-name descname">build_graph</code><span class="sig-paren">(</span><em class="sig-param">graph_name</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.build_graph" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
 <dt id="UCTB.dataset.data_loader.NodeTrafficLoader.make_concat">
 <code class="sig-name descname">make_concat</code><span class="sig-paren">(</span><em class="sig-param">node='all'</em>, <em class="sig-param">is_train=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.make_concat" title="Permalink to this definition">¶</a></dt>
 <dd><p>A function to concatenate all closeness, period and trend history data to use as inputs of models.</p>
@@ -325,42 +314,6 @@ On the second dimension, data are arranged as
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.st_map">
-<code class="sig-name descname">st_map</code><span class="sig-paren">(</span><em class="sig-param">zoom=11</em>, <em class="sig-param">style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp'</em>, <em class="sig-param">build_order=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.st_map" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.dataset.data_loader.TransferDataLoader">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">TransferDataLoader</code><span class="sig-paren">(</span><em class="sig-param">sd_params</em>, <em class="sig-param">td_params</em>, <em class="sig-param">model_params</em>, <em class="sig-param">td_data_length=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.TransferDataLoader.checkin_sim">
-<code class="sig-name descname">checkin_sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.checkin_sim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.TransferDataLoader.checkin_sim_sd">
-<code class="sig-name descname">checkin_sim_sd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.checkin_sim_sd" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.TransferDataLoader.poi_sim">
-<code class="sig-name descname">poi_sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.poi_sim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.TransferDataLoader.traffic_sim">
-<code class="sig-name descname">traffic_sim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.traffic_sim" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.TransferDataLoader.traffic_sim_fake">
-<code class="sig-name descname">traffic_sim_fake</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.TransferDataLoader.traffic_sim_fake" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
 </dd></dl>
 
 </div>
@@ -371,7 +324,7 @@ On the second dimension, data are arranged as
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.dataset.</code><code class="sig-name descname">DataSet</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_dir=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object storing basic data from a formatted pickle file.</p>
-<p>See also <a class="reference external" href="https://di-chai.github.io/UCTB/static/tutorial.html">Build your own datasets</a>.</p>
+<p>See also <a class="reference external" href="./md_file/tutorial.html">Build your own datasets</a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -459,9 +412,6 @@ Its an optional attribute and can be set as an empty list if distance graph is n
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-UCTB.dataset">
-<span id="module-contents"></span><h2>5.1.4. Module contents<a class="headerlink" href="#module-UCTB.dataset" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 

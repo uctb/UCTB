@@ -37,10 +37,3 @@ UCTB.model\_unit.ST\_RNN module
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: UCTB.model_unit
-   :members:
-   :undoc-members:
-   :show-inheritance:

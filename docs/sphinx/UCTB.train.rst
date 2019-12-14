@@ -21,10 +21,3 @@ UCTB.train.MiniBatchTrain module
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: UCTB.train
-   :members:
-   :undoc-members:
-   :show-inheritance:

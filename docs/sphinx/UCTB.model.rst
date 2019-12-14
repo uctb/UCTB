@@ -85,10 +85,3 @@ UCTB.model.XGBoost module
    :show-inheritance:
 
 
-Module contents
----------------
-
-.. automodule:: UCTB.model
-   :members:
-   :undoc-members:
-   :show-inheritance:

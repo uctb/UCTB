@@ -2,16 +2,14 @@
 
 We are especially grateful for the data provided by the DiDi Chuxing GAIA Initiative.
 
-**Step 1**, download data from DiDi, and put the data into the DiDiData dir.
+This dataset is from the trajectory data of DiDi Express and DiDi Premier drivers within the Second Ring Road of Xi'an and Chengdu City. The measurement interval of the track points is approximately 2-4 seconds . The track points were bound to physical roads so that the trajectory data and the actual road information are matched. The driver and trip order information were encrypted and anonymized. 
 
-```python
-xian: (download both)
-    https://outreach.didichuxing.com/app-vue/XiAnOct2016?id=6
-    https://outreach.didichuxing.com/app-vue/XiAnNov2016?id=5
-chengdu: (download both)
-    https://outreach.didichuxing.com/app-vue/ChengDuOct2016?id=4
-    https://outreach.didichuxing.com/app-vue/personal?id=1
-```
+**Step 1**, download data from [https://outreach.didichuxing.com/appEn-vue/dataList](https://outreach.didichuxing.com/appEn-vue/dataList), and put the data into the DiDiData dir.
+
+Xi'an City: (download both)<br>
+    [Oct 2016, Xi’an City Second Ring Road Regional Trajectory Data Set](https://outreach.didichuxing.com/appEn-vue/XiAnOct2016?id=8) <br>    [Nov 2016, Xi’an City Second Ring Road Regional Trajectory Data Set](https://outreach.didichuxing.com/appEn-vue/XiAnNov2016?id=9) <br>Chengdu City: (download both)<br>
+    [Oct 2016, Chengdu City Second Ring Road Regional Trajectory Data Set](https://outreach.didichuxing.com/appEn-vue/ChengDuOct2016?id=7) <br>
+    [Nov 2016, Chengdu City Second Ring Road Regional Trajectory Data Set](https://outreach.didichuxing.com/appEn-vue/personal?id=2) 
 
 After step1, you will have the following file-tree:
 

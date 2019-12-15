@@ -2,11 +2,9 @@
 
 We are especially grateful for the data provided by the DiDi Chuxing GAIA Initiative.
 
-**Step 1**, download TTI data from DiDi, and unzip the data(including road.zip in every  subdirectory) into the DiDiData dir.
+This dataset provides travel time index data for cities in Shenzhen, Chengdu, Xi'an, Suzhou, Ji'nan and Haikou in 2018, including city level, district level, road level, and average driving speed. 
 
-```python
-https://outreach.didichuxing.com/app-vue/TTI?id=1003
-```
+**Step 1**, select the `城市交通指数(新)` dataset from [https://outreach.didichuxing.com/app-vue/DataList](https://outreach.didichuxing.com/app-vue/DataList),  download TTI data for Shenzhen, Chengdu, Xi'an, Suzhou, Ji'nan and Haikou, and unzip the data(including road.zip in every  subdirectory) into the DiDiData dir.
 
 After step1, you will have the following file-tree:
 

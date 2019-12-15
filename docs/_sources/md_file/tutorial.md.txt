@@ -111,7 +111,7 @@ For better understanding how to build dataset used in UCTB from the original dat
 
 2. [TTI](https://github.com/didi/TrafficIndex) data for Chengdu, Jinan, Haikou, Shenzhen, Suzhou and Xi'an.  [Guide](./static/MakeDatasetDiDi_TTI.html)
 
-The above data comes from [https://gaia.didichuxing.com](https://gaia.didichuxing.com/), and we are especially grateful for the data provided by the DiDi Chuxing GAIA Initiative.
+The above data comes from [https://gaia.didichuxing.com]( https://outreach.didichuxing.com/research/opendata/en/ ), and we are especially grateful for the data provided by the DiDi Chuxing GAIA Initiative.
 
 #### Use build-in models from UCTB
 

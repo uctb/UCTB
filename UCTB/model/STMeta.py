@@ -5,7 +5,7 @@ from ..model_unit import BaseModel
 from ..model_unit import GAL, GCL
 from ..model_unit import DCGRUCell
 from ..model_unit import GCLSTMCell
-
+from ..train import Optimizer
 
 class STMeta(BaseModel):
     """
@@ -49,6 +49,7 @@ class STMeta(BaseModel):
             code_version(str): Current version of this model code, which will be used as filename for saving the model
             model_dir(str): The directory to store model files. Default:'model_dir'.
             gpu_device(str): To specify the GPU to use. Default: '0'.
+            decay_param=(str): The file path of decay function parameter. If set `None`, using fixed lr. default: None.
         """
 
     def __init__(self,
@@ -85,7 +86,8 @@ class STMeta(BaseModel):
                  lr=1e-4,
                  code_version='STMeta-QuickStart',
                  model_dir='model_dir',
-                 gpu_device='0', **kwargs):
+                 gpu_device='0',
+                 decay_param=None,**kwargs):
 
         super(STMeta, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
@@ -111,6 +113,10 @@ class STMeta(BaseModel):
         self._num_hidden_unit = num_hidden_units
         self._num_dense_units = num_dense_units
         self._lr = lr
+
+        # add decay func
+        self._optimizer = Optimizer(decay_param=decay_param,lr=self._lr)
+        
     
     def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
@@ -274,12 +280,36 @@ class STMeta(BaseModel):
             prediction = tf.reshape(pre_output, [-1, self._num_node, 1], name='prediction')
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
+            
+            ########################################################################################
+            ########################################################################################
 
-            train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            #train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+
+            train_op,global_step_name,learning_rate_name = self._optimizer.build(loss_pre=loss_pre)
+            self._input['global_step'] = global_step_name
+            '''
+            if decay_lr:
+                # try to use learning rate
+                global_step = tf.Variable(0, trainable=False)
+                starter_learning_rate = self._lr
+                decay_steps = 200
+                decay_rate = 0.96
+                learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
+                                                        decay_steps, decay_rate, staircase=True)
+                # Passing global_step to minimize() will increment it at each step.
+                train_op= tf.train.AdamOptimizer(learning_rate).minimize(loss_pre, global_step=global_step, name='train_op')
+            else:
+                train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
+            '''
+            ########################################################################################
+            ########################################################################################
 
             # record output
             self._output['prediction'] = prediction.name
             self._output['loss'] = loss_pre.name
+            # #record lr decay
+            self._output['lr'] = learning_rate_name
 
             # record train operation
             self._op['train_op'] = train_op.name

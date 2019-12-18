@@ -87,7 +87,7 @@ class BaseModel(object):
 
         output_tensor_list = [self._graph.get_tensor_by_name(self._output[name]) for name in output_names]
         output_tensor_list += [self._graph.get_operation_by_name(self._op[name]) for name in op_names]
-
+         
         outputs = self._session.run(output_tensor_list, feed_dict=feed_dict_tf)
 
         return {output_names[i]: outputs[i] for i in range(len(output_names))}
@@ -176,16 +176,31 @@ class BaseModel(object):
         else:
             early_stop = EarlyStopping(patience=int(early_stop_patience))
 
+
         # start mini-batch training
         summary_output = []
         for epoch in range(start_epoch, max_epoch):
             train_output_list = []
+            ########################################   
+            # input global step return lr
+            #feed_dict_tf= {"global_step":self._global_step}
+            #self._session.run(learning_rate,)
+            #lr = self._run(feed_dict={},output_names=)
+            ################################
             for i in range(train_dict_mini_batch.num_batch):
                 # train
-                train_output = self._run(feed_dict=train_dict_mini_batch.get_batch(),
+                feed_dict_tf = train_dict_mini_batch.get_batch()
+                feed_dict_tf["global_step"] = epoch
+
+                train_output = self._run(feed_dict=feed_dict_tf,
                                          output_names=output_names,
                                          op_names=op_names)
+                #global_step=epoch
                 train_output_list.append(train_output)
+            
+            if "lr" in output_names:
+                print("lr:", train_output['lr'] ,end=' ')
+            
 
             # validation
             val_output = self.predict(**val_feed_dict, output_names=output_names,
@@ -198,16 +213,17 @@ class BaseModel(object):
             # Add Summary
             tmp_summary = {}
             for name in output_names:
-                self.add_summary(name='train_' + name, value=np.mean([e[name] for e in train_output_list]),
-                                 global_step=epoch)
-                self.add_summary(name='val_' + name, value=np.mean(val_output[name]), global_step=epoch)
-                # print training messages
-                if verbose:
-                    print('Epoch %s:' % epoch,
-                          'train_' + name, np.mean([e[name] for e in train_output_list]),
-                          'val_' + name, np.mean(val_output[name]))
-                    tmp_summary['train_' + name] = np.mean([e[name] for e in train_output_list])
-                    tmp_summary['val_' + name] = np.mean(val_output[name])
+                if name is not "lr":
+                    self.add_summary(name='train_' + name, value=np.mean([e[name] for e in train_output_list]),
+                                    global_step=epoch)
+                    self.add_summary(name='val_' + name, value=np.mean(val_output[name]), global_step=epoch)
+                    # print training messages
+                    if verbose:
+                        print('Epoch %s:' % epoch,
+                            'train_' + name, np.mean([e[name] for e in train_output_list]),
+                            'val_' + name, np.mean(val_output[name]))
+                        tmp_summary['train_' + name] = np.mean([e[name] for e in train_output_list])
+                        tmp_summary['val_' + name] = np.mean(val_output[name])
             summary_output.append(tmp_summary)
 
             # manual_summary the histograms

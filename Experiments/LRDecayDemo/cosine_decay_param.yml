@@ -1,0 +1,6 @@
+decay_func: "tf.train.cosine_decay_restarts"
+learning_rate: 0.01  # start lr
+first_decay_steps: 200  # first_decay_steps is the number that totally decresed from lr to alpha.
+t_mul: 2.0  # next round steps is t_mul*last round step 
+m_mul: 0.4  # lr = lr*m_mul in next round
+alpha: 0.00001 # Minimum learning rate value as a fraction of the learning_rate.

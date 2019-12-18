@@ -1,0 +1,6 @@
+# decay lr technique
+decay_func: "tf.train.exponential_decay"
+starter_learning_rate: 0.01
+decay_steps: 200
+decay_rate: 0.50
+staircase: False

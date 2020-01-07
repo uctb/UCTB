@@ -87,6 +87,9 @@ class STMeta(BaseModel):
                  code_version='STMeta-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0',
+                 embedding_flag=True,
+                 embedding_dim = [10,1,5],
+                 classified_embedding = [],
                  decay_param=None,**kwargs):
 
         super(STMeta, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
@@ -117,6 +120,10 @@ class STMeta(BaseModel):
         # add decay func
         self._optimizer = Optimizer(decay_param=decay_param,lr=self._lr)
         
+        # add embedding tenique
+        self._embedding_flag = embedding_flag
+        self._embedding_dim = embedding_dim
+        self._classified_embedding_ind = classified_embedding
     
     def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
@@ -241,13 +248,58 @@ class STMeta(BaseModel):
 
             dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
 
+            # print("dense_inputs shape",dense_inputs.get_shape())
+            # self.dense_input = dense_inputs
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
                 self._input['external_feature'] = external_input.name
-                external_dense = tf.keras.layers.Dense(units=10)(external_input)
-                external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
-                                         [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+
+                # index of classified external feature
+                
+                if len(self._classified_embedding_ind) > 0: # embedding by class
+                    if len(self._classified_embedding_ind) != len(self._embedding_dim):
+                        ValueError("external feature dim is not equal to specified embedding_dim, modify `embedding_dim`")
+                    embedding_output = []
+                    ind = 0
+                    for i,tmp in enumerate(self._classified_embedding_ind):
+                        tensor_slice = tf.strided_slice(external_input,[0,ind],[tf.shape(external_input)[0],ind+tmp],[1,1])
+                        tensor_slice = tf.reshape(tensor_slice,[-1,ind+tmp])
+                        extern_embedding = tf.keras.layers.Dense(units=self._embedding_dim[i])(tensor_slice)
+                        embedding_output.append(extern_embedding)
+                        ind += tmp
+                    external_dense = tf.concat(embedding_output,axis=-1)
+                    external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, tf.shape(external_dense)[-1]]),
+                                            [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+                else: # concat together
+                    # do not use embedding
+                    if self._embedding_flag is False:
+                        self._embedding_dim = self._external_dim
+                    # using one embedding layer 
+                    else:
+                        if isinstance(self._embedding_dim,int):
+                            pass
+                        elif isinstance(self._embedding_dim[0],int):
+                            self._embedding_dim = self._embedding_dim[0]
+                        else:
+                            ValueError("using one Embedding layer, the embedding_dim or its first element should be `int` type")
+                    external_dense = tf.keras.layers.Dense(units=self._embedding_dim)(external_input)
+                    external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, self._embedding_dim]),
+                                            [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+
+                # 一个控制使用使用embedding的变量 决定embedding数量的变量
+                # 决定是否分类embedding的变量
+                # external_dense = tf.keras.layers.Dense(units=10)(external_input)
+                # external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
+                #                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+                
+
+
+                # self.external_dense = external_dense
+                # print("tf.shape(dense_inputs)[1]",tf.shape(dense_inputs)[1])
+                # print("tf.shape(dense_inputs)[2]",tf.shape(dense_inputs)[2])
+            
+                #################
                 dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
 
             dense_output0 = tf.keras.layers.Dense(units=self._num_dense_units,

@@ -12,7 +12,7 @@ from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
 from ..model_unit import GraphBuilder
 
 from .dataset import DataSet
-
+from ..utils import one_hot
 
 class GridTrafficLoader(object):
 
@@ -46,20 +46,34 @@ class GridTrafficLoader(object):
 
         # external feature
         external_feature = []
-        # weather
+        # weather feature
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
-        # Weekday Feature
-        weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
+        # holiday Feature
+        holiday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
                                                 + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
                            for e in range(data_range[0], num_time_slots + data_range[0])]
-        # Hour Feature
-        hour_feature = [[(parse(self.dataset.time_range[1]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
-                        for e in range(data_range[0], num_time_slots + data_range[0])]
+        # one-hot holiday feature                  
+        holiday_feature = one_hot(holiday_feature)
 
-        external_feature.append(weekday_feature)
-        external_feature.append(hour_feature)
+        # HourOfDay Feature
+        hourofday_feature = [[(parse(self.dataset.time_range[1]) +
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]
+                        for e in range(data_range[0], num_time_slots + data_range[0])]
+        # one-hot HourOfDay feature   
+        hourofday_feature = one_hot(hourofday_feature)
+
+        # DayOfWeek Feature
+        dayofweek_feature = [[(parse(self.dataset.time_range[1]) +
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday()]
+                        for e in range(data_range[0], num_time_slots + data_range[0])]
+        # one-hot HourOfDay feature   
+        dayofweek_feature = one_hot(dayofweek_feature)
+
+
+        external_feature.append(holiday_feature)
+        external_feature.append(hourofday_feature)
+        external_feature.append(dayofweek_feature)
         external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
 
         self.height, self.width = self.traffic_data.shape[1], self.traffic_data.shape[2]
@@ -235,25 +249,45 @@ class NodeTrafficLoader(object):
 
         # external feature
         external_feature = []
-        # weather
+        external_onehot_dim = []
+        # weather feature
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
-        # Weekday Feature
-        weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
+        external_onehot_dim.append(self.dataset.external_feature_weather.shape[1])
+
+        # holiday Feature
+        holiday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
                                                 + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
                            for e in range(data_range[0], num_time_slots + data_range[0])]
-        # Hour Feature
-        hour_feature = [[(parse(self.dataset.time_range[1]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
+        # one-hot holiday feature                  
+        holiday_feature = one_hot(holiday_feature)
+        external_onehot_dim.append(holiday_feature.shape[1])
+        
+        # Meta Feature
+        # HourOfDay Feature
+        hourofday_feature = [[(parse(self.dataset.time_range[1]) +
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
+        # one-hot HourOfDay feature   
+        hourofday_feature = one_hot(hourofday_feature)
 
-        external_feature.append(weekday_feature)
-        external_feature.append(hour_feature)
+        # DayOfWeek Feature
+        dayofweek_feature = [[(parse(self.dataset.time_range[1]) +
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday()]
+                        for e in range(data_range[0], num_time_slots + data_range[0])]
+        # one-hot DayOfWeek feature   
+        dayofweek_feature = one_hot(dayofweek_feature)
+        external_onehot_dim.append(hourofday_feature.shape[1]+dayofweek_feature.shape[1])
+
+        external_feature.append(holiday_feature)
+        external_feature.append(hourofday_feature)
+        external_feature.append(dayofweek_feature)
         external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
 
         self.station_number = self.traffic_data.shape[1]
         self.external_dim = external_feature.shape[1]
-
+        self.external_onehot_dim = external_onehot_dim
+        
         if test_ratio > 1 or test_ratio < 0:
             raise ValueError('test_ratio ')
         self.train_test_ratio = [1 - test_ratio, test_ratio]

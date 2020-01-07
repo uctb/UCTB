@@ -21,4 +21,9 @@ graph_merge_gal_num_heads: 2
 temporal_merge_gal_units: 64
 temporal_merge_gal_num_heads: 2
 
+# extern feature
+embedding_flag: False
+embedding_dim: [10,1,5]
+classified_embedding: False
+
 model_version: 'V1'

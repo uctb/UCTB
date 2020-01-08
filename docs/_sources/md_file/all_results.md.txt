@@ -123,7 +123,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
 
 |        Attributes        |   **Beijing**   |
 | :----------------------: | :-------------: |
-|        Time span         | 2018.03-2018.08 |
+|        Time span         | 2018.03-2018.05 |
 | Number of riding records |    1,272,961    |
 |    Number of stations    |       629       |
 
@@ -444,7 +444,7 @@ The period and trend features are more obvious in Metro dataset, so the performa
 
 |        Attributes        |   **Beijing**   |
 | :----------------------: | :-------------: |
-|        Time span         | 2018.03-2018.08 |
+|        Time span         | 2018.03-2018.05 |
 | Number of riding records |    1,272,961    |
 |    Number of stations    |       629       |
 

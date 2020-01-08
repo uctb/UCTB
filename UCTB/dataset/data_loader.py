@@ -253,7 +253,7 @@ class NodeTrafficLoader(object):
         # weather feature
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
-        external_onehot_dim.append(self.dataset.external_feature_weather.shape[1])
+            external_onehot_dim.append(self.dataset.external_feature_weather.shape[1])
 
         # holiday Feature
         holiday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])

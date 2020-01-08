@@ -13,7 +13,7 @@ from UCTB.preprocess import SplitData
 import sys
 sys.path.append("../")
 
-from RoadDataLoader import RoadDataLoader
+#from RoadDataLoader import RoadDataLoader
 from sendInfo import *
 #####################################################################
 # argument parser

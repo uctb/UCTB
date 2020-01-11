@@ -82,3 +82,4 @@ class DataSet(object):
         self.grid_lat_lng = self.data['Grid']['GridLatLng']
 
         self.external_feature_weather = self.data['ExternalFeature']['Weather']
+        self.weather_state_dim = self.data['ExternalFeature']['WeatherStateDim']

@@ -28,9 +28,11 @@ class GridTrafficLoader(object):
                  target_length=1,
                  normalize=True,
                  workday_parser=is_work_day_america,
-                 data_dir=None, **kwargs):
+                 data_dir=None,
+                 MergeIndex=1,
+                 MergeWay="sum",**kwargs):
 
-        self.dataset = DataSet(dataset, city, data_dir=data_dir)
+        self.dataset = DataSet(dataset, city, data_dir=data_dir,MergeIndex=MergeIndex,MergeWay=MergeWay)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
@@ -49,21 +51,23 @@ class GridTrafficLoader(object):
         # weather
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
-        # Weekday Feature
-        weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
-                                                + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
-                           for e in range(data_range[0], num_time_slots + data_range[0])]
-        # Hour Feature
-        hour_feature = [[(parse(self.dataset.time_range[1]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
-                        for e in range(data_range[0], num_time_slots + data_range[0])]
+            # Weekday Feature
+            weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
+                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
+                            for e in range(data_range[0], num_time_slots + data_range[0])]
+            # Hour Feature
+            hour_feature = [[(parse(self.dataset.time_range[0]) +
+                            datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
+                            for e in range(data_range[0], num_time_slots + data_range[0])]
 
-        external_feature.append(weekday_feature)
-        external_feature.append(hour_feature)
-        external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
+            external_feature.append(weekday_feature)
+            external_feature.append(hour_feature)
+            external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
+            self.external_dim = external_feature.shape[1]
+        else:
+            self.external_dim = len(external_feature)
 
         self.height, self.width = self.traffic_data.shape[1], self.traffic_data.shape[2]
-        self.external_dim = external_feature.shape[1]
 
         if test_ratio > 1 or test_ratio < 0:
             raise ValueError('test_ratio ')
@@ -204,9 +208,11 @@ class NodeTrafficLoader(object):
                  workday_parser=is_work_day_america,
                  with_lm=True,
                  with_tpe=False,
-                 data_dir=None, **kwargs):
+                 data_dir=None,
+                 MergeIndex=1,
+                 MergeWay="sum",**kwargs):
 
-        self.dataset = DataSet(dataset, city, data_dir=data_dir)
+        self.dataset = DataSet(dataset, MergeIndex,MergeWay, city,data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
@@ -238,22 +244,24 @@ class NodeTrafficLoader(object):
         # weather
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
-        # Weekday Feature
-        weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
-                                                + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
-                           for e in range(data_range[0], num_time_slots + data_range[0])]
-        # Hour Feature
-        hour_feature = [[(parse(self.dataset.time_range[1]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
-                        for e in range(data_range[0], num_time_slots + data_range[0])]
+            # Weekday Feature
+            weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
+                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
+                            for e in range(data_range[0], num_time_slots + data_range[0])]
+            # Hour Feature
+            hour_feature = [[(parse(self.dataset.time_range[0]) +
+                            datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24.0]
+                            for e in range(data_range[0], num_time_slots + data_range[0])]
 
-        external_feature.append(weekday_feature)
-        external_feature.append(hour_feature)
-        external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
-
+            external_feature.append(weekday_feature)
+            external_feature.append(hour_feature)
+            external_feature = np.concatenate(external_feature, axis=-1).astype(np.float32)
+            self.external_dim = external_feature.shape[1]
+        else:
+            self.external_dim = len(external_feature)
+        
         self.station_number = self.traffic_data.shape[1]
-        self.external_dim = external_feature.shape[1]
-
+        
         if test_ratio > 1 or test_ratio < 0:
             raise ValueError('test_ratio ')
         self.train_test_ratio = [1 - test_ratio, test_ratio]

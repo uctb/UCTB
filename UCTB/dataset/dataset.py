@@ -2,7 +2,7 @@ import os
 import wget
 import pickle
 import tarfile
-
+import numpy as np
 
 class DataSet(object):
     """An object storing basic data from a formatted pickle file.
@@ -31,11 +31,15 @@ class DataSet(object):
             arbitrary): [id (when sorted, should be consistant with index of ``node_traffic``), latitude, longitude,
             other notes]}. It's from ``data['Node']['StationInfo']`` and is used to build distance graph.
             Its an optional attribute and can be set as an empty list if distance graph is not needed.
+        MergeIndex(int): A int number that used to adjust the granularity of the dataset, the granularity of the new 
+            dataset is time_fitness*MergeIndex. default: 1
+        MergeWay(str):can be `sum` and `average`.  default: ``sum
     """
-    def __init__(self, dataset, city=None, data_dir=None):
-
+    def __init__(self, dataset, MergeIndex, MergeWay, city=None, data_dir=None):
         self.dataset = dataset
         self.city = city
+        self.MergeIndex = int(MergeIndex)
+        self.MergeWay = MergeWay.lower()
 
         if data_dir is None:
             data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
@@ -71,6 +75,12 @@ class DataSet(object):
         with open(pkl_file_name, 'rb') as f:
             self.data = pickle.load(f)
 
+        # merge data
+        self.data['TimeFitness']  = int(self.data['TimeFitness']*MergeIndex)
+        self.data['Node']['TrafficNode'] = self.merge_data(self.data['Node']['TrafficNode'],"node")
+        self.data['Grid']['TrafficGrid'] = self.merge_data(self.data['Grid']['TrafficGrid'],"grid")
+        self.data['ExternalFeature']['Weather'] = self.merge_data(self.data['ExternalFeature']['Weather'],"node")
+
         self.time_range = self.data['TimeRange']
         self.time_fitness = self.data['TimeFitness']
 
@@ -82,3 +92,23 @@ class DataSet(object):
         self.grid_lat_lng = self.data['Grid']['GridLatLng']
 
         self.external_feature_weather = self.data['ExternalFeature']['Weather']
+
+    def merge_data(self,data,dataType):
+        if self.MergeWay == "sum":
+            func = np.sum
+        elif self.MergeWay == "average":
+            func = np.mean
+        else:
+            raise ValueError("Parameter MerWay should be sum or average")
+        if data.shape[0] % self.MergeIndex is not 0:
+            raise ValueError("time_slots % MergeIndex should be zero")
+        
+        if dataType.lower() == "node":
+            new = np.zeros((data.shape[0]//self.MergeIndex,data.shape[1]),dtype=np.float32)
+            for new_ind,ind in enumerate(range(0,data.shape[0],self.MergeIndex)):
+                    new[new_ind,:] = func(data[ind:ind+self.MergeIndex,:],axis=0)
+        elif dataType.lower() == "grid":
+            new = np.zeros((data.shape[0]//self.MergeIndex,data.shape[1],data.shape[2]),dtype=np.float32)
+            for new_ind,ind in enumerate(range(0,data.shape[0],self.MergeIndex)):
+                    new[new_ind,:,:] = func(data[ind:ind+self.MergeIndex,:,:],axis=0)
+        return new

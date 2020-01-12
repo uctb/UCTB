@@ -57,7 +57,9 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 normalize=args['normalize'],
                                 graph=args['graph'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
-                                workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china)
+                                workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china,
+                                MergeIndex=1,
+                                MergeWay="sum")
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 

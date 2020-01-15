@@ -32,7 +32,7 @@ class GridTrafficLoader(object):
                  MergeIndex=1,
                  MergeWay="sum",**kwargs):
 
-        self.dataset = DataSet(dataset, city, data_dir=data_dir,MergeIndex=MergeIndex,MergeWay=MergeWay)
+        self.dataset = DataSet(dataset, MergeIndex,MergeWay, city,data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 

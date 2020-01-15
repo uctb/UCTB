@@ -8,7 +8,7 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
-
+from UCTB.utils.sendInfo import senInfo
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
@@ -36,11 +36,11 @@ if nni_params:
 
 #####################################################################
 # Generate code_version
-code_version = '{}_C{}P{}T{}_G{}_K{}L{}_{}'.format(args['model_version'],
+code_version = '{}_C{}P{}T{}_G{}_K{}L{}_F{}_{}'.format(args['model_version'],
                                                    args['closeness_len'], args['period_len'],
                                                    args['trend_len'],
                                                    ''.join([e[0] for e in args['graph'].split('-')]),
-                                                   args['gcn_k'], args['gcn_layers'], args['mark'])
+                                                   args['gcn_k'], args['gcn_layers'],args["MergeIndex"]*5, args['mark'])
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################
@@ -58,9 +58,13 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 graph=args['graph'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
                                 workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china,
-                                MergeIndex=1,
+                                MergeIndex=args['MergeIndex'],
                                 MergeWay="sum")
 
+print("TimeFitness",data_loader.dataset.time_fitness)
+print("TimeRange",data_loader.dataset.time_range)
+print("node traffic shape",data_loader.dataset.node_traffic.shape)
+print("grid traffic shape",data_loader.dataset.grid_traffic.shape)
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
 deviceIDs = GPUtil.getAvailable(order='last', limit=8, maxLoad=1, maxMemory=0.7,
@@ -167,6 +171,7 @@ print('Test result', test_rmse, test_mape)
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600
 print('Converged using %.2f hour / %s epochs' % (time_consumption, STMeta_obj._global_step))
+senInfo(code_version)
 if nni_params:
     nni.report_final_result({
         'default': best_val_loss,

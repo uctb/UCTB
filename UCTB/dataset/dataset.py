@@ -76,7 +76,7 @@ class DataSet(object):
             self.data = pickle.load(f)
 
         # merge data
-        self.data['TimeFitness']  = int(self.data['TimeFitness']*MergeIndex)
+        self.data['TimeFitness']  = int(self.data['TimeFitness']*self.MergeIndex)
         if len(self.data['Node']['TrafficNode']) > 0:
             self.data['Node']['TrafficNode'] = self.merge_data(self.data['Node']['TrafficNode'],"node")
         if len(self.data['Grid']['TrafficGrid']) > 0:

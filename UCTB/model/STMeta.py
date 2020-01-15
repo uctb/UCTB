@@ -233,7 +233,7 @@ class STMeta(BaseModel):
 
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
 
-            dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
+            dense_inputs = tf.keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
 
             # external dims
             if self._external_dim is not None and self._external_dim > 0:

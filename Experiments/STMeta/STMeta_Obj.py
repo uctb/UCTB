@@ -40,7 +40,7 @@ code_version = '{}_C{}P{}T{}_G{}_K{}L{}_F{}_{}'.format(args['model_version'],
                                                    args['closeness_len'], args['period_len'],
                                                    args['trend_len'],
                                                    ''.join([e[0] for e in args['graph'].split('-')]),
-                                                   args['gcn_k'], args['gcn_layers'],args["MergeIndex"]*5, args['mark'])
+                                                   args['gcn_k'], args['gcn_layers'],int(args["MergeIndex"])*5, args['mark'])
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################

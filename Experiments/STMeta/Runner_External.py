@@ -12,12 +12,12 @@ import os
 #           ' -p graph:Distance,period_len:0,trend_len:0,embedding_flag:True,classified_embedding:True,mark:ClassifiedEmbedding_V0')
 
 
-os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
-          '-p graph:Distance-Correlation-Interaction,mark:NotEmbeddinng_V1')
-os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
-          '-p graph:Distance-Correlation-Interaction,embedding_flag:True,mark:OneLayerEmbeddingV1')
-os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml'
-          '-p graph:Distance-Correlation-Interaction,embedding_flag:True,classified_embedding:True,mark:ClassifiedEmbedding_V1')
+# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
+#           '-p graph:Distance-Correlation-Interaction,mark:NotEmbeddinng_V1')
+# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
+#           '-p graph:Distance-Correlation-Interaction,embedding_flag:True,mark:OneLayerEmbeddingV1')
+# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml'
+#           '-p graph:Distance-Correlation-Interaction,embedding_flag:True,classified_embedding:True,mark:ClassifiedEmbedding_V1')
 
 
 # os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
@@ -40,19 +40,15 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml'
 # # BenchMark DiDi
 # ###############################################
 #
-# os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
-#           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
-# os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
-#           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
+          '-p graph:Distance-Correlation-Interaction,mark:NotEmbeddinng_V1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
+          '-p graph:Distance-Correlation-Interaction,embedding_flag:True,mark:OneLayerEmbeddingV1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
+          '-p graph:Distance-Correlation-Interaction,embedding_flag:True,classified_embedding:True,mark:ClassifiedEmbedding_V1')
 
-# os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance')
-# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml -p graph:Distance')
-# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml -p graph:Correlation')
-# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml -p graph:Interaction')
-# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
-#           '-p graph:Distance-Correlation')
-# os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
-#           '-p graph:Distance-Correlation-Interaction')
+
+
 # os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
 #           '-p graph:Distance-Correlation-Interaction')
 # #

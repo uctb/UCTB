@@ -50,21 +50,21 @@ class GridTrafficLoader(object):
         if len(self.dataset.external_feature_weather) > 0:
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
         # holiday Feature
-        holiday_feature = [[1 if workday_parser(parse(self.dataset.time_range[1])
+        holiday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
                                                 + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
                            for e in range(data_range[0], num_time_slots + data_range[0])]
         # one-hot holiday feature                  
         holiday_feature = one_hot(holiday_feature)
 
         # HourOfDay Feature
-        hourofday_feature = [[(parse(self.dataset.time_range[1]) +
+        hourofday_feature = [[(parse(self.dataset.time_range[0]) +
                           datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
         # one-hot HourOfDay feature   
         hourofday_feature = one_hot(hourofday_feature)
 
         # DayOfWeek Feature
-        dayofweek_feature = [[(parse(self.dataset.time_range[1]) +
+        dayofweek_feature = [[(parse(self.dataset.time_range[0]) +
                           datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday()]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
         # one-hot HourOfDay feature   
@@ -263,7 +263,7 @@ class NodeTrafficLoader(object):
         holiday_feature = one_hot(holiday_feature)
         external_onehot_dim.append(holiday_feature.shape[1])
         
-        # Meta Feature
+        # Temporal Position Feature
         # HourOfDay Feature
         hourofday_feature = [[(parse(self.dataset.time_range[0]) +
                           datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]

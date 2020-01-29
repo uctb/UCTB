@@ -173,6 +173,7 @@ class NodeTrafficLoader(object):
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
         data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
             ``dataset`` is file path, ``data_dir`` should be ``None`` too. Default: ``None``
+        MergeIndex(int): The granularity of dataset is `MergeIndex`* 5 mins.
 
     Attributes:
         dataset (DataSet): The DataSet object storing basic data.

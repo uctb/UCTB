@@ -1,0 +1,16 @@
+authorName: lychen
+experimentName: gbrt_parameter_search
+trialConcurrency: 2
+maxExecDuration: 24h
+maxTrialNum: 200
+trainingServicePlatform: local
+# The path to Search Space
+searchSpacePath: gbrt_search_space.json
+useAnnotation: false
+tuner:
+  builtinTunerName: TPE
+# The path and the running command of trial
+trial:
+  command: python GBRT.py --dataset Bike --city NYC --MergeIndex 3
+  codeDir: .
+  gpuNum: 0

@@ -7,15 +7,16 @@ from UCTB.evaluation import metric
 
 args = {
     'dataset': 'DiDi',
-    'city': 'Chengdu',
+    'city': 'Xian',
     'num_residual_unit': 4,
     'conv_filters': 64,
     'kernel_size': 3,
     'lr': 1e-5,
-    'batch_size': 32
+    'batch_size': 32,
+    'MergeIndex': 6
 }
 
-code_version = 'ST_ResNet_{}_{}'.format(args['dataset'], args['city'])
+code_version = 'ST_ResNet_{}_{}_F{}'.format(args['dataset'], args['city'], int(args['MergeIndex'])*5)
 
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
@@ -35,7 +36,7 @@ else:
         current_device = str(deviceIDs[0])
 
 # Config data loader
-data_loader = GridTrafficLoader(dataset=args['dataset'], city=args['city'], closeness_len=6, period_len=7, trend_len=4)
+data_loader = GridTrafficLoader(dataset=args['dataset'], city=args['city'], closeness_len=6, period_len=7, trend_len=4, MergeIndex=args['MergeIndex'])
 
 ST_ResNet_Obj = ST_ResNet(closeness_len=data_loader.closeness_len,
                           period_len=data_loader.period_len,

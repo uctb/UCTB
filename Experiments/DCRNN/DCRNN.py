@@ -61,6 +61,8 @@ def param_parser():
     # version control
     parser.add_argument('--Group', default='DebugGroup')
     parser.add_argument('--CodeVersion', default='ST_MGCN_Debug')
+    # Merge times
+    parser.add_argument('--MergeIndex', default=6, type=int)
     return parser
 
 
@@ -68,14 +70,14 @@ parser = param_parser()
 args = parser.parse_args()
 
 model_dir = os.path.join('model_dir', args.City)
-code_version = 'DCRNN_{}_K{}L{}_{}'.format(''.join([e[0] for e in args.Graph.split('-')]),
-                                           args.K, args.L, args.CodeVersion)
+code_version = 'DCRNN_{}_K{}L{}_{}_F{}'.format(''.join([e[0] for e in args.Graph.split('-')]),
+                                           args.K, args.L, args.CodeVersion, int(args.MergeIndex)*5)
 
 data_loader = my_data_loader(dataset=args.Dataset, city=args.City,
                              data_range=args.DataRange, train_data_length=args.TrainDays,
                              closeness_len=int(args.CT), period_len=int(args.PT), trend_len=int(args.TT),
                              threshold_interaction=args.TI, threshold_distance=args.TD,
-                             threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True)
+                             threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True, MergeIndex=args.MergeIndex)
 
 print('Code version', args.Dataset, args.City, code_version)
 

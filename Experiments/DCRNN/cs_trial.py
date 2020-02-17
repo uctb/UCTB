@@ -30,4 +30,7 @@ if __name__ == "__main__":
     Multiple Graphes
     """
     os.system(shared_params_st_mgcn + ' --City Beijing --Group Debug --K 1 --L 1 --CodeVersion V0'
-                                      ' --Graph Distance')
+                                      ' --Graph Distance --MergeIndex 6')
+
+    # os.system(shared_params_st_mgcn + ' --City Beijing --Group Debug --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance --MergeIndex 12')

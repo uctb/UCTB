@@ -101,6 +101,8 @@ class DataSet(object):
             func = np.sum
         elif self.MergeWay == "average":
             func = np.mean
+        elif self.MergeWay == "max":
+            func = np.max
         else:
             raise ValueError("Parameter MerWay should be sum or average")
         if data.shape[0] % self.MergeIndex is not 0:

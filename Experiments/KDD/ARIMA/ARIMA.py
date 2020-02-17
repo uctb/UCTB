@@ -31,20 +31,22 @@ parser.add_argument('--sma', default='0', type=int)
 parser.add_argument('--sp', default='0', type=int)
 
 
-parser.add_argument('--DataRange', default=[59,273])
+parser.add_argument('--DataRange', default="all")
 parser.add_argument('--TrainDays', default="all")
 
 
 args = vars(parser.parse_args())
 
 
-data_loader = NodeTrafficLoader(dataset=args["dataset"], city=args['city'],
+data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
+                                data_range=args['DataRange'], train_data_length=args['TrainDays'],
+                                test_ratio=0.1,
                                 closeness_len=int(args['CT']), period_len=0, trend_len=0,
-                                with_lm=False, with_tpe=False, normalize=False,MergeIndex=args['MergeIndex'])
+                                with_lm=False, with_tpe=False, normalize=False,MergeIndex=args['MergeIndex'],
+                                MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
+                                
 
-
-train_closeness, val_closeness = SplitData.split_data(
-    data_loader.train_closeness, [0.9, 0.1])
+train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
 train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
 
 val_prediction_collector = []

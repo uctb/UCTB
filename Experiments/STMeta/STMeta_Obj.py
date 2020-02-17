@@ -59,12 +59,11 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
                                 workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china,
                                 MergeIndex=args['MergeIndex'],
-                                MergeWay="sum")
+                                MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
 
 print("TimeFitness",data_loader.dataset.time_fitness)
 print("TimeRange",data_loader.dataset.time_range)
-print("node traffic shape",data_loader.dataset.node_traffic.shape)
-print("grid traffic shape",data_loader.dataset.grid_traffic.shape)
+
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
 
 deviceIDs = GPUtil.getAvailable(order='last', limit=8, maxLoad=1, maxMemory=0.7,

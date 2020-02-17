@@ -1,22 +1,23 @@
 import os
 from tqdm import tqdm
-# dataset = [['Bike','NYC'],['DiDi','Xian'],['Metro','Chongqing']]
-dataset = [['Metro','Chongqing']]
+# dataset = [['Bike','NYC','all','365'],['DiDi','Xian','all','all'],['Metro','Chongqing','all','all'],['ChargeStation','Beijing','all','all']]
+dataset = [['ChargeStation','Beijing','all','all']]
 
-with open("ARIMAresult2.txt","w") as fp:
+with open("ARIMAresult7.txt","w") as fp:
 
     for index in tqdm(range(len(dataset))):
 
+        # fp.write("*********************************************************\n")
+        # fp.write("Processing city----------------{}---using ARIMA-------MergeIndex 3--".format(dataset[index]))
+        # f_tmp = os.popen("python -W ignore ARIMA.py --dataset {} --city {} --MergeIndex 3".format(dataset[index][0],dataset[index][1]), "r")
+        # # to record ouput
+        # fp.write(f_tmp.read()) 
+        # fp.flush()
+        # f_tmp.close()
+
         fp.write("*********************************************************\n")
-        fp.write("Processing city----------------{}---using ARIMA---------".format(dataset[index]))
-
-        f_tmp = os.popen("python -W ignore ARIMA.py --dataset {} --city {} --MergeIndex 3".format(dataset[index][0],dataset[index][1]), "r")
-        # to record ouput
-        fp.write(f_tmp.read()) 
-        fp.flush()
-        f_tmp.close()
-
-        f_tmp = os.popen("python -W ignore ARIMA.py --dataset {} --city {} --MergeIndex 6".format(dataset[index][0],dataset[index][1]), "r")
+        fp.write("Processing city----------------{}---using ARIMA-------MergeIndex 1--".format(dataset[index]))
+        f_tmp = os.popen("python -W ignore ARIMA.py --dataset {} --city {} --MergeIndex 1 --DataRange {} --TrainDays {}".format(dataset[index][0],dataset[index][1],dataset[index][2],dataset[index][3]), "r")
         # to record ouput
         fp.write(f_tmp.read()) 
         fp.flush()

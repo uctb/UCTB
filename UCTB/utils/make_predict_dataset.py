@@ -10,6 +10,7 @@ def make_predict_dataset(data_loader, predict_val, method):
     data_loader.dataset.data['Pred'][method]["traffic_data_index"] = data_loader.traffic_data_index
     data_loader.dataset.data['Pred'][method]["TrafficNode"] = np.squeeze(
         predict_val)
-
-    with open(os.path.join(os.path.abspath(os.getcwd()), "{}_pred.pkl".format(data_loader.dataset.city)), "wb") as fp:
+    
+    data_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'data')
+    with open(os.path.join(data_dir, "{}_{}.pkl".format(data_loader.dataset.dataset, data_loader.dataset.city)), "wb") as fp:
         pickle.dump(data_loader.dataset.data, fp)

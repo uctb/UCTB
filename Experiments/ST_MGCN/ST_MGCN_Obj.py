@@ -41,6 +41,8 @@ def stmeta_param_parser():
     parser.add_argument('--Device', default='0', type=str)
     # version control
     parser.add_argument('--CodeVersion', default='V')
+    # Merge times
+    parser.add_argument('--MergeIndex', default=6, type=int)
     return parser
 
 
@@ -54,8 +56,8 @@ if nni_params:
     args['CodeVersion'] += str(nni_sid)
 
 model_dir = os.path.join('model_dir', args['City'])
-code_version = 'ST_MMGCN_{}_K{}L{}_{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
-                                              args['K'], args['L'], args['CodeVersion'])
+code_version = 'ST_MMGCN_{}_K{}L{}_{}_F{}'.format(''.join([e[0] for e in args['Graph'].split('-')]),
+                                              args['K'], args['L'], args['CodeVersion'],int(args['MergeIndex'])*5)
 
 deviceIDs = GPUtil.getAvailable(order='memory', limit=2, maxLoad=1, maxMemory=0.7,
                                 includeNan=False, excludeID=[], excludeUUID=[])
@@ -73,7 +75,8 @@ data_loader = NodeTrafficLoader(dataset=args['Dataset'], city=args['City'],
                                 data_range=args['DataRange'], train_data_length=args['TrainDays'],
                                 closeness_len=int(args['CT']), period_len=int(args['PT']), trend_len=int(args['TT']),
                                 threshold_interaction=args['TI'], threshold_distance=args['TD'],
-                                threshold_correlation=args['TC'], graph=args['Graph'], with_lm=True, normalize=True)
+                                threshold_correlation=args['TC'], graph=args['Graph'], with_lm=True, normalize=True, MergeIndex=args['MergeIndex'],
+                                MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
 
 ST_MGCN_Obj = ST_MGCN(T=int(args['CT']) + int(args['PT']) + int(args['TT']),
                       input_dim=1,
@@ -100,7 +103,7 @@ if args['Train'] == 'True':
                                                  np.transpose(data_loader.train_trend, [0, 2, 1, 3])), axis=1),
                     laplace_matrix=data_loader.LM,
                     target=data_loader.train_y,
-                    external_feature=data_loader.train_ef,
+                    external_feature= None,
                     early_stop_method='t-test',
                     output_names=('loss', ),
                     evaluate_loss_name='loss',
@@ -117,7 +120,7 @@ prediction = ST_MGCN_Obj.predict(traffic_flow=np.concatenate((np.transpose(data_
                                                              np.transpose(data_loader.test_period, [0, 2, 1, 3]),
                                                              np.transpose(data_loader.test_trend, [0, 2, 1, 3])), axis=1),
                                  laplace_matrix=data_loader.LM,
-                                 external_feature=data_loader.test_ef,
+                                 external_feature=None,
                                  sequence_length=data_loader.test_sequence_len,
                                  output_names=['prediction'],
                                  cache_volume=int(args['BatchSize']))

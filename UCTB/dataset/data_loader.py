@@ -32,7 +32,7 @@ class GridTrafficLoader(object):
                  MergeIndex=1,
                  MergeWay="sum",**kwargs):
 
-        self.dataset = DataSet(dataset, MergeIndex,MergeWay, city,data_dir=data_dir)
+        self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
@@ -173,7 +173,8 @@ class NodeTrafficLoader(object):
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
         data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
             ``dataset`` is file path, ``data_dir`` should be ``None`` too. Default: ``None``
-        MergeIndex(int): The granularity of dataset is `MergeIndex`* 5 mins.
+        MergeIndex(int): The granularity of dataset will be `MergeIndex`* original granularity.
+        MergeWay(str): How to change the data granularity. Now it can be `sum` `average` or `max`.
 
     Attributes:
         dataset (DataSet): The DataSet object storing basic data.
@@ -213,7 +214,7 @@ class NodeTrafficLoader(object):
                  MergeIndex=1,
                  MergeWay="sum",**kwargs):
 
-        self.dataset = DataSet(dataset, MergeIndex,MergeWay, city,data_dir=data_dir)
+        self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 

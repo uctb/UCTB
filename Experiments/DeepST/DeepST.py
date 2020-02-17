@@ -11,9 +11,10 @@ args = {
     'kernel_size': 3,
     'lr': 5e-5,
     'batch_size': 64,
+    'MergeIndex': 6,
 }
 
-code_version = 'DeepST_{}_{}'.format(args['dataset'], args['city'])
+code_version = 'DeepST_{}_{}_F{}'.format(args['dataset'], args['city'], int(args['MergeIndex'])*5)
 
 nni_params = nni.get_next_parameter()
 nni_sid = nni.get_sequence_id()
@@ -23,7 +24,7 @@ if nni_params:
 
 # Config data loader
 data_loader = GridTrafficLoader(dataset=args['dataset'], city=args['city'],
-                                closeness_len=6, period_len=7, trend_len=4)
+                                closeness_len=6, period_len=7, trend_len=4,MergeIndex=args['MergeIndex'])
 
 deep_st_obj = DeepST(closeness_len=data_loader.closeness_len,
                      period_len=data_loader.period_len,

@@ -21,13 +21,18 @@ parser = argparse.ArgumentParser(description="Argument Parser")
 parser.add_argument('--dataset', default=' ', type=str)
 parser.add_argument('--city', default=None)
 parser.add_argument('--MergeIndex', default=3)
+parser.add_argument('--DataRange', default="all")
+parser.add_argument('--TrainDays', default="all")
 
 # note that the args is different from param
 args = vars(parser.parse_args())
 
 
 data_loader = NodeTrafficLoader(dataset=args["dataset"], city=args['city'], closeness_len=int(params['CT']), period_len=int(params['PT']), trend_len=int(params['TT']),
-                                with_lm=False, normalize=False, MergeIndex=args['MergeIndex'])
+                                data_range=args['DataRange'], train_data_length=args['TrainDays'],
+                                test_ratio=0.1,
+                                with_lm=False, normalize=False, MergeIndex=args['MergeIndex'],
+                                MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
 
 train_closeness, val_closeness = SplitData.split_data(
     data_loader.train_closeness, [0.9, 0.1])

@@ -2,4 +2,4 @@
 
 ## Project HomePage
 
-[HomePage](./docs/index.html)
+[HomePage](https://uctb.github.io/UCTB/)

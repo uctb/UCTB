@@ -89,6 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -410,7 +411,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <span id="uctb-model-stmeta-module"></span><h2>5.4.6. UCTB.model.STMeta module<a class="headerlink" href="#module-UCTB.model.STMeta" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.STMeta.STMeta">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.STMeta.</code><code class="sig-name descname">STMeta</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_layers=1</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_dense_units=32</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='GCLSTM'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">output_activation=&lt;function sigmoid&gt;</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='STMeta-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.STMeta.</code><code class="sig-name descname">STMeta</code><span class="sig-paren">(</span><em class="sig-param">num_node, external_dim, closeness_len, period_len, trend_len, num_graph=1, gcn_k=1, gcn_layers=1, gclstm_layers=1, num_hidden_units=64, num_dense_units=32, graph_merge_gal_units=32, graph_merge_gal_num_heads=2, temporal_merge_gal_units=64, temporal_merge_gal_num_heads=2, st_method='GCLSTM', temporal_merge='gal', graph_merge='gal', output_activation=&lt;function sigmoid&gt;, lr=0.0001, code_version='STMeta-QuickStart', model_dir='model_dir', gpu_device='0', embedding_flag=True, embedding_dim=[10, 1, 5], classified_embedding=[], decay_param=None, **kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -454,6 +455,7 @@ spatial-temporal modeling methods.
 <li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
 <li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
 <li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
+<li><p><strong>decay_param=</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The file path of decay function parameter. If set <cite>None</cite>, using fixed lr. default: None.</p></li>
 </ul>
 </dd>
 </dl>

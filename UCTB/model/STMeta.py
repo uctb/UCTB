@@ -120,7 +120,7 @@ class STMeta(BaseModel):
         # add decay func
         self._optimizer = Optimizer(decay_param=decay_param,lr=self._lr)
         
-        # add embedding tenique
+        # external feature embedding param
         self._embedding_flag = embedding_flag
         self._embedding_dim = embedding_dim
         self._classified_embedding_ind = classified_embedding
@@ -247,16 +247,11 @@ class STMeta(BaseModel):
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
 
             dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
-
-            # print("dense_inputs shape",dense_inputs.get_shape())
-            # self.dense_input = dense_inputs
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
                 external_input = tf.placeholder(tf.float32, [None, self._external_dim])
                 self._input['external_feature'] = external_input.name
-
-                # index of classified external feature
-                
+                # index of classified external feature 
                 if len(self._classified_embedding_ind) > 0: # embedding by class
                     if len(self._classified_embedding_ind) != len(self._embedding_dim):
                         ValueError("external feature dim is not equal to specified embedding_dim, modify `embedding_dim`")

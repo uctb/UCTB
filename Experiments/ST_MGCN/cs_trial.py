@@ -25,7 +25,7 @@ shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
 
 if __name__ == "__main__":
 
-    os.system(shared_params_st_mgcn + ' --City Beijing --Group Debug --K 1 --L 1 --CodeVersion V0'
-                                      ' --Graph Distance-Correlation --MergeIndex 6 --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City Beijing --Group Debug --K 1 --L 1 --CodeVersion V0'
-                                      ' --Graph Distance-Correlation --MergeIndex 12 --MergeIndex 12')
+    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation --MergeIndex 1')
+    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation --MergeIndex 2')

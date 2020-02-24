@@ -77,7 +77,8 @@ data_loader = my_data_loader(dataset=args.Dataset, city=args.City,
                              data_range=args.DataRange, train_data_length=args.TrainDays,
                              closeness_len=int(args.CT), period_len=int(args.PT), trend_len=int(args.TT),
                              threshold_interaction=args.TI, threshold_distance=args.TD,
-                             threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True, MergeIndex=args.MergeIndex)
+                             threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True, MergeIndex=args.MergeIndex
+                             MergeWay="max" if args.Dataset == "ChargeStation" else "sum")
 
 print('Code version', args.Dataset, args.City, code_version)
 

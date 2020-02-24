@@ -76,7 +76,7 @@ data_loader = NodeTrafficLoader(dataset=args['Dataset'], city=args['City'],
                                 closeness_len=int(args['CT']), period_len=int(args['PT']), trend_len=int(args['TT']),
                                 threshold_interaction=args['TI'], threshold_distance=args['TD'],
                                 threshold_correlation=args['TC'], graph=args['Graph'], with_lm=True, normalize=True, MergeIndex=args['MergeIndex'],
-                                MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
+                                MergeWay="max" if args["Dataset"] == "ChargeStation" else "sum")
 
 ST_MGCN_Obj = ST_MGCN(T=int(args['CT']) + int(args['PT']) + int(args['TT']),
                       input_dim=1,

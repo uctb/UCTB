@@ -259,7 +259,7 @@ class STMeta(BaseModel):
                     ind = 0
                     for i,tmp in enumerate(self._classified_embedding_ind):
                         tensor_slice = tf.strided_slice(external_input,[0,ind],[tf.shape(external_input)[0],ind+tmp],[1,1])
-                        tensor_slice = tf.reshape(tensor_slice,[-1,ind+tmp])
+                        tensor_slice = tf.reshape(tensor_slice,[-1,tmp])
                         extern_embedding = tf.keras.layers.Dense(units=self._embedding_dim[i])(tensor_slice)
                         embedding_output.append(extern_embedding)
                         ind += tmp

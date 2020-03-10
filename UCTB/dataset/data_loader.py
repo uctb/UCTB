@@ -266,17 +266,17 @@ class NodeTrafficLoader(object):
         # Temporal Position Feature
         # HourOfDay Feature
         hourofday_feature = [[(parse(self.dataset.time_range[0]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
-        # one-hot HourOfDay feature   
-        hourofday_feature = one_hot(hourofday_feature)
+        # one-hot HourOfDay feature
+        hourofday_feature = np.array(hourofday_feature)   
 
         # DayOfWeek Feature
         dayofweek_feature = [[(parse(self.dataset.time_range[0]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday()]
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday() / 7]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
         # one-hot DayOfWeek feature   
-        dayofweek_feature = one_hot(dayofweek_feature)
+        dayofweek_feature = np.array(dayofweek_feature)
         external_onehot_dim.append(hourofday_feature.shape[1]+dayofweek_feature.shape[1])
 
         external_feature.append(holiday_feature)

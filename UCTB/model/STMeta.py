@@ -125,6 +125,8 @@ class STMeta(BaseModel):
         self._embedding_dim = embedding_dim
         self._classified_embedding_ind = classified_embedding
     
+        self._external_len = closeness_len
+
     def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
 
@@ -249,8 +251,15 @@ class STMeta(BaseModel):
             dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
             # external dims
             if self._external_dim is not None and self._external_dim > 0:
-                external_input = tf.placeholder(tf.float32, [None, self._external_dim])
+                external_input = tf.placeholder(tf.float32, [None, self._external_dim, self._external_len, 1],name="external_feature")
                 self._input['external_feature'] = external_input.name
+
+                cell = tf.keras.layers.LSTMCell(units=10)
+                multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * 1)
+                outputs = tf.keras.layers.RNN(multi_layer_gru)(
+                    tf.reshape(external_input, [-1, self._external_len*self._external_dim, 1]))
+                external_input = tf.reshape(outputs, [-1, 10])
+
                 # index of classified external feature 
                 if len(self._classified_embedding_ind) > 0: # embedding by class
                     if len(self._classified_embedding_ind) != len(self._embedding_dim):

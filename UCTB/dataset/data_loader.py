@@ -332,10 +332,15 @@ class NodeTrafficLoader(object):
 
         self.train_sequence_len = max((len(self.train_closeness), len(self.train_period), len(self.train_trend)))
         self.test_sequence_len = max((len(self.test_closeness), len(self.test_period), len(self.test_trend)))
-
+        # self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
+        # self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
         # external feature
-        self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
-        self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
+        self.extern_move_sample = ST_MoveSample(closeness_len= self.closeness_len,
+                                            period_len=self.period_len,
+                                            trend_len=self.trend_len, target_length=1, daily_slots=self.daily_slots)
+
+        self.train_external, _, _, _ = self.extern_move_sample.move_sample(self.train_ef)
+        self.test_external, _, _, _ = self.extern_move_sample.move_sample(self.test_ef)
 
         if with_tpe:
 

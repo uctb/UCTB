@@ -200,7 +200,7 @@ class BaseModel(object):
             
             if "lr" in output_names:
                 print("lr:", train_output['lr'] ,end=' ')
-            print("feed_dict_tf",feed_dict_tf)
+            #print("feed_dict_tf",feed_dict_tf)
 
             # validation
             val_output = self.predict(**val_feed_dict, output_names=output_names,

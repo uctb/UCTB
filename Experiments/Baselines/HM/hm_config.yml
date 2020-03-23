@@ -15,6 +15,7 @@ trial:
   # python HM.py --dataset DiDi --city Xian --MergeIndex 12 --DataRange all --TrainDays all
   # python HM.py --dataset Bike --city NYC --MergeIndex 12 --DataRange all --TrainDays 365
   # python HM.py --dataset ChargeStation --city Beijing --MergeIndex 1 --DataRange all --TrainDays all
-  command: python HM.py --dataset Taxi --city BJ --MergeIndex 2 --DataRange all --TrainDays all
+  # python HM.py --dataset Taxi --city BJ --MergeIndex 2 --DataRange all --TrainDays all
+  command: python HM.py --dataset Bike --city Chicago --MergeIndex 12 --DataRange all --TrainDays all
   codeDir: .
   gpuNum: 0

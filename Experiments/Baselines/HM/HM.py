@@ -8,9 +8,9 @@ import os
 
 
 params = {
-    'CT': 6,
+    'CT': 0,
     'PT': 0,
-    'TT': 0,
+    'TT': 4,
 }
 
 params.update(nni.get_next_parameter())
@@ -18,9 +18,9 @@ params.update(nni.get_next_parameter())
 
 # acquire data source path
 parser = argparse.ArgumentParser(description="Argument Parser")
-parser.add_argument('--dataset', default=' ', type=str)
-parser.add_argument('--city', default=None)
-parser.add_argument('--MergeIndex', default=3)
+parser.add_argument('--dataset', default='Metro', type=str)
+parser.add_argument('--city', default="Shanghai", type=str)
+parser.add_argument('--MergeIndex', default=1)
 parser.add_argument('--DataRange', default="all")
 parser.add_argument('--TrainDays', default="all")
 
@@ -58,8 +58,8 @@ val_prediction = hm_obj.predict(closeness_feature=val_closeness,
                                 trend_feature=val_trend)
 
 
-print('RMSE', metric.rmse(test_prediction, data_loader.test_y, threshold=0))
-print('RMSE', metric.rmse(val_prediction, val_y, threshold=0))
+print('Test RMSE', metric.rmse(test_prediction, data_loader.test_y, threshold=0))
+print('Val RMSE', metric.rmse(val_prediction, val_y, threshold=0))
 
 
 nni.report_final_result({'default': metric.rmse(val_prediction, val_y, threshold=0),

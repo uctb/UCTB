@@ -1,0 +1,28 @@
+# dataset and city
+dataset: CD
+city: Beijing
+
+closeness_len: 3
+period_len: 5
+trend_len: 1
+
+graph: Distance-Correlation
+
+data_range: all
+train_data_length: all
+
+threshold_distance: 1000
+threshold_correlation: 0
+threshold_interaction: 500
+
+normalize: True
+train: True
+
+lr: 0.00001
+early_stop_length: 100
+early_stop_patience: 0.1
+max_epoch: 20000
+batch_size: 32
+
+group: Beijing
+mark: BM

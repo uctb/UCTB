@@ -8,20 +8,20 @@ import nni
 import os
 
 params = {
-    'CT': 6,
+    'CT': 3,
     'PT': 7,
-    'TT': 4,
-    'max_depth': 10,
-    'num_boost_round': 150
+    'TT': 0,
+    'max_depth': 5,
+    'num_boost_round': 50
 }
 
 
 
 parser = argparse.ArgumentParser(description="Argument Parser")
 # data source
-parser.add_argument('--dataset', default=' ', type=str)
-parser.add_argument('--city', default=None)
-parser.add_argument('--MergeIndex', default=3)
+parser.add_argument('--dataset', default='Metro', type=str)
+parser.add_argument('--city', default="Shanghai", type=str)
+parser.add_argument('--MergeIndex', default=1)
 parser.add_argument('--DataRange', default="all")
 parser.add_argument('--TrainDays', default="all")
 

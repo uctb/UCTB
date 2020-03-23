@@ -32,6 +32,8 @@ class GridTrafficLoader(object):
                  MergeIndex=1,
                  MergeWay="sum",**kwargs):
 
+        self.loader_id = "{}_{}_{}_{}_{}_{}_G".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len)
+        
         self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
@@ -53,7 +55,7 @@ class GridTrafficLoader(object):
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
             # Weekday Feature
             weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
-                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
+                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60), self.dataset.city) else 0] \
                             for e in range(data_range[0], num_time_slots + data_range[0])]
             # Hour Feature
             hour_feature = [[(parse(self.dataset.time_range[0]) +
@@ -212,7 +214,10 @@ class NodeTrafficLoader(object):
                  with_tpe=False,
                  data_dir=None,
                  MergeIndex=1,
-                 MergeWay="sum",**kwargs):
+                 MergeWay="sum",
+                 remove=True,**kwargs):
+
+        self.loader_id = "{}_{}_{}_{}_{}_{}_N".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len)
 
         self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
@@ -226,6 +231,8 @@ class NodeTrafficLoader(object):
         assert type(self.period_len) is int and self.period_len >= 0
         assert type(self.trend_len) is int and self.trend_len >= 0
 
+        if type(data_range) is str and data_range.lower().startswith("0."):
+            data_range = float(data_range)
         if type(data_range) is str and data_range.lower() == 'all':
             data_range = [0, len(self.dataset.node_traffic)]
         elif type(data_range) is float:
@@ -236,7 +243,10 @@ class NodeTrafficLoader(object):
         num_time_slots = data_range[1] - data_range[0]
 
         # traffic feature
-        self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
+        if remove:
+            self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
+        else:
+            self.traffic_data_index = np.arange(self.dataset.node_traffic.shape[1])
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
             np.float32)
@@ -248,7 +258,7 @@ class NodeTrafficLoader(object):
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
             # Weekday Feature
             weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
-                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
+                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60), self.dataset.city) else 0] \
                             for e in range(data_range[0], num_time_slots + data_range[0])]
             # Hour Feature
             hour_feature = [[(parse(self.dataset.time_range[0]) +
@@ -420,9 +430,9 @@ class NodeTrafficLoader(object):
         # os.environ['MAPBOX_API_KEY'] = mapboxAccessToken
 
         lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
-        build_order = build_order or list(range(len(self.dataset.node_station_info)))
+        #build_order = build_order or list(range(len(self.dataset.node_station_info)))
 
-        color = ['rgb(255, 0, 0)' for _ in build_order]
+        #color = ['rgb(255, 0, 0)' for _ in build_order]
 
         lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
         lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]
@@ -437,10 +447,10 @@ class NodeTrafficLoader(object):
             mode='markers',
             marker=dict(
                 size=6,
-                # color=['rgb(%s, %s, %s)' % (255,
-                #                 #                             195 - e * 195 / max(build_order),
-                #                 #                             195 - e * 195 / max(build_order)) for e in build_order],
-                color=color,
+                 color=['rgb(%s, %s, %s)' % (255,
+                                                              195 - e * 195 / max(build_order),
+                                                              195 - e * 195 / max(build_order)) for e in build_order],
+                #color=color,
                 opacity=1,
             ))]
 

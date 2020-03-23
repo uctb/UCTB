@@ -1,11 +1,12 @@
 from dateutil.parser import parse
 from chinese_calendar import is_workday
+from workalendar.usa import NewYork, DistrictOfColumbia, Illinois
 
 america_public_holiday = ['01-01', '01-02', '01-16', '02-12', '02-13', '02-20', '05-29', '07-04', '09-04',
                           '10-09', '11-10', '11-11', '11-23', '12-25']
 
 
-def is_work_day_america(date):
+def is_work_day_america(date, city):
     """
     Args:
         date(string or datetime): e.g. 2019-01-01
@@ -16,16 +17,19 @@ def is_work_day_america(date):
     """
     if type(date) is str:
         date = parse(date)
-    if date.strftime('%m-%d') in america_public_holiday:
-        return False
-    week = date.weekday()
-    if week < 5:
-        return True
+
+    if city == "Chicago":
+        workday = Illinois()
+    elif city == "NYC":
+        workday = NewYork()
+    elif city == "DC":
+        workday = DistrictOfColumbia()
     else:
-        return False
+        raise ValueError("can't parse holiday in {}.".format(city))
+    return workday.is_working_day(date)
 
 
-def is_work_day_china(date):
+def is_work_day_china(date, city):
     """
     Args:
         date(string or datetime): e.g. 2019-01-01

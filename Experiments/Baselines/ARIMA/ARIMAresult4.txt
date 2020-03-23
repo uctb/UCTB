@@ -1,0 +1,284 @@
+*********************************************************
+Processing city----------------['DiDi', 'Chengdu', 'all', 'all']---using ARIMA-------MergeIndex 6--*************************************************************
+Station 0 13.711349
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 1 2.579733
+Station 2 6.6044135
+Station 3 7.05549
+Station 4 8.250383
+Station 5 10.467345
+Station 6 10.48243
+Station 7 20.253962
+Station 8 6.035921
+Station 9 6.6776876
+Station 10 4.9369884
+Station 11 6.055516
+Station 12 5.302287
+Station 13 5.9725533
+Station 14 6.104034
+Station 15 2.7393162
+Station 16 4.712185
+Station 17 4.971545
+Station 18 6.939254
+Station 19 7.066988
+Station 20 3.5428355
+Station 21 7.735981
+Station 22 8.068689
+Station 23 8.601076
+Station 24 7.4988985
+Station 25 6.25391
+Station 26 7.670552
+Station 27 5.4864736
+Station 28 4.766636
+Station 29 4.090495
+Station 30 5.145083
+Station 31 1.9162866
+Station 32 17.97718
+Station 33 8.60402
+Station 34 6.8126554
+Station 35 3.92245
+Station 36 8.645632
+Station 37 7.6153674
+Station 38 8.198426
+Station 39 5.6577077
+Station 40 6.8337684
+Station 41 4.7724643
+Station 42 5.1911683
+Station 43 8.496228
+Station 44 4.6416693
+Station 45 8.207993
+Station 46 5.2032275
+Station 47 1.899412
+Station 48 6.433274
+Station 49 5.808202
+Station 50 8.004649
+Station 51 7.743977
+Station 52 8.252874
+Station 53 5.990304
+Station 54 8.197817
+Station 55 6.698182
+Station 56 3.2818947
+Station 57 4.911424
+Station 58 5.4660845
+Station 59 7.225959
+Station 60 7.2608504
+Station 61 8.900003
+Station 62 2.5270143
+Station 63 9.578957
+Station 64 16.704376
+Station 65 7.741912
+Station 66 6.335764
+Station 67 5.9638677
+Station 68 2.4005187
+Station 69 5.122928
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 70 5.2124057
+Station 71 5.356529
+Station 72 4.3365293
+Station 73 4.2333164
+Station 74 6.278329
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 75 2.6600432
+Station 76 7.3974166
+Station 77 5.22593
+Station 78 2.9772735
+Station 79 3.005292
+Station 80 7.46259
+Station 81 4.801761
+Station 82 4.8266454
+Station 83 4.903602
+Station 84 2.1856487
+Station 85 4.9421816
+Station 86 3.6393113
+Station 87 5.058593
+Station 88 5.132106
+Station 89 5.623071
+Station 90 6.320681
+Station 91 5.7594757
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 92 5.5915523
+Station 93 3.8245366
+Station 94 3.4334276
+Station 95 3.78677
+Station 96 20.69597
+Station 97 7.125454
+Station 98 2.7388065
+Station 99 4.3222437
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 100 4.160394
+Station 101 6.4502134
+Station 102 8.316667
+Station 103 5.3306956
+Station 104 4.696508
+Station 105 5.6611905
+Station 106 2.9123423
+Station 107 8.141943
+Station 108 6.39752
+Station 109 5.079448
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 110 2.6499662
+Station 111 1.3510665
+Station 112 6.471828
+Station 113 7.087803
+Station 114 4.454357
+Station 115 4.5779953
+Station 116 3.2060301
+Station 117 4.976068
+Station 118 9.56011
+Station 119 4.2352014
+Station 120 5.2474227
+Station 121 3.0774803
+Station 122 3.9521692
+Station 123 2.3892255
+Station 124 3.991551
+Station 125 3.6314807
+Station 126 1.1170394
+Station 127 0.9718683
+Station 128 25.31282
+Station 129 4.6957645
+Station 130 5.9488754
+Station 131 2.9237874
+Station 132 3.8439333
+Station 133 18.029398
+Station 134 5.6289706
+Station 135 4.6135263
+Station 136 3.9284809
+Station 137 3.3638766
+Station 138 2.6903026
+Station 139 1.3908387
+Station 140 1.9181256
+Station 141 1.3488996
+Station 142 0.99423814
+Station 143 1.179851
+Station 144 9.295492
+Station 145 2.5206618
+Station 146 2.492386
+Station 147 1.2561773
+Station 148 1.9495746
+Station 149 2.6063957
+Station 150 1.8138498
+Station 151 1.4137751
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 152 2.045983
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 153 3.7347574
+Station 154 3.49125
+Station 155 3.9615705
+Station 156 3.9963956
+Station 157 3.3962803
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 158 2.104242
+Station 159 0.97078925
+Station 160 13.583108
+Station 161 5.648617
+Station 162 3.3790703
+Station 163 1.5215415
+Station 164 3.408914
+Station 165 5.1063857
+Station 166 3.433604
+Station 167 5.1150684
+Station 168 0.98806447
+Station 169 4.371572
+Station 170 5.376337
+Station 171 6.282998
+Station 172 3.7531404
+Station 173 3.1289973
+Station 174 3.0757163
+Station 175 1.0361346
+Station 176 7.6758356
+Station 177 4.22324
+Station 178 1.6465539
+Station 179 1.1960899
+Station 180 5.3664746
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 181 2.7158988
+Station 182 2.3370063
+Station 183 2.4122336
+Station 184 1.4839867
+Station 185 3.2630591
+Station 186 5.4552703
+Station 187 4.4373713
+Station 188 1.193471
+Station 189 0.95689523
+Station 190 2.779541
+Station 191 2.1220372
+Station 192 5.3467126
+Station 193 5.269757
+Station 194 2.4754539
+Station 195 2.7831144
+Station 196 6.6097736
+Station 197 4.401654
+Station 198 2.0055418
+Station 199 0.9542725
+Station 200 1.247179
+Station 201 3.3953037
+Station 202 4.142672
+Station 203 6.0839787
+Station 204 4.160886
+Station 205 4.8238277
+Station 206 1.2760737
+Station 207 1.0413946
+Station 208 9.602755
+Station 209 1.6442102
+Station 210 1.3471795
+Station 211 2.4109766
+Station 212 0.9755798
+Station 213 3.2010982
+Station 214 2.5030382
+Station 215 1.5066595
+Station 216 1.0229766
+Station 217 1.4918854
+Station 218 2.0397682
+Station 219 3.5000603
+Station 220 4.1658316
+Station 221 5.415305
+Station 222 1.1996689
+Station 223 1.3170111
+Station 224 17.032808
+Station 225 2.285401
+Station 226 4.2471285
+Station 227 6.642527
+Station 228 1.1319104
+Station 229 3.2321315
+Station 230 5.046325
+Station 231 3.1304586
+Station 232 1.0886401
+Station 233 1.2364268
+Station 234 1.011348
+Station 235 1.3474112
+Station 236 5.597541
+Station 237 2.9540243
+Station 238 1.1774232
+Station 239 1.5512224
+Station 240 15.875667
+Station 241 7.951757
+Station 242 1.2833128
+Station 243 7.685844
+Station 244 1.3369988
+Station 245 1.3188207
+Station 246 13.473007
+Station 247 1.0181841
+Station 248 1.2561867
+Station 249 1.1917001
+Station 250 1.0021343
+Station 251 1.1248283
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 252 9.3951845
+Station 253 1.9168838
+Station 254 1.0370762
+Station 255 1.0381286
+DiDi Chengdu val_rmse 6.551231
+DiDi Chengdu test_rmse 6.6183186
+*************************************************************
+

@@ -1,0 +1,532 @@
+*********************************************************
+Processing city----------------['Bike', 'Chicago', '0.5', '183']---using ARIMA-------MergeIndex 6--*************************************************************
+Station 0 3.9432871
+Station 1 5.554788
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 2 4.1696568
+Station 3 1.904408
+Station 4 4.087414
+Station 5 2.338487
+Station 6 1.4294889
+Station 7 1.4632773
+Station 8 1.8358158
+Station 9 1.2115958
+Station 10 1.3678646
+Station 11 1.6921129
+Station 12 1.561588
+Station 13 2.6529696
+Station 14 1.4032979
+Station 15 1.7987765
+Station 16 1.4689584
+Station 17 1.4386201
+Station 18 1.5836935
+Station 19 2.5576248
+Station 20 2.4774756
+Station 21 3.5623152
+Station 22 1.4026529
+Station 23 1.515555
+Station 24 1.7354076
+Station 25 1.4510372
+Station 26 2.264916
+Station 27 1.2795335
+Station 28 2.201214
+Station 29 2.893229
+Station 30 6.6920643
+Station 31 3.3533485
+Station 32 2.7091727
+Station 33 2.4826348
+Station 34 2.1148129
+Station 35 1.881819
+Station 36 2.3909023
+Station 37 1.5605457
+Station 38 3.8519778
+Station 39 2.6647587
+Station 40 2.5643003
+Station 41 1.7592846
+Station 42 2.5520554
+Station 43 2.4936686
+Station 44 3.5569222
+Station 45 2.5524797
+Station 46 2.7814534
+Station 47 3.4095638
+Station 48 2.0818465
+Station 49 1.7038037
+Station 50 1.7787313
+Station 51 2.1457121
+Station 52 1.8171132
+Station 53 2.8165207
+Station 54 2.38444
+Station 55 1.7748237
+Station 56 1.7348715
+Station 57 2.3285868
+Station 58 2.5619302
+Station 59 1.9002154
+Station 60 1.5437084
+Station 61 2.3327985
+Station 62 1.7676598
+Station 63 1.6741382
+Station 64 2.0270672
+Station 65 2.651697
+Station 66 3.6461709
+Station 67 5.770322
+Station 68 3.84379
+Station 69 1.698478
+Station 70 3.0237217
+Station 71 1.6635567
+Station 72 5.0841546
+Station 73 1.4219481
+Station 74 1.6171027
+Station 75 1.5959839
+Station 76 2.3422804
+Station 77 5.0181518
+Station 78 5.2560225
+Station 79 1.5534123
+Station 80 1.5806487
+Station 81 2.849068
+Station 82 1.7789419
+Station 83 3.9991324
+Station 84 2.5174632
+Station 85 3.0821688
+Station 86 2.588928
+Station 87 2.092818
+Station 88 1.6215765
+Station 89 1.9539741
+Station 90 1.9106911
+Station 91 1.5087494
+Station 92 1.4588467
+Station 93 2.4469922
+Station 94 2.0120647
+Station 95 2.0436273
+Station 96 1.8769206
+Station 97 2.6688848
+Station 98 2.0277452
+Station 99 1.6510484
+Station 100 1.8604841
+Station 101 2.3167746
+Station 102 1.7654079
+Station 103 2.2202644
+Station 104 1.4561396
+Station 105 1.4022604
+Station 106 1.6529645
+Station 107 1.5406882
+Station 108 2.2382057
+Station 109 2.6379857
+Station 110 1.6618013
+Station 111 1.8382299
+Station 112 1.3171723
+Station 113 1.571644
+Station 114 1.5617077
+Station 115 1.5027131
+Station 116 2.7389338
+Station 117 1.844093
+Station 118 1.3440435
+Station 119 1.3491516
+Station 120 1.559842
+Station 121 1.368382
+Station 122 2.22713
+Station 123 3.1294699
+Station 124 2.0000212
+Station 125 2.0654392
+Station 126 2.6295166
+Station 127 2.117012
+Station 128 1.3446118
+Station 129 1.5112805
+Station 130 1.5015604
+Station 131 2.752063
+Station 132 1.427677
+Station 133 1.5726753
+Station 134 1.4653666
+Station 135 1.7164816
+Station 136 2.0554686
+Station 137 2.380401
+Station 138 1.7519416
+Station 139 1.3694973
+Station 140 1.3691297
+Station 141 2.1220124
+Station 142 1.4672736
+Station 143 1.34048
+Station 144 1.8199755
+Station 145 2.264391
+Station 146 1.4597497
+Station 147 1.9196181
+Station 148 1.502958
+Station 149 1.1963642
+Station 150 1.280658
+Station 151 2.354968
+Station 152 4.8182163
+Station 153 2.4382608
+Station 154 1.6156343
+Station 155 2.5156133
+Station 156 5.275817
+Station 157 1.5967945
+Station 158 1.4291036
+Station 159 1.9000443
+Station 160 3.0044446
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 161 2.012657
+Station 162 1.574513
+Station 163 1.6247725
+Station 164 1.3544202
+Station 165 1.4399155
+Station 166 1.4942894
+Station 167 1.6209497
+Station 168 3.577519
+Station 169 5.1901083
+Station 170 1.7474366
+Station 171 2.523267
+Station 172 3.680205
+Station 173 2.335302
+Station 174 2.3828876
+Station 175 1.7716774
+Station 176 2.7091374
+Station 177 1.5964302
+Station 178 1.318539
+Station 179 1.2370576
+Station 180 1.3398151
+Station 181 1.1642339
+Station 182 1.3400502
+Station 183 1.3089762
+Station 184 1.2710763
+Station 185 1.3264816
+Station 186 1.9138215
+Station 187 2.6858983
+Station 188 2.5450423
+Station 189 1.5018865
+Station 190 1.4943817
+Station 191 1.6787603
+Station 192 1.4508681
+Station 193 1.7079605
+Station 194 1.7347705
+Station 195 1.9049891
+Station 196 1.9148431
+Station 197 1.4160239
+Station 198 1.7818276
+Station 199 1.5593264
+Station 200 1.748395
+Station 201 1.5452667
+Station 202 1.7894775
+Station 203 1.5080272
+Station 204 1.7988596
+Station 205 1.7181172
+Station 206 1.5526532
+Station 207 1.9425963
+Station 208 1.6569346
+Station 209 1.4351349
+Station 210 1.5082759
+Station 211 1.5326711
+Station 212 1.4725078
+Station 213 1.3977221
+Station 214 2.0663378
+Station 215 1.4660743
+Station 216 1.4619213
+Station 217 1.4516022
+Station 218 1.6649843
+Station 219 1.8486483
+Station 220 1.2160566
+Station 221 1.915853
+Station 222 1.3431987
+Station 223 4.222814
+Station 224 1.3108294
+Station 225 1.674608
+Station 226 1.3413404
+Station 227 1.3955598
+Station 228 1.9972268
+Station 229 3.7131293
+Station 230 1.625065
+Station 231 1.409151
+Station 232 1.3321837
+Station 233 1.4760857
+Station 234 1.8140576
+Station 235 1.9339114
+Station 236 1.2149869
+Station 237 1.773069
+Station 238 2.1925347
+Station 239 2.156119
+Station 240 2.022918
+Station 241 6.4406877
+Station 242 1.3038794
+Station 243 1.5944984
+Station 244 1.9044648
+Station 245 1.4705533
+Station 246 1.3398169
+Station 247 1.4643211
+Station 248 1.4466155
+Station 249 1.4776902
+Station 250 1.2533264
+Station 251 1.3256088
+Station 252 1.1227336
+Station 253 1.5716659
+Station 254 3.3904421
+Station 255 3.3968859
+Station 256 1.433018
+Station 257 3.0659292
+Station 258 4.3598127
+Station 259 1.6949509
+Station 260 2.6735299
+Station 261 1.6478468
+Station 262 2.086649
+Station 263 1.3621379
+Station 264 1.4759831
+Station 265 1.4704785
+Station 266 1.4906921
+Station 267 1.8799306
+Station 268 1.3785547
+Station 269 1.515914
+Station 270 1.9667805
+Station 271 2.0148554
+Station 272 2.2048383
+Station 273 1.7267758
+Station 274 1.9494632
+Station 275 1.8330404
+Station 276 1.3037273
+Station 277 1.4419732
+Station 278 1.7210108
+Station 279 1.3554703
+Station 280 1.4256705
+Station 281 1.5627713
+Station 282 1.2493203
+Station 283 1.9274013
+Station 284 2.441019
+Station 285 1.4327193
+Station 286 1.4141092
+Station 287 1.3532076
+Station 288 1.7713304
+Station 289 1.321306
+Station 290 1.4089568
+Station 291 1.4328691
+Station 292 2.1586232
+Station 293 1.402631
+Station 294 1.525728
+Station 295 2.1732757
+Station 296 1.4990336
+Station 297 1.4025555
+Station 298 1.9551374
+Station 299 1.6853807
+Station 300 2.5428672
+Station 301 1.303124
+Station 302 1.5712467
+Station 303 1.7140049
+Station 304 1.4668902
+Station 305 2.6131766
+Station 306 1.4105805
+Station 307 1.164734
+Station 308 1.9204432
+Station 309 2.3289776
+Station 310 1.2249297
+Station 311 2.05776
+Station 312 3.9496725
+Station 313 1.6059821
+Station 314 1.5810324
+Station 315 1.807377
+Station 316 1.5465803
+Station 317 1.6333754
+Station 318 1.4587297
+Station 319 1.2779375
+Station 320 1.6219809
+Station 321 1.3591293
+Station 322 1.3479443
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 323 1.5228595
+Station 324 1.7285069
+Station 325 1.8778191
+Station 326 2.01819
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 327 1.5171534
+Station 328 1.2409744
+Station 329 1.1966571
+Station 330 1.8883293
+Station 331 1.47902
+Station 332 1.3762851
+Station 333 1.3194441
+Station 334 2.090766
+Station 335 1.4214028
+Station 336 1.447017
+Station 337 1.2366192
+Station 338 1.6669326
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 339 nan
+Station 340 1.3103278
+Station 341 1.3142118
+Station 342 1.6458243
+Station 343 1.7220862
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 344 nan
+Station 345 1.8669684
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 346 1.5629218
+Station 347 1.5516607
+Station 348 1.5806558
+Station 349 1.3659962
+Station 350 1.2044432
+Station 351 1.4900377
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 352 1.4792291
+Station 353 2.5425422
+Station 354 1.5290343
+Station 355 1.719484
+Station 356 1.6334529
+Station 357 1.5919924
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 358 1.4452989
+Station 359 1.4810476
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 360 1.4888475
+Station 361 1.1182488
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 362 1.3996148
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 363 1.2068374
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 364 1.6889155
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 365 1.1847359
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 366 1.2292393
+Station 367 1.4348601
+Station 368 1.8165026
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 369 1.7504063
+Station 370 1.4868675
+Station 371 2.9418097
+Station 372 1.6950686
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 373 1.21152
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 374 1.7059828
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 375 1.6203101
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 376 1.3158119
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 377 1.164445
+Station 378 1.4340577
+Station 379 1.3405992
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 380 1.1695542
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 381 1.273132
+Station 382 1.4182872
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 383 1.1924393
+Station 384 1.1616571
+Station 385 1.221023
+Station 386 1.3399773
+Station 387 1.3035061
+Station 388 1.3051064
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 389 1.151751
+Station 390 1.2311847
+Station 391 1.329608
+Station 392 1.3943274
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 393 1.3294901
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 394 1.3217275
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 395 1.3789157
+Station 396 1.3155466
+Station 397 1.3690022
+Station 398 1.5797633
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 399 1.36626
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 400 1.448741
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 401 1.3491763
+Station 402 1.3001056
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 403 1.1758298
+Station 404 1.3447008
+Station 405 1.4215292
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 406 1.2234763
+Station 407 1.3388202
+Station 408 1.2087505
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 409 1.3776208
+Station 410 1.4755646
+Station 411 1.4118454
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 412 1.3755448
+Station 413 1.4282153
+Station 414 1.9000715
+Station 415 1.5819528
+Station 416 1.5948229
+Station 417 2.0533025
+Station 418 1.3234756
+Station 419 2.6306565
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 420 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 421 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 422 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 423 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 424 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 425 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 426 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 427 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 428 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 429 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 430 nan
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 431 nan
+Bike Chicago val_rmse 2.1840906354815948
+Bike Chicago test_rmse 2.4279811067129677
+*************************************************************
+

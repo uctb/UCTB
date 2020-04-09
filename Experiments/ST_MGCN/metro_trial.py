@@ -28,8 +28,21 @@ if __name__ == "__main__":
     """
     Multiple Graphes
     """
-    os.system(shared_params_st_mgcn + ' --City Shanghai --Group Debug --K 1 --L 1 --CodeVersion V0'
+    os.system(shared_params_st_mgcn + ' --City Shanghai --Group Chicago --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 3')
+
+    os.system(shared_params_st_mgcn + ' --City Shanghai --Group Chicago --K 1 --L 1 --CodeVersion V0'
                                       ' --Graph Distance-Correlation-Line --MergeIndex 6')
 
+    os.system(shared_params_st_mgcn + ' --City Shanghai --Group Chicago --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 12')
+
+    os.system(shared_params_st_mgcn + ' --City Chongqing --Group Chicago --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 3')
+
+    os.system(shared_params_st_mgcn + ' --City Chongqing --Group Chicago --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 6')
+                                      
     os.system(shared_params_st_mgcn + ' --City Chongqing --Group Chicago --K 1 --L 1 --CodeVersion V0'
                                       ' --Graph Distance-Correlation-Line --MergeIndex 12')
+                

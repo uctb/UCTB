@@ -11,8 +11,8 @@ graph: Distance-Correlation
 data_range: all
 train_data_length: all
 
-threshold_distance: 1000
-threshold_correlation: 0
+threshold_distance: 10000
+threshold_correlation: 0.85
 threshold_interaction: 500
 
 normalize: True

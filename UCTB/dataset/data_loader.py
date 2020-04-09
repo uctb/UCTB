@@ -411,6 +411,8 @@ class NodeTrafficLoader(object):
 
         if graph_name.lower() == 'line':
             LM = GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines'))
+            LM = LM[self.traffic_data_index]
+            LM = LM[:, self.traffic_data_index]
 
         if graph_name.lower() == 'transfer':
             LM = GraphBuilder.adjacent_to_laplacian(

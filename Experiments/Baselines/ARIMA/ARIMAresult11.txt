@@ -1,0 +1,548 @@
+*********************************************************
+Processing city----------------['Bike', 'Chicago', 'all', '365']---using ARIMA-------MergeIndex 12--*************************************************************
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 0 5.5383325
+Station 1 8.428185
+Station 2 5.5930934
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 3 2.574587
+Station 4 6.027403
+Station 5 2.9497032
+Station 6 1.0588169
+Station 7 1.451384
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 8 3.1620805
+Station 9 1.3863195
+Station 10 1.6164845
+Station 11 1.9236594
+Station 12 2.04669
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 13 6.895908
+Station 14 2.1227467
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 15 2.374558
+Station 16 1.8983411
+Station 17 2.1953049
+Station 18 1.8436763
+Station 19 3.7116802
+Station 20 3.4904373
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 21 5.3809175
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 22 1.820904
+Station 23 2.0556924
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 24 3.0437586
+Station 25 2.1262975
+Station 26 3.1225207
+Station 27 2.0407748
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 28 3.6703916
+Station 29 3.4953158
+Station 30 13.338393
+Station 31 4.8159213
+Station 32 3.6646159
+Station 33 3.3332956
+Station 34 8.704136
+Station 35 2.5662906
+Station 36 3.2321067
+Station 37 1.5249938
+Station 38 9.5762415
+Station 39 4.139327
+Station 40 2.9610426
+Station 41 2.4319727
+Station 42 4.0069027
+Station 43 5.6199427
+Station 44 4.593222
+Station 45 3.4328578
+Station 46 4.0892496
+Station 47 5.59563
+Station 48 3.400709
+Station 49 2.1890306
+Station 50 1.8759656
+Station 51 3.5290208
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 52 2.2212524
+Station 53 3.893871
+Station 54 3.817656
+Station 55 2.6240108
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 56 2.8508413
+Station 57 2.859185
+Station 58 4.822799
+Station 59 3.0149193
+Station 60 2.3126817
+Station 61 3.2178118
+Station 62 3.0052373
+Station 63 2.512968
+Station 64 2.488038
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 65 4.780443
+Station 66 6.131512
+Station 67 9.439772
+Station 68 8.756179
+Station 69 2.6830428
+Station 70 12.40393
+Station 71 2.7238479
+Station 72 7.4477577
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 73 2.0731704
+Station 74 1.8746506
+Station 75 1.9554193
+Station 76 3.7034793
+Station 77 7.1993017
+Station 78 10.550931
+Station 79 1.9727355
+Station 80 2.132343
+Station 81 4.5690913
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 82 2.783117
+Station 83 6.5233
+Station 84 3.56024
+Station 85 3.8729424
+Station 86 11.017053
+Station 87 2.0765994
+Station 88 1.3159151
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 89 3.011244
+Station 90 2.2593884
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 91 2.7812533
+Station 92 2.14062
+Station 93 4.186965
+Station 94 2.8296895
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 95 3.278908
+Station 96 2.6774504
+Station 97 5.0294814
+Station 98 2.51658
+Station 99 2.0415668
+Station 100 2.7449434
+Station 101 3.4872324
+Station 102 2.0251565
+Station 103 2.066887
+Station 104 1.446536
+Station 105 1.3878013
+Station 106 2.3019574
+Station 107 1.2083291
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 108 3.6457148
+Station 109 3.201162
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 110 2.4691918
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 111 2.534234
+Station 112 1.583086
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 113 2.65296
+Station 114 1.676789
+Station 115 1.413815
+Station 116 5.493073
+Station 117 2.9056666
+Station 118 1.4060225
+Station 119 1.4518653
+Station 120 1.7888114
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 121 2.4108975
+Station 122 3.2442913
+Station 123 4.2958937
+Station 124 3.7245047
+Station 125 2.8310828
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 126 4.5156903
+Station 127 2.3987854
+Station 128 1.5955753
+Station 129 2.5335724
+Station 130 1.669362
+Station 131 3.7389643
+Station 132 1.70689
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 133 2.3120635
+Station 134 1.6666905
+Station 135 2.5344443
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 136 2.7808287
+Station 137 3.3636973
+Station 138 2.2679143
+Station 139 1.6881865
+Station 140 1.4066681
+Station 141 2.861846
+Station 142 1.4619739
+Station 143 1.3586717
+Station 144 2.146584
+Station 145 3.6135364
+Station 146 1.5995395
+Station 147 2.4317317
+Station 148 1.5617656
+Station 149 1.419018
+Station 150 1.2818155
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 151 3.2339108
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 152 9.910937
+Station 153 3.408253
+Station 154 2.2669828
+Station 155 3.7748883
+Station 156 9.14493
+Station 157 1.6050828
+Station 158 1.3892047
+Station 159 2.3148375
+Station 160 4.7731924
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 161 3.2253141
+Station 162 1.9021477
+Station 163 1.8311265
+Station 164 1.3556898
+Station 165 1.9607402
+Station 166 1.5475757
+Station 167 2.0795393
+Station 168 6.299653
+Station 169 11.273548
+Station 170 1.8091834
+Station 171 3.9201124
+Station 172 7.068963
+Station 173 3.0781476
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 174 3.5352294
+Station 175 2.813207
+Station 176 3.4974723
+Station 177 1.6509031
+Station 178 1.5424148
+Station 179 1.1985528
+Station 180 1.3498328
+Station 181 1.236957
+Station 182 1.3982207
+Station 183 1.2693311
+Station 184 1.3483235
+Station 185 1.4639446
+Station 186 3.0972965
+Station 187 4.131101
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 188 3.9184692
+Station 189 1.7317809
+Station 190 1.6914184
+Station 191 1.9045135
+Station 192 1.4683138
+Station 193 2.1211095
+Station 194 1.6973284
+Station 195 2.5140107
+Station 196 2.8178227
+Station 197 1.4838047
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 198 2.4693432
+Station 199 1.845422
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 200 2.6264722
+Station 201 1.9626528
+Station 202 2.0495305
+Station 203 1.5436707
+Station 204 2.4217577
+Station 205 2.069292
+Station 206 1.9798529
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 207 3.3311691
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 208 2.56276
+Station 209 1.6350391
+Station 210 1.5258621
+Station 211 2.6389573
+Station 212 1.4733081
+Station 213 1.7168788
+Station 214 2.6176746
+Station 215 2.8017123
+Station 216 1.7492483
+Station 217 1.530221
+Station 218 1.9200727
+Station 219 2.05691
+Station 220 1.2588431
+Station 221 2.4270992
+Station 222 1.4033748
+Station 223 5.172539
+Station 224 1.360126
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 225 1.8828216
+Station 226 1.2235206
+Station 227 1.5295593
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 228 2.9101632
+Station 229 5.2771287
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 230 2.201976
+Station 231 1.4645383
+Station 232 1.5144403
+Station 233 1.4117502
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 234 2.7257092
+Station 235 2.2881887
+Station 236 1.2518691
+Station 237 1.7104917
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 238 3.3060331
+Station 239 1.8222507
+Station 240 2.230569
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 241 10.720959
+Station 242 1.252626
+Station 243 1.7454967
+Station 244 2.6016977
+Station 245 1.3093462
+Station 246 1.5936007
+Station 247 1.4126042
+Station 248 1.7520685
+Station 249 1.2424885
+Station 250 1.234607
+Station 251 1.271096
+Station 252 1.130206
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 253 2.4039168
+Station 254 4.1941214
+Station 255 4.671349
+Station 256 1.7037176
+Station 257 3.6864493
+Station 258 14.048638
+Station 259 1.9755414
+Station 260 3.8408682
+Station 261 1.8224826
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 262 3.1924205
+Station 263 1.3501703
+Station 264 1.5745027
+Station 265 1.833509
+Station 266 1.4460324
+Station 267 2.534947
+Station 268 1.303756
+Station 269 1.3819418
+Station 270 2.2289379
+Station 271 3.009334
+Station 272 2.7684982
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 273 2.4250505
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 274 2.7250185
+Station 275 2.193251
+Station 276 1.6696995
+Station 277 1.6295968
+Station 278 1.7545564
+Station 279 1.3610541
+Station 280 1.6794778
+Station 281 1.381895
+Station 282 1.5177126
+Station 283 1.9666604
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 284 3.5581284
+Station 285 1.8687446
+Station 286 1.5606351
+Station 287 1.3221849
+Station 288 2.6633484
+Station 289 1.5126188
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 290 1.7209525
+Station 291 2.6910121
+Station 292 2.3104236
+Station 293 1.7050045
+Station 294 1.4514023
+Station 295 2.5885448
+Station 296 1.6033942
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 297 1.7215943
+Station 298 2.2947285
+Station 299 2.0044627
+Station 300 3.3924189
+Station 301 1.3770509
+Station 302 2.6417615
+Station 303 2.108828
+Station 304 1.9245517
+Station 305 3.8936775
+Station 306 1.4027295
+Station 307 1.2429459
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 308 2.911736
+Station 309 2.6660695
+Station 310 1.5146149
+Station 311 2.8991551
+Station 312 7.260225
+Station 313 2.61069
+Station 314 1.8661766
+Station 315 3.7551816
+Station 316 1.5123311
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 317 2.5027013
+Station 318 1.5491711
+Station 319 1.474658
+Station 320 2.1841216
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 321 2.1427586
+Station 322 1.175547
+Station 323 1.5194901
+Station 324 1.6262267
+Station 325 2.672424
+Station 326 2.835334
+Station 327 1.4010521
+Station 328 1.2303153
+Station 329 1.173704
+Station 330 1.8892992
+Station 331 1.2233386
+Station 332 1.5510101
+Station 333 1.1544129
+Station 334 2.7382548
+Station 335 1.2182142
+Station 336 1.4620646
+Station 337 1.2887121
+Station 338 2.0378096
+Station 339 1.9607993
+Station 340 1.4029728
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 341 1.383703
+Station 342 1.3076615
+Station 343 2.2367187
+Station 344 1.6040273
+Station 345 1.309108
+Station 346 2.008287
+Station 347 2.0575218
+Station 348 1.6963984
+Station 349 1.3737457
+Station 350 1.3785458
+Station 351 1.524972
+Station 352 1.4032193
+Station 353 2.8630672
+Station 354 1.5246942
+Station 355 2.5452483
+Station 356 1.4939778
+Station 357 1.1346108
+Station 358 1.8055189
+Station 359 1.5863315
+Station 360 1.5067163
+Station 361 1.0448878
+Station 362 1.4241014
+Station 363 1.2258272
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 364 1.7432005
+Station 365 1.2009842
+Station 366 1.1624068
+Station 367 1.2270005
+Station 368 1.7686732
+Station 369 1.8257535
+Station 370 1.3876326
+Station 371 3.6565158
+Station 372 1.425253
+Station 373 1.5101519
+Station 374 2.0378556
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 375 2.0349689
+Station 376 1.5143576
+Station 377 1.1838319
+Station 378 1.1336577
+Station 379 1.1594242
+Station 380 1.2718054
+Station 381 1.2293836
+Station 382 1.1790469
+Station 383 1.1569738
+Station 384 1.281261
+Station 385 1.3249074
+Station 386 1.1288599
+Station 387 1.173984
+Station 388 1.175615
+Station 389 1.4779754
+Station 390 1.1797817
+Station 391 1.1947057
+Station 392 1.436576
+Station 393 1.2463036
+Station 394 1.3185524
+Station 395 1.3986813
+Station 396 1.1828637
+Station 397 1.2803216
+Station 398 1.2730821
+Station 399 1.3162544
+Station 400 1.2788615
+Station 401 1.273153
+Station 402 1.2901179
+Station 403 1.2114538
+Station 404 1.345438
+Station 405 1.3808187
+Station 406 1.2536511
+Station 407 1.1907331
+Station 408 1.407441
+Station 409 1.4739938
+Station 410 1.4048471
+Station 411 1.4513788
+Station 412 1.3996657
+Station 413 1.3095189
+Station 414 1.4166682
+Station 415 1.4665512
+Station 416 1.7397143
+Station 417 2.0110664
+Station 418 1.2242216
+Converge failed with error Non-stationary starting autoregressive parameters found with `enforce_stationarity` set to True.
+Using last as prediction
+Station 419 2.2226303
+Station 420 1.1838844
+Station 421 1.3105435
+Station 422 1.4965518
+Station 423 1.7312659
+Station 424 1.7152318
+Station 425 1.6248692
+Station 426 1.7220575
+Station 427 1.9576077
+Station 428 1.5132592
+Station 429 1.5657371
+Station 430 1.57664
+Converge failed with error Non-positive-definite forecast error covariance matrix encountered at period 0
+Using last as prediction
+Station 431 4.406561
+Bike Chicago val_rmse 2.85532776839953
+Bike Chicago test_rmse 3.744399433932542
+*************************************************************
+

@@ -225,6 +225,45 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.y
           '-p graph:Distance-Correlation-Line,MergeIndex:12')
 
 
+
+#### Shanghai #####
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:3')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:6')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:12')
+
+
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:3')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:6')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:12')
+
+
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:3')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:6')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:12')
+
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:3')
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:6')
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:12')
+
+
+
+
 ###############################################
 # BenchMark ChargeStation
 ###############################################

@@ -27,6 +27,14 @@ shared_params_st_mgcn = ('python DCRNN.py '
 
 if __name__ == "__main__":
 
+    os.system(shared_params_st_mgcn + ' --City Shanghai --Graph Distance --MergeIndex 3')
+
+    os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 3')
+
     os.system(shared_params_st_mgcn + ' --City Shanghai --Graph Distance --MergeIndex 6')
 
     os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 6')
+
+    os.system(shared_params_st_mgcn + ' --City Shanghai --Graph Distance --MergeIndex 12')
+
+    os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 12')

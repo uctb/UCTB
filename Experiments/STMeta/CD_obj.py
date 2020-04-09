@@ -146,38 +146,38 @@ if args['train']:
 STMeta_obj.load(code_version)
 
 
-# single step to multi step
-traffic = data_loader.dataset.data['Node']['TrafficNode']
-traffic = traffic[:360, :]
-pred_day = 9
-pre_traffic = np.zeros((pred_day*data_loader.daily_slots, data_loader.station_number))
-traffic_concat  = np.concatenate((traffic,pre_traffic))
+# # single step to multi step
+# traffic = data_loader.dataset.data['Node']['TrafficNode']
+# traffic = traffic[:360, :]
+# pred_day = 9
+# pre_traffic = np.zeros((pred_day*data_loader.daily_slots, data_loader.station_number))
+# traffic_concat  = np.concatenate((traffic,pre_traffic))
 
-closeness = np.zeros((1, data_loader.station_number,data_loader.closeness_len, 1))
-period = np.zeros((1, data_loader.station_number, data_loader.period_len, 1))
-trend = np.zeros((1, data_loader.station_number, data_loader.trend_len, 1))
-start_index = 360
+# closeness = np.zeros((1, data_loader.station_number,data_loader.closeness_len, 1))
+# period = np.zeros((1, data_loader.station_number, data_loader.period_len, 1))
+# trend = np.zeros((1, data_loader.station_number, data_loader.trend_len, 1))
+# start_index = 360
 
-for current in range(start_index, len(traffic_concat)):
-    if data_loader.closeness_len > 0:
-        closeness[0, :, :, 0] = np.transpose(
-            traffic_concat[current-data_loader.closeness_len:current, :])
+# for current in range(start_index, len(traffic_concat)):
+#     if data_loader.closeness_len > 0:
+#         closeness[0, :, :, 0] = np.transpose(
+#             traffic_concat[current-data_loader.closeness_len:current, :])
 
-    if data_loader.period_len > 0:
-        j_count = 0
-        for j in range(data_loader.period_len, 0, -1):
-            period[0, :, j_count, 0] = traffic_concat[current-j*data_loader.daily_slots, :]
-            j_count += 1
+#     if data_loader.period_len > 0:
+#         j_count = 0
+#         for j in range(data_loader.period_len, 0, -1):
+#             period[0, :, j_count, 0] = traffic_concat[current-j*data_loader.daily_slots, :]
+#             j_count += 1
 
-    if data_loader.trend_len > 0:
-        j_count = 0
-        for j in range(data_loader.trend_len, 0, -1):
-            trend[0, :, j_count, 0] = traffic_concat[current-j*data_loader.daily_slots*7, :]
-            j_count += 1
+#     if data_loader.trend_len > 0:
+#         j_count = 0
+#         for j in range(data_loader.trend_len, 0, -1):
+#             trend[0, :, j_count, 0] = traffic_concat[current-j*data_loader.daily_slots*7, :]
+#             j_count += 1
 
-    traffic_concat[current, :] = hm_obj.predict(
-        closeness_feature=closeness, period_feature=period, trend_feature=trend)[0, :, 0]
-    current += 1
+#     traffic_concat[current, :] = hm_obj.predict(
+#         closeness_feature=closeness, period_feature=period, trend_feature=trend)[0, :, 0]
+#     current += 1
 
 prediction = STMeta_obj.predict(closeness_feature=data_loader.test_closeness,
                                 period_feature=data_loader.test_period,
@@ -195,9 +195,7 @@ if de_normalizer:
     test_prediction = de_normalizer(test_prediction)
     data_loader.test_y = de_normalizer(data_loader.test_y)
 
-test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
-    metric.mape(prediction=test_prediction,
-                target=data_loader.test_y, threshold=0)
+test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0)
 
 # Evaluate
 val_loss = STMeta_obj.load_event_scalar('val_loss')
@@ -208,9 +206,8 @@ if de_normalizer:
     best_val_loss = de_normalizer(best_val_loss)
 
 print('Best val result', best_val_loss)
-print('Test result', test_rmse, test_mape)
+print('Test result', test_rmse)
 
-save_predict_in_dataset(data_loader, test_prediction, "HM")
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0]
                     for e in range(1, len(val_loss))]
@@ -218,10 +215,11 @@ time_consumption = sum(
     [e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600
 print('Converged using %.2f hour / %s epochs' %
       (time_consumption, STMeta_obj._global_step))
+
+
 senInfo(code_version)
 if nni_params:
     nni.report_final_result({
         'default': best_val_loss,
-        'test-rmse': test_rmse,
-        'test-mape': test_mape
+        'test-rmse': test_rmse
     })

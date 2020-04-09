@@ -22,7 +22,7 @@ parser.add_argument('--MergeIndex', default=3)
 parser.add_argument('--CT', default='168', type=int)
 
 parser.add_argument('--ar', default='3', type=int)
-parser.add_argument('--d', default='1', type=int)
+parser.add_argument('--d', default='0', type=int)
 parser.add_argument('--ma', default='1', type=int)
 
 parser.add_argument('--sar', default='0', type=int)

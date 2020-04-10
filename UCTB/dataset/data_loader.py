@@ -12,7 +12,7 @@ from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
 from ..model_unit import GraphBuilder
 
 from .dataset import DataSet
-from ..utils import one_hot
+from ..utils.encode_onehot import one_hot
 
 class GridTrafficLoader(object):
 

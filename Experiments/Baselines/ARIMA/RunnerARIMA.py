@@ -1,9 +1,9 @@
 import os
 from tqdm import tqdm
 # dataset = [['Bike','NYC','all','365'],['DiDi','Xian','all','all'],['Metro','Chongqing','all','all'],['ChargeStation','Beijing','all','all']]
-dataset = [['Bike','NYC',"0.25",'91']]
+dataset = [['Metro','Chongqing',"all",'all']]
 
-with open("ARIMAresult14.txt","w") as fp:
+with open("ARIMAresult16.txt","w") as fp:
 
     for index in tqdm(range(len(dataset))):
 

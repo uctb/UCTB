@@ -32,7 +32,7 @@ class GridTrafficLoader(object):
                  MergeIndex=1,
                  MergeWay="sum",**kwargs):
 
-        self.loader_id = "{}_{}_{}_{}_{}_{}_G".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len)
+        self.loader_id = "{}_{}_{}_{}_{}_{}_{}_G".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len, MergeIndex)
         
         self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
@@ -217,7 +217,7 @@ class NodeTrafficLoader(object):
                  MergeWay="sum",
                  remove=True,**kwargs):
 
-        self.loader_id = "{}_{}_{}_{}_{}_{}_N".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len)
+        self.loader_id = "{}_{}_{}_{}_{}_{}_{}_N".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len, MergeIndex)
 
         self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 

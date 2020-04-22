@@ -91,7 +91,7 @@ train_closeness, val_closeness = SplitData.split_data(data_loader.train_closenes
 train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
 train_trend, val_trend = SplitData.split_data(data_loader.train_trend, [0.9, 0.1])
 train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
-train_ef, val_ef = SplitData.split_data(data_loader.train_external, [0.9, 0.1])
+train_ef, val_ef = SplitData.split_data(data_loader.train_ef, [0.9, 0.1])
 
 
 de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
@@ -106,6 +106,7 @@ else:
         current_device = str(deviceIDs[int(nni_sid) % len(deviceIDs)])
     else:
         current_device = str(deviceIDs[0])
+
 
 STMeta_obj = STMeta(num_node=data_loader.station_number,
                                  num_graph=data_loader.LM.shape[0],
@@ -137,9 +138,9 @@ STMeta_obj = STMeta(num_node=data_loader.station_number,
                                  code_version=code_version,
                                  model_dir=model_dir_path,
                                  gpu_device=current_device,
-                                 embedding_flag=args['embedding_flag'],
+                                 external_method = args['external_method'],
                                  embedding_dim =args['embedding_dim'],
-                                 classified_embedding=data_loader.external_onehot_dim if args['classified_embedding'] is True else [],
+                                 classified_external_feature_dim=data_loader.external_onehot_dim if args['external_method'] == "classified" else [],
                                  decay_param=terminal_vars['decay_param'])
 
 STMeta_obj.build()
@@ -148,6 +149,7 @@ print(args['dataset'], code_version)
 print('Number of trainable variables', STMeta_obj.trainable_vars)
 print('Number of training samples', data_loader.train_sequence_len)
 print("External dimension is ",data_loader.external_dim)
+
 # # Training
 if args['train']:
     STMeta_obj.fit(closeness_feature=data_loader.train_closeness,
@@ -155,7 +157,7 @@ if args['train']:
                           trend_feature=data_loader.train_trend,
                           laplace_matrix=data_loader.LM,
                           target=data_loader.train_y,
-                          external_feature=data_loader.train_external,
+                          external_feature=data_loader.train_ef,
                           sequence_length=data_loader.train_sequence_len,
                           output_names=('loss','lr'),
                           evaluate_loss_name='loss',
@@ -179,7 +181,7 @@ prediction = STMeta_obj.predict(closeness_feature=data_loader.test_closeness,
                                        trend_feature=data_loader.test_trend,
                                        laplace_matrix=data_loader.LM,
                                        target=data_loader.test_y,
-                                       external_feature=data_loader.test_external,
+                                       external_feature=data_loader.test_ef,
                                        output_names=('prediction', ),
                                        sequence_length=data_loader.test_sequence_len,
                                        cache_volume=int(args['batch_size']), )

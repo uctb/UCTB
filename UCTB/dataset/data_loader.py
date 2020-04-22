@@ -263,20 +263,31 @@ class NodeTrafficLoader(object):
         holiday_feature = one_hot(holiday_feature)
         external_onehot_dim.append(holiday_feature.shape[1])
         
-        # Temporal Position Feature
-        # HourOfDay Feature
-        hourofday_feature = [[(parse(self.dataset.time_range[0]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour / 24]
-                        for e in range(data_range[0], num_time_slots + data_range[0])]
-        # one-hot HourOfDay feature
-        hourofday_feature = np.array(hourofday_feature)   
-
         # DayOfWeek Feature
-        dayofweek_feature = [[(parse(self.dataset.time_range[0]) +
-                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday() / 7]
+        if dataset == "Metro":
+            print("**** Only use Metro service time and Fitness should be 60mins *****")
+            hourofday_feature = [[(parse(self.dataset.time_range[0]) +
+                          datetime.timedelta(hours=e)).hour]
+                        for e in range(data_range[0], int(num_time_slots * (4/3)) + data_range[0])]
+            use_index = []
+            for i in range(num_time_slots // 18):
+                use_index.append(np.arange(5+i*24,23+i*24))
+            use_index = np.array(use_index).flatten()
+            # one-hot HourOfDay feature
+            hourofday_feature  = one_hot(hourofday_feature)
+            hourofday_feature  = hourofday_feature [use_index,:]
+        else:
+            hourofday_feature = [[(parse(self.dataset.time_range[0]) +
+                          datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).hour]
                         for e in range(data_range[0], num_time_slots + data_range[0])]
+            # one-hot HourOfDay feature
+            hourofday_feature = one_hot(hourofday_feature)   
+
+        # DayOfWeek feature  
+        dayofweek_feature = [[(parse(self.dataset.time_range[0]) +datetime.timedelta(hours=e * self.dataset.time_fitness / 60)).weekday()]
+                                for e in range(data_range[0], num_time_slots + data_range[0])]
         # one-hot DayOfWeek feature   
-        dayofweek_feature = np.array(dayofweek_feature)
+        dayofweek_feature = one_hot(dayofweek_feature)
         external_onehot_dim.append(hourofday_feature.shape[1]+dayofweek_feature.shape[1])
 
         external_feature.append(holiday_feature)
@@ -332,15 +343,16 @@ class NodeTrafficLoader(object):
 
         self.train_sequence_len = max((len(self.train_closeness), len(self.train_period), len(self.train_trend)))
         self.test_sequence_len = max((len(self.test_closeness), len(self.test_period), len(self.test_trend)))
-        # self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
-        # self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
-        # external feature
-        self.extern_move_sample = ST_MoveSample(closeness_len= self.closeness_len,
-                                            period_len=self.period_len,
-                                            trend_len=self.trend_len, target_length=1, daily_slots=self.daily_slots)
+        self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
+        self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
+        
+        # # external feature
+        # self.extern_move_sample = ST_MoveSample(closeness_len= self.closeness_len,
+        #                                     period_len=self.period_len,
+        #                                     trend_len=self.trend_len, target_length=1, daily_slots=self.daily_slots)
 
-        self.train_external, _, _, _ = self.extern_move_sample.move_sample(self.train_ef)
-        self.test_external, _, _, _ = self.extern_move_sample.move_sample(self.test_ef)
+        # self.train_external, _, _, _ = self.extern_move_sample.move_sample(self.train_ef)
+        # self.test_external, _, _, _ = self.extern_move_sample.move_sample(self.test_ef)
 
         if with_tpe:
 
@@ -430,6 +442,8 @@ class NodeTrafficLoader(object):
 
         if graph_name.lower() == 'line':
             LM = GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines'))
+            LM = LM[:,self.traffic_data_index]
+            LM = LM[self.traffic_data_index,:]
 
         if graph_name.lower() == 'transfer':
             LM = GraphBuilder.adjacent_to_laplacian(

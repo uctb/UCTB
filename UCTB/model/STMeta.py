@@ -1,5 +1,6 @@
 import keras
 import tensorflow as tf
+import numpy as np
 
 from ..model_unit import BaseModel
 from ..model_unit import GAL, GCL
@@ -49,6 +50,7 @@ class STMeta(BaseModel):
             code_version(str): Current version of this model code, which will be used as filename for saving the model
             model_dir(str): The directory to store model files. Default:'model_dir'.
             gpu_device(str): To specify the GPU to use. Default: '0'.
+            external_method(str): to decide how we model external features. Its values can be `not` `direct` `embedding` `classified` `gating`
             decay_param=(str): The file path of decay function parameter. If set `None`, using fixed lr. default: None.
         """
 
@@ -87,11 +89,11 @@ class STMeta(BaseModel):
                  code_version='STMeta-QuickStart',
                  model_dir='model_dir',
                  gpu_device='0',
-                 embedding_flag=True,
+                 external_method="not",
                  embedding_dim = [10,1,5],
-                 classified_embedding = [],
+                 classified_external_feature_dim = [],
                  decay_param=None,**kwargs):
-
+        # no direct one_layer classified
         super(STMeta, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         self._num_node = num_node
@@ -120,10 +122,12 @@ class STMeta(BaseModel):
         # add decay func
         self._optimizer = Optimizer(decay_param=decay_param,lr=self._lr)
         
-        # external feature embedding param
-        self._embedding_flag = embedding_flag
+        # external modelling method
+        self.external_method = external_method.lower()
+        # embedding size
         self._embedding_dim = embedding_dim
-        self._classified_embedding_ind = classified_embedding
+        # weather holiday temporal position
+        self._classified_external_feature_dim = classified_external_feature_dim # external dimension after one-hot
     
         self._external_len = closeness_len
 
@@ -248,63 +252,65 @@ class STMeta(BaseModel):
 
             dense_inputs = tf.reshape(dense_inputs, [-1, self._num_node, 1, dense_inputs.get_shape()[-1].value])
 
-            dense_inputs = keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
+            dense_inputs = tf.keras.layers.BatchNormalization(axis=-1, name='feature_map')(dense_inputs)
+            
             # external dims
-            if self._external_dim is not None and self._external_dim > 0:
-                external_input = tf.placeholder(tf.float32, [None, self._external_dim, self._external_len, 1],name="external_feature")
+            if self.external_method == "not":
+                print("**** This model didn't use external features ****")
+            else:
+                if self._external_dim is None or self._external_dim < 1:
+                    ValueError("There aren't external feature in dataset")
+                external_input = tf.placeholder(tf.float32, [None, self._external_dim])
                 self._input['external_feature'] = external_input.name
 
-                cell = tf.keras.layers.LSTMCell(units=10)
-                multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * 1)
-                outputs = tf.keras.layers.RNN(multi_layer_gru)(
-                    tf.reshape(external_input, [-1, self._external_len*self._external_dim, 1]))
-                external_input = tf.reshape(outputs, [-1, 10])
-
-                # index of classified external feature 
-                if len(self._classified_embedding_ind) > 0: # embedding by class
-                    if len(self._classified_embedding_ind) != len(self._embedding_dim):
-                        ValueError("external feature dim is not equal to specified embedding_dim, modify `embedding_dim`")
-                    embedding_output = []
-                    ind = 0
-                    for i,tmp in enumerate(self._classified_embedding_ind):
-                        tensor_slice = tf.strided_slice(external_input,[0,ind],[tf.shape(external_input)[0],ind+tmp],[1,1])
-                        tensor_slice = tf.reshape(tensor_slice,[-1,tmp])
-                        extern_embedding = tf.keras.layers.Dense(units=self._embedding_dim[i])(tensor_slice)
-                        embedding_output.append(extern_embedding)
-                        ind += tmp
-                    external_dense = tf.concat(embedding_output,axis=-1)
-                    external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, tf.shape(external_dense)[-1]]),
+                if self.external_method == "gating":
+                    print("**** Using gated fusion ****")
+                    external_input = tf.tile(tf.reshape(external_input, [-1, 1, 1, self._external_dim]),
                                             [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
-                else: # concat together
-                    # do not use embedding
-                    if self._embedding_flag is False:
-                        self._embedding_dim = self._external_dim
-                    # using one embedding layer 
-                    else:
+                    gating_output = tf.keras.layers.Dense(units=dense_inputs.get_shape()[-1].value,activation=tf.sigmoid,kernel_regularizer=tf.keras.regularizers.l2(0.01),bias_regularizer=tf.keras.regularizers.l2(0.01))(external_input)
+                    dense_inputs = tf.multiply(gating_output,dense_inputs)
+                else:
+                    if self.external_method == "direct":
+                        print("**** External features were concatenate with S-T feature directly {} ****".format(self._external_dim))
+                        external_dense = tf.tile(tf.reshape(external_input, [-1, 1, 1, self._external_dim]),[1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+                        
+                    elif self.external_method == "embedding":
                         if isinstance(self._embedding_dim,int):
                             pass
                         elif isinstance(self._embedding_dim[0],int):
                             self._embedding_dim = self._embedding_dim[0]
                         else:
                             ValueError("using one Embedding layer, the embedding_dim or its first element should be `int` type")
-                    external_dense = tf.keras.layers.Dense(units=self._embedding_dim)(external_input)
-                    external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, self._embedding_dim]),
-                                            [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
-
-                # 一个控制使用使用embedding的变量 决定embedding数量的变量
-                # 决定是否分类embedding的变量
-                # external_dense = tf.keras.layers.Dense(units=10)(external_input)
-                # external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
-                #                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
-                
-
-
-                # self.external_dense = external_dense
-                # print("tf.shape(dense_inputs)[1]",tf.shape(dense_inputs)[1])
-                # print("tf.shape(dense_inputs)[2]",tf.shape(dense_inputs)[2])
-            
-                #################
-                dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
+                        print("**** Using one embedding layer >> {} ****".format(self._embedding_dim))
+                        external_dense = tf.keras.layers.Dense(units=self._embedding_dim,kernel_regularizer=tf.keras.regularizers.l2(0.01),bias_regularizer=tf.keras.regularizers.l2(0.01))(external_input)
+                        external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, self._embedding_dim]),
+                                                [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+                    elif self.external_method == "classified":
+                        if len(self._classified_external_feature_dim) != len(self._embedding_dim):
+                            ValueError("external feature dim is not equal to specified embedding_dim, modify `embedding_dim`")
+                        print("**** Using classified embedding layers {} >> {} ****".format(self._classified_external_feature_dim, self._embedding_dim))
+                        embedding_output = []
+                        ind = 0
+                        for i,tmp in enumerate(self._classified_external_feature_dim):
+                            tensor_slice = tf.strided_slice(external_input,[0,ind],[tf.shape(external_input)[0],ind+tmp],[1,1])
+                            tensor_slice = tf.reshape(tensor_slice,[-1, tmp])
+                            extern_embedding = tf.keras.layers.Dense(units=self._embedding_dim[i],kernel_regularizer=tf.keras.regularizers.l2(0.01),bias_regularizer=tf.keras.regularizers.l2(0.01))(tensor_slice)
+                            embedding_output.append(extern_embedding)
+                            ind += tmp
+                        external_dense = tf.concat(embedding_output,axis=-1)
+                        external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, np.sum(self._embedding_dim)]),
+                                                [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
+                    else:
+                        ValueError("Arguement `external_method` is incorrect.")
+                    
+                    dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
+                    # Extern LSTM #######
+                    # cell = tf.keras.layers.LSTMCell(units=10)
+                    # multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * 1)
+                    # outputs = tf.keras.layers.RNN(multi_layer_gru)(
+                    #     tf.reshape(external_input, [-1, self._external_len*self._external_dim, 1]))
+                    # external_input = tf.reshape(outputs, [-1, 10])
+                    ################# 
 
             dense_output0 = tf.keras.layers.Dense(units=self._num_dense_units,
                                                   activation=tf.nn.tanh,
@@ -337,34 +343,13 @@ class STMeta(BaseModel):
 
             loss_pre = tf.sqrt(tf.reduce_mean(tf.square(target - prediction)), name='loss')
             
-            ########################################################################################
-            ########################################################################################
-
-            #train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
-
-            train_op,global_step_name,learning_rate_name = self._optimizer.build(loss_pre=loss_pre)
+            train_op, global_step_name, learning_rate_name = self._optimizer.build(loss_pre=loss_pre)
             self._input['global_step'] = global_step_name
-            '''
-            if decay_lr:
-                # try to use learning rate
-                global_step = tf.Variable(0, trainable=False)
-                starter_learning_rate = self._lr
-                decay_steps = 200
-                decay_rate = 0.96
-                learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
-                                                        decay_steps, decay_rate, staircase=True)
-                # Passing global_step to minimize() will increment it at each step.
-                train_op= tf.train.AdamOptimizer(learning_rate).minimize(loss_pre, global_step=global_step, name='train_op')
-            else:
-                train_op = tf.train.AdamOptimizer(self._lr).minimize(loss_pre, name='train_op')
-            '''
-            ########################################################################################
-            ########################################################################################
 
             # record output
             self._output['prediction'] = prediction.name
             self._output['loss'] = loss_pre.name
-            # #record lr decay
+            # record lr decay
             self._output['lr'] = learning_rate_name
 
             # record train operation
@@ -385,7 +370,7 @@ class STMeta(BaseModel):
         }
         if target is not None:
             feed_dict['target'] = target
-        if self._external_dim is not None and self._external_dim > 0:
+        if self.external_method != "not" and self._external_dim is not None and self._external_dim > 0:
             feed_dict['external_feature'] = external_feature
         if self._closeness_len is not None and self._closeness_len > 0:
             feed_dict['closeness_feature'] = closeness_feature

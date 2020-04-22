@@ -28,5 +28,6 @@ build/
 .vscode/
 *.pkl
 model_dir/
+sendInfo.py
 .ipynb_checkpoints/
 @*

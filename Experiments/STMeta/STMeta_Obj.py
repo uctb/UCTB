@@ -3,6 +3,7 @@ import nni
 import yaml
 import argparse
 import GPUtil
+import pickle
 
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import STMeta
@@ -232,6 +233,9 @@ time_consumption = sum([e for e in time_consumption if e < (min(time_consumption
 print('Converged using %.2f hour / %s epochs' % (time_consumption, STMeta_obj._global_step))
 
 #senInfo("{},已完成，请尽快查看~".format(code_version))
+
+with open("{}_{}.pkl".format(args['city'],code_version),"wb") as fp:
+    pickle.dump(test_prediction,fp)
 
 if nni_params:
     nni.report_final_result({

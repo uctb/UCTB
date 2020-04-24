@@ -166,7 +166,7 @@ if args['train']:
                           batch_size=int(args['batch_size']),
                           max_epoch=int(args['max_epoch']),
                           validate_ratio=0.1,
-                          early_stop_method='naive',
+                          early_stop_method='t-test',
                           early_stop_length=args['early_stop_length'],
                           early_stop_patience=args['early_stop_patience'],
                           verbose=True,

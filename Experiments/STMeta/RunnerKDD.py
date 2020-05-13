@@ -180,9 +180,9 @@ os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
 
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
-          ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
+          ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
-          ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
+          ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
 
 
 # ###############################################

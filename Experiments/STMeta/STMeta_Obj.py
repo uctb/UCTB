@@ -14,8 +14,6 @@ from UCTB.preprocess import SplitData
 import sys
 sys.path.append("../")
 
-#from RoadDataLoader import RoadDataLoader
-from sendInfo import *
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
@@ -218,21 +216,15 @@ val_rmse = metric.rmse(prediction=val_prediction, target=val_y, threshold=0)
 
 # # Evaluate
 val_loss = STMeta_obj.load_event_scalar('val_loss')
-# best_val_loss = min([e[-1] for e in val_loss])
-
-# if de_normalizer:
-#     best_val_loss = de_normalizer(best_val_loss)
 
 
-
-print('Val result', val_rmse )
+print('Val result', val_rmse)
 print('Test result', test_rmse)
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600
 print('Converged using %.2f hour / %s epochs' % (time_consumption, STMeta_obj._global_step))
 
-#senInfo("{},已完成，请尽快查看~".format(code_version))
 
 with open("{}_{}.pkl".format(args['city'],code_version),"wb") as fp:
     pickle.dump(test_prediction,fp)

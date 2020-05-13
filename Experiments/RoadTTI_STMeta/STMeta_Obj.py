@@ -227,7 +227,7 @@ STMeta_obj.build()
 print(args['Dataset'], code_version)
 print('Number of trainable variables', STMeta_obj.trainable_vars)
 print('Number of training samples', data_loader.train_sequence_len)
-exit()
+
 # # Training
 if args['train']:
     STMeta_obj.fit(closeness_feature=data_loader.train_closeness,

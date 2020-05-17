@@ -84,7 +84,7 @@ print('Code version', args.Dataset, args.City, code_version)
 
 print('Number of training samples', data_loader.train_sequence_len)
 
-diffusion_matrix = data_loader.diffusion_matrix()
+diffusion_matrix = data_loader.diffusion_matrix(filter_type='dual_random_walk')
 
 DCRNN_Obj = DCRNN(num_nodes=data_loader.station_number,
                   num_diffusion_matrix=diffusion_matrix.shape[0],

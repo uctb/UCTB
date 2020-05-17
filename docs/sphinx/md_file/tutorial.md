@@ -71,8 +71,7 @@ my_dataset = {
     "Node": {
         "TrafficNode": np.array, # With shape [time, num-of-node]
         "TrafficMonthlyInteraction": np.array, # With shape [month, num-of-node. num-of-node]
-        "StationInfo": {id: [build-time, # Could also be int
-                             lat, lng, name]},
+        "StationInfo": list # elements in it should be [id, build-time, lat, lng, name]
         "POI": []
     },
 

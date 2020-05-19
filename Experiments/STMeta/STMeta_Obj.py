@@ -168,7 +168,7 @@ if de_normalizer:
 print('Best val result', best_val_loss)
 print('Test result', test_rmse, test_mape)
 
-save_predict_in_dataset(data_loader,test_prediction,"HM")
+# save_predict_in_dataset(data_loader,test_prediction,"HM")
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600

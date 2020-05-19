@@ -24,8 +24,9 @@ shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
                          '--Device 1 ')
 
 if __name__ == "__main__":
-
-    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 --CodeVersion V0'
+    
+    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1  '
                                       ' --Graph Distance-Correlation --MergeIndex 1')
-    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 --CodeVersion V0'
+
+    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1  '
                                       ' --Graph Distance-Correlation --MergeIndex 2')

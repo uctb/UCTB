@@ -23,7 +23,7 @@ References:
 - GAL (Graph Attention Layer):
   [Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., & Bengio, Y. (2017). Graph attention networks](https://arxiv.org/pdf/1710.10903.pdf) 
 
-Our running code and detailed parameter settings can be found in [Experiment Setting](./all_results.html#experiment-setting-on-different-datasets).
+We conducted experiments on the following datasets at the granularity of 15 minutes, 30 minutes and 60 minutes respectively. Our running code and detailed parameter settings can be found in [Experiment Setting](./all_results.html#experiment-setting-on-different-datasets).
 
 ## Results on Bike
 
@@ -35,26 +35,53 @@ Our running code and detailed parameter settings can be found in [Experiment Set
 | Number of riding records |    49,100,694     |   13,130,969    |   13,763,675    |
 |    Number of stations    |        820        |       585       |       532       |
 
-Following shows A map-visualization of bike stations in NYC, Chicago and DC.
+Following shows the map-visualization of bike stations in NYC, Chicago and DC.
 
 <img src="http://47.94.208.154/image/Bike_NYC.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="http://47.94.208.154/image/Bike_Chicago.jpg" style="zoom:30%;height:800px;width:800px;"/> <img src="http://47.94.208.154/image/Bike_DC.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
-|                 |   **NYC**   | **Chicago** |   **DC**    |
-| :-------------: | :---------: | :---------: | :---------: |
-|       HM        |   3.99224   |   2.97693   |   2.63165   |
-|    ARIMA(C)     |   5.60928   |   3.83584   |   3.60450   |
-|     XGBoost     |   4.12407   |   2.92569   |   2.65671   |
-|      GBRT       |   3.99907   |   2.84257   |   2.61768   |
-| ST_MGCN (G/DCI) |   3.72380   |   2.88300   |   2.48560   |
-|  DCRNN(G/D C)   |   4.18666   |   3.27759   |   3.08616   |
-|    LSTM (C)     |   4.55677   |   3.37004   |   2.91518   |
-|    STMeta-V1    |   3.50475   | **2.65511** |   2.42582   |
-|    STMeta-V2    | **3.43870** |   2.66379   |   2.41111   |
-|    STMeta-V3    |   3.47834   |   2.66180   | **2.38844** |
+| **15 minutes** |     NYC     |   Chicago   |     DC      |
+| :------------: | :---------: | :---------: | :---------: |
+|       HM       |   1.89180   |   1.66782   |   1.55471   |
+|     ARIMA      |   1.87415   |   1.78399   |   1.68858   |
+|    XGBoost     |   1.71216   |   1.67219   |   1.55872   |
+|      GBRT      |   1.70757   |   1.66691   |   1.55246   |
+|    ST_MGCN     |   1.68659   |   1.64642   |   1.54455   |
+|     DCRNN      |   1.71223   |   1.71789   |   1.59412   |
+|      LSTM      |   1.98866   |   1.80222   |   1.67762   |
+| TMeta-LSTM-GAL |   1.81819   |   1.62269   |   1.54041   |
+|   STMeta-V1    |   1.65939   | **1.60743** |   1.52698   |
+|   STMeta-V2    |   1.67336   |   1.62883   | **1.51158** |
+|   STMeta-V3    | **1.65351** |   1.60917   |   1.51720   |
 
+| **30 minutes** |     NYC     |   Chicago   |     DC      |
+| :------------: | :---------: | :---------: | :---------: |
+|       HM       |   2.68564   |   2.22987   |   1.95601   |
+|     ARIMA      |   3.17849   |   2.42798   |   2.22804   |
+|    XGBoost     |   2.70377   |   2.37553   |   1.95560   |
+|      GBRT      |   2.68164   |   2.35532   |   1.92799   |
+|    ST_MGCN     |   2.51288   |   2.17659   |   1.90305   |
+|     DCRNN      |   2.61848   |   2.24642   |   2.11771   |
+|      LSTM      |   3.01836   |   2.49270   |   2.21191   |
+| TMeta-LSTM-GAL |   2.51124   |   2.13333   |   1.92748   |
+|   STMeta-V1    | **2.40976** |   2.17032   |   1.85628   |
+|   STMeta-V2    |   2.41088   | **2.13330** |   1.85876   |
+|   STMeta-V3    |   2.41109   |   2.18174   | **1.85199** |
 
+| **60 minutes** |     NYC     |   Chicago   |     DC      |
+| :------------: | :---------: | :---------: | :---------: |
+|       HM       |   3.99224   |   3.10445   |   2.63169   |
+|     ARIMA      |   5.28928   |   3.74440   |   3.18296   |
+|    XGBoost     |   4.10211   |   3.00349   |   2.64322   |
+|      GBRT      |   4.03881   |   2.98366   |   2.61127   |
+|    ST_MGCN     |   3.72337   |   2.90369   |   2.51839   |
+|     DCRNN      |   4.18666   |   3.08066   |   3.01575   |
+|      LSTM      |   5.16719   |   3.72113   |   3.23409   |
+| TMeta-LSTM-GAL |   3.73916   |   2.84013   |   2.55653   |
+|   STMeta-V1    |   3.51827   |   2.69466   |   2.40463   |
+|   STMeta-V2    | **3.50671** |   2.73852   | **2.40387** |
+|   STMeta-V3    |   3.52124   | **2.65204** |   2.42338   |
 
 ## Results on DiDi
 
@@ -66,25 +93,56 @@ Following shows A map-visualization of bike stations in NYC, Chicago and DC.
 | Number of riding records |    5,922,961    |    8,439,537    |
 |    Number of stations    |       256       |       256       |
 
-Following shows A map-visualization of grid-based ride-sharing stations in Xi'an and Chengdu.
+Following shows the map-visualization of grid-based ride-sharing stations in Xi'an and Chengdu.
 
 <img src="http://47.94.208.154/image/DiDi_Xian.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="http://47.94.208.154/image/DiDi_Chengdu.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
-|                   |  **Xi’an**  | **Chengdu**  |
-| :---------------: | :---------: | :----------: |
-|        HM         |   6.18623   |   7.35477    |
-|     ARIMA(C)      |   9.47478   |   12.52656   |
-|      XGBoost      |   6.73346   |   7.73836    |
-|       GBRT        |   6.44639   |   7.58831    |
-|     ST-ResNet     |   6.08476   |   7.14638    |
-|  ST_MGCN (G/DCI)  |   5.87456   | **7.03217 ** |
-|   DCRNN(G/D C)    |   8.20254   |   11.50550   |
-|     LSTM (C)      |   7.39970   |   10.11386   |
-| STMeta-V1 (G/DCI) |   5.89154   |   7.06246    |
-| STMeta-V2(G/DCI)  | **5.75596** |   7.09710    |
-| STMeta-V3(G/DCI)  |   5.95507   |   7.04358    |
+|   15 minutes   |  **Xian**   | **Chengdu** |
+| :------------: | :---------: | :---------: |
+|       HM       |   2.82784   |   3.34701   |
+|     ARIMA      |   3.08823   |   3.94791   |
+|    XGBoost     |   2.79919   |   3.42954   |
+|      GBRT      |   2.77484   |   3.36292   |
+|   ST-ResNet    |   2.68641   |   3.31394   |
+|    ST_MGCN     |   2.71417   |   3.29300   |
+|     DCRNN      |   2.88934   |   3.74328   |
+|      LSTM      |   3.05138   |   3.88830   |
+| TMeta-LSTM-GAL |   2.91712   |   3.28553   |
+|   STMeta-V1    |   2.65320   |   3.24408   |
+|   STMeta-V2    | **2.63673** | **3.24125** |
+|   STMeta-V3    |   2.64849   |   3.25353   |
+
+|   30 minutes   |  **Xian**   | **Chengdu** |
+| :------------: | :---------: | :---------: |
+|       HM       |   4.23940   |   4.85059   |
+|     ARIMA      |   5.03538   |   6.61832   |
+|    XGBoost     |   4.17160   |   4.91460   |
+|      GBRT      |   4.13541   |   4.87335   |
+|   ST-ResNet    |   3.90263   |   4.67278   |
+|    ST_MGCN     |   3.88621   |   4.73162   |
+|     DCRNN      |   4.52889   |   6.25836   |
+|      LSTM      |   4.95037   |   6.44397   |
+| TMeta-LSTM-GAL |   3.84690   |   4.67784   |
+|   STMeta-V1    |   3.80812   |   4.64988   |
+|   STMeta-V2    | **3.77190** | **4.61277** |
+|   STMeta-V3    |   3.83278   |   4.63502   |
+
+|   60 minutes   |  **Xian**   | **Chengdu** |
+| :------------: | :---------: | :---------: |
+|       HM       |   6.18623   |   7.51214   |
+|     ARIMA      |   9.47478   |  13.25890   |
+|    XGBoost     |   6.73346   |   7.59180   |
+|      GBRT      |   6.44639   |   7.51148   |
+|   ST-ResNet    |   6.07471   |   7.15462   |
+|    ST_MGCN     |   5.87769   |   7.06687   |
+|     DCRNN      |   8.20254   |  11.44437   |
+|      LSTM      |   9.82962   |  13.48316   |
+| TMeta-LSTM-GAL |   5.84263   |   6.94881   |
+|   STMeta-V1    |   5.87104   | **6.85750** |
+|   STMeta-V2    | **5.82891** |   6.87330   |
+|   STMeta-V3    |   5.90812   |   6.90394   |
 
 ## Results on Metro
 
@@ -96,26 +154,53 @@ Following shows A map-visualization of grid-based ride-sharing stations in Xi'an
 | Number of riding records |   409,277,117   |   333,149,034   |
 |    Number of stations    |       113       |       288       |
 
-Following shows A map-visualization of  metro stations in Chongqing and Shanghai.
+Following shows the map-visualization of metro stations in Chongqing and Shanghai.
 
 <img src="http://47.94.208.154/image/Metro_Chongqing.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="http://47.94.208.154/image/Metro_Shanghai.jpg" style="zoom:30%;height:800px;width:800px;" />
 
 ### Experiment Results
 
-|                   | **Chongqing** | **Shanghai**  |
-| :---------------: | :-----------: | :-----------: |
-|        HM         |   120.30723   |   197.97092   |
-|     ARIMA(C)      |   578.18563   |   792.1597    |
-|      XGBoost      |   117.05069   |   185.00447   |
-|       GBRT        |   113.92276   |   186.74502   |
-|  ST_MGCN (G/DCI)  |   118.86668   |   181.55171   |
-|   DCRNN(G/D C)    |   122.31121   |   326.97357   |
-|     LSTM (C)      |  196.175732   |   368.8468    |
-| STMeta-V1 (G/DCI) | **92.74990**  | **151.11746** |
-| STMeta-V2(G/DCI)  |   98.86152    |   158.21953   |
-| STMeta-V3(G/DCI)  |   101.7806    |   156.58867   |
+|   15 minutes   | **Chongqing** | **Shanghai** |
+| :------------: | :-----------: | :----------: |
+|       HM       |   45.25524    |   49.74561   |
+|     ARIMA      |   67.11072    |   83.53750   |
+|    XGBoost     |   35.69683    |   47.88690   |
+|      GBRT      |   33.28726    |   44.55068   |
+|    ST_MGCN     |   32.71874    |   46.54292   |
+|     DCRNN      |   37.06903    |   56.00411   |
+|      LSTM      |   55.36633    |   80.40264   |
+| TMeta-LSTM-GAL |   33.34361    |   45.88331   |
+|   STMeta-V1    | **31.39239**  |   41.66834   |
+|   STMeta-V2    |   38.20912    |   43.82808   |
+|   STMeta-V3    |   36.90250    | **40.94003** |
 
-The period and trend features are more obvious in Metro dataset, so the performance is poor if only use closeness feature.
+| **30 minutes** |  Chongqing   |   Shanghai   |
+| :------------: | :----------: | :----------: |
+|       HM       |   74.54662   |  108.59372   |
+|     ARIMA      |  180.53262   |  212.00777   |
+|    XGBoost     |   69.50227   |   81.82434   |
+|      GBRT      |   72.98518   |   83.93989   |
+|    ST_MGCN     |   50.95764   |   88.76412   |
+|     DCRNN      |   65.71969   |  116.14510   |
+|      LSTM      |  104.60832   |  195.60097   |
+| TMeta-LSTM-GAL |   53.17723   |   85.19422   |
+|   STMeta-V1    |   49.46800   | **75.36282** |
+|   STMeta-V2    |   50.01080   |   80.68939   |
+|   STMeta-V3    | **48.95798** |   77.48744   |
+
+|   60 minutes   | **Chongqing** | **Shanghai**  |
+| :------------: | :-----------: | :-----------: |
+|       HM       |   119.85931   |   172.54974   |
+|     ARIMA      |   578.18563   |   676.78754   |
+|    XGBoost     |   117.05069   |   160.37798   |
+|      GBRT      |   113.92276   |   154.28609   |
+|    ST_MGCN     |   104.87059   |   159.52248   |
+|     DCRNN      |   122.31121   |   340.25143   |
+|      LSTM      |   322.80864   |   506.07193   |
+| TMeta-LSTM-GAL |   102.85933   |   163.30525   |
+|   STMeta-V1    |   97.87108    |   153.17380   |
+|   STMeta-V2    |   106.41066   |   149.05331   |
+|   STMeta-V3    | **94.77593**  | **143.18166** |
 
 ## Results on Charge-Station
 
@@ -127,30 +212,45 @@ The period and trend features are more obvious in Metro dataset, so the performa
 | Number of riding records |    1,272,961    |
 |    Number of stations    |       629       |
 
-Following shows a map-visualization of  629 EV charging stations in Beijing.
+Following shows the map-visualization of  629 EV charging stations in Beijing.
 
 <img src="http://47.94.208.154/image/EV_Beijing.jpg" style="zoom:40%;height:800px;width:800px;" />
 
 ### Experiment Results
 
-|                  | **Beijing** |
-| :--------------: | :---------: |
-|        HM        |   1.01610   |
-|     ARIMA(C)     |   0.98236   |
-|     XGBoost      |   0.83381   |
-|       GBRT       |   0.82814   |
-|  ST_MGCN (G/DC)  |   0.82714   |
-|   DCRNN(G/D C)   |   0.98871   |
-|     LSTM (C)     |   1.58560   |
-| STMeta-V1 (G/DC) |  0.815518   |
-| STMeta-V2(G/DC)  |   0.82144   |
-| STMeta-V3(G/DC)  | **0.81541** |
+|   30 minutes   | **Beijing** |
+| :------------: | :---------: |
+|       HM       |   0.86361   |
+|     ARIMA      |   0.75522   |
+|    XGBoost     |   0.68649   |
+|      GBRT      |   0.68931   |
+|    ST_MGCN     |   0.69083   |
+|     DCRNN      |   0.75740   |
+|      LSTM      |   0.75474   |
+| TMeta-LSTM-GAL |   0.68627   |
+|   STMeta-V1    |   0.66985   |
+|   STMeta-V2    | **0.66675** |
+|   STMeta-V3    |   0.66966   |
 
-
+|   60 minutes   | **Beijing** |
+| :------------: | :---------: |
+|       HM       |   1.01610   |
+|     ARIMA      |   0.98236   |
+|    XGBoost     |   0.83381   |
+|      GBRT      |   0.82814   |
+|    ST_MGCN     |   0.82701   |
+|     DCRNN      |   0.98871   |
+|      LSTM      |   0.99865   |
+| TMeta-LSTM-GAL |   0.84018   |
+|   STMeta-V1    |   0.83100   |
+|   STMeta-V2    |   0.80701   |
+|   STMeta-V3    | **0.80259** |
 
 ## Experiment Setting on different datasets
 
 ### Search Space
+
+We use [nni](https://github.com/microsoft/nni) toolkit to search the best parameters of HM, XGBoost and GBRT model. Search space are following.
 
 |  Model  |                         Search Space                         |
 | :-----: | :----------------------------------------------------------: |
@@ -171,81 +271,157 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
 
 #### Experiment Setting
 
+* HM & XGBoost & GBRT
+
+  | 15 minutes |      NYC       |    Chicago     |       DC       |
+  | :--------: | :------------: | :------------: | :------------: |
+  |     HM     |    `3-1-2`     |    `5-0-4`     |    `3-7-4`     |
+  |  XGBoost   | `8-14-4-32-2`  | `11-13-4-28-2` | `4-14-4-27-2`  |
+  |    GBRT    | `7-13-4-144-1` | `7-15-4-101-2` | `8-11-5-101-2` |
+
+  | 30 minutes |      NYC       |    Chicago    |       DC        |
+  | :--------: | :------------: | :-----------: | :-------------: |
+  |     HM     |    `2-1-2`     |    `3-2-1`    |     `3-1-4`     |
+  |  XGBoost   | `12-8-1-36-3`  | `7-5-2-24-2`  | `12-13-4-27-2`  |
+  |    GBRT    | `12-10-0-72-4` | `9-13-2-91-2` | `13-15-5-140-1` |
+
+  | 60 minutes |      NYC       |    Chicago    |      DC       |
+  | :--------: | :------------: | :-----------: | :-----------: |
+  |     HM     |    `1-1-3`     |    `1-1-1`    |    `2-1-3`    |
+  |  XGBoost   | `13-7-0-103-3` | `11-8-0-35-4` | `11-9-5-28-3` |
+  |    GBRT    | `12-6-1-58-5`  | `11-8-1-92-5` | `11-8-5-54-3` |
+
 * [ST_MGCN](https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/bike_trial.py) Run Code & Setting.
 
 * [DCRNN](https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/bike_trial.py) Run Code & Setting.
 
-* LSTM (C) & STMeta-V1  & STMeta-V2  & STMeta-V3
+* LSTM & TMeta-LSTM-GAL & STMeta-V1  & STMeta-V2  & STMeta-V3
 
-  All four models can be run by specifying data files and model files on  [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
+  These five models can be run by specifying data files and model files on  [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
 
-  Data Files: [bike_nyc.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_nyc.data.yml) , [bike_chicago.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_chicago.data.yml), [bike_dc.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_dc.data.yml).
+  Data Files: [bike_nyc.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_nyc.data.yml) , [bike_chicago.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_chicago.data.yml), [bike_dc.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_dc.data.yml)
 
-  * LSTM (C)
+  Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml), [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).,  [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml)., [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
-    ```python
-    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
-              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
-    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
-              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
-    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
-              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
-    ```
+  * LSTM
 
-    Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml).
+  ```python
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
+            ' -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
+            ' -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
+            ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
+            ' -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
+            ' -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
+            ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
+            ' -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
+            ' -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
+            ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+  ```
 
-  * STMeta-V1 
+  * TMeta-LSTM-GAL
 
-    ```python
-    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    ```
-    Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
+  ```python
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p graph:Distance,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p graph:Distance,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p graph:Distance,MergeIndex:12')
+  ```
+
+  * STMeta-V1
+
+  ```python
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  ```
 
   * STMeta-V2
 
-    ```python
-    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    ```
-
-    Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
+  ```python
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  ```
 
   * STMeta-V3
 
-    ```python
-    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    ```
+  ```python
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
+            '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
+            '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
+  os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
+            '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+  ```
 
-    Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
+The result of Bike dataset can be found [here](./all_results.html#experiment-results).
 
 #### Experiment Results
-
-|                 |        **NYC**         |       **Chicago**       |         **DC**          |
-| :-------------: | :--------------------: | :---------------------: | :---------------------: |
-|       HM        |    3.99224 `1-1-3`     |     2.97693 `1-1-2`     |     2.63165 `2-1-3`     |
-|    ARIMA(C)     |  5.60928 `168-3-0-0`   |   3.83584 `168-3-0-0`   |   3.60450 `168-3-0-0`   |
-|     XGBoost     | 4.12407 `12-10-0-20-5` |  2.92569 `9-7-0-20-5`   | 2.65671 `12-14-2-20-5`  |
-|      GBRT       | 3.99907 `12-7-4-100-5` | 2.84257 `12-14-2-100-5` | 2.61768 `12-14-2-100-5` |
-| ST_MGCN (G/DCI) |        3.72380         |         2.88300         |         2.48560         |
-|  DCRNN(G/D C)   |        4.18666         |         3.27759         |         3.08616         |
-|    LSTM (C)     |        4.55677         |         3.37004         |         2.91518         |
-|    STMeta-V1    |        3.50475         |       **2.65511**       |         2.42582         |
-|    STMeta-V2    |      **3.43870**       |         2.66379         |         2.41111         |
-|    STMeta-V3    |        3.47834         |         2.66180         |       **2.38844**       |
 
 ### Results on DiDi
 
@@ -258,6 +434,26 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
 |    Number of stations    |       256       |       256       |
 
 #### Experiment Setting
+
+* HM & XGBoost & GBRT
+
+  | 15 minutes |   **Xi'an**   |  **Chengdu**   |
+  | :--------: | :-----------: | :------------: |
+  |     HM     |    `5-0-4`    |    `2-7-4`     |
+  |  XGBoost   | `7-14-0-10-4` | `12-14-1-27-3` |
+  |    GBRT    | `11-2-2-45-3` | `13-15-5-39-3` |
+
+  | 30 minutes |  **Xi'an**   |  **Chengdu**   |
+  | :--------: | :----------: | :------------: |
+  |     HM     |   `2-0-2`    |    `1-7-4`     |
+  |  XGBoost   | `9-0-2-25-3` | `9-14-3-16-3`  |
+  |    GBRT    | `9-0-2-80-3` | `10-10-5-34-3` |
+
+  | 60 minutes |   **Xi'an**   |  **Chengdu**  |
+  | :--------: | :-----------: | :-----------: |
+  |     HM     |    `1-1-2`    |    `0-7-4`    |
+  |  XGBoost   | `12-0-2-10-5` | `9-6-2-14-3`  |
+  |    GBRT    | `9-0-2-50-2`  | `9-12-2-50-5` |
 
 * ST-ResNet
 
@@ -289,71 +485,100 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
 
 * [DCRNN]( https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/didi_trial.py ) Run Code & Setting.
 
-* LSTM (C) & STMeta-V1  & STMeta-V2  & STMeta-V3
+* LSTM & TMeta-LSTM-GAL & STMeta-V1  & STMeta-V2  & STMeta-V3
 
-  All four models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
+  These five models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
 
   Data Files: [didi_xian.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_xian.data.yml) , [didi_chengdu.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_chengdu.data.yml).
 
-  * LSTM (C)
+  Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml), [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).,  [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml)., [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
+  * LSTM
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
-              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
+            ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
+            ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+    
     os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
-              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
     ```
-
-    Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml).
-
+  
+  * TMeta-LSTM-GAL
+  
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:12')
+    
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:12')
+    ```
+  
   * STMeta-V1
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
-    ```
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
     
-    Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).  
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+    ```
     
   * STMeta-V2
   
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
-                '-p graph:Distance-Correlation-Interaction')
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+    
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
-                '-p graph:Distance-Correlation-Interaction')   
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
     ```
-  
-    Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
   
   * STMeta-V3
   
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
+    
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
-              '-p graph:Distance-Correlation-Interaction')
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
+              '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
     ```
     
-    Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
-#### Experiment Results
-
-|                   |       **Xi’an**        |      **Chengdu**      |
-| :---------------: | :--------------------: | :-------------------: |
-|        HM         |    6.18623 `1-1-2`     |    7.35477 `0-1-4`    |
-|     ARIMA(C)      |  9.47478 `168-3-0-0`   | 12.52656 `168-3-0-0`  |
-|      XGBoost      | 6.73346 `12-0-2-10-5 ` | 7.73836`9-14-4-20-2`  |
-|       GBRT        | 6.44639 `9-0-2-50-2 `  | 7.58831 `12-7-2-50-5` |
-|     ST-ResNet     |        6.08476         |        7.14638        |
-|  ST_MGCN (G/DCI)  |        5.87456         |      **7.03217**      |
-|   DCRNN(G/D C)    |        8.20254         |       11.50550        |
-|     LSTM (C)      |        7.39970         |       10.11386        |
-| STMeta-V1 (G/DCI) |        5.89154         |        7.06246        |
-| STMeta-V2(G/DCI)  |      **5.75596**       |        7.09710        |
-| STMeta-V3(G/DCI)  |        5.95507         |        7.04358        |
+The result of DiDi dataset can be found [here](./all_results.html#id2).
 
 ### Results on Metro
 
@@ -367,76 +592,124 @@ Following shows a map-visualization of  629 EV charging stations in Beijing.
 
 #### Experiment Setting
 
+* HM & XGBoost & GBRT
+
+  | 15 minutes |  **Chongqing**  |  **Shanghai**  |
+  | :--------: | :-------------: | :------------: |
+  |     HM     |     `2-1-4`     |    `1-0-4`     |
+  |  XGBoost   |  `12-6-4-51-8`  | `11-10-4-31-7` |
+  |    GBRT    | `12-14-1-182-7` | `12-7-1-148-5` |
+
+  | 30 minutes | **Chongqing**  |  **Shanghai**  |
+  | :--------: | :------------: | :------------: |
+  |     HM     |    `1-0-4`     |    `1-1-3`     |
+  |  XGBoost   | `11-5-0-45-8`  | `12-6-1-206-3` |
+  |    GBRT    | `10-3-0-107-8` |  `7-4-1-58-7`  |
+
+  | 60 minutes |  **Chongqing**   | **Shanghai** |
+  | :--------: | :--------------: | :----------: |
+  |     HM     |     `0-1-4`      |   `0-0-4`    |
+  |  XGBoost   |  `9-14-2-200-5`  | `3-7-0-50-5` |
+  |    GBRT    | `12-10-4-200-5 ` | `9-5-1-66-6` |
+
 * [ST_MGCN](https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metro_trial.py ) Run Code & Setting.
 
 * [DCRNN](https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metro_trial.py) Run Code & Setting.
 
-* LSTM (C) & STMeta-V1  & STMeta-V2  & STMeta-V3
+* LSTM & TMeta-LSTM-GAL & STMeta-V1  & STMeta-V2  & STMeta-V3
 
-  All four models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
+  These five models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
 
   Data Files: [metro_chongqing.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_chongqing.data.yml) , [metro_shanghai.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_shanghai.data.yml).
 
-  * LSTM (C) 
+  Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml), [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).,  [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml)., [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
+  * LSTM 
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
-                ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+    
     os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
-                ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
     ```
     
-    Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml).
+  * TMeta-LSTM-GAL
+  
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:12')
     
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:12')
+    ```
+  
   * STMeta-V1
   
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
-                '-p graph:Distance-Correlation-Line')
+              '-p graph:Distance-Correlation-Line,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:12')
+    
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
-                  '-p graph:Distance-Correlation-Line')
+              '-p graph:Distance-Correlation-Line,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:12')
     ```
-  
-    Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
   
   * STMeta-V2
   
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
-              '-p graph:Distance-Correlation-Line')
-    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
-            '-p graph:Distance-Correlation-Line')
-    ```
+              '-p graph:Distance-Correlation-Line,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:12')
     
-    Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:12')
+    ```
     
   * STMeta-V3
   
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
-            '-p graph:Distance-Correlation-Line')
+              '-p graph:Distance-Correlation-Line,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
+            '-p graph:Distance-Correlation-Line,MergeIndex:12')
+    
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
-                '-p graph:Distance-Correlation-Line')
+              '-p graph:Distance-Correlation-Line,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
+              '-p graph:Distance-Correlation-Line,MergeIndex:12')
     ```
-  
-    Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
+    
 
-#### Experiment Results
-
-|                   |       **Chongqing**       |       **Shanghai**        |
-| :---------------: | :-----------------------: | :-----------------------: |
-|        HM         |     120.30723 `0-1-4`     |     197.97092 `0-1-4`     |
-|     ARIMA(C)      |   578.18563 `168-3-0-0`   |   792.1597 `168-3-0-0`    |
-|      XGBoost      | 117.05069 `9-14-2-200-5`  |   185.00447`3-7-0-50-5`   |
-|       GBRT        | 113.92276 1`2-10-4-200-5` | 186.74502 `12-10-0-100-2` |
-|  ST_MGCN (G/DCI)  |         118.86668         |         181.55171         |
-|   DCRNN(G/D C)    |         122.31121         |         326.97357         |
-|     LSTM (C)      |        196.175732         |         368.8468          |
-| STMeta-V1 (G/DCI) |       **92.74990**        |       **151.11746**       |
-| STMeta-V2(G/DCI)  |         98.86152          |         158.21953         |
-| STMeta-V3(G/DCI)  |         101.7806          |         156.58867         |
-
-The period and trend features are more obvious in Metro dataset, so the performance is poor if only use closeness feature.
+The result of Metro dataset can be found [here](./all_results.html#id4).
 
 ### Results on Charge-Station
 
@@ -450,63 +723,68 @@ The period and trend features are more obvious in Metro dataset, so the performa
 
 #### Experiment Setting
 
+* HM & XGBoost & GBRT
+
+  | Beijing |  30 minutes   |   60 minutes    |
+  | :-----: | :-----------: | :-------------: |
+  |   HM    |    `2-0-0`    |     `2-0-2`     |
+  | XGBoost | `6-6-1-19-2`  |  `12-7-0-20-2`  |
+  |  GBRT   | `13-3-2-47-3` | `12-10-0-100-2` |
+
 * [ST_MGCN]( https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/cs_trial.py ) Run Code & Setting.
 
 * [DCRNN]( https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/cs_trial.py ) Run Code & Setting.
 
-* LSTM (C) & STMeta-V1  & STMeta-V2  & STMeta-V3
+* LSTM & TMeta-LSTM-GAL & STMeta-V1  & STMeta-V2  & STMeta-V3
 
-  All four models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
+  These five models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
 
   Data Files: [chargestation_beijing.data.yml]( https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/chargestation_beijing.data.yml).
 
-  * LSTM (C) 
+  Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml), [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).,  [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml)., [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
+  * LSTM 
+  
     ```python
-    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:2')
     ```
-
-    Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml).
-
+  
+  * TMeta-LSTM-GAL
+  
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d chargestation_beijing.data.yml -p graph:Distance,MergeIndex:1')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d chargestation_beijing.data.yml -p graph:Distance,MergeIndex:2')
+    ```
+  
   * STMeta-V1
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
-              ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
+              ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+            ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
     ```
-
-    Model Files: [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).
-
   * STMeta-V2
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
-                ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
+              ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+            ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
     ```
-
-    Model Files: [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml).
-
+  
   * STMeta-V3
-
+  
     ```python
     os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
-                ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation')
+              ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
     ```
-    
-    Model Files: [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
 
-#### Experiment Results
-
-|                  |       **Beijing**       |
-| :--------------: | :---------------------: |
-|        HM        |     1.01610 `2-0-2`     |
-|     ARIMA(C)     |   0.98236 `168-3-0-0`   |
-|     XGBoost      |  0.83381 `12-7-0-20-2`  |
-|       GBRT       | 0.82814 `12-10-0-100-2` |
-|  ST_MGCN (G/DC)  |         0.82714         |
-|   DCRNN(G/D C)   |         0.98871         |
-|     LSTM (C)     |         1.58560         |
-| STMeta-V1 (G/DC) |        0.815518         |
-| STMeta-V2(G/DC)  |         0.82144         |
-| STMeta-V3(G/DC)  |       **0.81541**       |
-
+The result of Charge-Station dataset can be found [here](./all_results.html#id6).

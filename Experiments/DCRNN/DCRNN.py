@@ -59,10 +59,9 @@ def param_parser():
     # device parameter
     parser.add_argument('--Device', default='0', type=str)
     # version control
-    parser.add_argument('--Group', default='DebugGroup')
-    parser.add_argument('--CodeVersion', default='ST_MGCN_Debug')
+    parser.add_argument('--CodeVersion', default='V0')
     # Merge times
-    parser.add_argument('--MergeIndex', default=6, type=int)
+    parser.add_argument('--MergeIndex', default=1, type=int)
     return parser
 
 

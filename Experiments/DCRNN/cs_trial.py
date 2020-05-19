@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_st_mgcn = ('python DCRNN.py '
+shared_params_dcrnn = ('python DCRNN.py '
                          '--Dataset ChargeStation '
                          '--CT 6 '
                          '--PT 0 '
@@ -24,13 +24,11 @@ shared_params_st_mgcn = ('python DCRNN.py '
                          '--Device 1 ')
 
 if __name__ == "__main__":
-
-
     """
     Multiple Graphes
     """
-    os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 --CodeVersion V0'
+    os.system(shared_params_dcrnn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 '
                                       ' --Graph Distance --MergeIndex 1')
 
-    # os.system(shared_params_st_mgcn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 --CodeVersion V0'
-    #                                     ' --Graph Distance --MergeIndex 2')
+    os.system(shared_params_dcrnn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 '
+                                        ' --Graph Distance --MergeIndex 2')

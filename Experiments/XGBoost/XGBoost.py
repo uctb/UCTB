@@ -15,8 +15,6 @@ params = {
     'num_boost_round': 51
 }
 
-
-
 parser = argparse.ArgumentParser(description="Argument Parser")
 # data source
 parser.add_argument('--dataset', default='Metro', type=str)

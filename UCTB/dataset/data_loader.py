@@ -175,8 +175,10 @@ class NodeTrafficLoader(object):
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
         data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
             ``dataset`` is file path, ``data_dir`` should be ``None`` too. Default: ``None``
-        MergeIndex(int): The granularity of dataset will be `MergeIndex`* original granularity.
-        MergeWay(str): How to change the data granularity. Now it can be `sum` `average` or `max`.
+        MergeIndex(int): The granularity of dataset will be ``MergeIndex`` * original granularity.
+        MergeWay(str): How to change the data granularity. Now it can be ``sum`` ``average`` or ``max``.
+        remove(bool): If ``True``, dataloader  will remove stations whose average traffic is less than 1. 
+            Othewise, dataloader will use all stations.
 
     Attributes:
         dataset (DataSet): The DataSet object storing basic data.

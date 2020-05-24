@@ -37,7 +37,8 @@ def save_predict_in_dataset(data_loader, predict_val, method):
 
     if loader_id.endswith("G"):
         # use GridTrafficLoader
-        pred_data['Pred'][method]["TrafficGrid"] = np.squeeze(predict_val)
+        pred_data['Pred'][loader_id][method] = {}
+        pred_data['Pred'][loader_id][method]["TrafficGrid"] = np.squeeze(predict_val)
 
     with open(file_name, "wb") as fp:
         pickle.dump(pred_data, fp)

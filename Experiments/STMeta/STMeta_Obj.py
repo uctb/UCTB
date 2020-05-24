@@ -8,7 +8,6 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
-from UCTB.utils.sendInfo import senInfo
 from UCTB.utils import save_predict_in_dataset
 #####################################################################
 # argument parser
@@ -168,7 +167,7 @@ if de_normalizer:
 print('Best val result', best_val_loss)
 print('Test result', test_rmse, test_mape)
 
-# save_predict_in_dataset(data_loader,test_prediction,"HM")
+# save_predict_in_dataset(data_loader,test_prediction,code_version)
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600

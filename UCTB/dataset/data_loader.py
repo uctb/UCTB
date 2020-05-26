@@ -433,10 +433,10 @@ class NodeTrafficLoader(object):
 
         # os.environ['MAPBOX_API_KEY'] = mapboxAccessToken
 
-        lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
-        #build_order = build_order or list(range(len(self.dataset.node_station_info)))
+        # lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
+        build_order = build_order or list(range(len(self.dataset.node_station_info)))
 
-        #color = ['rgb(255, 0, 0)' for _ in build_order]
+        color = ['rgb(255, 0, 0)' for _ in build_order]
 
         lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
         lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]
@@ -451,10 +451,10 @@ class NodeTrafficLoader(object):
             mode='markers',
             marker=dict(
                 size=6,
-                 color=['rgb(%s, %s, %s)' % (255,
-                                                              195 - e * 195 / max(build_order),
-                                                              195 - e * 195 / max(build_order)) for e in build_order],
-                #color=color,
+                #  color=['rgb(%s, %s, %s)' % (255,
+                #                                               195 - e * 195 / max(build_order),
+                #                                               195 - e * 195 / max(build_order)) for e in build_order],
+                color=color,
                 opacity=1,
             ))]
 

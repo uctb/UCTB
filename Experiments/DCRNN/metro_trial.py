@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_st_mgcn = ('python DCRNN.py '
+shared_params_st_mgcn = ('python DCRNN_Cus.py '
                          '--Dataset Metro '
                          '--CT 6 '
                          '--PT 0 '
@@ -27,14 +27,6 @@ shared_params_st_mgcn = ('python DCRNN.py '
 
 if __name__ == "__main__":
 
-    os.system(shared_params_st_mgcn + ' --City Shanghai --Graph Distance --MergeIndex 3')
-
-    os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 3')
-
     os.system(shared_params_st_mgcn + ' --City Shanghai --Graph Distance --MergeIndex 6')
 
-    os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 6')
-
-    os.system(shared_params_st_mgcn + ' --City Shanghai --Graph Distance --MergeIndex 12')
-
-    os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 12')
+    # os.system(shared_params_st_mgcn + ' --City Chongqing --Graph Distance --MergeIndex 6')

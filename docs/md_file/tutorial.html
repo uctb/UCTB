@@ -209,7 +209,8 @@
     <span class="s2">&quot;Node&quot;</span><span class="p">:</span> <span class="p">{</span>
         <span class="s2">&quot;TrafficNode&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># With shape [time, num-of-node]</span>
         <span class="s2">&quot;TrafficMonthlyInteraction&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="c1"># With shape [month, num-of-node. num-of-node]</span>
-        <span class="s2">&quot;StationInfo&quot;</span><span class="p">:</span> <span class="nb">list</span> <span class="c1"># elements in it should be [id, build-time, lat, lng, name]</span>
+        <span class="s2">&quot;StationInfo&quot;</span><span class="p">:</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="p">[</span><span class="n">build</span><span class="o">-</span><span class="n">time</span><span class="p">,</span> <span class="c1"># Could also be int</span>
+                             <span class="n">lat</span><span class="p">,</span> <span class="n">lng</span><span class="p">,</span> <span class="n">name</span><span class="p">]},</span>
         <span class="s2">&quot;POI&quot;</span><span class="p">:</span> <span class="p">[]</span>
     <span class="p">},</span>
 

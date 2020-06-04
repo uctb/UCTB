@@ -28,16 +28,16 @@ if __name__ == "__main__":
     """
     Multiple Graphes
     """
-    os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
+    # os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
+    # os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
+    # os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
 
-    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 '
+    # os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
+    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 --CodeVersion V0'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
+    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 --CodeVersion V0'
+                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 12')                                                                    

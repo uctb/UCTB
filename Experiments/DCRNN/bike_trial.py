@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_dcrnn = ('python DCRNN.py '
+shared_params_st_mgcn = ('python DCRNN.py '
                          '--Dataset Bike '
                          '--CT 6 '
                          '--PT 0 '
@@ -26,22 +26,8 @@ shared_params_dcrnn = ('python DCRNN.py '
                          '--CodeVersion V0')
 
 if __name__ == "__main__":
-    os.system(shared_params_dcrnn + ' --City NYC --Graph Distance --MergeIndex 3 --DataRange 0.25 --TrainDays 91')
+    os.system(shared_params_st_mgcn + ' --City NYC --Graph Distance --MergeIndex 6')
 
-    os.system(shared_params_dcrnn + ' --City DC --Graph Distance --MergeIndex 3 --DataRange 0.25 --TrainDays 91')
+    # os.system(shared_params_st_mgcn + ' --City DC --Graph Distance --MergeIndex 6')
 
-    os.system(shared_params_dcrnn + ' --City Chicago --Graph Distance --MergeIndex 3 --DataRange 0.25 --TrainDays 91')
-
-
-    os.system(shared_params_dcrnn + ' --City NYC --Graph Distance --MergeIndex 6 --DataRange 0.5 --TrainDays 183')
-
-    os.system(shared_params_dcrnn + ' --City DC --Graph Distance --MergeIndex 6 --DataRange 0.5 --TrainDays 183')
-
-    os.system(shared_params_dcrnn + ' --City Chicago --Graph Distance --MergeIndex 6 --DataRange 0.5 --TrainDays 183')
-    
-
-    os.system(shared_params_dcrnn + ' --City NYC --Graph Distance --MergeIndex 12')
-
-    os.system(shared_params_dcrnn + ' --City DC --Graph Distance --MergeIndex 12')
-
-    os.system(shared_params_dcrnn + ' --City Chicago --Graph Distance --MergeIndex 12')
+    # os.system(shared_params_st_mgcn + ' --City Chicago --Graph Distance --MergeIndex 6')

@@ -21,8 +21,7 @@ shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
                          '--patience 0.1 '
                          '--ESlength 100 '
                          '--BatchSize 16 '
-                         '--Device 1 '
-                         '')
+                         '--Device 1 ')
 
 """
 V1
@@ -35,23 +34,23 @@ if __name__ == "__main__":
     """
     Multiple Graphes
     """
-    os.system(shared_params_st_mgcn + ' --City NYC --Dataset Bike --K 1 --L 1 --DataRange 0.25 --TrainDays 91'
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City NYC --Dataset Bike --K 1 --L 1 --DataRange 0.5 --TrainDays 183'
+    # os.system(shared_params_st_mgcn + ' --City NYC --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
+    os.system(shared_params_st_mgcn + ' --City NYC --Dataset Bike --K 1 --L 1 --CodeVersion V0'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City NYC --Dataset Bike--K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City NYC --Dataset Bike--K 1 --L 1 --CodeVersion V0'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
 
-    os.system(shared_params_st_mgcn + ' --City Chicago --Dataset Bike --K 1 --L 1 --DataRange 0.25 --TrainDays 91'
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City Chicago --Dataset Bike --K 1 --L 1 --DataRange 0.5 --TrainDays 183'
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City Chicago --Dataset Bike --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
-    #
-    os.system(shared_params_st_mgcn + ' --City DC --Dataset Bike --K 1 --L 1 --DataRange 0.25 --TrainDays 91'
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City DC --Dataset Bike --K 1 --L 1 --DataRange 0.5 --TrainDays 183'
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City DC --Dataset Bike --K 1 --L 1 '
-                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
+    # os.system(shared_params_st_mgcn + ' --City Chicago --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
+    # os.system(shared_params_st_mgcn + ' --City Chicago --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
+    # os.system(shared_params_st_mgcn + ' --City Chicago --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
+    # #
+    # os.system(shared_params_st_mgcn + ' --City DC --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
+    # os.system(shared_params_st_mgcn + ' --City DC --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
+    # os.system(shared_params_st_mgcn + ' --City DC --Dataset Bike --K 1 --L 1 --CodeVersion V0'
+    #                                   ' --Graph Distance-Correlation-Interaction --MergeIndex 12')

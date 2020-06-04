@@ -101,7 +101,7 @@ class STMeta(BaseModel):
         self._external_dim = external_dim
         self._output_activation = output_activation
 
-        self._st_method = st_method
+        self._st_method = st_method.upper()
         self._temporal_merge = temporal_merge
         self._graph_merge = graph_merge
 
@@ -243,7 +243,7 @@ class STMeta(BaseModel):
                 external_dense = tf.tile(tf.reshape(external_dense, [-1, 1, 1, 10]),
                                          [1, tf.shape(dense_inputs)[1], tf.shape(dense_inputs)[2], 1])
                 dense_inputs = tf.concat([dense_inputs, external_dense], axis=-1)
-
+            #after SAU
             dense_output0 = tf.keras.layers.Dense(units=self._num_dense_units,
                                                   activation=tf.nn.tanh,
                                                   use_bias=True,

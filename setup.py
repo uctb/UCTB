@@ -26,7 +26,6 @@ setuptools.setup(
                       'xgboost>=0.82',
                       'nni>=0.8',
                       'chinesecalendar>=1.2.2',
-                      'workalendar>=8.2.0',
                       'PyYAML>=5.1.1'],
     classifiers=[
         "Programming Language :: Python :: 3",

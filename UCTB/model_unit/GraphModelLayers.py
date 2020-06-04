@@ -1,9 +1,9 @@
 import numpy as np
 import tensorflow as tf
+import heapq
 
 from math import radians, cos, sin, asin, sqrt
 from scipy.stats import pearsonr
-
 
 class GraphBuilder(object):
     '''
@@ -56,12 +56,43 @@ class GraphBuilder(object):
             threshold(float): (meters) nodes with geographic distacne smaller than this 
                 threshold will be linked together.
         '''
+        
         adjacent_matrix = np.zeros([len(lat_lng_list), len(lat_lng_list)])
         for i in range(len(lat_lng_list)):
             for j in range(len(lat_lng_list)):
                 adjacent_matrix[i][j] = GraphBuilder.haversine(lat_lng_list[i][0], lat_lng_list[i][1],
                                                                lat_lng_list[j][0], lat_lng_list[j][1])
         adjacent_matrix = (adjacent_matrix <= threshold).astype(np.float32)
+        # go = np.sum(adjacent_matrix,axis=0)
+        # print (go[int(len(go)/2)])
+        # print (np.sum(np.sum(go,axis=0))/len(go))
+        # print ("GOOD: ",type(adjacent_matrix))
+        return adjacent_matrix
+
+    @staticmethod
+    def neighbour_adjacent(lat_lng_list, threshold):
+        '''
+        Calculate neighbour graph based on geographic distance.
+
+        Args:
+            lat_lng_list(list): A list of geographic locations. The format of each element
+                 in the list is [latitude, longitude].
+            threshold(float): top threshold neighbouring station will be linked together.
+        '''
+        
+        adjacent_matrix = np.zeros([len(lat_lng_list), len(lat_lng_list)])
+        for i in range(len(lat_lng_list)):
+            for j in range(len(lat_lng_list)):
+                adjacent_matrix[i][j] = GraphBuilder.haversine(lat_lng_list[i][0], lat_lng_list[i][1],
+                                                               lat_lng_list[j][0], lat_lng_list[j][1])
+        
+        dis_matrix = adjacent_matrix.astype(np.float32)
+        for i in range(len(dis_matrix)):
+            ind = heapq.nlargest(threshold, range(len(dis_matrix[i])), dis_matrix[i].take)
+            dis_matrix[i] = np.array([0 for _ in range(len(dis_matrix[i]))])
+            dis_matrix[i][ind] = 1
+        adjacent_matrix = (adjacent_matrix == 1).astype(np.float32)
+        # print ("BAD: ",type(adjacent_matrix))
         return adjacent_matrix
 
     @staticmethod

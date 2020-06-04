@@ -1,2 +1,3 @@
 from .multi_threads import multiple_process
-from .make_predict_dataset import save_predict_in_dataset
+from .sendInfo import senInfo
+from .make_predict_dataset import make_predict_dataset

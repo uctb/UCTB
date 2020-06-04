@@ -40,7 +40,7 @@ def stmeta_param_parser():
     # device parameter
     parser.add_argument('--Device', default='0', type=str)
     # version control
-    parser.add_argument('--CodeVersion', default='V0')
+    parser.add_argument('--CodeVersion', default='V')
     # Merge times
     parser.add_argument('--MergeIndex', default=6, type=int)
     return parser

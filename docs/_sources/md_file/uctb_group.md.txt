@@ -49,7 +49,7 @@ ______
 
 ```From Nov 2019, till now.```
 
-Undergraduate student in Xidian University.
+Undergraduate student from Xidian University.
 
 Email:  chenliyue2019@gmail.com
 

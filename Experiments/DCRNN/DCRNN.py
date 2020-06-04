@@ -59,9 +59,10 @@ def param_parser():
     # device parameter
     parser.add_argument('--Device', default='0', type=str)
     # version control
-    parser.add_argument('--CodeVersion', default='V0')
+    parser.add_argument('--Group', default='DebugGroup')
+    parser.add_argument('--CodeVersion', default='ST_MGCN_Debug')
     # Merge times
-    parser.add_argument('--MergeIndex', default=1, type=int)
+    parser.add_argument('--MergeIndex', default=6, type=int)
     return parser
 
 
@@ -83,7 +84,7 @@ print('Code version', args.Dataset, args.City, code_version)
 
 print('Number of training samples', data_loader.train_sequence_len)
 
-diffusion_matrix = data_loader.diffusion_matrix(filter_type='dual_random_walk')
+diffusion_matrix = data_loader.diffusion_matrix()
 
 DCRNN_Obj = DCRNN(num_nodes=data_loader.station_number,
                   num_diffusion_matrix=diffusion_matrix.shape[0],

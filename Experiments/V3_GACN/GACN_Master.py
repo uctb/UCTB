@@ -3,7 +3,7 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
-shared_params_gacn = ('python V3_GACN.py '
+shared_params_gacn = ('python GACN_Obj.py '
                       '--K 1 '
                       '--L 1 '
                       '--Graph Correlation '
@@ -23,8 +23,11 @@ shared_params_gacn = ('python V3_GACN.py '
 
 if __name__ == "__main__":
 
-    # os.system(shared_params_gacn + ' --Dataset Bike --City Chicago --Group Chicago'
-    #                                ' --lr 5e-5 --T 6 --GALLayers 4 --GALHeads 2 --GALUnits 32 --CodeVersion T6')
+    os.system(shared_params_gacn + ' --Dataset Bike --City Chicago --Group Chicago'
+                                   ' --lr 5e-5 --T 6 --GALLayers 4 --GALHeads 2 --GALUnits 32 --CodeVersion T6')
 
     os.system(shared_params_gacn + ' --Dataset Bike --City Chicago --Group Chicago'
                                    ' --lr 1e-4 --T 12 --GALLayers 4 --GALHeads 2 --GALUnits 32 --CodeVersion T12')
+    
+    # os.system(shared_params_gacn + ' --Dataset Metro --City Shanghai --Group Chicago'
+    #                                ' --lr 1e-4 --T 12 --GALLayers 4 --GALHeads 2 --GALUnits 32 --CodeVersion T12')

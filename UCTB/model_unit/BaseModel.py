@@ -158,6 +158,7 @@ class BaseModel(object):
         train_feed_dict, val_feed_dict = SplitData.split_feed_dict(feed_dict,
                                                                    sequence_length=sequence_length,
                                                                    ratio_list=[1 - validate_ratio, validate_ratio])
+
         train_sequence_length = int(sequence_length*(1-validate_ratio))
         val_sequence_len = sequence_length - train_sequence_length
 

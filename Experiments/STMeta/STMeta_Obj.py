@@ -8,7 +8,7 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
-from UCTB.utils import save_predict_in_dataset
+from UCTB.utils.sendInfo import senInfo
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
@@ -45,6 +45,7 @@ model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################
 # Config data loader
+# print ('888888888888888888888888888888888888888888888888888888888888888888888')
 data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 data_range=args['data_range'], train_data_length=args['train_data_length'],
                                 test_ratio=0.1,
@@ -54,6 +55,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 threshold_distance=args['threshold_distance'],
                                 threshold_correlation=args['threshold_correlation'],
                                 threshold_interaction=args['threshold_interaction'],
+                                # threshold_pos_d1=args['threshold_pos_d1'],
                                 normalize=args['normalize'],
                                 graph=args['graph'],
                                 with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
@@ -166,8 +168,6 @@ if de_normalizer:
 
 print('Best val result', best_val_loss)
 print('Test result', test_rmse, test_mape)
-
-# save_predict_in_dataset(data_loader,test_prediction,code_version)
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600

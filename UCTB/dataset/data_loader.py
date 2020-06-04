@@ -31,10 +31,8 @@ class GridTrafficLoader(object):
                  data_dir=None,
                  MergeIndex=1,
                  MergeWay="sum",**kwargs):
-                 
-        self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
-        self.loader_id = "{}_{}_{}_{}_{}_{}_{}_G".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len, self.dataset.time_fitness)
+        self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
@@ -55,7 +53,7 @@ class GridTrafficLoader(object):
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
             # Weekday Feature
             weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
-                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60), self.dataset.city) else 0] \
+                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
                             for e in range(data_range[0], num_time_slots + data_range[0])]
             # Hour Feature
             hour_feature = [[(parse(self.dataset.time_range[0]) +
@@ -175,10 +173,8 @@ class NodeTrafficLoader(object):
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
         data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
             ``dataset`` is file path, ``data_dir`` should be ``None`` too. Default: ``None``
-        MergeIndex(int): The granularity of dataset will be ``MergeIndex`` * original granularity.
-        MergeWay(str): How to change the data granularity. Now it can be ``sum`` ``average`` or ``max``.
-        remove(bool): If ``True``, dataloader  will remove stations whose average traffic is less than 1. 
-            Othewise, dataloader will use all stations.
+        MergeIndex(int): The granularity of dataset will be `MergeIndex`* original granularity.
+        MergeWay(str): How to change the data granularity. Now it can be `sum` `average` or `max`.
 
     Attributes:
         dataset (DataSet): The DataSet object storing basic data.
@@ -206,23 +202,17 @@ class NodeTrafficLoader(object):
                  period_len=7,
                  trend_len=4,
                  target_length=1,
-                 graph='Correlation',
-                 threshold_distance=1000,
-                 threshold_correlation=0,
-                 threshold_interaction=500,
                  normalize=True,
                  workday_parser=is_work_day_america,
                  with_lm=True,
                  with_tpe=False,
                  data_dir=None,
                  MergeIndex=1,
-                 MergeWay="sum",
-                 remove=True,**kwargs):
-
+                 MergeWay="sum",**kwargs):
+        
+        # print ("[!INFO]: Come in.")
         self.dataset = DataSet(dataset, MergeIndex, MergeWay, city,data_dir=data_dir)
 
-        self.loader_id = "{}_{}_{}_{}_{}_{}_{}_N".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len, self.dataset.time_fitness)
-        
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
         self.closeness_len = int(closeness_len)
@@ -233,8 +223,6 @@ class NodeTrafficLoader(object):
         assert type(self.period_len) is int and self.period_len >= 0
         assert type(self.trend_len) is int and self.trend_len >= 0
 
-        if type(data_range) is str and data_range.lower().startswith("0."):
-            data_range = float(data_range)
         if type(data_range) is str and data_range.lower() == 'all':
             data_range = [0, len(self.dataset.node_traffic)]
         elif type(data_range) is float:
@@ -245,10 +233,7 @@ class NodeTrafficLoader(object):
         num_time_slots = data_range[1] - data_range[0]
 
         # traffic feature
-        if remove:
-            self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
-        else:
-            self.traffic_data_index = np.arange(self.dataset.node_traffic.shape[1])
+        self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
             np.float32)
@@ -260,7 +245,7 @@ class NodeTrafficLoader(object):
             external_feature.append(self.dataset.external_feature_weather[data_range[0]:data_range[1]])
             # Weekday Feature
             weekday_feature = [[1 if workday_parser(parse(self.dataset.time_range[0])
-                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60), self.dataset.city) else 0] \
+                                                    + datetime.timedelta(hours=e * self.dataset.time_fitness / 60)) else 0] \
                             for e in range(data_range[0], num_time_slots + data_range[0])]
             # Hour Feature
             hour_feature = [[(parse(self.dataset.time_range[0]) +
@@ -283,7 +268,7 @@ class NodeTrafficLoader(object):
         self.train_data, self.test_data = SplitData.split_data(self.traffic_data, self.train_test_ratio)
         self.train_ef, self.test_ef = SplitData.split_data(external_feature, self.train_test_ratio)
 
-        # Normalize the traffic data
+        # 规则化交通数据
         if normalize:
             self.normalizer = Normalizer(self.train_data)
             self.train_data = self.normalizer.min_max_normal(self.train_data)
@@ -294,7 +279,7 @@ class NodeTrafficLoader(object):
             self.train_data = self.train_data[-int(train_day_length * self.daily_slots):]
             self.train_ef = self.train_ef[-int(train_day_length * self.daily_slots):]
 
-        # expand the test data
+        # 展开测试数据
         expand_start_index = len(self.train_data) - \
                              max(int(self.daily_slots * self.period_len),
                                  int(self.daily_slots * 7 * self.trend_len),
@@ -303,7 +288,7 @@ class NodeTrafficLoader(object):
         self.test_data = np.vstack([self.train_data[expand_start_index:], self.test_data])
         self.test_ef = np.vstack([self.train_ef[expand_start_index:], self.test_ef])
 
-        # init move sample obj
+        # 初始化移动样本类
         self.st_move_sample = ST_MoveSample(closeness_len=self.closeness_len,
                                             period_len=self.period_len,
                                             trend_len=self.trend_len, target_length=1, daily_slots=self.daily_slots)
@@ -321,7 +306,7 @@ class NodeTrafficLoader(object):
         self.train_sequence_len = max((len(self.train_closeness), len(self.train_period), len(self.train_trend)))
         self.test_sequence_len = max((len(self.test_closeness), len(self.test_period), len(self.test_trend)))
 
-        # external feature
+        # 外部特征
         self.train_ef = self.train_ef[-self.train_sequence_len - target_length: -target_length]
         self.test_ef = self.test_ef[-self.test_sequence_len - target_length: -target_length]
 
@@ -365,61 +350,6 @@ class NodeTrafficLoader(object):
 
             self.tpe_dim = None
 
-        if with_lm:
-            self.AM = []
-            self.LM = []
-            self.threshold_distance = threshold_distance
-            self.threshold_correlation = threshold_correlation
-            self.threshold_interaction = threshold_interaction
-
-            for graph_name in graph.split('-'):
-                AM, LM = self.build_graph(graph_name)
-                if AM is not None:
-                    self.AM.append(AM)
-                if LM is not None:
-                    self.LM.append(LM)
-
-            self.LM = np.array(self.LM, dtype=np.float32)
-
-    def build_graph(self, graph_name):
-        AM, LM = None, None
-        if graph_name.lower() == 'distance':
-            lat_lng_list = np.array([[float(e1) for e1 in e[2:4]] for e in self.dataset.node_station_info])
-            AM = GraphBuilder.distance_adjacent(lat_lng_list[self.traffic_data_index],
-                                                threshold=float(self.threshold_distance))
-            LM = GraphBuilder.adjacent_to_laplacian(AM)
-
-        if graph_name.lower() == 'interaction':
-            monthly_interaction = self.dataset.node_monthly_interaction[:, self.traffic_data_index, :][:, :,
-                                  self.traffic_data_index]
-
-            monthly_interaction, _ = SplitData.split_data(monthly_interaction, self.train_test_ratio)
-
-            annually_interaction = np.sum(monthly_interaction[-12:], axis=0)
-            annually_interaction = annually_interaction + annually_interaction.transpose()
-
-            AM = GraphBuilder.interaction_adjacent(annually_interaction,
-                                                   threshold=float(self.threshold_interaction))
-            LM = GraphBuilder.adjacent_to_laplacian(AM)
-
-        if graph_name.lower() == 'correlation':
-            AM = GraphBuilder.correlation_adjacent(self.train_data[-30 * int(self.daily_slots):],
-                                                   threshold=float(self.threshold_correlation))
-            LM = GraphBuilder.adjacent_to_laplacian(AM)
-
-        if graph_name.lower() == 'neighbor':
-            LM = GraphBuilder.adjacent_to_laplacian(
-                self.dataset.data.get('contribute_data').get('graph_neighbors'))
-
-        if graph_name.lower() == 'line':
-            LM = GraphBuilder.adjacent_to_laplacian(self.dataset.data.get('contribute_data').get('graph_lines'))
-            LM = LM[self.traffic_data_index]
-            LM = LM[:, self.traffic_data_index]
-
-        if graph_name.lower() == 'transfer':
-            LM = GraphBuilder.adjacent_to_laplacian(
-                self.dataset.data.get('contribute_data').get('graph_transfer'))
-        return AM, LM
 
     def st_map(self, zoom=11, style='mapbox://styles/rmetfc/ck1manozn0edb1dpmvtzle2cp', build_order=None):
         if self.dataset.node_station_info is None or len(self.dataset.node_station_info) == 0:
@@ -433,7 +363,7 @@ class NodeTrafficLoader(object):
 
         # os.environ['MAPBOX_API_KEY'] = mapboxAccessToken
 
-        # lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
+        lat_lng_name_list = [e[2:] for e in self.dataset.node_station_info]
         build_order = build_order or list(range(len(self.dataset.node_station_info)))
 
         color = ['rgb(255, 0, 0)' for _ in build_order]
@@ -451,9 +381,9 @@ class NodeTrafficLoader(object):
             mode='markers',
             marker=dict(
                 size=6,
-                #  color=['rgb(%s, %s, %s)' % (255,
-                #                                               195 - e * 195 / max(build_order),
-                #                                               195 - e * 195 / max(build_order)) for e in build_order],
+                # color=['rgb(%s, %s, %s)' % (255,
+                #                 #                             195 - e * 195 / max(build_order),
+                #                 #                             195 - e * 195 / max(build_order)) for e in build_order],
                 color=color,
                 opacity=1,
             ))]

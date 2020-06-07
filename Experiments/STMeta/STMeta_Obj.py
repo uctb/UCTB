@@ -3,12 +3,17 @@ import nni
 import yaml
 import argparse
 import GPUtil
+import numpy as np
+from UCTB.dataset import DataSet
 
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
-from UCTB.utils import save_predict_in_dataset
+
+from UCTB.preprocess.CusGraph import CusGraph
+from UCTB.model_unit import GraphBuilder
+from UCTB.preprocess import Normalizer, SplitData
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
@@ -44,23 +49,34 @@ code_version = '{}_C{}P{}T{}_G{}_K{}L{}_F{}_{}'.format(args['model_version'],
 model_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'model_dir')
 model_dir_path = os.path.join(model_dir_path, args['group'])
 #####################################################################
-# Config data loader
+
 data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 data_range=args['data_range'], train_data_length=args['train_data_length'],
                                 test_ratio=0.1,
                                 closeness_len=args['closeness_len'],
                                 period_len=args['period_len'],
                                 trend_len=args['trend_len'],
-                                threshold_distance=args['threshold_distance'],
-                                threshold_correlation=args['threshold_correlation'],
-                                threshold_interaction=args['threshold_interaction'],
                                 normalize=args['normalize'],
-                                graph=args['graph'],
-                                with_lm=True, with_tpe=True if args['st_method'] == 'gal_gcn' else False,
-                                workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china,
+                                with_tpe=True if args['st_method'] == 'gal_gcn' else False,
+                                workday_parser=is_work_day_america if args[
+                                    'dataset'] == 'Bike' else is_work_day_china,
                                 MergeIndex=args['MergeIndex'],
                                 MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
 
+
+# Call GraphGenerator to initialize and generate LM
+graph = args['graph']
+graphBuilder = CusGraph(graph,
+                        dataset=data_loader.dataset,
+                        train_data=data_loader.train_data,
+                        traffic_data_index=data_loader.traffic_data_index,
+                        train_test_ratio=data_loader.train_test_ratio,
+                        threshold_distance=args['threshold_distance'],
+                        threshold_correlation=args['threshold_correlation'],
+                        threshold_interaction=args['threshold_interaction']
+                        )
+
+print("LM.len",graphBuilder.LM.shape[0])
 print("TimeFitness",data_loader.dataset.time_fitness)
 print("TimeRange",data_loader.dataset.time_range)
 
@@ -77,8 +93,11 @@ else:
     else:
         current_device = str(deviceIDs[0])
 
+print ("period_len",args['period_len'])
+
+
 STMeta_obj = STMeta(num_node=data_loader.station_number,
-                    num_graph=data_loader.LM.shape[0],
+                    num_graph=graphBuilder.LM.shape[0],
                     external_dim=data_loader.external_dim,
                     closeness_len=args['closeness_len'],
                     period_len=args['period_len'],
@@ -119,7 +138,7 @@ if args['train']:
     STMeta_obj.fit(closeness_feature=data_loader.train_closeness,
                    period_feature=data_loader.train_period,
                    trend_feature=data_loader.train_trend,
-                   laplace_matrix=data_loader.LM,
+                   laplace_matrix=graphBuilder.LM,
                    target=data_loader.train_y,
                    external_feature=data_loader.train_ef,
                    sequence_length=data_loader.train_sequence_len,
@@ -140,7 +159,7 @@ STMeta_obj.load(code_version)
 prediction = STMeta_obj.predict(closeness_feature=data_loader.test_closeness,
                                 period_feature=data_loader.test_period,
                                 trend_feature=data_loader.test_trend,
-                                laplace_matrix=data_loader.LM,
+                                laplace_matrix=graphBuilder.LM,
                                 target=data_loader.test_y,
                                 external_feature=data_loader.test_ef,
                                 output_names=('prediction', ),
@@ -166,8 +185,6 @@ if de_normalizer:
 
 print('Best val result', best_val_loss)
 print('Test result', test_rmse, test_mape)
-
-# save_predict_in_dataset(data_loader,test_prediction,code_version)
 
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600

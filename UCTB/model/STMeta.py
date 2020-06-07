@@ -101,7 +101,7 @@ class STMeta(BaseModel):
         self._external_dim = external_dim
         self._output_activation = output_activation
 
-        self._st_method = st_method
+        self._st_method = st_method.upper()
         self._temporal_merge = temporal_merge
         self._graph_merge = graph_merge
 

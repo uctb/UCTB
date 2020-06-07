@@ -26,7 +26,10 @@ class GraphGenerator():
 
     def __init__(self,
                  graph,
-                 data_loader,
+                 dataset,
+                 train_data,
+                 traffic_data_index,
+                 train_test_ratio,
                  threshold_distance=1000,
                  threshold_correlation=0,
                  threshold_interaction=500,**kwargs):
@@ -36,10 +39,10 @@ class GraphGenerator():
         self.threshold_correlation = threshold_correlation
         self.threshold_interaction = threshold_interaction
 
-        self.dataset = data_loader.dataset
-        self.train_data = data_loader.train_data
-        self.traffic_data_index = data_loader.traffic_data_index
-        self.train_test_ratio = data_loader.train_test_ratio,
+        self.dataset = dataset
+        self.train_data = train_data
+        self.traffic_data_index = traffic_data_index
+        self.train_test_ratio = train_test_ratio,
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
         # build_graph

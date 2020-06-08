@@ -8,6 +8,7 @@ from UCTB.dataset import TransferDataLoader
 from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.train import EarlyStoppingTTest
+from UCTB.preprocess.GraphGenerator import GraphGenerator
 
 #####################################################################
 # argument parser
@@ -88,6 +89,30 @@ model_dir_path = os.path.join(model_dir_path, group)
 
 data_loader = TransferDataLoader(sd_params, td_params, model_params, td_data_length=args['target_data_length'])
 
+# Import the Class:GraphGenerator
+# Call GraphGenerator to initialize and generate LM
+graph = sd_params['graph']
+sd_graphBuilder = GraphGenerator(graph,
+                             dataset = data_loader.sd_loader.dataset,
+                             train_data = data_loader.sd_loader.train_data,
+                             traffic_data_index = data_loader.sd_loader.traffic_data_index,
+                             train_test_ratio = data_loader.sd_loader.train_test_ratio,
+                             threshold_distance=sd_params['threshold_distance'],
+                             threshold_correlation=sd_params['threshold_correlation'],
+                             threshold_interaction=sd_params['threshold_interaction'],
+                             )
+
+graph = td_params['graph']
+td_graphBuilder = GraphGenerator(graph,
+                             dataset = data_loader.td_loader.dataset,
+                             train_data = data_loader.td_loader.train_data,
+                             traffic_data_index = data_loader.td_loader.traffic_data_index,
+                             train_test_ratio = data_loader.td_loader.train_test_ratio,
+                             threshold_distance=td_params['threshold_distance'],
+                             threshold_correlation=td_params['threshold_correlation'],
+                             threshold_interaction=td_params['threshold_interaction'],
+                             )
+
 deviceIDs = GPUtil.getAvailable(order='memory', limit=2, maxLoad=1, maxMemory=1,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 
@@ -97,7 +122,7 @@ else:
     current_device = str(deviceIDs[0])
 
 sd_model = STMeta(num_node=data_loader.sd_loader.station_number,
-                  num_graph=data_loader.sd_loader.LM.shape[0],
+                  num_graph=sd_graphBuilder.LM.shape[0],
                   external_dim=data_loader.sd_loader.external_dim,
                   tpe_dim=data_loader.sd_loader.tpe_dim,
                   code_version=code_version,
@@ -111,7 +136,7 @@ sd_model.build(init_vars=True)
 transfer_ratio = float(args['transfer_ratio'])
 
 td_model = STMeta(num_node=data_loader.td_loader.station_number,
-                  num_graph=data_loader.td_loader.LM.shape[0],
+                  num_graph=td_graphBuilder.LM.shape[0],
                   external_dim=data_loader.td_loader.external_dim,
                   tpe_dim=data_loader.td_loader.tpe_dim,
                   code_version=code_version,
@@ -158,9 +183,9 @@ if args['pretrain'] == 'True':
         sd_model.fit(closeness_feature=data_loader.sd_loader.train_closeness,
                      period_feature=data_loader.sd_loader.train_period,
                      trend_feature=data_loader.sd_loader.train_trend,
-                     laplace_matrix=data_loader.sd_loader.LM,
+                     laplace_matrix=sd_graphBuilder.LM,
                      target=data_loader.sd_loader.train_y,
-                     sd_sim=data_loader.checkin_sim_sd(),
+                    #  sd_sim=data_loader.checkin_sim_sd(),
                      external_feature=data_loader.sd_loader.train_ef,
                      sequence_length=data_loader.sd_loader.train_sequence_len,
                      output_names=('loss',),
@@ -181,7 +206,7 @@ if args['pretrain'] == 'True':
     prediction = sd_model.predict(closeness_feature=data_loader.sd_loader.test_closeness,
                                   period_feature=data_loader.sd_loader.test_period,
                                   trend_feature=data_loader.sd_loader.test_trend,
-                                  laplace_matrix=data_loader.sd_loader.LM,
+                                  laplace_matrix=sd_graphBuilder.LM,
                                   target=data_loader.sd_loader.test_y,
                                   external_feature=data_loader.sd_loader.test_ef,
                                   output_names=('prediction',),
@@ -204,7 +229,7 @@ if args['pretrain'] == 'True':
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
                                   trend_feature=data_loader.td_loader.test_trend,
-                                  laplace_matrix=data_loader.td_loader.LM,
+                                  laplace_matrix=td_graphBuilder.LM,
                                   target=data_loader.td_loader.test_y,
                                   external_feature=data_loader.td_loader.test_ef,
                                   output_names=('prediction',),
@@ -236,8 +261,8 @@ if args['finetune'] == 'True':
             output = td_model.fit(closeness_feature=data_loader.td_loader.train_closeness,
                                   period_feature=data_loader.td_loader.train_period,
                                   trend_feature=data_loader.td_loader.train_trend,
-                                  laplace_matrix=data_loader.td_loader.LM,
-                                  sd_sim=np.array(range(data_loader.td_loader.station_number), dtype=np.int32),
+                                  laplace_matrix=td_graphBuilder.LM,
+                                #   sd_sim=np.array(range(data_loader.td_loader.station_number), dtype=np.int32),
                                   target=data_loader.td_loader.train_y,
                                   external_feature=data_loader.td_loader.train_ef,
                                   sequence_length=data_loader.td_loader.train_sequence_len,
@@ -259,7 +284,7 @@ if args['finetune'] == 'True':
             prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                           period_feature=data_loader.td_loader.test_period,
                                           trend_feature=data_loader.td_loader.test_trend,
-                                          laplace_matrix=data_loader.td_loader.LM,
+                                          laplace_matrix=td_graphBuilder.LM,
                                           target=data_loader.td_loader.test_y,
                                           external_feature=data_loader.td_loader.test_ef,
                                           output_names=('prediction',),
@@ -284,7 +309,7 @@ if args['finetune'] == 'True':
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
                                   trend_feature=data_loader.td_loader.test_trend,
-                                  laplace_matrix=data_loader.td_loader.LM,
+                                  laplace_matrix=td_graphBuilder.LM,
                                   target=data_loader.td_loader.test_y,
                                   external_feature=data_loader.td_loader.test_ef,
                                   output_names=('prediction',),
@@ -332,7 +357,7 @@ if args['transfer'] == 'True':
             fm = sd_model.predict(closeness_feature=transfer_closeness,
                                   period_feature=transfer_period,
                                   trend_feature=transfer_trend,
-                                  laplace_matrix=data_loader.sd_loader.LM,
+                                  laplace_matrix=sd_graphBuilder.LM,
                                   external_feature=data_loader.sd_loader.train_ef,
                                   output_names=['feature_map'],
                                   sequence_length=len(transfer_closeness),
@@ -349,8 +374,8 @@ if args['transfer'] == 'True':
             output = td_model.fit(closeness_feature=data_loader.td_loader.train_closeness,
                                   period_feature=data_loader.td_loader.train_period,
                                   trend_feature=data_loader.td_loader.train_trend,
-                                  sd_sim=np.array(range(data_loader.td_loader.station_number), dtype=np.int32),
-                                  laplace_matrix=data_loader.td_loader.LM,
+                                #   sd_sim=np.array(range(data_loader.td_loader.station_number), dtype=np.int32),
+                                  laplace_matrix=td_graphBuilder.LM,
                                   target=data_loader.td_loader.train_y,
                                   external_feature=data_loader.td_loader.train_ef,
                                   similar_feature_map=feature_maps,
@@ -376,7 +401,7 @@ if args['transfer'] == 'True':
             prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                           period_feature=data_loader.td_loader.test_period,
                                           trend_feature=data_loader.td_loader.test_trend,
-                                          laplace_matrix=data_loader.td_loader.LM,
+                                          laplace_matrix=td_graphBuilder.LM,
                                           target=data_loader.td_loader.test_y,
                                           external_feature=data_loader.td_loader.test_ef,
                                           output_names=('prediction',),
@@ -403,7 +428,7 @@ if args['transfer'] == 'True':
     prediction = td_model.predict(closeness_feature=data_loader.td_loader.test_closeness,
                                   period_feature=data_loader.td_loader.test_period,
                                   trend_feature=data_loader.td_loader.test_trend,
-                                  laplace_matrix=data_loader.td_loader.LM,
+                                  laplace_matrix=td_graphBuilder.LM,
                                   target=data_loader.td_loader.test_y,
                                   external_feature=data_loader.td_loader.test_ef,
                                   output_names=('prediction',),

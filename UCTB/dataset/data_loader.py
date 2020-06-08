@@ -9,7 +9,6 @@ from scipy.stats import pearsonr
 
 from ..preprocess.time_utils import is_work_day_china, is_work_day_america, is_valid_date
 from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
-from ..model_unit import GraphBuilder
 
 from .dataset import DataSet
 

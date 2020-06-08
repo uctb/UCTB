@@ -34,14 +34,13 @@ class my_data_loader(NodeTrafficLoader):
         # Call GraphGenerator to initialize and generate LM
         graph = inner_args['graph']
         graphBuilder = CusGraph(graph,
-                             node_data = self.dataset,
+                             dataset = self.dataset,
                              train_data = self.train_data,
                              traffic_data_index = self.traffic_data_index,
                              train_test_ratio = self.train_test_ratio,
                              threshold_distance=inner_args['threshold_distance'],
                              threshold_correlation=inner_args['threshold_correlation'],
-                             threshold_interaction=inner_args['threshold_interaction'],
-                            #  threshold_neighbour=inner_args['threshold_neighbour']
+                             threshold_interaction=inner_args['threshold_interaction']
                              )
         self.AM = graphBuilder.AM
         self.LM = graphBuilder.LM

@@ -5,10 +5,48 @@ from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import DCRNN
 from UCTB.evaluation import metric
 
+from UCTB.preprocess.GraphGenerator import GraphGenerator
 
 class my_data_loader(NodeTrafficLoader):
 
+    def __init__(self, **inner_args):
+
+        # graphBuilder = GraphGenerator(inner_args['graph'],
+        #                      dataset=inner_args['dataset'],
+        #                      MergeIndex=inner_args['MergeIndex'],
+        #                      MergeWay=inner_args['MergeWay'],
+        #                      city=inner_args['city'],
+        #                      data_range=inner_args['data_range'],
+        #                      train_data_length=inner_args['train_data_length'],
+        #                     #  test_ratio=0.1,
+        #                      threshold_distance=inner_args['threshold_distance'],
+        #                      threshold_correlation=inner_args['threshold_correlation'],
+        #                      threshold_interaction=inner_args['threshold_interaction'],
+        #                     #  threshold_neighbour=inner_args['threshold_neighbour'],
+        #                      normalize=inner_args['normalize'])
+        # self.AM = graphBuilder.AM
+        # self.LM = graphBuilder.LM
+
+        super(my_data_loader, self).__init__(**inner_args) # [!INFO] Init NodeTrafficLoader
+        
+        # Import the Class:GraphGenerator
+        # Call GraphGenerator to initialize and generate LM
+        graph = inner_args['graph']
+        graphBuilder = GraphGenerator(graph,
+                             dataset = self.dataset,
+                             train_data = self.train_data,
+                             traffic_data_index = self.traffic_data_index,
+                             train_test_ratio = self.train_test_ratio,
+                             threshold_distance=inner_args['threshold_distance'],
+                             threshold_correlation=inner_args['threshold_correlation'],
+                             threshold_interaction=inner_args['threshold_interaction']
+                             )
+        self.AM = graphBuilder.AM
+        self.LM = graphBuilder.LM
+
     def diffusion_matrix(self, filter_type='random_walk'):
+        # print("Threshold for inter: ",threshold_interaction)
+        # print ("daily_slots: ", self.daily_slots)
         def calculate_random_walk_matrix(adjacent_mx):
             d = np.array(adjacent_mx.sum(1))
             d_inv = np.power(d, -1).flatten()
@@ -17,6 +55,8 @@ class my_data_loader(NodeTrafficLoader):
             random_walk_mx = d_mat_inv.dot(adjacent_mx)
             return random_walk_mx
         # assert len(self.AM) == 1
+
+
 
         diffusion_matrix = []
         if filter_type == "random_walk":
@@ -59,9 +99,10 @@ def param_parser():
     # device parameter
     parser.add_argument('--Device', default='0', type=str)
     # version control
-    parser.add_argument('--CodeVersion', default='V0')
+    parser.add_argument('--Group', default='DebugGroup')
+    parser.add_argument('--CodeVersion', default='ST_MGCN_Debug')
     # Merge times
-    parser.add_argument('--MergeIndex', default=1, type=int)
+    parser.add_argument('--MergeIndex', default=6, type=int)
     return parser
 
 
@@ -83,7 +124,7 @@ print('Code version', args.Dataset, args.City, code_version)
 
 print('Number of training samples', data_loader.train_sequence_len)
 
-diffusion_matrix = data_loader.diffusion_matrix(filter_type='dual_random_walk')
+diffusion_matrix = data_loader.diffusion_matrix()
 
 DCRNN_Obj = DCRNN(num_nodes=data_loader.station_number,
                   num_diffusion_matrix=diffusion_matrix.shape[0],

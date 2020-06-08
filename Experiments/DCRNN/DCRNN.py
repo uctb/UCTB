@@ -9,44 +9,16 @@ from UCTB.preprocess.GraphGenerator import GraphGenerator
 
 class my_data_loader(NodeTrafficLoader):
 
-    def __init__(self, **inner_args):
+    def __init__(self, **kwargs):
 
-        # graphBuilder = GraphGenerator(inner_args['graph'],
-        #                      dataset=inner_args['dataset'],
-        #                      MergeIndex=inner_args['MergeIndex'],
-        #                      MergeWay=inner_args['MergeWay'],
-        #                      city=inner_args['city'],
-        #                      data_range=inner_args['data_range'],
-        #                      train_data_length=inner_args['train_data_length'],
-        #                     #  test_ratio=0.1,
-        #                      threshold_distance=inner_args['threshold_distance'],
-        #                      threshold_correlation=inner_args['threshold_correlation'],
-        #                      threshold_interaction=inner_args['threshold_interaction'],
-        #                     #  threshold_neighbour=inner_args['threshold_neighbour'],
-        #                      normalize=inner_args['normalize'])
-        # self.AM = graphBuilder.AM
-        # self.LM = graphBuilder.LM
-
-        super(my_data_loader, self).__init__(**inner_args) # [!INFO] Init NodeTrafficLoader
+        super(my_data_loader, self).__init__(**kwargs) 
         
-        # Import the Class:GraphGenerator
-        # Call GraphGenerator to initialize and generate LM
-        graph = inner_args['graph']
-        graphBuilder = GraphGenerator(graph,
-                             dataset = self.dataset,
-                             train_data = self.train_data,
-                             traffic_data_index = self.traffic_data_index,
-                             train_test_ratio = self.train_test_ratio,
-                             threshold_distance=inner_args['threshold_distance'],
-                             threshold_correlation=inner_args['threshold_correlation'],
-                             threshold_interaction=inner_args['threshold_interaction']
-                             )
-        self.AM = graphBuilder.AM
-        self.LM = graphBuilder.LM
+        # generate LM
+        graph_obj = GraphGenerator(graph=kwargs['graph'], data_loader=self)
+        self.AM = graph_obj.AM
+        self.LM = graph_obj.LM
 
     def diffusion_matrix(self, filter_type='random_walk'):
-        # print("Threshold for inter: ",threshold_interaction)
-        # print ("daily_slots: ", self.daily_slots)
         def calculate_random_walk_matrix(adjacent_mx):
             d = np.array(adjacent_mx.sum(1))
             d_inv = np.power(d, -1).flatten()
@@ -54,9 +26,6 @@ class my_data_loader(NodeTrafficLoader):
             d_mat_inv = np.diag(d_inv)
             random_walk_mx = d_mat_inv.dot(adjacent_mx)
             return random_walk_mx
-        # assert len(self.AM) == 1
-
-
 
         diffusion_matrix = []
         if filter_type == "random_walk":

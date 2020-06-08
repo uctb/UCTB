@@ -158,7 +158,6 @@ class NodeTrafficLoader(object):
             Default: 1
         normalize (bool): If ``True``, do min-max normalization on data. Default: ``True``
         workday_parser: Used to build external features to be used in neural methods. Default: ``is_work_day_america``
-        with_lm (bool): If ``True``, data loader will build graphs according to ``graph``. Default: ``True``
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
         data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
             ``dataset`` is file path, ``data_dir`` should be ``None`` too. Default: ``None``
@@ -180,7 +179,6 @@ class NodeTrafficLoader(object):
             and construction.
         train_y (np.ndarray): The train set data. Its shape is [train_time_slot_num, ``station_number``, 1].
             ``test_y`` has similar shape and construction.
-        LM (list): If ``with_lm`` is ``True``, the list of Laplacian matrices of graphs listed in ``graph``.
     """
 
     def __init__(self,
@@ -195,7 +193,6 @@ class NodeTrafficLoader(object):
                  target_length=1,
                  normalize=True,
                  workday_parser=is_work_day_america,
-                 with_lm=True,
                  with_tpe=False,
                  data_dir=None,
                  MergeIndex=1,

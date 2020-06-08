@@ -26,18 +26,18 @@ shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
 if __name__ == "__main__":
 
     """
-    Multiple Graphes
+    Multiple Graphs
     """
-    os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City Chengdu --Dataset DiDi --K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
 
-    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City Xian --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
-    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City Xian --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
-    os.system(shared_params_st_mgcn + ' --City Xian --Dataset DiDi --K 1 --L 1 '
+    os.system(shared_params_st_mgcn + ' --City Xian --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 12')

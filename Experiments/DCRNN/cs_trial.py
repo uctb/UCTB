@@ -27,8 +27,8 @@ if __name__ == "__main__":
     """
     Multiple Graphes
     """
-    os.system(shared_params_dcrnn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 '
+    os.system(shared_params_dcrnn + ' --City Beijing --K 1 --L 1 '
                                       ' --Graph Distance --MergeIndex 1')
 
-    os.system(shared_params_dcrnn + ' --City Beijing --Dataset Chargestation --K 1 --L 1 '
+    os.system(shared_params_dcrnn + ' --City Beijing --K 1 --L 1 '
                                         ' --Graph Distance --MergeIndex 2')

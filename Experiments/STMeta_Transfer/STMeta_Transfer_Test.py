@@ -8,6 +8,7 @@ from UCTB.dataset import TransferDataLoader
 from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.train import EarlyStoppingTTest
+from UCTB.preprocess.GraphGenerator import GraphGenerator
 
 #####################################################################
 # argument parser
@@ -89,10 +90,9 @@ model_dir_path = os.path.join(model_dir_path, group)
 data_loader = TransferDataLoader(sd_params, td_params, model_params, td_data_length=args['target_data_length'])
 
 # Import the Class:GraphGenerator
-from UCTB.preprocess.CusGraph import CusGraph
 # Call GraphGenerator to initialize and generate LM
 graph = sd_params['graph']
-sd_graphBuilder = CusGraph(graph,
+sd_graphBuilder = GraphGenerator(graph,
                              dataset = data_loader.sd_loader.dataset,
                              train_data = data_loader.sd_loader.train_data,
                              traffic_data_index = data_loader.sd_loader.traffic_data_index,
@@ -103,7 +103,7 @@ sd_graphBuilder = CusGraph(graph,
                              )
 
 graph = td_params['graph']
-td_graphBuilder = CusGraph(graph,
+td_graphBuilder = GraphGenerator(graph,
                              dataset = data_loader.td_loader.dataset,
                              train_data = data_loader.td_loader.train_data,
                              traffic_data_index = data_loader.td_loader.traffic_data_index,

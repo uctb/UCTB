@@ -11,7 +11,8 @@ from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 
-from UCTB.preprocess.GraphGenerator import GraphGenerator
+from CusGraph import CusGraph
+from UCTB.model_unit import GraphBuilder
 from UCTB.preprocess import Normalizer, SplitData
 #####################################################################
 # argument parser
@@ -65,17 +66,14 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
 
 # Call GraphGenerator to initialize and generate LM
 graph = args['graph']
-graphBuilder = GraphGenerator(graph,
-                        dataset=data_loader.dataset,
-                        train_data=data_loader.train_data,
-                        traffic_data_index=data_loader.traffic_data_index,
-                        train_test_ratio=data_loader.train_test_ratio,
+graphBuilder = CusGraph(graph,
+                        data_loader=data_loader,
                         threshold_distance=args['threshold_distance'],
                         threshold_correlation=args['threshold_correlation'],
-                        threshold_interaction=args['threshold_interaction']
-                        )
+                        threshold_interaction=args['threshold_interaction'],
+                        threshold_neighbour=args['threshold_neighbour'])
 
-# print("LM.len",graphBuilder.LM.shape[0])
+# print ("LM.len",graphBuilder.LM.shape[0])
 print("TimeFitness",data_loader.dataset.time_fitness)
 print("TimeRange",data_loader.dataset.time_range)
 

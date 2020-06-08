@@ -30,9 +30,10 @@ class my_data_loader(NodeTrafficLoader):
         super(my_data_loader, self).__init__(**inner_args) # [!INFO] Init NodeTrafficLoader
         
         # Import the Class:GraphGenerator
+        from UCTB.preprocess.CusGraph import CusGraph
         # Call GraphGenerator to initialize and generate LM
         graph = inner_args['graph']
-        graphBuilder = GraphGenerator(graph,
+        graphBuilder = CusGraph(graph,
                              dataset = self.dataset,
                              train_data = self.train_data,
                              traffic_data_index = self.traffic_data_index,

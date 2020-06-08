@@ -6,6 +6,7 @@ import numpy as np
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import ST_MGCN
 from UCTB.evaluation import metric
+from UCTB.preprocess.GraphGenerator import GraphGenerator
 
 
 def stmeta_param_parser():
@@ -80,10 +81,9 @@ data_loader = NodeTrafficLoader(dataset=args['Dataset'], city=args['City'],
                                 MergeWay="max" if args["Dataset"] == "ChargeStation" else "sum")
 
 # Import the Class:GraphGenerator
-from UCTB.preprocess.CusGraph import CusGraph
 # Call GraphGenerator to initialize and generate LM
 graph = args['Graph']
-graphBuilder = CusGraph(graph,
+graphBuilder = GraphGenerator(graph,
                              dataset=data_loader.dataset,
                              train_data = data_loader.train_data,
                              traffic_data_index = data_loader.traffic_data_index,

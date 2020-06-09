@@ -94,6 +94,13 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#build-your-own-model-using-uctb">4.4. Build your own model using UCTB</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-your-own-graph-with-stmeta">4.5. Build your own graph with STMeta</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#top-k-graph">4.5.1. Top-K graph</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#realize-topk-graph-analysis-module">4.5.2. Realize TopK graph analysis module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#redefine-the-call-statement-of-the-above-class">4.5.3. Redefine the call statement of the above class</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#modify-the-function-call-location">4.5.4. Modify the function call location</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
@@ -538,8 +545,118 @@
 </pre></div>
 </div>
 <p>Since we only use a short period of the dataset (<code class="docutils literal notranslate"><span class="pre">data_range=0.1</span></code>) in this toy example, the result looks good compared with the <a class="reference external" href="./all_results.html#results-on-bike">experiment</a>. You can also take a try to test the completed dataset on your model.</p>
+</div>
+<div class="section" id="build-your-own-graph-with-stmeta">
+<h2>4.5. Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h2>
+<p>Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found <a class="reference external" href="https://github.com/uctb/UCTB/tree/master/Experiments/CustomizedDemo">here</a>.</p>
+<div class="section" id="top-k-graph">
+<h3>4.5.1. Top-K graph<a class="headerlink" href="#top-k-graph" title="Permalink to this headline">¶</a></h3>
+<p>First of all, the customized graphs used in this section is called Top-K graph. We construct the corresponding adjacent graph by marking the point pair that consist of each point and its nearest K points as 1, and the others are marked as 0. Then, we use the adjacent graph to generate the laplacian matrix for input. The hyperparameter K is designed via ad-hoc heuristics. In this demonstration, we chose 23 as the value of K.</p>
+</div>
+<div class="section" id="realize-topk-graph-analysis-module">
+<h3>4.5.2. Realize TopK graph analysis module<a class="headerlink" href="#realize-topk-graph-analysis-module" title="Permalink to this headline">¶</a></h3>
+<p>To adopt customized graphs (<em><strong>e.g.,</strong></em> Top-K) in UCTB, you should first build your own analysis class by inheriting <code class="docutils literal notranslate"><span class="pre">UCTB.preprocess.GraphGenerator</span> <span class="pre">class</span></code>.</p>
+<p>It is worth noting that the ultimate goal is to generate the member variables: <code class="docutils literal notranslate"><span class="pre">self.LM</span></code> and <code class="docutils literal notranslate"><span class="pre">self.AM</span></code>, which is the input matrix of the graph. In this phase, we need to make the corresponding analytical implementation according to the type of the custom graph passed in.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/preprocess/topKGraph.py&quot;</span>
+<span class="kn">import</span> <span class="nn">heapq</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">UCTB.preprocess.GraphGenerator</span> <span class="kn">import</span> <span class="n">GraphGenerator</span>
+
+<span class="c1"># Define the class: topKGraph</span>
+<span class="k">class</span> <span class="nc">topKGraph</span><span class="p">(</span><span class="n">GraphGenerator</span><span class="p">):</span>  <span class="c1"># Init NodeTrafficLoader</span>
+
+   <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+
+       <span class="nb">super</span><span class="p">(</span><span class="n">topKGraph</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+       
+       <span class="k">for</span> <span class="n">graph_name</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">):</span>
+
+<span class="c1"># As the basic graph is implemented in GraphGenerator, you only need to implement your own graph function instead of the existing one.</span>
+           <span class="k">if</span> <span class="n">graph_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;topk&#39;</span><span class="p">:</span>
+               <span class="n">lat_lng_list</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="nb">float</span><span class="p">(</span><span class="n">e1</span><span class="p">)</span> <span class="k">for</span> <span class="n">e1</span> <span class="ow">in</span> <span class="n">e</span><span class="p">[</span><span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]]</span>
+                                        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">node_station_info</span><span class="p">])</span>
+               <span class="c1"># Handling</span>
+               <span class="n">AM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbour_adjacent</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">traffic_data_index</span><span class="p">],</span>
+                                       <span class="n">threshold</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;threshold_neighbour&#39;</span><span class="p">]))</span>
+               <span class="n">LM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacent_to_laplacian</span><span class="p">(</span><span class="n">AM</span><span class="p">)</span>
+
+               <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Make AM</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">AM</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+               <span class="k">else</span><span class="p">:</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">AM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">AM</span><span class="p">,</span> <span class="p">(</span><span class="n">AM</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])))</span>
+
+               <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Make LM</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">LM</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+               <span class="k">else</span><span class="p">:</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">LM</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span> <span class="p">(</span><span class="n">LM</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,</span> <span class="p">:])))</span>
+
+<span class="c1"># Implement the details of building the Top-K graph.</span>
+   <span class="k">def</span> <span class="nf">neighbour_adjacent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lat_lng_list</span><span class="p">,</span> <span class="n">threshold</span><span class="p">):</span>
+       <span class="n">adjacent_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">)])</span>
+       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">)):</span>
+           <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lat_lng_list</span><span class="p">)):</span>
+               <span class="n">adjacent_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">haversine</span><span class="p">(</span>
+                   <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">lat_lng_list</span><span class="p">[</span><span class="n">j</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+       <span class="n">dis_matrix</span> <span class="o">=</span> <span class="n">adjacent_matrix</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+       <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dis_matrix</span><span class="p">)):</span>
+           <span class="n">ind</span> <span class="o">=</span> <span class="n">heapq</span><span class="o">.</span><span class="n">nlargest</span><span class="p">(</span><span class="n">threshold</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dis_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">])),</span> <span class="n">dis_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">take</span><span class="p">)</span>
+           <span class="n">dis_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dis_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]))])</span>
+           <span class="n">dis_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">ind</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+       <span class="n">adjacent_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="n">adjacent_matrix</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+       <span class="k">return</span> <span class="n">adjacent_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="redefine-the-call-statement-of-the-above-class">
+<h3>4.5.3. Redefine the call statement of the above class<a class="headerlink" href="#redefine-the-call-statement-of-the-above-class" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/Experiments/CustomizedDemo/STMeta_Obj_topk.py&quot;</span>
+
+<span class="c1"># Import the Class: topKGraph</span>
+<span class="kn">from</span> <span class="nn">topKGraph</span> <span class="kn">import</span> <span class="n">topKGraph</span>
+<span class="c1"># Call topKGraph to initialize and generate AM and LM</span>
+<span class="n">graphBuilder</span> <span class="o">=</span> <span class="n">topKGraph</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;graph&#39;</span><span class="p">],</span>
+                         <span class="n">data_loader</span><span class="o">=</span><span class="n">data_loader</span><span class="p">,</span>
+                         <span class="n">threshold_distance</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;threshold_distance&#39;</span><span class="p">],</span>
+                         <span class="n">threshold_correlation</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;threshold_correlation&#39;</span><span class="p">],</span>
+                         <span class="n">threshold_interaction</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;threshold_interaction&#39;</span><span class="p">],</span>
+                         <span class="n">threshold_neighbour</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;threshold_neighbour&#39;</span><span class="p">])</span>
+<span class="c1"># ......</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="modify-the-function-call-location">
+<h3>4.5.4. Modify the function call location<a class="headerlink" href="#modify-the-function-call-location" title="Permalink to this headline">¶</a></h3>
+<p>Add the new graph name when fitting model and then execute it for experiments. <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/Experiments/CustomizedDemo/Runner_topk.py">code</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj_topk.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml &#39;</span>
+          <span class="s1">&#39;-p graph:Distance-Correlation-Line-TopK,MergeIndex:12&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We conduct experiments on <code class="docutils literal notranslate"><span class="pre">Metro_Shanghai</span></code> dataset and use the <a class="reference external" href="https://uctb.github.io/UCTB/md_file/all_results.html#stmeta-version">STMeta_V1</a> to model both “Distance-Correlation-Line” graph and “Distance-Correlation-Line-TopK” and the results are following:</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center"><strong>Metro: Shanghai</strong></th>
+<th align="center">Graph</th>
+<th align="center">Test-RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">STMeta_V1</td>
+<td align="center">Distance-Correlation-Line</td>
+<td align="center">153.17</td>
+</tr>
+<tr>
+<td align="center">STMeta_V1</td>
+<td align="center">Distance-Correlation-Line-TopK</td>
+<td align="center">140.82</td>
+</tr>
+</tbody>
+</table><p>The results show that the performance of STMeta_V1 with the graph “Distance-Correlation-Line-TopK” is better than “Distance-Correlation-Line” model and the RMSE is reduced by about 12.4%, which validates the effectiveness of the topk graph for spatiotemporal modeling STMeta algorithm.</p>
 <hr class="docutils" />
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
+</div>
 </div>
 </div>
 

@@ -2,6 +2,13 @@ UCTB.preprocess package
 =======================
 
 
+UCTB.preprocess.GraphGenerator module
+-----------------------------------
+
+.. automodule:: UCTB.preprocess.GraphGenerator
+   :members:
+   :show-inheritance:
+
 UCTB.preprocess.preprocessor module
 -----------------------------------
 

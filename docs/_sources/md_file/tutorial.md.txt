@@ -56,7 +56,6 @@ plt.show()
 
 ![png](http://47.94.208.154/image/toturial_p1_dataplot.png)
 
-
 #### Build your own datasets
 
 To make loader APIs compatible with your own data, you can store it in a ``dict`` variable with formats as follows.
@@ -454,6 +453,106 @@ print('Test result', metric.rmse(prediction=predictions, target=targets, thresho
     Test result 2.9765626570592545
 
 Since we only use a short period of the dataset (``data_range=0.1``) in this toy example, the result looks good compared with the [experiment](./all_results.html#results-on-bike). You can also take a try to test the completed dataset on your model. 
+
+#### Build your own graph with STMeta
+
+Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found [here](https://github.com/uctb/UCTB/tree/master/Experiments/CustomizedDemo).
+
+##### Top-K graph
+
+First of all, the customized graphs used in this section is called Top-K graph. We construct the corresponding adjacent graph by marking the point pair that consist of each point and its nearest K points as 1, and the others are marked as 0. Then, we use the adjacent graph to generate the laplacian matrix for input. The hyperparameter K is designed via ad-hoc heuristics. In this demonstration, we chose 23 as the value of K.
+
+##### Realize TopK graph analysis module
+
+To adopt customized graphs (***e.g.,*** Top-K) in UCTB, you should first build your own analysis class by inheriting `UCTB.preprocess.GraphGenerator class`.
+
+It is worth noting that the ultimate goal is to generate the member variables: `self.LM` and `self.AM`, which is the input matrix of the graph. In this phase, we need to make the corresponding analytical implementation according to the type of the custom graph passed in.
+
+ ```python
+# "UCTB/preprocess/topKGraph.py"
+import heapq
+import numpy as np
+from UCTB.preprocess.GraphGenerator import GraphGenerator
+
+# Define the class: topKGraph
+class topKGraph(GraphGenerator):  # Init NodeTrafficLoader
+
+    def __init__(self,**kwargs):
+
+        super(topKGraph, self).__init__(**kwargs)
+        
+        for graph_name in kwargs['graph'].split('-'):
+
+# As the basic graph is implemented in GraphGenerator, you only need to implement your own graph function instead of the existing one.
+            if graph_name.lower() == 'topk':
+                lat_lng_list = np.array([[float(e1) for e1 in e[2:4]]
+                                         for e in self.dataset.node_station_info])
+                # Handling
+                AM = self.neighbour_adjacent(lat_lng_list[self.traffic_data_index],
+                                        threshold=int(kwargs['threshold_neighbour']))
+                LM = self.adjacent_to_laplacian(AM)
+
+                if self.AM.shape[0] == 0:  # Make AM
+                    self.AM = np.array([AM], dtype=np.float32)
+                else:
+                    self.AM = np.vstack((self.AM, (AM[np.newaxis, :])))
+
+                if self.LM.shape[0] == 0:  # Make LM
+                    self.LM = np.array([LM], dtype=np.float32)
+                else:
+                    self.LM = np.vstack((self.LM, (LM[np.newaxis, :])))
+
+# Implement the details of building the Top-K graph.
+    def neighbour_adjacent(self, lat_lng_list, threshold):
+        adjacent_matrix = np.zeros([len(lat_lng_list), len(lat_lng_list)])
+        for i in range(len(lat_lng_list)):
+            for j in range(len(lat_lng_list)):
+                adjacent_matrix[i][j] = self.haversine(
+                    lat_lng_list[i][0], lat_lng_list[i][1], lat_lng_list[j][0], lat_lng_list[j][1])
+        dis_matrix = adjacent_matrix.astype(np.float32)
+
+        for i in range(len(dis_matrix)):
+            ind = heapq.nlargest(threshold, range(len(dis_matrix[i])), dis_matrix[i].take)
+            dis_matrix[i] = np.array([0 for _ in range(len(dis_matrix[i]))])
+            dis_matrix[i][ind] = 1
+        adjacent_matrix = (adjacent_matrix == 1).astype(np.float32)
+        return adjacent_matrix
+ ```
+
+##### Redefine the call statement of the above class
+
+```python
+# "UCTB/Experiments/CustomizedDemo/STMeta_Obj_topk.py"
+
+# Import the Class: topKGraph
+from topKGraph import topKGraph
+# Call topKGraph to initialize and generate AM and LM
+graphBuilder = topKGraph(graph=args['graph'],
+                         data_loader=data_loader,
+                         threshold_distance=args['threshold_distance'],
+                         threshold_correlation=args['threshold_correlation'],
+                         threshold_interaction=args['threshold_interaction'],
+                         threshold_neighbour=args['threshold_neighbour'])
+# ......
+```
+
+##### Modify the function call location
+
+Add the new graph name when fitting model and then execute it for experiments. [code](https://github.com/uctb/UCTB/blob/master/Experiments/CustomizedDemo/Runner_topk.py)
+
+```python
+os.system('python STMeta_Obj_topk.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line-TopK,MergeIndex:12')
+```
+
+We conduct experiments on `Metro_Shanghai` dataset and use the [STMeta_V1](https://uctb.github.io/UCTB/md_file/all_results.html#stmeta-version) to model both "Distance-Correlation-Line" graph and "Distance-Correlation-Line-TopK" and the results are following:
+
+| **Metro: Shanghai** |             Graph              | Test-RMSE |
+| :-----------------: | :----------------------------: | :-------: |
+|      STMeta_V1      |   Distance-Correlation-Line    |  153.17   |
+|      STMeta_V1      | Distance-Correlation-Line-TopK |  140.82   |
+
+The results show that the performance of STMeta_V1 with the graph "Distance-Correlation-Line-TopK" is better than "Distance-Correlation-Line" model and the RMSE is reduced by about 12.4%, which validates the effectiveness of the topk graph for spatiotemporal modeling STMeta algorithm.
 
 ------
 

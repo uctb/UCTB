@@ -156,7 +156,7 @@
 <span id="uctb-dataset-data-loader-module"></span><h2>5.1.1. UCTB.dataset.data_loader module<a class="headerlink" href="#module-UCTB.dataset.data_loader" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.dataset.data_loader.NodeTrafficLoader">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">NodeTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">graph='Correlation'</em>, <em class="sig-param">threshold_distance=1000</em>, <em class="sig-param">threshold_correlation=0</em>, <em class="sig-param">threshold_interaction=500</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">with_lm=True</em>, <em class="sig-param">with_tpe=False</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">MergeIndex=1</em>, <em class="sig-param">MergeWay='sum'</em>, <em class="sig-param">remove=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">NodeTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">with_tpe=False</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">MergeIndex=1</em>, <em class="sig-param">MergeWay='sum'</em>, <em class="sig-param">remove=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>The data loader that extracts and processes data from a <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSet</span></code> object.</p>
 <dl class="field-list simple">
@@ -180,21 +180,8 @@ of data will be used as closeness history. Default: 6</p></li>
 <code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history. Default: 4</p></li>
 <li><p><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
 Default: 1</p></li>
-<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Types of graphs used in neural methods. Graphs should be a subset of { <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code>,
-<code class="docutils literal notranslate"><span class="pre">'Distance'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Interaction'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Line'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Neighbor'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Transfer'</span></code> } and concatenated by <code class="docutils literal notranslate"><span class="pre">'-'</span></code>,
-and <em>dataset</em> should have data of selected graphs. Default: <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code></p></li>
-<li><p><strong>threshold_distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Used in building of distance graph. If distance of two nodes in meters is larger
-than <code class="docutils literal notranslate"><span class="pre">threshold_distance</span></code>, the corresponding position of the distance graph will be 1 and otherwise
-0.the corresponding Default: 1000</p></li>
-<li><p><strong>threshold_correlation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Used in building of correlation graph. If the Pearson correlation coefficient is
-larger than <code class="docutils literal notranslate"><span class="pre">threshold_correlation</span></code>, the corresponding position of the correlation graph will be 1
-and otherwise 0. Default: 0</p></li>
-<li><p><strong>threshold_interaction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Used in building of interatction graph. If in the latest 12 months, the number of
-times of interaction between two nodes is larger than <code class="docutils literal notranslate"><span class="pre">threshold_interaction</span></code>, the corresponding position
-of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
 <li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, do min-max normalization on data. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
 <li><p><strong>workday_parser</strong> – Used to build external features to be used in neural methods. Default: <code class="docutils literal notranslate"><span class="pre">is_work_day_america</span></code></p></li>
-<li><p><strong>with_lm</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build graphs according to <code class="docutils literal notranslate"><span class="pre">graph</span></code>. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
 <li><p><strong>with_tpe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build time position embeddings. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><strong>data_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – The dataset directory. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, a directory will be created. If
 <code class="docutils literal notranslate"><span class="pre">dataset</span></code> is file path, <code class="docutils literal notranslate"><span class="pre">data_dir</span></code> should be <code class="docutils literal notranslate"><span class="pre">None</span></code> too. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
@@ -273,17 +260,6 @@ and construction.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p>np.ndarray</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.LM">
-<code class="sig-name descname">LM</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.LM" title="Permalink to this definition">¶</a></dt>
-<dd><p>If <code class="docutils literal notranslate"><span class="pre">with_lm</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, the list of Laplacian matrices of graphs listed in <code class="docutils literal notranslate"><span class="pre">graph</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
 </dd>
 </dl>
 </dd></dl>

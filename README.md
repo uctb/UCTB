@@ -2,4 +2,4 @@
 
 ## Project HomePage
 
-[HomePage](https://uctb.github.io/UCTB/)
+[HomePage](http://47.94.208.154//)

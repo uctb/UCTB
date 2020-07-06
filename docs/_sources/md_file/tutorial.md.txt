@@ -456,7 +456,7 @@ Since we only use a short period of the dataset (``data_range=0.1``) in this toy
 
 #### Build your own graph with STMeta
 
-Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found [here](https://anonymous.4open.science/repository/ab593114-4074-4357-959e-eb14c0eb9140/Experiments/CustomizedDemo/).
+Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found [here](https://anonymous.4open.science/r/561305b5-e65e-46c6-9371-ae76b85109ee/Experiments/CustomizedDemo/).
 
 ##### Top-K graph
 

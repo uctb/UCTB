@@ -20,7 +20,7 @@ setuptools.setup(
                       'pandas>=0.24.2',
                       'python-dateutil',
                       'scikit-learn>=0.20.3',
-                      'scipy>=1.2.1',
+                      'scipy==1.2.1',
                       'statsmodels>=0.9.0',
                       'wget>=3.2',
                       'xgboost>=0.82',

@@ -47,7 +47,7 @@ class GraphGenerator():
         self.dataset = data_loader.dataset
         self.train_data = data_loader.train_data
         self.traffic_data_index = data_loader.traffic_data_index
-        self.train_test_ratio = data_loader.train_test_ratio,
+        self.train_test_ratio = data_loader.train_test_ratio
         self.daily_slots = 24 * 60 / self.dataset.time_fitness
 
         # build_graph

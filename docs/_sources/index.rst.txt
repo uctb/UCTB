@@ -21,5 +21,3 @@ Welcome to UCTB's documentation!
    APIReference.rst
 
    md_file/all_results.md
-
-   md_file/uctb_group.md

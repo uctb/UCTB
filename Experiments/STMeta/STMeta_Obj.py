@@ -160,8 +160,10 @@ if de_normalizer:
     test_prediction = de_normalizer(test_prediction)
     data_loader.test_y = de_normalizer(data_loader.test_y)
 
-test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
-    metric.mape(prediction=test_prediction,target=data_loader.test_y, threshold=0)
+# test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
+#     metric.mape(prediction=test_prediction,target=data_loader.test_y, threshold=0)
+
+test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0)
 
 # Evaluate
 val_loss = STMeta_obj.load_event_scalar('val_loss')
@@ -172,15 +174,15 @@ if de_normalizer:
     best_val_loss = de_normalizer(best_val_loss)
 
 print('Best val result', best_val_loss)
-print('Test result', test_rmse, test_mape)
-
+# print('Test result', test_rmse, test_mape)
+print('Test result', test_rmse)
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600
 print('Converged using %.2f hour / %s epochs' % (time_consumption, STMeta_obj._global_step))
 
-if nni_params:
-    nni.report_final_result({
-        'default': best_val_loss,
-        'test-rmse': test_rmse,
-        'test-mape': test_mape
-    })
+# if nni_params:
+#     nni.report_final_result({
+#         'default': best_val_loss,
+#         'test-rmse': test_rmse,
+#         'test-mape': test_mape
+#     })

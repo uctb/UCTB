@@ -69,19 +69,19 @@ Following shows the map-visualization of bike stations in NYC, Chicago and DC.
 |   STMeta-V2    |   2.41088   | **2.13330** |   1.85876   |
 |   STMeta-V3    |   2.41109   |   2.18174   | **1.85199** |
 
-| **60 minutes** |     NYC     |   Chicago   |     DC      |
-| :------------: | :---------: | :---------: | :---------: |
-|       HM       |   3.99224   |   3.10445   |   2.63169   |
-|     ARIMA      |   5.28928   |   3.74440   |   3.18296   |
-|    XGBoost     |   4.10211   |   3.00349   |   2.64322   |
-|      GBRT      |   4.03881   |   2.98366   |   2.61127   |
-|    ST_MGCN     |   3.72337   |   2.90369   |   2.51839   |
-|     DCRNN      |   4.18666   |   3.08066   |   3.01575   |
-|      LSTM      |   5.16719   |   3.72113   |   3.23409   |
-| TMeta-LSTM-GAL |   3.73916   |   2.84013   |   2.55653   |
-|   STMeta-V1    |   3.51827   |   2.69466   |   2.40463   |
-|   STMeta-V2    | **3.50671** |   2.73852   | **2.40387** |
-|   STMeta-V3    |   3.52124   | **2.65204** |   2.42338   |
+| **60 minutes** |    NYC    |  Chicago  |    DC     |
+| :------------: | :-------: | :-------: | :-------: |
+|       HM       |   3.992   |   2.976   |   2.631   |
+|     ARIMA      |   5.609   |   3.835   |   3.604   |
+|    XGBoost     |   4.124   |   2.925   |   2.656   |
+|      GBRT      |   3.999   |   2.842   |   2.617   |
+|    ST_MGCN     |   3.723   |   2.883   |   2.485   |
+|     DCRNN      |   4.186   |   3.277   |   3.086   |
+|      LSTM      |   4.556   |   3.370   |   2.915   |
+| TMeta-LSTM-GAL |   3.784   |   2.790   |   2.547   |
+|   STMeta-V1    |   3.504   | **2.655** |   2.425   |
+|   STMeta-V2    | **3.438** |   2.663   |   2.411   |
+|   STMeta-V3    |   3.478   |   2.661   | **2.388** |
 
 ## Results on DiDi
 
@@ -129,20 +129,20 @@ Following shows the map-visualization of grid-based ride-sharing stations in Xi'
 |   STMeta-V2    | **3.77190** | **4.61277** |
 |   STMeta-V3    |   3.83278   |   4.63502   |
 
-|   60 minutes   |  **Xian**   | **Chengdu** |
-| :------------: | :---------: | :---------: |
-|       HM       |   6.18623   |   7.51214   |
-|     ARIMA      |   9.47478   |  13.25890   |
-|    XGBoost     |   6.73346   |   7.59180   |
-|      GBRT      |   6.44639   |   7.51148   |
-|   ST-ResNet    |   6.07471   |   7.15462   |
-|    ST_MGCN     |   5.87769   |   7.06687   |
-|     DCRNN      |   8.20254   |  11.44437   |
-|      LSTM      |   9.82962   |  13.48316   |
-| TMeta-LSTM-GAL |   5.84263   |   6.94881   |
-|   STMeta-V1    |   5.87104   | **6.85750** |
-|   STMeta-V2    | **5.82891** |   6.87330   |
-|   STMeta-V3    |   5.90812   |   6.90394   |
+|   60 minutes   | **Xian**  | **Chengdu** |
+| :------------: | :-------: | :---------: |
+|       HM       |   6.186   |    7.354    |
+|     ARIMA      |   9.474   |   12.526    |
+|    XGBoost     |   6.733   |    7.738    |
+|      GBRT      |   6.446   |    7.588    |
+|   ST-ResNet    |   6.084   |    7.146    |
+|    ST_MGCN     |   5.874   |  **7.032**  |
+|     DCRNN      |   8.202   |   11.505    |
+|      LSTM      |   7.399   |   10.113    |
+| TMeta-LSTM-GAL |   5.814   |    7.048    |
+|   STMeta-V1    |   5.891   |    7.062    |
+|   STMeta-V2    | **5.755** |    7.097    |
+|   STMeta-V3    |   5.955   |    7.043    |
 
 ## Results on Metro
 
@@ -188,19 +188,19 @@ Following shows the map-visualization of metro stations in Chongqing and Shangha
 |   STMeta-V2    |   50.01080   |   80.68939   |
 |   STMeta-V3    | **48.95798** |   77.48744   |
 
-|   60 minutes   | **Chongqing** | **Shanghai**  |
-| :------------: | :-----------: | :-----------: |
-|       HM       |   119.85931   |   172.54974   |
-|     ARIMA      |   578.18563   |   676.78754   |
-|    XGBoost     |   117.05069   |   160.37798   |
-|      GBRT      |   113.92276   |   154.28609   |
-|    ST_MGCN     |   104.87059   |   159.52248   |
-|     DCRNN      |   122.31121   |   340.25143   |
-|      LSTM      |   322.80864   |   506.07193   |
-| TMeta-LSTM-GAL |   102.85933   |   163.30525   |
-|   STMeta-V1    |   97.87108    |   153.17380   |
-|   STMeta-V2    |   106.41066   |   149.05331   |
-|   STMeta-V3    | **94.77593**  | **143.18166** |
+|   60 minutes   | **Chongqing** | **Shanghai** |
+| :------------: | :-----------: | :----------: |
+|       HM       |    120.30     |    197.97    |
+|     ARIMA      |    578.18     |    792.15    |
+|    XGBoost     |    117.05     |    185.00    |
+|      GBRT      |    113.92     |    186.74    |
+|    ST_MGCN     |    118.86     |    181.55    |
+|     DCRNN      |    122.31     |    326.97    |
+|      LSTM      |    196.17     |    368.84    |
+| TMeta-LSTM-GAL |     97.50     |    182.28    |
+|   STMeta-V1    |   **92.74**   |  **151.11**  |
+|   STMeta-V2    |     98.86     |    158.21    |
+|   STMeta-V3    |    101.78     |    156.58    |
 
 ## Results on Charge-Station
 
@@ -234,17 +234,17 @@ Following shows the map-visualization of  629 EV charging stations in Beijing.
 
 |   60 minutes   | **Beijing** |
 | :------------: | :---------: |
-|       HM       |   1.01610   |
-|     ARIMA      |   0.98236   |
-|    XGBoost     |   0.83381   |
-|      GBRT      |   0.82814   |
-|    ST_MGCN     |   0.82701   |
-|     DCRNN      |   0.98871   |
-|      LSTM      |   0.99865   |
-| TMeta-LSTM-GAL |   0.84018   |
-|   STMeta-V1    |   0.83100   |
-|   STMeta-V2    |   0.80701   |
-|   STMeta-V3    | **0.80259** |
+|       HM       |    1.016    |
+|     ARIMA      |    0.982    |
+|    XGBoost     |    0.833    |
+|      GBRT      |    0.828    |
+|    ST_MGCN     |    0.827    |
+|     DCRNN      |    0.988    |
+|      LSTM      |    1.585    |
+| TMeta-LSTM-GAL |    0.833    |
+|   STMeta-V1    |  **0.815**  |
+|   STMeta-V2    |    0.821    |
+|   STMeta-V3    |  **0.815**  |
 
 ## Experiment Setting on different datasets
 

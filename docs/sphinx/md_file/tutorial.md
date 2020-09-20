@@ -54,7 +54,7 @@ plt.show()
 ```
 
 
-![png](http://47.94.208.154/image/toturial_p1_dataplot.png)
+![png](https://uctb.github.io/UCTB/sphinx/md_file/src/image/toturial_p1_dataplot.png)
 
 #### Build your own datasets
 

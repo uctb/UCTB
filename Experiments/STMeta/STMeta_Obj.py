@@ -50,7 +50,7 @@ model_dir_path = os.path.join(model_dir_path, args['group'])
 
 data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 data_range=args['data_range'], train_data_length=args['train_data_length'],
-                                test_ratio=0.1,
+                                test_ratio=float(args['test_ratio']),
                                 closeness_len=args['closeness_len'],
                                 period_len=args['period_len'],
                                 trend_len=args['trend_len'],
@@ -58,7 +58,7 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 with_tpe=True if args['st_method'] == 'gal_gcn' else False,
                                 workday_parser=is_work_day_america if args['dataset'] == 'Bike' else is_work_day_china,
                                 MergeIndex=args['MergeIndex'],
-                                MergeWay="max" if args["dataset"] == "ChargeStation" else "sum")
+                                MergeWay=args["MergeWay"])
 
 # build graphs
 graph_obj = GraphGenerator(graph=args['graph'],

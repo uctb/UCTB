@@ -11,7 +11,7 @@ shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
                          '--LSTMUnits 64 '
                          '--LSTMLayers 3 '
                          '--DataRange All '
-                         '--TrainDays 365 '
+                         '--TrainDays All '
                          '--TC 0.65 '
                          '--TD 7500 '
                          '--TI 30 '
@@ -21,6 +21,7 @@ shared_params_st_mgcn = ('python ST_MGCN_Obj.py '
                          '--patience 0.1 '
                          '--ESlength 100 '
                          '--BatchSize 16 '
+                         '--MergeWay sum '
                          '--Device 1 ')
 
 if __name__ == "__main__":

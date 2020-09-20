@@ -26,6 +26,7 @@ def stmeta_param_parser():
     # Training data parameters
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='365')
+    parser.add_argument('--test_ratio', default=0.1, type=float)
     # Graph parameter
     parser.add_argument('--TC', default='0', type=float)
     parser.add_argument('--TD', default='1000', type=float)
@@ -41,8 +42,9 @@ def stmeta_param_parser():
     parser.add_argument('--Device', default='0', type=str)
     # version control
     parser.add_argument('--CodeVersion', default='V')
-    # Merge times
+    # Merge parameter
     parser.add_argument('--MergeIndex', default=6, type=int)
+    parser.add_argument('--MergeWay', default='sum', type=str)
     return parser
 
 parser = stmeta_param_parser()
@@ -71,10 +73,11 @@ else:
 
 # Config data loader
 data_loader = NodeTrafficLoader(dataset=args['Dataset'], city=args['City'],
+                                test_ratio=float(args['test_ratio']),
                                 data_range=args['DataRange'], train_data_length=args['TrainDays'],
                                 closeness_len=int(args['CT']), period_len=int(args['PT']), trend_len=int(args['TT']),
                                 normalize=True, MergeIndex=args['MergeIndex'],
-                                MergeWay="max" if args["Dataset"] == "ChargeStation" else "sum")
+                                MergeWay=args["MergeWay"])
 
 # build graphs
 graph_obj = GraphGenerator(graph=args['Graph'],

@@ -17,7 +17,7 @@ Currently the package supported the following models: ([Details](./static/curren
 
 UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.
 
-You can view UCTB's source code at [UCTB ToolBox](https://anonymous.4open.science/r/561305b5-e65e-46c6-9371-ae76b85109ee/).
+You can view UCTB's source code at [UCTB ToolBox](https://github.com/uctb/UCTB).
 
 <u>[Back To HomePage](../index.html)</u>
 

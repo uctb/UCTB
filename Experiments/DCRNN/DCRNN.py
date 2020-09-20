@@ -54,6 +54,7 @@ def param_parser():
     # Training data parameters
     parser.add_argument('--DataRange', default='All')
     parser.add_argument('--TrainDays', default='365')
+    parser.add_argument('--test_ratio', default=0.1, type=float)
     # Graph parameter
     parser.add_argument('--TC', default='0', type=float)
     parser.add_argument('--TD', default='1000', type=float)
@@ -70,8 +71,9 @@ def param_parser():
     # version control
     parser.add_argument('--Group', default='DebugGroup')
     parser.add_argument('--CodeVersion', default='ST_MGCN_Debug')
-    # Merge times
+    # Merge parameter
     parser.add_argument('--MergeIndex', default=6, type=int)
+    parser.add_argument('--MergeWay', default='sum', type=str)
     return parser
 
 
@@ -83,11 +85,12 @@ code_version = 'DCRNN_{}_K{}L{}_{}_F{}'.format(''.join([e[0] for e in args.Graph
                                            args.K, args.L, args.CodeVersion, int(args.MergeIndex)*5)
 
 data_loader = my_data_loader(dataset=args.Dataset, city=args.City,
+                             test_ratio=float(args.test_ratio),
                              data_range=args.DataRange, train_data_length=args.TrainDays,
                              closeness_len=int(args.CT), period_len=int(args.PT), trend_len=int(args.TT),
                              threshold_interaction=args.TI, threshold_distance=args.TD,
                              threshold_correlation=args.TC, graph=args.Graph, with_lm=True, normalize=True, MergeIndex=args.MergeIndex,
-                             MergeWay="max" if args.Dataset == "ChargeStation" else "sum")
+                             MergeWay=args.MergeWay)
 
 print('Code version', args.Dataset, args.City, code_version)
 

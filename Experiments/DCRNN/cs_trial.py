@@ -21,6 +21,7 @@ shared_params_dcrnn = ('python DCRNN.py '
                          '--patience 0.1 '
                          '--ESlength 100 '
                          '--BatchSize 16 '
+                         '--MergeWay max '
                          '--Device 1 ')
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ shared_params_dcrnn = ('python DCRNN.py '
                          '--patience 0.1 '
                          '--ESlength 100 '
                          '--BatchSize 32 '
+                         '--MergeWay sum '
                          '--Device 0 '
                          '--CodeVersion V0')
 

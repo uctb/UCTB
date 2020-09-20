@@ -11,10 +11,14 @@ tuner:
   builtinTunerName: TPE
 # The path and the running command of trial
 trial:
-  # python HM.py --dataset Metro --city Chongqing --MergeIndex 12 --DataRange all --TrainDays all
-  # python HM.py --dataset DiDi --city Xian --MergeIndex 12 --DataRange all --TrainDays all
-  # python HM.py --dataset Bike --city NYC --MergeIndex 12 --DataRange all --TrainDays 365
-  # python HM.py --dataset ChargeStation --city Beijing --MergeIndex 1 --DataRange all --TrainDays all
-  command: python GBRT.py --dataset Metro --city Shanghai --MergeIndex 12 --DataRange all --TrainDays all
+  # python GBRT.py --dataset Metro --city Chongqing --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays all
+  # python GBRT.py --dataset DiDi --city Xian --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays all
+  # python GBRT.py --dataset Bike --city NYC --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays 365
+  # python GBRT.py --dataset ChargeStation --city Beijing --MergeIndex 1 --MergeWay max --DataRange all --TrainDays all
+  # python GBRT.py --dataset Taxi --city BJ --MergeIndex 2 --MergeWay sum --DataRange all --TrainDays all
+  # python GBRT.py --dataset METR --city LA --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+  # python GBRT.py --dataset PEMS --city BAY --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+
+  command:  python GBRT.py --dataset PEMS --city BAY --MergeIndex 12 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
   codeDir: .
   gpuNum: 0

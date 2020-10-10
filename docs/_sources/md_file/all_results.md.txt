@@ -87,11 +87,11 @@ Following shows the map-visualization of bike stations in NYC, Chicago and DC.
 
 ### Dataset Statistics
 
-|        Attributes        |    **Xi'an**    |   **Chengdu**   |
-| :----------------------: | :-------------: | :-------------: |
-|        Time span         | 2016.10-2016.11 | 2016.10-2016.11 |
-| Number of riding records |    5,922,961    |    8,439,537    |
-|    Number of stations    |       256       |       256       |
+|     Attributes     |    **Xi'an**    |   **Chengdu**   |
+| :----------------: | :-------------: | :-------------: |
+|     Time span      | 2016.10-2016.11 | 2016.10-2016.11 |
+| Number of records  |    5,922,961    |    8,439,537    |
+| Number of stations |       256       |       256       |
 
 Following shows the map-visualization of grid-based ride-sharing stations in Xi'an and Chengdu.
 
@@ -148,11 +148,11 @@ Following shows the map-visualization of grid-based ride-sharing stations in Xi'
 
 ### Dataset Statistics
 
-|        Attributes        |  **Chongqing**  |  **Shanghai**   |
-| :----------------------: | :-------------: | :-------------: |
-|        Time span         | 2016.08-2017.07 | 2016.07-2016.09 |
-| Number of riding records |   409,277,117   |   333,149,034   |
-|    Number of stations    |       113       |       288       |
+|     Attributes     |  **Chongqing**  |  **Shanghai**   |
+| :----------------: | :-------------: | :-------------: |
+|     Time span      | 2016.08-2017.07 | 2016.07-2016.09 |
+| Number of records  |   409,277,117   |   333,149,034   |
+| Number of stations |       113       |       288       |
 
 Following shows the map-visualization of metro stations in Chongqing and Shanghai.
 
@@ -206,11 +206,11 @@ Following shows the map-visualization of metro stations in Chongqing and Shangha
 
 ### Dataset Statistics
 
-|        Attributes        |   **Beijing**   |
-| :----------------------: | :-------------: |
-|        Time span         | 2018.03-2018.05 |
-| Number of riding records |    1,272,961    |
-|    Number of stations    |       629       |
+|     Attributes     |   **Beijing**   |
+| :----------------: | :-------------: |
+|     Time span      | 2018.03-2018.05 |
+| Number of records  |    1,272,961    |
+| Number of stations |       629       |
 
 Following shows the map-visualization of  629 EV charging stations in Beijing.
 
@@ -245,6 +245,64 @@ Following shows the map-visualization of  629 EV charging stations in Beijing.
 |   STMeta-V1    |  **0.815**  |
 |   STMeta-V2    |    0.821    |
 |   STMeta-V3    |  **0.815**  |
+
+## Results on Traffic Speed
+
+### Dataset Statistics
+
+|        Attributes        |   **METR-LA**   |  **PEMS-BAY**   |
+| :----------------------: | :-------------: | :-------------: |
+|        Time span         | 2012.03-2012.06 | 2017.01-2017.07 |
+| Number of riding records |     34,272      |     52,128      |
+|    Number of stations    |       207       |       325       |
+
+Following shows the map-visualization of grid-based ride-sharing stations in METR-LA and PEMS-BAY.
+
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" style="zoom:30%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/PEMS_BAY.png" style="zoom:30%;height:800px;width:800px;" /> 
+
+### Experiment Results
+
+|   15 minutes   | **METR-LA** | **PEMS-BAY** |
+| :------------: | :---------: | :----------: |
+|       HM       |   8.93415   |   3.68983    |
+|     ARIMA      |   7.02787   |   2.86893    |
+|    XGBoost     |   6.44322   |   2.62339    |
+|      GBRT      |   6.37050   |   2.64524    |
+|    ST_MGCN     |   6.64489   |   2.42605    |
+|     DCRNN      |   6.44030   |   5.32297    |
+|      LSTM      |   6.38015   |   2.68953    |
+| TMeta-LSTM-GAL |   6.15585   |   2.54368    |
+|   STMeta-V1    |   5.64445   |   2.43292    |
+|   STMeta-V2    |   5.79998   |   2.44947    |
+|   STMeta-V3    |   5.78807   |   2.44571    |
+
+|   30 minutes   | **METR-LA** | **PEMS-BAY** |
+| :------------: | :---------: | :----------: |
+|       HM       |   9.55981   |   3.96537    |
+|     ARIMA      |   9.22951   |   3.93569    |
+|    XGBoost     |   8.29796   |   3.25334    |
+|      GBRT      |   8.26941   |   3.37025    |
+|    ST_MGCN     |   8.07924   |   3.04172    |
+|     DCRNN      |   8.56215   |   6.19802    |
+|      LSTM      |   7.86569   |   3.68256    |
+| TMeta-LSTM-GAL |   7.43553   |   3.23098    |
+|   STMeta-V1    |   7.15628   |   3.11554    |
+|   STMeta-V2    |   6.88889   |   3.20407    |
+|   STMeta-V3    |   7.18431   |   3.18722    |
+
+|   60 minutes   | **METR-LA** | **PEMS-BAY** |
+| :------------: | :---------: | :----------: |
+|       HM       |  10.72724   |   4.01788    |
+|     ARIMA      |  11.73901   |   5.67008    |
+|    XGBoost     |  10.29861   |   3.70330    |
+|      GBRT      |  10.01320   |   3.70401    |
+|    ST_MGCN     |  10.79813   |   3.48569    |
+|     DCRNN      |  11.12053   |   6.91955    |
+|      LSTM      |  10.08317   |   4.77696    |
+| TMeta-LSTM-GAL |   8.66965   |   3.61642    |
+|   STMeta-V1    |   8.83393   |   3.51389    |
+|   STMeta-V2    |   9.14697   |   3.55159    |
+|   STMeta-V3    |   8.99345   |   3.49954    |
 
 ## Experiment Setting on different datasets
 
@@ -427,11 +485,11 @@ The result of Bike dataset can be found [here](./all_results.html#experiment-res
 
 #### Dataset Statistics
 
-|        Attributes        |    **Xi'an**    |   **Chengdu**   |
-| :----------------------: | :-------------: | :-------------: |
-|        Time span         | 2016.10-2016.11 | 2016.10-2016.11 |
-| Number of riding records |    5,922,961    |    8,439,537    |
-|    Number of stations    |       256       |       256       |
+|     Attributes     |    **Xi'an**    |   **Chengdu**   |
+| :----------------: | :-------------: | :-------------: |
+|     Time span      | 2016.10-2016.11 | 2016.10-2016.11 |
+| Number of records  |    5,922,961    |    8,439,537    |
+| Number of stations |       256       |       256       |
 
 #### Experiment Setting
 
@@ -584,11 +642,11 @@ The result of DiDi dataset can be found [here](./all_results.html#id2).
 
 #### Dataset Statistics
 
-|        Attributes        |  **Chongqing**  |  **Shanghai**   |
-| :----------------------: | :-------------: | :-------------: |
-|        Time span         | 2016.08-2017.07 | 2016.07-2016.09 |
-| Number of riding records |   409,277,117   |   333,149,034   |
-|    Number of stations    |       113       |       288       |
+|     Attributes     |  **Chongqing**  |  **Shanghai**   |
+| :----------------: | :-------------: | :-------------: |
+|     Time span      | 2016.08-2017.07 | 2016.07-2016.09 |
+| Number of records  |   409,277,117   |   333,149,034   |
+| Number of stations |       113       |       288       |
 
 #### Experiment Setting
 
@@ -715,11 +773,11 @@ The result of Metro dataset can be found [here](./all_results.html#id4).
 
 #### Dataset Statistics
 
-|        Attributes        |   **Beijing**   |
-| :----------------------: | :-------------: |
-|        Time span         | 2018.03-2018.05 |
-| Number of riding records |    1,272,961    |
-|    Number of stations    |       629       |
+|     Attributes     |   **Beijing**   |
+| :----------------: | :-------------: |
+|     Time span      | 2018.03-2018.05 |
+| Number of records  |    1,272,961    |
+| Number of stations |       629       |
 
 #### Experiment Setting
 
@@ -788,3 +846,139 @@ The result of Metro dataset can be found [here](./all_results.html#id4).
     ```
 
 The result of Charge-Station dataset can be found [here](./all_results.html#id6).
+
+### Results on Traffic Speed
+
+#### Dataset Statistics
+
+|        Attributes        |   **METR-LA**   |  **PEMS-BAY**   |
+| :----------------------: | :-------------: | :-------------: |
+|        Time span         | 2012.03-2012.06 | 2017.01-2017.07 |
+| Number of riding records |     34,272      |     52,128      |
+|    Number of stations    |       207       |       325       |
+
+#### Experiment Setting
+
+* HM & XGBoost & GBRT
+
+  | 15 minutes |  **METR-LA**  | **PEMS-BAY**  |
+  | :--------: | :-----------: | :-----------: |
+  |     HM     |    `2-0-4`    |    `1-0-1`    |
+  |  XGBoost   | `11-1-2-25-3` | `12-4-2-21-4` |
+  |    GBRT    | `11-8-2-29-4` | `10-6-1-65-6` |
+
+  | 30 minutes |  **METR-LA**  |  **PEMS-BAY**  |
+  | :--------: | :-----------: | :------------: |
+  |     HM     |    `2-0-4`    |    `1-0-1`     |
+  |  XGBoost   | `6-6-0-25-3`  | `12-13-2-27-3` |
+  |    GBRT    | `10-0-0-27-3` | `12-6-2-90-7`  |
+
+  | 60 minutes |  **METR-LA**  | **PEMS-BAY**  |
+  | :--------: | :-----------: | :-----------: |
+  |     HM     |    `2-1-4`    |    `1-1-4`    |
+  |  XGBoost   | `2-2-0-25-3`  | `12-6-2-19-3` |
+  |    GBRT    | `4-5-1-19-4`  | `12-7-2-59-5` |
+
+* [METR-LA](https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metr_trial.py)  and [PEMS-BAY](https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/pems_trial.py)  ST_MGCN Run Code & Setting.
+
+* [METR-LA](https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metr_trial.py) and [PEMS-BAY](https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/pems_trial.py) DCRNN Run Code & Setting.
+
+* LSTM & TMeta-LSTM-GAL & STMeta-V1  & STMeta-V2  & STMeta-V3
+
+  These five models can be run by specifying data files and model files on [STMeta_Obj.py](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py).
+
+  Data Files: [metr_la.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metr_la.data.yml) , [pems_bay.data.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/pems_bay.data.yml).
+
+  Model Files: [STMeta_v0.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml), [STMeta_v1.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml).,  [STMeta_v2.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml)., [STMeta_v3.model.yml](https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml).
+
+  * LSTM 
+
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+    
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
+              ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
+    ```
+
+  * TMeta-LSTM-GAL
+
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance,MergeIndex:12')
+    
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:12')
+    ```
+
+  * STMeta-V1
+
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12')
+    
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12')
+    ```
+
+  * STMeta-V2
+
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12')
+    
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12')
+    ```
+
+  * STMeta-V3
+
+    ```python
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12')
+    
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6')
+    os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+              ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12')
+    ```
+
+The results of METR-LA and PEMS-BAY can be found [here](./all_results.html#id7).

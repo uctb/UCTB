@@ -109,27 +109,37 @@
 <li class="toctree-l3"><a class="reference internal" href="#id6">6.5.2. Experiment Results</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#experiment-setting-on-different-datasets">6.6. Experiment Setting on different datasets</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#search-space">6.6.1. Search Space</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#id7">6.6.2. Results on Bike</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id8">6.6.2.1. Dataset Statistics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#experiment-setting">6.6.2.2. Experiment Setting</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id9">6.6.2.3. Experiment Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#results-on-traffic-speed">6.6. Results on Traffic Speed</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id7">6.6.1. Dataset Statistics</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id8">6.6.2. Experiment Results</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id10">6.6.3. Results on DiDi</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id11">6.6.3.1. Dataset Statistics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id12">6.6.3.2. Experiment Setting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#experiment-setting-on-different-datasets">6.7. Experiment Setting on different datasets</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#search-space">6.7.1. Search Space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">6.7.2. Results on Bike</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id10">6.7.2.1. Dataset Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#experiment-setting">6.7.2.2. Experiment Setting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">6.7.2.3. Experiment Results</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id13">6.6.4. Results on Metro</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id14">6.6.4.1. Dataset Statistics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id15">6.6.4.2. Experiment Setting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">6.7.3. Results on DiDi</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id13">6.7.3.1. Dataset Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id14">6.7.3.2. Experiment Setting</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#id16">6.6.5. Results on Charge-Station</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#id17">6.6.5.1. Dataset Statistics</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#id18">6.6.5.2. Experiment Setting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id15">6.7.4. Results on Metro</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id16">6.7.4.1. Dataset Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id17">6.7.4.2. Experiment Setting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id18">6.7.5. Results on Charge-Station</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id19">6.7.5.1. Dataset Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id20">6.7.5.2. Experiment Setting</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id21">6.7.6. Results on Traffic Speed</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id22">6.7.6.1. Dataset Statistics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id23">6.7.6.2. Experiment Setting</a></li>
 </ul>
 </li>
 </ul>
@@ -531,7 +541,7 @@
 <td align="center">2016.10-2016.11</td>
 </tr>
 <tr>
-<td align="center">Number of riding records</td>
+<td align="center">Number of records</td>
 <td align="center">5,922,961</td>
 <td align="center">8,439,537</td>
 </tr>
@@ -777,7 +787,7 @@
 <td align="center">2016.07-2016.09</td>
 </tr>
 <tr>
-<td align="center">Number of riding records</td>
+<td align="center">Number of records</td>
 <td align="center">409,277,117</td>
 <td align="center">333,149,034</td>
 </tr>
@@ -1006,7 +1016,7 @@
 <td align="center">2018.03-2018.05</td>
 </tr>
 <tr>
-<td align="center">Number of riding records</td>
+<td align="center">Number of records</td>
 <td align="center">1,272,961</td>
 </tr>
 <tr>
@@ -1126,10 +1136,241 @@
 </tbody>
 </table></div>
 </div>
+<div class="section" id="results-on-traffic-speed">
+<h2>6.6. Results on Traffic Speed<a class="headerlink" href="#results-on-traffic-speed" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id7">
+<h3>6.6.1. Dataset Statistics<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Attributes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Time span</td>
+<td align="center">2012.03-2012.06</td>
+<td align="center">2017.01-2017.07</td>
+</tr>
+<tr>
+<td align="center">Number of riding records</td>
+<td align="center">34,272</td>
+<td align="center">52,128</td>
+</tr>
+<tr>
+<td align="center">Number of stations</td>
+<td align="center">207</td>
+<td align="center">325</td>
+</tr>
+</tbody>
+</table><p>Following shows the map-visualization of grid-based ride-sharing stations in METR-LA and PEMS-BAY.</p>
+<p><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" style="zoom:30%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/PEMS_BAY.png" style="zoom:30%;height:800px;width:800px;" /></p>
+</div>
+<div class="section" id="id8">
+<h3>6.6.2. Experiment Results<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">15 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">8.93415</td>
+<td align="center">3.68983</td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center">7.02787</td>
+<td align="center">2.86893</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">6.44322</td>
+<td align="center">2.62339</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">6.37050</td>
+<td align="center">2.64524</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN</td>
+<td align="center">6.64489</td>
+<td align="center">2.42605</td>
+</tr>
+<tr>
+<td align="center">DCRNN</td>
+<td align="center">6.44030</td>
+<td align="center">5.32297</td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">6.38015</td>
+<td align="center">2.68953</td>
+</tr>
+<tr>
+<td align="center">TMeta-LSTM-GAL</td>
+<td align="center">6.15585</td>
+<td align="center">2.54368</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center">5.64445</td>
+<td align="center">2.43292</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center">5.79998</td>
+<td align="center">2.44947</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center">5.78807</td>
+<td align="center">2.44571</td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">30 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">9.55981</td>
+<td align="center">3.96537</td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center">9.22951</td>
+<td align="center">3.93569</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">8.29796</td>
+<td align="center">3.25334</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">8.26941</td>
+<td align="center">3.37025</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN</td>
+<td align="center">8.07924</td>
+<td align="center">3.04172</td>
+</tr>
+<tr>
+<td align="center">DCRNN</td>
+<td align="center">8.56215</td>
+<td align="center">6.19802</td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">7.86569</td>
+<td align="center">3.68256</td>
+</tr>
+<tr>
+<td align="center">TMeta-LSTM-GAL</td>
+<td align="center">7.43553</td>
+<td align="center">3.23098</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center">7.15628</td>
+<td align="center">3.11554</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center">6.88889</td>
+<td align="center">3.20407</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center">7.18431</td>
+<td align="center">3.18722</td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">60 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center">10.72724</td>
+<td align="center">4.01788</td>
+</tr>
+<tr>
+<td align="center">ARIMA</td>
+<td align="center">11.73901</td>
+<td align="center">5.67008</td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center">10.29861</td>
+<td align="center">3.70330</td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center">10.01320</td>
+<td align="center">3.70401</td>
+</tr>
+<tr>
+<td align="center">ST_MGCN</td>
+<td align="center">10.79813</td>
+<td align="center">3.48569</td>
+</tr>
+<tr>
+<td align="center">DCRNN</td>
+<td align="center">11.12053</td>
+<td align="center">6.91955</td>
+</tr>
+<tr>
+<td align="center">LSTM</td>
+<td align="center">10.08317</td>
+<td align="center">4.77696</td>
+</tr>
+<tr>
+<td align="center">TMeta-LSTM-GAL</td>
+<td align="center">8.66965</td>
+<td align="center">3.61642</td>
+</tr>
+<tr>
+<td align="center">STMeta-V1</td>
+<td align="center">8.83393</td>
+<td align="center">3.51389</td>
+</tr>
+<tr>
+<td align="center">STMeta-V2</td>
+<td align="center">9.14697</td>
+<td align="center">3.55159</td>
+</tr>
+<tr>
+<td align="center">STMeta-V3</td>
+<td align="center">8.99345</td>
+<td align="center">3.49954</td>
+</tr>
+</tbody>
+</table></div>
+</div>
 <div class="section" id="experiment-setting-on-different-datasets">
-<h2>6.6. Experiment Setting on different datasets<a class="headerlink" href="#experiment-setting-on-different-datasets" title="Permalink to this headline">¶</a></h2>
+<h2>6.7. Experiment Setting on different datasets<a class="headerlink" href="#experiment-setting-on-different-datasets" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="search-space">
-<h3>6.6.1. Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h3>
+<h3>6.7.1. Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h3>
 <p>We use <a class="reference external" href="https://github.com/microsoft/nni">nni</a> toolkit to search the best parameters of HM, XGBoost and GBRT model. Search space are following.</p>
 <table border="1" class="docutils">
 <thead>
@@ -1157,10 +1398,10 @@
 </tr>
 </tbody>
 </table></div>
-<div class="section" id="id7">
-<h3>6.6.2. Results on Bike<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id8">
-<h4>6.6.2.1. Dataset Statistics<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id9">
+<h3>6.7.2. Results on Bike<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id10">
+<h4>6.7.2.1. Dataset Statistics<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -1192,7 +1433,7 @@
 </tbody>
 </table></div>
 <div class="section" id="experiment-setting">
-<h4>6.6.2.2. Experiment Setting<a class="headerlink" href="#experiment-setting" title="Permalink to this headline">¶</a></h4>
+<h4>6.7.2.2. Experiment Setting<a class="headerlink" href="#experiment-setting" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>HM &amp; XGBoost &amp; GBRT</p></li>
 </ul>
@@ -1410,14 +1651,14 @@
 </ul>
 <p>The result of Bike dataset can be found <a class="reference external" href="./all_results.html#experiment-results">here</a>.</p>
 </div>
-<div class="section" id="id9">
-<h4>6.6.2.3. Experiment Results<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h4>
-</div>
-</div>
-<div class="section" id="id10">
-<h3>6.6.3. Results on DiDi<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="id11">
-<h4>6.6.3.1. Dataset Statistics<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+<h4>6.7.2.3. Experiment Results<a class="headerlink" href="#id11" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="id12">
+<h3>6.7.3. Results on DiDi<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id13">
+<h4>6.7.3.1. Dataset Statistics<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -1433,7 +1674,7 @@
 <td align="center">2016.10-2016.11</td>
 </tr>
 <tr>
-<td align="center">Number of riding records</td>
+<td align="center">Number of records</td>
 <td align="center">5,922,961</td>
 <td align="center">8,439,537</td>
 </tr>
@@ -1444,8 +1685,8 @@
 </tr>
 </tbody>
 </table></div>
-<div class="section" id="id12">
-<h4>6.6.3.2. Experiment Setting<a class="headerlink" href="#id12" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id14">
+<h4>6.7.3.2. Experiment Setting<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>HM &amp; XGBoost &amp; GBRT</p></li>
 </ul>
@@ -1647,10 +1888,10 @@
 <p>The result of DiDi dataset can be found <a class="reference external" href="./all_results.html#id2">here</a>.</p>
 </div>
 </div>
-<div class="section" id="id13">
-<h3>6.6.4. Results on Metro<a class="headerlink" href="#id13" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id14">
-<h4>6.6.4.1. Dataset Statistics<a class="headerlink" href="#id14" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id15">
+<h3>6.7.4. Results on Metro<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id16">
+<h4>6.7.4.1. Dataset Statistics<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -1666,7 +1907,7 @@
 <td align="center">2016.07-2016.09</td>
 </tr>
 <tr>
-<td align="center">Number of riding records</td>
+<td align="center">Number of records</td>
 <td align="center">409,277,117</td>
 <td align="center">333,149,034</td>
 </tr>
@@ -1677,8 +1918,8 @@
 </tr>
 </tbody>
 </table></div>
-<div class="section" id="id15">
-<h4>6.6.4.2. Experiment Setting<a class="headerlink" href="#id15" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id17">
+<h4>6.7.4.2. Experiment Setting<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>HM &amp; XGBoost &amp; GBRT</p></li>
 </ul>
@@ -1850,10 +2091,10 @@
 <p>The result of Metro dataset can be found <a class="reference external" href="./all_results.html#id4">here</a>.</p>
 </div>
 </div>
-<div class="section" id="id16">
-<h3>6.6.5. Results on Charge-Station<a class="headerlink" href="#id16" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="id17">
-<h4>6.6.5.1. Dataset Statistics<a class="headerlink" href="#id17" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id18">
+<h3>6.7.5. Results on Charge-Station<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id19">
+<h4>6.7.5.1. Dataset Statistics<a class="headerlink" href="#id19" title="Permalink to this headline">¶</a></h4>
 <table border="1" class="docutils">
 <thead>
 <tr>
@@ -1867,7 +2108,7 @@
 <td align="center">2018.03-2018.05</td>
 </tr>
 <tr>
-<td align="center">Number of riding records</td>
+<td align="center">Number of records</td>
 <td align="center">1,272,961</td>
 </tr>
 <tr>
@@ -1876,8 +2117,8 @@
 </tr>
 </tbody>
 </table></div>
-<div class="section" id="id18">
-<h4>6.6.5.2. Experiment Setting<a class="headerlink" href="#id18" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="id20">
+<h4>6.7.5.2. Experiment Setting<a class="headerlink" href="#id20" title="Permalink to this headline">¶</a></h4>
 <ul class="simple">
 <li><p>HM &amp; XGBoost &amp; GBRT</p></li>
 </ul>
@@ -1958,6 +2199,215 @@
 </li>
 </ul>
 <p>The result of Charge-Station dataset can be found <a class="reference external" href="./all_results.html#id6">here</a>.</p>
+</div>
+</div>
+<div class="section" id="id21">
+<h3>6.7.6. Results on Traffic Speed<a class="headerlink" href="#id21" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id22">
+<h4>6.7.6.1. Dataset Statistics<a class="headerlink" href="#id22" title="Permalink to this headline">¶</a></h4>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">Attributes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">Time span</td>
+<td align="center">2012.03-2012.06</td>
+<td align="center">2017.01-2017.07</td>
+</tr>
+<tr>
+<td align="center">Number of riding records</td>
+<td align="center">34,272</td>
+<td align="center">52,128</td>
+</tr>
+<tr>
+<td align="center">Number of stations</td>
+<td align="center">207</td>
+<td align="center">325</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="id23">
+<h4>6.7.6.2. Experiment Setting<a class="headerlink" href="#id23" title="Permalink to this headline">¶</a></h4>
+<ul class="simple">
+<li><p>HM &amp; XGBoost &amp; GBRT</p></li>
+</ul>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">15 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>2-0-4</code></td>
+<td align="center"><code>1-0-1</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>11-1-2-25-3</code></td>
+<td align="center"><code>12-4-2-21-4</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>11-8-2-29-4</code></td>
+<td align="center"><code>10-6-1-65-6</code></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">30 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>2-0-4</code></td>
+<td align="center"><code>1-0-1</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>6-6-0-25-3</code></td>
+<td align="center"><code>12-13-2-27-3</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>10-0-0-27-3</code></td>
+<td align="center"><code>12-6-2-90-7</code></td>
+</tr>
+</tbody>
+</table><table border="1" class="docutils">
+<thead>
+<tr>
+<th align="center">60 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">HM</td>
+<td align="center"><code>2-1-4</code></td>
+<td align="center"><code>1-1-4</code></td>
+</tr>
+<tr>
+<td align="center">XGBoost</td>
+<td align="center"><code>2-2-0-25-3</code></td>
+<td align="center"><code>12-6-2-19-3</code></td>
+</tr>
+<tr>
+<td align="center">GBRT</td>
+<td align="center"><code>4-5-1-19-4</code></td>
+<td align="center"><code>12-7-2-59-5</code></td>
+</tr>
+</tbody>
+</table><ul>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metr_trial.py">METR-LA</a>  and <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/pems_trial.py">PEMS-BAY</a>  ST_MGCN Run Code &amp; Setting.</p></li>
+<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metr_trial.py">METR-LA</a> and <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/pems_trial.py">PEMS-BAY</a> DCRNN Run Code &amp; Setting.</p></li>
+<li><p>LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<p>These five models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
+<p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metr_la.data.yml">metr_la.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/pems_bay.data.yml">pems_bay.data.yml</a>.</p>
+<p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.,  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>., <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
+<ul>
+<li><p>LSTM</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml&#39;</span>
+          <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>TMeta-LSTM-GAL</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance,MergeIndex:12&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance,MergeIndex:12&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>STMeta-V1</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>STMeta-V2</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>STMeta-V3</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+          <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12&#39;</span><span class="p">)</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
+<span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+          <span class="s1">&#39; -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</li>
+</ul>
+<p>The results of METR-LA and PEMS-BAY can be found <a class="reference external" href="./all_results.html#id7">here</a>.</p>
 </div>
 </div>
 </div>

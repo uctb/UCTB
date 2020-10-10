@@ -18,8 +18,7 @@ Email: leyewang@pku.edu.cn
 
 ```From Feb 2019, till now.```
 
-Ph.D student in computer science and engineering at Hong
-Kong University of Science and Technology.
+Ph.D student in computer science and engineering at Hong Kong University of Science and Technology.
 
 Email: dchai@cse.ust.hk
 
@@ -37,9 +36,9 @@ ______
 
 **Wenjie Yang**
 
-```From Nov 2019, till now.```
+```From Nov 2019 to Aug 2020.```
 
-Undergraduate student in Beijing Forestry University, majoring in Computer Science.
+Master student in computer science and engineering at Hong Kong University of Science and Technology.
 
 Email: wjyccs(at)gmail(dot)com. 
 
@@ -54,3 +53,21 @@ Ph.D student in Peking University.
 Email:  chenliyue2019@gmail.com
 
 ______
+
+**Xueqiao Xu**
+
+```From Jan 2020 to Jul 2020.```
+
+
+
+Email:  
+
+------
+
+**Zhenyu Cui**
+
+```From May 2020, till now.```
+
+
+
+Email:  

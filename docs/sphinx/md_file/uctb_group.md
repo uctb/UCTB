@@ -58,9 +58,9 @@ ______
 
 ```From Jan 2020 to Jul 2020.```
 
+He got his bachelor' degree in Peking University majoring in Data Science and Big Data Technology.
 
-
-Email:  
+Email:  snowbridge@foxmail.com
 
 ------
 
@@ -68,6 +68,6 @@ Email:
 
 ```From May 2020, till now.```
 
+Graduate student in University of Chinese Academy of Sciences, majoring in Computer Vision and Deep Learning.
 
-
-Email:  
+Email:  cuizhenyu18(at)mails(dot)ucas(dot)ac(dot)cn

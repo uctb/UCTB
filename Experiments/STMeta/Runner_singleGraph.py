@@ -88,3 +88,23 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
 
 # os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
 #           ' -d chargestation_beijing.data.yml -p graph:Correlation,MergeIndex:2')
+
+###############################################
+# BenchMark METR-LA
+###############################################
+
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+          ' -d metr_la.data.yml -p graph:Distance,MergeIndex:12')
+
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+          ' -d metr_la.data.yml -p graph:Correlation,MergeIndex:12')
+
+###############################################
+# BenchMark PEMS-BAY
+###############################################
+
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+          ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:12')
+
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+          ' -d pems_bay.data.yml -p graph:Correlation,MergeIndex:12')

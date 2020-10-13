@@ -5,13 +5,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="UCTB",
-    version="0.2.0",
+    version="0.3.0",
     author="UCTB group",
-    author_email="dchai@connect.ust.hk",
+    author_email="chenliyue2019@gmail.com",
     description="Urban Computing ToolBox",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Di-Chai/UCTB",
+    url="https://github.com/uctb/UCTB",
     packages=setuptools.find_packages(),
     install_requires=['hmmlearn>=0.2.1',
                       'keras',

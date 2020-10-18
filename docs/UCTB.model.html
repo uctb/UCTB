@@ -89,7 +89,6 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -157,7 +156,7 @@
 <dl class="class">
 <dt id="UCTB.model.ARIMA.ARIMA">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ARIMA.</code><code class="sig-name descname">ARIMA</code><span class="sig-paren">(</span><em class="sig-param">time_sequence</em>, <em class="sig-param">order=None</em>, <em class="sig-param">seasonal_order=(0</em>, <em class="sig-param">0</em>, <em class="sig-param">0</em>, <em class="sig-param">0)</em>, <em class="sig-param">max_ar=6</em>, <em class="sig-param">max_ma=4</em>, <em class="sig-param">max_d=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ARIMA.ARIMA" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>ARIMA is a generalization of an ARMA (Autoregressive Moving Average) model, used in predicting
 future points in time series analysis.</p>
 <p>Since there may be three kinds of series data as closeness, period and trend history, this class
@@ -173,9 +172,9 @@ each series based on max_ar, max_ma and max_d. Default: None</p></li>
 <li><p><strong>seasonal_order</strong> (<em>iterable</em>) – It stores the (P,D,Q,s) order of the seasonal ARIMA model for the
 AR parameters, differences, MA parameters, and periodicity. <cite>s</cite> is an integer giving the
 periodicity (number of periods in season).</p></li>
-<li><p><strong>max_ar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum number of AR lags to use. Default: 6</p></li>
-<li><p><strong>max_ma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum number of MA lags to use. Default: 4</p></li>
-<li><p><strong>max_d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum number of degrees of differencing. Default: 2</p></li>
+<li><p><strong>max_ar</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximum number of AR lags to use. Default: 6</p></li>
+<li><p><strong>max_ma</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximum number of MA lags to use. Default: 4</p></li>
+<li><p><strong>max_d</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximum number of degrees of differencing. Default: 2</p></li>
 </ul>
 </dd>
 </dl>
@@ -234,24 +233,24 @@ forecast_step: The number of predicted future steps. Default: 1</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</p></li>
+<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</p></li>
 <li><p><strong>num_diffusion_matrix</strong> – Number of diffusion matrix used in model.</p></li>
 <li><p><strong>num_rnn_units</strong> – Number of RNN units.</p></li>
 <li><p><strong>num_rnn_layers</strong> – Number of RNN layers</p></li>
 <li><p><strong>max_diffusion_step</strong> – Number of diffusion steps</p></li>
 <li><p><strong>seq_len</strong> – Input sequence length</p></li>
-<li><p><strong>use_curriculum_learning</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – model’s prediction (True) or the previous ground truth in training (False).</p></li>
+<li><p><strong>use_curriculum_learning</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – model’s prediction (True) or the previous ground truth in training (False).</p></li>
 <li><p><strong>input_dim</strong> – Dimension of the input feature</p></li>
 <li><p><strong>output_dim</strong> – Dimension of the output feature</p></li>
 <li><p><strong>cl_decay_steps</strong> – When use_curriculum_learning=True, cl_decay_steps is used to adjust the ratio of using ground
 true labels, where with more training steps, the ratio drops.</p></li>
-<li><p><strong>target_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Output sequence length.</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate</p></li>
+<li><p><strong>target_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Output sequence length.</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Learning rate</p></li>
 <li><p><strong>epsilon</strong> – epsilon in Adam</p></li>
-<li><p><strong>optimizer_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – ‘sgd’ or ‘Adam’ optimizer</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
+<li><p><strong>optimizer_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – ‘sgd’ or ‘Adam’ optimizer</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
 </ul>
 </dd>
 </dl>
@@ -287,21 +286,21 @@ similar and different domains’ data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
 of data will be used as closeness history.</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The width of grid data.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The height of grid data.</p></li>
-<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
-<li><p><strong>num_conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code.</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The width of grid data.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The height of grid data.</p></li>
+<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
+<li><p><strong>num_conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Current version of this model code.</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
 </ul>
 </dd>
 </dl>
@@ -335,25 +334,25 @@ meteorology, time of day and land use).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>total_sensers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of total sensors used in global attention mechanism.</p></li>
-<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of dimensions of the target sensor’s input.</p></li>
-<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of dimensions of the external features.</p></li>
-<li><p><strong>output_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of dimensions of the target sensor’s output.</p></li>
-<li><p><strong>input_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of historical input data, a.k.a, input timesteps.</p></li>
-<li><p><strong>output_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of steps that need prediction by one piece of history data, a.k.a, output
+<li><p><strong>total_sensers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of total sensors used in global attention mechanism.</p></li>
+<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of dimensions of the target sensor’s input.</p></li>
+<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of dimensions of the external features.</p></li>
+<li><p><strong>output_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of dimensions of the target sensor’s output.</p></li>
+<li><p><strong>input_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of historical input data, a.k.a, input timesteps.</p></li>
+<li><p><strong>output_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of steps that need prediction by one piece of history data, a.k.a, output
 timesteps. Have to be 1 now.</p></li>
-<li><p><strong>n_stacked_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of LSTM layers stacked in both encoder and decoder (These two are the
+<li><p><strong>n_stacked_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of LSTM layers stacked in both encoder and decoder (These two are the
 same). Default: 2</p></li>
-<li><p><strong>n_encoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of hidden units in each layer of encoder. Default: 128</p></li>
-<li><p><strong>n_decoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of hidden units in each layer of decoder. Default: 128</p></li>
-<li><p><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Dropout rate of LSTM layers in both encoder and decoder. Default: 0.3</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 0.001</p></li>
-<li><p><strong>gc_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – A clipping ratio for all the gradients. This operation normalizes all gradients so that
+<li><p><strong>n_encoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of hidden units in each layer of encoder. Default: 128</p></li>
+<li><p><strong>n_decoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of hidden units in each layer of decoder. Default: 128</p></li>
+<li><p><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Dropout rate of LSTM layers in both encoder and decoder. Default: 0.3</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Learning rate. Default: 0.001</p></li>
+<li><p><strong>gc_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – A clipping ratio for all the gradients. This operation normalizes all gradients so that
 their L2-norms are less than or equal to <code class="docutils literal notranslate"><span class="pre">gc_rate</span></code>. Default: 2.5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code. Default: ‘GeoMAN-QuickStart’</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
-<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Reserved for future use. May be used to pass parameters to class <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>.</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Current version of this model code. Default: ‘GeoMAN-QuickStart’</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Reserved for future use. May be used to pass parameters to class <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>.</p></li>
 </ul>
 </dd>
 </dl>
@@ -385,14 +384,14 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dl class="class">
 <dt id="UCTB.model.HM.HM">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.HM.</code><code class="sig-name descname">HM</code><span class="sig-paren">(</span><em class="sig-param">c</em>, <em class="sig-param">p</em>, <em class="sig-param">t</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Historical Mean. A naive method that simply return average of hisrory data of each time slot.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of time slots of closeness history.</p></li>
-<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of time slots of period history which presents daily feature.</p></li>
-<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of time slots of trend history which presents weekly feature.</p></li>
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of time slots of closeness history.</p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of time slots of period history which presents daily feature.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of time slots of trend history which presents weekly feature.</p></li>
 <li><p><strong>that `</strong> (<em>Note</em>) – </p></li>
 <li><p><strong>should be considerd in average.</strong> (<em>features</em>) – </p></li>
 </ul>
@@ -416,45 +415,45 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</p></li>
-<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Dimension of the external feature, e.g. temperature and wind are two dimension.</p></li>
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots</p></li>
+<li><p><strong>num_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</p></li>
+<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the external feature, e.g. temperature and wind are two dimension.</p></li>
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots</p></li>
 <li><p><strong>data will be used as closeness history.</strong> (<em>of</em>) – </p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive</p></li>
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive</p></li>
 <li><p><strong>days will be used as period history.</strong> (<em>period_len</em>) – </p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive</p></li>
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive</p></li>
 <li><p><strong>weeks</strong> (<em>trend_len</em>) – </p></li>
-<li><p><strong>num_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of graphs used in STMeta.</p></li>
-<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
-<li><p><strong>gcn_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of GCN layers.</p></li>
-<li><p><strong>gclstm_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of STRNN layers, it works on all modes of STMeta such as GCLSTM and DCRNN.</p></li>
-<li><p><strong>num_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
-<li><p><strong>num_dense_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of dense units.</p></li>
-<li><p><strong>graph_merge_gal_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of units in GAL for merging different graph features.
+<li><p><strong>num_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of graphs used in STMeta.</p></li>
+<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
+<li><p><strong>gcn_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of GCN layers.</p></li>
+<li><p><strong>gclstm_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of STRNN layers, it works on all modes of STMeta such as GCLSTM and DCRNN.</p></li>
+<li><p><strong>num_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
+<li><p><strong>num_dense_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of dense units.</p></li>
+<li><p><strong>graph_merge_gal_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of units in GAL for merging different graph features.
 Only works when graph_merge=’gal’</p></li>
-<li><p><strong>graph_merge_gal_num_heads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of heads in GAL for merging different graph features.
+<li><p><strong>graph_merge_gal_num_heads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of heads in GAL for merging different graph features.
 Only works when graph_merge=’gal’</p></li>
-<li><p><strong>temporal_merge_gal_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of units in GAL for merging different temporal features.
+<li><p><strong>temporal_merge_gal_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of units in GAL for merging different temporal features.
 Only works when temporal_merge=’gal’</p></li>
-<li><p><strong>temporal_merge_gal_num_heads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of heads in GAL for merging different temporal features.
+<li><p><strong>temporal_merge_gal_num_heads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of heads in GAL for merging different temporal features.
 Only works when temporal_merge=’gal’</p></li>
-<li><p><strong>st_method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – must in [‘GCLSTM’, ‘DCRNN’, ‘GRU’, ‘LSTM’], which refers to different
+<li><p><strong>st_method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – must in [‘GCLSTM’, ‘DCRNN’, ‘GRU’, ‘LSTM’], which refers to different
 spatial-temporal modeling methods.
 ‘GCLSTM’: GCN for modeling spatial feature, LSTM for modeling temporal feature.
 ‘DCRNN’: Diffusion Convolution for modeling spatial feature, GRU for modeling temporam frature.
 ‘GRU’: Ignore the spatial, and model the temporal feature using GRU
 ‘LSTM’: Ignore the spatial, and model the temporal feature using LSTM</p></li>
-<li><p><strong>temporal_merge</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – must in [‘gal’, ‘concat’], refers to different temporal merging methods,
+<li><p><strong>temporal_merge</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – must in [‘gal’, ‘concat’], refers to different temporal merging methods,
 ‘gal’: merge using GAL,
 ‘concat’: merge by concat and dense</p></li>
-<li><p><strong>graph_merge</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – must in [‘gal’, ‘concat’], refers to different graph merging methods,
+<li><p><strong>graph_merge</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – must in [‘gal’, ‘concat’], refers to different graph merging methods,
 ‘gal’: merge using GAL,
 ‘concat’: merge by concat and dense</p></li>
 <li><p><strong>output_activation</strong> (<em>function</em>) – activation function, e.g. tf.nn.tanh</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
 </ul>
 </dd>
 </dl>
@@ -483,18 +482,18 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Input sequence length</p></li>
-<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Input feature dimension</p></li>
-<li><p><strong>num_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of graphs used in the model.</p></li>
-<li><p><strong>gcl_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
-<li><p><strong>gcl_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of GCN layers.</p></li>
-<li><p><strong>lstm_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
-<li><p><strong>lstm_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of LSTM layers.</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate</p></li>
-<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Dimension of the external feature, e.g. temperature and wind are two dimension.</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
+<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Input sequence length</p></li>
+<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Input feature dimension</p></li>
+<li><p><strong>num_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of graphs used in the model.</p></li>
+<li><p><strong>gcl_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
+<li><p><strong>gcl_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of GCN layers.</p></li>
+<li><p><strong>lstm_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
+<li><p><strong>lstm_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of LSTM layers.</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Learning rate</p></li>
+<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Dimension of the external feature, e.g. temperature and wind are two dimension.</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
 </ul>
 </dd>
 </dl>
@@ -525,22 +524,22 @@ based on unique properties of spatio-temporal data making use of convolution and
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The width of grid data.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The height of grid data.</p></li>
-<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The width of grid data.</p></li>
+<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The height of grid data.</p></li>
+<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
 of data will be used as closeness history.</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
 <code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
-<li><p><strong>num_residual_unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of residual units. Default: 4</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Current version of this model code.</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
+<li><p><strong>num_residual_unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of residual units. Default: 4</p></li>
+<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
+<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
+<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – Current version of this model code.</p></li>
+<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
+<li><p><strong>conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
+<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
 </ul>
 </dd>
 </dl>
@@ -560,17 +559,17 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dl class="class">
 <dt id="UCTB.model.XGBoost.XGBoost">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model.XGBoost.</code><code class="sig-name descname">XGBoost</code><span class="sig-paren">(</span><em class="sig-param">n_estimators=10</em>, <em class="sig-param">max_depth=5</em>, <em class="sig-param">verbosity=0</em>, <em class="sig-param">objective='reg:squarederror'</em>, <em class="sig-param">eval_metric='rmse'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>XGBoost is an optimized distributed gradient boosting machine learning algorithm.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>*n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of boosting iterations. Default: 10</p></li>
-<li><p><strong>*max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Maximum tree depth for base learners. Default: 5</p></li>
-<li><p><strong>*verbosity</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The degree of verbosity. Valid values are 0 (silent) - 3 (debug). Default: 0</p></li>
+<li><p><strong>*n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of boosting iterations. Default: 10</p></li>
+<li><p><strong>*max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Maximum tree depth for base learners. Default: 5</p></li>
+<li><p><strong>*verbosity</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The degree of verbosity. Valid values are 0 (silent) - 3 (debug). Default: 0</p></li>
 <li><p><strong>*objective</strong> (<em>string</em><em> or </em><em>callable</em>) – Specify the learning task and the corresponding learning objective or
 a custom objective function to be used. Default: <code class="docutils literal notranslate"><span class="pre">'reg:squarederror'</span></code></p></li>
-<li><p><strong>*eval_metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><em>list of str</em><em>, or </em><em>callable</em><em>, </em><em>optional</em>) – If a str, should be a built-in evaluation metric to use. See more in
+<li><p><strong>*eval_metric</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><em>list of str</em><em>, or </em><em>callable</em><em>, </em><em>optional</em>) – If a str, should be a built-in evaluation metric to use. See more in
 <a class="reference external" href="https://xgboost.readthedocs.io/en/latest/python/python_api.html">API Reference of XGBoost Library</a>.
 Default: <code class="docutils literal notranslate"><span class="pre">'rmse'</span></code></p></li>
 </ul>

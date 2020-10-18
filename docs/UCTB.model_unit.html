@@ -89,7 +89,6 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -157,7 +156,7 @@
 <dl class="class">
 <dt id="UCTB.model_unit.BaseModel.BaseModel">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.BaseModel.</code><code class="sig-name descname">BaseModel</code><span class="sig-paren">(</span><em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="simple">
 <dt>BaseModel is the base class for many models, such as STMeta, ST-MGCN and ST_ResNet,</dt><dd><p>you can also build your own model using this class. More information can be found in tutorial.</p>
 </dd>
@@ -341,7 +340,7 @@ or TensorShapes.</p>
 <dl class="class">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GAL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class provides static methods for adding Graph Attention Layer.</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">
@@ -351,8 +350,8 @@ or TensorShapes.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>input</strong> (<em>ndarray</em>) – The set of node features data, with shape [batch, num_node, num_featuer].</p></li>
-<li><p><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of merge_gal_units used in GAL.</p></li>
-<li><p><strong>num_head</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The number of multi-head used in GAL.</p></li>
+<li><p><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of merge_gal_units used in GAL.</p></li>
+<li><p><strong>num_head</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of multi-head used in GAL.</p></li>
 <li><p><strong>activation</strong> (<em>function</em>) – activation function. default:tf.nn.tanh.</p></li>
 </ul>
 </dd>
@@ -383,7 +382,7 @@ and add the residual layer to optimize the deep neural network.</p>
 <dl class="class">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GCL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class provides static methods for adding Graph Convolution Layer.</p>
 <dl class="method">
 <dt id="UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">
@@ -392,12 +391,12 @@ and add the residual layer to optimize the deep neural network.</p>
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>Input</strong> (<em>ndarray</em>) – The input features with shape [batch, num_node, num_feature].</p></li>
-<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
+<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
 <li><p><strong>laplacian_matrix</strong> (<em>ndarray</em>) – Laplacian matrix used in GCN, with shape [num_node, num_node].</p></li>
-<li><p><strong>output_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of output channels.</p></li>
+<li><p><strong>output_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of output channels.</p></li>
 <li><p><strong>dtype</strong> – Data type. default:tf.float32.</p></li>
-<li><p><strong>use_bias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – It determines whether to add bias in the output. default:True.</p></li>
-<li><p><strong>trainable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – It determines whether <cite>weights</cite> tensor can be trained. default:True.</p></li>
+<li><p><strong>use_bias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – It determines whether to add bias in the output. default:True.</p></li>
+<li><p><strong>trainable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – It determines whether <cite>weights</cite> tensor can be trained. default:True.</p></li>
 <li><p><strong>initializer</strong> – It determines whether the “weight” tensor is initialized. default:None.</p></li>
 <li><p><strong>regularizer</strong> – It determines whether the “weight” tensor is regularized. default:None.</p></li>
 <li><p><strong>activation</strong> (<em>function</em>) – activation function. default:tf.nn.tanh.</p></li>
@@ -431,11 +430,11 @@ in the __init__ function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of units of LSTM</p></li>
-<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of nodes in the graph</p></li>
+<li><p><strong>units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of units of LSTM</p></li>
+<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of nodes in the graph</p></li>
 <li><p><strong>laplacian_matrix</strong> (<em>ndarray</em>) – laplacian matrix used in GCN, with shape [num_node, num_node]</p></li>
-<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – highest order of Chebyshev Polynomial approximation in GCN</p></li>
-<li><p><strong>gcn_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of GCN layers</p></li>
+<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – highest order of Chebyshev Polynomial approximation in GCN</p></li>
+<li><p><strong>gcn_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of GCN layers</p></li>
 <li><p><strong>kwargs</strong> – other parameters supported by LSTMCell, such as activation, kernel_initializer … and so on.</p></li>
 </ul>
 </dd>

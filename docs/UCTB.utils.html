@@ -89,7 +89,6 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -160,16 +159,16 @@
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>distribute_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – The “data” list to be partitioned, such as a list of files which will be
+<li><p><strong>distribute_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – The “data” list to be partitioned, such as a list of files which will be
 distributed among different tasks and each task process a part of the files.</p></li>
 <li><p><strong>partition_func</strong> (<em>function</em>) – Partition function will be used to cut the distribute_list, it should accept
 three inputs: distribute_list, i, n_job, where i is the index of jobs (i.e. integer from 0 to n_jobs-1),
 n_jos is the number of threads; partition function should return a data_list for the job_i</p></li>
 <li><p><strong>task_func</strong> (<em>function</em>) – Task function, where the inputs are share_queue, locker, data, parameters, no return.
 pls refer to the DiDi-Data processing codes for more information.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Number of threads</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of threads</p></li>
 <li><p><strong>reduce_func</strong> (<em>function</em>) – Reduce function which combine the outputs from all the threads into one final output.</p></li>
-<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – parameters send to the task function</p></li>
+<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – parameters send to the task function</p></li>
 </ul>
 </dd>
 </dl>

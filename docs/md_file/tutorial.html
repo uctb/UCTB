@@ -105,7 +105,6 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="all_results.html">6. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -181,13 +180,13 @@
 </div>
 <p>Take a look at the necessary information about the dataset:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Traffic data </span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Data time range&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_range</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Traffic data shape:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data time range&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_range</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Traffic data shape:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="c1"># The first dimension of data_loader.traffic_data is the length of time-sequence.</span>
 <span class="c1"># The second dimension is the number of stations.</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Time fitness:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_fitness</span><span class="p">,</span> <span class="s1">&#39;minutes&#39;</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Time sequence length:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Number of stations:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time fitness:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_fitness</span><span class="p">,</span> <span class="s1">&#39;minutes&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time sequence length:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of stations:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">time</span> <span class="nb">range</span> <span class="p">[</span><span class="s1">&#39;2013-07-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-09-30&#39;</span><span class="p">]</span>
@@ -198,7 +197,7 @@
 </pre></div>
 </div>
 <p>Visualize the distribution of the traffic data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
@@ -256,8 +255,8 @@
 <h3>4.3.1. Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h3>
 <p>UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in <a class="reference external" href="./static/current_supported_models.html"><code class="docutils literal notranslate"><span class="pre">UCTB.model</span></code></a>.</p>
 <p>The following example shows how to use a <strong>Hidden Markov model (HMM)</strong> to handle a simple time series predicting a problem. We will try to predict the bike demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code> of a fixed station <code class="docutils literal notranslate"><span class="pre">target_node</span></code> in New York City by checking back the historical demands in recent time slots <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">HMM</span>
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
@@ -270,13 +269,13 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">target_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> 
-                                <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>The well-loaded data contain all <code class="docutils literal notranslate"><span class="pre">717</span></code> stations’ data. Therefore it is needed to specify the target station by <code class="docutils literal notranslate"><span class="pre">target_station</span></code>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2967</span><span class="p">,</span> <span class="mi">717</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -289,9 +288,9 @@
 </pre></div>
 </div>
 <p>Inspect the shape of data. Here are the all we need for one-station prediction.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">print</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2967</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
@@ -319,7 +318,7 @@
 </div>
 <p>We can evaluate the performance of the model by build-in <code class="docutils literal notranslate"><span class="pre">UCTB.evaluation</span></code> APIs.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">test_rmse</span> <span class="o">=</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">test_rmse</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_rmse</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.76137200105079</span>
@@ -329,8 +328,8 @@
 <div class="section" id="use-multiple-temporal-features-in-regression">
 <h3>4.3.2. Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h3>
 <p>In this case, let’s take more temporal knowledge related to <code class="docutils literal notranslate"><span class="pre">target_node</span></code> into account. We will concatenate factors including <code class="docutils literal notranslate"><span class="pre">closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">period</span></code>, and <code class="docutils literal notranslate"><span class="pre">trend</span></code>, and use <strong>XGBoost</strong> as the predicting model.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">XGBoost</span>
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
@@ -341,7 +340,7 @@
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
                                 <span class="n">target_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> 
-                                <span class="n">normalize</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 <span class="n">train_closeness</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
 <span class="n">train_period</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">[:,</span> <span class="n">target_nodze</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
@@ -356,15 +355,15 @@
 <span class="n">train_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">train_closeness</span><span class="p">,</span> <span class="n">train_period</span><span class="p">,</span> <span class="n">train_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">test_X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">test_closeness</span><span class="p">,</span> <span class="n">test_period</span><span class="p">,</span> <span class="n">test_trend</span><span class="p">],</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">train_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">test_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
 <span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:linear&#39;</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">train_y</span><span class="p">)</span>
 <span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">predictions</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2307</span><span class="p">,</span> <span class="mi">17</span><span class="p">)</span>
@@ -401,7 +400,7 @@
                                       <span class="n">model_dir</span><span class="o">=</span><span class="n">model_dir</span><span class="p">,</span> <span class="n">gpu_device</span><span class="o">=</span><span class="n">gpu_device</span><span class="p">)</span>
         <span class="o">...</span>
         
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
             <span class="o">...</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">name</span>
@@ -418,8 +417,8 @@
 <p>Next, in a concrete case, we will realize a <strong>Long short-term memory (LSTM)</strong> model to make the all-station prediction that accepts time series of <code class="docutils literal notranslate"><span class="pre">717</span></code> stations and predict the future of them as a whole.</p>
 <p>For the mechanism of LSTM, you can refer to
 <a class="reference external" href="https://www.researchgate.net/profile/Felix_Gers/publication/12292425_Learning_to_Forget_Continual_Prediction_with_LSTM/links/5759414608ae9a9c954e84c5/Learning-to-Forget-Continual-Prediction-with-LSTM.pdf">Gers, F. A., Schmidhuber, J., &amp; Cummins, F. (1999). Learning to forget: Continual prediction with LSTM</a>.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model_unit</span> <span class="kn">import</span> <span class="n">BaseModel</span>
 <span class="kn">from</span> <span class="nn">UCTB.preprocess</span> <span class="kn">import</span> <span class="n">SplitData</span>
@@ -448,11 +447,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">output_steps</span> <span class="o">=</span> <span class="n">output_steps</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">output_dim</span>
         
-    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">build</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_vars</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_to_keep</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">as_default</span><span class="p">():</span>
-            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_stations</span><span class="p">,</span> 
+            <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_stations</span><span class="p">,</span> 
                                                        <span class="bp">self</span><span class="o">.</span><span class="n">input_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))</span>
-            <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_stations</span><span class="p">,</span>
+            <span class="n">targets</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_stations</span><span class="p">,</span>
                                                        <span class="bp">self</span><span class="o">.</span><span class="n">output_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">))</span>
             <span class="c1"># record the inputs of the model</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_input</span><span class="p">[</span><span class="s1">&#39;inputs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">inputs</span><span class="o">.</span><span class="n">name</span>
@@ -461,10 +460,10 @@
             <span class="n">inputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_steps</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_stations</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))</span>
             
             <span class="k">def</span> <span class="nf">get_a_cell</span><span class="p">(</span><span class="n">num_units</span><span class="p">):</span>
-                <span class="n">lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">rnn_cell</span><span class="o">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">num_units</span><span class="p">,</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                <span class="n">lstm</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">rnn_cell</span><span class="o">.</span><span class="n">BasicLSTMCell</span><span class="p">(</span><span class="n">num_units</span><span class="p">,</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">lstm</span>
             
-            <span class="n">stacked_cells</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">([</span><span class="n">get_a_cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_units</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="p">)],</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">stacked_cells</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">contrib</span><span class="o">.</span><span class="n">rnn</span><span class="o">.</span><span class="n">MultiRNNCell</span><span class="p">([</span><span class="n">get_a_cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_units</span><span class="p">)</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_layers</span><span class="p">)],</span> <span class="n">state_is_tuple</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">outputs</span><span class="p">,</span> <span class="n">final_state</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">dynamic_rnn</span><span class="p">(</span><span class="n">stacked_cells</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
             
             <span class="n">stacked_outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_units</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">input_steps</span><span class="p">))</span>
@@ -487,7 +486,7 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span>
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                                 <span class="n">target_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> 
-                                <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+                                <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">with_lm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">with_tpe</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">train_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">test_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -502,7 +501,7 @@
 </pre></div>
 </div>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
-<span class="k">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">trainable_vars</span><span class="p">)</span>  <span class="c1"># count the trainble parameters</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">trainable_vars</span><span class="p">)</span>  <span class="c1"># count the trainble parameters</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">6821581</span>
@@ -538,7 +537,7 @@
 <p>Reverse the normalization by <code class="docutils literal notranslate"><span class="pre">data_loader</span></code> and evaluate the results:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">])</span>
 <span class="n">targets</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">targets</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">result</span> <span class="mf">2.9765626570592545</span>
@@ -559,7 +558,7 @@
 <p>It is worth noting that the ultimate goal is to generate the member variables: <code class="docutils literal notranslate"><span class="pre">self.LM</span></code> and <code class="docutils literal notranslate"><span class="pre">self.AM</span></code>, which is the input matrix of the graph. In this phase, we need to make the corresponding analytical implementation according to the type of the custom graph passed in.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/preprocess/topKGraph.py&quot;</span>
 <span class="kn">import</span> <span class="nn">heapq</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">UCTB.preprocess.GraphGenerator</span> <span class="kn">import</span> <span class="n">GraphGenerator</span>
 
 <span class="c1"># Define the class: topKGraph</span>

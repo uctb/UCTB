@@ -31,6 +31,9 @@ if __name__ == "__main__":
     Multiple Graphs
     """
     os.system(shared_params_st_mgcn + ' --City LA --K 1 --L 1  '
+                                      ' --Graph Distance-Correlation --MergeIndex 1')
+
+    os.system(shared_params_st_mgcn + ' --City LA --K 1 --L 1  '
                                       ' --Graph Distance-Correlation --MergeIndex 3')
 
     os.system(shared_params_st_mgcn + ' --City LA --K 1 --L 1  '

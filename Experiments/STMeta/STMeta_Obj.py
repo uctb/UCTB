@@ -60,6 +60,13 @@ data_loader = NodeTrafficLoader(dataset=args['dataset'], city=args['city'],
                                 MergeIndex=args['MergeIndex'],
                                 MergeWay=args["MergeWay"])
 
+# split data
+train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
+train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
+train_trend, val_trend = SplitData.split_data(data_loader.train_trend, [0.9, 0.1])
+train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
+train_ef, val_ef = SplitData.split_data(data_loader.train_ef, [0.9, 0.1])
+
 # build graphs
 graph_obj = GraphGenerator(graph=args['graph'],
                            data_loader=data_loader,
@@ -144,6 +151,20 @@ if args['train']:
 
 STMeta_obj.load(code_version)
 
+# val prediction
+prediction = STMeta_obj.predict(closeness_feature=val_closeness,
+                                period_feature=val_period,
+                                trend_feature=val_trend,
+                                laplace_matrix=graph_obj.LM,
+                                target=val_y,
+                                external_feature=val_ef,
+                                output_names=('prediction', ),
+                                sequence_length=max(
+                                    (len(val_closeness), len(val_period), len(val_trend))),
+                                cache_volume=int(args['batch_size']), )
+val_prediction = prediction['prediction']
+
+# test prediction
 prediction = STMeta_obj.predict(closeness_feature=data_loader.test_closeness,
                                 period_feature=data_loader.test_period,
                                 trend_feature=data_loader.test_trend,
@@ -159,22 +180,20 @@ test_prediction = prediction['prediction']
 if de_normalizer:
     test_prediction = de_normalizer(test_prediction)
     data_loader.test_y = de_normalizer(data_loader.test_y)
-
-# test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
-#     metric.mape(prediction=test_prediction,target=data_loader.test_y, threshold=0)
+    val_prediction = de_normalizer(val_prediction)
+    val_y = de_normalizer(val_y)
 
 test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0)
+val_rmse = metric.rmse(prediction=val_prediction, target=val_y, threshold=0)
 
-# Evaluate
+# Evaluate loss during training 
 val_loss = STMeta_obj.load_event_scalar('val_loss')
+# best_val_loss = min([e[-1] for e in val_loss])
+# if de_normalizer:
+#     best_val_loss = de_normalizer(best_val_loss)
+# print('Best val result', best_val_loss)
 
-best_val_loss = min([e[-1] for e in val_loss])
-
-if de_normalizer:
-    best_val_loss = de_normalizer(best_val_loss)
-
-print('Best val result', best_val_loss)
-# print('Test result', test_rmse, test_mape)
+print('Val result', val_rmse )
 print('Test result', test_rmse)
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600

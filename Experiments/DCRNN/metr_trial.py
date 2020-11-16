@@ -28,6 +28,7 @@ shared_params_st_mgcn = ('python DCRNN.py '
                          '--CodeVersion V0')
 
 if __name__ == "__main__":
+    os.system(shared_params_st_mgcn + ' --City LA --Graph Distance --MergeIndex 1')
 
     os.system(shared_params_st_mgcn + ' --City LA --Graph Distance --MergeIndex 3')
 

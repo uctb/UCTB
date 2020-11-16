@@ -35,20 +35,29 @@ if __name__ == "__main__":
     """
     Multiple Graphs
     """
+    # NYC
+    os.system(shared_params_st_mgcn + ' --City NYC --K 1 --L 1 --DataRange 0.125 --TrainDays 60'
+                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City NYC --K 1 --L 1 --DataRange 0.25 --TrainDays 91'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
     os.system(shared_params_st_mgcn + ' --City NYC --K 1 --L 1 --DataRange 0.5 --TrainDays 183'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
     os.system(shared_params_st_mgcn + ' --City NYC --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
-
+    
+    # Chicago 
+    os.system(shared_params_st_mgcn + ' --City Chicago --K 1 --L 1 --DataRange 0.125 --TrainDays 60'
+                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City Chicago --K 1 --L 1 --DataRange 0.25 --TrainDays 91'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
     os.system(shared_params_st_mgcn + ' --City Chicago --K 1 --L 1 --DataRange 0.5 --TrainDays 183'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 6')
     os.system(shared_params_st_mgcn + ' --City Chicago --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
-    #
+    
+    # DC
+    os.system(shared_params_st_mgcn + ' --City DC --K 1 --L 1 --DataRange 0.125 --TrainDays 60'
+                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City DC --K 1 --L 1 --DataRange 0.25 --TrainDays 91'
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
     os.system(shared_params_st_mgcn + ' --City DC --K 1 --L 1 --DataRange 0.5 --TrainDays 183'

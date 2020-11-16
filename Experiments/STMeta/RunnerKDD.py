@@ -5,17 +5,22 @@ import os
 #############################################
 ########### NYC ###########
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
+          ' -p data_range:0.125,train_data_length:60,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
           ' -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
           ' -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.125,train_data_length:60,graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
           '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
@@ -23,12 +28,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
           '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
@@ -38,23 +47,31 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml '
 
 ########### Chicago ###########
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
+          ' -p data_range:0.125,train_data_length:60,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
           ' -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
           ' -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p data_range:0.125,train_data_length:60,graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_chicago.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
           '-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_chicago.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
@@ -62,6 +79,9 @@ os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_chicago.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml '
@@ -71,16 +91,23 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_chicago.data.yml 
 
 ############# DC #############
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
+          ' -p data_range:0.125,train_data_length:60,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
           ' -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
           ' -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p data_range:0.125,train_data_length:60,graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_dc.data.yml -p graph:Distance,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
@@ -88,6 +115,9 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_dc.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
@@ -95,6 +125,8 @@ os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_dc.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
+          '-p data_range:0.125,train_data_length:60,graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
           '-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
@@ -109,17 +141,23 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_dc.data.yml '
 ###############################################
 ############# Xian #############
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
+          '-p graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
@@ -127,12 +165,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
+          '-p graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
+          '-p graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
@@ -142,17 +184,23 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml '
 
 ############# Chengdu #############
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_chengdu.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
+          '-p graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
@@ -160,12 +208,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_chengdu.data.yml 
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
+          '-p graph:Distance-Correlation-Interaction,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_chengdu.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
+          '-p graph:Distance-Correlation-Interaction,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
           '-p graph:Distance-Correlation-Interaction,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml '
@@ -179,17 +231,23 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_chengdu.data.yml 
 ###############################################
 ############# Chongqing #############
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:6')
@@ -197,12 +255,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.y
           '-p graph:Distance-Correlation-Line,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml '
@@ -212,17 +274,23 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.y
 
 ############# Shanghai #############
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_shanghai.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:6')
@@ -230,12 +298,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_shanghai.data.ym
           '-p graph:Distance-Correlation-Line,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_shanghai.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
+          '-p graph:Distance-Correlation-Line,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
           '-p graph:Distance-Correlation-Line,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_shanghai.data.yml '
@@ -277,12 +349,16 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
 # BenchMark METR-LA
 ###############################################
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+          ' -d metr_la.data.yml -p graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
           ' -d metr_la.data.yml -p graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
@@ -291,6 +367,8 @@ os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
           ' -d metr_la.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+          ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6')
@@ -298,12 +376,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+          ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+          ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
           ' -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
@@ -316,12 +398,16 @@ os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
 # BenchMark PEMS-BAY
 ###############################################
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
+          ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml -d pems_bay.data.yml'
           ' -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
+          ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
@@ -330,6 +416,8 @@ os.system('python STMeta_Obj.py -m STMeta_v0.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
+          ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6')
@@ -337,12 +425,16 @@ os.system('python STMeta_Obj.py -m STMeta_v1.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12')
 
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
+          ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:1')
+os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:6')
 os.system('python STMeta_Obj.py -m STMeta_v2.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12')
 
+os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
+          ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:1')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'
           ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:3')
 os.system('python STMeta_Obj.py -m STMeta_v3.model.yml'

@@ -29,21 +29,23 @@ if __name__ == "__main__":
     """
     Multiple Graphs
     """
+    # Shanghai
+    os.system(shared_params_st_mgcn + ' --City Shanghai --K 1 --L 1  '
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City Shanghai --K 1 --L 1  '
                                       ' --Graph Distance-Correlation-Line --MergeIndex 3')
-
     os.system(shared_params_st_mgcn + ' --City Shanghai --K 1 --L 1  '
                                       ' --Graph Distance-Correlation-Line --MergeIndex 6')
-
     os.system(shared_params_st_mgcn + ' --City Shanghai --K 1 --L 1  '
                                       ' --Graph Distance-Correlation-Line --MergeIndex 12')
 
+    # Chongqing
+    os.system(shared_params_st_mgcn + ' --City Chongqing --K 1 --L 1  '
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City Chongqing --K 1 --L 1  '
                                       ' --Graph Distance-Correlation-Line --MergeIndex 3')
-
     os.system(shared_params_st_mgcn + ' --City Chongqing --K 1 --L 1  '
-                                      ' --Graph Distance-Correlation-Line --MergeIndex 6')
-                                      
+                                      ' --Graph Distance-Correlation-Line --MergeIndex 6')                                
     os.system(shared_params_st_mgcn + ' --City Chongqing --K 1 --L 1  '
                                       ' --Graph Distance-Correlation-Line --MergeIndex 12')
                 

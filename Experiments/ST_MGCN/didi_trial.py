@@ -29,6 +29,9 @@ if __name__ == "__main__":
     """
     Multiple Graphs
     """
+    # Chengdu
+    os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
+                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
     os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
@@ -36,6 +39,9 @@ if __name__ == "__main__":
     os.system(shared_params_st_mgcn + ' --City Chengdu --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 12')
 
+    # Xian
+    os.system(shared_params_st_mgcn + ' --City Xian --K 1 --L 1 '
+                                      ' --Graph Distance-Correlation-Interaction --MergeIndex 1')
     os.system(shared_params_st_mgcn + ' --City Xian --K 1 --L 1 '
                                       ' --Graph Distance-Correlation-Interaction --MergeIndex 3')
     os.system(shared_params_st_mgcn + ' --City Xian --K 1 --L 1 '

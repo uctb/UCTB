@@ -27,6 +27,13 @@ shared_params_dcrnn = ('python DCRNN.py '
                          '--CodeVersion V0')
 
 if __name__ == "__main__":
+    os.system(shared_params_dcrnn + ' --City NYC --Graph Distance --MergeIndex 1 --DataRange 0.125 --TrainDays 60')
+
+    os.system(shared_params_dcrnn + ' --City DC --Graph Distance --MergeIndex 1 --DataRange 0.125 --TrainDays 60')
+
+    os.system(shared_params_dcrnn + ' --City Chicago --Graph Distance --MergeIndex 1 --DataRange 0.125 --TrainDays 60')
+    
+
     os.system(shared_params_dcrnn + ' --City NYC --Graph Distance --MergeIndex 3 --DataRange 0.25 --TrainDays 91')
 
     os.system(shared_params_dcrnn + ' --City DC --Graph Distance --MergeIndex 3 --DataRange 0.25 --TrainDays 91')

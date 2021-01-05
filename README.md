@@ -1,10 +1,10 @@
-# UCTB (Traffic Prediction Tool Box)
+# UCTB (Urban Computing Tool Box)
 
  [![Python](https://img.shields.io/badge/python-3.6%7C3.7-blue)]() [![PyPI](https://img.shields.io/badge/pypi%20package-v0.3.0-sucess)](https://pypi.org/project/UCTB/) ![tensorflow](https://img.shields.io/badge/tensorflow-1.12%7C1.13-important)[![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)]() 
 
 ------
 
-**Urban Computing Tool Box** is a package providing **spatial-temporal traffic prediction models**. It contains both conventional models and state-of-art models. 
+**Urban Computing Tool Box** is a package providing **spatial-temporal prediction models** for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. It contains both conventional models and state-of-art models. 
 
 Currently the package supported the following models: ([Details](http://47.94.208.154/md_file/static/current_supported_models.html))
 

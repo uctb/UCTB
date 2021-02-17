@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**Urban Computing ToolBox** is a package providing spatial-temporal predicting models. It contains both conventional models and state-of-art models. 
+**Urban Computing Tool Box** is a package providing **spatial-temporal prediction models** for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. It contains both conventional models and state-of-art models.
 
 Currently the package supported the following models: ([Details](./static/current_supported_models.html))
 

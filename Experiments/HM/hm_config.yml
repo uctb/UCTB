@@ -18,6 +18,6 @@ trial:
   # python HM.py --dataset Taxi --city BJ --MergeIndex 2 --MergeWay sum --DataRange all --TrainDays all
   # python HM.py --dataset METR --city LA --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
   # python HM.py --dataset PEMS --city BAY --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
-  command: python HM.py --dataset PEMS --city BAY --MergeIndex 12 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+  command: python HM.py --dataset PEMS --city BAY --MergeIndex 1 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
   codeDir: .
   gpuNum: 0

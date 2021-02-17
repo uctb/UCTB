@@ -203,7 +203,7 @@ class NodeTrafficLoader(object):
 
         self.loader_id = "{}_{}_{}_{}_{}_{}_{}_N".format(data_range, train_data_length, test_ratio, closeness_len, period_len, trend_len, self.dataset.time_fitness)
         
-        self.daily_slots = 24 * 60 / self.dataset.time_fitness
+        self.daily_slots = int(24 * 60 / self.dataset.time_fitness)
 
         self.closeness_len = int(closeness_len)
         self.period_len = int(period_len)

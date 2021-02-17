@@ -76,13 +76,14 @@ class DataSet(object):
             self.data = pickle.load(f)
 
         # merge data
-        self.data['TimeFitness']  = int(self.data['TimeFitness']*self.MergeIndex)
-        if len(self.data['Node']['TrafficNode']) > 0:
-            self.data['Node']['TrafficNode'] = self.merge_data(self.data['Node']['TrafficNode'],"node")
-        if len(self.data['Grid']['TrafficGrid']) > 0:
-            self.data['Grid']['TrafficGrid'] = self.merge_data(self.data['Grid']['TrafficGrid'],"grid")
-        if len(self.data['ExternalFeature']['Weather']) > 0:
-            self.data['ExternalFeature']['Weather'] = self.merge_data(self.data['ExternalFeature']['Weather'],"node")
+        if self.MergeIndex > 1:
+            self.data['TimeFitness']  = int(self.data['TimeFitness']*self.MergeIndex)
+            if len(self.data['Node']['TrafficNode']) > 0:
+                self.data['Node']['TrafficNode'] = self.merge_data(self.data['Node']['TrafficNode'],"node")
+            if len(self.data['Grid']['TrafficGrid']) > 0:
+                self.data['Grid']['TrafficGrid'] = self.merge_data(self.data['Grid']['TrafficGrid'],"grid")
+            if len(self.data['ExternalFeature']['Weather']) > 0:
+                self.data['ExternalFeature']['Weather'] = self.merge_data(self.data['ExternalFeature']['Weather'],"node")
 
         self.time_range = self.data['TimeRange']
         self.time_fitness = self.data['TimeFitness']

@@ -3,9 +3,18 @@ import numpy as np
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import DCRNN
 from UCTB.evaluation import metric
-
+from UCTB.preprocess.GraphGenerator import GraphGenerator
 
 class my_data_loader(NodeTrafficLoader):
+
+    def __init__(self, **kwargs):
+
+        super(my_data_loader, self).__init__(**kwargs) 
+        
+        # generate LM
+        graph_obj = GraphGenerator(graph=kwargs['graph'], data_loader=self)
+        self.AM = graph_obj.AM
+        self.LM = graph_obj.LM
 
     def diffusion_matrix(self, filter_type='random_walk'):
         def calculate_random_walk_matrix(adjacent_mx):

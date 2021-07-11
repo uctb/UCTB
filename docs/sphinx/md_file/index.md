@@ -148,8 +148,6 @@ print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denor
 
 - ##### [Experiments on metro traffic-flow prediction](./static/experiment_on_metro.html)
 
-- ##### [Experiments on didi order demand prediction](./static/experiment_on_didi.html)
-
 - Experiments on charge station demand prediction
 
 ## Contribute to UCTB (Delay)

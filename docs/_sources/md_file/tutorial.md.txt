@@ -103,14 +103,6 @@ Finally, you can make uses of your dataset by UCTB's loader APIs:
 data_loader = NodeTrafficLoader(dataset=pkl_file_name)
 ```
 
-For better understanding how to build dataset used in UCTB from the original dataset, here are two examples:
-
-1. Regional trajectory data for Xi'an and Chengdu.  [Guide](./static/MakeDatasetDiDi.html)
-
-2. [TTI](https://github.com/didi/TrafficIndex) data for Chengdu, Jinan, Haikou, Shenzhen, Suzhou and Xi'an.  [Guide](./static/MakeDatasetDiDi_TTI.html)
-
-The above data comes from [https://gaia.didichuxing.com]( https://outreach.didichuxing.com/research/opendata/en/ ), and we are especially grateful for the data provided by the DiDi Chuxing GAIA Initiative.
-
 #### Use build-in models from UCTB
 
 ##### Use single temporal feature in regression

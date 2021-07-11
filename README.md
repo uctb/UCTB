@@ -24,7 +24,8 @@ UCTB is a flexible and open package. You can use the data we provided or use you
 UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages or use our docker environment to avoid these unseen errors.
 
 ```
-tensorflow==1.13.0
+python==3.6
+tensorflow==1.13
 Keras==2.2.4
 h5py==2.9.0
 ```

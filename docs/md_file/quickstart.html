@@ -158,36 +158,42 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">STMeta</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
-
+<span class="kn">from</span> <span class="nn">UCTB.preprocess.GraphGenerator</span> <span class="kn">import</span> <span class="n">GraphGenerator</span>
 <span class="c1"># Config data loader</span>
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span>
                                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
+<span class="c1"># Build Graph</span>
+<span class="n">graph_obj</span> <span class="o">=</span> <span class="n">GraphGenerator</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">=</span><span class="n">data_loader</span><span class="p">)</span>
+
 <span class="c1"># Init model object</span>
 <span class="n">STMeta_Obj</span> <span class="o">=</span> <span class="n">STMeta</span><span class="p">(</span><span class="n">closeness_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span>
-                                 <span class="n">period_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">period_len</span><span class="p">,</span>
-                                 <span class="n">trend_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">trend_len</span><span class="p">,</span>
-                                 <span class="n">num_node</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">,</span>
-                                 <span class="n">num_graph</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">period_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">period_len</span><span class="p">,</span>
+                    <span class="n">trend_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">trend_len</span><span class="p">,</span>
+                    <span class="n">num_node</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">,</span>
+                    <span class="n">num_graph</span><span class="o">=</span><span class="n">graph_obj</span><span class="o">.</span><span class="n">LM</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                    <span class="n">external_dim</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">external_dim</span><span class="p">)</span>
 
 <span class="c1"># Build tf-graph</span>
 <span class="n">STMeta_Obj</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
 <span class="c1"># Training</span>
 <span class="n">STMeta_Obj</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">,</span>
-                      <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">,</span>
-                      <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">,</span>
-                      <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
-                      <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">,</span>
-                      <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_sequence_len</span><span class="p">)</span>
+               <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">,</span>
+               <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">,</span>
+               <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">graph_obj</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
+               <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">,</span>
+               <span class="n">external_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_ef</span><span class="p">,</span>
+               <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_sequence_len</span><span class="p">)</span>
 
 <span class="c1"># Predict</span>
 <span class="n">prediction</span> <span class="o">=</span> <span class="n">STMeta_Obj</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">closeness_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">,</span>
-                                       <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">,</span>
-                                       <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">,</span>
-                                       <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
-                                       <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span>
-                                       <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">],</span>
-                                       <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_sequence_len</span><span class="p">)</span>
+                                <span class="n">period_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">,</span>
+                                <span class="n">trend_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">,</span>
+                                <span class="n">laplace_matrix</span><span class="o">=</span><span class="n">graph_obj</span><span class="o">.</span><span class="n">LM</span><span class="p">,</span>
+                                <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span>
+                                <span class="n">external_feature</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_ef</span><span class="p">,</span>
+                                <span class="n">output_names</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">],</span>
+                                <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_sequence_len</span><span class="p">)</span>
 
 <span class="c1"># Evaluate</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>

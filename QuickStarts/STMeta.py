@@ -3,7 +3,7 @@ from UCTB.model import STMeta
 from UCTB.evaluation import metric
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 # Config data loader
-data_loader = NodeTrafficLoader(dataset='Bike', city='NYC', graph='Correlation',
+data_loader = NodeTrafficLoader(dataset='Bike', city='NYC',
                                 closeness_len=6, period_len=7, trend_len=4, normalize=True)
 
 # Build Graph

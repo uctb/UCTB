@@ -18,6 +18,7 @@ class STMeta(BaseModel):
             ``period_len`` days will be used as period history.
             trend_len(int): The length of trend data history. The data of exact same time slots in former consecutive
             ``trend_len`` weeks (every seven days) will be used as trend history.
+            input_dim(int): The dimension of input features. 1 if "with_tpe" (data_loader parameters) = False, otherwise 0.
             num_graph(int): Number of graphs used in STMeta.
             gcn_k(int): The highest order of Chebyshev Polynomial approximation in GCN.
             gcn_layers(int): Number of GCN layers.
@@ -57,6 +58,7 @@ class STMeta(BaseModel):
                  closeness_len,
                  period_len,
                  trend_len,
+                 input_dim=1,
 
                  # gcn parameters
                  num_graph=1,
@@ -90,6 +92,8 @@ class STMeta(BaseModel):
         super(STMeta, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
         self._num_node = num_node
+        self._input_dim = input_dim
+        print("self._input_dim",self._input_dim)
         self._gcn_k = gcn_k
         self._gcn_layer = gcn_layers
         self._graph_merge_gal_units = graph_merge_gal_units
@@ -118,19 +122,19 @@ class STMeta(BaseModel):
             temporal_features = []
 
             if self._closeness_len is not None and self._closeness_len > 0:
-                closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, 1],
+                closeness_feature = tf.placeholder(tf.float32, [None, None, self._closeness_len, self._input_dim],
                                                    name='closeness_feature')
                 self._input['closeness_feature'] = closeness_feature.name
                 temporal_features.append([self._closeness_len, closeness_feature, 'closeness_feature'])
 
             if self._period_len is not None and self._period_len > 0:
-                period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, 1],
+                period_feature = tf.placeholder(tf.float32, [None, None, self._period_len, self._input_dim],
                                                 name='period_feature')
                 self._input['period_feature'] = period_feature.name
                 temporal_features.append([self._period_len, period_feature, 'period_feature'])
 
             if self._trend_len is not None and self._trend_len > 0:
-                trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, 1],
+                trend_feature = tf.placeholder(tf.float32, [None, None, self._trend_len, self._input_dim],
                                                name='trend_feature')
                 self._input['trend_feature'] = trend_feature.name
                 temporal_features.append([self._trend_len, trend_feature, 'trend_feature'])
@@ -161,13 +165,13 @@ class STMeta(BaseModel):
                                             gcn_k=self._gcn_k, gcn_l=self._gcn_layer)
                                  for _ in range(self._gclstm_layers)])
 
-                            outputs = tf.keras.layers.RNN(multi_layer_cell)(tf.reshape(target_tensor, [-1, time_step, 1]))
+                            outputs = tf.keras.layers.RNN(multi_layer_cell)(tf.reshape(target_tensor, [-1, time_step, self._input_dim]))
 
                             st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
 
                         elif self._st_method == 'DCRNN':
 
-                            cell = DCGRUCell(self._num_hidden_unit, 1, self._num_graph,
+                            cell = DCGRUCell(self._num_hidden_unit, self._input_dim, self._num_graph,
                                              # laplace_matrix will be diffusion_matrix when self._st_method == 'DCRNN'
                                              laplace_matrix,
                                              max_diffusion_step=self._gcn_k,
@@ -189,7 +193,7 @@ class STMeta(BaseModel):
                             cell = tf.keras.layers.GRUCell(units=self._num_hidden_unit)
                             multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
                             outputs = tf.keras.layers.RNN(multi_layer_gru)(
-                                tf.reshape(target_tensor, [-1, time_step, 1]))
+                                tf.reshape(target_tensor, [-1, time_step, self._input_dim]))
                             st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
 
                         elif self._st_method == 'LSTM':
@@ -197,7 +201,7 @@ class STMeta(BaseModel):
                             cell = tf.keras.layers.LSTMCell(units=self._num_hidden_unit)
                             multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
                             outputs = tf.keras.layers.RNN(multi_layer_gru)(
-                                tf.reshape(target_tensor, [-1, time_step, 1]))
+                                tf.reshape(target_tensor, [-1, time_step, self._input_dim]))
                             st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
 
                         outputs_temporal.append(st_outputs)

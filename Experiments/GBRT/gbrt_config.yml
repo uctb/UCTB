@@ -18,7 +18,7 @@ trial:
   # python GBRT.py --dataset Taxi --city BJ --MergeIndex 2 --MergeWay sum --DataRange all --TrainDays all
   # python GBRT.py --dataset METR --city LA --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
   # python GBRT.py --dataset PEMS --city BAY --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
-
-  command:  python GBRT.py --dataset PEMS --city BAY --MergeIndex 12 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+  # python GBRT.py --dataset PEMS --city BAY --MergeIndex 12 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+  command:  python GBRT.py --dataset DiDi --city Chengdu_Street --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays all
   codeDir: .
-  gpuNum: 0
+  gpuNum: 0 

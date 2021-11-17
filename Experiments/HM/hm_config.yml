@@ -2,10 +2,10 @@ authorName: lychen
 experimentName: hm_parameter_search
 trialConcurrency: 2
 maxExecDuration: 24h
-maxTrialNum: 200
+maxTrialNum: 24
 trainingServicePlatform: local
 # The path to Search Space
-searchSpacePath: hm_search_space.json
+searchSpacePath: hm_closeness_search_space.json
 useAnnotation: false
 tuner:
   builtinTunerName: TPE
@@ -18,6 +18,10 @@ trial:
   # python HM.py --dataset Taxi --city BJ --MergeIndex 2 --MergeWay sum --DataRange all --TrainDays all
   # python HM.py --dataset METR --city LA --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
   # python HM.py --dataset PEMS --city BAY --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
-  command: python HM.py --dataset PEMS --city BAY --MergeIndex 1 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+  # python HM.py --dataset PEMS --city BAY --MergeIndex 1 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
+  # python HM.py --dataset DiDi --city Chengdu_Street --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays all
+  command: python HM.py --dataset DiDi --city Xian_Street --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays all
+
+  #0.25,train_data_length:91,graph:Distance,MergeIndex:3
   codeDir: .
   gpuNum: 0

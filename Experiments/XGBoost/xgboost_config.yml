@@ -18,7 +18,7 @@ trial:
   # python XGBoost.py --dataset Taxi --city BJ --MergeIndex 2 --MergeWay sum --DataRange all --TrainDays all
   # python XGBoost.py --dataset METR --city LA --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
   # python XGBoost.py --dataset PEMS --city BAY --MergeIndex 3 --MergeWay average --DataRange all --TrainDays all --test_ratio 0.2
-
-  command: python XGBoost.py --dataset Metro --city Shanghai --MergeIndex 6 --DataRange all --TrainDays all
+  # python XGBoost.py --dataset Metro --city Shanghai --MergeIndex 6 --DataRange all --TrainDays all
+  command: python XGBoost.py --dataset DiDi --city Xian_Street --MergeIndex 12 --MergeWay sum --DataRange all --TrainDays all
   codeDir: .
   gpuNum: 0

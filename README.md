@@ -4,6 +4,12 @@
 
 ------
 
+### News
+
+**2021-11**: Our paper on UCTB, entitled '*Exploring the Generalizability of Spatio-Temporal Traffic Prediction: Meta-Modeling and an Analytic Framework*', has been accepted by IEEE TKDE! [[IEEE Xplore](https://ieeexplore.ieee.org/document/9627543)][[arXiv](https://arxiv.org/abs/2009.09379)]
+
+------
+
 **Urban Computing Tool Box** is a package providing **spatial-temporal prediction models** for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. It contains both conventional models and state-of-art models. 
 
 Currently the package supported the following models: ([Details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html))

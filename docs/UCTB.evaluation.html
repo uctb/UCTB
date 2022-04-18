@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.5. UCTB.evaluation package &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
   
@@ -89,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -130,9 +136,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html">5. API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">5. </span>API Reference</a> &raquo;</li>
         
-      <li>5.5. UCTB.evaluation package</li>
+      <li><span class="section-number">5.5. </span>UCTB.evaluation package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -149,42 +155,42 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-evaluation-package">
-<h1>5.5. UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.evaluation.metric">
-<span id="uctb-evaluation-metric-module"></span><h2>5.5.1. UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.evaluation.metric.mape">
-<code class="sig-prename descclassname">UCTB.evaluation.metric.</code><code class="sig-name descname">mape</code><span class="sig-paren">(</span><em class="sig-param">prediction</em>, <em class="sig-param">target</em>, <em class="sig-param">threshold=0</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mape" title="Permalink to this definition">¶</a></dt>
+  <section id="uctb-evaluation-package">
+<h1><span class="section-number">5.5. </span>UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this headline">¶</a></h1>
+<section id="module-UCTB.evaluation.metric">
+<span id="uctb-evaluation-metric-module"></span><h2><span class="section-number">5.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.mape">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">mape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mape" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
 <li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the mape,
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the mape,
 the smallest threshold in mape is zero.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="UCTB.evaluation.metric.rmse">
-<code class="sig-prename descclassname">UCTB.evaluation.metric.</code><code class="sig-name descname">rmse</code><span class="sig-paren">(</span><em class="sig-param">prediction</em>, <em class="sig-param">target</em>, <em class="sig-param">threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.rmse" title="Permalink to this definition">¶</a></dt>
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.rmse">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">rmse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.rmse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
 <li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – data smaller or equal to threshold in target
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – data smaller or equal to threshold in target
 will be removed in computing the rmse</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -233,10 +239,10 @@ will be removed in computing the rmse</p></li>
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
 
   
 

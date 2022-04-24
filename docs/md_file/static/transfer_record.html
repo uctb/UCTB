@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Check-In与POI数据处理方法 &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   
 
   
@@ -145,9 +150,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="check-inpoi">
+  <section id="check-inpoi">
 <h1>Check-In与POI数据处理方法<a class="headerlink" href="#check-inpoi" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="id1">
+<section id="id1">
 <h2>数据详情<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <ol class="simple">
 <li><p>时间范围：Apr 2012 ~ Sept 2013</p></li>
@@ -178,21 +183,21 @@
 <td align="center">工作日6049，节假日5450</td>
 </tr>
 </tbody>
-</table></div>
-<div class="section" id="check-in">
+</table></section>
+<section id="check-in">
 <h2>Check-In 特征计算方法<a class="headerlink" href="#check-in" title="Permalink to this headline">¶</a></h2>
 <p>计算 2013-07-15 到 2013-09-15 之间，各个自行车站点附近1km的checkin总数量，按照工作日和节假日分开，即每个站点的特征维度为48，分别为工作日、节假日的24小时checkin</p>
-</div>
-<div class="section" id="poi">
+</section>
+<section id="poi">
 <h2>POI特征计算方法<a class="headerlink" href="#poi" title="Permalink to this headline">¶</a></h2>
 <p>一共有428种POI，每个站点统计附近1km出现的POI类型，即每个站点有428维特征</p>
-</div>
-<div class="section" id="id2">
+</section>
+<section id="id2">
 <h2>特征相似度方法<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
 <p>Cosine Similarity</p>
-</div>
-</div>
-<div class="section" id="id3">
+</section>
+</section>
+<section id="id3">
 <h1>使用Check-In数据进行相似站点的匹配<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="docutils">
 <thead>
@@ -424,8 +429,8 @@
 <td align="center">3.17292</td>
 </tr>
 </tbody>
-</table></div>
-<div class="section" id="id4">
+</table></section>
+<section id="id4">
 <h1>使用POI信息进行相似站点匹配<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h1>
 <table border="1" class="docutils">
 <thead>
@@ -941,29 +946,29 @@
 <td align="center">3.25901</td>
 </tr>
 </tbody>
-</table></div>
-<div class="section" id="transfer">
+</table></section>
+<section id="transfer">
 <h1>分析Transfer效果在城市中的分布<a class="headerlink" href="#transfer" title="Permalink to this headline">¶</a></h1>
 <p>绿色的点表示transfer效果好于finetune，红色代表差于finetune</p>
-<div class="section" id="target-city-dc">
+<section id="target-city-dc">
 <h2>Target City DC<a class="headerlink" href="#target-city-dc" title="Permalink to this headline">¶</a></h2>
 <p>左侧为 Chicago=&gt;DC，Overall result ：Finetune 3.13602，Transfer 3.25901</p>
 <p>右侧为 NYC=&gt;DC，Overall result ：Finetune 3.02813，Transfer 3.31671</p>
-<p><img alt="1567254312266" src="md_file\static\..%5Csrc%5Cimage%5Ctransfer_dc.png" /></p>
-</div>
-<div class="section" id="target-city-nyc">
+<p><img alt="1567254312266" src="md_file/static/..%5Csrc%5Cimage%5Ctransfer_dc.png" /></p>
+</section>
+<section id="target-city-nyc">
 <h2>Target City NYC<a class="headerlink" href="#target-city-nyc" title="Permalink to this headline">¶</a></h2>
 <p>左侧为 DC =&gt; NYC，Overall result ：Finetune 4.93593，Transfer 5.96554</p>
 <p>右侧为 Chicago =&gt;NYC，Overall result ：Finetune 5.21905，Transfer 5.96555</p>
-<p><img alt="1567253682671" src="md_file\static\..%5Csrc%5Cimage%5Ctransfer_nyc.png" /></p>
-</div>
-<div class="section" id="target-city-chicago">
+<p><img alt="1567253682671" src="md_file/static/..%5Csrc%5Cimage%5Ctransfer_nyc.png" /></p>
+</section>
+<section id="target-city-chicago">
 <h2>Target City Chicago<a class="headerlink" href="#target-city-chicago" title="Permalink to this headline">¶</a></h2>
 <p>左侧为 NYC=&gt;Chicago，Overall result ：Finetune 3.37643，Transfer 3.48236</p>
 <p>右侧为 DC=&gt;Chicago，Overall result ：Finetune 3.12768，Transfer 3.39922</p>
-<p><img alt="1567255183794" src="md_file\static\..%5Csrc%5Cimage%5Ctransfer_chicago.png" /></p>
-</div>
-</div>
+<p><img alt="1567255183794" src="md_file/static/..%5Csrc%5Cimage%5Ctransfer_chicago.png" /></p>
+</section>
+</section>
 
 
            </div>
@@ -1003,10 +1008,10 @@
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="../../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../../_static/jquery.js"></script>
       <script type="text/javascript" src="../../_static/underscore.js"></script>
       <script type="text/javascript" src="../../_static/doctools.js"></script>
-      <script type="text/javascript" src="../../_static/language_data.js"></script>
 
   
 

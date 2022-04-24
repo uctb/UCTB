@@ -103,6 +103,79 @@ Finally, you can make uses of your dataset by UCTB's loader APIs:
 data_loader = NodeTrafficLoader(dataset=pkl_file_name)
 ```
 
+
+Also, we provide interface to help build your own dataset, through which we clarify whether a field is necessary or optional when building a UCTB dataset.
+
+To build a UCTB dataset, it is necessary to provide variables listed as below.
+
+|variable_name|corresponding field|description|
+|:--|:--|:--|
+|time_fitness| ds['TimeFitness'] |The length of the interval between adjacent slots|
+|time_range| ds['TimeRange'] field| the time interval at the beginning and end of the data |
+|traffic_node| ds['Node']['TrafficNode'] | the spatio-temporal information |
+|node_satation_info| ds['Node']['StationInfo']| the basic information of each data collecting node|
+|dataset_name| \ | name of the dataset |
+|city| \ | A variable used to integrate holiday and weather information to traffic data|
+
+Then, use the specified path to save the dataset, otherwise it will be saved in the current run-time path.
+
+
+```python
+build_uctb_dataset(traffic_node=traffic_node, time_fitness=time_fitness, 
+                node_station_info=node_station_info, time_range=time_range, 
+                output_dir='tmp_dir', dataset_name='dataset', city = 'Chicago')
+```
+
+Also, if you want to check what fields are in your datasets, set the argument ``print_dataset`` to ``True``.
+
+
+```python
+build_uctb_dataset(traffic_node=traffic_node, time_fitness=time_fitness, 
+                node_station_info=node_station_info, time_range=time_range, 
+                output_dir='tmp_dir', dataset_name='dataset', city = 'Chicago', print_dataset=True)
+```
+
+Output:
+
+    dataset[TimeRange]:<class 'list'>  (len=2)
+    dataset[TimeFitness]:<class 'int'>
+    dataset[Node]:<class 'dict'>{
+        dataset[Node][TrafficNode]:<class 'numpy.ndarray'>  (shape=(37248, 532))
+        dataset[Node][StationInfo]:<class 'list'>  (len=(532, 5))
+        dataset[Node][TrafficMonthlyInteraction]:<class 'NoneType'>
+    }
+    dataset[Grid]:<class 'dict'>{
+        dataset[Grid][TrafficGrid]:<class 'NoneType'>
+        dataset[Grid][GridLatLng]:<class 'NoneType'>
+    }
+    dataset[ExternalFeature]:<class 'dict'>{
+        dataset[ExternalFeature][Weather]:<class 'list'>  (len=0)
+    }
+    dataset[LenTimeSlots]:<class 'int'>
+
+What's more, if you want to integrate additional information of the dataset, just specify the optional argument as bellow.
+
+|variable_name|corresponding field|description|
+|:--|:--|:--|
+|traffic_monthly_interaction| ds[Node][TrafficMonthlyInteraction] | the interactive information among data collecting nodes. |
+|poi| ds['Node']['POI']、ds['Grid']['POI'] | point of interests |
+|traffic_grid| ds['Grid']['TrafficGrid'] | the spatio-temporal information in grid format. |
+|gird_lat_lng| ds['Grid']['GridLatLng']| the basic information of each data collecting grid.|
+|Weather| \ | the weather information of each day. |
+
+for example, specify the argument ``external_feature_weather`` with numpy.array object.
+
+
+```python
+build_uctb_dataset(traffic_node=traffic_node, time_fitness=time_fitness, 
+                node_station_info=node_station_info, time_range=time_range, 
+                output_dir='tmp_dir', dataset_name='dataset', city = 'Chicago', 
+                print_dataset=True, external_feature_weather=np.zeros([37248,26]))
+```
+
+The code above use zero matrix to specify the argument ``external_feature_weather``. While in practical application scenario, you should substitute it with real feather matrix. The first dimension of the matrx is the number of time slots, and the second dimension corresponds to the dimension of weather features.
+
+
 #### Use build-in models from UCTB
 
 ##### Use single temporal feature in regression

@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.6. UCTB.train package &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
   
@@ -89,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -130,9 +136,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html">5. API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">5. </span>API Reference</a> &raquo;</li>
         
-      <li>5.6. UCTB.train package</li>
+      <li><span class="section-number">5.6. </span>UCTB.train package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -149,89 +155,89 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-train-package">
-<h1>5.6. UCTB.train package<a class="headerlink" href="#uctb-train-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.train.EarlyStopping">
-<span id="uctb-train-earlystopping-module"></span><h2>5.6.1. UCTB.train.EarlyStopping module<a class="headerlink" href="#module-UCTB.train.EarlyStopping" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.train.EarlyStopping.EarlyStopping">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.EarlyStopping.</code><code class="sig-name descname">EarlyStopping</code><span class="sig-paren">(</span><em class="sig-param">patience</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+  <section id="uctb-train-package">
+<h1><span class="section-number">5.6. </span>UCTB.train package<a class="headerlink" href="#uctb-train-package" title="Permalink to this headline">¶</a></h1>
+<section id="module-UCTB.train.EarlyStopping">
+<span id="uctb-train-earlystopping-module"></span><h2><span class="section-number">5.6.1. </span>UCTB.train.EarlyStopping module<a class="headerlink" href="#module-UCTB.train.EarlyStopping" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStopping">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.train.EarlyStopping.</span></span><span class="sig-name descname"><span class="pre">EarlyStopping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">patience</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Early stop if a span of newest records are not better than the current best record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>patience</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The span of checked newest records.</p>
+<dd class="field-odd"><p><strong>patience</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The span of checked newest records.</p>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStopping.__record_list">
-<code class="sig-name descname">__record_list</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__record_list" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStopping.__record_list">
+<span class="sig-name descname"><span class="pre">__record_list</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__record_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of records.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStopping.__best">
-<code class="sig-name descname">__best</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__best" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStopping.__best">
+<span class="sig-name descname"><span class="pre">__best</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__best" title="Permalink to this definition">¶</a></dt>
 <dd><p>The current best record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStopping.__patience">
-<code class="sig-name descname">__patience</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__patience" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStopping.__patience">
+<span class="sig-name descname"><span class="pre">__patience</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__patience" title="Permalink to this definition">¶</a></dt>
 <dd><p>The span of checked newest records.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStopping.__p">
-<code class="sig-name descname">__p</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__p" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStopping.__p">
+<span class="sig-name descname"><span class="pre">__p</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.__p" title="Permalink to this definition">¶</a></dt>
 <dd><p>The number of newest records that are worse than the current best record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.EarlyStopping.EarlyStopping.stop">
-<code class="sig-name descname">stop</code><span class="sig-paren">(</span><em class="sig-param">new_value</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.stop" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStopping.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStopping.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append the new record to the record list
 and check if the number of new records than are worse than the best records exceeds the limit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – The new record generated by the newest model.</p>
+<dd class="field-odd"><p><strong>new_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The new record generated by the newest model.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the number of new records than are worse than the best records exceeds the limit and
 triggers early stop, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.EarlyStopping.</code><code class="sig-name descname">EarlyStoppingTTest</code><span class="sig-paren">(</span><em class="sig-param">length</em>, <em class="sig-param">p_value_threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStoppingTTest">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.train.EarlyStopping.</span></span><span class="sig-name descname"><span class="pre">EarlyStoppingTTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_value_threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Early Stop by t-test.</p>
 <p>T-test is a two-sided test for the null hypothesis that 2 independent samples
 have identical average (expected) values. This method takes two intervals according to <code class="docutils literal notranslate"><span class="pre">length</span></code>
@@ -239,97 +245,97 @@ in the record list and see if they have identical average values. If so, do earl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The length of checked interval.</p></li>
-<li><p><strong>p_value_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – The p-value threshold to decide whether to do early stop.</p></li>
+<li><p><strong>length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The length of checked interval.</p></li>
+<li><p><strong>p_value_threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The p-value threshold to decide whether to do early stop.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__record_list">
-<code class="sig-name descname">__record_list</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__record_list" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__record_list">
+<span class="sig-name descname"><span class="pre">__record_list</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__record_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of records.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)">list</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)">list</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__best">
-<code class="sig-name descname">__best</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__best" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__best">
+<span class="sig-name descname"><span class="pre">__best</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__best" title="Permalink to this definition">¶</a></dt>
 <dd><p>The current best record.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__test_length">
-<code class="sig-name descname">__test_length</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__test_length" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__test_length">
+<span class="sig-name descname"><span class="pre">__test_length</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__test_length" title="Permalink to this definition">¶</a></dt>
 <dd><p>The length of checked interval.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)">int</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__p_value_threshold">
-<code class="sig-name descname">__p_value_threshold</code><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__p_value_threshold" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStoppingTTest.__p_value_threshold">
+<span class="sig-name descname"><span class="pre">__p_value_threshold</span></span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.__p_value_threshold" title="Permalink to this definition">¶</a></dt>
 <dd><p>The p-value threshold to decide whether to do early stop.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)">float</a></p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.EarlyStopping.EarlyStoppingTTest.stop">
-<code class="sig-name descname">stop</code><span class="sig-paren">(</span><em class="sig-param">new_value</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.stop" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.EarlyStopping.EarlyStoppingTTest.stop">
+<span class="sig-name descname"><span class="pre">stop</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.EarlyStopping.EarlyStoppingTTest.stop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Take two intervals in the record list to do t-test.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>new_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – The new record generated by the newest model.</p>
+<dd class="field-odd"><p><strong>new_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><em>float</em></a>) – The new record generated by the newest model.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if p value of t-test is smaller than threshold and
 triggers early stop, otherwise <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)">bool</a></p>
 </dd>
 </dl>
 </dd></dl>
 
 </dd></dl>
 
-</div>
-<div class="section" id="module-UCTB.train.MiniBatchTrain">
-<span id="uctb-train-minibatchtrain-module"></span><h2>5.6.2. UCTB.train.MiniBatchTrain module<a class="headerlink" href="#module-UCTB.train.MiniBatchTrain" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchFeedDict</code><span class="sig-paren">(</span><em class="sig-param">feed_dict</em>, <em class="sig-param">sequence_length</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+</section>
+<section id="module-UCTB.train.MiniBatchTrain">
+<span id="uctb-train-minibatchtrain-module"></span><h2><span class="section-number">5.6.2. </span>UCTB.train.MiniBatchTrain module<a class="headerlink" href="#module-UCTB.train.MiniBatchTrain" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.train.MiniBatchTrain.</span></span><span class="sig-name descname"><span class="pre">MiniBatchFeedDict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Get small batches of data from dict for training at once.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>feed_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – Data dictionary consisting of key-value pairs.</p></li>
-<li><p><strong>sequence_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Only divide value in <cite>feed_dict</cite> whose length is equal
+<li><p><strong>feed_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><em>dict</em></a>) – Data dictionary consisting of key-value pairs.</p></li>
+<li><p><strong>sequence_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Only divide value in <cite>feed_dict</cite> whose length is equal
 to <cite>sequence_length</cite> into several batches.</p></li>
-<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of data for one training session.</p></li>
-<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If set <cite>True</cite>, the input dict will be shuffled. default:True.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of data for one training session.</p></li>
+<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If set <cite>True</cite>, the input dict will be shuffled. default:True.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch">
-<code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch">
+<span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.get_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>For the <cite>value</cite> in <cite>feed_dict</cite> whose length is equal to sequence_length, divide the <cite>value</cite>
 into several batches, and return one batch in order each time. For those whose length is not
 equal to sequence_length, do not change <a href="#id1"><span class="problematic" id="id2">`</span></a>value`and return it directly. There are internal variables
@@ -337,95 +343,95 @@ to record the number of batches currently generated. When the last data is not e
 generate a batch, a batch of data from the tail is returned.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.restart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the variable that records the number of batches currently generated to 0, so that
 we can call the <cite>get_batch</cite> method to generate training data in batches from scratch.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle">
-<em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchFeedDict.shuffle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchTrain</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em>, <em class="sig-param">batch_size</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrain">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.train.MiniBatchTrain.</span></span><span class="sig-name descname"><span class="pre">MiniBatchTrain</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Get small batches of data for training at once.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>ndarray</em>) – Input features. The first dimension of X should be sample size.</p></li>
 <li><p><strong>Y</strong> (<em>ndarray</em>) – Target values. The first dimension of Y should be sample size.</p></li>
-<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of data for one training session.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of data for one training session.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch">
-<code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch">
+<span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.get_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a batch of X, Y pairs each time. There are internal variables
 to record the number of batches currently generated. When the last data
 is not enough to generate a batch, a batch of data from the tail is returned.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.restart" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrain.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.restart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the variable that records the number of batches currently generated to 0, so that
 we can call the <cite>get_batch</cite> method to generate training data in batches from scratch.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle">
-<em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">Y</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrain.shuffle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input (X, Y) pairs, shuffle and return it.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.train.MiniBatchTrain.</code><code class="sig-name descname">MiniBatchTrainMultiData</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">shuffle=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.train.MiniBatchTrain.</span></span><span class="sig-name descname"><span class="pre">MiniBatchTrainMultiData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Get small batches of data for training at once.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>ndarray</em>) – Input data. Its first dimension should be sample size.</p></li>
-<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – The number of data for one training session.</p></li>
-<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – If set <cite>True</cite>, the input data will be shuffled. default:True.</p></li>
+<li><p><strong>batch_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – The number of data for one training session.</p></li>
+<li><p><strong>shuffle</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><em>bool</em></a>) – If set <cite>True</cite>, the input data will be shuffled. default:True.</p></li>
 </ul>
 </dd>
 </dl>
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch">
-<code class="sig-name descname">get_batch</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch">
+<span class="sig-name descname"><span class="pre">get_batch</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.get_batch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a batch of data each time. There are internal variables
 to record the number of batches currently generated. When the last data
 is not enough to generate a batch, a batch of data from the tail is returned.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart">
-<code class="sig-name descname">restart</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart">
+<span class="sig-name descname"><span class="pre">restart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.restart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the variable that records the number of batches currently generated to 0, so that
 we can call the <cite>get_batch</cite> method to generate training data in batches from scratch.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle">
-<em class="property">static </em><code class="sig-name descname">shuffle</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shuffle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.train.MiniBatchTrain.MiniBatchTrainMultiData.shuffle" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -474,10 +480,10 @@ we can call the <cite>get_batch</cite> method to generate training data in batch
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
 
   
 

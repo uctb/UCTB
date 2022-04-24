@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>4. Tutorial &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
   
@@ -147,7 +152,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>4. Tutorial</li>
+      <li><span class="section-number">4. </span>Tutorial</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,10 +169,10 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="tutorial">
-<h1>4. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="use-datasets-from-uctb">
-<h2>4.1. Use datasets from UCTB<a class="headerlink" href="#use-datasets-from-uctb" title="Permalink to this headline">¶</a></h2>
+  <section id="tutorial">
+<h1><span class="section-number">4. </span>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<section id="use-datasets-from-uctb">
+<h2><span class="section-number">4.1. </span>Use datasets from UCTB<a class="headerlink" href="#use-datasets-from-uctb" title="Permalink to this headline">¶</a></h2>
 <p>UCTB is designed for urban computing in various scenarios. Currently, It presets a public dataset about bikesharing. This dataset was collected from U.S. open data portals, including 49 million, 13 million, and 14 million historical flow records in <a class="reference external" href="https://www.citibikenyc.com/system-data">New York City</a> (<code class="docutils literal notranslate"><span class="pre">NYC</span></code>), <a class="reference external" href="https://www.divvybikes.com/system-data">Chicago</a> (<code class="docutils literal notranslate"><span class="pre">Chicago</span></code>) and <a class="reference external" href="https://www.capitalbikeshare.com/system-data">Washington, D.C</a> (<code class="docutils literal notranslate"><span class="pre">DC</span></code>), respectively. Each record contains the start station, start time, stop station, stop time, etc. We predict the number of bikesharing demands in each station (i.e., the number of bike borrowers).</p>
 <p>In the future version, we consider releasing more datasets covering other applications such as ridesharing, metro traffic flow, and electrical charging station usage. <strong>If you are interested in this project, making a contribution to the dataset is strongly welcomed :)</strong></p>
 <p>To help better accuse dataset, UCTB provides data loader APIs <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code>, which can be used to preprocess data, including data division, normalization, and extract temporal and spatial knowledge.</p>
@@ -204,9 +209,9 @@
 </pre></div>
 </div>
 <p><img alt="png" src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/toturial_p1_dataplot.png" /></p>
-</div>
-<div class="section" id="build-your-own-datasets">
-<h2>4.2. Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="build-your-own-datasets">
+<h2><span class="section-number">4.2. </span>Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h2>
 <p>To make loader APIs compatible with your own data, you can store it in a <code class="docutils literal notranslate"><span class="pre">dict</span></code> variable with formats as follows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s say ``my_dataset`` is your dataset.</span>
 <span class="n">my_dataset</span> <span class="o">=</span> <span class="p">{</span>
@@ -243,11 +248,127 @@
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">pkl_file_name</span><span class="p">)</span>
 </pre></div>
 </div>
+<p>Also, we provide interface to help build your own dataset, through which we clarify whether a field is necessary or optional when building a UCTB dataset.</p>
+<p>To build a UCTB dataset, it is necessary to provide variables listed as below.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="left">variable_name</th>
+<th align="left">corresponding field</th>
+<th align="left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">time_fitness</td>
+<td align="left">ds['TimeFitness']</td>
+<td align="left">The length of the interval between adjacent slots</td>
+</tr>
+<tr>
+<td align="left">time_range</td>
+<td align="left">ds['TimeRange'] field</td>
+<td align="left">the time interval at the beginning and end of the data</td>
+</tr>
+<tr>
+<td align="left">traffic_node</td>
+<td align="left">ds['Node']['TrafficNode']</td>
+<td align="left">the spatio-temporal information</td>
+</tr>
+<tr>
+<td align="left">node_satation_info</td>
+<td align="left">ds['Node']['StationInfo']</td>
+<td align="left">the basic information of each data collecting node</td>
+</tr>
+<tr>
+<td align="left">dataset_name</td>
+<td align="left">\</td>
+<td align="left">name of the dataset</td>
+</tr>
+<tr>
+<td align="left">city</td>
+<td align="left">\</td>
+<td align="left">A variable used to integrate holiday and weather information to traffic data</td>
+</tr>
+</tbody>
+</table><p>Then, use the specified path to save the dataset, otherwise it will be saved in the current run-time path.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">build_uctb_dataset</span><span class="p">(</span><span class="n">traffic_node</span><span class="o">=</span><span class="n">traffic_node</span><span class="p">,</span> <span class="n">time_fitness</span><span class="o">=</span><span class="n">time_fitness</span><span class="p">,</span> 
+                <span class="n">node_station_info</span><span class="o">=</span><span class="n">node_station_info</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> 
+                <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;tmp_dir&#39;</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">&#39;Chicago&#39;</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="use-build-in-models-from-uctb">
-<h2>4.3. Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="use-single-temporal-feature-in-regression">
-<h3>4.3.1. Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h3>
+<p>Also, if you want to check what fields are in your datasets, set the argument <code class="docutils literal notranslate"><span class="pre">print_dataset</span></code> to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">build_uctb_dataset</span><span class="p">(</span><span class="n">traffic_node</span><span class="o">=</span><span class="n">traffic_node</span><span class="p">,</span> <span class="n">time_fitness</span><span class="o">=</span><span class="n">time_fitness</span><span class="p">,</span> 
+                <span class="n">node_station_info</span><span class="o">=</span><span class="n">node_station_info</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> 
+                <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;tmp_dir&#39;</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">&#39;Chicago&#39;</span><span class="p">,</span> <span class="n">print_dataset</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>dataset[TimeRange]:&lt;class &#39;list&#39;&gt;  (len=2)
+dataset[TimeFitness]:&lt;class &#39;int&#39;&gt;
+dataset[Node]:&lt;class &#39;dict&#39;&gt;{
+    dataset[Node][TrafficNode]:&lt;class &#39;numpy.ndarray&#39;&gt;  (shape=(37248, 532))
+    dataset[Node][StationInfo]:&lt;class &#39;list&#39;&gt;  (len=(532, 5))
+    dataset[Node][TrafficMonthlyInteraction]:&lt;class &#39;NoneType&#39;&gt;
+}
+dataset[Grid]:&lt;class &#39;dict&#39;&gt;{
+    dataset[Grid][TrafficGrid]:&lt;class &#39;NoneType&#39;&gt;
+    dataset[Grid][GridLatLng]:&lt;class &#39;NoneType&#39;&gt;
+}
+dataset[ExternalFeature]:&lt;class &#39;dict&#39;&gt;{
+    dataset[ExternalFeature][Weather]:&lt;class &#39;list&#39;&gt;  (len=0)
+}
+dataset[LenTimeSlots]:&lt;class &#39;int&#39;&gt;
+</pre></div>
+</div>
+<p>What’s more, if you want to integrate additional information of the dataset, just specify the optional argument as bellow.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th align="left">variable_name</th>
+<th align="left">corresponding field</th>
+<th align="left">description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">traffic_monthly_interaction</td>
+<td align="left">ds[Node][TrafficMonthlyInteraction]</td>
+<td align="left">the interactive information among data collecting nodes.</td>
+</tr>
+<tr>
+<td align="left">poi</td>
+<td align="left">ds['Node']['POI']、ds['Grid']['POI']</td>
+<td align="left">point of interests</td>
+</tr>
+<tr>
+<td align="left">traffic_grid</td>
+<td align="left">ds['Grid']['TrafficGrid']</td>
+<td align="left">the spatio-temporal information in grid format.</td>
+</tr>
+<tr>
+<td align="left">gird_lat_lng</td>
+<td align="left">ds['Grid']['GridLatLng']</td>
+<td align="left">the basic information of each data collecting grid.</td>
+</tr>
+<tr>
+<td align="left">Weather</td>
+<td align="left">\</td>
+<td align="left">the weather information of each day.</td>
+</tr>
+</tbody>
+</table><p>for example, specify the argument <code class="docutils literal notranslate"><span class="pre">external_feature_weather</span></code> with numpy.array object.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">build_uctb_dataset</span><span class="p">(</span><span class="n">traffic_node</span><span class="o">=</span><span class="n">traffic_node</span><span class="p">,</span> <span class="n">time_fitness</span><span class="o">=</span><span class="n">time_fitness</span><span class="p">,</span> 
+                <span class="n">node_station_info</span><span class="o">=</span><span class="n">node_station_info</span><span class="p">,</span> <span class="n">time_range</span><span class="o">=</span><span class="n">time_range</span><span class="p">,</span> 
+                <span class="n">output_dir</span><span class="o">=</span><span class="s1">&#39;tmp_dir&#39;</span><span class="p">,</span> <span class="n">dataset_name</span><span class="o">=</span><span class="s1">&#39;dataset&#39;</span><span class="p">,</span> <span class="n">city</span> <span class="o">=</span> <span class="s1">&#39;Chicago&#39;</span><span class="p">,</span> 
+                <span class="n">print_dataset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">external_feature_weather</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="mi">37248</span><span class="p">,</span><span class="mi">26</span><span class="p">]))</span>
+</pre></div>
+</div>
+<p>The code above use zero matrix to specify the argument <code class="docutils literal notranslate"><span class="pre">external_feature_weather</span></code>. While in practical application scenario, you should substitute it with real feather matrix. The first dimension of the matrx is the number of time slots, and the second dimension corresponds to the dimension of weather features.</p>
+</section>
+<section id="use-build-in-models-from-uctb">
+<h2><span class="section-number">4.3. </span>Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h2>
+<section id="use-single-temporal-feature-in-regression">
+<h3><span class="section-number">4.3.1. </span>Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h3>
 <p>UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in <a class="reference external" href="./static/current_supported_models.html"><code class="docutils literal notranslate"><span class="pre">UCTB.model</span></code></a>.</p>
 <p>The following example shows how to use a <strong>Hidden Markov model (HMM)</strong> to handle a simple time series predicting a problem. We will try to predict the bike demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code> of a fixed station <code class="docutils literal notranslate"><span class="pre">target_node</span></code> in New York City by checking back the historical demands in recent time slots <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -319,9 +440,9 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.76137200105079</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="use-multiple-temporal-features-in-regression">
-<h3>4.3.2. Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="use-multiple-temporal-features-in-regression">
+<h3><span class="section-number">4.3.2. </span>Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h3>
 <p>In this case, let’s take more temporal knowledge related to <code class="docutils literal notranslate"><span class="pre">target_node</span></code> into account. We will concatenate factors including <code class="docutils literal notranslate"><span class="pre">closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">period</span></code>, and <code class="docutils literal notranslate"><span class="pre">trend</span></code>, and use <strong>XGBoost</strong> as the predicting model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -368,10 +489,10 @@
 <span class="n">Test</span> <span class="n">RMSE</span> <span class="mf">3.3267457</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="build-your-own-model-using-uctb">
-<h2>4.4. Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="build-your-own-model-using-uctb">
+<h2><span class="section-number">4.4. </span>Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h2>
 <p>UCTB provides extendable APIs to build your own model. Currently, it can support the running of all the <code class="docutils literal notranslate"><span class="pre">1.x</span></code> version of <strong>Tensorflow-based</strong> models. In the following tutorial, we will show you how to takes the least efforts to implement a UCTB model.</p>
 <p>Commonly, a new model needs to inherit <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> to acquire the features provided by UCTB, such as batch division, early stopping, etc. The necessary components for a subclass of <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> include:</p>
 <ul class="simple">
@@ -539,16 +660,16 @@
 </pre></div>
 </div>
 <p>Since we only use a short period of the dataset (<code class="docutils literal notranslate"><span class="pre">data_range=0.1</span></code>) in this toy example, the result looks good compared with the <a class="reference external" href="./all_results.html#results-on-bike">experiment</a>. You can also take a try to test the completed dataset on your model.</p>
-</div>
-<div class="section" id="build-your-own-graph-with-stmeta">
-<h2>4.5. Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="build-your-own-graph-with-stmeta">
+<h2><span class="section-number">4.5. </span>Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h2>
 <p>Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found <a class="reference external" href="https://anonymous.4open.science/r/561305b5-e65e-46c6-9371-ae76b85109ee/Experiments/CustomizedDemo/">here</a>.</p>
-<div class="section" id="top-k-graph">
-<h3>4.5.1. Top-K graph<a class="headerlink" href="#top-k-graph" title="Permalink to this headline">¶</a></h3>
+<section id="top-k-graph">
+<h3><span class="section-number">4.5.1. </span>Top-K graph<a class="headerlink" href="#top-k-graph" title="Permalink to this headline">¶</a></h3>
 <p>First of all, the customized graphs used in this section is called Top-K graph. We construct the corresponding adjacent graph by marking the point pair that consist of each point and its nearest K points as 1, and the others are marked as 0. Then, we use the adjacent graph to generate the laplacian matrix for input. The hyperparameter K is designed via ad-hoc heuristics. In this demonstration, we chose 23 as the value of K.</p>
-</div>
-<div class="section" id="realize-topk-graph-analysis-module">
-<h3>4.5.2. Realize TopK graph analysis module<a class="headerlink" href="#realize-topk-graph-analysis-module" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="realize-topk-graph-analysis-module">
+<h3><span class="section-number">4.5.2. </span>Realize TopK graph analysis module<a class="headerlink" href="#realize-topk-graph-analysis-module" title="Permalink to this headline">¶</a></h3>
 <p>To adopt customized graphs (<em><strong>e.g.,</strong></em> Top-K) in UCTB, you should first build your own analysis class by inheriting <code class="docutils literal notranslate"><span class="pre">UCTB.preprocess.GraphGenerator</span> <span class="pre">class</span></code>.</p>
 <p>It is worth noting that the ultimate goal is to generate the member variables: <code class="docutils literal notranslate"><span class="pre">self.LM</span></code> and <code class="docutils literal notranslate"><span class="pre">self.AM</span></code>, which is the input matrix of the graph. In this phase, we need to make the corresponding analytical implementation according to the type of the custom graph passed in.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/preprocess/topKGraph.py&quot;</span>
@@ -601,9 +722,9 @@
        <span class="k">return</span> <span class="n">adjacent_matrix</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="redefine-the-call-statement-of-the-above-class">
-<h3>4.5.3. Redefine the call statement of the above class<a class="headerlink" href="#redefine-the-call-statement-of-the-above-class" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="redefine-the-call-statement-of-the-above-class">
+<h3><span class="section-number">4.5.3. </span>Redefine the call statement of the above class<a class="headerlink" href="#redefine-the-call-statement-of-the-above-class" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/Experiments/CustomizedDemo/STMeta_Obj_topk.py&quot;</span>
 
 <span class="c1"># Import the Class: topKGraph</span>
@@ -618,9 +739,9 @@
 <span class="c1"># ......</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="modify-the-function-call-location">
-<h3>4.5.4. Modify the function call location<a class="headerlink" href="#modify-the-function-call-location" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="modify-the-function-call-location">
+<h3><span class="section-number">4.5.4. </span>Modify the function call location<a class="headerlink" href="#modify-the-function-call-location" title="Permalink to this headline">¶</a></h3>
 <p>Add the new graph name when fitting model and then execute it for experiments. <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/Experiments/CustomizedDemo/Runner_topk.py">code</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj_topk.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line-TopK,MergeIndex:12&#39;</span><span class="p">)</span>
@@ -650,9 +771,9 @@
 </table><p>The results show that the performance of STMeta_V1 with the graph “Distance-Correlation-Line-TopK” is better than “Distance-Correlation-Line” model and the RMSE is reduced by about 12.4%, which validates the effectiveness of the topk graph for spatiotemporal modeling STMeta algorithm.</p>
 <hr class="docutils" />
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>
@@ -701,10 +822,10 @@
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
 
   
 

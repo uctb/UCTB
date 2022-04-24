@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.7. UCTB.utils package &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
   
@@ -89,6 +94,7 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/tutorial.html">4. Tutorial</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Results on different datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -130,9 +136,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html">5. API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">5. </span>API Reference</a> &raquo;</li>
         
-      <li>5.7. UCTB.utils package</li>
+      <li><span class="section-number">5.7. </span>UCTB.utils package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -149,33 +155,33 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-utils-package">
-<h1>5.7. UCTB.utils package<a class="headerlink" href="#uctb-utils-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.utils.multi_threads">
-<span id="uctb-utils-multi-threads-module"></span><h2>5.7.1. UCTB.utils.multi_threads module<a class="headerlink" href="#module-UCTB.utils.multi_threads" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.utils.multi_threads.multiple_process">
-<code class="sig-prename descclassname">UCTB.utils.multi_threads.</code><code class="sig-name descname">multiple_process</code><span class="sig-paren">(</span><em class="sig-param">distribute_list</em>, <em class="sig-param">partition_func</em>, <em class="sig-param">task_func</em>, <em class="sig-param">n_jobs</em>, <em class="sig-param">reduce_func</em>, <em class="sig-param">parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.utils.multi_threads.multiple_process" title="Permalink to this definition">¶</a></dt>
+  <section id="uctb-utils-package">
+<h1><span class="section-number">5.7. </span>UCTB.utils package<a class="headerlink" href="#uctb-utils-package" title="Permalink to this headline">¶</a></h1>
+<section id="module-UCTB.utils.multi_threads">
+<span id="uctb-utils-multi-threads-module"></span><h2><span class="section-number">5.7.1. </span>UCTB.utils.multi_threads module<a class="headerlink" href="#module-UCTB.utils.multi_threads" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.utils.multi_threads.multiple_process">
+<span class="sig-prename descclassname"><span class="pre">UCTB.utils.multi_threads.</span></span><span class="sig-name descname"><span class="pre">multiple_process</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">distribute_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partition_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">task_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_jobs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reduce_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.utils.multi_threads.multiple_process" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>distribute_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – The “data” list to be partitioned, such as a list of files which will be
+<li><p><strong>distribute_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – The “data” list to be partitioned, such as a list of files which will be
 distributed among different tasks and each task process a part of the files.</p></li>
 <li><p><strong>partition_func</strong> (<em>function</em>) – Partition function will be used to cut the distribute_list, it should accept
 three inputs: distribute_list, i, n_job, where i is the index of jobs (i.e. integer from 0 to n_jobs-1),
 n_jos is the number of threads; partition function should return a data_list for the job_i</p></li>
 <li><p><strong>task_func</strong> (<em>function</em>) – Task function, where the inputs are share_queue, locker, data, parameters, no return.
 pls refer to the DiDi-Data processing codes for more information.</p></li>
-<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – Number of threads</p></li>
+<li><p><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><em>int</em></a>) – Number of threads</p></li>
 <li><p><strong>reduce_func</strong> (<em>function</em>) – Reduce function which combine the outputs from all the threads into one final output.</p></li>
-<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a>) – parameters send to the task function</p></li>
+<li><p><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><em>list</em></a>) – parameters send to the task function</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>
@@ -224,10 +230,10 @@ pls refer to the DiDi-Data processing codes for more information.</p></li>
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
 
   
 

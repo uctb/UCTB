@@ -1,11 +1,3 @@
-{
-    "K": {"_type":"choice","_value":[3]},
-
-    "L": {"_type":"choice","_value":[1]},
-
-    "lr": {"_type":"choice","_value":[0.00005]},
-
-    "LSTMLayers": {"_type":"choice","_value":[3, 4]},
-
-    "LSTMUnits": {"_type":"choice","_value":[64, 128]}
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:dbd483d5848035fa27a982c38c5c12b3a05364253a996262d9ee70f3bb71a110
+size 249

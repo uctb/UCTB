@@ -1,7 +1,3 @@
-{
-    "st_method": {"_type":"choice","_value":["gclstm", "gal_gcn"]},
-
-    "temporal_merge": {"_type":"choice","_value":["concat", "gal"]},
-
-    "graph_merge": {"_type":"choice","_value":["concat", "gal"]}
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:04326fec560da6488eb9e32f8783bd4f122926c86f28bd256f7719d74f5370f7
+size 213

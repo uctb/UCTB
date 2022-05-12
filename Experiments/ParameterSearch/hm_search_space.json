@@ -1,9 +1,3 @@
-{
-
-    "Dataset": {"_type": "choice", "_value": ["Bike"]},
-    "City": {"_type": "choice", "_value": ["DC"]},
-
-    "CT": {"_type":"randint","_value":[0, 6]},
-    "PT": {"_type":"randint","_value":[0, 7]},
-    "TT": {"_type":"randint","_value":[0, 4]}
-}
+version https://git-lfs.github.com/spec/v1
+oid sha256:30ff176bc9c4ce387862b0d5b67c5d0779358cfafd9f34fdc39a3268f7947816
+size 260

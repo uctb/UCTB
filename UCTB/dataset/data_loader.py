@@ -106,7 +106,7 @@ class GridTrafficLoader(object):
         # init move sample obj
         self.st_move_sample = ST_MoveSample(closeness_len=closeness_len,
                                             period_len=period_len,
-                                            trend_len=trend_len, target_length=1, daily_slots=self.daily_slots)
+                                            trend_len=trend_len, target_length=target_length, daily_slots=self.daily_slots)
 
         self.train_closeness, \
         self.train_period, \
@@ -286,7 +286,7 @@ class NodeTrafficLoader(object):
         # init move sample obj
         self.st_move_sample = ST_MoveSample(closeness_len=self.closeness_len,
                                             period_len=self.period_len,
-                                            trend_len=self.trend_len, target_length=1, daily_slots=self.daily_slots)
+                                            trend_len=self.trend_len, target_length=target_length, daily_slots=self.daily_slots)
 
         self.train_closeness, \
         self.train_period, \

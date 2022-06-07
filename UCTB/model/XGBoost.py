@@ -22,7 +22,7 @@ class XGBoost():
         
         self.param = {
             'max_depth': max_depth,
-            'verbosity ': verbosity,
+            'verbosity': verbosity,
             'objective': objective,
             'eval_metric': eval_metric
         }

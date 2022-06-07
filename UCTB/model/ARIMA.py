@@ -103,10 +103,21 @@ class ARIMA(object):
         :type: np.ndarray
         '''
         result = []
+        """ origin predict method, output shape is [math.ceil(len(time_sequences) / forecast_step), forecast_step]
         for i in range(0, len(time_sequences), forecast_step):
             fs = forecast_step if ((i + forecast_step) < len(time_sequences)) else (len(time_sequences) - i)
             model = sm.tsa.SARIMAX(time_sequences[i], order=self.order, seasonal_order=self.seasonal_order)
             model_res = model.filter(self.model_res.params)
             p = model_res.forecast(fs).reshape([-1, 1])
             result.append(p)
+        """
+        # new predict method, output shape is [len(time_sequences), forecast_step]
+        for i in range(len(time_sequences)):
+            model = sm.tsa.SARIMAX(time_sequences[i], order=self.order, seasonal_order=self.seasonal_order)
+            model_res = model.filter(self.model_res.params)
+            p = model_res.forecast(forecast_step)
+            p = p.reshape([-1, forecast_step])
+            result.append(p)
+        if forecast_step != 1:
+            result = np.concatenate(result, axis=0)
         return np.array(result, dtype=np.float32)

@@ -170,14 +170,13 @@ class STMeta(BaseModel):
                             st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
 
                         elif self._st_method == 'DCRNN':
+                        # laplace_matrix will be diffusion_matrix when self._st_method == 'DCRNN'
 
-                            cell = DCGRUCell(self._num_hidden_unit, self._input_dim, self._num_graph,
-                                             # laplace_matrix will be diffusion_matrix when self._st_method == 'DCRNN'
+                            encoding_cells = [DCGRUCell(self._num_hidden_unit, self._input_dim, self._num_graph,
                                              laplace_matrix,
                                              max_diffusion_step=self._gcn_k,
-                                             num_nodes=self._num_node, name=str(graph_index) + given_name)
+                                             num_nodes=self._num_node, name=str(graph_index) + given_name) for _ in range(self._gclstm_layers)]
 
-                            encoding_cells = [cell] * self._gclstm_layers
                             encoding_cells = tf.contrib.rnn.MultiRNNCell(encoding_cells, state_is_tuple=True)
 
                             inputs_unstack = tf.unstack(tf.reshape(target_tensor, [-1, self._num_node, time_step]),
@@ -190,16 +189,16 @@ class STMeta(BaseModel):
 
                         elif self._st_method == 'GRU':
 
-                            cell = tf.keras.layers.GRUCell(units=self._num_hidden_unit)
-                            multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
+                            multi_layer_gru = tf.keras.layers.StackedRNNCells([tf.keras.layers.GRUCell(units=self._num_hidden_unit) for _ in range(self._gclstm_layers)])
+                            
                             outputs = tf.keras.layers.RNN(multi_layer_gru)(
                                 tf.reshape(target_tensor, [-1, time_step, self._input_dim]))
                             st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])
 
                         elif self._st_method == 'LSTM':
 
-                            cell = tf.keras.layers.LSTMCell(units=self._num_hidden_unit)
-                            multi_layer_gru = tf.keras.layers.StackedRNNCells([cell] * self._gclstm_layers)
+                            multi_layer_gru = tf.keras.layers.StackedRNNCells([tf.keras.layers.LSTMCell(units=self._num_hidden_unit) for _ in range(self._gclstm_layers)])
+                            
                             outputs = tf.keras.layers.RNN(multi_layer_gru)(
                                 tf.reshape(target_tensor, [-1, time_step, self._input_dim]))
                             st_outputs = tf.reshape(outputs, [-1, 1, self._num_hidden_unit])

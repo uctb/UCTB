@@ -18,3 +18,5 @@ from .DCRNN import DCRNN
 
 from .ST_MGCN import ST_MGCN
 from .GeoMAN import GeoMAN
+
+from .STORM import STORM

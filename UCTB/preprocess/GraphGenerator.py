@@ -103,8 +103,30 @@ class GraphGenerator():
         if graph_name.lower() == 'transfer':
             LM = self.adjacent_to_laplacian(
                 self.dataset.data.get('contribute_data').get('graph_transfer'))
+
+        if graph_name.lower() == 'function':
+            AM = self.function_adjacent(self.dataset.data['Node']['POI'], threshold=float(self.threshold_correlation))
+            LM = self.adjacent_to_laplacian(AM)
         return AM, LM
 
+    @staticmethod
+    def function_adjacent(poi_data, threshold):
+        '''
+        Calculate function graph based on pearson coefficient.
+
+        Args:
+            poi_data(ndarray): numpy array with shape [num_node, poi_type_num].
+            threshold(float): float between [-1, 1], nodes with Pearson Correlation coefficient
+                larger than this threshold will be linked together.
+        '''
+        adjacent_matrix = np.zeros([poi_data.shape[0], poi_data.shape[0]])
+        for i in range(poi_data.shape[0]):
+            for j in range(poi_data.shape[0]):
+                r, p_value = pearsonr(poi_data[i, :], poi_data[j, :])
+                adjacent_matrix[i, j] = 0 if np.isnan(r) else r
+        adjacent_matrix = (adjacent_matrix >= threshold).astype(np.float32)
+        return adjacent_matrix
+    
     @staticmethod
     def haversine(lat1, lon1, lat2, lon2):
         """

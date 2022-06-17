@@ -154,10 +154,16 @@ function createoption(obj,SelectedNodeID,startIndex = -1,endIndex = -1, methodid
         },
         xAxis: {
             type: 'category',
-            data: xdata
+            data: xdata,
+            axisLabel: {
+                color: '#fff'
+            }
         },
         yAxis: {
-            type: 'value'
+            type: 'value',
+            axisLabel: {
+                color: '#fff'
+            }
         },
         series: function() {
             var Myseries = new Array();
@@ -345,10 +351,16 @@ function createRMSEoption(methodid, pointid){
         },
         xAxis: {
             type: 'category',
-            data: xdata
+            data: xdata,
+            axisLabel: {
+                color: '#fff'
+            }
         },
         yAxis: {
             type: 'value',
+            axisLabel: {
+                color: '#fff'
+            }
         },
         tooltip: {
             show: true,

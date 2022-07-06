@@ -1,4 +1,3 @@
-
 /*选择数据集*/
 
 /*NYC*/
@@ -69,6 +68,32 @@ var Chicago = {
 }
 var Ctor4 = Vue.extend(Chicago)
 new Ctor4().$mount('#Chicago')
+
+/*New*/
+// var New = {
+//     data () {
+//         return {
+//             value: true
+//         };
+//     },
+//     methods: {
+//         test() {
+//             console.log("Please upload dataset file!")
+//             // data = Bike_Chicago;
+//             // MAPInd = 0; // 选择地图
+//
+//             // 获得该数据集下各个子数据集
+//             // ClearDataSet();
+//             // for (x in data.Pred) {
+//             //     DatasetList.push(x);
+//             // }
+//             // StartDataSet();
+//         }
+//     }
+// }
+// var Ctor5 = Vue.extend(New)
+// new Ctor5().$mount('#New')
+
 
 /*Chongqing*/
 /*var Chongqing = {

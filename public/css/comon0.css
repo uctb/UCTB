@@ -21,9 +21,10 @@ a:hover{ color:#06c; text-decoration: none!important}
 	display: table;
 	content: " "
 }
- .clearfix:after {
+.clearfix:after {
 	clear: both
 }
+
 .pulll_left{float:left;}
 .pulll_right{float:right;}
 /*谷哥滚动条样式*/
@@ -128,18 +129,24 @@ a:hover{ color:#06c; text-decoration: none!important}
 	margin: 0px auto;
 	color: #FFFFff;
 	text-align: center;
-	height: 80px;
+	/*height: 80px;*/
+	height: 1.05rem;
 	background-size: 100% 100%;
 	font-family: "微软雅黑"!important;
 }
 .header_center h1{
 	margin-top: 2px !important;
 	margin-bottom: 20px; !important;
-	font-size: 32px !important;
-
+	/*font-size: 32px !important;*/
+	font-size: .5rem !important;
 }
 /***/
-.canvas{position: absolute; width:100%; left: 0; top: 0; height: 99%; z-index: 1;}
+.canvas{position: absolute;
+		width:100%;
+		left: 0;
+		top: 0;
+		height: 99%;
+		z-index: 1;}
 
 .allnav{height: calc(100% - 30px);background-size: contain;background-repeat: no-repeat;background-position: 50% 50%;  position: relative;}
 
@@ -160,7 +167,7 @@ a:hover{ color:#06c; text-decoration: none!important}
 .head h1 img{ width:1.5rem; display: inline-block; vertical-align: middle; margin-right: .2rem}
 .weather{ position:absolute; right:.3rem; top:0; line-height: .75rem;}
 .weather img{ width:.37rem; display: inline-block; vertical-align: middle;}
-.weather span{color:rgba(255,255,255,.7); font-size: .18rem; padding-right: .1rem;}
+.weather span{color:rgba(255,255,255,.7); font-size: .18rem; padding-right: .1rem}
 .mainbox{ padding:.1rem .1rem 0rem .1rem;}
 .mainbox>ul{}
 .mainbox>ul>li{ float: left; padding: 0 .1rem}
@@ -168,7 +175,7 @@ a:hover{ color:#06c; text-decoration: none!important}
 .mainbox>ul>li{ width: 25%}
 .mainbox>ul>li:nth-child(2){ width: 50%;padding: 0}
 
-.boxall{ border: 1px solid rgba(25,186,139,.17); padding:0 .2rem .4rem .15rem;  background: rgba(255,255,255,.04) url(../images/line.png); background-size: 100% auto; position: relative; margin-bottom: .15rem; z-index: 10;}
+.boxall{ border: 1px solid rgba(25,186,139,.17); padding:0 .2rem 0 .15rem;  background: rgba(255,255,255,.04) url(../images/line.png); background-size: 100% auto; position: relative; margin-bottom: .15rem; z-index: 10;}
 .boxall:before,
 .boxall:after{ position:absolute; width: .1rem; height: .1rem; content: "";  border-top: 2px solid #02a6b5; top: 0;}
 .boxall:before,.boxfoot:before{border-left: 2px solid #02a6b5;left: 0;}
@@ -333,23 +340,30 @@ to {transform: rotate(-359deg);}
 /*	padding:0px;*/
 /*}*/
 .Datasets{
-	margin-top: 20px;
+	margin-top: .1rem;
 }
+
+.Datasets>ul{}
+.Datasets>ul>li{ float: left; padding: 0 .1rem}
+
+.Datasets>ul>li{ width: 25%}
+.Datasets>ul>li:nth-child(2){ width: 50%;padding: 0}
+
 .datasets{
 	float: left;
 	color: rgba(255,255,255,0.8);
-	font-size: 10px;
+	font-size: .15rem;
 	width: 35%;
-	height: 30px;
+	height: .5rem;
 	text-align: left;
-	margin-left: 10px;
+	margin-left: .2rem;
 }
 .button{
 	float: left;
 	width: 50%;
-	height: 30px;
+	height: .5rem;
 	text-align: right;
-	margin-right: 5px;
+	margin-right: .1rem;
 }
 .option{
 	float: left;
@@ -359,4 +373,27 @@ to {transform: rotate(-359deg);}
 	height: 30px;
 	text-align: left;
 	margin-left: 10px;
+}
+.flex{
+	display: flex;
+	flex-wrap: nowrap;
+}
+.box{
+	height: 0.5rem;
+	position: relative;
+	width: 100%;
+	text-align: left;
+	padding-left: .1rem;
+	padding-top: .1rem;
+}
+.box2{
+	height: 0.8rem;
+	position: relative;
+	width: 100%;
+	text-align: left;
+	padding-left: .1rem;
+	padding-top: .1rem;
+}
+/deep/ .el-button{
+	width: .1rem;
 }

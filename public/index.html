@@ -2,6 +2,8 @@
 <html>
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>UCTB Web Tools</title>
 
   <link rel="stylesheet" href="css/comon0.css">
@@ -20,15 +22,7 @@
 
 <div class="head">
 
-  <div class="left nav">
-    <ul>
-      <li>
-
-      </li>
-    </ul>
-  </div>
-
-  <div class="header_center left">
+  <div class="header_center">
     <h1>UCTB Web Tools</h1>
   </div>
 
@@ -58,9 +52,8 @@
   <ul class="clearfix">
 <!--左边部分-->
     <li style="width: 15%">
-
       <!--Datasets-->
-      <div class="boxall" style="height: 3.5rem">
+      <div class="boxall" style="height: 3.2rem">
         <div class="alltitle">Datasets</div>
 
         <ul class="Datasets">
@@ -68,121 +61,83 @@
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="NYC"></el-button>
           </li>
-        </ul>
-        <ul class="Datasets">
           <li class="datasets">DC</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="DC"></el-button>
           </li>
-        </ul>
-        <ul class="Datasets">
           <li class="datasets">Chicago</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="Chicago"></el-button>
           </li>
+          <li class="datasets">Xiamen</li>
+          <li class="button">
+            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="Xiamen"></el-button>
+          </li>
+          <!--<li class="datasets">New</li>
+          <li class="button">
+            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="New"></el-button>
+          </li>-->
         </ul>
 
         <!--Xian, Chongqing-->
  <!--
-        <ul class="Datasets">
           <li class="datasets">Chongqing</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="Chongqing"></el-button>
             &lt;!&ndash;            <button onclick="FinishDataSet(Metro_Chongqing)" style="height:24px; width:60px">ok</button>&ndash;&gt;
           </li>
-        </ul>
 
-        <ul class="Datasets">
           <li class="datasets">Xian</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="Xian"></el-button>
           </li>
-        </ul>
         -->
-
-        <ul class="Datasets">
-          <li class="datasets">Xiamen</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="Xiamen"></el-button>
-          </li>
-        </ul>
 
         <div class="boxfoot"></div>
       </div>
 
       <!--Datasets option-->
       <div class="boxall" style="height: 1rem">
-        <div class="alltitle" style="font-size: 15px">Datasets Options</div>
+        <div class="alltitle" style="font-size: .2rem">Datasets Options</div>
           <select id="Dataset" onchange="ChangeDataSet(this.value)" style="text-align:center;text-align-last:center; margin-left: 0px"> </select>
-
-<!--        <ul class="Datasets">
-          <li class="datasets">closeness=6,period=0,trend=0:</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="ChangeDataSet" id="version1"></el-button>
-          </li>
-        </ul>
-        <ul class="Datasets">
-          <li class="datasets">closeness=6,period=7,trend=4:</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="ChangeDataSet" id="version2"></el-button>
-          </li>
-        </ul>-->
-
-<!--        <div class="block">
-          <el-cascader
-                  size="'mini"
-                  id="option"
-                  v-model="value"
-                  :options="options"
-                  :props="{ expandTrigger: 'hover' }"
-                  @change="handleChange(flag)"></el-cascader>
-        </div>-->
-
       </div>
 
       <!--Model-->
-      <div class="boxall" style="height: 6rem">
-        <div class="alltitle" id="wordcloud_name">Model</div>
+      <div class="boxall" style="height: 5.1rem">
+        <div class="alltitle">Model</div>
 
         <ul class="Datasets">
           <li class="datasets">HM</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="HM"></el-button>
           </li>
-        </ul>
-
-        <ul class="Datasets">
           <li class="datasets">HMM</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="HMM"></el-button>
           </li>
-        </ul>
-
-        <ul class="Datasets">
           <li class="datasets">ARIMA</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="ARIMA"></el-button>
           </li>
-        </ul>
-
-        <ul class="Datasets">
           <li class="datasets">XGBoost</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="XGBoost"></el-button>
           </li>
-        </ul>
-
-        <ul class="Datasets">
           <li class="datasets">GBRT</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="GBRT"></el-button>
           </li>
-        </ul>
-
-        <ul class="Datasets">
           <li class="datasets">DCRNN</li>
           <li class="button">
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="DCRNN"></el-button>
+          </li>
+          <li class="datasets">GeoMAN</li>
+          <li class="button">
+            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="GeoMAN"></el-button>
+          </li>
+          <li class="datasets">ST_MGCN</li>
+          <li class="button">
+            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="ST_MGCN"></el-button>
           </li>
         </ul>
 
@@ -192,20 +147,6 @@
             <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="DeepST"></el-button>
           </li>
         </ul>-->
-
-        <ul class="Datasets">
-          <li class="datasets">GeoMAN</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="GeoMAN"></el-button>
-          </li>
-        </ul>
-
-        <ul class="Datasets">
-          <li class="datasets">ST_MGCN</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="ST_MGCN"></el-button>
-          </li>
-        </ul>
 
         <!--<ul class="Datasets">
           <li class="datasets">ST_ResNet</li>
@@ -221,33 +162,8 @@
           </li>
         </ul>
 
-        <ul class="Datasets">
-          <li class="datasets">TMeta</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="TMeta_C6P0T0_GD_K0L1_F60_LSTMC"></el-button>
-          </li>
-        </ul>
 
-        <ul class="Datasets">
-          <li class="datasets">V1</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="V1_C6P7T4_GDCL_K1L1_F60_BM"></el-button>
-          </li>
-        </ul>
 
-        <ul class="Datasets">
-          <li class="datasets">V2</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="V2_C6P7T4_GDCL_K1L1_F60_BM"></el-button>
-          </li>
-        </ul>
-
-        <ul class="Datasets">
-          <li class="datasets">V3</li>
-          <li class="button">
-            <el-button circle icon="el-icon-circle-check" size="mini" @click.native="test" id="V3_C6P7T4_GDCL_K1L1_F60_BM"></el-button>
-          </li>
-        </ul>
 -->
       </div>
     </li>
@@ -283,40 +199,50 @@
       <!--Functional zone-->
       <div class="boxall" style="height:1.8rem">
 
-        <!-- 起始时间点 -->
-        <div class="container" style="height:10px; width:530px; margin-left:10px; margin-top:20px;float:left;">
-          <label style="color: white">StartTime:&nbsp;</label>
-          <input id="starttime" type="datetime-local" style="height: 20px; width: 170px" value="2000-01-01T00:00:00" />
-          <button id="okbutton1" onclick="ChangeFinish()" style="height:20px; width:30px">ok</button>
-          <el-button icon="el-icon-magic-stick" size="mini" @click.native="Highlight" id="highlightbutton" style="height: 20px;">highlight</el-button>
+        <div class="box flex">
+          <!-- 起始时间点 -->
+          <div style="width: 60%; padding-top: .1rem">
+            <label style="color: white">StartTime:&nbsp;</label>
+            <input id="starttime" type="datetime-local" style="height: .3rem; width: 2rem" value="2000-01-01T00:00:00" />
+          </div>
+          <div style="width: 10%; padding-top: .1rem">
+            <button id="okbutton1" onclick="ChangeFinish()" style="height: .3rem; width: .4rem">ok</button>
+          </div>
+          <div style="width: 30%; padding-top: 0.05rem">
+            <el-button icon="el-icon-magic-stick" size="mini" @click.native="Highlight" id="highlightbutton" style="width: 1.2rem; height: .3rem">highlight</el-button>
+          </div>
         </div>
 
-        <!-- 结束时间点 -->
-        <div class="container" id="endtimediv" style="height:10px; width:530px; margin-left:10px; margin-top:20px;float:left">
-          <label style="color: white">EndTime:&nbsp;&nbsp;</label>
-          <input id="endtime" type="datetime-local" style="height: 20px; width: 170px" value="2000-01-01T00:00:00"/>
-          <button id="okbutton2" onclick="ChangeFinish()" style="height:20px; width:30px">ok</button>
+        <div class="box flex">
+          <!-- 结束时间点 -->
+          <div style="width: 60%; padding-top: .1rem">
+            <label style="color: white">EndTime:&nbsp;</label>
+            <input id="endtime" type="datetime-local" style="height: .3rem; width: 2rem" value="2000-01-01T00:00:00" />
+          </div>
+          <div style="width: 10%; padding-top: .1rem">
+            <button id="okbutton2" onclick="ChangeFinish()" style="height: .3rem; width: .4rem">ok</button>
+          </div>
         </div>
 
         <!--std of RMSE-->
-        <div class="container"  style="height:30px; width:500px; margin-left:10px; margin-top:20px;float:left; color:white">
-          <ul>
-            <li style="float: left; color: rgba(255,255,255,0.8)">Standard of RMSE:&nbsp;
-              <input type='text' id ='standard' style="width:50px" value=1>
-              <button id="okbutton5" onclick="SetStandard()" style="height:20px; width:40px;">ok</button>
-            </li>
-            <li style="float: left; color: rgba(255,255,255,0.8); margin-left: 20px">point ID：
-              <input type='text' id ='points' style="width:50px" value=0>
-              <button id="okbutton4" onclick="FinishPointSelect()" style="height:20px; width:40px;">ok</button>
-            </li>
-          </ul>
-
-          <!--std of RE-->
-          <!--<label style="margin-left:15px; color:white">Std. of RE:&nbsp;&nbsp;</label>
-          <input type='text' id ='re_standard' style="width:25px" value=10>&nbsp;%</input>
-          <button id="okbutton6" onclick="SetREStandard()" style="height:20px; width:40px;">ok</button>-->
-
+        <div class="box2 flex">
+          <div style="width: 60%; padding-top: .1rem; text-align: left">
+            <label style="color: white">Standard of RMSE:&nbsp;</label>
+            <input type='text' id ='standard' style="width:.5rem" value=1>
+            <button id="okbutton5" onclick="SetStandard()" style="height:20px; width:.4rem;">ok</button>
+          </div>
+          <div style="width: 40%; padding-top: .1rem">
+            <label style="color: white">point ID：&nbsp;</label>
+            <input type='text' id ='points' style="width:.5rem" value=0>
+            <button id="okbutton4" onclick="FinishPointSelect()" style="height:20px; width:.4rem;">ok</button>
+          </div>
         </div>
+
+        <!--std of RE-->
+        <!--<label style="margin-left:15px; color:white">Std. of RE:&nbsp;&nbsp;</label>
+        <input type='text' id ='re_standard' style="width:25px" value=10>&nbsp;%</input>
+        <button id="okbutton6" onclick="SetREStandard()" style="height:20px; width:40px;">ok</button>-->
+
       </div>
 
       <!--prediction et truth-->

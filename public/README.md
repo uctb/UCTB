@@ -30,6 +30,47 @@ http://localhost:8000/file path
 
 
 
+### 数据集格式
+
+```json
+my_dataset = {
+    "TimeRange": ['YYYY-MM-DD', 'YYYY-MM-DD'],
+    "TimeFitness": 60, 
+    "Node": {
+        "TrafficNode": [],
+        "TrafficMonthlyInteraction": [],
+        "StationInfo": list, # shape [num-of-node, 5], 后三个值分别为区域的纬度、经度、名称
+        "POI": []
+    },
+    "Grid": {
+        "TrafficGrid": [],
+        "GridLatLng": [],
+        "POI": []
+    },
+    "ExternalFeature": [],
+  	"Pred": {
+      "loader_id_1": {
+        "GroundTruth": list,
+        "method": {
+          "traffic_data_index": list,
+          "TrafficNode": list,
+          "rmse": float,
+          "mape": float,
+          "mae": float
+        }
+      },
+      "loader_id_2": {},
+      ...
+    }
+}
+```
+
+
+
+该数据集通过执行UCTB内置的函数 ```save_predict_in_dataset``` 和 转换程序 ```ChangePKLtoJSON.py``` 即可得到，转换程序功能即去除冗余数据以及将numpy数组转化为list。
+
+为了添加误差值，在原 ```save_predict_in_dataset``` 函数中新增参数```error```，该参数为一个含有三个误差```RMSE```、```MAPE```、```MAE```的数组。
+
 
 
 

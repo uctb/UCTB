@@ -74,11 +74,11 @@ var button = {
             if(line_highlight == 0) {line_highlight = 1;}
             else {line_highlight = 0; }
 
-            Initoption = createoption(data,pointID,StartInd,EndInd,MethodID);
+            let Initoption = createoption(data,pointID,StartInd,EndInd,MethodID);
             drawline(Initoption);
 
             /*error折线图*/
-            RMSE_option = createRMSEoption(MethodID,pointID);
+            let RMSE_option = createRMSEoption(MethodID,pointID);
             drawRMSEhistogram(RMSE_option);
         }
     }

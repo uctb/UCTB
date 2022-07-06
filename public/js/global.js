@@ -42,7 +42,7 @@ var MAPInd = 0;                              // 选择哪个地图
 
 var MAXError = 0.1;       // 单点认为判断准确的最大相对误差
 var MAXABSError = 1       // 单点认为判断准确的最大绝对误差
-var MINACCURACY = 1;     // 认为某方法能准确预测地图点的流量的最低准确率。
+var MINACCURACY = 1;     // 认为某方法能准确预测地图点的流量的最低准确率 RMSE
 
 var MODE = 0;               // 标记位，表示不一样的方法。0表示使用相对误差，1表示绝对误差
 

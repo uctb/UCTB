@@ -29,10 +29,6 @@
   
 
   
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-  
-    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
-  
 
   
         <link rel="index" title="Index"
@@ -159,9 +155,9 @@
 <h1><span class="section-number">5.3. </span>UCTB.model_unit package<a class="headerlink" href="#uctb-model-unit-package" title="Permalink to this headline">¶</a></h1>
 <section id="module-UCTB.model_unit.BaseModel">
 <span id="uctb-model-unit-basemodel-module"></span><h2><span class="section-number">5.3.1. </span>UCTB.model_unit.BaseModel module<a class="headerlink" href="#module-UCTB.model_unit.BaseModel" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.model_unit.BaseModel.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">code_version</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_dir</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gpu_device</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="UCTB.model_unit.BaseModel.BaseModel">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.BaseModel.</code><code class="sig-name descname">BaseModel</code><span class="sig-paren">(</span><em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <dl class="simple">
 <dt>BaseModel is the base class for many models, such as STMeta, ST-MGCN and ST_ResNet,</dt><dd><p>you can also build your own model using this class. More information can be found in tutorial.</p>
@@ -176,9 +172,9 @@
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.build">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">init_vars</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_to_keep</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.build" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.build">
+<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.build" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Args</dt><dd><p>init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
 max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
@@ -186,15 +182,15 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.close">
-<span class="sig-name descname"><span class="pre">close</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.close" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.close">
+<code class="sig-name descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the session, release memory.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.fit">
-<span class="sig-name descname"><span class="pre">fit</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('loss',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">op_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('train_op',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">evaluate_loss_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'loss'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">batch_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_epoch</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">validate_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shuffle_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stop_method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'t-test'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stop_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">early_stop_patience</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_model_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_load_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_outputs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.fit" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">sequence_length</em>, <em class="sig-param">output_names=('loss'</em>, <em class="sig-param">)</em>, <em class="sig-param">op_names=('train_op'</em>, <em class="sig-param">)</em>, <em class="sig-param">evaluate_loss_name='loss'</em>, <em class="sig-param">batch_size=64</em>, <em class="sig-param">max_epoch=10000</em>, <em class="sig-param">validate_ratio=0.1</em>, <em class="sig-param">shuffle_data=True</em>, <em class="sig-param">early_stop_method='t-test'</em>, <em class="sig-param">early_stop_length=10</em>, <em class="sig-param">early_stop_patience=0.1</em>, <em class="sig-param">verbose=True</em>, <em class="sig-param">save_model=True</em>, <em class="sig-param">save_model_name=None</em>, <em class="sig-param">auto_load_model=True</em>, <em class="sig-param">return_outputs=False</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.fit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -221,9 +217,9 @@ before the training. Set to False to disable the auto-loading.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.load">
-<span class="sig-name descname"><span class="pre">load</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscript</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.load">
+<code class="sig-name descname">load</code><span class="sig-paren">(</span><em class="sig-param">subscript</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>subscript</strong> – String, subscript will be appended to the code version as the model file name,
@@ -232,9 +228,9 @@ and load the corresponding model using this filename</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.load_event_scalar">
-<span class="sig-name descname"><span class="pre">load_event_scalar</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scalar_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'val_loss'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load_event_scalar" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.load_event_scalar">
+<code class="sig-name descname">load_event_scalar</code><span class="sig-paren">(</span><em class="sig-param">scalar_name='val_loss'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load_event_scalar" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>scalar_name</strong> – load the corresponding scalar name from tensorboard-file,
@@ -243,9 +239,9 @@ e.g. load_event_scalar(‘val_loss)</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.predict">
-<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequence_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('prediction',)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">64</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.predict" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">sequence_length</em>, <em class="sig-param">output_names=('prediction'</em>, <em class="sig-param">)</em>, <em class="sig-param">cache_volume=64</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.predict" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -259,9 +255,9 @@ the whole validation dataset</p></li>
 <p>:param : return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, …}</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.BaseModel.BaseModel.save">
-<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">subscript</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">global_step</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.save" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.BaseModel.BaseModel.save">
+<code class="sig-name descname">save</code><span class="sig-paren">(</span><em class="sig-param">subscript</em>, <em class="sig-param">global_step</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.save" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -278,14 +274,14 @@ and save the corresponding model using this filename</p></li>
 </section>
 <section id="module-UCTB.model_unit.DCRNN_CELL">
 <span id="uctb-model-unit-dcrnn-cell-module"></span><h2><span class="section-number">5.3.2. </span>UCTB.model_unit.DCRNN_CELL module<a class="headerlink" href="#module-UCTB.model_unit.DCRNN_CELL" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="UCTB.model_unit.DCRNN_CELL.DCGRUCell">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.model_unit.DCRNN_CELL.</span></span><span class="sig-name descname"><span class="pre">DCGRUCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">input_dim</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_graphs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supports</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_diffusion_step</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_proj=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=&lt;function</span> <span class="pre">tanh&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reuse=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gc_for_ru=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.DCRNN_CELL.</code><code class="sig-name descname">DCGRUCell</code><span class="sig-paren">(</span><em class="sig-param">num_units</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">num_graphs</em>, <em class="sig-param">supports</em>, <em class="sig-param">max_diffusion_step</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">num_proj=None</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em>, <em class="sig-param">reuse=None</em>, <em class="sig-param">use_gc_for_ru=True</em>, <em class="sig-param">name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.ops.rnn_cell_impl.RNNCell</span></code></p>
 <p>Graph Convolution Gated Recurrent Unit cell.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.call">
-<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.call" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.call" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is where the layer’s logic lives.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -300,9 +296,9 @@ and save the corresponding model using this filename</p></li>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape">
-<span class="sig-name descname"><span class="pre">compute_output_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape">
+<code class="sig-name descname">compute_output_shape</code><span class="sig-paren">(</span><em class="sig-param">input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Computes the output shape of the layer.</p>
 <p>Assumes that the layer will be built
 to match that input shape provided.</p>
@@ -319,9 +315,9 @@ instead of an integer.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">output_size</span></span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size">
+<em class="property">property </em><code class="sig-name descname">output_size</code><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>size of outputs produced by this cell.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -330,9 +326,9 @@ instead of an integer.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">state_size</span></span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size">
+<em class="property">property </em><code class="sig-name descname">state_size</code><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>size(s) of state(s) used by this cell.</p>
 <p>It can be represented by an Integer, a TensorShape or a tuple of Integers
 or TensorShapes.</p>
@@ -343,14 +339,14 @@ or TensorShapes.</p>
 </section>
 <section id="module-UCTB.model_unit.GraphModelLayers">
 <span id="uctb-model-unit-graphmodellayers-module"></span><h2><span class="section-number">5.3.3. </span>UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#module-UCTB.model_unit.GraphModelLayers" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GAL">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.model_unit.GraphModelLayers.</span></span><span class="sig-name descname"><span class="pre">GAL</span></span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="UCTB.model_unit.GraphModelLayers.GAL">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GAL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class provides static methods for adding Graph Attention Layer.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_ga_layer_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_head</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=&lt;function</span> <span class="pre">tanh&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">
+<em class="property">static </em><code class="sig-name descname">add_ga_layer_matrix</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">units</em>, <em class="sig-param">num_head</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method use Multi-head attention technique to add Graph Attention Layer.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -371,28 +367,28 @@ gc_output: The final GAL aggregated feature representation from input feature.</
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_residual_ga_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_head</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=&lt;function</span> <span class="pre">tanh&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer">
+<em class="property">static </em><code class="sig-name descname">add_residual_ga_layer</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">units</em>, <em class="sig-param">num_head</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call the add_ga_layer_matrix function to build the Graph Attention Layer,
 and add the residual layer to optimize the deep neural network.</p>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">attention_merge_weight</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_head</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=&lt;function</span> <span class="pre">leaky_relu&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight">
+<em class="property">static </em><code class="sig-name descname">attention_merge_weight</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">units</em>, <em class="sig-param">num_head</em>, <em class="sig-param">activation=&lt;function leaky_relu&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GCL">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.model_unit.GraphModelLayers.</span></span><span class="sig-name descname"><span class="pre">GCL</span></span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="UCTB.model_unit.GraphModelLayers.GCL">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="sig-name descname">GCL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class provides static methods for adding Graph Convolution Layer.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_gc_layer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcn_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">laplacian_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dtype=tf.float32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_bias=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trainable=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initializer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">regularizer=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=&lt;function</span> <span class="pre">tanh&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">
+<em class="property">static </em><code class="sig-name descname">add_gc_layer</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">gcn_k</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">output_size</em>, <em class="sig-param">dtype=tf.float32</em>, <em class="sig-param">use_bias=True</em>, <em class="sig-param">trainable=True</em>, <em class="sig-param">initializer=None</em>, <em class="sig-param">regularizer=None</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -414,9 +410,9 @@ and add the residual layer to optimize the deep neural network.</p>
 </dl>
 </dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_multi_gc_layers</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcn_k</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcn_l</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_size</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">laplacian_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">activation=&lt;function</span> <span class="pre">tanh&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers">
+<em class="property">static </em><code class="sig-name descname">add_multi_gc_layers</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">graph_id</em>, <em class="sig-param">gcn_k</em>, <em class="sig-param">gcn_l</em>, <em class="sig-param">output_size</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Call add_gc_layer function to add multi Graph Convolution Layer.`gcn_l` is the number of layers added.</p>
 </dd></dl>
 
@@ -425,9 +421,9 @@ and add the residual layer to optimize the deep neural network.</p>
 </section>
 <section id="module-UCTB.model_unit.ST_RNN">
 <span id="uctb-model-unit-st-rnn-module"></span><h2><span class="section-number">5.3.4. </span>UCTB.model_unit.ST_RNN module<a class="headerlink" href="#module-UCTB.model_unit.ST_RNN" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="UCTB.model_unit.ST_RNN.GCLSTMCell">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.model_unit.ST_RNN.</span></span><span class="sig-name descname"><span class="pre">GCLSTMCell</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">units</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nodes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">laplacian_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcn_k</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gcn_l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
+<dl class="class">
+<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.model_unit.ST_RNN.</code><code class="sig-name descname">GCLSTMCell</code><span class="sig-paren">(</span><em class="sig-param">units</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">laplacian_matrix</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_l=1</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tensorflow.python.keras.layers.recurrent.LSTMCell</span></code></p>
 <p>GCLSTMCell is one of our implemented ST-RNN models in handling the spatial and temporal features.
 We performed GCN on both LSTM inputs and hidden-states. The code is inherited from tf.keras.layers.LSTMCell,
@@ -445,26 +441,9 @@ in the __init__ function.</p>
 </ul>
 </dd>
 </dl>
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.ST_RNN.GCLSTMCell.build">
-<span class="sig-name descname"><span class="pre">build</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_shape</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates the variables of the layer (optional, for subclass implementers).</p>
-<p>This is a method that implementers of subclasses of <cite>Layer</cite> or <cite>Model</cite>
-can override if they need a state-creation step in-between
-layer instantiation and layer call.</p>
-<p>This is typically used to create the weights of <cite>Layer</cite> subclasses.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>input_shape</strong> – Instance of <cite>TensorShape</cite>, or list of instances of
-<cite>TensorShape</cite> if the layer expects a list of inputs
-(one instance per input).</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="UCTB.model_unit.ST_RNN.GCLSTMCell.call">
-<span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">states</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">training</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.call" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell.call">
+<code class="sig-name descname">call</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">states</em>, <em class="sig-param">training=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell.call" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is where the layer’s logic lives.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -531,10 +510,10 @@ layer instantiation and layer call.</p>
             HAS_SOURCE: 'true'
         };
     </script>
-      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
 
   
 

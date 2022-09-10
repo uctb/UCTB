@@ -176,11 +176,11 @@ class GCL(object):
         return activation(gc_outputs)
 
     @staticmethod
-    def add_multi_gc_layers(inputs, graph_id, gcn_k, gcn_l, output_size, laplacian_matrix, activation=tf.nn.tanh):
+    def add_multi_gc_layers(inputs, gcn_k, gcn_l, output_size, laplacian_matrix, activation=tf.nn.tanh):
         '''
         Call add_gc_layer function to add multi Graph Convolution Layer.`gcn_l` is the number of layers added.
         '''
-        with tf.variable_scope('multi_gcl_%s' % graph_id, reuse=False):
+        with tf.variable_scope('multi_gcl', reuse=False):
             for i in range(gcn_l):
                 with tf.variable_scope('gcl_%s' % i, reuse=False):
                     inputs = GCL.add_gc_layer(inputs=inputs,

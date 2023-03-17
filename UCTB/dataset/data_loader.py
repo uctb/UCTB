@@ -6,7 +6,7 @@ import numpy as np
 from dateutil.parser import parse
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import pearsonr
-
+from UCTB.model.AGCRN import normalize_dataset
 from ..preprocess.time_utils import is_work_day_china, is_work_day_america, is_valid_date
 from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
 
@@ -195,6 +195,8 @@ class NodeTrafficLoader(object):
                  workday_parser=is_work_day_america,
                  with_tpe=False,
                  data_dir=None,
+                 normalizer="std",
+                 column_wise=False,
                  MergeIndex=1,
                  MergeWay="sum",
                  remove=True,**kwargs):
@@ -224,6 +226,7 @@ class NodeTrafficLoader(object):
 
         num_time_slots = data_range[1] - data_range[0]
 
+
         # traffic feature
         if remove:
             self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
@@ -231,7 +234,9 @@ class NodeTrafficLoader(object):
             self.traffic_data_index = np.arange(self.dataset.node_traffic.shape[1])
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
-            np.float32)
+             np.float32)
+        self.traffic_data, self.scaler = normalize_dataset(self.traffic_data, normalizer, column_wise)    
+        # import pdb;pdb.set_trace()
 
         # external feature
         external_feature = []

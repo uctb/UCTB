@@ -18,6 +18,12 @@ Currently the package supported the following models: ([Details](https://uctb.gi
 - DCRNN
 - DeepST
 - GeoMAN
+- AGCRN
+- ASTGCN
+- GraphWaveNet
+- GMAN
+- STSGCN
+- STGCN
 - HM
 - HMM
 - ST-MGCN

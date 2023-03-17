@@ -1,5 +1,6 @@
 import numpy as np
-
+import sys
+sys.path.append('/mnt/UCTB_master/')
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import DCRNN
 from UCTB.evaluation import metric

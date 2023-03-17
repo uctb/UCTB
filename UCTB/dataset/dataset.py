@@ -51,11 +51,21 @@ class DataSet(object):
             pkl_file_name = os.path.join(data_dir, '{}_{}.pkl'.format(self.dataset, self.city))
         else:
             pkl_file_name = self.dataset
+        
 
+        print(pkl_file_name)
+        print(pkl_file_name)
         if os.path.isfile(pkl_file_name) is False:
             try:
+                print(121212212)
                 tar_file_name = os.path.join(data_dir, '{}_{}.tar.gz'.format(self.dataset, self.city))
                 if os.path.isfile(tar_file_name) is False:
+                    # print('Downloading data into', data_dir)
+                    # print(tar_file_name)
+                    # # wget.download('/mnt/UCTB/data/Bike_NYC.tar.gz' %
+                    # #               (dataset, city), tar_file_name)
+                    # print('Download succeed')
+                    # print(self.dataset,self.city)
                     print('Downloading data into', data_dir)
                     wget.download('https://github.com/Di-Chai/UCTB_Data/blob/master/%s_%s.tar.gz?raw=true' %
                                   (dataset, city), tar_file_name)
@@ -74,7 +84,8 @@ class DataSet(object):
 
         with open(pkl_file_name, 'rb') as f:
             self.data = pickle.load(f)
-
+        # import pdb;pdb.set_trace()
+        # print("Marking Here")
         # merge data
         if self.MergeIndex > 1:
             self.data['TimeFitness']  = int(self.data['TimeFitness']*self.MergeIndex)
@@ -91,12 +102,11 @@ class DataSet(object):
         self.node_traffic = self.data['Node']['TrafficNode']
         self.node_monthly_interaction = self.data['Node']['TrafficMonthlyInteraction']
         self.node_station_info = self.data['Node']['StationInfo']
-
+        
         self.grid_traffic = self.data['Grid']['TrafficGrid']
         self.grid_lat_lng = self.data['Grid']['GridLatLng']
-
+        
         self.external_feature_weather = self.data['ExternalFeature']['Weather']
-
     def merge_data(self,data,dataType):
         if self.MergeWay == "sum":
             func = np.sum

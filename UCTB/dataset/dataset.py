@@ -51,21 +51,12 @@ class DataSet(object):
             pkl_file_name = os.path.join(data_dir, '{}_{}.pkl'.format(self.dataset, self.city))
         else:
             pkl_file_name = self.dataset
-        
+        print(pkl_file_name,"LLLLLLLLLLLLLLLLL")
 
-        print(pkl_file_name)
-        print(pkl_file_name)
         if os.path.isfile(pkl_file_name) is False:
             try:
-                print(121212212)
                 tar_file_name = os.path.join(data_dir, '{}_{}.tar.gz'.format(self.dataset, self.city))
                 if os.path.isfile(tar_file_name) is False:
-                    # print('Downloading data into', data_dir)
-                    # print(tar_file_name)
-                    # # wget.download('/mnt/UCTB/data/Bike_NYC.tar.gz' %
-                    # #               (dataset, city), tar_file_name)
-                    # print('Download succeed')
-                    # print(self.dataset,self.city)
                     print('Downloading data into', data_dir)
                     wget.download('https://github.com/Di-Chai/UCTB_Data/blob/master/%s_%s.tar.gz?raw=true' %
                                   (dataset, city), tar_file_name)

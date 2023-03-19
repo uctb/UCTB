@@ -2,13 +2,13 @@ import os
 from os.path import join as pjoin
 import tensorflow as tf
 import sys
-UCTBfile="/mnt/UCTB_master/"
+UCTBfile="/mnt/UCTB_master3/"
 # UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
 sys.path.append(UCTBfile)
-from UCTB.model.STGCN import model_test,model_train,data_gen_cly
-from  UCTB.model.STGCN import scaled_laplacian,cheb_poly_approx
+from UCTB.utils.STGCN.STGCN_utils import model_test,model_train,data_gen_cly
+from  UCTB.model.STGCN import cheb_poly_approx
+from UCTB.evaluation.metric import scaled_laplacian
 import argparse
-
 
 
 os.environ["CUDA_VISIBLE_DEVICES"] = "1"

@@ -2,11 +2,10 @@ from genericpath import exists
 import math
 import argparse
 import sys
-UCTBfile="/mnt/UCTB_master/"
+UCTBfile="/mnt/UCTB_master3/"
 # UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
 sys.path.append(UCTBfile)
-from UCTB.model.GMAN import loadData_cly
-from UCTB.model.GMAN import *
+from UCTB.utils.GMAN.GMAN_utils import *
 import time, datetime
 import numpy as np
 import tensorflow as tf
@@ -19,7 +18,6 @@ import argparse
 import os
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.model.GMAN import NodeTrafficLoader
-from UCTB.model.GMAN import graph_to_adj_files,read_graph,learn_embeddings
 
 #args config
 parser = argparse.ArgumentParser()
@@ -67,10 +65,7 @@ parser.add_argument('--model_file', default='data/GMAN(PeMS)',
                     help='save the model to disk')
 parser.add_argument('--log_file', default='data/log(PeMS)',
                     help='log file')
-
 args = parser.parse_args()
-
-
 
 #config data_loader
 data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
@@ -79,10 +74,9 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 closeness_len=args.closeness_len,
                                 period_len=args.period_len,
                                 trend_len=args.trend_len,
-                                normalize=False,
+                                normalize=False,remove=False,
                                 MergeIndex=args.MergeIndex,
                                 MergeWay=args.MergeWay)
-os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 graph_obj = GraphGenerator(graph='distance', data_loader=data_loader, threshold_distance=args.threshold_distance)
 
 
@@ -95,18 +89,25 @@ walk_length = 80
 dimensions = 64
 window_size = 10
 epochs = 1000
-Adj_file = os.path.abspath("./{}_{}_adj.txt".format(args.dataset, args.city))
+Adj_file = os.path.abspath("./Graph_File/{}_{}_adj.txt".format(args.dataset, args.city))
 print(Adj_file)
-SE_file = os.path.abspath("./{}_{}_SE.txt".format(args.dataset, args.city))
+SE_file = os.path.abspath("./Graph_File/{}_{}_SE.txt".format(args.dataset, args.city))
+os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 
 
 #Generate Graph embeddind
+
 graph_to_adj_files(graph_obj.AM[0], Adj_file)
 nx_G = read_graph(Adj_file)
 G = Graph(nx_G, is_directed, p, q)
+
+# import pdb;pdb.set_trace()
+
 G.preprocess_transition_probs()
+
 walks = G.simulate_walks(num_walks, walk_length)
 learn_embeddings(walks, dimensions, SE_file,epochs)
+
 
 #reset args to Train
 args = parser.parse_args()

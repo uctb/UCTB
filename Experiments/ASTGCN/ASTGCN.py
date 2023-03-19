@@ -11,12 +11,11 @@ import GPUtil
 import argparse
 import configparser
 import sys
-UCTBfile="/mnt/UCTB_master/"
+UCTBfile="/mnt/UCTB_master3/"
 # UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
 sys.path.append(UCTBfile)
 from UCTB.model.ASTGCN import make_model
-from UCTB.model.ASTGCN import load_graphdata_channel1, get_adjacency_matrix, compute_val_loss_mstgcn, predict_and_save_results_mstgcn, normalization
-from UCTB.model.ASTGCN import masked_mape_np,  masked_mae,masked_mse,masked_rmse
+from UCTB.evaluation.metric import *
 from UCTB.preprocess import SplitData
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.dataset import NodeTrafficLoader
@@ -25,7 +24,7 @@ from UCTB.model.ASTGCN import train_main,load_graphdata_CLY,predict_main
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--config", default='/mnt/UCTB待补充模型/ASTGCN-r-pytorch_0913/configurations/PEMS04_astgcn.conf', type=str,
+parser.add_argument("--config", default='./configurations/PEMS04_astgcn.conf', type=str,
                     help="configuration file path")
 parser.add_argument("--dataset", default='Bike', type=str,
                     help="configuration file path")
@@ -80,7 +79,6 @@ else:
 USE_CUDA = torch.cuda.is_available()
 DEVICE = torch.device('cuda:{}'.format(current_device))
 print("CUDA:", USE_CUDA, DEVICE)
-print("MergeIndex:", args.MergeIndex)
 
 
 
@@ -120,10 +118,8 @@ adj_mx = graph_obj.AM[0]
 net = make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, adj_mx,
                  num_for_predict, len_input, num_of_vertices)
 
-#train
+#train and predict
 train_main(training_config,params_path,DEVICE,net,val_loader,train_loader,test_loader,test_target_tensor,_mean, _std,graph_signal_matrix_filename)
-#
-#     # predict_main(13, test_loader, test_target_tensor,metric_method, _mean, _std, 'test')
 
 # apply the best model on the test set
 

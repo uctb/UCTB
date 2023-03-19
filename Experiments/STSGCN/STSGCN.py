@@ -4,7 +4,7 @@ import time, pdb
 import json
 import argparse
 import sys
-UCTBfile="/mnt/UCTB_master/"
+UCTBfile="/mnt/UCTB_master3/"
 # UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
 sys.path.append(UCTBfile)
 import numpy as np
@@ -13,12 +13,12 @@ from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.preprocess import SplitData
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation.metric import rmse, mape
-from UCTB.model.STSGCN import (construct_model, construct_model_cly, generate_data,
-                   masked_mae_np, masked_mape_np, masked_mse_np,configMix,training)
+from UCTB.model.STSGCN import *
+from UCTB.utils.STSGCN.STSGCN_utils import *
 
 #args
 parser = argparse.ArgumentParser()
-parser.add_argument("--config", type=str, default='/mnt/UCTB待补充模型/STSGCN/config/PEMS03/STMeta_emb.json',help='configuration file')
+parser.add_argument("--config", type=str, default='./config/PEMS03/STMeta_emb.json',help='configuration file')
 parser.add_argument("--test", action="store_true", help="test program")
 parser.add_argument("--plot", help="plot network graph", action="store_true")
 parser.add_argument("--save", type=bool, default=True, help="save model")
@@ -59,7 +59,7 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 MergeWay=args.MergeWay)
 
 #config_params
-model_name,epochs,metric,mod,train_loader, val_loader, test_loader,de_normalizer,val_y,test_y,all_info=configMix(args,data_loader,batch_size,config,ctx)
+model_name,epochs,metric,mod,train_loader, val_loader, test_loader,de_normalizer,val_y,test_y,all_info=configData_cly(args,data_loader,batch_size,config,ctx)
 
 
 #Train Or Test

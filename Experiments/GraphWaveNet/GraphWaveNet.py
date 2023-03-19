@@ -5,8 +5,10 @@ import time
 # import util
 import matplotlib.pyplot as plt
 import sys
-sys.path.append('/mnt/UCTB_master/')
-from UCTB.model.GraphWaveNet import trainer,Training,DataLoader,StandardScaler
+UCTBfile="/mnt/UCTB_master3/"
+# UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
+sys.path.append(UCTBfile)
+from UCTB.utils.GraphWaveNet.GraphWavaNet_util import *
 import os
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.preprocess import SplitData
@@ -71,59 +73,6 @@ if not os.path.exists(args.save):
 graph_obj = GraphGenerator(graph='distance', data_loader=uctb_data_loader)
 
 
-def load_dataset_cly(uctb_data_loader, batch_size, valid_batch_size=None, test_batch_size=None):
-    # x_train (num_slots, time_steps, num_stations, input_dims)
-    # y_train (num_slots, time_steps, num_stations, input_dims)
-    data = {}
-    # for category in ['train', 'val', 'test']:
-    #     cat_data = np.load(os.path.join(dataset_dir, category + '.npz'))
-    #     data['x_' + category] = cat_data['x']
-    #     data['y_' + category] = cat_data['y']
-    # print("x_train",data["x_train"].shape)
-    # print("y_train",data["y_train"].shape)
-    # print("x_val",data["x_val"].shape)
-    # print("y_val",data["y_val"].shape)
-    # print("x_test",data["x_test"].shape)
-    # print("y_test",data["y_test"].shape)
-
-    # split data
-    train_closeness, val_closeness = SplitData.split_data(uctb_data_loader.train_closeness, [0.9, 0.1])
-    train_period, val_period = SplitData.split_data(uctb_data_loader.train_period, [0.9, 0.1])
-    train_trend, val_trend = SplitData.split_data(uctb_data_loader.train_trend, [0.9, 0.1])
-    train_y, val_y = SplitData.split_data(uctb_data_loader.train_y, [0.9, 0.1])
-
-    # train_x = np.concatenate([train_trend, train_period, train_closeness],axis=2).transpose( # [0,3,1,2] [0,2,1,3]
-    if uctb_data_loader.period_len > 0 and uctb_data_loader.trend_len > 0:
-        data["x_train"] = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 3, 1, 2])
-        data["x_val"] = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 3, 1, 2])
-        data["x_test"] = np.concatenate(
-            [uctb_data_loader.test_trend, uctb_data_loader.test_period, uctb_data_loader.test_closeness],
-            axis=2).transpose([0, 3, 1, 2])
-    else:
-        data["x_train"] = train_closeness.transpose([0, 3, 1, 2])
-        data["x_val"] = val_closeness.transpose([0, 3, 1, 2])
-        data["x_test"] = uctb_data_loader.test_closeness.transpose([0, 3, 1, 2])
-
-    data["y_train"] = train_y[:, np.newaxis]
-    data["y_val"] = val_y[:, np.newaxis]
-    data["y_test"] = uctb_data_loader.test_y[:, np.newaxis]
-
-    print("x_train", data["x_train"].shape)
-    print("y_train", data["y_train"].shape)
-    print("x_val", data["x_val"].shape)
-    print("y_val", data["y_val"].shape)
-    print("x_test", data["x_test"].shape)
-    print("y_test", data["y_test"].shape)
-
-    scaler = StandardScaler(mean=data['x_train'][..., 0].mean(), std=data['x_train'][..., 0].std())
-    # Data format
-    for category in ['train', 'val', 'test']:
-        data['x_' + category][..., 0] = scaler.transform(data['x_' + category][..., 0])
-    data['train_loader'] = DataLoader(data['x_train'], data['y_train'], batch_size)
-    data['val_loader'] = DataLoader(data['x_val'], data['y_val'], valid_batch_size)
-    data['test_loader'] = DataLoader(data['x_test'], data['y_test'], test_batch_size)
-    data['scaler'] = scaler
-    return data
 
 
 

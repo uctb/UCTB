@@ -1,171 +1,12 @@
 # -*- coding:utf-8 -*-
-
 import os
 import time
 import numpy as np
 import mxnet as mx
-from UCTB.evaluation.metric import rmse, mape
+from UCTB.evaluation.metric import rmse, mape,huber_loss
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.preprocess import SplitData
 from UCTB.dataset import NodeTrafficLoader
-def configMix(args,data_loader,batch_size,config,ctx):
-    print("args['normalize']", args.normalize)
-    de_normalizer = None if args.normalize is False else data_loader.normalizer.min_max_denormal
-    graph_obj = GraphGenerator(graph='distance', data_loader=data_loader)
-
-    config["num_of_vertices"] = data_loader.station_number
-    config["points_per_hour"] = data_loader.closeness_len + data_loader.period_len + data_loader.trend_len
-    num_of_vertices = config["num_of_vertices"]
-    net = construct_model_cly(config, AM=graph_obj.AM[0])
-
-    model_name = "{}_{}_{}".format(args.dataset, args.city, args.MergeIndex)
-    print("model_name:", model_name)
-
-    train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
-    train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
-    train_trend, val_trend = SplitData.split_data(data_loader.train_trend, [0.9, 0.1])
-    train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
-
-    # T, num_node, 1 -> T, 1, num_node
-    train_y = train_y.transpose([0, 2, 1])
-    val_y = val_y.transpose([0, 2, 1])
-    test_y = data_loader.test_y.transpose([0, 2, 1])
-
-    # T, num_node, dimension, 1 -> T, dimension, num_node, 1
-    if data_loader.period_len > 0 and data_loader.trend_len > 0:
-        seq_train = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 2, 1, 3])
-        seq_val = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 2, 1, 3])
-        seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
-                                  axis=2).transpose([0, 2, 1, 3])
-    else:
-        seq_train = train_closeness.transpose([0, 2, 1, 3])
-        seq_val = val_closeness.transpose([0, 2, 1, 3])
-        seq_test = data_loader.test_closeness.transpose([0, 2, 1, 3])
-
-    print(seq_train.shape, seq_val.shape, seq_test.shape)
-
-    loaders = []
-    true_values = []
-    for item in ["train", "val", "test"]:
-        loaders.append(
-            mx.io.NDArrayIter(
-                eval("seq_{}".format(item)), eval("{}_y".format(item)),
-                batch_size=batch_size,
-                shuffle=True,
-                label_name='label'
-            )
-        )
-        true_values.append(eval("{}_y".format(item)))
-
-    train_loader, val_loader, test_loader = loaders
-    _, val_y, test_y = true_values
-
-    global_epoch = 1
-    training_samples = len(seq_train)
-    global_train_steps = training_samples // batch_size + 1
-    all_info = []
-    epochs = config['epochs']
-
-    mod = mx.mod.Module(
-        net,
-        data_names=['data'],
-        label_names=['label'],
-        context=ctx
-    )
-
-    mod.bind(
-        data_shapes=[(
-            'data',
-            (batch_size, config['points_per_hour'], num_of_vertices, 1)
-        ), ],
-        label_shapes=[(
-            'label',
-            (batch_size, config['num_for_predict'], num_of_vertices)
-        )]
-    )
-
-    mod.init_params(initializer=mx.init.Xavier(magnitude=0.0003))
-    lr_sch = mx.lr_scheduler.PolyScheduler(
-        max_update=global_train_steps * epochs * config['max_update_factor'],
-        base_lr=config['learning_rate'],
-        pwr=2,
-        warmup_steps=global_train_steps
-    )
-
-    mod.init_optimizer(
-        optimizer=config['optimizer'],
-        optimizer_params=(('lr_scheduler', lr_sch),)
-    )
-
-    num_of_parameters = 0
-    for param_name, param_value in mod.get_params()[0].items():
-        # print(param_name, param_value.shape)
-        num_of_parameters += np.prod(param_value.shape)
-    print("Number of Parameters: {}".format(num_of_parameters), flush=True)
-
-    metric = mx.metric.create(['RMSE', 'MAE'], output_names=['pred_output'])
-
-    if args.plot:
-        graph = mx.viz.plot_network(net)
-        graph.format = 'png'
-        graph.render('graph')
-    return model_name,epochs,metric,mod,train_loader, val_loader, test_loader,de_normalizer,val_y,test_y,all_info
-
-
-def training(epochs,metric,mod,train_loader,val_loader, test_loader,de_normalizer,val_y,test_y,all_info):
-    
-    global global_epoch
-    global_epoch=1
-    lowest_val_loss = np.inf
-    for _ in range(epochs):
-        t = time.time()
-        info = [global_epoch]
-        train_loader.reset()
-        metric.reset()
-        for idx, databatch in enumerate(train_loader):
-            # print(databatch,type(databatch))
-            mod.forward_backward(databatch)
-            mod.update_metric(metric, databatch.label)
-            mod.update()
-        metric_values = dict(zip(*metric.get()))
-
-        print('training: Epoch: %s, RMSE: %.2f, MAE: %.2f, time: %.2f s' % (
-            global_epoch, metric_values['rmse'], metric_values['mae'],
-            time.time() - t), flush=True)
-        # info.append(metric_values['mae'])
-        info.append(metric_values['rmse'])
-
-        val_loader.reset()
-        prediction = mod.predict(val_loader)[1].asnumpy()
-        # loss = masked_mae_np(val_y, prediction, 0)
-        loss = masked_mse_np(val_y, prediction, 0)
-        print('validation: Epoch: %s, loss: %.2f, time: %.2f s' % (
-            global_epoch, loss, time.time() - t), flush=True)
-        info.append(loss)
-
-        if loss < lowest_val_loss:
-
-            test_loader.reset()
-            prediction = mod.predict(test_loader)[1].asnumpy()
-            if de_normalizer:
-                prediction = de_normalizer(prediction)
-                de_norm_test_y = de_normalizer(test_y)
-            rmse_result = rmse(prediction=prediction.squeeze(), target=test_y.squeeze(), threshold=0)
-            mape_result = mape(prediction=prediction.squeeze(), target=test_y.squeeze(), threshold=0.01)
-
-            print('test: Epoch: {}, MAPE: {:.2f}, RMSE: {:.2f}, '
-                  'time: {:.2f}s'.format(
-                global_epoch, mape_result, rmse_result, time.time() - t))
-            print(flush=True)
-            info.extend((mape_result, rmse_result))
-            all_info.append(info)
-            lowest_val_loss = loss
-
-        global_epoch += 1
-
-
-
-
 def position_embedding(data,
                        input_length, num_of_vertices, embedding_size,
                        temporal=True, spatial=True,
@@ -566,59 +407,7 @@ def output_layer(data, num_of_vertices, input_length, num_of_features,
     return data
 
 
-def huber_loss(data, label, rho=1):
-    '''
-    Parameters
-    ----------
-    data: mx.sym.var, shape is (B, T', N)
 
-    label: mx.sym.var, shape is (B, T', N)
-
-    rho: float
-
-    Returns
-    ----------
-    loss: mx.sym
-    '''
-
-    loss = mx.sym.abs(data - label)
-    loss = mx.sym.where(loss > rho, loss - 0.5 * rho,
-                        (0.5 / rho) * mx.sym.square(loss))
-    loss = mx.sym.MakeLoss(loss)
-    return loss
-
-
-def weighted_loss(data, label, input_length, rho=1):
-    '''
-    weighted loss build on huber loss
-
-    Parameters
-    ----------
-    data: mx.sym.var, shape is (B, T', N)
-
-    label: mx.sym.var, shape is (B, T', N)
-
-    input_length: int, T'
-
-    rho: float
-
-    Returns
-    ----------
-    agg_loss: mx.sym
-    '''
-
-    # shape is (1, T, 1)
-    weight = mx.sym.expand_dims(
-        mx.sym.expand_dims(
-            mx.sym.flip(mx.sym.arange(1, input_length + 1), axis=0),
-            axis=0
-        ), axis=-1
-    )
-    agg_loss = mx.sym.broadcast_mul(
-        huber_loss(data, label, rho),
-        weight
-    )
-    return agg_loss
 
 
 def stsgcn(data, adj, label,
@@ -664,67 +453,6 @@ def stsgcn(data, adj, label,
     loss = huber_loss(data, label, rho=rho)
     return mx.sym.Group([loss, mx.sym.BlockGrad(data, name='pred')])
 
-
-
-def construct_model(config):
-
-    module_type = config['module_type']
-    act_type = config['act_type']
-    temporal_emb = config['temporal_emb']
-    spatial_emb = config['spatial_emb']
-    use_mask = config['use_mask']
-    batch_size = config['batch_size']
-
-    num_of_vertices = config['num_of_vertices']
-    num_of_features = config['num_of_features']
-    points_per_hour = config['points_per_hour']
-    num_for_predict = config['num_for_predict']
-    adj_filename = config['adj_filename']
-    id_filename = config['id_filename']
-    if id_filename is not None:
-        if not os.path.exists(id_filename):
-            id_filename = None
-
-    adj = get_adjacency_matrix(adj_filename, num_of_vertices,
-                               id_filename=id_filename)
-    print("Adj:",adj.shape)
-    adj_mx = construct_adj(adj, 3)
-    print("The shape of localized adjacency matrix: {}".format(
-        adj_mx.shape), flush=True)
-
-    data = mx.sym.var("data")
-    label = mx.sym.var("label")
-    adj = mx.sym.Variable('adj', shape=adj_mx.shape,
-                          init=mx.init.Constant(value=adj_mx.tolist()))
-    adj = mx.sym.BlockGrad(adj)
-    mask_init_value = mx.init.Constant(value=(adj_mx != 0)
-                                       .astype('float32').tolist())
-
-    filters = config['filters']
-    first_layer_embedding_size = config['first_layer_embedding_size']
-    if first_layer_embedding_size:
-        data = mx.sym.Activation(
-            mx.sym.FullyConnected(
-                data,
-                flatten=False,
-                num_hidden=first_layer_embedding_size
-            ),
-            act_type='relu'
-        )
-    else:
-        first_layer_embedding_size = num_of_features
-    net = stsgcn(
-        data, adj, label,
-        points_per_hour, num_of_vertices, first_layer_embedding_size,
-        filters, module_type, act_type,
-        use_mask, mask_init_value, temporal_emb, spatial_emb,
-        prefix="", rho=1, predict_length=12
-    )
-    assert net.infer_shape(
-        data=(batch_size, points_per_hour, num_of_vertices, 1),
-        label=(batch_size, num_for_predict, num_of_vertices)
-    )[1][1] == (batch_size, num_for_predict, num_of_vertices)
-    return net
 
 
 def construct_model_cly(config, AM):
@@ -781,6 +509,9 @@ def construct_model_cly(config, AM):
         label=(batch_size, num_for_predict, num_of_vertices)
     )[1][1] == (batch_size, num_for_predict, num_of_vertices)
     return net
+
+
+
 
 def get_adjacency_matrix(distance_df_filename, num_of_vertices,
                          type_='connectivity', id_filename=None):
@@ -869,89 +600,4 @@ def construct_adj(A, steps):
     return adj
 
 
-def generate_from_train_val_test(data, transformer):
-    mean = None
-    std = None
-    for key in ('train', 'val', 'test'):
-        x, y = generate_seq(data[key], 12, 12)
-        if transformer:
-            x = transformer(x)
-            y = transformer(y)
-        if mean is None:
-            mean = x.mean()
-        if std is None:
-            std = x.std()
-        yield (x - mean) / std, y
 
-
-def generate_from_data(data, length, transformer):
-    mean = None
-    std = None
-    train_line, val_line = int(length * 0.6), int(length * 0.8)
-    for line1, line2 in ((0, train_line),
-                         (train_line, val_line),
-                         (val_line, length)):
-        x, y = generate_seq(data['data'][line1: line2], 12, 12)
-        if transformer:
-            x = transformer(x)
-            y = transformer(y)
-        if mean is None:
-            mean = x.mean()
-        if std is None:
-            std = x.std()
-        yield (x - mean) / std, y
-
-
-def generate_data(graph_signal_matrix_filename, transformer=None):
-    '''
-    shape is (num_of_samples, 12, num_of_vertices, 1)
-    '''
-    data = np.load(graph_signal_matrix_filename)
-    keys = data.keys()
-    if 'train' in keys and 'val' in keys and 'test' in keys:
-        for i in generate_from_train_val_test(data, transformer):
-            yield i
-    elif 'data' in keys:
-        length = data['data'].shape[0]
-        for i in generate_from_data(data, length, transformer):
-            yield i
-    else:
-        raise KeyError("neither data nor train, val, test is in the data")
-
-
-def generate_seq(data, train_length, pred_length):
-    seq = np.concatenate([np.expand_dims(
-        data[i: i + train_length + pred_length], 0)
-        for i in range(data.shape[0] - train_length - pred_length + 1)],
-        axis=0)[:, :, :, 0: 1]
-    return np.split(seq, 2, axis=1)
-
-
-def mask_np(array, null_val):
-    if np.isnan(null_val):
-        return (~np.isnan(null_val)).astype('float32')
-    else:
-        return np.not_equal(array, null_val).astype('float32')
-
-
-def masked_mape_np(y_true, y_pred, null_val=np.nan):
-    with np.errstate(divide='ignore', invalid='ignore'):
-        mask = mask_np(y_true, null_val)
-        mask /= mask.mean()
-        mape = np.abs((y_pred - y_true) / y_true)
-        mape = np.nan_to_num(mask * mape)
-        return np.mean(mape) * 100
-
-
-def masked_mse_np(y_true, y_pred, null_val=np.nan):
-    mask = mask_np(y_true, null_val)
-    mask /= mask.mean()
-    mse = (y_true - y_pred) ** 2
-    return np.mean(np.nan_to_num(mask * mse))
-
-
-def masked_mae_np(y_true, y_pred, null_val=np.nan):
-    mask = mask_np(y_true, null_val)
-    mask /= mask.mean()
-    mae = np.abs(y_true - y_pred)
-    return np.mean(np.nan_to_num(mask * mae))

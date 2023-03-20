@@ -17,7 +17,7 @@ from gensim.models import Word2Vec
 import argparse
 import os
 from UCTB.preprocess.GraphGenerator import GraphGenerator
-from UCTB.model.GMAN import NodeTrafficLoader
+from UCTB.dataset import NodeTrafficLoader
 
 #args config
 parser = argparse.ArgumentParser()

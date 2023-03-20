@@ -51,7 +51,6 @@ class DataSet(object):
             pkl_file_name = os.path.join(data_dir, '{}_{}.pkl'.format(self.dataset, self.city))
         else:
             pkl_file_name = self.dataset
-        print(pkl_file_name,"LLLLLLLLLLLLLLLLL")
 
         if os.path.isfile(pkl_file_name) is False:
             try:

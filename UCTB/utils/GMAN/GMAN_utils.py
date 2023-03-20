@@ -293,7 +293,6 @@ def placeholder(P, Q, N):
     return X, TE, label, is_training
 
 def graph_to_adj_files(adjacent_matrix, Adj_file):
-    print(Adj_file,"*****************((((((((((()))))))))))")
     if not os.path.exists(Adj_file):
         with open(Adj_file, "w") as fp:
             adj_list = []

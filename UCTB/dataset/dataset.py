@@ -74,8 +74,6 @@ class DataSet(object):
 
         with open(pkl_file_name, 'rb') as f:
             self.data = pickle.load(f)
-        # import pdb;pdb.set_trace()
-        # print("Marking Here")
         # merge data
         if self.MergeIndex > 1:
             self.data['TimeFitness']  = int(self.data['TimeFitness']*self.MergeIndex)

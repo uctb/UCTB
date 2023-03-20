@@ -100,9 +100,6 @@ os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 graph_to_adj_files(graph_obj.AM[0], Adj_file)
 nx_G = read_graph(Adj_file)
 G = Graph(nx_G, is_directed, p, q)
-
-# import pdb;pdb.set_trace()
-
 G.preprocess_transition_probs()
 
 walks = G.simulate_walks(num_walks, walk_length)

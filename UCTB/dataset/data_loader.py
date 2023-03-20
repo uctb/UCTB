@@ -233,7 +233,6 @@ class NodeTrafficLoader(object):
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
              np.float32)
         self.traffic_data, self.scaler = normalize_dataset(self.traffic_data, normalizer, column_wise)    
-        # # import pdb;pdb.set_trace()
 
         # external feature
         external_feature = []

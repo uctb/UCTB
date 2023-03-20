@@ -52,7 +52,6 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
     config.gpu_options.allow_growth = True
     sess = tf.compat.v1.Session(config=config)
     sess.run(tf.compat.v1.global_variables_initializer())
-    # import pdb;pdb.set_trace()
 
     log_string(log, '**** training model ****')
     num_val = valX.shape[0]

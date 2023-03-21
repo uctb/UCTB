@@ -14,7 +14,7 @@ from scipy.sparse.linalg import eigs
 from UCTB.preprocess import GraphGenerator,SplitData
 from tensorboardX import SummaryWriter
 from UCTB.evaluation.metric import *
-from UCTB.utils.ASTGCN.ASTGCN_utils import *
+from UCTB.utils.utils_ASTGCN import *
 
 
 class Spatial_Attention_layer(nn.Module):

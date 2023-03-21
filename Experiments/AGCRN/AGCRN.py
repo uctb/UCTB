@@ -10,10 +10,7 @@ import configparser
 import configparser
 import sys
 import sys
-
-UCTBfile="/mnt/UCTB_master3/"
-# UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
-sys.path.append(UCTBfile)
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
 from torch.utils.data import dataloader
 import torch, pdb
 import numpy as np
@@ -22,10 +19,10 @@ import argparse
 import configparser
 from datetime import datetime
 from UCTB.model.AGCRN import AGCRN
-from UCTB.utils.AGCRN.AGCRN_utils import Trainer
+from UCTB.utils.utils_AGCRN import Trainer
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.preprocess import GraphGenerator,SplitData
-from UCTB.utils.AGCRN.AGCRN_utils import get_dataloader_cly
+from UCTB.utils.utils_AGCRN import get_dataloader_cly
 
 
 #GPU状态检测
@@ -44,15 +41,12 @@ args.add_argument('--debug', default='True', type=eval)
 args.add_argument('--model', default='AGCRN', type=str)
 args.add_argument('--cuda', default=True, type=bool)
 
-DATASET = 'PEMSD8'      #PEMSD4 or PEMSD8
 DEVICE = 'cuda:{}'.format(current_device)
-MODEL = 'AGCRN'
 DATASETPATH=os.path.abspath('.')
-DATASETPATH=DATASETPATH+'/PEMS/PEMSD4_AGCRN.conf'
+DATASETPATH=DATASETPATH+'/params.conf'
+
 #get configuration
-config_file = './{}_{}.conf'.format(DATASET, MODEL)
 config = configparser.ConfigParser()
-print(DATASETPATH)
 config.read(DATASETPATH)
 #device
 args.add_argument('--device', default=DEVICE, type=str, help='indices of GPUs')

@@ -5,10 +5,9 @@ import time
 # import util
 import matplotlib.pyplot as plt
 import sys
-UCTBfile="/mnt/UCTB_master3/"
-# UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
-sys.path.append(UCTBfile)
-from UCTB.utils.GraphWaveNet.GraphWavaNet_util import *
+import os
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
+from UCTB.utils.utils_GraphWaveNet import *
 import os
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.preprocess import SplitData

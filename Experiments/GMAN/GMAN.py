@@ -2,10 +2,9 @@ from genericpath import exists
 import math
 import argparse
 import sys
-UCTBfile="/mnt/UCTB_master3/"
-# UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
-sys.path.append(UCTBfile)
-from UCTB.utils.GMAN.GMAN_utils import *
+import os
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
+from UCTB.utils.utils_GMAN import *
 import time, datetime
 import numpy as np
 import tensorflow as tf

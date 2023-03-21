@@ -1,17 +1,17 @@
 import numpy as np
-import sys
-sys.path.append('/mnt/UCTB_master/')
+
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import DCRNN
 from UCTB.evaluation import metric
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 
+
 class my_data_loader(NodeTrafficLoader):
 
     def __init__(self, **kwargs):
 
-        super(my_data_loader, self).__init__(**kwargs) 
-        
+        super(my_data_loader, self).__init__(**kwargs)
+
         # generate LM
         graph_obj = GraphGenerator(graph=kwargs['graph'], data_loader=self)
         self.AM = graph_obj.AM
@@ -25,6 +25,7 @@ class my_data_loader(NodeTrafficLoader):
             d_mat_inv = np.diag(d_inv)
             random_walk_mx = d_mat_inv.dot(adjacent_mx)
             return random_walk_mx
+
         assert len(self.AM) == 1
 
         diffusion_matrix = []
@@ -86,5 +87,6 @@ prediction = DCRNN_Obj.predict(inputs=np.concatenate((data_loader.test_trend.tra
 
 # Evaluate
 print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y.transpose([0, 2, 1])),
+                                 target=data_loader.normalizer.min_max_denormal(
+                                     data_loader.test_y.transpose([0, 2, 1])),
                                  threshold=0))

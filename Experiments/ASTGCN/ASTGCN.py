@@ -11,9 +11,7 @@ import GPUtil
 import argparse
 import configparser
 import sys
-UCTBfile="/mnt/UCTB_master3/"
-# UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
-sys.path.append(UCTBfile)
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
 from UCTB.model.ASTGCN import make_model
 from UCTB.evaluation.metric import *
 from UCTB.preprocess import SplitData

@@ -4,9 +4,8 @@ import time, pdb
 import json
 import argparse
 import sys
-UCTBfile="/mnt/UCTB_master3/"
-# UCTBfile变量：填入自己系统中UCTB_master文件夹的绝对路径
-sys.path.append(UCTBfile)
+import os
+sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
 import numpy as np
 import mxnet as mx
 from UCTB.preprocess.GraphGenerator import GraphGenerator
@@ -14,7 +13,7 @@ from UCTB.preprocess import SplitData
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation.metric import rmse, mape
 from UCTB.model.STSGCN import *
-from UCTB.utils.STSGCN.STSGCN_utils import *
+from UCTB.utils.utils_STSGCN import *
 
 #args
 parser = argparse.ArgumentParser()

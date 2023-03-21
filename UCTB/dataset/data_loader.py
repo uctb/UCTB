@@ -223,7 +223,6 @@ class NodeTrafficLoader(object):
 
         num_time_slots = data_range[1] - data_range[0]
 
-
         # traffic feature
         if remove:
             self.traffic_data_index = np.where(np.mean(self.dataset.node_traffic, axis=0) * self.daily_slots > 1)[0]
@@ -232,7 +231,7 @@ class NodeTrafficLoader(object):
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
              np.float32)
-        self.traffic_data, self.scaler = normalize_dataset(self.traffic_data, normalizer, column_wise)    
+        self.traffic_data1, self.scaler = normalize_dataset(self.traffic_data, normalizer, column_wise)    
 
         # external feature
         external_feature = []

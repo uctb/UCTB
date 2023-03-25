@@ -2,16 +2,13 @@ import os
 import copy
 import datetime
 import numpy as np
-
 from dateutil.parser import parse
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import pearsonr
-
 from ..preprocess.time_utils import is_work_day_china, is_work_day_america, is_valid_date
 from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
-
 from .dataset import DataSet
-
+from ..preprocess.preprocessor import *
 
 class GridTrafficLoader(object):
 
@@ -195,6 +192,8 @@ class NodeTrafficLoader(object):
                  workday_parser=is_work_day_america,
                  with_tpe=False,
                  data_dir=None,
+                 normalizer="std",
+                 column_wise=False,
                  MergeIndex=1,
                  MergeWay="sum",
                  remove=True,**kwargs):
@@ -231,7 +230,8 @@ class NodeTrafficLoader(object):
             self.traffic_data_index = np.arange(self.dataset.node_traffic.shape[1])
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
-            np.float32)
+             np.float32)
+        self.traffic_data1, self.scaler = normalize_dataset(self.traffic_data, normalizer, column_wise)    
 
         # external feature
         external_feature = []
@@ -561,3 +561,49 @@ class TransferDataLoader(object):
                               )[self.sd_loader.traffic_data_index]
 
         return [[e[np.argmax(e)], np.argmax(e), ] for e in cosine_similarity(td_checkin, sd_checkin)]
+
+
+def normalize_dataset(data, normalizer, column_wise=False):
+    if normalizer == 'max01':
+        if column_wise:
+            minimum = data.min(axis=0, keepdims=True)
+            maximum = data.max(axis=0, keepdims=True)
+        else:
+            minimum = data.min()
+            maximum = data.max()
+        scaler = MinMax01Scaler(minimum, maximum)
+        data = scaler.transform(data)
+        print('Normalize the dataset by MinMax01 Normalization')
+    elif normalizer == 'max11':
+        if column_wise:
+            minimum = data.min(axis=0, keepdims=True)
+            maximum = data.max(axis=0, keepdims=True)
+        else:
+            minimum = data.min()
+            maximum = data.max()
+        scaler = MinMax11Scaler(minimum, maximum)
+        data = scaler.transform(data)
+        print('Normalize the dataset by MinMax11 Normalization')
+    elif normalizer == 'std':
+        if column_wise:
+            mean = data.mean(axis=0, keepdims=True)
+            std = data.std(axis=0, keepdims=True)
+        else:
+            mean = data.mean()
+            std = data.std()
+        scaler = StandardScaler(mean, std)
+        data = scaler.transform(data)
+        print('Normalize the dataset by Standard Normalization')
+    elif normalizer == 'None':
+        scaler = NScaler()
+        data = scaler.transform(data)
+        print('Does not normalize the dataset')
+    elif normalizer == 'cmax':
+        #column min max, to be depressed
+        #note: axis must be the spatial dimension, please check !
+        scaler = ColumnMinMaxScaler(data.min(axis=0), data.max(axis=0))
+        data = scaler.transform(data)
+        print('Normalize the dataset by Column Min-Max Normalization')
+    else:
+        raise ValueError
+    return data, scaler

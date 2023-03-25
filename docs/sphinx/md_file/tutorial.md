@@ -3,9 +3,7 @@
 
 #### Use datasets from UCTB
 
-UCTB is designed for urban computing in various scenarios. Currently, It presets a public dataset about bikesharing. This dataset was collected from U.S. open data portals, including 49 million, 13 million, and 14 million historical flow records in [New York City](https://www.citibikenyc.com/system-data) (``NYC``), [Chicago](https://www.divvybikes.com/system-data) (``Chicago``) and [Washington, D.C](https://www.capitalbikeshare.com/system-data) (``DC``), respectively. Each record contains the start station, start time, stop station, stop time, etc. We predict the number of bikesharing demands in each station (i.e., the number of bike borrowers).
-
-In the future version, we consider releasing more datasets covering other applications such as ridesharing, metro traffic flow, and electrical charging station usage. **If you are interested in this project, making a contribution to the dataset is strongly welcomed :)** 
+UCTB is designed for urban computing in various scenarios. Currently, It releases [a public dataset repository](https://github.com/uctb/Urban-Dataset) including bike sharing, ride sharing, traffic speed, and pedestrian counting applications. **If you are interested in this project, making a contribution to the dataset is strongly welcomed :)** 
 
 To help better accuse dataset, UCTB provides data loader APIs ``UCTB.dataset.data_loader``, which can be used to preprocess data, including data division, normalization, and extract temporal and spatial knowledge. 
 
@@ -108,14 +106,14 @@ Also, we provide interface to help build your own dataset, through which we clar
 
 To build a UCTB dataset, it is necessary to provide variables listed as below.
 
-|variable_name|corresponding field|description|
-|:--|:--|:--|
-|time_fitness| ds['TimeFitness'] |The length of the interval between adjacent slots|
-|time_range| ds['TimeRange'] field| the time interval at the beginning and end of the data |
-|traffic_node| ds['Node']['TrafficNode'] | the spatio-temporal information |
-|node_satation_info| ds['Node']['StationInfo']| the basic information of each data collecting node|
-|dataset_name| \ | name of the dataset |
-|city| \ | A variable used to integrate holiday and weather information to traffic data|
+|variable_name|description|
+|:--|:--|
+|time_fitness|The length of the interval between adjacent slots|
+|time_range| the time interval at the beginning and end of the data |
+|traffic_node| the spatio-temporal information |
+|node_satation_info| the basic information of each data collecting node|
+|dataset_name| name of the dataset |
+|city| A variable used to integrate holiday and weather information to traffic data|
 
 Then, use the specified path to save the dataset, otherwise it will be saved in the current run-time path.
 
@@ -155,13 +153,13 @@ Output:
 
 What's more, if you want to integrate additional information of the dataset, just specify the optional argument as bellow.
 
-|variable_name|corresponding field|description|
-|:--|:--|:--|
-|traffic_monthly_interaction| ds[Node][TrafficMonthlyInteraction] | the interactive information among data collecting nodes. |
-|poi| ds['Node']['POI']、ds['Grid']['POI'] | point of interests |
-|traffic_grid| ds['Grid']['TrafficGrid'] | the spatio-temporal information in grid format. |
-|gird_lat_lng| ds['Grid']['GridLatLng']| the basic information of each data collecting grid.|
-|Weather| \ | the weather information of each day. |
+|variable_name|description|
+|:--|:--|
+|traffic_monthly_interaction| the interactive information among data collecting nodes. |
+|poi| point of interests |
+|traffic_grid| the spatio-temporal information in grid format. |
+|gird_lat_lng| the basic information of each data collecting grid.|
+|Weather| the weather information of each day. |
 
 for example, specify the argument ``external_feature_weather`` with numpy.array object.
 

@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Experiments on bike traffic-flow prediction &mdash; UCTB  documentation</title>
@@ -146,7 +145,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="experiments-on-bike-traffic-flow-prediction">
+  <div class="section" id="experiments-on-bike-traffic-flow-prediction">
 <h1>Experiments on bike traffic-flow prediction<a class="headerlink" href="#experiments-on-bike-traffic-flow-prediction" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>Experiment Setting</p>
@@ -174,145 +173,145 @@
 </ul>
 </li>
 </ul>
-<section id="only-closeness-feature-will-delete-in-future-version">
+<div class="section" id="only-closeness-feature-will-delete-in-future-version">
 <h2>Only closeness feature (will delete in future version)<a class="headerlink" href="#only-closeness-feature-will-delete-in-future-version" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th align="center"></th>
-<th align="center">NYC</th>
-<th align="center">Chicago</th>
-<th align="center">DC</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">NYC</th>
+<th style="text-align: center;">Chicago</th>
+<th style="text-align: center;">DC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">HM</td>
-<td align="center">6.79734</td>
-<td align="center">4.68078</td>
-<td align="center">3.66747</td>
+<td style="text-align: center;">HM</td>
+<td style="text-align: center;">6.79734</td>
+<td style="text-align: center;">4.68078</td>
+<td style="text-align: center;">3.66747</td>
 </tr>
 <tr>
-<td align="center">ARIMA</td>
-<td align="center">5.60477</td>
-<td align="center">3.79739</td>
-<td align="center">3.31826</td>
+<td style="text-align: center;">ARIMA</td>
+<td style="text-align: center;">5.60477</td>
+<td style="text-align: center;">3.79739</td>
+<td style="text-align: center;">3.31826</td>
 </tr>
 <tr>
-<td align="center">HMM</td>
-<td align="center">5.42030</td>
-<td align="center">3.79743</td>
-<td align="center">3.20889</td>
+<td style="text-align: center;">HMM</td>
+<td style="text-align: center;">5.42030</td>
+<td style="text-align: center;">3.79743</td>
+<td style="text-align: center;">3.20889</td>
 </tr>
 <tr>
-<td align="center">XGBoost</td>
-<td align="center">5.32069</td>
-<td align="center">3.75124</td>
-<td align="center">3.14101</td>
+<td style="text-align: center;">XGBoost</td>
+<td style="text-align: center;">5.32069</td>
+<td style="text-align: center;">3.75124</td>
+<td style="text-align: center;">3.14101</td>
 </tr>
 <tr>
-<td align="center">LSTM</td>
-<td align="center">5.13307</td>
-<td align="center">3.69806</td>
-<td align="center">3.14331</td>
+<td style="text-align: center;">LSTM</td>
+<td style="text-align: center;">5.13307</td>
+<td style="text-align: center;">3.69806</td>
+<td style="text-align: center;">3.14331</td>
 </tr>
 <tr>
-<td align="center">CG-GCLSTM</td>
-<td align="center">4.64375</td>
-<td align="center">3.38255</td>
-<td align="center">2.87655</td>
+<td style="text-align: center;">CG-GCLSTM</td>
+<td style="text-align: center;">4.64375</td>
+<td style="text-align: center;">3.38255</td>
+<td style="text-align: center;">2.87655</td>
 </tr>
 <tr>
-<td align="center">DG-GCLSTM</td>
-<td align="center">4.67169</td>
-<td align="center">3.51243</td>
-<td align="center">2.98404</td>
+<td style="text-align: center;">DG-GCLSTM</td>
+<td style="text-align: center;">4.67169</td>
+<td style="text-align: center;">3.51243</td>
+<td style="text-align: center;">2.98404</td>
 </tr>
 <tr>
-<td align="center">IG-GCLSTM</td>
-<td align="center">4.77809</td>
-<td align="center">3.45625</td>
-<td align="center">2.68370</td>
+<td style="text-align: center;">IG-GCLSTM</td>
+<td style="text-align: center;">4.77809</td>
+<td style="text-align: center;">3.45625</td>
+<td style="text-align: center;">2.68370</td>
 </tr>
 <tr>
-<td align="center">ST_MGCN (Multi-Graph)</td>
-<td align="center">4.41732</td>
-<td align="center"></td>
-<td align="center"></td>
+<td style="text-align: center;">ST_MGCN (Multi-Graph)</td>
+<td style="text-align: center;">4.41732</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr>
-<td align="center">STMeta</td>
-<td align="center">4.22640</td>
-<td align="center">3.02301</td>
-<td align="center">2.58584</td>
+<td style="text-align: center;">STMeta</td>
+<td style="text-align: center;">4.22640</td>
+<td style="text-align: center;">3.02301</td>
+<td style="text-align: center;">2.58584</td>
 </tr>
 </tbody>
-</table></section>
-<section id="latest-result">
+</table></div>
+<div class="section" id="latest-result">
 <h2>Latest result<a class="headerlink" href="#latest-result" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th align="center"></th>
-<th align="center">NYC</th>
-<th align="center">Chicago</th>
-<th align="center">DC</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;">NYC</th>
+<th style="text-align: center;">Chicago</th>
+<th style="text-align: center;">DC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">HM（params searched）</td>
-<td align="center">3.99224 (C1-P1-T3)</td>
-<td align="center">2.97693 (C1-P1-T2)</td>
-<td align="center">2.63165 (C2-P1-T3)</td>
+<td style="text-align: center;">HM（params searched）</td>
+<td style="text-align: center;">3.99224 (C1-P1-T3)</td>
+<td style="text-align: center;">2.97693 (C1-P1-T2)</td>
+<td style="text-align: center;">2.63165 (C2-P1-T3)</td>
 </tr>
 <tr>
-<td align="center">XGBoost</td>
-<td align="center">4.14909</td>
-<td align="center">3.02530</td>
-<td align="center">2.73286</td>
+<td style="text-align: center;">XGBoost</td>
+<td style="text-align: center;">4.14909</td>
+<td style="text-align: center;">3.02530</td>
+<td style="text-align: center;">2.73286</td>
 </tr>
 <tr>
-<td align="center">GBRT</td>
-<td align="center">3.94348</td>
-<td align="center">2.85847</td>
-<td align="center">2.63935</td>
+<td style="text-align: center;">GBRT</td>
+<td style="text-align: center;">3.94348</td>
+<td style="text-align: center;">2.85847</td>
+<td style="text-align: center;">2.63935</td>
 </tr>
 <tr>
-<td align="center">LSTM</td>
-<td align="center">3.78497</td>
-<td align="center">2.79078</td>
-<td align="center">2.54752</td>
+<td style="text-align: center;">LSTM</td>
+<td style="text-align: center;">3.78497</td>
+<td style="text-align: center;">2.79078</td>
+<td style="text-align: center;">2.54752</td>
 </tr>
 <tr>
-<td align="center">DG-GCLSTM</td>
-<td align="center">3.63207</td>
-<td align="center">2.71876</td>
-<td align="center">2.53863</td>
+<td style="text-align: center;">DG-GCLSTM</td>
+<td style="text-align: center;">3.63207</td>
+<td style="text-align: center;">2.71876</td>
+<td style="text-align: center;">2.53863</td>
 </tr>
 <tr>
-<td align="center">IG-GCLSTM</td>
-<td align="center">3.78816</td>
-<td align="center">2.70131</td>
-<td align="center">2.46214</td>
+<td style="text-align: center;">IG-GCLSTM</td>
+<td style="text-align: center;">3.78816</td>
+<td style="text-align: center;">2.70131</td>
+<td style="text-align: center;">2.46214</td>
 </tr>
 <tr>
-<td align="center">CG-GCLSTM</td>
-<td align="center">3.69656</td>
-<td align="center">2.79812</td>
-<td align="center">2.45815</td>
+<td style="text-align: center;">CG-GCLSTM</td>
+<td style="text-align: center;">3.69656</td>
+<td style="text-align: center;">2.79812</td>
+<td style="text-align: center;">2.45815</td>
 </tr>
 <tr>
-<td align="center">STMeta-V1</td>
-<td align="center">3.50475</td>
-<td align="center"><strong>2.65511</strong></td>
-<td align="center">2.42582</td>
+<td style="text-align: center;">STMeta-V1</td>
+<td style="text-align: center;">3.50475</td>
+<td style="text-align: center;"><strong>2.65511</strong></td>
+<td style="text-align: center;">2.42582</td>
 </tr>
 <tr>
-<td align="center">STMeta-V2</td>
-<td align="center"><strong>3.43870</strong></td>
-<td align="center">2.66379</td>
-<td align="center"><strong>2.41111</strong></td>
+<td style="text-align: center;">STMeta-V2</td>
+<td style="text-align: center;"><strong>3.43870</strong></td>
+<td style="text-align: center;">2.66379</td>
+<td style="text-align: center;"><strong>2.41111</strong></td>
 </tr>
 </tbody>
 </table><ul>
@@ -323,24 +322,24 @@
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th align="center"><code>NYC City</code></th>
-<th align="center">SingleGraph-GCLSTM(Average)</th>
-<th align="center">STMeta</th>
-<th align="center">ST_MGCN</th>
+<th style="text-align: center;"><code>NYC City</code></th>
+<th style="text-align: center;">SingleGraph-GCLSTM(Average)</th>
+<th style="text-align: center;">STMeta</th>
+<th style="text-align: center;">ST_MGCN</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">Number of trainable variables</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">249245</td>
+<td style="text-align: center;">Number of trainable variables</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">249245</td>
 </tr>
 <tr>
-<td align="center">Converaged training time</td>
-<td align="center"></td>
-<td align="center"></td>
-<td align="center">51 hours</td>
+<td style="text-align: center;">Converaged training time</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">51 hours</td>
 </tr>
 </tbody>
 </table><ul class="simple">
@@ -348,8 +347,8 @@
 </ul>
 <p>Use the <code class="docutils literal notranslate"><span class="pre">./Experiment/STMeta_Master_Bike.py</span></code> to train the model or view evaluation results.</p>
 <p><u><a class="reference external" href="../../index.html">Back To HomePage</a></u></p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

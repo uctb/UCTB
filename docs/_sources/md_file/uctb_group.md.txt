@@ -1,6 +1,6 @@
 ## About us (UCTB Group)
 
-#### Project Manager
+#### PI
 
 **Leye Wang**  
 
@@ -11,6 +11,16 @@ Assistant professor @ Key Lab of High Confidence Software Technologies, Departme
 Email: leyewang@pku.edu.cn
 
 [Leye Wang's HomePage](https://cs.pku.edu.cn/info/1174/2334.htm)
+
+**Longbiao Chen**  
+
+```From March 2022, till now.```
+
+Associate professor @ Department of Computer Science, Xiamen University, China
+
+Email: [longbiaochen@xmu.edu.cn](mailto:longbiaochen@xmu.edu.cn) 
+
+[Longbiao Chen's HomePage](https://longbiao.crowdsensing.cn/)
 
 #### Key Contributors
 
@@ -31,6 +41,46 @@ ______
 Ph.D student in Peking University.
 
 Email:  chenliyue2019@gmail.com
+
+------
+
+**Hang Zhu** (active)
+
+```From March 2022, till now.```
+
+Master student in Fujian Key Laboratory of Sensing and Computing for Smart Cities at Xiamen University.
+
+Email:  zhuhang@stu.xmu.edu.cn
+
+------
+
+**Jiangyi Fang** (active)
+
+```From April 2022, till now.```
+
+Undergraduate student majored in Automation in Huazhong University of Science and Technology.
+
+Email:  fangjiangyi2001@gmail.com
+
+------
+
+**Yayao Hong** (active)
+
+```From Sep 2022, till now.```
+
+Master student in Fujian Key Laboratory of Sensing and Computing for Smart Cities at Xiamen University.
+
+Email:  hyymmmint@stu.xmu.edu.cn
+
+------
+
+**Tengfei Liu** (active)
+
+```From March 2023, till now.```
+
+Undergraduate student in computer science and technology at China University of Geosciences.
+
+Email:  tf66366@cug.edu.cn
 
 ------
 
@@ -71,4 +121,3 @@ Email:  snowbridge@foxmail.com
 Graduate student in University of Chinese Academy of Sciences, majoring in Computer Vision and Deep Learning.
 
 Email:  cuizhenyu18@mails.ucas.ac.cn
-

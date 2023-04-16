@@ -1,14 +1,14 @@
+import os
+import time
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
 import numpy as np
 import torch.optim as optim
-from torch.autograd import Variable
-from UCTB.preprocess.preprocessor import *
-from UCTB.evaluation.metric import *
+from UCTB.preprocess.preprocessor import SplitData, StandardScaler
 from UCTB.model.GraphWaveNet import *
-import sys
-import os
+from UCTB.train.LossFunction import masked_mape, masked_mae, masked_rmse
+
+
 class trainer():
     def __init__(self, scaler, in_dim, seq_length, num_nodes, nhid , dropout, lrate, wdecay, device, supports, gcn_bool, addaptadj, aptinit):
         self.model = gwnet(device, num_nodes, dropout, supports=supports, gcn_bool=gcn_bool, addaptadj=addaptadj, aptinit=aptinit, in_dim=in_dim, out_dim=seq_length, residual_channels=nhid, dilation_channels=nhid, skip_channels=nhid * 8, end_channels=nhid * 16)
@@ -53,66 +53,12 @@ class trainer():
         return loss.item(),mape,rmse
 
 
-
-
-
-
-
-
-
-
-def load_dataset_cly(uctb_data_loader, batch_size, valid_batch_size=None, test_batch_size=None):
-    data = {}
-    # split data
-    train_closeness, val_closeness = SplitData.split_data(uctb_data_loader.train_closeness, [0.9, 0.1])
-    train_period, val_period = SplitData.split_data(uctb_data_loader.train_period, [0.9, 0.1])
-    train_trend, val_trend = SplitData.split_data(uctb_data_loader.train_trend, [0.9, 0.1])
-    train_y, val_y = SplitData.split_data(uctb_data_loader.train_y, [0.9, 0.1])
-
-    # train_x = np.concatenate([train_trend, train_period, train_closeness],axis=2).transpose( # [0,3,1,2] [0,2,1,3]
-    if uctb_data_loader.period_len > 0 and uctb_data_loader.trend_len > 0:
-        data["x_train"] = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 3, 1, 2])
-        data["x_val"] = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 3, 1, 2])
-        data["x_test"] = np.concatenate(
-            [uctb_data_loader.test_trend, uctb_data_loader.test_period, uctb_data_loader.test_closeness],
-            axis=2).transpose([0, 3, 1, 2])
-    else:
-        data["x_train"] = train_closeness.transpose([0, 3, 1, 2])
-        data["x_val"] = val_closeness.transpose([0, 3, 1, 2])
-        data["x_test"] = uctb_data_loader.test_closeness.transpose([0, 3, 1, 2])
-
-    data["y_train"] = train_y[:, np.newaxis]
-    data["y_val"] = val_y[:, np.newaxis]
-    data["y_test"] = uctb_data_loader.test_y[:, np.newaxis]
-
-    print("x_train", data["x_train"].shape)
-    print("y_train", data["y_train"].shape)
-    print("x_val", data["x_val"].shape)
-    print("y_val", data["y_val"].shape)
-    print("x_test", data["x_test"].shape)
-    print("y_test", data["y_test"].shape)
-
-    scaler = StandardScaler(mean=data['x_train'][..., 0].mean(), std=data['x_train'][..., 0].std())
-    # Data format
-    for category in ['train', 'val', 'test']:
-        data['x_' + category][..., 0] = scaler.transform(data['x_' + category][..., 0])
-    data['train_loader'] = DataLoader(data['x_train'], data['y_train'], batch_size)
-    data['val_loader'] = DataLoader(data['x_val'], data['y_val'], valid_batch_size)
-    data['test_loader'] = DataLoader(data['x_test'], data['y_test'], test_batch_size)
-    data['scaler'] = scaler
-    return data
-
-
-def Training(args,dataloader,device,engine,time,scaler):
+def Training(args, dataloader,  device, engine, scaler):
     print("start training...", flush=True)
     his_loss = []
     val_time = []
     train_time = []
     for i in range(1, args.epochs + 1):
-        # if i % 10 == 0:
-        # lr = max(0.000002,args.learning_rate * (0.1 ** (i // 10)))
-        # for g in engine.optimizer.param_groups:
-        # g['lr'] = lr
         train_loss = []
         train_mape = []
         train_rmse = []
@@ -168,10 +114,12 @@ def Training(args,dataloader,device,engine,time,scaler):
     print("Average Training Time: {:.4f} secs/epoch".format(np.mean(train_time)))
     print("Average Inference Time: {:.4f} secs".format(np.mean(val_time)))
 
-    # testing
-    bestid = np.argmin(his_loss)
+    return np.argmin(his_loss), his_loss[np.argmin(his_loss)]
+
+def Test(args,dataloader,device,engine,scaler,epoch_id, loss_id):
+    # Test
     engine.model.load_state_dict(torch.load(
-        os.path.join(args.save, "epoch_" + str(bestid + 1) + "_" + str(round(his_loss[bestid], 2)) + ".pth")))
+        os.path.join(args.save, "epoch_" + str(epoch_id + 1) + "_" + str(round(loss_id, 2)) + ".pth")))
 
     outputs = []
     realy = torch.Tensor(dataloader['y_test']).to(device)
@@ -191,29 +139,7 @@ def Training(args,dataloader,device,engine,time,scaler):
     yhat = scaler.inverse_transform(yhat)
     realy = realy.cpu().numpy()
 
-    print("realy", realy.shape)
-    print("yhat", yhat.shape)
-    rmse_result = rmse(yhat.squeeze(), realy.squeeze(), threshold=0)
-    print(args.save, "RMSE:", rmse_result)
-
-    print("Training finished")
-    print("The valid loss on best model is", str(round(his_loss[bestid], 4)))
-    amae = []
-    amape = []
-    armse = []
-    for i in range(args.seq_length):
-        pred = scaler.inverse_transform(yhat[:,:,i])
-        real = realy[:,:,i]
-        metrics = metric(pred,real)
-        log = 'Evaluate best model on test data for horizon {:d}, Test MAE: {:.4f}, Test MAPE: {:.4f}, Test RMSE: {:.4f}'
-        print(log.format(i+1, metrics[0], metrics[1], metrics[2]))
-        amae.append(metrics[0])
-        amape.append(metrics[1])
-        armse.append(metrics[2])
-
-    log = 'On average over 12 horizons, Test MAE: {:.4f}, Test MAPE: {:.4f}, Test RMSE: {:.4f}'
-    print(log.format(np.mean(amae),np.mean(amape),np.mean(armse)))
-    torch.save(engine.model.state_dict(), os.path.join(args.save, "exp_best_" + str(round(rmse_result, 5)) + ".pth"))
+    return yhat
 
 class DataLoader(object):
     def __init__(self, xs, ys, batch_size, pad_with_last_sample=True):
@@ -258,10 +184,7 @@ class DataLoader(object):
 
 
 
-
-
-
-def load_dataset_cly(uctb_data_loader, batch_size, valid_batch_size=None, test_batch_size=None):
+def load_dataset(uctb_data_loader, batch_size, valid_batch_size=None, test_batch_size=None):
     # x_train (num_slots, time_steps, num_stations, input_dims)
     # y_train (num_slots, time_steps, num_stations, input_dims)
     data = {}

@@ -3,10 +3,9 @@ import os
 import time
 import numpy as np
 import mxnet as mx
-from UCTB.evaluation.metric import rmse, mape,huber_loss
-from UCTB.preprocess.GraphGenerator import GraphGenerator
-from UCTB.preprocess import SplitData
-from UCTB.dataset import NodeTrafficLoader
+from UCTB.train.LossFunction import huber_loss
+
+
 def position_embedding(data,
                        input_length, num_of_vertices, embedding_size,
                        temporal=True, spatial=True,
@@ -455,7 +454,7 @@ def stsgcn(data, adj, label,
 
 
 
-def construct_model_cly(config, AM):
+def construct_model(config, AM):
 
     module_type = config['module_type']
     act_type = config['act_type']

@@ -2,19 +2,8 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import os
-from time import time
-import torch.optim as optim
 import numpy as np
-import shutil
 import torch.utils.data
-from sklearn.metrics import mean_absolute_error
-from sklearn.metrics import mean_squared_error
-from scipy.sparse.linalg import eigs
-from UCTB.preprocess import GraphGenerator,SplitData
-from tensorboardX import SummaryWriter
-from UCTB.evaluation.metric import *
-from UCTB.utils.utils_ASTGCN import *
 
 
 class Spatial_Attention_layer(nn.Module):
@@ -267,7 +256,7 @@ class ASTGCN_submodule(nn.Module):
         return output
 
 
-def make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, adj_mx, num_for_predict, len_input, num_of_vertices):
+def make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, L_tilde, num_for_predict, len_input, num_of_vertices):
     '''
 
     :param DEVICE:
@@ -282,7 +271,6 @@ def make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter,
     :param len_input
     :return:
     '''
-    L_tilde = scaled_Laplacian(adj_mx)
     cheb_polynomials = [torch.from_numpy(i).type(torch.FloatTensor).to(DEVICE) for i in cheb_polynomial(L_tilde, K)]
     model = ASTGCN_submodule(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, cheb_polynomials, num_for_predict, len_input, num_of_vertices)
 
@@ -296,7 +284,30 @@ def make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter,
 
 
 
+def cheb_polynomial(L_tilde, K):
+    '''
+    compute a list of chebyshev polynomials from T_0 to T_{K-1}
 
+    Parameters
+    ----------
+    L_tilde: scaled Laplacian, np.ndarray, shape (N, N)
+
+    K: the maximum order of chebyshev polynomials
+
+    Returns
+    ----------
+    cheb_polynomials: list(np.ndarray), length: K, from T_0 to T_{K-1}
+
+    '''
+
+    N = L_tilde.shape[0]
+
+    cheb_polynomials = [np.identity(N), L_tilde.copy()]
+
+    for i in range(2, K):
+        cheb_polynomials.append(2 * L_tilde * cheb_polynomials[i - 1] - cheb_polynomials[i - 2])
+
+    return cheb_polynomials
 
 
 

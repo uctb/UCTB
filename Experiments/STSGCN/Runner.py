@@ -3,7 +3,7 @@ import os
 # # BenchMark Bike
 # #############################################
 # ########### NYC ########### --closeness_len 12 --period_len 0 --trend_len 0 --config ./config/PEMS03/STMeta_emb.json
-os.system("python STSGCN.py --dataset Bike --city NYC --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum --closeness_len 12 --period_len 0 --trend_len 0 --config ././config/PEMS03/STMeta_emb.json")
+# os.system("python STSGCN.py --dataset Bike --city NYC --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum --closeness_len 12 --period_len 0 --trend_len 0 --config ././config/PEMS03/STMeta_emb.json")
 
 # # os.system("python STSGCN.py --dataset Bike --city NYC --data_range 0.5 --train_data_length 183 --MergeIndex 6 --MergeWay sum --closeness_len 12 --period_len 0 --trend_len 0 --config ././config/PEMS03/STMeta_emb.json")
 

@@ -1,24 +1,16 @@
-#!/usr/bin/env python
-# coding: utf-8
 import torch
-import torch.nn as nn
-import torch.optim as optim
-import numpy as np
 import os
-from time import time
-import shutil
 import GPUtil
 import argparse
 import configparser
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
+
 from UCTB.model.ASTGCN import make_model
-from UCTB.evaluation.metric import *
-from UCTB.preprocess import SplitData
+from UCTB.evaluation import metric
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.dataset import NodeTrafficLoader
-from UCTB.model.ASTGCN import train_main,load_graphdata_CLY,predict_main
+from UCTB.utils.utils_ASTGCN import load_data, train_main, predict_main
 
+from UCTB.preprocess.GraphGenerator import scaled_Laplacian_ASTGCN
 
 
 parser = argparse.ArgumentParser()
@@ -62,7 +54,7 @@ else:
     id_filename = None
 # num_for_predict = int(data_config['num_for_predict'])
 num_for_predict = 1
-dataset_name = "{}_{}_{}".format(args.dataset,args.city,args.MergeIndex)
+dataset_name = "{}_{}_{}".format(args.dataset, args.city, args.MergeIndex)
 model_name = training_config['model_name']
 
 # ctx = training_config['ctx']
@@ -79,57 +71,51 @@ DEVICE = torch.device('cuda:{}'.format(current_device))
 print("CUDA:", USE_CUDA, DEVICE)
 
 
-
-
 folder_dir = '%s_channel_%d' % (model_name, in_channels)
 print('folder_dir:', folder_dir)
-params_path = os.path.join('experiments', dataset_name, folder_dir)
+params_path = os.path.join('model_dir', dataset_name, folder_dir)
 print('params_path:', params_path)
 
 
 # loading data
-my_data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
-                                data_range=args.data_range, train_data_length=args.train_data_length,
-                                test_ratio=float(args.test_ratio),
-                                closeness_len=args.closeness_len,
-                                period_len=args.period_len,
-                                trend_len=args.trend_len,
-                                normalize=False,
-                                MergeIndex=args.MergeIndex,
-                                MergeWay=args.MergeWay)
+uctb_data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
+                                     data_range=args.data_range, train_data_length=args.train_data_length,
+                                     test_ratio=float(args.test_ratio),
+                                     closeness_len=args.closeness_len,
+                                     period_len=args.period_len,
+                                     trend_len=args.trend_len,
+                                     normalize=False,
+                                     MergeIndex=args.MergeIndex,
+                                     MergeWay=args.MergeWay)
 
 
 # Build Graph
-graph_obj = GraphGenerator(graph='distance', data_loader=my_data_loader)
+graph_obj = GraphGenerator(graph='distance', data_loader=uctb_data_loader)
 
-
-num_of_vertices = my_data_loader.station_number
-len_input = my_data_loader.closeness_len + my_data_loader.period_len + my_data_loader.trend_len
-
+num_of_vertices = uctb_data_loader.station_number
+len_input = uctb_data_loader.closeness_len + \
+    uctb_data_loader.period_len + uctb_data_loader.trend_len
 
 
 #load data
-train_loader, train_target_tensor, val_loader, val_target_tensor, test_loader, test_target_tensor, _mean, _std = load_graphdata_CLY(training_config,my_data_loader, DEVICE, batch_size)
+train_loader, train_target_tensor, val_loader, val_target_tensor, test_loader, test_target_tensor, _mean, _std = load_data(
+    uctb_data_loader, DEVICE, batch_size)
 adj_mx = graph_obj.AM[0]
+L_tilde = scaled_Laplacian_ASTGCN(adj_mx)
 
 #build model
-net = make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, adj_mx,
+net = make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, L_tilde,
                  num_for_predict, len_input, num_of_vertices)
 
-#train and predict
-train_main(training_config,params_path,DEVICE,net,val_loader,train_loader,test_loader,test_target_tensor,_mean, _std,graph_signal_matrix_filename)
+#train
+best_epoch = train_main(training_config, params_path, DEVICE, net, val_loader, train_loader,
+                        test_loader, test_target_tensor, _mean, _std, graph_signal_matrix_filename)
 
-# apply the best model on the test set
-
-
-
-
-
+# apply the best model and predict on the test set
+test_prediction = predict_main(net, best_epoch, test_loader, test_target_tensor, _mean, _std,
+                               params_path)
 
 
-
-
-
-
-
-
+test_rmse = metric.rmse(prediction=test_prediction,
+                        target=uctb_data_loader.test_y, threshold=0)
+print('Test result', test_rmse)

@@ -1,13 +1,6 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
-import torch.optim as optim
-from torch.autograd import Variable
-from UCTB.preprocess import SplitData
-from UCTB.evaluation.metric import rmse, mape
-import sys
-import os
 
 class nconv(nn.Module):
     def __init__(self):

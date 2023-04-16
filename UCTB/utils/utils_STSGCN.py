@@ -1,16 +1,14 @@
-# -*- coding:utf-8 -*-
-import os
 import time
 import numpy as np
 import mxnet as mx
-from UCTB.evaluation.metric import rmse, mape,masked_mse_np
+from UCTB.train.LossFunction import masked_mse_np
+from UCTB.evaluation.metric import rmse, mape
 from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.preprocess import SplitData
-from UCTB.model.STSGCN import construct_model_cly
-from UCTB.dataset import NodeTrafficLoader
+from UCTB.model.STSGCN import construct_model
 
 
-def configData_cly(args, data_loader, batch_size, config, ctx):
+def configData(args, data_loader, batch_size, config, ctx):
     print("args['normalize']", args.normalize)
     de_normalizer = None if args.normalize is False else data_loader.normalizer.min_max_denormal
     graph_obj = GraphGenerator(graph='distance', data_loader=data_loader)
@@ -18,7 +16,7 @@ def configData_cly(args, data_loader, batch_size, config, ctx):
     config["num_of_vertices"] = data_loader.station_number
     config["points_per_hour"] = data_loader.closeness_len + data_loader.period_len + data_loader.trend_len
     num_of_vertices = config["num_of_vertices"]
-    net = construct_model_cly(config, AM=graph_obj.AM[0])
+    net = construct_model(config, AM=graph_obj.AM[0])
 
     model_name = "{}_{}_{}".format(args.dataset, args.city, args.MergeIndex)
     print("model_name:", model_name)

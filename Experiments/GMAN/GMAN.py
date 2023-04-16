@@ -1,22 +1,13 @@
-from genericpath import exists
-import math
+import time
 import argparse
-import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
-from UCTB.utils.utils_GMAN import *
-import time, datetime
-import numpy as np
-import tensorflow as tf
-import os
-from UCTB.model.GMAN import Graph
-import numpy as np
 import networkx as nx
-from gensim.models import Word2Vec
-import argparse
-import os
-from UCTB.preprocess.GraphGenerator import GraphGenerator
+
+from UCTB.evaluation import metric
+from UCTB.model.GMAN import Graph
 from UCTB.dataset import NodeTrafficLoader
+from UCTB.preprocess.GraphGenerator import GraphGenerator
+from UCTB.utils.utils_GMAN import *
 
 #args config
 parser = argparse.ArgumentParser()
@@ -73,13 +64,15 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 closeness_len=args.closeness_len,
                                 period_len=args.period_len,
                                 trend_len=args.trend_len,
-                                normalize=False,remove=False,
+                                normalize=False, remove=False,
                                 MergeIndex=args.MergeIndex,
                                 MergeWay=args.MergeWay)
-graph_obj = GraphGenerator(graph='distance', data_loader=data_loader, threshold_distance=args.threshold_distance)
+
+graph_obj = GraphGenerator(graph='distance', data_loader=data_loader,
+                           threshold_distance=args.threshold_distance)
 
 
-#Global variable
+# Global variable
 is_directed = True
 p = 2
 q = 1
@@ -88,13 +81,15 @@ walk_length = 80
 dimensions = 64
 window_size = 10
 epochs = 1000
-Adj_file = os.path.abspath("./Graph_File/{}_{}_adj.txt".format(args.dataset, args.city))
+Adj_file = os.path.abspath(
+    "./Graph_File/{}_{}_adj.txt".format(args.dataset, args.city))
 print(Adj_file)
-SE_file = os.path.abspath("./Graph_File/{}_{}_SE.txt".format(args.dataset, args.city))
+SE_file = os.path.abspath(
+    "./Graph_File/{}_{}_SE.txt".format(args.dataset, args.city))
 os.environ["CUDA_VISIBLE_DEVICES"] = '1'
 
 
-#Generate Graph embeddind
+# Generate Graph embeddind
 
 graph_to_adj_files(graph_obj.AM[0], Adj_file)
 nx_G = read_graph(Adj_file)
@@ -102,22 +97,23 @@ G = Graph(nx_G, is_directed, p, q)
 G.preprocess_transition_probs()
 
 walks = G.simulate_walks(num_walks, walk_length)
-learn_embeddings(walks, dimensions, SE_file,epochs)
+learn_embeddings(walks, dimensions, SE_file, epochs)
 
 
 #reset args to Train
 args = parser.parse_args()
-args.closeness_len=12
-args.period_len=0
-args.trend_len=0
-args.data_range="all"
-args.train_data_length="all"
-args.test_ratio=0.1
-args.MergeIndex=1
-args.MergeWay="sum"
+args.closeness_len = 12
+args.period_len = 0
+args.trend_len = 0
+args.data_range = "all"
+args.train_data_length = "all"
+args.test_ratio = 0.1
+args.MergeIndex = 1
+args.MergeWay = "sum"
 args.P = args.closeness_len
 args.SE_file = "/mnt/{}_{}_SE.txt".format(args.dataset, args.city)
-basic_dir = os.path.abspath("EXP/{}_{}_{}/".format(args.dataset, args.city, args.MergeIndex))
+basic_dir = os.path.abspath(
+    "EXP/{}_{}_{}/".format(args.dataset, args.city, args.MergeIndex))
 if not os.path.exists(basic_dir):
     os.makedirs(basic_dir)
 model_name = os.path.join(basic_dir, "model")
@@ -133,9 +129,9 @@ log_string(log, str(args)[10: -1])
 
 # load data
 log_string(log, 'loading data...')
-(trainX, trainTE, trainY, valX, valTE, valY, testX, testTE, testY, SE,
- mean, std, time_fitness) = loadData_cly(args)
 
+(trainX, trainTE, trainY, valX, valTE, valY, testX, testTE, testY,
+ SE, mean, std, time_fitness) = load_data(args, data_loader)
 
 
 log_string(log, 'trainX: %s\ttrainY: %s' % (trainX.shape, trainY.shape))
@@ -144,4 +140,16 @@ log_string(log, 'testX:  %s\t\ttestY:  %s' % (testX.shape, testY.shape))
 log_string(log, 'data loaded!')
 
 # Train and Test
-Train_then_Test(log,time_fitness,trainX,args,std,SE,mean,valX,valTE,valY,testX,testTE,testY,start,trainY,trainTE)
+X, TE, label, is_training, saver, sess, train_op, loss, pred = build_model(
+    log, time_fitness, trainX, args, std, SE, mean)
+
+train_prediction, val_prediction = Train(
+    log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, sess, train_op, loss, pred)
+
+test_prediction = Test(log, args, testX, testTE, X,
+                       TE, is_training, sess, pred)
+
+test_rmse = metric.rmse(prediction=test_prediction,
+                        target=data_loader.test_y, threshold=0)
+
+print("UCTB API RMSE:", test_rmse)

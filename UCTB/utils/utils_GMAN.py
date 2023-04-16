@@ -1,22 +1,17 @@
+import time
+import math
+import os
+from UCTB.model.GMAN import GMAN
+from gensim.models import Word2Vec
+import datetime
+from UCTB.preprocess import SplitData
+from UCTB.train.LossFunction import mae_loss
 import tensorflow as tf
 import networkx as nx
 import numpy as np
-import pandas as pd
-import sys
-sys.path.append('/mnt/UCTB_master/')
-from UCTB.preprocess import GraphGenerator, SplitData
-from UCTB.evaluation.metric import *
-from UCTB.dataset import NodeTrafficLoader
-import datetime
-from gensim.models import Word2Vec
-import os, math
-import time, datetime
-import networkx as nx
-import random
-from  UCTB.model.GMAN import GMAN
 
-def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE, valY, testX, testTE, testY, start,
-                    trainY, trainTE):
+
+def build_model(log, time_fitness, trainX, args, std, SE, mean):
     log_string(log, 'compiling model...')
     T = time_fitness
     print("time_fitness: ", T)
@@ -28,9 +23,11 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
         decay_steps=args.decay_epoch * num_train // args.batch_size,
         decay_rate=0.5, staircase=True)
     bn_decay = tf.minimum(0.99, 1 - bn_momentum)
+
     pred = GMAN(
         X, TE, SE, args.P, args.Q, T, args.L, args.K, args.d,
         bn=True, bn_decay=bn_decay, is_training=is_training)
+    
     pred = pred * std + mean
     loss = mae_loss(pred, label)
     tf.compat.v1.add_to_collection('pred', pred)
@@ -53,7 +50,13 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
     sess = tf.compat.v1.Session(config=config)
     sess.run(tf.compat.v1.global_variables_initializer())
 
+    return X, TE, label, is_training, saver, sess, train_op, loss, pred
+
+
+def Train(log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, sess, train_op, loss, pred):
+
     log_string(log, '**** training model ****')
+    num_train, _, N = trainX.shape
     num_val = valX.shape[0]
     wait = 0
     val_loss_min = np.inf
@@ -123,7 +126,7 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
     saver.restore(sess, args.model_file)
     log_string(log, 'model restored!')
     log_string(log, 'evaluating...')
-    num_test = testX.shape[0]
+
     trainPred = []
     num_batch = math.ceil(num_train / args.batch_size)
     for batch_idx in range(num_batch):
@@ -136,6 +139,7 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
         pred_batch = sess.run(pred, feed_dict=feed_dict)
         trainPred.append(pred_batch)
     trainPred = np.concatenate(trainPred, axis=0)
+
     valPred = []
     num_batch = math.ceil(num_val / args.batch_size)
     for batch_idx in range(num_batch):
@@ -148,6 +152,12 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
         pred_batch = sess.run(pred, feed_dict=feed_dict)
         valPred.append(pred_batch)
     valPred = np.concatenate(valPred, axis=0)
+
+    return trainPred, valPred
+
+
+def Test(log, args, testX, testTE, X, TE, is_training, sess, pred):
+    num_test = testX.shape[0]
     testPred = []
     num_batch = math.ceil(num_test / args.batch_size)
     start_test = time.time()
@@ -162,56 +172,35 @@ def Train_then_Test(log, time_fitness, trainX, args, std, SE, mean, valX, valTE,
         testPred.append(pred_batch)
     end_test = time.time()
     testPred = np.concatenate(testPred, axis=0)
-    train_mae, train_rmse, train_mape = metric(trainPred, trainY)
-    val_mae, val_rmse, val_mape = metric(valPred, valY)
-    test_mae, test_rmse, test_mape = metric(testPred, testY)
 
-    log_string(log, 'testing time: %.1fs' % (end_test - start_test))
-    log_string(log, '                MAE\t\tRMSE\t\tMAPE')
-    log_string(log, 'train            %.2f\t\t%.2f\t\t%.2f%%' %
-               (train_mae, train_rmse, train_mape * 100))
-    log_string(log, 'val              %.2f\t\t%.2f\t\t%.2f%%' %
-               (val_mae, val_rmse, val_mape * 100))
-    log_string(log, 'test             %.2f\t\t%.2f\t\t%.2f%%' %
-               (test_mae, test_rmse, test_mape * 100))
-
-    print("UCTB API MAPE:", mape(testPred.squeeze(), testY.squeeze(), threshold=0.01))
-    print("UCTB API RMSE:", rmse(testPred.squeeze(), testY.squeeze(), threshold=0))
-
-    end = time.time()
-    log_string(log, 'total time: %.1fmin' % ((end - start) / 60))
+    log_string(log, 'Test time: %.1fmin' % ((end_test - start_test) / 60))
     sess.close()
     log.close()
 
 
-
-def loadData_cly(args):
-    data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
-                                    data_range=args.data_range, train_data_length=args.train_data_length,
-                                    test_ratio=float(args.test_ratio),
-                                    closeness_len=args.closeness_len,
-                                    period_len=args.period_len,
-                                    trend_len=args.trend_len,
-                                    normalize=False,
-                                    MergeIndex=args.MergeIndex,
-                                    MergeWay=args.MergeWay,
-                                    remove=True)
+def load_data(args, data_loader):
     # split data
-    train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
-    train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
-    train_trend, val_trend = SplitData.split_data(data_loader.train_trend, [0.9, 0.1])
+    train_closeness, val_closeness = SplitData.split_data(
+        data_loader.train_closeness, [0.9, 0.1])
+    train_period, val_period = SplitData.split_data(
+        data_loader.train_period, [0.9, 0.1])
+    train_trend, val_trend = SplitData.split_data(
+        data_loader.train_trend, [0.9, 0.1])
     train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
     print(train_y.shape)
 
     trainY = train_y.reshape([train_y.shape[0], 1, data_loader.station_number])
     valY = val_y.reshape([val_y.shape[0], 1, data_loader.station_number])
-    testY = data_loader.test_y.reshape([data_loader.test_y.shape[0], 1, data_loader.station_number])
+    testY = data_loader.test_y.reshape(
+        [data_loader.test_y.shape[0], 1, data_loader.station_number])
 
     # T, num_node, dimension -> T, dimension, num_node
     if data_loader.period_len > 0 and data_loader.trend_len > 0:
-        trainX = np.concatenate([train_trend, train_period, train_closeness], axis=2).squeeze().transpose([0, 2, 1])
+        trainX = np.concatenate(
+            [train_trend, train_period, train_closeness], axis=2).squeeze().transpose([0, 2, 1])
         print(trainX.shape)
-        valX = np.concatenate([val_trend, val_period, val_closeness], axis=2).squeeze().transpose([0, 2, 1])
+        valX = np.concatenate(
+            [val_trend, val_period, val_closeness], axis=2).squeeze().transpose([0, 2, 1])
         testX = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
                                axis=2).squeeze().transpose([0, 2, 1])
     else:
@@ -245,11 +234,14 @@ def loadData_cly(args):
     time_fitness = data_loader.dataset.time_fitness
     time_delta = datetime.timedelta(minutes=time_fitness)
     try:
-        start_time = datetime.datetime.strptime(data_loader.dataset.time_range[0], "%Y-%m-%d")
+        start_time = datetime.datetime.strptime(
+            data_loader.dataset.time_range[0], "%Y-%m-%d")
     except:
-        start_time = datetime.datetime.strptime(data_loader.dataset.time_range[0], "%Y-%m-%d %H:%M:%S")
+        start_time = datetime.datetime.strptime(
+            data_loader.dataset.time_range[0], "%Y-%m-%d %H:%M:%S")
 
-    Time = [start_time + i * time_delta for i in range(train_steps + test_steps + val_steps + args.P)]
+    Time = [start_time + i *
+            time_delta for i in range(train_steps + test_steps + val_steps + args.P)]
 
     def get_attr(object, attr):
         return np.array([eval("item.{}".format(attr)) for item in object])
@@ -259,7 +251,7 @@ def loadData_cly(args):
     # timeofday = (Time.hour * 3600 + Time.minute * 60 + Time.second) \
     #             // Time.freq.delta.total_seconds()
     timeofday = (get_attr(Time, "hour") * 3600 + get_attr(Time, "minute") * 60 + get_attr(Time, "second")) \
-                // (86400)
+        // (86400)
     timeofday = np.reshape(timeofday, newshape=(-1, 1))
     Time = np.concatenate((dayofweek, timeofday), axis=-1)
     # train/val/test
@@ -291,6 +283,7 @@ def placeholder(P, Q, N):
     is_training = tf.compat.v1.placeholder(shape=(), dtype=tf.bool)
     return X, TE, label, is_training
 
+
 def graph_to_adj_files(adjacent_matrix, Adj_file):
     if not os.path.exists(Adj_file):
         with open(Adj_file, "w") as fp:
@@ -298,13 +291,18 @@ def graph_to_adj_files(adjacent_matrix, Adj_file):
             print(adjacent_matrix.shape)
             for i in range(adjacent_matrix.shape[0]):
                 for j in range(adjacent_matrix.shape[1]):
-                    adj_list.append("{} {} {:.6f}\n".format(i, j, adjacent_matrix[i, j]))
+                    adj_list.append("{} {} {:.6f}\n".format(
+                        i, j, adjacent_matrix[i, j]))
             fp.writelines(adj_list)
+
+
 def read_graph(edgelist):
     G = nx.read_edgelist(
         edgelist, nodetype=int, data=(('weight', float),),
         create_using=nx.DiGraph())
     return G
+
+
 def learn_embeddings(walks, dimensions, output_file, epochs):
     walks = [list(map(str, walk)) for walk in walks]
     model = Word2Vec(
@@ -312,6 +310,7 @@ def learn_embeddings(walks, dimensions, output_file, epochs):
         workers=8, epochs=epochs)
     model.wv.save_word2vec_format(output_file)
     return
+
 
 def seq2instance(data, P, Q):
     num_step, dims = data.shape
@@ -324,6 +323,8 @@ def seq2instance(data, P, Q):
     return x, y
 
 # log string
+
+
 def log_string(log, string):
     log.write(string + '\n')
     log.flush()

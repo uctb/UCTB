@@ -1,17 +1,12 @@
 import torch
-import numpy as np
 import argparse
 import time
-# import util
-import matplotlib.pyplot as plt
-import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
+
 from UCTB.utils.utils_GraphWaveNet import *
-import os
 from UCTB.preprocess.GraphGenerator import GraphGenerator
-from UCTB.preprocess import SplitData
 from UCTB.dataset import NodeTrafficLoader
+from UCTB.evaluation import metric
 
 
 parser = argparse.ArgumentParser()
@@ -72,14 +67,11 @@ if not os.path.exists(args.save):
 graph_obj = GraphGenerator(graph='distance', data_loader=uctb_data_loader)
 
 
-
-
-
 device = torch.device(args.device)
-dataloader = load_dataset_cly(uctb_data_loader, args.batch_size, args.batch_size, args.batch_size)
+data_dict = load_dataset(uctb_data_loader, args.batch_size, args.batch_size, args.batch_size)
 
-scaler = dataloader['scaler']
-    # supports = [torch.tensor(i).to(device) for i in adj_mx]
+scaler = data_dict['scaler']
+    
 supports = [torch.tensor(graph_obj.AM[i]).to(device) for i in range(len(graph_obj.AM))]
 
 print(args)
@@ -93,7 +85,16 @@ if args.aptonly:
 engine = trainer(scaler, args.in_dim, args.seq_length, args.num_nodes, args.nhid, args.dropout,
                  args.learning_rate, args.weight_decay, device, supports, args.gcn_bool, args.addaptadj,
                  adjinit)
-Training(args,dataloader,device,engine,time,scaler)
+
+epoch_id, loss_id = Training(args, data_dict, device, engine, scaler)
+
+print("epoch_id:", epoch_id, "loss_id:", loss_id)
+
+test_prediction = Test(args, data_dict, device, engine, scaler, epoch_id, loss_id)
+
+rmse_result = metric.rmse(test_prediction.squeeze(), uctb_data_loader.test_y.squeeze(), threshold=0)
+print("RMSE:", rmse_result)
+
 t2 = time.time()
 print("Total time spent: {:.4f}".format(t2 - t1))
 

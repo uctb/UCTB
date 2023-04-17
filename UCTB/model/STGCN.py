@@ -1,13 +1,6 @@
-from os.path import join as pjoin
-from UCTB.evaluation.metric import rmse, mape
 import tensorflow as tf
 import numpy as np
-import time
-from UCTB.preprocess.GraphGenerator import GraphGenerator
-from UCTB.preprocess import SplitData
-from UCTB.dataset import NodeTrafficLoader
-from scipy.sparse.linalg import eigs
-import torch
+
 
 def build_model(inputs, n_his, Ks, Kt, blocks, keep_prob):
     '''
@@ -69,9 +62,6 @@ def gen_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
             slide = slice(start_idx, end_idx)
 
         yield inputs[slide]
-
-
-
 
 
 def cheb_poly_approx(L, Ks, n):

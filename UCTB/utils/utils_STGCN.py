@@ -1,16 +1,9 @@
 from os.path import join as pjoin
-from UCTB.evaluation.metric import rmse, mape
 import tensorflow as tf
 import numpy as np
 import time
-from UCTB.preprocess.GraphGenerator import GraphGenerator
 from UCTB.preprocess import SplitData
-from UCTB.dataset import NodeTrafficLoader
-from UCTB.preprocess.preprocessor import *
-from UCTB.evaluation.metric import *
-from UCTB.model.STGCN import build_model,gen_batch
-from scipy.sparse.linalg import eigs
-import torch
+from UCTB.model.STGCN import build_model, gen_batch
 
 
 def model_save(sess, global_steps, model_name, save_path='./output/models/'):
@@ -23,8 +16,10 @@ def model_save(sess, global_steps, model_name, save_path='./output/models/'):
     :return:
     '''
     saver = tf.train.Saver(max_to_keep=3)
-    prefix_path = saver.save(sess, pjoin(save_path, model_name), global_step=global_steps)
+    prefix_path = saver.save(sess, pjoin(
+        save_path, model_name), global_step=global_steps)
     print(f'<< Saving model to {prefix_path} ...')
+
 
 def model_train(inputs, blocks, args, sum_path='./output/tensorboard'):
     '''
@@ -56,7 +51,8 @@ def model_train(inputs, blocks, args, sum_path='./output/tensorboard'):
     else:
         epoch_step = int(len_train / batch_size) + 1
     # Learning rate decay with rate 0.7 every 5 epochs.
-    lr = tf.train.exponential_decay(args.lr, global_steps, decay_steps=5 * epoch_step, decay_rate=0.7, staircase=True)
+    lr = tf.train.exponential_decay(
+        args.lr, global_steps, decay_steps=5 * epoch_step, decay_rate=0.7, staircase=True)
     tf.summary.scalar('learning_rate', lr)
     step_op = tf.assign_add(global_steps, 1)
     with tf.control_dependencies([step_op]):
@@ -89,14 +85,17 @@ def model_train(inputs, blocks, args, sum_path='./output/tensorboard'):
             start_time = time.time()
             for j, x_batch in enumerate(
                     gen_batch(inputs.get_data('train'), batch_size, dynamic_batch=True, shuffle=True)):
-                summary, _ = sess.run([merged, train_op], feed_dict={x: x_batch[:, 0:n_his + 1, :, :], keep_prob: 1.0})
+                summary, _ = sess.run([merged, train_op], feed_dict={
+                                      x: x_batch[:, 0:n_his + 1, :, :], keep_prob: 1.0})
                 writer.add_summary(summary, i * epoch_step + j)
                 if j % 50 == 0:
                     loss_value = \
                         sess.run([train_loss, copy_loss],
                                  feed_dict={x: x_batch[:, 0:n_his + 1, :, :], keep_prob: 1.0})
-                    print(f'Epoch {i:2d}, Step {j:3d}: [{loss_value[0]:.3f}, {loss_value[1]:.3f}]')
-            print(f'Epoch {i:2d} Training Time {time.time() - start_time:.3f}s')
+                    print(
+                        f'Epoch {i:2d}, Step {j:3d}: [{loss_value[0]:.3f}, {loss_value[1]:.3f}]')
+            print(
+                f'Epoch {i:2d} Training Time {time.time() - start_time:.3f}s')
             if (i + 1) % args.save == 0:
                 model_save(sess, global_steps, 'STGCN', save_path=sum_path)
         writer.close()
@@ -113,7 +112,6 @@ def model_test(inputs, batch_size, n_his, n_pred, inf_mode, load_path='./output/
     :param inf_mode: str, test mode - 'merge / multi-step test' or 'separate / single-step test'.
     :param load_path: str, the path of loaded model.
     '''
-    start_time = time.time()
     model_path = tf.train.get_checkpoint_state(load_path).model_checkpoint_path
 
     test_graph = tf.Graph()
@@ -139,20 +137,13 @@ def model_test(inputs, batch_size, n_his, n_pred, inf_mode, load_path='./output/
 
         x_test, x_stats = inputs.get_data('test'), inputs.get_stats()
 
-        y_test, len_test = multi_pred(test_sess, pred, x_test, batch_size, n_his, n_pred, step_idx)
-        print("y_test", y_test.shape)
-        print("max y_test", y_test.max())
-        print("len_test", len_test)
+        y_test, len_test = multi_pred(
+            test_sess, pred, x_test, batch_size, n_his, n_pred, step_idx)
 
-        evl = evaluation(x_test[0:len_test, step_idx + n_his, :, :], y_test, x_stats)
-        print("RMSE:{}, MAPE:{}".format(evl[0], evl[1]))
-        for ix in tmp_idx:
-            te = evl[ix - 2:ix + 1]
-            print(f'Time Step {ix + 1}: MAPE {te[0]:7.3%}; MAE  {te[1]:4.3f}; RMSE {te[2]:6.3f}.')
-        print(f'Model Test Time {time.time() - start_time:.3f}s')
-    print('Testing model finished!')
+    return y_test
 
-def data_gen_cly(args):
+
+def data_gen(data_loader):
     '''
     Source file load and dataset generation.
     :param file_path: str, the file path of data source.
@@ -163,27 +154,23 @@ def data_gen_cly(args):
     :param day_slot: int, the number of time slots per day, controlled by the time window (5 min as default).
     :return: dict, dataset that contains training, validation and test with stats.
     '''
-    data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
-                                    data_range=args.data_range, train_data_length=args.train_data_length,
-                                    test_ratio=float(args.test_ratio),
-                                    closeness_len=args.closeness_len,
-                                    period_len=args.period_len,
-                                    trend_len=args.trend_len,
-                                    normalize=False,
-                                    MergeIndex=args.MergeIndex,
-                                    MergeWay=args.MergeWay)
 
     # split data
-    train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
-    train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
-    train_trend, val_trend = SplitData.split_data(data_loader.train_trend, [0.9, 0.1])
+    train_closeness, val_closeness = SplitData.split_data(
+        data_loader.train_closeness, [0.9, 0.1])
+    train_period, val_period = SplitData.split_data(
+        data_loader.train_period, [0.9, 0.1])
+    train_trend, val_trend = SplitData.split_data(
+        data_loader.train_trend, [0.9, 0.1])
     train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
 
     # T, num_node, dimension, 1 -> T, dimension, num_node, 1
     if data_loader.period_len > 0 and data_loader.trend_len > 0:
-        seq_train = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 2, 1, 3])
-        seq_val = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 2, 1, 3])
-        seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
+        seq_train = np.concatenate(
+            [train_trend, train_period, train_closeness, train_y], axis=2).transpose([0, 2, 1, 3])
+        seq_val = np.concatenate(
+            [val_trend, val_period, val_closeness, val_y], axis=2).transpose([0, 2, 1, 3])
+        seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness, data_loader.test_y],
                                   axis=2).transpose([0, 2, 1, 3])
     else:
         seq_train = train_closeness.transpose([0, 2, 1, 3])
@@ -198,11 +185,7 @@ def data_gen_cly(args):
 
     x_data = {'train': x_train, 'val': x_val, 'test': x_test}
     dataset = Dataset(x_data, x_stats)
-    graph_obj = GraphGenerator(graph='distance', data_loader=data_loader)
-    return dataset, graph_obj
-
-
-
+    return dataset
 
 
 def multi_pred(sess, y_pred, seq, batch_size, n_his, n_pred, step_idx, dynamic_batch=True):
@@ -237,6 +220,7 @@ def multi_pred(sess, y_pred, seq, batch_size, n_his, n_pred, step_idx, dynamic_b
     pred_array = np.concatenate(pred_list, axis=1)
     return pred_array[step_idx], pred_array.shape[1]
 
+
 class Dataset(object):
     def __init__(self, data, stats):
         self.__data = data
@@ -254,3 +238,27 @@ class Dataset(object):
 
     def z_inverse(self, type):
         return self.__data[type] * self.std + self.mean
+
+
+def z_score(x, mean, std):
+    '''
+    Z-score normalization function: $z = (X - \mu) / \sigma $,
+    where z is the z-score, X is the value of the element,
+    $\mu$ is the population mean, and $\sigma$ is the standard deviation.
+    :param x: np.ndarray, input array to be normalized.
+    :param mean: float, the value of mean.
+    :param std: float, the value of standard deviation.
+    :return: np.ndarray, z-score normalized array.
+    '''
+    return (x - mean) / std
+
+
+def z_inverse(x, mean, std):
+    '''
+    The inverse of function z_score().
+    :param x: np.ndarray, input to be recovered.
+    :param mean: float, the value of mean.
+    :param std: float, the value of standard deviation.
+    :return: np.ndarray, z-score inverse array.
+    '''
+    return x * std + mean

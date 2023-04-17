@@ -3,8 +3,6 @@ import nni
 import yaml
 import argparse
 import GPUtil
-import numpy as np
-from UCTB.dataset import DataSet
 
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.model import STMeta
@@ -12,7 +10,7 @@ from UCTB.evaluation import metric
 from UCTB.preprocess.time_utils import is_work_day_china, is_work_day_america
 
 from UCTB.preprocess.GraphGenerator import GraphGenerator
-from UCTB.preprocess import Normalizer, SplitData
+from UCTB.preprocess import SplitData
 #####################################################################
 # argument parser
 parser = argparse.ArgumentParser(description="Argument Parser")
@@ -194,7 +192,7 @@ val_loss = STMeta_obj.load_event_scalar('val_loss')
 #     best_val_loss = de_normalizer(best_val_loss)
 # print('Best val result', best_val_loss)
 
-print('Val result', val_rmse )
+print('Val result', val_rmse)
 print('Test result', test_rmse)
 time_consumption = [val_loss[e][0] - val_loss[e-1][0] for e in range(1, len(val_loss))]
 time_consumption = sum([e for e in time_consumption if e < (min(time_consumption) * 10)]) / 3600

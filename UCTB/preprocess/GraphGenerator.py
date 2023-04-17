@@ -6,6 +6,7 @@ from UCTB.preprocess import Normalizer, SplitData
 
 from math import radians, cos, sin, asin, sqrt
 from scipy.stats import pearsonr
+from scipy.sparse.linalg import eigs
 
 class GraphGenerator():
     '''
@@ -185,3 +186,48 @@ class GraphGenerator():
                                                                     diagonal_matrix)
         laplacian_matrix = 2 * laplacian_matrix / np.max(laplacian_matrix) - np.eye(len(adjacent_matrix))
         return laplacian_matrix
+
+
+def scaled_Laplacian_ASTGCN(W):
+    '''
+    compute \tilde{L}
+
+    Parameters
+    ----------
+    W: np.ndarray, shape is (N, N), N is the num of vertices
+
+    Returns
+    ----------
+    scaled_Laplacian_ASTGCN: np.ndarray, shape (N, N)
+
+    '''
+
+    assert W.shape[0] == W.shape[1]
+
+    D = np.diag(np.sum(W, axis=1))
+
+    L = D - W
+
+    lambda_max = eigs(L, k=1, which='LR')[0].real
+
+    return (2 * L) / lambda_max - np.identity(W.shape[0])
+
+
+def scaled_laplacian_STGCN(W):
+    '''
+    Normalized graph Laplacian function.
+    :param W: np.ndarray, [n_route, n_route], weighted adjacency matrix of G.
+    :return: np.matrix, [n_route, n_route].
+    '''
+    # d ->  diagonal degree matrix
+    n, d = np.shape(W)[0], np.sum(W, axis=1)
+    # L -> graph Laplacian
+    L = -W
+    L[np.diag_indices_from(L)] = d
+    for i in range(n):
+        for j in range(n):
+            if (d[i] > 0) and (d[j] > 0):
+                L[i, j] = L[i, j] / np.sqrt(d[i] * d[j])
+    # lambda_max \approx 2.0, the largest eigenvalues of L.
+    lambda_max = eigs(L, k=1, which='LR')[0][0].real
+    return np.mat(2 * L / lambda_max - np.identity(n))

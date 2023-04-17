@@ -1,38 +1,25 @@
 import os
-import sys
 import GPUtil
-from torch.utils.data import dataloader
 import torch
-import numpy as np
-import torch.nn as nn
 import argparse
 import configparser
-import configparser
-import sys
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.getcwd(), "../..")))
-from torch.utils.data import dataloader
-import torch, pdb
-import numpy as np
-import torch.nn as nn
-import argparse
-import configparser
+
 from datetime import datetime
 from UCTB.model.AGCRN import AGCRN
 from UCTB.utils.utils_AGCRN import Trainer
 from UCTB.dataset import NodeTrafficLoader
-from UCTB.preprocess import GraphGenerator,SplitData
-from UCTB.utils.utils_AGCRN import get_dataloader_cly
+from UCTB.utils.utils_AGCRN import get_dataloader_AGCRN
+from UCTB.evaluation import metric
 
-
-#GPU状态检测
+# Is GPU available
 deviceIDs = GPUtil.getAvailable(order='last', limit=8, maxLoad=1, maxMemory=0.2,
                                 includeNan=False, excludeID=[], excludeUUID=[])
 if len(deviceIDs) == 0:
     current_device = '-1'
 else:
     current_device = str(deviceIDs[0])
-
+#DEVICE = 'cuda:{}'.format(current_device)
+DEVICE = 'cpu'
 
 #parser
 args = argparse.ArgumentParser(description='arguments')
@@ -41,7 +28,7 @@ args.add_argument('--debug', default='True', type=eval)
 args.add_argument('--model', default='AGCRN', type=str)
 args.add_argument('--cuda', default=True, type=bool)
 
-DEVICE = 'cuda:{}'.format(current_device)
+
 DATASETPATH=os.path.abspath('.')
 DATASETPATH=DATASETPATH+'/params.conf'
 
@@ -114,14 +101,17 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 normalizer=args.normalizer,
                                 MergeIndex=args.MergeIndex,
                                 MergeWay=args.MergeWay)
+
+args.num_nodes = data_loader.station_number
+
 #load dataset
-train_loader, val_loader, test_loader, scaler = get_dataloader_cly(data_loader,
+train_loader, val_loader, test_loader, scaler = get_dataloader_AGCRN(data_loader,
                                                                tod=args.tod, batchsize=args.batch_size,dow=False,
                                                             weather=False, single=False)
 
 
 #model build
-model=AGCRN(args)
+model = AGCRN(args)
 model = model.to(args.device)
 
 
@@ -139,10 +129,14 @@ trainer = Trainer(model, train_loader, val_loader, test_loader, scaler,args)
 if args.mode == 'train':
     # Train
     trainer.train()
-elif args.mode == 'test':
-    model.load_state_dict(torch.load('../pre-trained/{}.pth'.format(args.dataset)))
-    print("Load saved model")
-    #Test
-    trainer.test(model, trainer.args, test_loader, scaler, trainer.logger)
-else:
-    raise ValueError
+
+model.load_state_dict(torch.load('../pre-trained/{}.pth'.format(args.dataset)))
+
+print("Load saved model")
+
+# Test
+test_prediction = trainer.test(model, trainer.args, test_loader, scaler, trainer.logger)
+
+test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0)
+
+print('Test result', test_rmse)

@@ -6,7 +6,7 @@ import os
 # ########### NYC ###########
 # # os.system("python ASTGCN.py --dataset Bike --city NYC --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum")
 
-os.system("python ASTGCN.py --dataset Bike --city NYC --data_range 0.5 --train_data_length 183 --MergeIndex 6 --MergeWay sum")
+# os.system("python ASTGCN.py --dataset Bike --city NYC --data_range 0.5 --train_data_length 183 --MergeIndex 6 --MergeWay sum")
 
 # # os.system("python ASTGCN.py --dataset Bike --city NYC --data_range all --train_data_length 365 --MergeIndex 12 --MergeWay sum")
 
@@ -85,7 +85,7 @@ os.system("python ASTGCN.py --dataset Bike --city NYC --data_range 0.5 --train_d
 
 # os.system("python ASTGCN.py --dataset METR --city LA --MergeIndex 6 --MergeWay average")
 
-# # os.system("python ASTGCN.py --dataset METR --city LA --MergeIndex 12 --MergeWay average")
+# os.system("python ASTGCN.py --dataset METR --city LA --MergeIndex 12 --MergeWay average")
 
 
 # # ###############################################

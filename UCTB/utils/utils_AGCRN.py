@@ -1,24 +1,13 @@
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
-import random
-from torch.utils.data import dataloader
-import torch, pdb
 import numpy as np
-import argparse
-import configparser
 import os
-from datetime import datetime
-import numpy as np
-import sys
 import logging
 import math
 import time
 import copy
-import pickle
 from UCTB.preprocess import SplitData
-from UCTB.evaluation.metric import *
-
+from UCTB.train.LossFunction import masked_mae_loss
 
 class Trainer(object):
     def __init__(self, model, train_loader, val_loader, test_loader,
@@ -73,12 +62,12 @@ class Trainer(object):
 
         with torch.no_grad():
             for batch_idx, (data, target) in enumerate(val_dataloader):
-                data = data[..., :self.args.input_dim]
                 label = target[..., :self.args.output_dim]
                 output = self.model(data, target, teacher_forcing_ratio=0.)
                 if self.args.real_value:
                     label = self.scaler.inverse_transform(label)
-                loss = self.loss(output.cuda(), label)
+                #loss = self.loss(output.cuda(), label)
+                loss = self.loss(output, label)
                 # a whole batch of Metr_LA is filtered
                 if not torch.isnan(loss):
                     total_val_loss += loss.item()
@@ -90,7 +79,6 @@ class Trainer(object):
         self.model.train()
         total_loss = 0
         for batch_idx, (data, target) in enumerate(self.train_loader):
-            data = data[..., :self.args.input_dim]
             label = target[..., :self.args.output_dim]  # (..., 1)
             self.optimizer.zero_grad()
 
@@ -105,7 +93,8 @@ class Trainer(object):
             output = self.model(data, target, teacher_forcing_ratio=teacher_forcing_ratio)
             if self.args.real_value:
                 label = self.scaler.inverse_transform(label)
-            loss = self.loss(output.cuda(), label)
+            #loss = self.loss(output.cuda(), label)
+            loss = self.loss(output, label)
             loss.backward()
 
             # add max grad clipping
@@ -180,17 +169,10 @@ class Trainer(object):
             torch.save(best_model, self.best_path)
             self.logger.info("Saving current best model to " + self.best_path)
 
-        # save train/val loss
-        with open('./{}_{}_{}_train.loss'.format(self.args.dataset, self.args.city, self.args.MergeIndex), "wb") as fp:
-            pickle.dump(train_loss_list, fp)
-
-        with open('./{}_{}_{}_val.loss'.format(self.args.dataset, self.args.city, self.args.MergeIndex), "wb") as fp:
-            pickle.dump(val_loss_list, fp)
-
         # test
         self.model.load_state_dict(best_model)
         # self.val_epoch(self.args.epochs, self.test_loader)
-        self.test(self.model, self.args, self.test_loader, self.scaler, self.logger)
+        #self.test(self.model, self.args, self.test_loader, self.scaler, self.logger)
 
     def save_checkpoint(self):
         state = {
@@ -214,7 +196,6 @@ class Trainer(object):
         y_true = []
         with torch.no_grad():
             for batch_idx, (data, target) in enumerate(data_loader):
-                data = data[..., :args.input_dim]
                 label = target[..., :args.output_dim]
                 output = model(data, target, teacher_forcing_ratio=0)
                 y_true.append(label)
@@ -224,16 +205,9 @@ class Trainer(object):
             y_pred = torch.cat(y_pred, dim=0)
         else:
             y_pred = scaler.inverse_transform(torch.cat(y_pred, dim=0))
-        np.save('./{}_{}_{}_true.npy'.format(args.dataset, args.city, args.MergeIndex), y_true.cpu().numpy())
-        np.save('./{}_{}_{}_pred.npy'.format(args.dataset, args.city, args.MergeIndex), y_pred.cpu().numpy())
-        for t in range(y_true.shape[1]):
-            mae, rmse, mape= All_Metrics(y_pred[:, t, ...], y_true[:, t, ...],
-                                                args.mae_thresh, args.mape_thresh)
-            logger.info("Horizon {:02d}, MAE: {:.2f}, RMSE: {:.2f}, MAPE: {:.4f}%".format(
-                t + 1, mae, rmse, mape*100))
-        mae, rmse, mape= All_Metrics(y_pred, y_true, args.mae_thresh, args.mape_thresh)
-        logger.info("Average Horizon, MAE: {:.2f}, RMSE: {:.2f}, MAPE: {:.4f}%".format(
-                    mae, rmse, mape*100))
+
+        return y_pred.cpu().numpy()
+        
 
     @staticmethod
     def _compute_sampling_threshold(global_step, k):
@@ -249,7 +223,7 @@ class Trainer(object):
 
 
 
-def get_dataloader_cly(data_loader, batchsize,tod=False,dow=False, weather=False, single=True):
+def get_dataloader_AGCRN(data_loader, batchsize,tod=False,dow=False, weather=False, single=True):
     # split data
     train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
     train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
@@ -267,14 +241,14 @@ def get_dataloader_cly(data_loader, batchsize,tod=False,dow=False, weather=False
         val_x = val_closeness.transpose([0, 3, 1, 2])
         test_x = data_loader.test_closeness.transpose([0, 3, 1, 2])
 
-    train_y = train_y[:, np.newaxis]  # .transpose([0,2,1,3])
-    val_y = val_y[:, np.newaxis]  # .transpose([0,2,1,3])
-    test_y = data_loader.test_y[:, np.newaxis]  # .transpose([0,2,1,3])
+    train_y = train_y[:, np.newaxis]  
+    val_y = val_y[:, np.newaxis]  
+    test_y = data_loader.test_y[:, np.newaxis]  
 
     print('Train: ', train_x.shape, train_y.shape)
     print('Val: ', val_x.shape, val_y.shape)
     print('Test: ', test_x.shape, test_y.shape)
-    ##############get dataloader######################
+    ############## get dataloader ######################
     train_dataloader = data_loader_torch(train_x, train_y, batchsize, shuffle=True, drop_last=True)
     if len(train_x) == 0:
         val_dataloader = None

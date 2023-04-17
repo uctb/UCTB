@@ -4,7 +4,7 @@ import os
 # BenchMark Bike
 #############################################
 ########### NYC ###########
-os.system("python AGCRN.py --dataset Bike --city NYC --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum")
+# os.system("python AGCRN.py --dataset Bike --city NYC --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum")
 
 # os.system("python AGCRN.py --dataset Bike --city NYC --data_range 0.5 --train_data_length 183 --MergeIndex 6 --MergeWay sum")
 

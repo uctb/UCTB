@@ -16,24 +16,24 @@
 
 Currently the package supported the following models: (This tool box is constructed based on some open-source repos. We appreciate these awesome implements.  [See more details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html))
 
-|  Model Name  |   input data format   |   spatial modeling technique   |Graph type|temporal modeling technique|temporal knowledge|Multi-step/single-step|
-| ---- | ---- | ---- |----|----|----|----|
-|   ARIMA   |   both   |   N/A   |N/A|SARIMA|Closeness|Multi-step|
-|   HM   |   both   |   N/A   |N/A|N/A|Closeness|Multi-step|
-|   HMM   |   both   |   N/A   |N/A|HMM|Closeness|Multi-step|
-|   XGBoost   |   both   |   N/A   |N/A|XGBoost|Closeness|Multi-step|
-|   DeepST   |   Grid   |   CNN   |N/A|CNN|CPT|Multi-step|
-|   ST-ResNet   |   Grid   |   CNN   |N/A|CNN|CPT|Multi-step|
-|   DCRNN   |   Node   |   GNN   |prior weighted adjacency matrix|RNN|Closeness|Multi-step|
-|   GeoMAN  |   Node   |   attention   |prior weighted adjacency matrix|attention+LSTM|Closeness|Multi-step|
-|   STGCN   |   Node   |   GNN   |prior weighted adjacency matrix|Gated CNN|Closeness|Multi-step|
-|   GraphWaveNet   |   Node   |   GNN   |self-adptive adjacency matrix|TCN|Closeness|Multi-step|
-|   ASTGCN   |   Node   |   GNN+attention   |prior weihted adjacency matrix|attention|recent,daily,period|Multi-step|
-|   ST-MGCN   |   Node   |   GNN   |Neighborhood,Functional similarity,Transportation connectivity|CGRNN|CPT|Multi-step|
-|   GMAN   |   Node   |   attention   |prior weighted adjacency matrix|attention|Closeness|Multi-step|
-|   STSGCN   |   Node   |   GNN+attention   |prior localized spatial-temporal graph|attention|N/A|Multi-step|
-|   AGCRN  |   Node   |   GNN   |self-adpative adjacency matrix|RNN|Closeness|Multi-step|
-|   STMeta   |   Node   |   GNN   |prior weighted adjacency matrix|LSTM/RNN|CPT|Multi-step|
+|  Model Name  |   input data format   |   spatial modeling technique   |Graph type|temporal modeling technique|temporal knowledge|
+| ---- | ---- | ---- |----|----|----|
+|   ARIMA   |   Both   |   N/A   |N/A|SARIMA|Closeness|
+|   HM   |   Both   |   N/A   |N/A|N/A|Closeness|
+|   HMM   |   Both   |   N/A   |N/A|HMM|Closeness|
+|   XGBoost   |   Both   |   N/A   |N/A|XGBoost|Closeness|
+|   DeepST   |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|
+|   ST-ResNet   |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|
+|   DCRNN   |   Node   |   GNN   |prior weighted adjacency matrix|RNN|Closeness|
+|   GeoMAN  |   Node   |   Attention   |prior weighted adjacency matrix|attention+LSTM|Closeness|
+|   STGCN   |   Node   |   GNN   |prior weighted adjacency matrix|Gated CNN|Closeness|
+|   GraphWaveNet   |   Node   |   GNN   |self-adaptive adjacency matrix|TCN|Closeness|
+|   ASTGCN   |   Node   |   GNN+Attention   |prior weighted adjacency matrix|attention|Closeness,Period,Trend|
+|   ST-MGCN   |   Node   |   GNN   |Neighborhood,Functional similarity,Transportation connectivity|CGRNN|Closeness|
+|   GMAN   |   Node   |   Attention   |prior weighted adjacency matrix|attention|Closeness|
+|   STSGCN   |   Node   |   GNN+Attention   |prior localized spatial-temporal graph|attention|Closeness|
+|   AGCRN  |   Node   |   GNN   |adpative adjacency matrix|RNN|Closeness|
+|   STMeta   |   Node   |   GNN   |prior weighted adjacency matrix|LSTM/RNN|Closeness,Period,Trend|
 - ARIMA
 - HM
 - HMM

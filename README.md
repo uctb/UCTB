@@ -30,7 +30,7 @@ Currently the package supported the following models: (This tool box is construc
 |   GraphWaveNet   |   Node   |   GNN   |self-adaptive adjacency matrix|TCN|Closeness|
 |   ASTGCN   |   Node   |   GNN+Attention   |prior weighted adjacency matrix|Attention|Closeness,Period,Trend|
 |   ST-MGCN   |   Node   |   GNN   |Neighborhood,Functional similarity,Transportation connectivity|CGRNN|Closeness|
-|   GMAN   |   Node   |   Attention   |prior weighted adjacency matrix|attention|Closeness|
+|   GMAN   |   Node   |   Attention   |prior weighted adjacency matrix|Attention|Closeness|
 |   STSGCN   |   Node   |   GNN+Attention   |prior localized spatial-temporal graph|Attention|Closeness|
 |   AGCRN  |   Node   |   GNN   |adpative adjacency matrix|RNN|Closeness|
 |   STMeta   |   Node   |   GNN   |prior weighted adjacency matrix|LSTM/RNN|Closeness,Period,Trend|

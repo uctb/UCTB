@@ -16,7 +16,7 @@
 
 Currently the package supported the following models: (This tool box is constructed based on some open-source repos. We appreciate these awesome implements.  [See more details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html))
 
-|  Model Name  |   input data format   |   spatial modeling technique   |Graph type|temporal modeling technique|temporal knowledge|Multi-step/single-step|
+|  Model Name  |   Input Data Format   |   Spatial Modeling Technique   |Graph Type|Temporal Modeling Technique|Temporal Knowledge|Multi-step/Single-step|
 | ---- | ---- | ---- |----|----|----|----|
 |   ARIMA   |   both   |   N/A   |N/A|SARIMA|Closeness|Multi-step|
 |   HM   |   both   |   N/A   |N/A|N/A|Closeness|Multi-step|

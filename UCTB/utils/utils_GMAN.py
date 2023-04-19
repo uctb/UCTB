@@ -53,7 +53,7 @@ def build_model(log, time_fitness, trainX, args, std, SE, mean):
     return X, TE, label, is_training, saver, sess, train_op, loss, pred
 
 
-def Train(log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, sess, train_op, loss, pred):
+def Train(log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, saver, sess, train_op, loss, pred):
 
     log_string(log, '**** training model ****')
     num_train, _, N = trainX.shape
@@ -82,7 +82,6 @@ def Train(log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, i
                 label: trainY[start_idx: end_idx],
                 is_training: True}
             # print(train_op.size())
-            print(X.shape)
             _, loss_batch = sess.run([train_op, loss], feed_dict=feed_dict)
             train_loss += loss_batch * (end_idx - start_idx)
         train_loss /= num_train
@@ -177,6 +176,8 @@ def Test(log, args, testX, testTE, X, TE, is_training, sess, pred):
     sess.close()
     log.close()
 
+    return testPred
+
 
 def load_data(args, data_loader):
     # split data
@@ -265,13 +266,7 @@ def load_data(args, data_loader):
     valTE = np.concatenate(valTE, axis=1).astype(np.int32)
     testTE = seq2instance(test, args.P, args.Q)
     testTE = np.concatenate(testTE, axis=1).astype(np.int32)
-    # print("trainX",trainX.shape)
-    # print("trainY",trainY.shape)
-    # print("valX",valX.shape)
-    # print("testX",testX.shape)
-    # print("trainTE",trainTE.shape)
-    # print("valTE",valTE.shape)
-    # print("testTE",testTE.shape)
+    
     return (trainX, trainTE, trainY, valX, valTE, valY, testX, testTE, testY,
             SE, mean, std, time_fitness)
 
@@ -285,15 +280,14 @@ def placeholder(P, Q, N):
 
 
 def graph_to_adj_files(adjacent_matrix, Adj_file):
-    if not os.path.exists(Adj_file):
-        with open(Adj_file, "w") as fp:
-            adj_list = []
-            print(adjacent_matrix.shape)
-            for i in range(adjacent_matrix.shape[0]):
-                for j in range(adjacent_matrix.shape[1]):
-                    adj_list.append("{} {} {:.6f}\n".format(
-                        i, j, adjacent_matrix[i, j]))
-            fp.writelines(adj_list)
+    with open(Adj_file, "w") as fp:
+        adj_list = []
+        print(adjacent_matrix.shape)
+        for i in range(adjacent_matrix.shape[0]):
+            for j in range(adjacent_matrix.shape[1]):
+                adj_list.append("{} {} {:.6f}\n".format(
+                    i, j, adjacent_matrix[i, j]))
+        fp.writelines(adj_list)
 
 
 def read_graph(edgelist):
@@ -323,8 +317,6 @@ def seq2instance(data, P, Q):
     return x, y
 
 # log string
-
-
 def log_string(log, string):
     log.write(string + '\n')
     log.flush()

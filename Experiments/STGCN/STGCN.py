@@ -89,4 +89,4 @@ test_prediction = model_test(dataset_obj, dataset_obj.get_len('test'), n_his, n_
 
 test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0)
 
-print('Test result', test_rmse)
+print('Test RMSE', test_rmse)

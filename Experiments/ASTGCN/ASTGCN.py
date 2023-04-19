@@ -118,4 +118,4 @@ test_prediction = predict_main(net, best_epoch, test_loader, test_target_tensor,
 
 test_rmse = metric.rmse(prediction=test_prediction,
                         target=uctb_data_loader.test_y, threshold=0)
-print('Test result', test_rmse)
+print('Test RMSE', test_rmse)

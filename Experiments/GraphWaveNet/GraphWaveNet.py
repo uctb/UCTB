@@ -93,7 +93,7 @@ print("epoch_id:", epoch_id, "loss_id:", loss_id)
 test_prediction = Test(args, data_dict, device, engine, scaler, epoch_id, loss_id)
 
 rmse_result = metric.rmse(test_prediction.squeeze(), uctb_data_loader.test_y.squeeze(), threshold=0)
-print("RMSE:", rmse_result)
+print("Test RMSE:", rmse_result)
 
 t2 = time.time()
 print("Total time spent: {:.4f}".format(t2 - t1))

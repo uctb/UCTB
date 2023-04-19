@@ -1,7 +1,6 @@
 import time
 import argparse
 import os
-import networkx as nx
 
 from UCTB.evaluation import metric
 from UCTB.model.GMAN import Graph
@@ -14,17 +13,16 @@ parser = argparse.ArgumentParser()
 # data loader parameters
 parser.add_argument("--dataset", default='Bike', type=str)
 parser.add_argument("--city", default='NYC', type=str)
-parser.add_argument("--closeness_len", default=6, type=int)
-parser.add_argument("--period_len", default=7, type=int)
-parser.add_argument("--trend_len", default=4, type=int)
+parser.add_argument("--closeness_len", default=12, type=int)
+parser.add_argument("--period_len", default=0, type=int)
+parser.add_argument("--trend_len", default=0, type=int)
 parser.add_argument("--data_range", default="all", type=str)
 parser.add_argument("--train_data_length", default="all", type=str)
 parser.add_argument("--test_ratio", default=0.1, type=float)
 parser.add_argument("--MergeIndex", default=1, type=int)
 parser.add_argument("--MergeWay", default="sum", type=str)
-parser.add_argument("--threshold_distance", default=0.1, type=float)
-parser.add_argument('--P', type=int, default=12,
-                    help='history steps')
+parser.add_argument("--threshold_correlation", default=0.7, type=float)
+
 parser.add_argument('--Q', type=int, default=1,
                     help='prediction steps')
 parser.add_argument('--L', type=int, default=1,
@@ -47,14 +45,17 @@ parser.add_argument('--learning_rate', type=float, default=0.001,
                     help='initial learning rate')
 parser.add_argument('--decay_epoch', type=int, default=5,
                     help='decay epoch')
-parser.add_argument('--traffic_file', default='data/PeMS.h5',
-                    help='traffic file')
-parser.add_argument('--SE_file', default='data/SE(PeMS).txt',
-                    help='spatial emebdding file')
-parser.add_argument('--model_file', default='data/GMAN(PeMS)',
-                    help='save the model to disk')
-parser.add_argument('--log_file', default='data/log(PeMS)',
-                    help='log file')
+
+# spatial embedding parameters
+parser.add_argument('--spatial_is_directed', type=bool, default=False)
+parser.add_argument('--spatial_p', type=int, default=2)
+parser.add_argument('--spatial_q', type=int, default=1)
+parser.add_argument('--spatial_num_walks', type=int, default=100)
+parser.add_argument('--spatial_walk_length', type=int, default=80)
+parser.add_argument('--spatial_dimensions', type=int, default=32)
+parser.add_argument('--spatial_epochs', type=int, default=1000)
+
+
 args = parser.parse_args()
 
 #config data_loader
@@ -68,64 +69,44 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 MergeIndex=args.MergeIndex,
                                 MergeWay=args.MergeWay)
 
-graph_obj = GraphGenerator(graph='distance', data_loader=data_loader,
-                           threshold_distance=args.threshold_distance)
+args.P = args.closeness_len + args.period_len + args.trend_len
 
+graph_obj = GraphGenerator(graph='correlation', data_loader=data_loader,
+                           threshold_distance=args.threshold_correlation)
 
 # Global variable
-is_directed = True
-p = 2
-q = 1
-num_walks = 100
-walk_length = 80
-dimensions = 64
-window_size = 10
-epochs = 1000
-Adj_file = os.path.abspath(
-    "./Graph_File/{}_{}_adj.txt".format(args.dataset, args.city))
-print(Adj_file)
-SE_file = os.path.abspath(
-    "./Graph_File/{}_{}_SE.txt".format(args.dataset, args.city))
-os.environ["CUDA_VISIBLE_DEVICES"] = '1'
+adj_file = os.path.abspath("./Graph_File/{}_{}_adj.txt".format(args.dataset, args.city))
+SE_file = os.path.abspath("./Graph_File/{}_{}_SE.txt".format(args.dataset, args.city))
+args.SE_file = SE_file
+
+if not os.path.exists(SE_file):
+    # Generate Graph embedding
+    graph_to_adj_files(graph_obj.AM[0], adj_file)
+
+    nx_G = read_graph(adj_file)
+    G = Graph(nx_G, args.spatial_is_directed, args.spatial_p, args.spatial_q)
+    G.preprocess_transition_probs()
+
+    walks = G.simulate_walks(args.spatial_num_walks, args.spatial_walk_length)
+    learn_embeddings(walks, args.spatial_dimensions, SE_file, args.spatial_epochs)
 
 
-# Generate Graph embeddind
-
-graph_to_adj_files(graph_obj.AM[0], Adj_file)
-nx_G = read_graph(Adj_file)
-G = Graph(nx_G, is_directed, p, q)
-G.preprocess_transition_probs()
-
-walks = G.simulate_walks(num_walks, walk_length)
-learn_embeddings(walks, dimensions, SE_file, epochs)
-
-
-#reset args to Train
-args = parser.parse_args()
-args.closeness_len = 12
-args.period_len = 0
-args.trend_len = 0
-args.data_range = "all"
-args.train_data_length = "all"
-args.test_ratio = 0.1
-args.MergeIndex = 1
-args.MergeWay = "sum"
-args.P = args.closeness_len
-args.SE_file = "/mnt/{}_{}_SE.txt".format(args.dataset, args.city)
-basic_dir = os.path.abspath(
-    "EXP/{}_{}_{}/".format(args.dataset, args.city, args.MergeIndex))
-if not os.path.exists(basic_dir):
-    os.makedirs(basic_dir)
-model_name = os.path.join(basic_dir, "model")
+model_name = os.path.abspath("model_dir/{}_{}_{}/".format(args.dataset, args.city, args.MergeIndex))
+if not os.path.exists(model_name):
+    os.makedirs(model_name)
 args.model_file = model_name
-
-
-#log config
 print("model_name:", args.model_file)
+
+log_file = os.path.abspath("log/{}_{}_{}.txt".format(args.dataset, args.city, args.MergeIndex))
+if not os.path.exists(os.path.dirname(log_file)):
+    os.makedirs(os.path.dirname(log_file))
+args.log_file = log_file
+print("log_file:", args.log_file)
+
+
 start = time.time()
 log = open(args.log_file, 'w')
 log_string(log, str(args)[10: -1])
-
 
 # load data
 log_string(log, 'loading data...')
@@ -144,12 +125,12 @@ X, TE, label, is_training, saver, sess, train_op, loss, pred = build_model(
     log, time_fitness, trainX, args, std, SE, mean)
 
 train_prediction, val_prediction = Train(
-    log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, sess, train_op, loss, pred)
+    log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, saver, sess, train_op, loss, pred)
 
 test_prediction = Test(log, args, testX, testTE, X,
                        TE, is_training, sess, pred)
 
-test_rmse = metric.rmse(prediction=test_prediction,
-                        target=data_loader.test_y, threshold=0)
+test_rmse = metric.rmse(prediction=test_prediction.squeeze(),
+                        target=data_loader.test_y.squeeze(), threshold=0)
 
-print("UCTB API RMSE:", test_rmse)
+print("Test RMSE:", test_rmse)

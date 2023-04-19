@@ -9,20 +9,21 @@ import copy
 from UCTB.preprocess import SplitData
 from UCTB.train.LossFunction import masked_mae_loss
 
+
 class Trainer(object):
     def __init__(self, model, train_loader, val_loader, test_loader,
                  scaler, args):
         super(Trainer, self).__init__()
         self.model = model
-        self.optimizer =torch.optim.Adam(params=model.parameters(), lr=args.lr_init, eps=1.0e-8,
-                                     weight_decay=0, amsgrad=False)
+        self.optimizer = torch.optim.Adam(params=model.parameters(), lr=args.lr_init, eps=1.0e-8,
+                                          weight_decay=0, amsgrad=False)
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.test_loader = test_loader
         self.scaler = scaler
         self.args = args
         self.train_per_epoch = len(train_loader)
-        self.lr_scheduler=None
+        self.lr_scheduler = None
         for p in self.model.parameters():
             if p.dim() > 1:
                 nn.init.xavier_uniform_(p)
@@ -38,10 +39,11 @@ class Trainer(object):
             raise ValueError
         if args.lr_decay:
             print('Applying learning rate decay.')
-            lr_decay_steps = [int(i) for i in list(args.lr_decay_step.split(','))]
+            lr_decay_steps = [int(i)
+                              for i in list(args.lr_decay_step.split(','))]
             self.lr_scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer=self.optimizer,
-                                                                milestones=lr_decay_steps,
-                                                                gamma=args.lr_decay_rate)
+                                                                     milestones=lr_decay_steps,
+                                                                     gamma=args.lr_decay_rate)
         if val_loader != None:
             self.val_per_epoch = len(val_loader)
         self.best_path = os.path.join(self.args.log_dir, 'best_model.pth')
@@ -49,7 +51,8 @@ class Trainer(object):
         # log
         if os.path.isdir(args.log_dir) == False and not args.debug:
             os.makedirs(args.log_dir, exist_ok=True)
-        self.logger = get_logger(args.log_dir, name=args.model, debug=args.debug)
+        self.logger = get_logger(
+            args.log_dir, name=args.model, debug=args.debug)
         self.logger.info('Experiment log path in: {}'.format(args.log_dir))
         # if not args.debug:
         # self.logger.info("Argument: %r", args)
@@ -72,7 +75,8 @@ class Trainer(object):
                 if not torch.isnan(loss):
                     total_val_loss += loss.item()
         val_loss = total_val_loss / len(val_dataloader)
-        self.logger.info('**********Val Epoch {}: average Loss: {:.6f}'.format(epoch, val_loss))
+        self.logger.info(
+            '**********Val Epoch {}: average Loss: {:.6f}'.format(epoch, val_loss))
         return val_loss
 
     def train_epoch(self, epoch):
@@ -86,11 +90,13 @@ class Trainer(object):
             # if teacher_forcing_ratio = 1: use label as input in the decoder for all steps
             if self.args.teacher_forcing:
                 global_step = (epoch - 1) * self.train_per_epoch + batch_idx
-                teacher_forcing_ratio = self._compute_sampling_threshold(global_step, self.args.tf_decay_steps)
+                teacher_forcing_ratio = self._compute_sampling_threshold(
+                    global_step, self.args.tf_decay_steps)
             else:
                 teacher_forcing_ratio = 1.
             # data and target shape: B, T, N, F; output shape: B, T, N, F
-            output = self.model(data, target, teacher_forcing_ratio=teacher_forcing_ratio)
+            output = self.model(
+                data, target, teacher_forcing_ratio=teacher_forcing_ratio)
             if self.args.real_value:
                 label = self.scaler.inverse_transform(label)
             #loss = self.loss(output.cuda(), label)
@@ -99,7 +105,8 @@ class Trainer(object):
 
             # add max grad clipping
             if self.args.grad_norm:
-                torch.nn.utils.clip_grad_norm_(self.model.parameters(), self.args.max_grad_norm)
+                torch.nn.utils.clip_grad_norm_(
+                    self.model.parameters(), self.args.max_grad_norm)
             self.optimizer.step()
             total_loss += loss.item()
 
@@ -158,11 +165,13 @@ class Trainer(object):
                     break
             # save the best state
             if best_state == True:
-                self.logger.info('*********************************Current best model saved!')
+                self.logger.info(
+                    '*********************************Current best model saved!')
                 best_model = copy.deepcopy(self.model.state_dict())
 
         training_time = time.time() - start_time
-        self.logger.info("Total training time: {:.4f}min, best loss: {:.6f}".format((training_time / 60), best_loss))
+        self.logger.info("Total training time: {:.4f}min, best loss: {:.6f}".format(
+            (training_time / 60), best_loss))
 
         # save the best model to file
         if not self.args.debug:
@@ -207,7 +216,6 @@ class Trainer(object):
             y_pred = scaler.inverse_transform(torch.cat(y_pred, dim=0))
 
         return y_pred.cpu().numpy()
-        
 
     @staticmethod
     def _compute_sampling_threshold(global_step, k):
@@ -220,20 +228,22 @@ class Trainer(object):
         return k / (k + math.exp(global_step / k))
 
 
-
-
-
-def get_dataloader_AGCRN(data_loader, batchsize,tod=False,dow=False, weather=False, single=True):
+def get_dataloader_AGCRN(data_loader, batchsize, tod=False, dow=False, weather=False, single=True):
     # split data
-    train_closeness, val_closeness = SplitData.split_data(data_loader.train_closeness, [0.9, 0.1])
-    train_period, val_period = SplitData.split_data(data_loader.train_period, [0.9, 0.1])
-    train_trend, val_trend = SplitData.split_data(data_loader.train_trend, [0.9, 0.1])
+    train_closeness, val_closeness = SplitData.split_data(
+        data_loader.train_closeness, [0.9, 0.1])
+    train_period, val_period = SplitData.split_data(
+        data_loader.train_period, [0.9, 0.1])
+    train_trend, val_trend = SplitData.split_data(
+        data_loader.train_trend, [0.9, 0.1])
     train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
 
     # T, N, D, 1 -> T, D, N, 1
     if data_loader.period_len > 0 and data_loader.trend_len > 0:
-        train_x = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 2, 1, 3])
-        val_x = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 2, 1, 3])
+        train_x = np.concatenate(
+            [train_trend, train_period, train_closeness], axis=2).transpose([0, 2, 1, 3])
+        val_x = np.concatenate(
+            [val_trend, val_period, val_closeness], axis=2).transpose([0, 2, 1, 3])
         test_x = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
                                 axis=2).transpose([0, 2, 1, 3])
     else:
@@ -241,20 +251,23 @@ def get_dataloader_AGCRN(data_loader, batchsize,tod=False,dow=False, weather=Fal
         val_x = val_closeness.transpose([0, 3, 1, 2])
         test_x = data_loader.test_closeness.transpose([0, 3, 1, 2])
 
-    train_y = train_y[:, np.newaxis]  
-    val_y = val_y[:, np.newaxis]  
-    test_y = data_loader.test_y[:, np.newaxis]  
+    train_y = train_y[:, np.newaxis]
+    val_y = val_y[:, np.newaxis]
+    test_y = data_loader.test_y[:, np.newaxis]
 
     print('Train: ', train_x.shape, train_y.shape)
     print('Val: ', val_x.shape, val_y.shape)
     print('Test: ', test_x.shape, test_y.shape)
     ############## get dataloader ######################
-    train_dataloader = data_loader_torch(train_x, train_y, batchsize, shuffle=True, drop_last=True)
+    train_dataloader = data_loader_torch(
+        train_x, train_y, batchsize, shuffle=True, drop_last=True)
     if len(train_x) == 0:
         val_dataloader = None
     else:
-        val_dataloader = data_loader_torch(val_x, val_y,batchsize, shuffle=False, drop_last=True)
-    test_dataloader = data_loader_torch(test_x, test_y, batchsize, shuffle=False, drop_last=False)
+        val_dataloader = data_loader_torch(
+            val_x, val_y, batchsize, shuffle=False, drop_last=True)
+    test_dataloader = data_loader_torch(
+        test_x, test_y, batchsize, shuffle=False, drop_last=False)
     return train_dataloader, val_dataloader, test_dataloader, data_loader.scaler
 
 
@@ -297,5 +310,3 @@ def get_logger(root, name=None, debug=True):
     if not debug:
         logger.addHandler(file_handler)
     return logger
-
-

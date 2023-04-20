@@ -22,34 +22,19 @@ Currently the package supported the following models: (This tool box is construc
 |   HM   |   Both   |   N/A   |N/A|N/A|Closeness|
 |   HMM   |   Both   |   N/A   |N/A|HMM|Closeness|
 |   XGBoost   |   Both   |   N/A   |N/A|XGBoost|Closeness|
-|   DeepST   |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|
-|   ST-ResNet   |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|
-|   DCRNN   |   Node   |   GNN   |prior weighted adjacency matrix|RNN|Closeness|
-|   GeoMAN  |   Node   |   Attention   |prior weighted adjacency matrix|Attention+LSTM|Closeness|
-|   STGCN   |   Node   |   GNN   |prior weighted adjacency matrix|Gated CNN|Closeness|
-|   GraphWaveNet   |   Node   |   GNN   |self-adaptive adjacency matrix|TCN|Closeness|
-|   ASTGCN   |   Node   |   GNN+Attention   |prior weighted adjacency matrix|Attention|Closeness,Period,Trend|
-|   ST-MGCN   |   Node   |   GNN   |Neighborhood,Functional similarity,Transportation connectivity|CGRNN|Closeness|
-|   GMAN   |   Node   |   Attention   |prior weighted adjacency matrix|Attention|Closeness|
-|   STSGCN   |   Node   |   GNN+Attention   |prior localized spatial-temporal graph|Attention|Closeness|
-|   AGCRN  |   Node   |   GNN   |adpative adjacency matrix|RNN|Closeness|
-|   STMeta   |   Node   |   GNN   |prior weighted adjacency matrix|LSTM/RNN|Closeness,Period,Trend|
-- ARIMA
-- HM
-- HMM
-- XGBoost
-- DeepST [[SIGSPATIAL 2016]](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf)
-- ST-ResNet [[AAAI 2017]](https://arxiv.org/pdf/1610.00081.pdf)
-- DCRNN [[ICLR 2018]](https://arxiv.org/pdf/1707.01926.pdf)
-- GeoMAN [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0476.pdf)
-- STGCN [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0505.pdf)
-- GraphWaveNet [[IJCAI 2019]](https://www.ijcai.org/proceedings/2019/0264.pdf)
-- ASTGCN [[AAAI 2019]](https://ojs.aaai.org/index.php/AAAI/article/view/3881)
-- ST-MGCN [[AAAI 2019]](https://ojs.aaai.org/index.php/AAAI/article/view/4247)
-- GMAN [[AAAI 2020]](https://ojs.aaai.org/index.php/AAAI/article/view/5477/5333)
-- STSGCN [[AAAI 2020]](https://ojs.aaai.org/index.php/AAAI/article/view/5438)
-- AGCRN [[NeurIPS 2020]](https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf)
-- STMeta [[TKDE 2021]](https://arxiv.org/abs/2009.09379)
+|   DeepST [[SIGSPATIAL 2016]](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf)  |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|
+|   ST-ResNet [[AAAI 2017]](https://arxiv.org/pdf/1610.00081.pdf)  |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|
+|   DCRNN  [[ICLR 2018]](https://arxiv.org/pdf/1707.01926.pdf) |   Node   |   GNN   |Sensor Network|RNN|Closeness|
+|   GeoMAN  [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0476.pdf) |   Node   |   Attention   |Sensor Networks|Attention+LSTM|Closeness|
+|   STGCN  [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0505.pdf) |   Node   |   GNN   |Traffic Network|Gated CNN|Closeness|
+|   GraphWaveNet [[IJCAI 2019]](https://www.ijcai.org/proceedings/2019/0264.pdf)  |   Node   |   GNN   |Hidden Spatial Dependency|TCN|Closeness|
+|   ASTGCN  [[AAAI 2019]](https://ojs.aaai.org/index.php/AAAI/article/view/3881) |   Node   |   GNN+Attention   |Traffic Network|Attention|Closeness,Period,Trend|
+|   ST-MGCN   [[AAAI 2019]](https://ojs.aaai.org/index.php/AAAI/article/view/4247) |   Node   |   GNN   |Neighborhood,Functional similarity,Transportation connectivity|CGRNN|Closeness|
+|   GMAN  [[AAAI 2020]](https://ojs.aaai.org/index.php/AAAI/article/view/5477/5333) |   Node   |   Attention   |Road Network|Attention|Closeness|
+|   STSGCN  [[AAAI 2020]](https://ojs.aaai.org/index.php/AAAI/article/view/5438) |   Node   |   GNN+Attention   |Spatial Network|Attention|Closeness|
+|   AGCRN [[NeurIPS 2020]](https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf) |   Node   |   GNN   |Traffic Network Distance, Traffic Series Similarity|RNN|Closeness|
+|   STMeta [[TKDE 2021]](https://arxiv.org/abs/2009.09379)  |   Node   |   GNN   |Proximity,Functionality,Interaction/Same-line|LSTM/RNN|Closeness,Period,Trend|
+
 
 ------
 

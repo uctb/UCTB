@@ -26,7 +26,7 @@ Currently the package supported the following models: (This tool box is construc
 |   ST-ResNet [[AAAI 2017]](https://arxiv.org/pdf/1610.00081.pdf)  |   Grid   |   CNN   |N/A|CNN|Closeness,Period,Trend|``UCTB.model.ST_ResNet``|
 |   DCRNN  [[ICLR 2018]](https://arxiv.org/pdf/1707.01926.pdf) |   Node   |   GNN   |**Prior**(Sensor Network)|RNN|Closeness|``UCTB.model.DCRNN``|
 |   GeoMAN  [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0476.pdf) |   Node   |   Attention   |**Prior**(Sensor Networks)|Attention+LSTM|Closeness|``UCTB.model.GeoMAN``|
-|   STGCN  [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0505.pdf) |   Node   |   GNN   |**Prior**(Traffic Network)|Gated CNN|Closeness|UCTB.model.STGCN|
+|   STGCN  [[IJCAI 2018]](https://www.ijcai.org/proceedings/2018/0505.pdf) |   Node   |   GNN   |**Prior**(Traffic Network)|Gated CNN|Closeness|``UCTB.model.STGCN``|
 |   GraphWaveNet [[IJCAI 2019]](https://www.ijcai.org/proceedings/2019/0264.pdf)  |   Node   |   GNN   |**Adaptive**|TCN|Closeness|``UCTB.model.GraphWaveNet``|
 |   ASTGCN  [[AAAI 2019]](https://ojs.aaai.org/index.php/AAAI/article/view/3881) |   Node   |   GNN+Attention   |**Prior**(Traffic Network)|Attention|Closeness,Period,Trend|``UCTB.model.ASTGCN``|
 |   ST-MGCN   [[AAAI 2019]](https://ojs.aaai.org/index.php/AAAI/article/view/4247) |   Node   |   GNN   |**Prior**(Neighborhood,Functional similarity,Transportation connectivity)|CGRNN|Closeness|``UCTB.model.ST_MGCN``|

@@ -39,7 +39,7 @@ args.add_argument('--lag', default=config['data']['lag'], type=int)
 args.add_argument('--horizon', default=config['data']['horizon'], type=int)
 args.add_argument('--num_nodes', default=config['data']['num_nodes'], type=int)
 args.add_argument('--tod', default=config['data']['tod'], type=eval)
-args.add_argument('--normalizer', default="std", type=str)
+args.add_argument('--normalize', default="Zscore", type=str)
 args.add_argument(
     '--column_wise', default=config['data']['column_wise'], type=eval)
 args.add_argument('--default_graph',
@@ -113,14 +113,14 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 closeness_len=args.closeness_len,
                                 period_len=args.period_len,
                                 trend_len=args.trend_len,
-                                normalizer=args.normalizer,
+                                normalize=args.normalize,
                                 MergeIndex=args.MergeIndex,
                                 MergeWay=args.MergeWay)
 
 args.num_nodes = data_loader.station_number
 
 #load dataset
-train_loader, val_loader, test_loader, scaler = get_dataloader_AGCRN(data_loader,
+train_loader, val_loader, test_loader = get_dataloader_AGCRN(data_loader,
                                                                      tod=args.tod, batchsize=args.batch_size, dow=False,
                                                                      weather=False, single=False)
 
@@ -141,7 +141,7 @@ print("log_dir:", log_dir)
 args.log_dir = log_dir
 
 #Train Or Test
-trainer = Trainer(model, train_loader, val_loader, test_loader, scaler, args)
+trainer = Trainer(model, train_loader, val_loader, test_loader,  args)
 if args.mode == 'train':
     # Train
     trainer.train()
@@ -152,9 +152,10 @@ print("Load saved model")
 
 # Test
 test_prediction = trainer.test(
-    model, trainer.args, test_loader, scaler, trainer.logger)
-
-test_rmse = metric.rmse(prediction=test_prediction.squeeze(
-), target=data_loader.test_y.squeeze(), threshold=0)
+    model, trainer.args, test_loader, trainer.logger)
+test_prediction = data_loader.normalizer.inverse_transform(test_prediction)
+y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
+test_rmse = metric.rmse(prediction=test_prediction.squeeze(), target=y_true.squeeze(), threshold=0)
+test_rmse = metric.rmse(prediction=test_prediction.squeeze(), target=data_loader.test_y.squeeze(), threshold=0)
 
 print('Test RMSE', test_rmse)

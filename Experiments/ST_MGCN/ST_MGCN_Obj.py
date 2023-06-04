@@ -133,8 +133,8 @@ prediction = ST_MGCN_Obj.predict(traffic_flow=np.concatenate((np.transpose(data_
                                  output_names=['prediction'],
                                  cache_volume=int(args['BatchSize']))
 
-test_rmse = metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                        target=data_loader.normalizer.min_max_denormal(data_loader.test_y),
+test_rmse = metric.rmse(prediction=data_loader.normalizer.inverse_transform(prediction['prediction']),
+                        target=data_loader.normalizer.inverse_transform(data_loader.test_y),
                         threshold=0)
 
 print('Test result', test_rmse)
@@ -143,7 +143,7 @@ val_loss = ST_MGCN_Obj.load_event_scalar('val_loss')
 
 best_val_loss = min([e[-1] for e in val_loss])
 
-best_val_loss = data_loader.normalizer.min_max_denormal(best_val_loss)
+best_val_loss = data_loader.normalizer.inverse_transform(best_val_loss)
 
 print('Best val result', best_val_loss)
 

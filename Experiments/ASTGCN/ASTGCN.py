@@ -98,7 +98,7 @@ len_input = uctb_data_loader.closeness_len + \
 
 
 #load data
-train_loader, train_target_tensor, val_loader, val_target_tensor, test_loader, test_target_tensor, _mean, _std = load_data(
+train_loader, train_target_tensor, val_loader, val_target_tensor, test_loader, test_target_tensor= load_data(
     uctb_data_loader, DEVICE, batch_size)
 adj_mx = graph_obj.AM[0]
 L_tilde = scaled_Laplacian_ASTGCN(adj_mx)
@@ -108,14 +108,13 @@ net = make_model(DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filte
                  num_for_predict, len_input, num_of_vertices)
 
 #train
-best_epoch = train_main(training_config, params_path, DEVICE, net, val_loader, train_loader,
-                        test_loader, test_target_tensor, _mean, _std, graph_signal_matrix_filename)
+best_epoch = train_main(training_config, params_path, DEVICE, net, val_loader, train_loader, graph_signal_matrix_filename)
 
 # apply the best model and predict on the test set
-test_prediction = predict_main(net, best_epoch, test_loader, test_target_tensor, _mean, _std,
+test_prediction = predict_main(net, best_epoch, test_loader, test_target_tensor,
                                params_path)
 
-
+test_prediction = uctb_data_loader.normalizer.inverse_transform(test_prediction)
 test_rmse = metric.rmse(prediction=test_prediction,
                         target=uctb_data_loader.test_y, threshold=0)
 print('Test RMSE', test_rmse)

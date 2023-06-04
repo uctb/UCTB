@@ -12,7 +12,7 @@ import os
 
 
 # ########### Chicago ###########
-# # os.system("python GraphWaveNet.py --dataset Bike --city Chicago --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum --gcn_bool --adjtype doubletransition --addaptadj  --randomadj")
+os.system("python GraphWaveNet.py --dataset Bike --city Chicago --data_range 0.25 --train_data_length 91 --MergeIndex 3 --MergeWay sum --gcn_bool --adjtype doubletransition --addaptadj  --randomadj")
 
 # # os.system("python GraphWaveNet.py --dataset Bike --city Chicago --data_range 0.5 --train_data_length 183 --MergeIndex 6 --MergeWay sum --gcn_bool --adjtype doubletransition --addaptadj  --randomadj")
 

@@ -1,30 +1,107 @@
 import numpy as np
 import torch
 import tensorflow as tf
-class Normalizer(object):
+from abc import ABC, abstractmethod
+
+
+class Normalizer(ABC):
+    @abstractmethod
+    def __init__(self, X):
+        pass
+    @abstractmethod
+    def transform(self, X_in):
+        pass
+    @abstractmethod
+    def inverse_transform(self, X_in):
+        pass
+
+
+
+class MaxMinNormalizer(Normalizer):
     '''
     This class can help normalize and denormalize data by calling min_max_normal and min_max_denormal method.
     '''
-    def __init__(self, X):
+    def __init__(self, X,method='all'):
+        self.method = method
         self._min = np.min(X)
         self._max = np.max(X)
+        self._min_by_column = np.min(X,axis=0)
+        self._max_by_column = np.max(X,axis=0)
 
-    def min_max_normal(self, X):
+    def transform(self, X):
         '''
         Input X, return normalized results.
         :type: numpy.ndarray
         '''
-        return (X - self._min) / (self._max - self._min)
+        if self.method=='all':
+            return (X - self._min) / (self._max - self._min)
+        elif self.method=='column':
+            return (X - self._min_by_column) / (self._max_by_column - self._min_by_column)
 
-    def min_max_denormal(self, X):
+    def inverse_transform(self, X):
         '''
         Input X, return denormalized results.
         :type: numpy.ndarray
         '''
-        return X * (self._max - self._min) + self._min
+        if self.method=='all':
+            return X * (self._max - self._min) + self._min
+        elif self.method=='column':
+            return X * (self._max_by_column - self._min_by_column) + self._min_by_column
 
     # def white_normal(self):
     #     pass
+
+class WhiteNormalizer(Normalizer):
+    '''
+    This class's normalization won't do anything.
+    '''
+    def __init__(self, X,method='all'):
+        pass
+
+    def transform(self, X):
+        '''
+        Input X, return normalized results.
+        :type: numpy.ndarray
+        '''
+        return X
+
+    def inverse_transform(self, X):
+        '''
+        Input X, return denormalized results.
+        :type: numpy.ndarray
+        '''
+        return X
+
+class ZscoreNormalizer(Normalizer):
+    '''
+    This class can help normalize and denormalize data by calling min_max_normal and min_max_denormal method.
+    '''
+    def __init__(self, X,method='all'):
+        self.method = method
+        self._mean = np.mean(X)
+        self._std = np.std(X)
+        self._mean_by_column = np.mean(X,axis=0)
+        self._std_by_column = np.std(X,axis=0)
+
+    def transform(self, X):
+        '''
+        Input X, return normalized results.
+        :type: numpy.ndarray
+        '''
+        if self.method=='all':
+            return (X - self._mean) / self._std
+        elif self.method=='column':
+            return (X - self._mean_by_column) / self._std_by_column
+
+    def inverse_transform(self, X):
+        '''
+        Input X, return denormalized results.
+        :type: numpy.ndarray
+        '''
+        if self.method=='all':
+            return X * self._std + self._mean
+        elif self.method=='column':
+            return X * self._std_by_column + self._mean_by_column
 
 
 class MoveSample(object):
@@ -306,6 +383,32 @@ def normalize_dataset(data, normalizer, column_wise=False):
     else:
         raise ValueError
     return data, scaler
+
+def chooseNormalizer(in_arg,X_train):
+    if type(in_arg) == str:
+        if '-' in in_arg:
+            method,way=in_arg.split('-')
+            if method=='Zscore' or method=='zscore' or method=='ZScore':
+                return ZscoreNormalizer(X_train,way)
+            elif method=='MaxMin' or method=='maxmin' or method=='Maxmin' or method=='MinMax' or method=='Minmax' or method=='minmax':
+                return MaxMinNormalizer(X_train,way)
+            else:
+                raise ValueError('We havn\'t support thie method for normalization yet')
+        else:
+            raise ValueError('We don\'t accept this format of str input for how to do normalization')
+    elif type(in_arg) == bool:
+        if in_arg:
+            return MaxMinNormalizer(X_train)
+        else:
+            return WhiteNormalizer(X_train)
+    elif type(in_arg) == object:
+        if hasattr(in_arg,'transform') and hasattr(in_arg,'inverss_transform'):
+            return in_arg
+        else:
+            raise TypeError('Your custom normalizer is not in compliance')
+    else:
+        raise TypeError('We don\'t accept {} of input for how to do normalization')
+
 
 def normalization(train, val, test):
     '''

@@ -10,12 +10,11 @@ from UCTB.train.LossFunction import masked_mape, masked_mae, masked_rmse
 
 
 class trainer():
-    def __init__(self, scaler, in_dim, seq_length, num_nodes, nhid , dropout, lrate, wdecay, device, supports, gcn_bool, addaptadj, aptinit):
+    def __init__(self, in_dim, seq_length, num_nodes, nhid , dropout, lrate, wdecay, device, supports, gcn_bool, addaptadj, aptinit):
         self.model = gwnet(device, num_nodes, dropout, supports=supports, gcn_bool=gcn_bool, addaptadj=addaptadj, aptinit=aptinit, in_dim=in_dim, out_dim=seq_length, residual_channels=nhid, dilation_channels=nhid, skip_channels=nhid * 8, end_channels=nhid * 16)
         self.model.to(device)
         self.optimizer = optim.Adam(self.model.parameters(), lr=lrate, weight_decay=wdecay)
         self.loss = masked_mae
-        self.scaler = scaler
         self.clip = 5
 
     def train(self, input, real_val):
@@ -28,7 +27,7 @@ class trainer():
         # print("ouput",output.shape)
         #output = [batch_size,12,num_nodes,1]
         real = torch.unsqueeze(real_val,dim=1)
-        predict = self.scaler.inverse_transform(output)
+        predict = output
 
         loss = self.loss(predict, real, 0.0)
         loss.backward()
@@ -46,14 +45,14 @@ class trainer():
         output = output.transpose(1,3)
         #output = [batch_size,12,num_nodes,1]
         real = torch.unsqueeze(real_val,dim=1)
-        predict = self.scaler.inverse_transform(output)
+        predict = output
         loss = self.loss(predict, real, 0.0)
         mape = masked_mape(predict,real,0.0).item()
         rmse = masked_rmse(predict,real,0.0).item()
         return loss.item(),mape,rmse
 
 
-def Training(args, dataloader,  device, engine, scaler):
+def Training(args, dataloader,  device, engine):
     print("start training...", flush=True)
     his_loss = []
     val_time = []
@@ -116,7 +115,7 @@ def Training(args, dataloader,  device, engine, scaler):
 
     return np.argmin(his_loss), his_loss[np.argmin(his_loss)]
 
-def Test(args,dataloader,device,engine,scaler,epoch_id, loss_id):
+def Test(args,dataloader,device,engine,epoch_id, loss_id):
     # Test
     engine.model.load_state_dict(torch.load(
         os.path.join(args.save, "epoch_" + str(epoch_id + 1) + "_" + str(round(loss_id, 2)) + ".pth")))
@@ -136,7 +135,6 @@ def Test(args,dataloader,device,engine,scaler,epoch_id, loss_id):
 
     yhat = torch.cat(outputs, dim=0).cpu().numpy()
     yhat = yhat[:realy.size(0), ...]
-    yhat = scaler.inverse_transform(yhat)
     realy = realy.cpu().numpy()
 
     return yhat
@@ -218,12 +216,9 @@ def load_dataset(uctb_data_loader, batch_size, valid_batch_size=None, test_batch
     print("x_test", data["x_test"].shape)
     print("y_test", data["y_test"].shape)
 
-    scaler = StandardScaler(mean=data['x_train'][..., 0].mean(), std=data['x_train'][..., 0].std())
-    # Data format
-    for category in ['train', 'val', 'test']:
-        data['x_' + category][..., 0] = scaler.transform(data['x_' + category][..., 0])
+
+
     data['train_loader'] = DataLoader(data['x_train'], data['y_train'], batch_size)
     data['val_loader'] = DataLoader(data['x_val'], data['y_val'], valid_batch_size)
     data['test_loader'] = DataLoader(data['x_test'], data['y_test'], test_batch_size)
-    data['scaler'] = scaler
     return data

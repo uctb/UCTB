@@ -10,7 +10,7 @@ from UCTB.model.STSGCN import construct_model
 
 def configData(args, data_loader, batch_size, config, ctx):
     print("args['normalize']", args.normalize)
-    de_normalizer = None if args.normalize is False else data_loader.normalizer.min_max_denormal
+    normalizer = data_loader.normalizer
     graph_obj = GraphGenerator(graph='distance', data_loader=data_loader)
 
     config["num_of_vertices"] = data_loader.station_number
@@ -109,10 +109,10 @@ def configData(args, data_loader, batch_size, config, ctx):
         graph = mx.viz.plot_network(net)
         graph.format = 'png'
         graph.render('graph')
-    return model_name, epochs, metric, mod, train_loader, val_loader, test_loader, de_normalizer, val_y, test_y, all_info
+    return model_name, epochs, metric, mod, train_loader, val_loader, test_loader, normalizer, val_y, test_y, all_info
 
 
-def training(epochs, metric, mod, train_loader, val_loader, test_loader, de_normalizer, val_y, test_y, all_info):
+def training(epochs, metric, mod, train_loader, val_loader, test_loader, normalizer, val_y, test_y, all_info):
     global global_epoch
     global_epoch = 1
     lowest_val_loss = np.inf
@@ -146,11 +146,11 @@ def training(epochs, metric, mod, train_loader, val_loader, test_loader, de_norm
 
             test_loader.reset()
             prediction = mod.predict(test_loader)[1].asnumpy()
-            if de_normalizer:
-                prediction = de_normalizer(prediction)
-                de_norm_test_y = de_normalizer(test_y)
-            rmse_result = rmse(prediction=prediction.squeeze(), target=test_y.squeeze(), threshold=0)
-            mape_result = mape(prediction=prediction.squeeze(), target=test_y.squeeze(), threshold=0.01)
+
+            prediction = normalizer.inverse_transform(prediction)
+            de_norm_test_y = normalizer.inverse_transform(test_y)
+            rmse_result = rmse(prediction=prediction.squeeze(), target=de_norm_test_y.squeeze(), threshold=0)
+            mape_result = mape(prediction=prediction.squeeze(), target=de_norm_test_y.squeeze(), threshold=0.01)
 
             print('test: Epoch: {}, MAPE: {:.2f}, RMSE: {:.2f}, '
                   'time: {:.2f}s'.format(

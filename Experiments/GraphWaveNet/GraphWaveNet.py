@@ -5,7 +5,7 @@ import os
 
 from UCTB.utils.utils_GraphWaveNet import *
 from UCTB.preprocess.GraphGenerator import GraphGenerator
-from UCTB.dataset import NodeTrafficLoader
+from UCTB.dataset import NodeTrafficLoader, data_loader
 from UCTB.evaluation import metric
 
 
@@ -70,7 +70,7 @@ graph_obj = GraphGenerator(graph='distance', data_loader=uctb_data_loader)
 device = torch.device(args.device)
 data_dict = load_dataset(uctb_data_loader, args.batch_size, args.batch_size, args.batch_size)
 
-scaler = data_dict['scaler']
+
     
 supports = [torch.tensor(graph_obj.AM[i]).to(device) for i in range(len(graph_obj.AM))]
 
@@ -82,17 +82,19 @@ else:
     adjinit = supports[0]
 if args.aptonly:
     supports = None
-engine = trainer(scaler, args.in_dim, args.seq_length, args.num_nodes, args.nhid, args.dropout,
+engine = trainer(args.in_dim, args.seq_length, args.num_nodes, args.nhid, args.dropout,
                  args.learning_rate, args.weight_decay, device, supports, args.gcn_bool, args.addaptadj,
                  adjinit)
 
-epoch_id, loss_id = Training(args, data_dict, device, engine, scaler)
+epoch_id, loss_id = Training(args, data_dict, device, engine)
 
 print("epoch_id:", epoch_id, "loss_id:", loss_id)
 
-test_prediction = Test(args, data_dict, device, engine, scaler, epoch_id, loss_id)
-
-rmse_result = metric.rmse(test_prediction.squeeze(), uctb_data_loader.test_y.squeeze(), threshold=0)
+test_prediction = Test(args, data_dict, device, engine,  epoch_id, loss_id)
+test_prediction = uctb_data_loader.normalizer.inverse_transform(test_prediction)
+y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
+rmse_result = metric.rmse(prediction=test_prediction.squeeze(),
+                        target=y_true.squeeze(), threshold=0)
 print("Test RMSE:", rmse_result)
 
 t2 = time.time()

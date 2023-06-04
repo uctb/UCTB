@@ -56,8 +56,8 @@ prediction = deep_st_obj.predict(closeness_feature=data_loader.test_closeness,
                                  external_feature=data_loader.test_ef,
                                  sequence_length=data_loader.test_sequence_len)
 
-test_rmse = metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                        target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0)
+test_rmse = metric.rmse(prediction=data_loader.normalizer.inverse_transform(prediction['prediction']),
+                        target=data_loader.normalizer.inverse_transform(data_loader.test_y), threshold=0)
 
 # Compute metric
 print('Test result', test_rmse)
@@ -66,7 +66,7 @@ print('Test result', test_rmse)
 val_loss = deep_st_obj.load_event_scalar('val_loss')
 
 best_val_loss = min([e[-1] for e in val_loss])
-best_val_loss = data_loader.normalizer.min_max_denormal(best_val_loss)
+# best_val_loss = data_loader.normalizer.inverse_transform(best_val_loss)
 
 print('Best val result', best_val_loss)
 print('Test result', test_rmse)

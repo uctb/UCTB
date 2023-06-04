@@ -57,11 +57,7 @@ def load_data(data_loader, DEVICE, batch_size, shuffle=True):
                             data_loader.test_closeness], axis=2).transpose([0, 1, 3, 2])
     test_target = data_loader.test_y
 
-    (stats, train_x_norm, val_x_norm, test_x_norm) = normalization(
-        train_x, val_x, test_x)
 
-    mean = stats['_mean'][:, :, 0:1, :]
-    std = stats['_std'][:, :, 0:1, :]
 
     print("train_x", train_x.shape)
     print("val_x", val_x.shape)
@@ -108,10 +104,10 @@ def load_data(data_loader, DEVICE, batch_size, shuffle=True):
     print('val:', val_x_tensor.size(), val_target_tensor.size())
     print('test:', test_x_tensor.size(), test_target_tensor.size())
 
-    return train_loader, train_target_tensor, val_loader, val_target_tensor, test_loader, test_target_tensor, mean, std
+    return train_loader, train_target_tensor, val_loader, val_target_tensor, test_loader, test_target_tensor
 
 
-def train_main(training_config, params_path, DEVICE, net, val_loader, train_loader, test_loader, test_target_tensor, _mean, _std, graph_signal_matrix_filename):
+def train_main(training_config, params_path, DEVICE, net, val_loader, train_loader, graph_signal_matrix_filename):
     learning_rate = float(training_config['learning_rate'])
     epochs = int(training_config['epochs'])
     start_epoch = int(training_config['start_epoch'])
@@ -296,8 +292,6 @@ def predict_main(net, global_step, data_loader, data_target_tensor, _mean, _std,
                       (batch_index + 1, loader_length))
 
         input = np.concatenate(input, 0)
-
-        input = re_normalization(input, _mean, _std)
 
         prediction = np.concatenate(prediction, 0)  # (batch, T', 1)
 

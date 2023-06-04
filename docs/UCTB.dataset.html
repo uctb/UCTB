@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.1. UCTB.dataset package &mdash; UCTB  documentation</title>
@@ -150,15 +151,276 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-dataset-package">
+  <section id="uctb-dataset-package">
 <h1><span class="section-number">5.1. </span>UCTB.dataset package<a class="headerlink" href="#uctb-dataset-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="uctb-dataset-data-loader-module">
-<h2><span class="section-number">5.1.1. </span>UCTB.dataset.data_loader module<a class="headerlink" href="#uctb-dataset-data-loader-module" title="Permalink to this headline">¶</a></h2>
-</div>
-<div class="section" id="uctb-dataset-dataset-module">
-<h2><span class="section-number">5.1.2. </span>UCTB.dataset.dataset module<a class="headerlink" href="#uctb-dataset-dataset-module" title="Permalink to this headline">¶</a></h2>
-</div>
-</div>
+<section id="module-UCTB.dataset.data_loader">
+<span id="uctb-dataset-data-loader-module"></span><h2><span class="section-number">5.1.1. </span>UCTB.dataset.data_loader module<a class="headerlink" href="#module-UCTB.dataset.data_loader" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.data_loader.</code><code class="sig-name descname">NodeTrafficLoader</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_range='all'</em>, <em class="sig-param">train_data_length='all'</em>, <em class="sig-param">test_ratio=0.1</em>, <em class="sig-param">closeness_len=6</em>, <em class="sig-param">period_len=7</em>, <em class="sig-param">trend_len=4</em>, <em class="sig-param">target_length=1</em>, <em class="sig-param">normalize=True</em>, <em class="sig-param">workday_parser=&lt;function is_work_day_america&gt;</em>, <em class="sig-param">with_tpe=False</em>, <em class="sig-param">data_dir=None</em>, <em class="sig-param">MergeIndex=1</em>, <em class="sig-param">MergeWay='sum'</em>, <em class="sig-param">remove=True</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>The data loader that extracts and processes data from a <code class="xref py py-obj docutils literal notranslate"><span class="pre">DataSet</span></code> object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – A string containing path of the dataset pickle file or a string of name of the dataset.</p></li>
+<li><p><strong>city</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – <code class="docutils literal notranslate"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city.
+Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>data_range</strong> – The range of data extracted from <code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> to be further used. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, all data in
+<code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> will be used. If set to a float between 0.0 and 1.0, the relative former proportion of data in
+<code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> will be used. If set to a list of two integers <code class="docutils literal notranslate"><span class="pre">[start,</span> <span class="pre">end]</span></code>, the data from <em>start</em> day to
+(<em>end</em> - 1) day of data in <code class="docutils literal notranslate"><span class="pre">self.dataset</span></code> will be used. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
+<li><p><strong>train_data_length</strong> – The length of train data. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, all data in the split train set will be used.
+If set to int, the latest <code class="docutils literal notranslate"><span class="pre">train_data_length</span></code> days of data will be used as train set. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
+<li><p><strong>test_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The ratio of test set as data will be split into train set and test set. Default: 0.1</p></li>
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+of data will be used as closeness history. Default: 6</p></li>
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history. Default: 7</p></li>
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history. Default: 4</p></li>
+<li><p><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
+Default: 1</p></li>
+<li><p><strong>normalize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, do min-max normalization on data. Default: <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><strong>workday_parser</strong> – Used to build external features to be used in neural methods. Default: <code class="docutils literal notranslate"><span class="pre">is_work_day_america</span></code></p></li>
+<li><p><strong>with_tpe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, data loader will build time position embeddings. Default: <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+<li><p><strong>data_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code>) – The dataset directory. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, a directory will be created. If
+<code class="docutils literal notranslate"><span class="pre">dataset</span></code> is file path, <code class="docutils literal notranslate"><span class="pre">data_dir</span></code> should be <code class="docutils literal notranslate"><span class="pre">None</span></code> too. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>MergeIndex</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The granularity of dataset will be <code class="docutils literal notranslate"><span class="pre">MergeIndex</span></code> * original granularity.</p></li>
+<li><p><strong>MergeWay</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – How to change the data granularity. Now it can be <code class="docutils literal notranslate"><span class="pre">sum</span></code> <code class="docutils literal notranslate"><span class="pre">average</span></code> or <code class="docutils literal notranslate"><span class="pre">max</span></code>.</p></li>
+<li><p><strong>remove</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal notranslate"><span class="pre">True</span></code>, dataloader  will remove stations whose average traffic is less than 1.
+Othewise, dataloader will use all stations.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="attribute">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.dataset">
+<code class="sig-name descname">dataset</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.dataset" title="Permalink to this definition">¶</a></dt>
+<dd><p>The DataSet object storing basic data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#UCTB.dataset.dataset.DataSet" title="UCTB.dataset.dataset.DataSet">DataSet</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.daily_slots">
+<code class="sig-name descname">daily_slots</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.daily_slots" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of time slots in one single day.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.station_number">
+<code class="sig-name descname">station_number</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.station_number" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of nodes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.external_dim">
+<code class="sig-name descname">external_dim</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.external_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>The number of dimensions of external features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.train_closeness">
+<code class="sig-name descname">train_closeness</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.train_closeness" title="Permalink to this definition">¶</a></dt>
+<dd><p>The closeness history of train set data. When <code class="docutils literal notranslate"><span class="pre">with_tpe</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>,
+its shape is [train_time_slot_num, <code class="docutils literal notranslate"><span class="pre">station_number</span></code>, <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code>, 1].
+On the dimension of <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code>, data are arranged from earlier time slots to later time slots.
+If <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> is set to 0, train_closeness will be an empty ndarray.
+<code class="docutils literal notranslate"><span class="pre">train_period</span></code>, <code class="docutils literal notranslate"><span class="pre">train_trend</span></code>, <code class="docutils literal notranslate"><span class="pre">test_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">test_period</span></code>, <code class="docutils literal notranslate"><span class="pre">test_trend</span></code> have similar shape
+and construction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.train_y">
+<code class="sig-name descname">train_y</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.train_y" title="Permalink to this definition">¶</a></dt>
+<dd><p>The train set data. Its shape is [train_time_slot_num, <code class="docutils literal notranslate"><span class="pre">station_number</span></code>, 1].
+<code class="docutils literal notranslate"><span class="pre">test_y</span></code> has similar shape and construction.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.make_concat">
+<code class="sig-name descname">make_concat</code><span class="sig-paren">(</span><em class="sig-param">node='all'</em>, <em class="sig-param">is_train=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.make_concat" title="Permalink to this definition">¶</a></dt>
+<dd><p>A function to concatenate all closeness, period and trend history data to use as inputs of models.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> (int or <code class="docutils literal notranslate"><span class="pre">'all'</span></code>) – To specify the index of certain node. If set to <code class="docutils literal notranslate"><span class="pre">'all'</span></code>, return the concatenation
+result of all nodes. If set to an integer, it will be the index of the selected node. Default: <code class="docutils literal notranslate"><span class="pre">'all'</span></code></p></li>
+<li><p><strong>is_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">train_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">train_trend</span></code> will be
+concatenated. If set to <code class="docutils literal notranslate"><span class="pre">False</span></code>, <code class="docutils literal notranslate"><span class="pre">test_closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">test_period</span></code>, and <code class="docutils literal notranslate"><span class="pre">test_trend</span></code> will be
+concatenated. Default: True</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Function returns an ndarray with shape as
+[time_slot_num, <code class="docutils literal notranslate"><span class="pre">station_number</span></code>, <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> + <code class="docutils literal notranslate"><span class="pre">period_len</span></code> + <code class="docutils literal notranslate"><span class="pre">trend_len</span></code>, 1],
+and time_slot_num is the temporal length of train set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>
+or the temporal length of test set data if <code class="docutils literal notranslate"><span class="pre">is_train</span></code> is <code class="docutils literal notranslate"><span class="pre">False</span></code>.
+On the second dimension, data are arranged as
+<code class="docutils literal notranslate"><span class="pre">earlier</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">trend</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">trend</span></code>.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-UCTB.dataset.dataset">
+<span id="uctb-dataset-dataset-module"></span><h2><span class="section-number">5.1.2. </span>UCTB.dataset.dataset module<a class="headerlink" href="#module-UCTB.dataset.dataset" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="UCTB.dataset.dataset.DataSet">
+<em class="property">class </em><code class="sig-prename descclassname">UCTB.dataset.dataset.</code><code class="sig-name descname">DataSet</code><span class="sig-paren">(</span><em class="sig-param">dataset</em>, <em class="sig-param">MergeIndex</em>, <em class="sig-param">MergeWay</em>, <em class="sig-param">city=None</em>, <em class="sig-param">data_dir=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>An object storing basic data from a formatted pickle file.
+See also <a class="reference external" href="./md_file/tutorial.html">Build your own datasets</a>.
+:param dataset: A string containing path of the dataset pickle file or a string of name of the dataset.
+:type dataset: str
+:param city: <code class="docutils literal notranslate"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code>
+:type city: str or <code class="docutils literal notranslate"><span class="pre">None</span></code>
+:param data_dir: The dataset directory. If set to <code class="docutils literal notranslate"><span class="pre">None</span></code>, a directory will be created.</p>
+<blockquote>
+<div><p>If <code class="docutils literal notranslate"><span class="pre">dataset</span></code> is file path, <code class="docutils literal notranslate"><span class="pre">data_dir</span></code> should be <code class="docutils literal notranslate"><span class="pre">None</span></code> too. Default: <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</div></blockquote>
+<dl class="field-list simple">
+</dl>
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.data">
+<code class="sig-name descname">data</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.data" title="Permalink to this definition">¶</a></dt>
+<dd><p>The data directly from the pickle file. <code class="docutils literal notranslate"><span class="pre">data</span></code> may have a <code class="docutils literal notranslate"><span class="pre">data['contribute_data']</span></code> dict to
+store supplementary data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.time_range">
+<code class="sig-name descname">time_range</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.time_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>From <code class="docutils literal notranslate"><span class="pre">data['TimeRange']</span></code> in the format of [YYYY-MM-DD, YYYY-MM-DD] indicating the time
+range of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.time_fitness">
+<code class="sig-name descname">time_fitness</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.time_fitness" title="Permalink to this definition">¶</a></dt>
+<dd><p>From <code class="docutils literal notranslate"><span class="pre">data['TimeFitness']</span></code> indicating how many minutes is a single time slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.node_traffic">
+<code class="sig-name descname">node_traffic</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.node_traffic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data recording the main stream data of the nodes in during the time range.
+From <code class="docutils literal notranslate"><span class="pre">data['Node']['TrafficNode']</span></code> with shape as [time_slot_num, node_num].</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.node_monthly_interaction">
+<code class="sig-name descname">node_monthly_interaction</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.node_monthly_interaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Data recording the monthly interaction of pairs of nodes.
+Its shape is [month_num, node_num, node_num].It’s from <code class="docutils literal notranslate"><span class="pre">data['Node']['TrafficMonthlyInteraction']</span></code>
+and is used to build interaction graph.
+Its an optional attribute and can be set as an empty list if interaction graph is not needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.node_station_info">
+<code class="sig-name descname">node_station_info</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.node_station_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dict storing the coordinates of nodes. It shall be formatted as {id (may be
+arbitrary): [id (when sorted, should be consistant with index of <code class="docutils literal notranslate"><span class="pre">node_traffic</span></code>), latitude, longitude,
+other notes]}. It’s from <code class="docutils literal notranslate"><span class="pre">data['Node']['StationInfo']</span></code> and is used to build distance graph.
+Its an optional attribute and can be set as an empty list if distance graph is not needed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.MergeIndex">
+<code class="sig-name descname">MergeIndex</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.MergeIndex" title="Permalink to this definition">¶</a></dt>
+<dd><p>A int number that used to adjust the granularity of the dataset, the granularity of the new
+dataset is time_fitness*MergeIndex. default: 1</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)">int</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="UCTB.dataset.dataset.DataSet.MergeWay">
+<code class="sig-name descname">MergeWay</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.MergeWay" title="Permalink to this definition">¶</a></dt>
+<dd><p>can be <cite>sum</cite> and <cite>average</cite>.  default: <a href="#system-message-1"><span class="problematic" id="problematic-1">``</span></a>sum</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="UCTB.dataset.dataset.DataSet.merge_data">
+<code class="sig-name descname">merge_data</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">dataType</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.merge_data" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
 
 
            </div>

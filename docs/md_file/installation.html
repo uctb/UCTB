@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>2. Installation &mdash; UCTB  documentation</title>
@@ -155,18 +156,18 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="installation">
+  <section id="installation">
 <h1><span class="section-number">2. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="install-uctb">
+<section id="install-uctb">
 <h2><span class="section-number">2.1. </span>Install UCTB<a class="headerlink" href="#install-uctb" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="step-1-install-tensorflow">
+<section id="step-1-install-tensorflow">
 <h3><span class="section-number">2.1.1. </span>Step 1: Install TensorFlow<a class="headerlink" href="#step-1-install-tensorflow" title="Permalink to this headline">¶</a></h3>
 <p>You can skip to step 2 if you already installed tensorflow.</p>
 <p>You can refer to this page <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a> to install tensorflow, if you have a Nvidia GPU installed on you computer, we highly recommend you to install GPU version of tensorflow.</p>
-</div>
-<div class="section" id="step-2-install-uctb">
+</section>
+<section id="step-2-install-uctb">
 <h3><span class="section-number">2.1.2. </span>Step 2: Install UCTB<a class="headerlink" href="#step-2-install-uctb" title="Permalink to this headline">¶</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade UCTB
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>UCTB
 </pre></div>
 </div>
 <p>The following required package will be installed or upgraded with UCTB:</p>
@@ -186,21 +187,21 @@
 <span class="s1">&#39;PyYAML&#39;</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="uctb-docker">
+</section>
+</section>
+<section id="uctb-docker">
 <h2><span class="section-number">2.2. </span>UCTB Docker<a class="headerlink" href="#uctb-docker" title="Permalink to this headline">¶</a></h2>
 <p>You can also  use UCTB by docker. First pull uctb docker from docker hub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull dichai/uctb:v0.2.0
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>dichai/uctb:v0.2.0
 </pre></div>
 </div>
 <p>And  you then can run it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run  --runtime<span class="o">=</span>nvidia  -it -d dichai/uctb:v0.2.0 /bin/bash
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w">  </span>--runtime<span class="o">=</span>nvidia<span class="w">  </span>-it<span class="w"> </span>-d<span class="w"> </span>dichai/uctb:v0.2.0<span class="w"> </span>/bin/bash
 </pre></div>
 </div>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

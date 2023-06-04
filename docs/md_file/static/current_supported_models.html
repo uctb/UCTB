@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Currently Supported Models &mdash; UCTB  documentation</title>
@@ -145,21 +146,53 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="currently-supported-models">
+  <section id="currently-supported-models">
 <h1>Currently Supported Models<a class="headerlink" href="#currently-supported-models" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="arima-autoregressive-integrated-moving-average">
-<h2>ARIMA (Autoregressive Integrated Moving Average)<a class="headerlink" href="#arima-autoregressive-integrated-moving-average" title="Permalink to this headline">¶</a></h2>
-<p>ARIMA is a simple and widely used time series prediction model.</p>
+<section id="agcrn-adaptive-graph-convolutional-recurrent-network">
+<h2>AGCRN (Adaptive Graph Convolutional Recurrent Network)<a class="headerlink" href="#agcrn-adaptive-graph-convolutional-recurrent-network" title="Permalink to this headline">¶</a></h2>
+<p>AGCRN is a deep nerual network for traffic prediction consisting of two adaptive module and recurrent networks.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
-<li><p><a class="reference external" href="https://www3.nd.edu/~busiforc/handouts/ARIMA%20Engineering%20Article.pdf">Williams, B. M., &amp; Hoel, L. A. (2003). Modeling and forecasting vehicular traffic flow as a seasonal ARIMA process: Theoretical basis and empirical results</a></p></li>
+<li><p><a class="reference external" href="https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf">Bai, L., Yao, L., Li, C., Wang, X., &amp; Wang, C. (2020). Adaptive graph convolutional recurrent network for traffic forecasting.</a></p></li>
+</ul>
+</li>
+<li><p>Reference Implementation:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/LeiBAI/AGCRN">Github repository (LeiBAI)</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="arima-autoregressive-integrated-moving-average">
+<h2>ARIMA (Autoregressive Integrated Moving Average)<a class="headerlink" href="#arima-autoregressive-integrated-moving-average" title="Permalink to this headline">¶</a></h2>
+<p>ARIMA is a widely used classical statistical model on time series prediction.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://www3.nd.edu/%7Ebusiforc/handouts/ARIMA%20Engineering%20Article.pdf">Williams, B. M., &amp; Hoel, L. A. (2003). Modeling and forecasting vehicular traffic flow as a seasonal ARIMA process: Theoretical basis and empirical results</a></p></li>
 </ul>
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="dcrnn-diffusion-convolutional-recurrent-neural-network">
+</section>
+<section id="astgcn-attenion-based-spatial-temporal-graph-convolutional-networks">
+<h2>ASTGCN (Attenion Based Spatial-temporal Graph Convolutional Networks)<a class="headerlink" href="#astgcn-attenion-based-spatial-temporal-graph-convolutional-networks" title="Permalink to this headline">¶</a></h2>
+<p>ASTGCN is a deep neural network for traffic flow forecasting. It models temporal-dependencies from three perspectives using attetion mechanism. And it models spatial-dependencies employing graph convolutions.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/3881">Guo, S., Lin, Y., Feng, N., Song, C., &amp; Wan, H. (2019, July). Attention based spatial-temporal graph convolutional networks for traffic flow forecasting.</a></p></li>
+</ul>
+</li>
+<li><p>Reference Implementation:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/guoshnBJTU/ASTGCN-r-pytorch">Github repository (guoshnBJTU)</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="dcrnn-diffusion-convolutional-recurrent-neural-network">
 <h2>DCRNN (Diffusion Convolutional Recurrent Neural Network)<a class="headerlink" href="#dcrnn-diffusion-convolutional-recurrent-neural-network" title="Permalink to this headline">¶</a></h2>
 <p>DCRNN is a deep learning framework for traffic forecasting that incorporates both spatial and temporal dependency in the traffic flow. It captures the spatial dependency using bidirectional random walks on the graph, and the temporal dependency using the encoder-decoder architecture with scheduled sampling.</p>
 <ul class="simple">
@@ -174,8 +207,8 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="deepst-deep-learning-based-prediction-model-for-spatial-temporal-data">
+</section>
+<section id="deepst-deep-learning-based-prediction-model-for-spatial-temporal-data">
 <h2>DeepST (Deep learning-based prediction model for Spatial-Temporal data)<a class="headerlink" href="#deepst-deep-learning-based-prediction-model-for-spatial-temporal-data" title="Permalink to this headline">¶</a></h2>
 <p>DeepST is composed of three components: 1) temporal dependent instances: describing temporal closeness, period and seasonal trend; 2) convolutional neural networks: capturing near and far spatial dependencies; 3) early and late fusions: fusing similar and different domains’ data.</p>
 <ul class="simple">
@@ -185,8 +218,8 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction">
+</section>
+<section id="geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction">
 <h2>GeoMAN (Multi-level Attention Networks for Geo-sensory Time Series Prediction)<a class="headerlink" href="#geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction" title="Permalink to this headline">¶</a></h2>
 <p>GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global  spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal  dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,  meteorology, time of day and land use).</p>
 <ul class="simple">
@@ -201,12 +234,44 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="hm-historical-mean">
+</section>
+<section id="gman-graph-multi-attention-network">
+<h2>GMAN (Graph Multi-Attention Network)<a class="headerlink" href="#gman-graph-multi-attention-network" title="Permalink to this headline">¶</a></h2>
+<p>GMAN is a deep nerual network for traffic prediction adopting encoder-decoder architecture. Both encode and decoder consist of multiple spatio-temporal attention blocks to model spatio-temporal dependencies.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/5477">Zheng, C., Fan, X., Wang, C., &amp; Qi, J. (2020, April). Gman: A graph multi-attention network for traffic prediction.</a></p></li>
+</ul>
+</li>
+<li><p>Reference Implementation:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/zhengchuanpan/GMAN">implementation of Graph Multi-Attention Network</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="graphwavenet">
+<h2>GraphWaveNet<a class="headerlink" href="#graphwavenet" title="Permalink to this headline">¶</a></h2>
+<p>GraphWaveNet is an end-to-end novel graph neural network. It captures spatial dependencies through a self-adptive adjacency matrix. And it captures temporal dependencies through convolutions.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2019/0264.pdf">Wu, Z., Pan, S., Long, G., Jiang, J., &amp; Zhang, C. (2019). Graph wavenet for deep spatial-temporal graph modeling.</a></p></li>
+</ul>
+</li>
+<li><p>Reference Implementation:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/VeritasYin/STGCN_IJCAI-18">Github repository (VeritasYin)</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="hm-historical-mean">
 <h2>HM (Historical Mean)<a class="headerlink" href="#hm-historical-mean" title="Permalink to this headline">¶</a></h2>
 <p>HM is a constant model and always forecasts the sample mean of the historical data.</p>
-</div>
-<div class="section" id="hmm-hidden-markov-model">
+</section>
+<section id="hmm-hidden-markov-model">
 <h2>HMM (Hidden Markov Model)<a class="headerlink" href="#hmm-hidden-markov-model" title="Permalink to this headline">¶</a></h2>
 <p>Hidden Markov Model is a statistical Markov model in which the system being modeled is assumed to be a Markov process with hidden states. It is often used in temporal pattern recognition.</p>
 <ul class="simple">
@@ -217,8 +282,31 @@
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">hmmlearn</span></code></p></li>
 </ul>
-</div>
-<div class="section" id="st-mgcn-spatiotemporal-multi-graph-convolution-network">
+</section>
+<section id="stgcn-spatio-temporal-graph-convolutional-networks">
+<h2>STGCN (Spatio-temporal Graph Convolutional Networks)<a class="headerlink" href="#stgcn-spatio-temporal-graph-convolutional-networks" title="Permalink to this headline">¶</a></h2>
+<p>STGCN is a deep learning framework for traffic forecasting with complete convolutional structures.</p>
+<ul class="simple">
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0505.pdf">Yu, B., Yin, H., &amp; Zhu, Z. (2017). Spatio-temporal graph convolutional networks: A deep learning framework for traffic forecasting.</a></p></li>
+</ul>
+</li>
+<li><p>Reference Implementation:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/VeritasYin/STGCN_IJCAI-18">Github repository (VeritasYin)</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="stmeta">
+<h2>STMeta<a class="headerlink" href="#stmeta" title="Permalink to this headline">¶</a></h2>
+<p>STMeta is our prediction model, which requires extra graph information as input, and combines Graph Convolution LSTM and Attention mechanism.</p>
+<ul class="simple">
+<li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code></p></li>
+</ul>
+</section>
+<section id="st-mgcn-spatiotemporal-multi-graph-convolution-network">
 <h2>ST-MGCN (Spatiotemporal Multi-graph Convolution Network)<a class="headerlink" href="#st-mgcn-spatiotemporal-multi-graph-convolution-network" title="Permalink to this headline">¶</a></h2>
 <p>ST-MGCN is a deep learning based model which encoded the non-Euclidean correlations among regions using multiple graphs and explicitly captured them using multi-graph convolution.</p>
 <ul class="simple">
@@ -233,8 +321,8 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="st-resnet">
+</section>
+<section id="st-resnet">
 <h2>ST-ResNet<a class="headerlink" href="#st-resnet" title="Permalink to this headline">¶</a></h2>
 <p>ST-ResNet is a deep-learning model with an end-to-end structure based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
 <ul class="simple">
@@ -249,15 +337,24 @@
 </ul>
 </li>
 </ul>
-</div>
-<div class="section" id="stmeta">
-<h2>STMeta<a class="headerlink" href="#stmeta" title="Permalink to this headline">¶</a></h2>
-<p>STMeta is our prediction model, which requires extra graph information as input, and combines Graph Convolution LSTM and Attention mechanism.</p>
+</section>
+<section id="stsgcn-spatial-temporal-synchronous-graph-convolutional-networks">
+<h2>STSGCN (Spatial-temporal Synchronous Graph Convolutional Networks)<a class="headerlink" href="#stsgcn-spatial-temporal-synchronous-graph-convolutional-networks" title="Permalink to this headline">¶</a></h2>
+<p>STSGCN is a deep learning framework for spatial-temporal network data forecasting. It is able to capture spatial-temporal dependencies through a designed spatial-temporal synchronous modeling mechanism.</p>
 <ul class="simple">
-<li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code></p></li>
+<li><p>Reference Paper:</p>
+<ul>
+<li><p><a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/5438">Song, C., Lin, Y., Guo, S., &amp; Wan, H. (2020, April). Spatial-temporal synchronous graph convolutional networks: A new framework for spatial-temporal network data forecasting.</a></p></li>
 </ul>
-</div>
-<div class="section" id="xgboost">
+</li>
+<li><p>Reference Implementation:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/Davidham3/STSGCN">Github repository (Davidham3)</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="xgboost">
 <h2>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h2>
 <p>XGBoost is a gradient boosting machine learning algorithm widely used in flow prediction and other machine learning prediction areas.</p>
 <ul class="simple">
@@ -270,8 +367,8 @@
 </ul>
 <hr class="docutils" />
 <p><u><a class="reference external" href="../../index.html">Back To HomePage</a></u></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

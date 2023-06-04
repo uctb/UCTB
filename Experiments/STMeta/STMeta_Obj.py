@@ -75,7 +75,7 @@ graph_obj = GraphGenerator(graph=args['graph'],
 print("TimeFitness", data_loader.dataset.time_fitness)
 print("TimeRange", data_loader.dataset.time_range)
 
-de_normalizer = None if args['normalize'] is False else data_loader.normalizer.min_max_denormal
+de_normalizer = None if args['normalize'] is False else data_loader.normalizer.inverse_transform
 
 deviceIDs = GPUtil.getAvailable(order='last', limit=8, maxLoad=1, maxMemory=0.7,
                                 includeNan=False, excludeID=[], excludeUUID=[])

@@ -135,7 +135,7 @@ def model_test(inputs, batch_size, n_his, n_pred, inf_mode, load_path='./output/
         else:
             raise ValueError(f'ERROR: test mode "{inf_mode}" is not defined.')
 
-        x_test, x_stats = inputs.get_data('test'), inputs.get_stats()
+        x_test = inputs.get_data('test')
 
         y_test, len_test = multi_pred(
             test_sess, pred, x_test, batch_size, n_his, n_pred, step_idx)
@@ -176,15 +176,14 @@ def data_gen(data_loader):
         seq_train = train_closeness.transpose([0, 2, 1, 3])
         seq_val = val_closeness.transpose([0, 2, 1, 3])
         seq_test = data_loader.test_closeness.transpose([0, 2, 1, 3])
-    x_stats = {'mean': np.mean(seq_train), 'std': np.std(seq_train)}
 
     # x_train, x_val, x_test: np.array, [sample_size, n_frame, n_route, channel_size].
-    x_train = z_score(seq_train, x_stats['mean'], x_stats['std'])
-    x_val = z_score(seq_val, x_stats['mean'], x_stats['std'])
-    x_test = z_score(seq_test, x_stats['mean'], x_stats['std'])
+    x_train = seq_train
+    x_val =seq_val
+    x_test = seq_test
 
     x_data = {'train': x_train, 'val': x_val, 'test': x_test}
-    dataset = Dataset(x_data, x_stats)
+    dataset = Dataset(x_data)
     return dataset
 
 
@@ -222,22 +221,19 @@ def multi_pred(sess, y_pred, seq, batch_size, n_his, n_pred, step_idx, dynamic_b
 
 
 class Dataset(object):
-    def __init__(self, data, stats):
+    def __init__(self, data):
         self.__data = data
-        self.mean = stats['mean']
-        self.std = stats['std']
+
 
     def get_data(self, type):
         return self.__data[type]
 
-    def get_stats(self):
-        return {'mean': self.mean, 'std': self.std}
+
 
     def get_len(self, type):
         return len(self.__data[type])
 
-    def z_inverse(self, type):
-        return self.__data[type] * self.std + self.mean
+
 
 
 def z_score(x, mean, std):

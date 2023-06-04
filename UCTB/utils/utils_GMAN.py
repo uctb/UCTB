@@ -11,7 +11,7 @@ import networkx as nx
 import numpy as np
 
 
-def build_model(log, time_fitness, trainX, args, std, SE, mean):
+def build_model(log, time_fitness, trainX, args, SE):
     log_string(log, 'compiling model...')
     T = time_fitness
     print("time_fitness: ", T)
@@ -28,7 +28,6 @@ def build_model(log, time_fitness, trainX, args, std, SE, mean):
         X, TE, SE, args.P, args.Q, T, args.L, args.K, args.d,
         bn=True, bn_decay=bn_decay, is_training=is_training)
     
-    pred = pred * std + mean
     loss = mae_loss(pred, label)
     tf.compat.v1.add_to_collection('pred', pred)
     tf.compat.v1.add_to_collection('loss', loss)
@@ -209,11 +208,6 @@ def load_data(args, data_loader):
         valX = val_closeness.squeeze().transpose([0, 2, 1])
         testX = data_loader.test_closeness.squeeze().transpose([0, 2, 1])
 
-    # normalization
-    mean, std = np.mean(trainX), np.std(trainX)
-    trainX = (trainX - mean) / std
-    valX = (valX - mean) / std
-    testX = (testX - mean) / std
 
     # spatial embedding
     f = open(args.SE_file, mode='r')
@@ -268,7 +262,7 @@ def load_data(args, data_loader):
     testTE = np.concatenate(testTE, axis=1).astype(np.int32)
     
     return (trainX, trainTE, trainY, valX, valTE, valY, testX, testTE, testY,
-            SE, mean, std, time_fitness)
+            SE, time_fitness)
 
 
 def placeholder(P, Q, N):

@@ -111,14 +111,11 @@ def masked_mape_np(y_true, y_pred, null_val=np.nan):
         return np.mean(mape) * 100
 
 
-def masked_mae_loss(scaler, mask_value):
+def masked_mae_loss(mask_value):
     '''
     function for AGCRN
     '''
     def loss(preds, labels):
-        if scaler:
-            preds = scaler.inverse_transform(preds)
-            labels = scaler.inverse_transform(labels)
         mae = MAE_torch(pred=preds, true=labels, mask_value=mask_value)
         return mae
     return loss

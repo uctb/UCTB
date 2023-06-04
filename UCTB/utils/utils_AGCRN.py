@@ -12,7 +12,7 @@ from UCTB.train.LossFunction import masked_mae_loss
 
 class Trainer(object):
     def __init__(self, model, train_loader, val_loader, test_loader,
-                 scaler, args):
+                 args):
         super(Trainer, self).__init__()
         self.model = model
         self.optimizer = torch.optim.Adam(params=model.parameters(), lr=args.lr_init, eps=1.0e-8,
@@ -20,7 +20,6 @@ class Trainer(object):
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.test_loader = test_loader
-        self.scaler = scaler
         self.args = args
         self.train_per_epoch = len(train_loader)
         self.lr_scheduler = None
@@ -30,7 +29,7 @@ class Trainer(object):
             else:
                 nn.init.uniform_(p)
         if args.loss_func == 'mask_mae':
-            self.loss = masked_mae_loss(scaler, mask_value=0.0)
+            self.loss = masked_mae_loss(mask_value=0.0)
         elif args.loss_func == 'mae':
             self.loss = torch.nn.L1Loss().to(args.device)
         elif args.loss_func == 'mse':
@@ -67,8 +66,6 @@ class Trainer(object):
             for batch_idx, (data, target) in enumerate(val_dataloader):
                 label = target[..., :self.args.output_dim]
                 output = self.model(data, target, teacher_forcing_ratio=0.)
-                if self.args.real_value:
-                    label = self.scaler.inverse_transform(label)
                 #loss = self.loss(output.cuda(), label)
                 loss = self.loss(output, label)
                 # a whole batch of Metr_LA is filtered
@@ -97,8 +94,6 @@ class Trainer(object):
             # data and target shape: B, T, N, F; output shape: B, T, N, F
             output = self.model(
                 data, target, teacher_forcing_ratio=teacher_forcing_ratio)
-            if self.args.real_value:
-                label = self.scaler.inverse_transform(label)
             #loss = self.loss(output.cuda(), label)
             loss = self.loss(output, label)
             loss.backward()
@@ -193,7 +188,7 @@ class Trainer(object):
         self.logger.info("Saving current best model to " + self.best_path)
 
     @staticmethod
-    def test(model, args, data_loader, scaler, logger, path=None):
+    def test(model, args, data_loader,  logger, path=None):
         if path != None:
             check_point = torch.load(path)
             state_dict = check_point['state_dict']
@@ -209,13 +204,10 @@ class Trainer(object):
                 output = model(data, target, teacher_forcing_ratio=0)
                 y_true.append(label)
                 y_pred.append(output)
-        y_true = scaler.inverse_transform(torch.cat(y_true, dim=0))
-        if args.real_value:
-            y_pred = torch.cat(y_pred, dim=0)
-        else:
-            y_pred = scaler.inverse_transform(torch.cat(y_pred, dim=0))
+        y_pred = torch.cat(y_pred, dim=0)
+        y_pred = y_pred.cpu().numpy()
 
-        return y_pred.cpu().numpy()
+        return y_pred
 
     @staticmethod
     def _compute_sampling_threshold(global_step, k):
@@ -247,9 +239,9 @@ def get_dataloader_AGCRN(data_loader, batchsize, tod=False, dow=False, weather=F
         test_x = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
                                 axis=2).transpose([0, 2, 1, 3])
     else:
-        train_x = train_closeness.transpose([0, 3, 1, 2])
-        val_x = val_closeness.transpose([0, 3, 1, 2])
-        test_x = data_loader.test_closeness.transpose([0, 3, 1, 2])
+        train_x = train_closeness.transpose([0, 2, 1, 3])
+        val_x = val_closeness.transpose([0, 2, 1, 3])
+        test_x = data_loader.test_closeness.transpose([0, 2, 1, 3])
 
     train_y = train_y[:, np.newaxis]
     val_y = val_y[:, np.newaxis]
@@ -268,7 +260,7 @@ def get_dataloader_AGCRN(data_loader, batchsize, tod=False, dow=False, weather=F
             val_x, val_y, batchsize, shuffle=False, drop_last=True)
     test_dataloader = data_loader_torch(
         test_x, test_y, batchsize, shuffle=False, drop_last=False)
-    return train_dataloader, val_dataloader, test_dataloader, data_loader.scaler
+    return train_dataloader, val_dataloader, test_dataloader
 
 
 def data_loader_torch(X, Y, batch_size, shuffle=True, drop_last=True):

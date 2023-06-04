@@ -50,7 +50,7 @@ data_loader = NodeTrafficLoader(dataset=args.dataset, city=args.city,
                                 MergeWay=args.MergeWay)
 
 #config_params
-model_name, epochs, metric, mod, train_loader, val_loader, test_loader, de_normalizer, val_y, test_y, all_info = configData(
+model_name, epochs, metric, mod, train_loader, val_loader, test_loader, normalizer, val_y, test_y, all_info = configData(
     args, data_loader, batch_size, config, ctx)
 
 
@@ -58,7 +58,7 @@ model_name, epochs, metric, mod, train_loader, val_loader, test_loader, de_norma
 if args.test:
     epochs = 5
 training(epochs, metric, mod, train_loader, val_loader,
-         test_loader, de_normalizer, val_y, test_y, all_info)
+         test_loader, normalizer, val_y, test_y, all_info)
 
 
 #Print result

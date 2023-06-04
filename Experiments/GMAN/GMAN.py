@@ -112,7 +112,7 @@ log_string(log, str(args)[10: -1])
 log_string(log, 'loading data...')
 
 (trainX, trainTE, trainY, valX, valTE, valY, testX, testTE, testY,
- SE, mean, std, time_fitness) = load_data(args, data_loader)
+ SE,time_fitness) = load_data(args, data_loader)
 
 
 log_string(log, 'trainX: %s\ttrainY: %s' % (trainX.shape, trainY.shape))
@@ -122,15 +122,16 @@ log_string(log, 'data loaded!')
 
 # Train and Test
 X, TE, label, is_training, saver, sess, train_op, loss, pred = build_model(
-    log, time_fitness, trainX, args, std, SE, mean)
+    log, time_fitness, trainX, args,SE)
 
 train_prediction, val_prediction = Train(
     log, args, trainX, trainY, trainTE, valX, valTE, valY, X, TE, label, is_training, saver, sess, train_op, loss, pred)
 
 test_prediction = Test(log, args, testX, testTE, X,
                        TE, is_training, sess, pred)
-
+test_prediction = data_loader.normalizer.inverse_transform(test_prediction)
+y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
 test_rmse = metric.rmse(prediction=test_prediction.squeeze(),
-                        target=data_loader.test_y.squeeze(), threshold=0)
+                        target=y_true.squeeze(), threshold=0)
 
 print("Test RMSE:", test_rmse)

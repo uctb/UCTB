@@ -73,14 +73,14 @@ prediction = ST_ResNet_Obj.predict(closeness_feature=data_loader.test_closeness,
                                    sequence_length=data_loader.test_sequence_len)
 
 # Compute metric
-test_rmse = metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                        target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0)
+test_rmse = metric.rmse(prediction=data_loader.normalizer.inverse_transform(prediction['prediction']),
+                        target=data_loader.normalizer.inverse_transform(data_loader.test_y), threshold=0)
 
 # Evaluate
 val_loss = ST_ResNet_Obj.load_event_scalar('val_loss')
 
 best_val_loss = min([e[-1] for e in val_loss])
-best_val_loss = data_loader.normalizer.min_max_denormal(best_val_loss)
+best_val_loss = data_loader.normalizer.inverse_transform(best_val_loss)
 
 print('Best val result', best_val_loss)
 print('Test result', test_rmse)

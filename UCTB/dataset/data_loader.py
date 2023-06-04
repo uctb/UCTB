@@ -6,7 +6,7 @@ from dateutil.parser import parse
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import pearsonr
 from ..preprocess.time_utils import is_work_day_china, is_work_day_america, is_valid_date
-from ..preprocess import MoveSample, SplitData, ST_MoveSample, Normalizer
+from ..preprocess import MoveSample, SplitData, ST_MoveSample, chooseNormalizer
 from .dataset import DataSet
 from ..preprocess.preprocessor import *
 
@@ -192,8 +192,6 @@ class NodeTrafficLoader(object):
                  workday_parser=is_work_day_america,
                  with_tpe=False,
                  data_dir=None,
-                 normalizer="std",
-                 column_wise=False,
                  MergeIndex=1,
                  MergeWay="sum",
                  remove=True,**kwargs):
@@ -231,7 +229,6 @@ class NodeTrafficLoader(object):
 
         self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
              np.float32)
-        self.traffic_data1, self.scaler = normalize_dataset(self.traffic_data, normalizer, column_wise)    
 
         # external feature
         external_feature = []
@@ -264,10 +261,10 @@ class NodeTrafficLoader(object):
         self.train_ef, self.test_ef = SplitData.split_data(external_feature, self.train_test_ratio)
 
         # Normalize the traffic data
-        if normalize:
-            self.normalizer = Normalizer(self.train_data)
-            self.train_data = self.normalizer.min_max_normal(self.train_data)
-            self.test_data = self.normalizer.min_max_normal(self.test_data)
+
+        self.normalizer = chooseNormalizer(normalize,self.train_data)
+        self.train_data = self.normalizer.transform(self.train_data)
+        self.test_data = self.normalizer.transform(self.test_data)
 
         if train_data_length.lower() != 'all':
             train_day_length = int(train_data_length)

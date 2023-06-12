@@ -32,15 +32,12 @@ def configData(args, data_loader, batch_size, config, ctx):
     test_y = data_loader.test_y.transpose([0, 2, 1])
 
     # T, num_node, dimension, 1 -> T, dimension, num_node, 1
-    if data_loader.period_len > 0 and data_loader.trend_len > 0:
-        seq_train = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 2, 1, 3])
-        seq_val = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 2, 1, 3])
-        seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
+
+    seq_train = np.concatenate([train_trend, train_period, train_closeness], axis=2).transpose([0, 2, 1, 3])
+    seq_val = np.concatenate([val_trend, val_period, val_closeness], axis=2).transpose([0, 2, 1, 3])
+    seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness],
                                   axis=2).transpose([0, 2, 1, 3])
-    else:
-        seq_train = train_closeness.transpose([0, 2, 1, 3])
-        seq_val = val_closeness.transpose([0, 2, 1, 3])
-        seq_test = data_loader.test_closeness.transpose([0, 2, 1, 3])
+
 
     print(seq_train.shape, seq_val.shape, seq_test.shape)
 

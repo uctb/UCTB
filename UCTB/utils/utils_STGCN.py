@@ -21,7 +21,7 @@ def model_save(sess, global_steps, model_name, save_path='./output/models/'):
     print(f'<< Saving model to {prefix_path} ...')
 
 
-def model_train(inputs, blocks, args, sum_path='./output/tensorboard'):
+def model_train(inputs, blocks, args, sum_path='./output/models'):
     '''
     Train the base model.
     :param inputs: instance of class Dataset, data source for training.
@@ -163,19 +163,16 @@ def data_gen(data_loader):
     train_trend, val_trend = SplitData.split_data(
         data_loader.train_trend, [0.9, 0.1])
     train_y, val_y = SplitData.split_data(data_loader.train_y, [0.9, 0.1])
-
+    test_y = data_loader.test_y[...,np.newaxis]
+    train_y = train_y[...,np.newaxis]
+    val_y = val_y[...,np.newaxis]
     # T, num_node, dimension, 1 -> T, dimension, num_node, 1
-    if data_loader.period_len > 0 and data_loader.trend_len > 0:
-        seq_train = np.concatenate(
+    seq_train = np.concatenate(
             [train_trend, train_period, train_closeness, train_y], axis=2).transpose([0, 2, 1, 3])
-        seq_val = np.concatenate(
+    seq_val = np.concatenate(
             [val_trend, val_period, val_closeness, val_y], axis=2).transpose([0, 2, 1, 3])
-        seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness, data_loader.test_y],
+    seq_test = np.concatenate([data_loader.test_trend, data_loader.test_period, data_loader.test_closeness, test_y],
                                   axis=2).transpose([0, 2, 1, 3])
-    else:
-        seq_train = train_closeness.transpose([0, 2, 1, 3])
-        seq_val = val_closeness.transpose([0, 2, 1, 3])
-        seq_test = data_loader.test_closeness.transpose([0, 2, 1, 3])
 
     # x_train, x_val, x_test: np.array, [sample_size, n_frame, n_route, channel_size].
     x_train = seq_train
@@ -232,29 +229,3 @@ class Dataset(object):
 
     def get_len(self, type):
         return len(self.__data[type])
-
-
-
-
-def z_score(x, mean, std):
-    '''
-    Z-score normalization function: $z = (X - \mu) / \sigma $,
-    where z is the z-score, X is the value of the element,
-    $\mu$ is the population mean, and $\sigma$ is the standard deviation.
-    :param x: np.ndarray, input array to be normalized.
-    :param mean: float, the value of mean.
-    :param std: float, the value of standard deviation.
-    :return: np.ndarray, z-score normalized array.
-    '''
-    return (x - mean) / std
-
-
-def z_inverse(x, mean, std):
-    '''
-    The inverse of function z_score().
-    :param x: np.ndarray, input to be recovered.
-    :param mean: float, the value of mean.
-    :param std: float, the value of standard deviation.
-    :return: np.ndarray, z-score inverse array.
-    '''
-    return x * std + mean

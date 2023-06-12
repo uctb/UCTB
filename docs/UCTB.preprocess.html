@@ -300,41 +300,40 @@ greater than this threshold will be linked together.</p></li>
 <dt id="UCTB.preprocess.preprocessor.MaxMinNormalizer">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">MaxMinNormalizer</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">method='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MaxMinNormalizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#UCTB.preprocess.preprocessor.Normalizer" title="UCTB.preprocess.preprocessor.Normalizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.preprocess.preprocessor.Normalizer</span></code></a></p>
-<p>This class can help normalize and denormalize data by calling min_max_normal and min_max_denormal method.</p>
+<p>This class can help normalize and denormalize data using maximum and minimum in data by calling transform and inverse_transform method.
+:param X: Data which normalizer extracts characteristics from.
+:param method: Parameter to choose in which way the input data will be processed.</p>
 <dl class="method">
 <dt id="UCTB.preprocess.preprocessor.MaxMinNormalizer.inverse_transform">
 <code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MaxMinNormalizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input X, return denormalized results.
-:type: numpy.ndarray</p>
+<dd><p>Restore normalized data.
+:return: denormalized data.
+:type: numpy.ndarray.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="UCTB.preprocess.preprocessor.MaxMinNormalizer.transform">
 <code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MaxMinNormalizer.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input X, return normalized results.
-:type: numpy.ndarray</p>
+<dd><p>Process input data to obtain normalized data.
+:return: normalized data.
+:type: numpy.ndarray.</p>
 </dd></dl>
 
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.preprocess.preprocessor.MinMax01Scaler">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">MinMax01Scaler</code><span class="sig-paren">(</span><em class="sig-param">min</em>, <em class="sig-param">max</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MinMax01Scaler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Standard the input</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.preprocess.preprocessor.MinMax11Scaler">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">MinMax11Scaler</code><span class="sig-paren">(</span><em class="sig-param">min</em>, <em class="sig-param">max</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MinMax11Scaler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Standard the input</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="UCTB.preprocess.preprocessor.Normalizer">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">Normalizer</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.Normalizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<dl class="simple">
+<dt>Normalizer is the base abstract class for many normalizers such as MaxMinNormalizer and Zscore Normalizer,</dt><dd><p>you can also build your own normalizer by inheriting this class.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> – Data which normalizer extracts characteristics from.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="class">
@@ -425,13 +424,6 @@ then this method divides the <cite>value</cite> according to the ratio without c
 </dd></dl>
 
 <dl class="class">
-<dt id="UCTB.preprocess.preprocessor.StandardScaler">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">StandardScaler</code><span class="sig-paren">(</span><em class="sig-param">mean</em>, <em class="sig-param">std</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.StandardScaler" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>Standard the input</p>
-</dd></dl>
-
-<dl class="class">
 <dt id="UCTB.preprocess.preprocessor.WhiteNormalizer">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">WhiteNormalizer</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">method='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.WhiteNormalizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#UCTB.preprocess.preprocessor.Normalizer" title="UCTB.preprocess.preprocessor.Normalizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.preprocess.preprocessor.Normalizer</span></code></a></p>
@@ -439,15 +431,17 @@ then this method divides the <cite>value</cite> according to the ratio without c
 <dl class="method">
 <dt id="UCTB.preprocess.preprocessor.WhiteNormalizer.inverse_transform">
 <code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.WhiteNormalizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input X, return denormalized results.
-:type: numpy.ndarray</p>
+<dd><p>Restore normalized data.
+:return: denormalized data.
+:type: numpy.ndarray.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="UCTB.preprocess.preprocessor.WhiteNormalizer.transform">
 <code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.WhiteNormalizer.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input X, return normalized results.
-:type: numpy.ndarray</p>
+<dd><p>Process input data to obtain normalized data.
+:return: normalized data.
+:type: numpy.ndarray.</p>
 </dd></dl>
 
 </dd></dl>
@@ -456,36 +450,41 @@ then this method divides the <cite>value</cite> according to the ratio without c
 <dt id="UCTB.preprocess.preprocessor.ZscoreNormalizer">
 <em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">ZscoreNormalizer</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">method='all'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ZscoreNormalizer" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#UCTB.preprocess.preprocessor.Normalizer" title="UCTB.preprocess.preprocessor.Normalizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.preprocess.preprocessor.Normalizer</span></code></a></p>
-<p>This class can help normalize and denormalize data by calling min_max_normal and min_max_denormal method.</p>
+<p>This class can help normalize and denormalize data using mean and standard deviation in data by calling transform and inverse_transform method.
+:param X: Data which normalizer extracts characteristics from.
+:param method: Parameter to choose in which way the input data will be processed.</p>
 <dl class="method">
 <dt id="UCTB.preprocess.preprocessor.ZscoreNormalizer.inverse_transform">
 <code class="sig-name descname">inverse_transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ZscoreNormalizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input X, return denormalized results.
-:type: numpy.ndarray</p>
+<dd><p>Restore normalized data.
+:return: denormalized data.
+:type: numpy.ndarray.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="UCTB.preprocess.preprocessor.ZscoreNormalizer.transform">
 <code class="sig-name descname">transform</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ZscoreNormalizer.transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Input X, return normalized results.
-:type: numpy.ndarray</p>
+<dd><p>Process input data to obtain normalized data.
+:return: normalized data.
+:type: numpy.ndarray.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="UCTB.preprocess.preprocessor.normalization">
-<code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">normalization</code><span class="sig-paren">(</span><em class="sig-param">train</em>, <em class="sig-param">val</em>, <em class="sig-param">test</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.normalization" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>val</strong><strong>, </strong><strong>test</strong> (<em>train</em><em>,</em>) – </p>
+<dt id="UCTB.preprocess.preprocessor.chooseNormalizer">
+<code class="sig-prename descclassname">UCTB.preprocess.preprocessor.</code><code class="sig-name descname">chooseNormalizer</code><span class="sig-paren">(</span><em class="sig-param">in_arg</em>, <em class="sig-param">X_train</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.chooseNormalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose a proper normalizer consistent with user’s input.
+:param in_arg: Function is based on it to choose different normalizer.
+:type in_arg: str|bool|object
+:param X_train: Function is based on it to initialize the normalizer.
+:type X_train: numpy.ndarray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The normalizer consistent with definition.</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p><strong>stats</strong> (<em>dict, two keys: mean and std</em>)</p></li>
-<li><p><strong>train_norm, val_norm, test_norm</strong> (<em>np.ndarray,</em>) – shape is the same as original</p></li>
-</ul>
-</p>
+<dt class="field-even">Type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object.</p>
 </dd>
 </dl>
 </dd></dl>

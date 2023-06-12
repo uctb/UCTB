@@ -4,7 +4,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 import torch.optim as optim
-from UCTB.preprocess.preprocessor import SplitData, StandardScaler
+from UCTB.preprocess.preprocessor import SplitData
 from UCTB.model.GraphWaveNet import *
 from UCTB.train.LossFunction import masked_mape, masked_mae, masked_rmse
 

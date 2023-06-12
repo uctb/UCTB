@@ -1,10 +1,13 @@
 import numpy as np
-import torch
-import tensorflow as tf
 from abc import ABC, abstractmethod
 
 
 class Normalizer(ABC):
+    """Normalizer is the base abstract class for many normalizers such as MaxMinNormalizer and Zscore Normalizer,
+        you can also build your own normalizer by inheriting this class.
+    Args:
+        X: Data which normalizer extracts characteristics from.
+    """
     @abstractmethod
     def __init__(self, X):
         pass
@@ -18,8 +21,10 @@ class Normalizer(ABC):
 
 
 class MaxMinNormalizer(Normalizer):
-    '''
-    This class can help normalize and denormalize data by calling min_max_normal and min_max_denormal method.
+    '''This class can help normalize and denormalize data using maximum and minimum in data by calling transform and inverse_transform method.
+    Args:
+        X: Data which normalizer extracts characteristics from.
+        method: Parameter to choose in which way the input data will be processed.
     '''
     def __init__(self, X,method='all'):
         self.method = method
@@ -29,9 +34,9 @@ class MaxMinNormalizer(Normalizer):
         self._max_by_column = np.max(X,axis=0)
 
     def transform(self, X):
-        '''
-        Input X, return normalized results.
-        :type: numpy.ndarray
+        '''Process input data to obtain normalized data.
+        :return: normalized data.
+        :type: numpy.ndarray.
         '''
         if self.method=='all':
             return (X - self._min) / (self._max - self._min)
@@ -39,9 +44,9 @@ class MaxMinNormalizer(Normalizer):
             return (X - self._min_by_column) / (self._max_by_column - self._min_by_column)
 
     def inverse_transform(self, X):
-        '''
-        Input X, return denormalized results.
-        :type: numpy.ndarray
+        '''Restore normalized data.
+        :return: denormalized data.
+        :type: numpy.ndarray.
         '''
         if self.method=='all':
             return X * (self._max - self._min) + self._min
@@ -52,29 +57,30 @@ class MaxMinNormalizer(Normalizer):
     #     pass
 
 class WhiteNormalizer(Normalizer):
-    '''
-    This class's normalization won't do anything.
+    '''This class's normalization won't do anything.
     '''
     def __init__(self, X,method='all'):
         pass
 
     def transform(self, X):
-        '''
-        Input X, return normalized results.
-        :type: numpy.ndarray
+        '''Process input data to obtain normalized data.
+        :return: normalized data.
+        :type: numpy.ndarray.
         '''
         return X
 
     def inverse_transform(self, X):
-        '''
-        Input X, return denormalized results.
-        :type: numpy.ndarray
+        '''Restore normalized data.
+        :return: denormalized data.
+        :type: numpy.ndarray.
         '''
         return X
 
 class ZscoreNormalizer(Normalizer):
-    '''
-    This class can help normalize and denormalize data by calling min_max_normal and min_max_denormal method.
+    '''This class can help normalize and denormalize data using mean and standard deviation in data by calling transform and inverse_transform method.
+    Args:
+        X: Data which normalizer extracts characteristics from.
+        method: Parameter to choose in which way the input data will be processed.
     '''
     def __init__(self, X,method='all'):
         self.method = method
@@ -84,9 +90,9 @@ class ZscoreNormalizer(Normalizer):
         self._std_by_column = np.std(X,axis=0)
 
     def transform(self, X):
-        '''
-        Input X, return normalized results.
-        :type: numpy.ndarray
+        '''Process input data to obtain normalized data.
+        :return: normalized data.
+        :type: numpy.ndarray.
         '''
         if self.method=='all':
             return (X - self._mean) / self._std
@@ -94,9 +100,9 @@ class ZscoreNormalizer(Normalizer):
             return (X - self._mean_by_column) / self._std_by_column
 
     def inverse_transform(self, X):
-        '''
-        Input X, return denormalized results.
-        :type: numpy.ndarray
+        '''Restore normalized data.
+        :return: denormalized data.
+        :type: numpy.ndarray.
         '''
         if self.method=='all':
             return X * self._std + self._mean
@@ -122,21 +128,6 @@ class MoveSample(object):
                                i + (self.feature_step-1) * self.feature_stride + self.feature_length + self.target_length])
 
         return np.array(feature), np.array(target)
-
-class StandardScaler():
-    """
-    Standard the input
-    """
-
-    def __init__(self, mean, std):
-        self.mean = mean
-        self.std = std
-
-    def transform(self, data):
-        return (data - self.mean) / self.std
-
-    def inverse_transform(self, data):
-        return (data * self.std) + self.mean
 
 class ST_MoveSample(object):
     '''
@@ -203,12 +194,12 @@ class ST_MoveSample(object):
         if self._p_t and self._p_t > 0:
             period = np.transpose(period, [0] + list(range(3, len(period.shape))) + [1, 2])
         else:
-            period = np.array([])
+            period = np.zeros(shape=[min_length,closeness.shape[1],0,1])
 
         if self._t_t and self._t_t > 0:
             trend = np.transpose(trend, [0] + list(range(3, len(trend.shape))) + [1, 2])
         else:
-            trend = np.array([])
+            trend = np.zeros(shape=[min_length,closeness.shape[1],0,1])
 
         y = np.transpose(y, [0] + list(range(2, len(y.shape))) + [1])
 
@@ -258,133 +249,15 @@ class SplitData(object):
                  if len(value) == sequence_length else value for key, value in feed_dict.items()}
                 for e in range(len(ratio_list))]
 
-class MinMax01Scaler:
-    """
-    Standard the input
-    """
-
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
-
-    def transform(self, data):
-        return (data - self.min) / (self.max - self.min)
-
-    def inverse_transform(self, data):
-        if type(data) == torch.Tensor and type(self.min) == np.ndarray:
-            self.min = torch.from_numpy(self.min).to(data.device).type(data.dtype)
-            self.max = torch.from_numpy(self.max).to(data.device).type(data.dtype)
-        return (data * (self.max - self.min) + self.min)
-
-
-class ColumnMinMaxScaler():
-    #Note: to use this scale, must init the min and max with column min and column max
-    def __init__(self, min, max):
-        self.min = min
-        self.min_max = max - self.min
-        self.min_max[self.min_max==0] = 1
-    def transform(self, data):
-        print(data.shape, self.min_max.shape)
-        return (data - self.min) / self.min_max
-
-    def inverse_transform(self, data):
-        if type(data) == torch.Tensor and type(self.min) == np.ndarray:
-            self.min_max = torch.from_numpy(self.min_max).to(data.device).type(torch.float32)
-            self.min = torch.from_numpy(self.min).to(data.device).type(torch.float32)
-        #print(data.dtype, self.min_max.dtype, self.min.dtype)
-        return (data * self.min_max + self.min)
-
-
-
-class StandardScaler:
-    """
-    Standard the input
-    """
-
-    def __init__(self, mean, std):
-        self.mean = mean
-        self.std = std
-
-    def transform(self, data):
-        return (data - self.mean) / self.std
-
-    def inverse_transform(self, data):
-        if type(data) == torch.Tensor and type(self.mean) == np.ndarray:
-            self.std = torch.from_numpy(self.std).to(data.device).type(data.dtype)
-            self.mean = torch.from_numpy(self.mean).to(data.device).type(data.dtype)
-        return (data * self.std) + self.mean
-
-
-class MinMax11Scaler:
-    """
-    Standard the input
-    """
-
-    def __init__(self, min, max):
-        self.min = min
-        self.max = max
-
-    def transform(self, data):
-        return ((data - self.min) / (self.max - self.min)) * 2. - 1.
-
-    def inverse_transform(self, data):
-        if type(data) == torch.Tensor and type(self.min) == np.ndarray:
-            self.min = torch.from_numpy(self.min).to(data.device).type(data.dtype)
-            self.max = torch.from_numpy(self.max).to(data.device).type(data.dtype)
-        return ((data + 1.) / 2.) * (self.max - self.min) + self.min
-
-class NScaler(object):
-    def transform(self, data):
-        return data
-    def inverse_transform(self, data):
-        return data
-
-def normalize_dataset(data, normalizer, column_wise=False):
-    if normalizer == 'max01':
-        if column_wise:
-            minimum = data.min(axis=0, keepdims=True)
-            maximum = data.max(axis=0, keepdims=True)
-        else:
-            minimum = data.min()
-            maximum = data.max()
-        scaler = MinMax01Scaler(minimum, maximum)
-        data = scaler.transform(data)
-        print('Normalize the dataset by MinMax01 Normalization')
-    elif normalizer == 'max11':
-        if column_wise:
-            minimum = data.min(axis=0, keepdims=True)
-            maximum = data.max(axis=0, keepdims=True)
-        else:
-            minimum = data.min()
-            maximum = data.max()
-        scaler = MinMax11Scaler(minimum, maximum)
-        data = scaler.transform(data)
-        print('Normalize the dataset by MinMax11 Normalization')
-    elif normalizer == 'std':
-        if column_wise:
-            mean = data.mean(axis=0, keepdims=True)
-            std = data.std(axis=0, keepdims=True)
-        else:
-            mean = data.mean()
-            std = data.std()
-        scaler = StandardScaler(mean, std)
-        data = scaler.transform(data)
-        print('Normalize the dataset by Standard Normalization')
-    elif normalizer == 'None':
-        scaler = NScaler()
-        data = scaler.transform(data)
-        print('Does not normalize the dataset')
-    elif normalizer == 'cmax':
-        #column min max, to be depressed
-        #note: axis must be the spatial dimension, please check !
-        scaler = ColumnMinMaxScaler(data.min(axis=0), data.max(axis=0))
-        data = scaler.transform(data)
-        print('Normalize the dataset by Column Min-Max Normalization')
-    else:
-        raise ValueError
-    return data, scaler
-
 def chooseNormalizer(in_arg,X_train):
+    '''
+        Choose a proper normalizer consistent with user's input.
+        Args:
+            in_arg(str|bool|object):Function is based on it to choose different normalizer.
+            X_train(numpy.ndarray):Function is based on it to initialize the normalizer.
+        :return: The normalizer consistent with definition.
+        :type: object.
+    '''
     if type(in_arg) == str:
         if '-' in in_arg:
             method,way=in_arg.split('-')
@@ -403,36 +276,9 @@ def chooseNormalizer(in_arg,X_train):
             return WhiteNormalizer(X_train)
     elif type(in_arg) == object:
         if hasattr(in_arg,'transform') and hasattr(in_arg,'inverss_transform'):
-            return in_arg
+            return in_arg(X_train)
         else:
             raise TypeError('Your custom normalizer is not in compliance')
     else:
         raise TypeError('We don\'t accept {} of input for how to do normalization')
 
-
-def normalization(train, val, test):
-    '''
-    Parameters
-    ----------
-    train, val, test: np.ndarray (B,N,F,T)
-    Returns
-    ----------
-    stats: dict, two keys: mean and std
-    train_norm, val_norm, test_norm: np.ndarray,
-                                     shape is the same as original
-    '''
-
-    assert train.shape[1:] == val.shape[1:] and val.shape[1:] == test.shape[1:]  # ensure the num of nodes is the same
-    mean = train.mean(axis=(0,1,3), keepdims=True)
-    std = train.std(axis=(0,1,3), keepdims=True)
-    print('mean.shape:',mean.shape)
-    print('std.shape:',std.shape)
-
-    def normalize(x):
-        return (x - mean) / std
-
-    train_norm = normalize(train)
-    val_norm = normalize(val)
-    test_norm = normalize(test)
-
-    return {'_mean': mean, '_std': std}, train_norm, val_norm, test_norm

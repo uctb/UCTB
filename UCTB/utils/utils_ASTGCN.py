@@ -10,7 +10,7 @@ import torch.optim as optim
 import torch.utils.data
 
 from UCTB.preprocess import SplitData
-from tensorboardX import SummaryWriter
+# from tensorboardX import SummaryWriter
 from UCTB.preprocess.preprocessor import normalization
 from UCTB.train.LossFunction import masked_mape, masked_mae, masked_rmse, masked_mse
 
@@ -163,7 +163,7 @@ def train_main(training_config, params_path, DEVICE, net, val_loader, train_load
         criterion = nn.MSELoss().to(DEVICE)
         masked_flag = 0
     optimizer = optim.Adam(net.parameters(), lr=learning_rate)
-    sw = SummaryWriter(logdir=params_path, flush_secs=5)
+    # sw = SummaryWriter(logdir=params_path, flush_secs=5)
     print(net)
 
     print('Net\'s state_dict:')
@@ -201,10 +201,10 @@ def train_main(training_config, params_path, DEVICE, net, val_loader, train_load
 
         if masked_flag:
             val_loss = compute_val_loss_mstgcn(
-                net, val_loader, criterion_masked, masked_flag, missing_value, sw, epoch)
+                net, val_loader, criterion_masked, masked_flag, missing_value, epoch)
         else:
             val_loss = compute_val_loss_mstgcn(
-                net, val_loader, criterion, masked_flag, missing_value, sw, epoch)
+                net, val_loader, criterion, masked_flag, missing_value, epoch)
 
         if val_loss < best_val_loss:
             best_val_loss = val_loss
@@ -235,9 +235,9 @@ def train_main(training_config, params_path, DEVICE, net, val_loader, train_load
 
             global_step += 1
 
-            sw.add_scalar('training_loss', training_loss, global_step)
+            # sw.add_scalar('training_loss', training_loss, global_step)
 
-            if global_step % 1000 == 0:
+            if global_step % 10 == 0:
 
                 print('global step: %s, training loss: %.2f, time: %.2fs' %
                       (global_step, training_loss, time() - start_time))
@@ -299,7 +299,7 @@ def predict_main(net, global_step, data_loader, data_target_tensor, _mean, _std,
         
 
 
-def compute_val_loss_mstgcn(net, val_loader, criterion,  masked_flag,missing_value,sw, epoch, limit=None):
+def compute_val_loss_mstgcn(net, val_loader, criterion,  masked_flag,missing_value, epoch, limit=None):
     '''
     for rnn, compute mean loss on validation set
     :param net: model
@@ -334,7 +334,7 @@ def compute_val_loss_mstgcn(net, val_loader, criterion,  masked_flag,missing_val
                 break
 
         validation_loss = sum(tmp) / len(tmp)
-        sw.add_scalar('validation_loss', validation_loss, epoch)
+        # sw.add_scalar('validation_loss', validation_loss, epoch)
     return validation_loss
 
 

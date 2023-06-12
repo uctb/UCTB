@@ -92,7 +92,7 @@ print("epoch_id:", epoch_id, "loss_id:", loss_id)
 
 test_prediction = Test(args, data_dict, device, engine,  epoch_id, loss_id)
 test_prediction = uctb_data_loader.normalizer.inverse_transform(test_prediction)
-y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
+y_true = uctb_data_loader.normalizer.inverse_transform(uctb_data_loader.test_y)
 rmse_result = metric.rmse(prediction=test_prediction.squeeze(),
                         target=y_true.squeeze(), threshold=0)
 print("Test RMSE:", rmse_result)

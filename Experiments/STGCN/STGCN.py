@@ -41,7 +41,7 @@ parser.add_argument("--MergeIndex", default=1, type=int)
 parser.add_argument("--MergeWay", default="sum", type=str)
 
 args = parser.parse_args()
-args.n_his = args.closeness_len -1
+args.n_his = args.closeness_len + args.period_len+args.trend_len
 n_his, n_pred = args.n_his, args.n_pred
 Ks, Kt = args.ks, args.kt
 

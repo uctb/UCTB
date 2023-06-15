@@ -412,6 +412,32 @@ def stsgcn(data, adj, label,
            use_mask=True, mask_init_value=None,
            temporal_emb=True, spatial_emb=True,
            prefix="", rho=1, predict_length=12):
+    """
+
+    References:
+        - `Spatial-temporal synchronous graph convolutional networks: A new framework for spatial-temporal network data forecasting.
+          <https://ojs.aaai.org/index.php/AAAI/article/view/5438>`_.
+        - `A Mxnet implementation of the stsgcn model  (Davidham3)
+          <https://github.com/Davidham3/STSGCN>`_.
+
+    Args:
+        data(mxnet.sym): Input data.
+        adj(mxnet.sym): Adjacent matrix.
+        label(mxnet.sym): Prediction label.
+        input_length(int): Length of input data.
+        num_of_vertices(int): Number of vertices in the graph.
+        num_of_features(int): Number of features of each vertice.
+        filter_list(list): Filters.
+        module_type(str): Whether sharing weights.
+        activation(str): Choose which activate function.
+        use_mask(bool): Whether we use mask.
+        mask_init_value(int): Initial value of mask.
+        temporal_emb(bool): Whether to use temporal embedding.
+        spatial_emb(bool): Whether to use spatial embedding.
+        prefix(str): String prefix of mask.
+        rho(float): Hyperparameters used to calculate huber loss.
+        predict_length(str): Length of prediction.
+    """
     '''
     data shape is (B, T, N, C)
     adj shape is (3N, 3N)

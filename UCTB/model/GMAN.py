@@ -432,19 +432,26 @@ def transformAttention(X, STE_P, STE_Q, K, d, bn, bn_decay, is_training):
 
 
 def GMAN(X, TE, SE, P, Q, T, L, K, d, bn, bn_decay, is_training):
-	'''
-	GMAN
-	X：	   [batch_size, P, N]
-	TE：	  [batch_size, P + Q, 2] (time-of-day, day-of-week)
-	SE：	  [N, K * d]
-	P：	   number of history steps
-	Q：	   number of prediction steps
-	T：	   one day is divided into T steps
-	L：	   number of STAtt blocks in the encoder/decoder
-	K：	   number of attention heads
-	d：	   dimension of each attention head outputs
-	return：  [batch_size, Q, N]
-	'''
+	"""
+	References:
+        - `Gman: A graph multi-attention network for traffic prediction.
+          <https://ojs.aaai.org/index.php/AAAI/article/view/5477>`_.
+        - `A Tensorflow implementation of the GMAN model  (Zhengchuanpan)
+          <https://github.com/zhengchuanpan/GMAN>`_.
+
+    Args:
+		P(int): Number of history steps.
+		Q(int): Number of prediction steps.
+		T(int): Number of steps which one day is divided into.
+		L(int): Number of STAtt blocks in the encoder/decoder.
+		K(int): Number of attention heads.
+		d(int): Number of dimension of each attention head outputs.
+        X(tf.Tensor): Input traffic data with shape [batch_size, ...]
+        TE(tf.Tensor): Temporal embedding [batch_size, ...]
+        SE(tf.Tensor): Spatial embedding [batch_size, ...]
+		bn(bool): Whether to do batch normalization.
+		is_training(bool): Whether to train.
+    """
 	D = K * d
 	# input
 	X = tf.expand_dims(X, axis=-1)

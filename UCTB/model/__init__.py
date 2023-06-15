@@ -18,3 +18,9 @@ from .DCRNN import DCRNN
 
 from .ST_MGCN import ST_MGCN
 from .GeoMAN import GeoMAN
+from .AGCRN import AGCRN
+from .ASTGCN import make_model
+from .GMAN import GMAN
+from .GraphWaveNet import gwnet
+from .STGCN import build_model
+from .STSGCN import stsgcn

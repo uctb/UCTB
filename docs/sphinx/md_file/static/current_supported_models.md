@@ -71,7 +71,7 @@ GraphWaveNet is an end-to-end novel graph neural network. It captures spatial de
 - Reference Paper:
   - [Wu, Z., Pan, S., Long, G., Jiang, J., & Zhang, C. (2019). Graph wavenet for deep spatial-temporal graph modeling.](https://www.ijcai.org/proceedings/2019/0264.pdf)
 - Reference Implementation:
-  - [Github repository (VeritasYin)](https://github.com/VeritasYin/STGCN_IJCAI-18)
+  - [Github repository (nnzhan)](https://github.com/nnzhan/Graph-WaveNet)
 
 ###  HM (Historical Mean)
 

@@ -44,6 +44,32 @@ class gcn(nn.Module):
 
 
 class gwnet(nn.Module):
+    """
+
+    References:
+        - `Graph wavenet for deep spatial-temporal graph modeling.
+          <https://www.ijcai.org/proceedings/2019/0264.pdf>`_.
+        - `A PyTorch implementation of the GraphWaveNet model  (nnzhan)
+          <https://github.com/nnzhan/Graph-WaveNet>`_.
+
+    Args:
+        device(torch.device): Which device use to train.
+        num_nodes(int): Number of blocks.
+        drop_out(int): Number of input channels.
+        supports(int): Order of chebyshev polynomial.
+        gcn_bool(int): Number of chebyshev filter.
+        addaptadj(bool): Whether to add adaptive adjacent matrix.
+        aptinit(torch.tensor): Initialization of adjacent matrix.
+        in_dim(int): Number of input's dimension.
+        out_dim(int): Number of output's dimension.
+        residual_channels(int): Number of channels after residual module.
+        dilation_channels(int): Number of channels after dilation module.
+        skip_channels(int): Number of skip channels.
+        end_channels(int): Number of end channels.
+        kernel_size(int): Kernel Size for dilation convolution.
+        blocks(int): Number of block.
+        layers(int): Number of layer.
+    """
     def __init__(self, device, num_nodes, dropout=0.3, supports=None, gcn_bool=True, addaptadj=True, aptinit=None, in_dim=2,out_dim=12,residual_channels=32,dilation_channels=32,skip_channels=256,end_channels=512,kernel_size=2,blocks=4,layers=2):
         super(gwnet, self).__init__()
         self.dropout = dropout

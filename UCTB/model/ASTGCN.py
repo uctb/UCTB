@@ -217,26 +217,37 @@ class ASTGCN_block(nn.Module):
 
 
 class ASTGCN_submodule(nn.Module):
+    """
 
-    def __init__(self, DEVICE, nb_block, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, cheb_polynomials, num_for_predict, len_input, num_of_vertices):
-        '''
-        :param nb_block:
-        :param in_channels:
-        :param K:
-        :param nb_chev_filter:
-        :param nb_time_filter:
-        :param time_strides:
-        :param cheb_polynomials:
-        :param nb_predict_step:
-        '''
+    References:
+        - `Attention based spatial-temporal graph convolutional networks for traffic flow forecasting..
+          <https://ojs.aaai.org/index.php/AAAI/article/view/3881>`_.
+        - `A PyTorch implementation of the ASTGCN model  (guoshnBJTU)
+          <https://github.com/guoshnBJTU/ASTGCN-r-pytorch>`_.
+
+    Args:
+        DEVICE(torch.device): Which device use to train.
+        num_blocks(int): Number of blocks.
+        in_channels(int): Number of input channels.
+        K(int): Order of chebyshev polynomial.
+        num_chev_filter(int): Number of chebyshev filter.
+        num_time_filter(int): Number of time filter.
+        time_strides(int): Number of time strides.
+        cheb_polynomials(int): Chebyshev Polynomials.
+        pred_step(int): Number of steps of prediction.
+        len_input(int): Number of steps of sequence input.
+        num_nodes(int): Number of nodes.
+    """
+
+    def __init__(self, DEVICE, num_blocks, in_channels, K, num_chev_filter, num_time_filter, time_strides, cheb_polynomials, pred_step, len_input, num_nodes):
 
         super(ASTGCN_submodule, self).__init__()
 
-        self.BlockList = nn.ModuleList([ASTGCN_block(DEVICE, in_channels, K, nb_chev_filter, nb_time_filter, time_strides, cheb_polynomials, num_of_vertices, len_input)])
+        self.BlockList = nn.ModuleList([ASTGCN_block(DEVICE, in_channels, K, num_chev_filter, num_time_filter, time_strides, cheb_polynomials, num_nodes, len_input)])
 
-        self.BlockList.extend([ASTGCN_block(DEVICE, nb_time_filter, K, nb_chev_filter, nb_time_filter, 1, cheb_polynomials, num_of_vertices, len_input//time_strides) for _ in range(nb_block-1)])
+        self.BlockList.extend([ASTGCN_block(DEVICE, num_time_filter, K, num_chev_filter, num_time_filter, 1, cheb_polynomials, num_nodes, len_input//time_strides) for _ in range(num_blocks-1)])
 
-        self.final_conv = nn.Conv2d(int(len_input/time_strides), num_for_predict, kernel_size=(1, nb_time_filter))
+        self.final_conv = nn.Conv2d(int(len_input/time_strides), pred_step, kernel_size=(1, num_time_filter))
 
         self.DEVICE = DEVICE
 

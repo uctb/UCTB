@@ -3,15 +3,22 @@ import numpy as np
 
 
 def build_model(inputs, n_his, Ks, Kt, blocks, keep_prob):
-    '''
-    Build the base model.
-    :param inputs: placeholder.
-    :param n_his: int, size of historical records for training.
-    :param Ks: int, kernel size of spatial convolution.
-    :param Kt: int, kernel size of temporal convolution.
-    :param blocks: list, channel configs of st_conv blocks.
-    :param keep_prob: placeholder.
-    '''
+    """
+
+    References:
+        - `Spatio-temporal graph convolutional networks: A deep learning framework for traffic forecasting.
+          <https://www.ijcai.org/proceedings/2018/0505.pdf>`_.
+        - `A Tensorflow implementation of the STGCN model  (VeritasYin)
+          <https://github.com/VeritasYin/STGCN_IJCAI-18>`_.
+
+    Args:
+        inputs: Placeholder.
+        n_his(int): Size of historical records for training.
+        Ks(int): Kernel size of spatial convolution.
+        Kt(int): Kernel size of temporal convolution.
+        blocks(list): Channel configs of st_conv blocks.
+        keep_prob(float): Placeholder.
+    """
     x = inputs[:, 0:n_his, :, :]
 
     # Ko>0: kernel size of temporal convolution in the output layer.

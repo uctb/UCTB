@@ -66,23 +66,44 @@ class AVWDCRNN(nn.Module):
         return torch.stack(init_states, dim=0)      #(num_layers, B, N, hidden_dim)
 
 class AGCRN(nn.Module):
-    def __init__(self, args):
+    """
+
+    References:
+        - `Adaptive graph convolutional recurrent network for traffic forecasting.
+          <https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf>`_.
+        - `A PyTorch implementation of the AGCRN model  (LeiBAI)
+          <https://github.com/LeiBAI/AGCRN>`_.
+
+    Args:
+        num_nodes(int): Number of nodes.
+        input_dim(int): Input feature dimension.
+        hidden_dim(int): Number of hidden units of RNN.
+        output_dim(int): Number of dimension of output.
+        pred_step(int): Number of steps to predict.
+        num_layers(int): Number of layers of AGCRNCell.
+        default_graph(bool): Whether to use default graph or not.
+        embed_dim(int): Number of dimension of embedding.
+        cheb_k(int): Order of chebyshev polynomial.
+    """
+    def __init__(self, num_nodes,input_dim,hidden_dim,output_dim,pred_step,num_layers,default_graph,embed_dim,cheb_k):
         super(AGCRN, self).__init__()
-        self.num_node = args.num_nodes
-        self.input_dim = args.input_dim
-        self.hidden_dim = args.rnn_units
-        self.output_dim = args.output_dim
-        self.horizon = args.horizon
-        self.num_layers = args.num_layers
+        self.num_nodes = num_nodes
+        self.input_dim = input_dim
+        self.hidden_dim = hidden_dim
+        self.output_dim = output_dim
+        # 输出变量维度
+        self.pred_step = pred_step
+        # 预测步长
+        self.num_layers = num_layers
 
-        self.default_graph = args.default_graph
-        self.node_embeddings = nn.Parameter(torch.randn(self.num_node, args.embed_dim), requires_grad=True)
+        self.default_graph = default_graph
+        self.node_embeddings = nn.Parameter(torch.randn(self.num_nodes, embed_dim), requires_grad=True)
 
-        self.encoder = AVWDCRNN(args.num_nodes, args.input_dim, args.rnn_units, args.cheb_k,
-                                args.embed_dim, args.num_layers)
+        self.encoder = AVWDCRNN(self.num_nodes, self.input_dim, self.hidden_dim, cheb_k,
+                                embed_dim, self.num_layers)
 
         #predictor
-        self.end_conv = nn.Conv2d(1, args.horizon * self.output_dim, kernel_size=(1, self.hidden_dim), bias=True)
+        self.end_conv = nn.Conv2d(1, self.pred_step * self.output_dim, kernel_size=(1, self.hidden_dim), bias=True)
 
     def forward(self, source, targets, teacher_forcing_ratio=0.5):
         #source: B, T_1, N, D
@@ -95,7 +116,7 @@ class AGCRN(nn.Module):
 
         #CNN based predictor
         output = self.end_conv((output))                         #B, T*C, N, 1
-        output = output.squeeze(-1).reshape(-1, self.horizon, self.output_dim, self.num_node)
+        output = output.squeeze(-1).reshape(-1, self.pred_step, self.output_dim, self.num_node)
         output = output.permute(0, 1, 3, 2)                             #B, T, N, C
 
         return output

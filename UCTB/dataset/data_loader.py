@@ -153,7 +153,7 @@ class NodeTrafficLoader(object):
             ``trend_len`` weeks (every seven days) will be used as trend history. Default: 4
         target_length (int): The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
             Default: 1
-        normalize (bool): If ``True``, do min-max normalization on data. Default: ``True``
+        normalize (bool|str|object): Select which normalizer to normalize input data. Default: ``True``
         workday_parser: Used to build external features to be used in neural methods. Default: ``is_work_day_america``
         with_tpe (bool): If ``True``, data loader will build time position embeddings. Default: ``False``
         data_dir (:obj:`str` or ``None``): The dataset directory. If set to ``None``, a directory will be created. If
@@ -363,9 +363,10 @@ class NodeTrafficLoader(object):
         lat = np.array([float(e[2]) for e in self.dataset.node_station_info])[self.traffic_data_index]
         lng = np.array([float(e[3]) for e in self.dataset.node_station_info])[self.traffic_data_index]
         text = [str(e) for e in range(len(build_order))]
-
-        file_name = self.dataset.dataset + '-' + self.dataset.city + '.html'
-
+        if self.dataset.city:
+            file_name = self.dataset.dataset + '-' + self.dataset.city + '.html'
+        else:
+            file_name = self.dataset.dataset+'.html'
         bikeStations = [Scattermapbox(
             lon=lng,
             lat=lat,

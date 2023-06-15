@@ -126,7 +126,7 @@ train_loader, val_loader, test_loader = get_dataloader_AGCRN(data_loader,
 
 
 #model build
-model = AGCRN(args)
+model = AGCRN(args.num_nodes,args.input_dim,args.rnn_units,args.output_dim,args.horizon,args.num_layers,args.default_graph,args.embed_dim,args.cheb_k)
 model = model.to(args.device)
 
 

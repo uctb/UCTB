@@ -73,4 +73,46 @@ UCTB.model.XGBoost module
    :undoc-members:
    :show-inheritance:
 
+UCTB.model.AGCRN module
+-------------------------
+
+.. automodule:: UCTB.model.AGCRN
+   :members:
+   :show-inheritance:
+
+UCTB.model.ASTGCN module
+-------------------------
+
+.. automodule:: UCTB.model.ASTGCN
+   :members:
+   :show-inheritance:
+
+UCTB.model.GMAN module
+-------------------------
+
+.. automodule:: UCTB.model.GMAN
+   :members:
+   :show-inheritance:
+
+UCTB.model.GraphWaveNet module
+-------------------------
+
+.. automodule:: UCTB.model.GraphWaveNet
+   :members:
+   :show-inheritance:
+
+UCTB.model.STGCN module
+-------------------------
+
+.. automodule:: UCTB.model.STGCN
+   :members:
+   :show-inheritance:
+
+UCTB.model.STSGCN module
+-------------------------
+
+.. automodule:: UCTB.model.STSGCN
+   :members:
+   :show-inheritance:
+
 

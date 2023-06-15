@@ -436,7 +436,7 @@ def stsgcn(data, adj, label,
         spatial_emb(bool): Whether to use spatial embedding.
         prefix(str): String prefix of mask.
         rho(float): Hyperparameters used to calculate huber loss.
-        predict_length(str): Length of prediction.
+        predict_length(int): Length of prediction.
     """
     '''
     data shape is (B, T, N, C)

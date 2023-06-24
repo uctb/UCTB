@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>1. Introduction &mdash; UCTB  documentation</title>
@@ -83,7 +82,12 @@
             
             
                 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Introduction</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#urban-datasts">1.1. Urban Datasts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#prediction-models">1.2. Prediction Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#visualization-tool">1.3. Visualization Tool</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. Quick start</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorial.html">4. Tutorial</a></li>
@@ -148,41 +152,237 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="introduction">
+  <div class="section" id="introduction">
 <h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
-<p><strong>Urban Computing ToolBox</strong> is a package providing spatial-temporal predicting models. It contains both conventional models and state-of-art models.</p>
-<p>Currently the package supported the following models: (This tool box is constructed based on some open-source repos. We appreciate these awesome implements.  <a class="reference external" href="https://uctb.github.io/UCTB/md_file/static/current_supported_models.html">See more details</a>)</p>
-<ul class="simple">
-<li><p>ARIMA</p></li>
-<li><p>HM</p></li>
-<li><p>HMM</p></li>
-<li><p>XGBoost</p></li>
-<li><p>DeepST <a class="reference external" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">[SIGSPATIAL 2016]</a></p></li>
-<li><p>ST-ResNet <a class="reference external" href="https://arxiv.org/pdf/1610.00081.pdf">[AAAI 2017]</a></p></li>
-<li><p>DCRNN <a class="reference external" href="https://arxiv.org/pdf/1707.01926.pdf">[ICLR 2018]</a></p></li>
-<li><p>GeoMAN <a class="reference external" href="https://www.ijcai.org/proceedings/2018/0476.pdf">[IJCAI 2018]</a></p></li>
-<li><p>STGCN <a class="reference external" href="https://www.ijcai.org/proceedings/2018/0505.pdf">[IJCAI 2018]</a></p></li>
-<li><p>GraphWaveNet <a class="reference external" href="https://www.ijcai.org/proceedings/2019/0264.pdf">[IJCAI 2019]</a></p></li>
-<li><p>ASTGCN <a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/3881">[AAAI 2019]</a></p></li>
-<li><p>ST-MGCN <a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/4247">[AAAI 2019]</a></p></li>
-<li><p>GMAN <a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/5477/5333">[AAAI 2020]</a></p></li>
-<li><p>STSGCN <a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/5438">[AAAI 2020]</a></p></li>
-<li><p>AGCRN <a class="reference external" href="https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf">[NeurIPS 2020]</a></p></li>
-<li><p>STMeta <a class="reference external" href="https://arxiv.org/abs/2009.09379">[TKDE 2021]</a></p></li>
-</ul>
-<hr class="docutils" />
+<p><strong>Urban Computing Tool Box</strong> is a package providing <a class="reference external" href="https://github.com/uctb/Urban-Dataset"><strong>urban datasets</strong></a>, <a class="reference external" href="https://github.com/uctb/UCTB"><strong>spatial-temporal prediction models</strong></a>, and <a class="reference external" href="https://github.com/uctb/visualization-tool-UCTB"><strong>visualization tools</strong></a> for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc.</p>
+<p>UCTB is a flexible and open package. You can use the data we provided or use your data, and the data structure is well stated in the <a class="reference external" href="https://uctb.github.io/UCTB/md_file/tutorial.html"><strong>tutorial section</strong></a>.</p>
+<div class="section" id="urban-datasts">
+<h2><span class="section-number">1.1. </span>Urban Datasts<a class="headerlink" href="#urban-datasts" title="Permalink to this headline">¶</a></h2>
 <p>UCTB also releases <a class="reference external" href="https://github.com/uctb/Urban-Dataset">a public dataset repository</a> including the following applications:</p>
-<ul class="simple">
-<li><p>Bike sharing in NYC, Chicago and DC</p></li>
-<li><p>Ride sharing in Chicago</p></li>
-<li><p>Traffic speed in LA and BAY</p></li>
-<li><p>Pedestrian counting in Melbourne</p></li>
-</ul>
-<p>We provide <a class="reference external" href="https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb">detailed documents</a> about how to build and how to use these datasets.</p>
-<p>UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.</p>
-<p>You can view UCTB’s source code at <a class="reference external" href="https://github.com/uctb/UCTB">UCTB ToolBox</a>.</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th style="text-align: center;"><strong>Application</strong></th>
+<th style="text-align: center;"><strong>City</strong></th>
+<th style="text-align: center;"><strong>Granularity</strong></th>
+<th style="text-align: center;"><strong>Download Link</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Bike-sharing</td>
+<td style="text-align: center;">NYC</td>
+<td style="text-align: center;">5 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip">66.0M</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Bike-sharing</td>
+<td style="text-align: center;">Chicago</td>
+<td style="text-align: center;">5 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip">30.2M</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Bike-sharing</td>
+<td style="text-align: center;">DC</td>
+<td style="text-align: center;">5 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip">31.0M</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Pedestrian Count</td>
+<td style="text-align: center;">Melbourne</td>
+<td style="text-align: center;">60 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip">9.44M</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Vehicle Speed</td>
+<td style="text-align: center;">LA</td>
+<td style="text-align: center;">5 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip">11.8M</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Vehicle Speed</td>
+<td style="text-align: center;">BAY</td>
+<td style="text-align: center;">5 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip">27.9M</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Ride-sharing</td>
+<td style="text-align: center;">Chicago</td>
+<td style="text-align: center;">60 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/60_minutes/Taxi_Chicago.zip">17.5M</a></td>
+</tr>
+</tbody>
+</table><p>We provide <a class="reference external" href="https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb">detailed documents</a> about how to build and how to use these datasets.</p>
+</div>
+<div class="section" id="prediction-models">
+<h2><span class="section-number">1.2. </span>Prediction Models<a class="headerlink" href="#prediction-models" title="Permalink to this headline">¶</a></h2>
+<p>Currently, the package supports the following models: (This toolbox is constructed based on some open-source repos. We appreciate these awesome implements. <a class="reference external" href="https://uctb.github.io/UCTB/md_file/static/current_supported_models.html">See more details</a>).</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>Model Name</th>
+<th>Input Data Format</th>
+<th>Spatial Modeling Technique</th>
+<th>Graph Type</th>
+<th>Temporal Modeling Technique</th>
+<th>Temporal Knowledge</th>
+<th>Module</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ARIMA</td>
+<td>Both</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>SARIMA</td>
+<td>Closeness</td>
+<td><code>UCTB.model.ARIMA</code></td>
+</tr>
+<tr>
+<td>HM</td>
+<td>Both</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>Closeness</td>
+<td><code>UCTB.model.HM</code></td>
+</tr>
+<tr>
+<td>HMM</td>
+<td>Both</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>HMM</td>
+<td>Closeness</td>
+<td><code>UCTB.model.HMM</code></td>
+</tr>
+<tr>
+<td>XGBoost</td>
+<td>Both</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>XGBoost</td>
+<td>Closeness</td>
+<td><code>UCTB.model.XGBoost</code></td>
+</tr>
+<tr>
+<td>DeepST <a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">[SIGSPATIAL 2016]</a></td>
+<td>Grid</td>
+<td>CNN</td>
+<td>N/A</td>
+<td>CNN</td>
+<td>Closeness,Period,Trend</td>
+<td><code>UCTB.model.DeepST</code></td>
+</tr>
+<tr>
+<td>ST-ResNet <a href="https://arxiv.org/pdf/1610.00081.pdf">[AAAI 2017]</a></td>
+<td>Grid</td>
+<td>CNN</td>
+<td>N/A</td>
+<td>CNN</td>
+<td>Closeness,Period,Trend</td>
+<td><code>UCTB.model.ST_ResNet</code></td>
+</tr>
+<tr>
+<td>DCRNN  <a href="https://arxiv.org/pdf/1707.01926.pdf">[ICLR 2018]</a></td>
+<td>Node</td>
+<td>GNN</td>
+<td><strong>Prior</strong>(Sensor Network)</td>
+<td>RNN</td>
+<td>Closeness</td>
+<td><code>UCTB.model.DCRNN</code></td>
+</tr>
+<tr>
+<td>GeoMAN  <a href="https://www.ijcai.org/proceedings/2018/0476.pdf">[IJCAI 2018]</a></td>
+<td>Node</td>
+<td>Attention</td>
+<td><strong>Prior</strong>(Sensor Networks)</td>
+<td>Attention+LSTM</td>
+<td>Closeness</td>
+<td><code>UCTB.model.GeoMAN</code></td>
+</tr>
+<tr>
+<td>STGCN  <a href="https://www.ijcai.org/proceedings/2018/0505.pdf">[IJCAI 2018]</a></td>
+<td>Node</td>
+<td>GNN</td>
+<td><strong>Prior</strong>(Traffic Network)</td>
+<td>Gated CNN</td>
+<td>Closeness</td>
+<td><code>UCTB.model.STGCN</code></td>
+</tr>
+<tr>
+<td>GraphWaveNet <a href="https://www.ijcai.org/proceedings/2019/0264.pdf">[IJCAI 2019]</a></td>
+<td>Node</td>
+<td>GNN</td>
+<td><strong>Adaptive</strong></td>
+<td>TCN</td>
+<td>Closeness</td>
+<td><code>UCTB.model.GraphWaveNet</code></td>
+</tr>
+<tr>
+<td>ASTGCN  <a href="https://ojs.aaai.org/index.php/AAAI/article/view/3881">[AAAI 2019]</a></td>
+<td>Node</td>
+<td>GNN+Attention</td>
+<td><strong>Prior</strong>(Traffic Network)</td>
+<td>Attention</td>
+<td>Closeness,Period,Trend</td>
+<td><code>UCTB.model.ASTGCN</code></td>
+</tr>
+<tr>
+<td>ST-MGCN   <a href="https://ojs.aaai.org/index.php/AAAI/article/view/4247">[AAAI 2019]</a></td>
+<td>Node</td>
+<td>GNN</td>
+<td><strong>Prior</strong>(Neighborhood,Functional similarity,Transportation connectivity)</td>
+<td>CGRNN</td>
+<td>Closeness</td>
+<td><code>UCTB.model.ST_MGCN</code></td>
+</tr>
+<tr>
+<td>GMAN  <a href="https://ojs.aaai.org/index.php/AAAI/article/view/5477/5333">[AAAI 2020]</a></td>
+<td>Node</td>
+<td>Attention</td>
+<td><strong>Prior</strong>(Road Network)</td>
+<td>Attention</td>
+<td>Closeness</td>
+<td><code>UCTB.model.GMAN</code></td>
+</tr>
+<tr>
+<td>STSGCN  <a href="https://ojs.aaai.org/index.php/AAAI/article/view/5438">[AAAI 2020]</a></td>
+<td>Node</td>
+<td>GNN+Attention</td>
+<td><strong>Prior</strong>(Spatial Network)</td>
+<td>Attention</td>
+<td>Closeness</td>
+<td><code>UCTB.model.STSGCN</code></td>
+</tr>
+<tr>
+<td>AGCRN <a href="https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf">[NeurIPS 2020]</a></td>
+<td>Node</td>
+<td>GNN</td>
+<td><strong>Adaptive</strong></td>
+<td>RNN</td>
+<td>Closeness</td>
+<td><code>UCTB.model.AGCRN</code></td>
+</tr>
+<tr>
+<td>STMeta <a href="https://arxiv.org/abs/2009.09379">[TKDE 2021]</a></td>
+<td>Node</td>
+<td>GNN</td>
+<td><strong>Prior</strong>(Proximity,Functionality,Interaction/Same-line)</td>
+<td>LSTM/RNN</td>
+<td>Closeness,Period,Trend</td>
+<td><code>UCTB.model.STMeta</code></td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="visualization-tool">
+<h2><span class="section-number">1.3. </span>Visualization Tool<a class="headerlink" href="#visualization-tool" title="Permalink to this headline">¶</a></h2>
+<p>The Visualization tool integrates visualization, error localization, and error diagnosis. Specifically, it allows data to be uploaded and provides interactive visual charts to show model errors, combined with spatiotemporal knowledge for error diagnosis.</p>
+<p>Welcome to visit the <a class="reference external" href="http://39.107.116.221/">website</a> for a trial!</p>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</section>
+</div>
+</div>
 
 
            </div>

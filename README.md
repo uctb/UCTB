@@ -1,20 +1,42 @@
 # UCTB (Urban Computing Tool Box)
 
- [![Python](https://img.shields.io/badge/python-3.6%7C3.7-blue)]() [![PyPI](https://img.shields.io/badge/pypi%20package-v0.3.0-sucess)](https://pypi.org/project/UCTB/) ![tensorflow](https://img.shields.io/badge/tensorflow-1.13-important)[![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)]() 
+ [![Python](https://img.shields.io/badge/python-3.6%7C3.7-blue)]() [![PyPI](https://img.shields.io/badge/pypi%20package-v0.3.0-sucess)](https://pypi.org/project/UCTB/) [![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)]() [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://uctb.github.io/UCTB)
 
 ------
 
-### News
+**Urban Computing Tool Box** is a package providing [**urban datasets**](https://github.com/uctb/Urban-Dataset), [**spatial-temporal prediction models**](https://github.com/uctb/UCTB), and [**visualization tools**](https://github.com/uctb/visualization-tool-UCTB) for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. 
+
+UCTB is a flexible and open package. You can use the data we provided or use your data, and the data structure is well stated in the [**tutorial section**](https://uctb.github.io/UCTB/md_file/tutorial.html). 
+
+## News
 
 **2021-11**: Our paper on UCTB, entitled '*Exploring the Generalizability of Spatio-Temporal Traffic Prediction: Meta-Modeling and an Analytic Framework*', has been accepted by IEEE TKDE! [[IEEE Xplore](https://ieeexplore.ieee.org/document/9627543)][[arXiv](https://arxiv.org/abs/2009.09379)]
 
-------
-
-**Urban Computing Tool Box** is a package providing both **spatial-temporal prediction models** and **urban datasets** for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. It contains both conventional models and state-of-art models. 
+**2023-06**: We have released a technical report entitled '*UCTB: An Urban Computing Tool Box for Spatiotemporal Crowd Flow Prediction*', introducing the design and implementation principles of UCTB. [[arXiv\]](https://arxiv.org/abs/2306.04144)
 
 ------
 
-Currently the package supported the following models: (This tool box is constructed based on some open-source repos. We appreciate these awesome implements.  [See more details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html))
+## Urban Datasets
+
+UCTB releases [a public dataset repository](https://github.com/uctb/Urban-Dataset) including the following applications:
+
+| **Application**  | **City**  | **Granularity** |                      **Download Link**                       |
+| :--------------: | :-------: | :-------------: | :----------------------------------------------------------: |
+|   Bike-sharing   |    NYC    |    5 minutes    | [66.0M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip) |
+|   Bike-sharing   |  Chicago  |    5 minutes    | [30.2M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip) |
+|   Bike-sharing   |    DC     |    5 minutes    | [31.0M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip) |
+| Pedestrian Count | Melbourne |   60 minutes    | [9.44M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip) |
+|  Vehicle Speed   |    LA     |    5 minutes    | [11.8M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip) |
+|  Vehicle Speed   |    BAY    |    5 minutes    | [27.9M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip) |
+|   Ride-sharing   |  Chicago  |   60 minutes    | [17.5M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/60_minutes/Taxi_Chicago.zip) |
+
+We provide [detailed documents](https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb) about how to build and how to use these datasets.
+
+------
+
+## Prediction Models
+
+Currently, the package supports the following models: (This toolbox is constructed based on some open-source repos. We appreciate these awesome implements. [See more details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html)). 
 
 |  Model Name  |   Input Data Format   |   Spatial Modeling Technique   |Graph Type|Temporal Modeling Technique|Temporal Knowledge|Module|
 | ---- | ---- | ---- |----|----|----|----|
@@ -35,29 +57,14 @@ Currently the package supported the following models: (This tool box is construc
 |   AGCRN [[NeurIPS 2020]](https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf) |   Node   |   GNN   |**Adaptive**|RNN|Closeness|``UCTB.model.AGCRN``|
 |   STMeta [[TKDE 2021]](https://arxiv.org/abs/2009.09379)  |   Node   |   GNN   |**Prior**(Proximity,Functionality,Interaction/Same-line)|LSTM/RNN|Closeness,Period,Trend|``UCTB.model.STMeta``|
 
-
 ------
 
-UCTB also releases [a public dataset repository](https://github.com/uctb/Urban-Dataset) including the following applications:
+## Visualization Tool
 
-- Bike sharing in NYC, Chicago and DC
-- Ride sharing in Chicago
-- Traffic speed in LA and BAY
-- Pedestrian counting in Melbourne
+The Visualization tool integrates visualization, error localization, and error diagnosis. Specifically, it allows data to be uploaded and provides interactive visual charts to show model errors, combined with spatiotemporal knowledge for error diagnosis.
 
-We provide [detailed documents](https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb) about how to build and how to use these datasets.
+Welcome to visit the [website](http://39.107.116.221/) for a trial! 
 
-------
+## Installation
 
-UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.
-
-UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages or use our docker environment to avoid these unseen errors.
-
-```
-python==3.6
-tensorflow==1.13
-Keras==2.2.4
-h5py==2.9.0
-```
-
-[![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://uctb.github.io/UCTB)
+UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. ***To avoid potential conflict, we highly recommend you install UCTB vis Anaconda or use our docker environment.*** The installation details are in our [documents](https://uctb.github.io/UCTB/md_file/installation.html). 

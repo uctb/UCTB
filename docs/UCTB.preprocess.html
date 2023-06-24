@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.2. UCTB.preprocess package &mdash; UCTB  documentation</title>
@@ -151,150 +150,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="uctb-preprocess-package">
+  <div class="section" id="uctb-preprocess-package">
 <h1><span class="section-number">5.2. </span>UCTB.preprocess package<a class="headerlink" href="#uctb-preprocess-package" title="Permalink to this headline">¶</a></h1>
-<section id="uctb-preprocess-graphgenerator-module">
+<div class="section" id="uctb-preprocess-graphgenerator-module">
 <h2><span class="section-number">5.2.1. </span>UCTB.preprocess.GraphGenerator module<a class="headerlink" href="#uctb-preprocess-graphgenerator-module" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-UCTB.preprocess.GraphGenerator"></span><dl class="class">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.preprocess.GraphGenerator.</code><code class="sig-name descname">GraphGenerator</code><span class="sig-paren">(</span><em class="sig-param">data_loader</em>, <em class="sig-param">graph='Correlation'</em>, <em class="sig-param">threshold_distance=1000</em>, <em class="sig-param">threshold_correlation=0</em>, <em class="sig-param">threshold_interaction=500</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
-<p>This class is used to build graphs.
-Adajacent matrix and lapalace matrix will be stored in self.AM and self.LM.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data_loader</strong> (<a class="reference internal" href="UCTB.dataset.html#UCTB.dataset.data_loader.NodeTrafficLoader" title="UCTB.dataset.data_loader.NodeTrafficLoader"><em>NodeTrafficLoader</em></a>) – data_loader object.</p></li>
-<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Types of graphs used in neural methods. Graphs should be a subset of { <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code>,
-<code class="docutils literal notranslate"><span class="pre">'Distance'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Interaction'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Line'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Neighbor'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Transfer'</span></code> } and concatenated by <code class="docutils literal notranslate"><span class="pre">'-'</span></code>,
-and <em>dataset</em> should have data of selected graphs. Default: <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code></p></li>
-<li><p><strong>threshold_distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Used in building of distance graph. If distance of two nodes in meters is larger
-than <code class="docutils literal notranslate"><span class="pre">threshold_distance</span></code>, the corresponding position of the distance graph will be 1 and otherwise
-0.the corresponding Default: 1000</p></li>
-<li><p><strong>threshold_correlation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Used in building of correlation graph. If the Pearson correlation coefficient is
-larger than <code class="docutils literal notranslate"><span class="pre">threshold_correlation</span></code>, the corresponding position of the correlation graph will be 1
-and otherwise 0. Default: 0</p></li>
-<li><p><strong>threshold_interaction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Used in building of interatction graph. If in the latest 12 months, the number of
-times of interaction between two nodes is larger than <code class="docutils literal notranslate"><span class="pre">threshold_interaction</span></code>, the corresponding position
-of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="attribute">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.AM">
-<code class="sig-name descname">AM</code><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.AM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adajacent matrices of graphs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>array</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.LM">
-<code class="sig-name descname">LM</code><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.LM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Laplacian matrices of graphs.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>array</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.adjacent_to_laplacian">
-<em class="property">static </em><code class="sig-name descname">adjacent_to_laplacian</code><span class="sig-paren">(</span><em class="sig-param">adjacent_matrix</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.adjacent_to_laplacian" title="Permalink to this definition">¶</a></dt>
-<dd><p>Turn adjacent_matrix into Laplace matrix.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.correlation_adjacent">
-<em class="property">static </em><code class="sig-name descname">correlation_adjacent</code><span class="sig-paren">(</span><em class="sig-param">traffic_data</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.correlation_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate correlation graph based on pearson coefficient.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>traffic_data</strong> (<em>ndarray</em>) – numpy array with shape [sequence_length, num_node].</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – float between [-1, 1], nodes with Pearson Correlation coefficient
-larger than this threshold will be linked together.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.distance_adjacent">
-<code class="sig-name descname">distance_adjacent</code><span class="sig-paren">(</span><em class="sig-param">lat_lng_list</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.distance_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate distance graph based on geographic distance.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>lat_lng_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – A list of geographic locations. The format of each element
-in the list is [latitude, longitude].</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – (meters) nodes with geographic distacne smaller than this
-threshold will be linked together.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.haversine">
-<em class="property">static </em><code class="sig-name descname">haversine</code><span class="sig-paren">(</span><em class="sig-param">lat1</em>, <em class="sig-param">lon1</em>, <em class="sig-param">lat2</em>, <em class="sig-param">lon2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.haversine" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the great circle distance between two points
-on the earth (specified in decimal degrees)</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.preprocess.GraphGenerator.GraphGenerator.interaction_adjacent">
-<em class="property">static </em><code class="sig-name descname">interaction_adjacent</code><span class="sig-paren">(</span><em class="sig-param">interaction_matrix</em>, <em class="sig-param">threshold</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.interaction_adjacent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Binarize interaction_matrix based on threshold.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>interaction_matrix</strong> (<em>ndarray</em>) – <p>with shape [num_node, num_node], where each
-element represents the number of interactions during a certain time,</p>
-<blockquote>
-<div><p>e.g. 6 monthes, between the corresponding nodes.</p>
-</div></blockquote>
-</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – nodes with number of interactions between them
-greater than this threshold will be linked together.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.preprocess.GraphGenerator.scaled_Laplacian_ASTGCN">
-<code class="sig-prename descclassname">UCTB.preprocess.GraphGenerator.</code><code class="sig-name descname">scaled_Laplacian_ASTGCN</code><span class="sig-paren">(</span><em class="sig-param">W</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.scaled_Laplacian_ASTGCN" title="Permalink to this definition">¶</a></dt>
-<dd><p>compute     ilde{L}</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>W</strong> (<em>np.ndarray</em><em>, </em><em>shape is</em><em> (</em><em>N</em><em>, </em><em>N</em><em>)</em><em>, </em><em>N is the num of vertices</em>) – </p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>scaled_Laplacian_ASTGCN</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray, shape (N, N)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.preprocess.GraphGenerator.scaled_laplacian_STGCN">
-<code class="sig-prename descclassname">UCTB.preprocess.GraphGenerator.</code><code class="sig-name descname">scaled_laplacian_STGCN</code><span class="sig-paren">(</span><em class="sig-param">W</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.scaled_laplacian_STGCN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Normalized graph Laplacian function.
-:param W: np.ndarray, [n_route, n_route], weighted adjacency matrix of G.
-:return: np.matrix, [n_route, n_route].</p>
-</dd></dl>
-
-</section>
-<section id="module-UCTB.preprocess.preprocessor">
+</div>
+<div class="section" id="module-UCTB.preprocess.preprocessor">
 <span id="uctb-preprocess-preprocessor-module"></span><h2><span class="section-number">5.2.2. </span>UCTB.preprocess.preprocessor module<a class="headerlink" href="#module-UCTB.preprocess.preprocessor" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.preprocess.preprocessor.MaxMinNormalizer">
@@ -330,7 +191,7 @@ greater than this threshold will be linked together.</p></li>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>X</strong> – Data which normalizer extracts characteristics from.</p>
 </dd>
 </dl>
@@ -342,7 +203,7 @@ greater than this threshold will be linked together.</p></li>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>This class can converts raw data into temporal features including closenss, period and trend features.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
 of data will be used as closeness history.</p></li>
@@ -361,7 +222,7 @@ Default: 1 default:1.</p></li>
 <code class="sig-name descname">move_sample</code><span class="sig-paren">(</span><em class="sig-param">data</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ST_MoveSample.move_sample" title="Permalink to this definition">¶</a></dt>
 <dd><p>Input data to generate closeness, period, trend features and target vector y.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Orginal temporal data.</p>
 </dd>
 </dl>
@@ -381,7 +242,7 @@ Default: 1 default:1.</p></li>
 <em class="property">static </em><code class="sig-name descname">split_data</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">ratio_list</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData.split_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide the data based on the given parameter ratio_list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>data</strong> (<em>ndarray</em>) – Data to be split.</p></li>
 <li><p><strong>ratio_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Split ratio, the <cite>data</cite> will be split according to the ratio.</p></li>
@@ -393,7 +254,7 @@ Default: 1 default:1.</p></li>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
 </dd>
 </dl>
@@ -404,7 +265,7 @@ Default: 1 default:1.</p></li>
 <em class="property">static </em><code class="sig-name descname">split_feed_dict</code><span class="sig-paren">(</span><em class="sig-param">feed_dict</em>, <em class="sig-param">sequence_length</em>, <em class="sig-param">ratio_list</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData.split_feed_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Divide the <cite>value</cite> data in <cite>feed_dict</cite> based on the given parameter ratio_list.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>feed_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – It is a dictionary composed of <cite>key-value</cite> pairs.</p></li>
 <li><p><strong>sequence_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – If the length of <cite>value</cite> in <cite>feed_dict</cite> is equal to sequence_length,
@@ -412,10 +273,10 @@ then this method divides the <cite>value</cite> according to the ratio without c
 <li><p><strong>ratio_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Split ratio, the data will be split according to the ratio.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>The elements in the returned list are divided dictionaries, and the dimensions of the list are the same as ratio_list.</p>
 </dd>
-<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a></p>
 </dd>
 </dl>
@@ -480,26 +341,26 @@ then this method divides the <cite>value</cite> according to the ratio without c
 :param X_train: Function is based on it to initialize the normalizer.
 :type X_train: numpy.ndarray</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>The normalizer consistent with definition.</p>
 </dd>
-<dt class="field-even">Type<span class="colon">:</span></dt>
+<dt class="field-even">Type</dt>
 <dd class="field-even"><p>object.</p>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-<section id="module-UCTB.preprocess.time_utils">
+</div>
+<div class="section" id="module-UCTB.preprocess.time_utils">
 <span id="uctb-preprocess-time-utils-module"></span><h2><span class="section-number">5.2.3. </span>UCTB.preprocess.time_utils module<a class="headerlink" href="#module-UCTB.preprocess.time_utils" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="UCTB.preprocess.time_utils.is_valid_date">
 <code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_valid_date</code><span class="sig-paren">(</span><em class="sig-param">date_str</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_valid_date" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>date_str</strong> (<em>string</em>) – e.g. 2019-01-01</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>True if date_str is valid date,
 otherwise return False.</p>
 </dd>
@@ -510,10 +371,10 @@ otherwise return False.</p>
 <dt id="UCTB.preprocess.time_utils.is_work_day_america">
 <code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_work_day_america</code><span class="sig-paren">(</span><em class="sig-param">date</em>, <em class="sig-param">city</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_america" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>date</strong> (<em>string</em><em> or </em><em>datetime</em>) – e.g. 2019-01-01</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>True if date is not holiday in America,
 otherwise return False.</p>
 </dd>
@@ -524,18 +385,18 @@ otherwise return False.</p>
 <dt id="UCTB.preprocess.time_utils.is_work_day_china">
 <code class="sig-prename descclassname">UCTB.preprocess.time_utils.</code><code class="sig-name descname">is_work_day_china</code><span class="sig-paren">(</span><em class="sig-param">date</em>, <em class="sig-param">city</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_china" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>date</strong> (<em>string</em><em> or </em><em>datetime</em>) – e.g. 2019-01-01</p>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dt class="field-even">Returns</dt>
 <dd class="field-even"><p>True if date is not holiday in China,
 otherwise return False.</p>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

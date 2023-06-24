@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/uctb/UCTB",
     packages=setuptools.find_packages(),
     install_requires=['hmmlearn>=0.2.1',
-                      'keras',
+                      'keras==2.2.4',
                       'GPUtil',
                       'numpy>=1.16.2',
                       'pandas>=0.24.2',

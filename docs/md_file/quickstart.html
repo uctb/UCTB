@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>3. Quick start &mdash; UCTB  documentation</title>
@@ -152,9 +151,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="quick-start">
+  <div class="section" id="quick-start">
 <h1><span class="section-number">3. </span>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h1>
-<section id="quick-start-with-stmeta">
+<div class="section" id="quick-start-with-stmeta">
 <h2><span class="section-number">3.1. </span>Quick start with STMeta<a class="headerlink" href="#quick-start-with-stmeta" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">STMeta</span>
@@ -162,7 +161,7 @@
 <span class="kn">from</span> <span class="nn">UCTB.preprocess.GraphGenerator</span> <span class="kn">import</span> <span class="n">GraphGenerator</span>
 <span class="c1"># Config data loader</span>
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span>
-                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
 <span class="c1"># Build Graph</span>
 <span class="n">graph_obj</span> <span class="o">=</span> <span class="n">GraphGenerator</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">=</span><span class="n">data_loader</span><span class="p">)</span>
@@ -197,15 +196,15 @@
                                 <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_sequence_len</span><span class="p">)</span>
 
 <span class="c1"># Evaluate</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>
+<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>
                                  <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">),</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-other-models">
+</div>
+<div class="section" id="quick-start-with-other-models">
 <h2><span class="section-number">3.2. </span><a class="reference external" href="./static/quick_start.html">Quick start with other models</a><a class="headerlink" href="#quick-start-with-other-models" title="Permalink to this headline">¶</a></h2>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>

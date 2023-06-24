@@ -45,10 +45,12 @@ def build_model(inputs, n_his, Ks, Kt, blocks, keep_prob):
 def gen_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
     '''
     Data iterator in batch.
-    :param inputs: np.ndarray, [len_seq, n_frame, n_route, C_0], standard sequence units.
-    :param batch_size: int, the size of batch.
-    :param dynamic_batch: bool, whether changes the batch size in the last batch if its length is less than the default.
-    :param shuffle: bool, whether shuffle the batches.
+
+    Args:
+        inputs: np.ndarray, [len_seq, n_frame, n_route, C_0], standard sequence units.
+        batch_size: int, the size of batch.
+        dynamic_batch: bool, whether changes the batch size in the last batch if its length is less than the default.
+        shuffle: bool, whether shuffle the batches.
     '''
     len_inputs = len(inputs)
 
@@ -74,9 +76,12 @@ def gen_batch(inputs, batch_size, dynamic_batch=False, shuffle=False):
 def cheb_poly_approx(L, Ks, n):
     '''
     Chebyshev polynomials approximation function.
-    :param L: np.matrix, [n_route, n_route], graph Laplacian.
-    :param Ks: int, kernel size of spatial convolution.
-    :param n: int, number of routes / size of graph.
+
+    Args:
+        L: np.matrix, [n_route, n_route], graph Laplacian.
+        Ks: int, kernel size of spatial convolution.
+        n: int, number of routes / size of graph.
+    
     :return: np.ndarray, [n_route, Ks*n_route].
     '''
     L0, L1 = np.mat(np.identity(n)), np.mat(np.copy(L))
@@ -99,11 +104,12 @@ def cheb_poly_approx(L, Ks, n):
 def gconv(x, theta, Ks, c_in, c_out):
     '''
     Spectral-based graph convolution function.
-    :param x: tensor, [batch_size, n_route, c_in].
-    :param theta: tensor, [Ks*c_in, c_out], trainable kernel parameters.
-    :param Ks: int, kernel size of graph convolution.
-    :param c_in: int, size of input channel.
-    :param c_out: int, size of output channel.
+        x: tensor, [batch_size, n_route, c_in].
+        theta: tensor, [Ks*c_in, c_out], trainable kernel parameters.
+        Ks: int, kernel size of graph convolution.
+        c_in: int, size of input channel.
+        c_out: int, size of output channel.
+    
     :return: tensor, [batch_size, n_route, c_out].
     '''
     # graph kernel: tensor, [n_route, Ks*n_route]
@@ -123,8 +129,11 @@ def gconv(x, theta, Ks, c_in, c_out):
 def layer_norm(x, scope):
     '''
     Layer normalization function.
-    :param x: tensor, [batch_size, time_step, n_route, channel].
-    :param scope: str, variable scope.
+    
+    Args:
+        x: tensor, [batch_size, time_step, n_route, channel].
+        scope: str, variable scope.
+    
     :return: tensor, [batch_size, time_step, n_route, channel].
     '''
     _, _, N, C = x.get_shape().as_list()
@@ -140,11 +149,14 @@ def layer_norm(x, scope):
 def temporal_conv_layer(x, Kt, c_in, c_out, act_func='relu'):
     '''
     Temporal convolution layer.
-    :param x: tensor, [batch_size, time_step, n_route, c_in].
-    :param Kt: int, kernel size of temporal convolution.
-    :param c_in: int, size of input channel.
-    :param c_out: int, size of output channel.
-    :param act_func: str, activation function.
+
+    Args:
+        x: tensor, [batch_size, time_step, n_route, c_in].
+        Kt: int, kernel size of temporal convolution.
+        c_in: int, size of input channel.
+        c_out: int, size of output channel.
+        act_func: str, activation function.
+    
     :return: tensor, [batch_size, time_step-Kt+1, n_route, c_out].
     '''
     _, T, n, _ = x.get_shape().as_list()
@@ -190,10 +202,13 @@ def temporal_conv_layer(x, Kt, c_in, c_out, act_func='relu'):
 def spatio_conv_layer(x, Ks, c_in, c_out):
     '''
     Spatial graph convolution layer.
-    :param x: tensor, [batch_size, time_step, n_route, c_in].
-    :param Ks: int, kernel size of spatial convolution.
-    :param c_in: int, size of input channel.
-    :param c_out: int, size of output channel.
+    
+    Args:
+        x: tensor, [batch_size, time_step, n_route, c_in].
+        Ks: int, kernel size of spatial convolution.
+        c_in: int, size of input channel.
+        c_out: int, size of output channel.
+    
     :return: tensor, [batch_size, time_step, n_route, c_out].
     '''
     _, T, n, _ = x.get_shape().as_list()
@@ -226,13 +241,16 @@ def st_conv_block(x, Ks, Kt, channels, scope, keep_prob, act_func='GLU'):
     '''
     Spatio-temporal convolutional block, which contains two temporal gated convolution layers
     and one spatial graph convolution layer in the middle.
-    :param x: tensor, batch_size, time_step, n_route, c_in].
-    :param Ks: int, kernel size of spatial convolution.
-    :param Kt: int, kernel size of temporal convolution.
-    :param channels: list, channel configs of a single st_conv block.
-    :param scope: str, variable scope.
-    :param keep_prob: placeholder, prob of dropout.
-    :param act_func: str, activation function.
+
+    Args:
+        x: tensor, batch_size, time_step, n_route, c_in].
+        Ks: int, kernel size of spatial convolution.
+        Kt: int, kernel size of temporal convolution.
+        channels: list, channel configs of a single st_conv block.
+        scope: str, variable scope.
+        keep_prob: placeholder, prob of dropout.
+        act_func: str, activation function.
+    
     :return: tensor, [batch_size, time_step, n_route, c_out].
     '''
     c_si, c_t, c_oo = channels
@@ -249,10 +267,13 @@ def st_conv_block(x, Ks, Kt, channels, scope, keep_prob, act_func='GLU'):
 def fully_con_layer(x, n, channel, scope):
     '''
     Fully connected layer: maps multi-channels to one.
-    :param x: tensor, [batch_size, 1, n_route, channel].
-    :param n: int, number of route / size of graph.
-    :param channel: channel size of input x.
-    :param scope: str, variable scope.
+
+    Args:
+        x: tensor, [batch_size, 1, n_route, channel].
+        n: int, number of route / size of graph.
+        channel: channel size of input x.
+        scope: str, variable scope.
+    
     :return: tensor, [batch_size, 1, n_route, 1].
     '''
     w = tf.get_variable(name=f'w_{scope}', shape=[1, 1, channel, 1], dtype=tf.float32)
@@ -265,10 +286,13 @@ def output_layer(x, T, scope, act_func='GLU'):
     '''
     Output layer: temporal convolution layers attach with one fully connected layer,
     which map outputs of the last st_conv block to a single-step prediction.
-    :param x: tensor, [batch_size, time_step, n_route, channel].
-    :param T: int, kernel size of temporal convolution.
-    :param scope: str, variable scope.
-    :param act_func: str, activation function.
+
+    Args:
+        x: tensor, [batch_size, time_step, n_route, channel].
+        T: int, kernel size of temporal convolution.
+        scope: str, variable scope.
+        act_func: str, activation function.
+    
     :return: tensor, [batch_size, 1, n_route, 1].
     '''
     _, _, n, channel = x.get_shape().as_list()
@@ -288,8 +312,10 @@ def variable_summaries(var, v_name):
     '''
     Attach summaries to a Tensor (for TensorBoard visualization).
     Ref: https://zhuanlan.zhihu.com/p/33178205
-    :param var: tf.Variable().
-    :param v_name: str, name of the variable.
+
+    Args:
+        var: tf.Variable().
+        v_name: str, name of the variable.
     '''
     with tf.name_scope('summaries'):
         mean = tf.reduce_mean(var)

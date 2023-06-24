@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.4. UCTB.model package &mdash; UCTB  documentation</title>
@@ -151,9 +150,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="uctb-model-package">
+  <div class="section" id="uctb-model-package">
 <h1><span class="section-number">5.4. </span>UCTB.model package<a class="headerlink" href="#uctb-model-package" title="Permalink to this headline">¶</a></h1>
-<section id="module-UCTB.model.ARIMA">
+<div class="section" id="module-UCTB.model.ARIMA">
 <span id="uctb-model-arima-module"></span><h2><span class="section-number">5.4.1. </span>UCTB.model.ARIMA module<a class="headerlink" href="#module-UCTB.model.ARIMA" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.ARIMA.ARIMA">
@@ -165,7 +164,7 @@ future points in time series analysis.</p>
 trains three different ARIMA models for each node according  to the three kinds of history data,
 and returns average of the predicted values by the models in prediction.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>time_sequence</strong> (<em>array_like</em>) – The observation value of time_series.</p></li>
 <li><p><strong>order</strong> (<em>iterable</em>) – It stores the (p, d, q) orders of the model for the number of AR parameters
@@ -209,10 +208,10 @@ forecast_step: The number of predicted future steps. Default: 1</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Prediction results with shape of (len(time_sequence)/forecast_step,forecast_step=,1).</p>
 </dd>
-<dt class="field-even">Type<span class="colon">:</span></dt>
+<dt class="field-even">Type</dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -220,168 +219,17 @@ forecast_step: The number of predicted future steps. Default: 1</p>
 
 </dd></dl>
 
-</section>
-<section id="module-UCTB.model.DCRNN">
-<span id="uctb-model-dcrnn-module"></span><h2><span class="section-number">5.4.2. </span>UCTB.model.DCRNN module<a class="headerlink" href="#module-UCTB.model.DCRNN" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.DCRNN.DCRNN">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DCRNN.</code><code class="sig-name descname">DCRNN</code><span class="sig-paren">(</span><em class="sig-param">num_nodes</em>, <em class="sig-param">num_diffusion_matrix</em>, <em class="sig-param">num_rnn_units=64</em>, <em class="sig-param">num_rnn_layers=1</em>, <em class="sig-param">max_diffusion_step=2</em>, <em class="sig-param">seq_len=6</em>, <em class="sig-param">use_curriculum_learning=False</em>, <em class="sig-param">input_dim=1</em>, <em class="sig-param">output_dim=1</em>, <em class="sig-param">cl_decay_steps=1000</em>, <em class="sig-param">target_len=1</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">epsilon=0.001</em>, <em class="sig-param">optimizer_name='Adam'</em>, <em class="sig-param">code_version='DCRNN-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DCRNN.DCRNN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://arxiv.org/pdf/1707.01926.pdf">Diffusion convolutional recurrent neural network: Data-driven traffic forecasting (Li Yaguang, et al., 2017)</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/liyaguang/DCRNN">A TensorFlow implementation of Diffusion Convolutional Recurrent Neural Network (liyaguang)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</p></li>
-<li><p><strong>num_diffusion_matrix</strong> – Number of diffusion matrix used in model.</p></li>
-<li><p><strong>num_rnn_units</strong> – Number of RNN units.</p></li>
-<li><p><strong>num_rnn_layers</strong> – Number of RNN layers</p></li>
-<li><p><strong>max_diffusion_step</strong> – Number of diffusion steps</p></li>
-<li><p><strong>seq_len</strong> – Input sequence length</p></li>
-<li><p><strong>use_curriculum_learning</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – model’s prediction (True) or the previous ground truth in training (False).</p></li>
-<li><p><strong>input_dim</strong> – Dimension of the input feature</p></li>
-<li><p><strong>output_dim</strong> – Dimension of the output feature</p></li>
-<li><p><strong>cl_decay_steps</strong> – When use_curriculum_learning=True, cl_decay_steps is used to adjust the ratio of using ground
-true labels, where with more training steps, the ratio drops.</p></li>
-<li><p><strong>target_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Output sequence length.</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Learning rate</p></li>
-<li><p><strong>epsilon</strong> – epsilon in Adam</p></li>
-<li><p><strong>optimizer_name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – ‘sgd’ or ‘Adam’ optimizer</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.DCRNN.DCRNN.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DCRNN.DCRNN.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args
-init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.DeepST">
-<span id="uctb-model-deepst-module"></span><h2><span class="section-number">5.4.3. </span>UCTB.model.DeepST module<a class="headerlink" href="#module-UCTB.model.DeepST" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.DeepST.DeepST">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.DeepST.</code><code class="sig-name descname">DeepST</code><span class="sig-paren">(</span><em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">kernel_size=3</em>, <em class="sig-param">num_conv_filters=64</em>, <em class="sig-param">lr=1e-05</em>, <em class="sig-param">code_version='QuickStart-DeepST'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DeepST.DeepST" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<p>Deep learning-based prediction model for Spatial-Temporal data (DeepST)</p>
-<p>DeepST is composed of three components: 1) temporal dependent
-instances: describing temporal closeness, period and seasonal
-trend; 2) convolutional neural networks: capturing near and
-far spatial dependencies; 3) early and late fusions: fusing
-similar and different domains’ data.</p>
-<dl class="simple">
-<dt>Reference:</dt><dd><ul class="simple">
-<li><p><a class="reference external" href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/09/DeepST-SIGSPATIAL2016.pdf">DNN-Based Prediction Model for Spatial-Temporal Data (Junbo Zhang et al., 2016)</a>.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
-of data will be used as closeness history.</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
-<code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
-<code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The width of grid data.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The height of grid data.</p></li>
-<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
-<li><p><strong>num_conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Current version of this model code.</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.DeepST.DeepST.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.DeepST.DeepST.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args
-init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.GeoMAN">
-<span id="uctb-model-geoman-module"></span><h2><span class="section-number">5.4.4. </span>UCTB.model.GeoMAN module<a class="headerlink" href="#module-UCTB.model.GeoMAN" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.GeoMAN.GeoMAN">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">GeoMAN</code><span class="sig-paren">(</span><em class="sig-param">total_sensers</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">output_dim</em>, <em class="sig-param">input_steps</em>, <em class="sig-param">output_steps</em>, <em class="sig-param">n_stacked_layers=2</em>, <em class="sig-param">n_encoder_hidden_units=128</em>, <em class="sig-param">n_decoder_hidden_units=128</em>, <em class="sig-param">dropout_rate=0.3</em>, <em class="sig-param">lr=0.001</em>, <em class="sig-param">gc_rate=2.5</em>, <em class="sig-param">code_version='GeoMAN-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.GeoMAN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<p>Multi-level Attention Networks for Geo-sensory Time Series Prediction (GeoMAN)</p>
-<p>GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global
-spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal
-dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,
-meteorology, time of day and land use).</p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0476.pdf">GeoMAN: Multi-level Attention Networks for Geo-sensory Time Series Prediction (Liang Yuxuan, et al., 2018)</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/yoshall/GeoMAN">An easy implement of GeoMAN using TensorFlow (yoshall &amp; CastleLiang)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>total_sensers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of total sensors used in global attention mechanism.</p></li>
-<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of dimensions of the target sensor’s input.</p></li>
-<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of dimensions of the external features.</p></li>
-<li><p><strong>output_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of dimensions of the target sensor’s output.</p></li>
-<li><p><strong>input_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of historical input data, a.k.a, input timesteps.</p></li>
-<li><p><strong>output_steps</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of steps that need prediction by one piece of history data, a.k.a, output
-timesteps. Have to be 1 now.</p></li>
-<li><p><strong>n_stacked_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of LSTM layers stacked in both encoder and decoder (These two are the
-same). Default: 2</p></li>
-<li><p><strong>n_encoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of hidden units in each layer of encoder. Default: 128</p></li>
-<li><p><strong>n_decoder_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of hidden units in each layer of decoder. Default: 128</p></li>
-<li><p><strong>dropout_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Dropout rate of LSTM layers in both encoder and decoder. Default: 0.3</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Learning rate. Default: 0.001</p></li>
-<li><p><strong>gc_rate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – A clipping ratio for all the gradients. This operation normalizes all gradients so that
-their L2-norms are less than or equal to <code class="docutils literal notranslate"><span class="pre">gc_rate</span></code>. Default: 2.5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Current version of this model code. Default: ‘GeoMAN-QuickStart’</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
-<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.11)"><em>dict</em></a>) – Reserved for future use. May be used to pass parameters to class <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code>.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.GeoMAN.GeoMAN.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.GeoMAN.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args
-init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GeoMAN.input_transform">
-<code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">input_transform</code><span class="sig-paren">(</span><em class="sig-param">local_features</em>, <em class="sig-param">global_features</em>, <em class="sig-param">external_features</em>, <em class="sig-param">targets</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.input_transform" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split the model’s inputs from matrices to lists on timesteps axis.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GeoMAN.split_timesteps">
-<code class="sig-prename descclassname">UCTB.model.GeoMAN.</code><code class="sig-name descname">split_timesteps</code><span class="sig-paren">(</span><em class="sig-param">inputs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GeoMAN.split_timesteps" title="Permalink to this definition">¶</a></dt>
-<dd><p>Split the input matrix from (batch, timesteps, input_dim) to a step list ([[batch, input_dim], …, ]).</p>
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.HM">
+</div>
+<div class="section" id="uctb-model-dcrnn-module">
+<h2><span class="section-number">5.4.2. </span>UCTB.model.DCRNN module<a class="headerlink" href="#uctb-model-dcrnn-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-deepst-module">
+<h2><span class="section-number">5.4.3. </span>UCTB.model.DeepST module<a class="headerlink" href="#uctb-model-deepst-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-geoman-module">
+<h2><span class="section-number">5.4.4. </span>UCTB.model.GeoMAN module<a class="headerlink" href="#uctb-model-geoman-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UCTB.model.HM">
 <span id="uctb-model-hm-module"></span><h2><span class="section-number">5.4.5. </span>UCTB.model.HM module<a class="headerlink" href="#module-UCTB.model.HM" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.HM.HM">
@@ -389,7 +237,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Historical Mean. A naive method that simply return average of hisrory data of each time slot.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of time slots of closeness history.</p></li>
 <li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of time slots of period history which presents daily feature.</p></li>
@@ -407,157 +255,17 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 
 </dd></dl>
 
-</section>
-<section id="module-UCTB.model.STMeta">
-<span id="uctb-model-stmeta-module"></span><h2><span class="section-number">5.4.6. </span>UCTB.model.STMeta module<a class="headerlink" href="#module-UCTB.model.STMeta" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.STMeta.STMeta">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.STMeta.</code><code class="sig-name descname">STMeta</code><span class="sig-paren">(</span><em class="sig-param">num_node</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">input_dim=1</em>, <em class="sig-param">num_graph=1</em>, <em class="sig-param">gcn_k=1</em>, <em class="sig-param">gcn_layers=1</em>, <em class="sig-param">gclstm_layers=1</em>, <em class="sig-param">num_hidden_units=64</em>, <em class="sig-param">num_dense_units=32</em>, <em class="sig-param">graph_merge_gal_units=32</em>, <em class="sig-param">graph_merge_gal_num_heads=2</em>, <em class="sig-param">temporal_merge_gal_units=64</em>, <em class="sig-param">temporal_merge_gal_num_heads=2</em>, <em class="sig-param">st_method='GCLSTM'</em>, <em class="sig-param">temporal_merge='gal'</em>, <em class="sig-param">graph_merge='gal'</em>, <em class="sig-param">output_activation=&lt;function sigmoid&gt;</em>, <em class="sig-param">lr=0.0001</em>, <em class="sig-param">code_version='STMeta-QuickStart'</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">gpu_device='0'</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>num_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.</p></li>
-<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Dimension of the external feature, e.g. temperature and wind are two dimension.</p></li>
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots</p></li>
-<li><p><strong>data will be used as closeness history.</strong> (<em>of</em>) – </p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive</p></li>
-<li><p><strong>days will be used as period history.</strong> (<em>period_len</em>) – </p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive</p></li>
-<li><p><strong>weeks</strong> (<em>trend_len</em>) – </p></li>
-<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The dimension of input features. 1 if “with_tpe” (data_loader parameters) = False, otherwise 0.</p></li>
-<li><p><strong>num_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of graphs used in STMeta.</p></li>
-<li><p><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
-<li><p><strong>gcn_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of GCN layers.</p></li>
-<li><p><strong>gclstm_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of STRNN layers, it works on all modes of STMeta such as GCLSTM and DCRNN.</p></li>
-<li><p><strong>num_hidden_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
-<li><p><strong>num_dense_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of dense units.</p></li>
-<li><p><strong>graph_merge_gal_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of units in GAL for merging different graph features.
-Only works when graph_merge=’gal’</p></li>
-<li><p><strong>graph_merge_gal_num_heads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of heads in GAL for merging different graph features.
-Only works when graph_merge=’gal’</p></li>
-<li><p><strong>temporal_merge_gal_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of units in GAL for merging different temporal features.
-Only works when temporal_merge=’gal’</p></li>
-<li><p><strong>temporal_merge_gal_num_heads</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of heads in GAL for merging different temporal features.
-Only works when temporal_merge=’gal’</p></li>
-<li><p><strong>st_method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – must in [‘GCLSTM’, ‘DCRNN’, ‘GRU’, ‘LSTM’], which refers to different
-spatial-temporal modeling methods.
-‘GCLSTM’: GCN for modeling spatial feature, LSTM for modeling temporal feature.
-‘DCRNN’: Diffusion Convolution for modeling spatial feature, GRU for modeling temporam frature.
-‘GRU’: Ignore the spatial, and model the temporal feature using GRU
-‘LSTM’: Ignore the spatial, and model the temporal feature using LSTM</p></li>
-<li><p><strong>temporal_merge</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – must in [‘gal’, ‘concat’], refers to different temporal merging methods,
-‘gal’: merge using GAL,
-‘concat’: merge by concat and dense</p></li>
-<li><p><strong>graph_merge</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – must in [‘gal’, ‘concat’], refers to different graph merging methods,
-‘gal’: merge using GAL,
-‘concat’: merge by concat and dense</p></li>
-<li><p><strong>output_activation</strong> (<em>function</em>) – activation function, e.g. tf.nn.tanh</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.STMeta.STMeta.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STMeta.STMeta.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args
-init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.ST_MGCN">
-<span id="uctb-model-st-mgcn-module"></span><h2><span class="section-number">5.4.7. </span>UCTB.model.ST_MGCN module<a class="headerlink" href="#module-UCTB.model.ST_MGCN" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.ST_MGCN.ST_MGCN">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_MGCN.</code><code class="sig-name descname">ST_MGCN</code><span class="sig-paren">(</span><em class="sig-param">T</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">num_graph</em>, <em class="sig-param">gcl_k</em>, <em class="sig-param">gcl_l</em>, <em class="sig-param">lstm_units</em>, <em class="sig-param">lstm_layers</em>, <em class="sig-param">lr</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">code_version</em>, <em class="sig-param">model_dir</em>, <em class="sig-param">gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="http://www-scf.usc.edu/~yaguang/papers/aaai19_multi_graph_convolution.pdf">Spatiotemporal multi-graph convolution network for ride-hailing demand forecasting (Geng Xu, et al., 2019)</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/shawnwang-tech/ST-MGCN-pytorch">A PyTorch implementation of the ST-MGCN model  (shawnwang-tech)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Input sequence length</p></li>
-<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Input feature dimension</p></li>
-<li><p><strong>num_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of graphs used in the model.</p></li>
-<li><p><strong>gcl_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</p></li>
-<li><p><strong>gcl_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of GCN layers.</p></li>
-<li><p><strong>lstm_units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
-<li><p><strong>lstm_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of LSTM layers.</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Learning rate</p></li>
-<li><p><strong>external_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Dimension of the external feature, e.g. temperature and wind are two dimension.</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Current version of this model code, which will be used as filename for saving the model</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’.</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.ST_MGCN.ST_MGCN.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><em class="sig-param">init_vars=True</em>, <em class="sig-param">max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_MGCN.ST_MGCN.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args
-init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.ST_ResNet">
-<span id="uctb-model-st-resnet-module"></span><h2><span class="section-number">5.4.8. </span>UCTB.model.ST_ResNet module<a class="headerlink" href="#module-UCTB.model.ST_ResNet" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.ST_ResNet.ST_ResNet">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ST_ResNet.</code><code class="sig-name descname">ST_ResNet</code><span class="sig-paren">(</span><em class="sig-param">width</em>, <em class="sig-param">height</em>, <em class="sig-param">external_dim</em>, <em class="sig-param">closeness_len</em>, <em class="sig-param">period_len</em>, <em class="sig-param">trend_len</em>, <em class="sig-param">num_residual_unit=4</em>, <em class="sig-param">kernel_size=3</em>, <em class="sig-param">lr=5e-05</em>, <em class="sig-param">model_dir='model_dir'</em>, <em class="sig-param">code_version='QuickStart'</em>, <em class="sig-param">conv_filters=64</em>, <em class="sig-param">gpu_device='0'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="UCTB.model_unit.html#UCTB.model_unit.BaseModel.BaseModel" title="UCTB.model_unit.BaseModel.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">UCTB.model_unit.BaseModel.BaseModel</span></code></a></p>
-<p>ST-ResNet is a deep-learning model with an end-to-end structure
-based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://arxiv.org/pdf/1610.00081.pdf">Deep Spatio-Temporal Residual Networks for Citywide Crowd Flows Prediction (Junbo Zhang et al., 2016)</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/lucktroy/DeepST/tree/master/scripts/papers/AAAI17">Github repository (lucktroy)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The width of grid data.</p></li>
-<li><p><strong>height</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The height of grid data.</p></li>
-<li><p><strong>externai_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of dimensions of external data.</p></li>
-<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
-of data will be used as closeness history.</p></li>
-<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
-<code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
-<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
-<code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
-<li><p><strong>num_residual_unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of residual units. Default: 4</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Kernel size in Convolutional neural networks. Default: 3</p></li>
-<li><p><strong>lr</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Learning rate. Default: 1e-5</p></li>
-<li><p><strong>code_version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Current version of this model code.</p></li>
-<li><p><strong>model_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – The directory to store model files. Default:’model_dir’</p></li>
-<li><p><strong>conv_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – the Number of filters in the convolution. Default: 64</p></li>
-<li><p><strong>gpu_device</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – To specify the GPU to use. Default: ‘0’</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.ST_ResNet.ST_ResNet.build">
-<code class="sig-name descname">build</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ST_ResNet.ST_ResNet.build" title="Permalink to this definition">¶</a></dt>
-<dd><p>Args
-init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.XGBoost">
+</div>
+<div class="section" id="uctb-model-stmeta-module">
+<h2><span class="section-number">5.4.6. </span>UCTB.model.STMeta module<a class="headerlink" href="#uctb-model-stmeta-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-st-mgcn-module">
+<h2><span class="section-number">5.4.7. </span>UCTB.model.ST_MGCN module<a class="headerlink" href="#uctb-model-st-mgcn-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-st-resnet-module">
+<h2><span class="section-number">5.4.8. </span>UCTB.model.ST_ResNet module<a class="headerlink" href="#uctb-model-st-resnet-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-UCTB.model.XGBoost">
 <span id="uctb-model-xgboost-module"></span><h2><span class="section-number">5.4.9. </span>UCTB.model.XGBoost module<a class="headerlink" href="#module-UCTB.model.XGBoost" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="UCTB.model.XGBoost.XGBoost">
@@ -565,7 +273,7 @@ max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</p
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>XGBoost is an optimized distributed gradient boosting machine learning algorithm.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>*n_estimators</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of boosting iterations. Default: 10</p></li>
 <li><p><strong>*max_depth</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Maximum tree depth for base learners. Default: 5</p></li>
@@ -583,7 +291,7 @@ Default: <code class="docutils literal notranslate"><span class="pre">'rmse'</sp
 <code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">y</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.fit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Training method.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>X</strong> (<em>np.ndarray/scipy.sparse/pd.DataFrame/dt.Frame</em>) – The training input samples.</p></li>
 <li><p><strong>y</strong> (<em>np.ndarray</em><em>, </em><em>optional</em>) – The target values of training samples.</p></li>
@@ -597,10 +305,10 @@ Default: <code class="docutils literal notranslate"><span class="pre">'rmse'</sp
 <code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param">X</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.XGBoost.XGBoost.predict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prediction method.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>Predicted values with shape as [time_slot_num, node_num, 1].</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dt class="field-even">Return type</dt>
 <dd class="field-even"><p>np.ndarray</p>
 </dd>
 </dl>
@@ -608,884 +316,26 @@ Default: <code class="docutils literal notranslate"><span class="pre">'rmse'</sp
 
 </dd></dl>
 
-</section>
-<section id="module-UCTB.model.AGCRN">
-<span id="uctb-model-agcrn-module"></span><h2><span class="section-number">5.4.10. </span>UCTB.model.AGCRN module<a class="headerlink" href="#module-UCTB.model.AGCRN" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.AGCRN.AGCRN">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AGCRN.</code><code class="sig-name descname">AGCRN</code><span class="sig-paren">(</span><em class="sig-param">num_nodes</em>, <em class="sig-param">input_dim</em>, <em class="sig-param">hidden_dim</em>, <em class="sig-param">output_dim</em>, <em class="sig-param">pred_step</em>, <em class="sig-param">num_layers</em>, <em class="sig-param">default_graph</em>, <em class="sig-param">embed_dim</em>, <em class="sig-param">cheb_k</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AGCRN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf">Adaptive graph convolutional recurrent network for traffic forecasting.</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/LeiBAI/AGCRN">A PyTorch implementation of the AGCRN model  (LeiBAI)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of nodes.</p></li>
-<li><p><strong>input_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Input feature dimension.</p></li>
-<li><p><strong>hidden_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of hidden units of RNN.</p></li>
-<li><p><strong>output_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of dimension of output.</p></li>
-<li><p><strong>pred_step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of steps to predict.</p></li>
-<li><p><strong>num_layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of layers of AGCRNCell.</p></li>
-<li><p><strong>default_graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to use default graph or not.</p></li>
-<li><p><strong>embed_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of dimension of embedding.</p></li>
-<li><p><strong>cheb_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Order of chebyshev polynomial.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.AGCRN.AGCRN.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">source</em>, <em class="sig-param">targets</em>, <em class="sig-param">teacher_forcing_ratio=0.5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AGCRN.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.AGCRN.AGCRNCell">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AGCRN.</code><code class="sig-name descname">AGCRNCell</code><span class="sig-paren">(</span><em class="sig-param">node_num</em>, <em class="sig-param">dim_in</em>, <em class="sig-param">dim_out</em>, <em class="sig-param">cheb_k</em>, <em class="sig-param">embed_dim</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AGCRNCell" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.AGCRN.AGCRNCell.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">state</em>, <em class="sig-param">node_embeddings</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AGCRNCell.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.AGCRN.AVWDCRNN">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AGCRN.</code><code class="sig-name descname">AVWDCRNN</code><span class="sig-paren">(</span><em class="sig-param">node_num</em>, <em class="sig-param">dim_in</em>, <em class="sig-param">dim_out</em>, <em class="sig-param">cheb_k</em>, <em class="sig-param">embed_dim</em>, <em class="sig-param">num_layers=1</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AVWDCRNN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.AGCRN.AVWDCRNN.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">init_state</em>, <em class="sig-param">node_embeddings</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AVWDCRNN.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.AGCRN.AVWGCN">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.AGCRN.</code><code class="sig-name descname">AVWGCN</code><span class="sig-paren">(</span><em class="sig-param">dim_in</em>, <em class="sig-param">dim_out</em>, <em class="sig-param">cheb_k</em>, <em class="sig-param">embed_dim</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AVWGCN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.AGCRN.AVWGCN.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">node_embeddings</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.AGCRN.AVWGCN.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.ASTGCN">
-<span id="uctb-model-astgcn-module"></span><h2><span class="section-number">5.4.11. </span>UCTB.model.ASTGCN module<a class="headerlink" href="#module-UCTB.model.ASTGCN" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model.ASTGCN.ASTGCN_block">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">ASTGCN_block</code><span class="sig-paren">(</span><em class="sig-param">DEVICE</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">K</em>, <em class="sig-param">nb_chev_filter</em>, <em class="sig-param">nb_time_filter</em>, <em class="sig-param">time_strides</em>, <em class="sig-param">cheb_polynomials</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_timesteps</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.ASTGCN_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.ASTGCN.ASTGCN_block.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.ASTGCN_block.forward" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> – (batch_size, N, F_in, T)</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(batch_size, N, nb_time_filter, T)</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.ASTGCN.ASTGCN_submodule">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">ASTGCN_submodule</code><span class="sig-paren">(</span><em class="sig-param">DEVICE</em>, <em class="sig-param">num_blocks</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">K</em>, <em class="sig-param">num_chev_filter</em>, <em class="sig-param">num_time_filter</em>, <em class="sig-param">time_strides</em>, <em class="sig-param">cheb_polynomials</em>, <em class="sig-param">pred_step</em>, <em class="sig-param">len_input</em>, <em class="sig-param">num_nodes</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.ASTGCN_submodule" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/3881">Attention based spatial-temporal graph convolutional networks for traffic flow forecasting..</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/guoshnBJTU/ASTGCN-r-pytorch">A PyTorch implementation of the ASTGCN model  (guoshnBJTU)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>DEVICE</strong> (<em>torch.device</em>) – Which device use to train.</p></li>
-<li><p><strong>num_blocks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of blocks.</p></li>
-<li><p><strong>in_channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of input channels.</p></li>
-<li><p><strong>K</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Order of chebyshev polynomial.</p></li>
-<li><p><strong>num_chev_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of chebyshev filter.</p></li>
-<li><p><strong>num_time_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of time filter.</p></li>
-<li><p><strong>time_strides</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of time strides.</p></li>
-<li><p><strong>cheb_polynomials</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Chebyshev Polynomials.</p></li>
-<li><p><strong>pred_step</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of steps of prediction.</p></li>
-<li><p><strong>len_input</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of steps of sequence input.</p></li>
-<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of nodes.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.ASTGCN.ASTGCN_submodule.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.ASTGCN_submodule.forward" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> – (B, N_nodes, F_in, T_in)</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(B, N_nodes, T_out)</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.ASTGCN.Spatial_Attention_layer">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">Spatial_Attention_layer</code><span class="sig-paren">(</span><em class="sig-param">DEVICE</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_timesteps</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.Spatial_Attention_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>compute spatial attention scores</p>
-<dl class="method">
-<dt id="UCTB.model.ASTGCN.Spatial_Attention_layer.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.Spatial_Attention_layer.forward" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> – (batch_size, N, F_in, T)</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(B,N,N)</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.ASTGCN.Temporal_Attention_layer">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">Temporal_Attention_layer</code><span class="sig-paren">(</span><em class="sig-param">DEVICE</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_timesteps</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.Temporal_Attention_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.ASTGCN.Temporal_Attention_layer.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.Temporal_Attention_layer.forward" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> – (batch_size, N, F_in, T)</p>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>(B, T, T)</p>
-</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.ASTGCN.cheb_conv">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">cheb_conv</code><span class="sig-paren">(</span><em class="sig-param">K</em>, <em class="sig-param">cheb_polynomials</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">out_channels</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.cheb_conv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>K-order chebyshev graph convolution</p>
-<dl class="method">
-<dt id="UCTB.model.ASTGCN.cheb_conv.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.cheb_conv.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chebyshev graph convolution operation
-:param x: (batch_size, N, F_in, T)
-:return: (batch_size, N, F_out, T)</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.ASTGCN.cheb_conv_withSAt">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">cheb_conv_withSAt</code><span class="sig-paren">(</span><em class="sig-param">K</em>, <em class="sig-param">cheb_polynomials</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">out_channels</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.cheb_conv_withSAt" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p>K-order chebyshev graph convolution</p>
-<dl class="method">
-<dt id="UCTB.model.ASTGCN.cheb_conv_withSAt.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">spatial_attention</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.cheb_conv_withSAt.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chebyshev graph convolution operation
-:param x: (batch_size, N, F_in, T)
-:return: (batch_size, N, F_out, T)</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.ASTGCN.cheb_polynomial">
-<code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">cheb_polynomial</code><span class="sig-paren">(</span><em class="sig-param">L_tilde</em>, <em class="sig-param">K</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.cheb_polynomial" title="Permalink to this definition">¶</a></dt>
-<dd><p>compute a list of chebyshev polynomials from T_0 to T_{K-1}</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>L_tilde</strong> (<em>scaled Laplacian</em><em>, </em><em>np.ndarray</em><em>, </em><em>shape</em><em> (</em><em>N</em><em>, </em><em>N</em><em>)</em>) – </p></li>
-<li><p><strong>K</strong> (<em>the maximum order of chebyshev polynomials</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>cheb_polynomials</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)">list</a>(np.ndarray), length: K, from T_0 to T_{K-1}</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.ASTGCN.make_model">
-<code class="sig-prename descclassname">UCTB.model.ASTGCN.</code><code class="sig-name descname">make_model</code><span class="sig-paren">(</span><em class="sig-param">DEVICE</em>, <em class="sig-param">nb_block</em>, <em class="sig-param">in_channels</em>, <em class="sig-param">K</em>, <em class="sig-param">nb_chev_filter</em>, <em class="sig-param">nb_time_filter</em>, <em class="sig-param">time_strides</em>, <em class="sig-param">L_tilde</em>, <em class="sig-param">num_for_predict</em>, <em class="sig-param">len_input</em>, <em class="sig-param">num_of_vertices</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.ASTGCN.make_model" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>DEVICE</strong> – </p></li>
-<li><p><strong>nb_block</strong> – </p></li>
-<li><p><strong>in_channels</strong> – </p></li>
-<li><p><strong>K</strong> – </p></li>
-<li><p><strong>nb_chev_filter</strong> – </p></li>
-<li><p><strong>nb_time_filter</strong> – </p></li>
-<li><p><strong>time_strides</strong> – </p></li>
-<li><p><strong>cheb_polynomials</strong> – </p></li>
-<li><p><strong>nb_predict_step</strong> – </p></li>
-</ul>
-</dd>
-</dl>
-<p>:param len_input
-:return:</p>
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.GMAN">
-<span id="uctb-model-gman-module"></span><h2><span class="section-number">5.4.12. </span>UCTB.model.GMAN module<a class="headerlink" href="#module-UCTB.model.GMAN" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.model.GMAN.GMAN">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">GMAN</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">TE</em>, <em class="sig-param">SE</em>, <em class="sig-param">P</em>, <em class="sig-param">Q</em>, <em class="sig-param">T</em>, <em class="sig-param">L</em>, <em class="sig-param">K</em>, <em class="sig-param">d</em>, <em class="sig-param">bn</em>, <em class="sig-param">bn_decay</em>, <em class="sig-param">is_training</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.GMAN" title="Permalink to this definition">¶</a></dt>
-<dd><blockquote>
-<div><p>References:
-- <a href="#system-message-1"><span class="problematic" id="problematic-1">`</span></a>Gman: A graph multi-attention network for traffic prediction.</p>
-<blockquote>
-<div><p>&lt;<a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/5477">https://ojs.aaai.org/index.php/AAAI/article/view/5477</a>&gt;`_.</p>
-</div></blockquote>
-<ul class="simple">
-<li><p><a class="reference external" href="https://github.com/zhengchuanpan/GMAN">A Tensorflow implementation of the GMAN model  (Zhengchuanpan)</a>.</p></li>
-</ul>
-</div></blockquote>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>P</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of history steps.</p></li>
-<li><p><strong>Q</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of prediction steps.</p></li>
-<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of steps which one day is divided into.</p></li>
-<li><p><strong>L</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of STAtt blocks in the encoder/decoder.</p></li>
-<li><p><strong>K</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of attention heads.</p></li>
-<li><p><strong>d</strong> – Number of dimension of each attention head outputs.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.STEmbedding">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">STEmbedding</code><span class="sig-paren">(</span><em class="sig-param">SE</em>, <em class="sig-param">TE</em>, <em class="sig-param">T</em>, <em class="sig-param">D</em>, <em class="sig-param">bn</em>, <em class="sig-param">bn_decay</em>, <em class="sig-param">is_training</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.STEmbedding" title="Permalink to this definition">¶</a></dt>
-<dd><p>spatio-temporal embedding
-SE:      [N, D]
-TE:      [batch_size, P + Q, 2] (dayofweek, timeofday)
-T:        num of time steps in one day
-D:        output dims
-retrun: [batch_size, P + Q, N, D]</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.alias_draw">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">alias_draw</code><span class="sig-paren">(</span><em class="sig-param">J</em>, <em class="sig-param">q</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.alias_draw" title="Permalink to this definition">¶</a></dt>
-<dd><p>Draw sample from a non-uniform discrete distribution using alias sampling.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.alias_setup">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">alias_setup</code><span class="sig-paren">(</span><em class="sig-param">probs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.alias_setup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Compute utility lists for non-uniform sampling from discrete distributions.
-Refer to <a class="reference external" href="https://hips.seas.harvard.edu/blog/2013/03/03/the-alias-method-efficient-sampling-with-many-discrete-outcomes/">https://hips.seas.harvard.edu/blog/2013/03/03/the-alias-method-efficient-sampling-with-many-discrete-outcomes/</a>
-for details</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.gatedFusion">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">gatedFusion</code><span class="sig-paren">(</span><em class="sig-param">HS</em>, <em class="sig-param">HT</em>, <em class="sig-param">D</em>, <em class="sig-param">bn</em>, <em class="sig-param">bn_decay</em>, <em class="sig-param">is_training</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.gatedFusion" title="Permalink to this definition">¶</a></dt>
-<dd><p>gated fusion
-HS:      [batch_size, num_step, N, D]
-HT:      [batch_size, num_step, N, D]
-D:        output dims
-return: [batch_size, num_step, N, D]</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.spatialAttention">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">spatialAttention</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">STE</em>, <em class="sig-param">K</em>, <em class="sig-param">d</em>, <em class="sig-param">bn</em>, <em class="sig-param">bn_decay</em>, <em class="sig-param">is_training</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.spatialAttention" title="Permalink to this definition">¶</a></dt>
-<dd><p>spatial attention mechanism
-X:        [batch_size, num_step, N, D]
-STE:    [batch_size, num_step, N, D]
-K:        number of attention heads
-d:        dimension of each attention outputs
-return: [batch_size, num_step, N, D]</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.temporalAttention">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">temporalAttention</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">STE</em>, <em class="sig-param">K</em>, <em class="sig-param">d</em>, <em class="sig-param">bn</em>, <em class="sig-param">bn_decay</em>, <em class="sig-param">is_training</em>, <em class="sig-param">mask=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.temporalAttention" title="Permalink to this definition">¶</a></dt>
-<dd><p>temporal attention mechanism
-X:        [batch_size, num_step, N, D]
-STE:    [batch_size, num_step, N, D]
-K:        number of attention heads
-d:        dimension of each attention outputs
-return: [batch_size, num_step, N, D]</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.GMAN.transformAttention">
-<code class="sig-prename descclassname">UCTB.model.GMAN.</code><code class="sig-name descname">transformAttention</code><span class="sig-paren">(</span><em class="sig-param">X</em>, <em class="sig-param">STE_P</em>, <em class="sig-param">STE_Q</em>, <em class="sig-param">K</em>, <em class="sig-param">d</em>, <em class="sig-param">bn</em>, <em class="sig-param">bn_decay</em>, <em class="sig-param">is_training</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GMAN.transformAttention" title="Permalink to this definition">¶</a></dt>
-<dd><p>transform attention mechanism
-X:        [batch_size, P, N, D]
-STE_P:  [batch_size, P, N, D]
-STE_Q:  [batch_size, Q, N, D]
-K:        number of attention heads
-d:        dimension of each attention outputs
-return: [batch_size, Q, N, D]</p>
-</dd></dl>
-
-</section>
-<section id="uctb-model-graphwavenet-module">
+</div>
+<div class="section" id="uctb-model-agcrn-module">
+<h2><span class="section-number">5.4.10. </span>UCTB.model.AGCRN module<a class="headerlink" href="#uctb-model-agcrn-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-astgcn-module">
+<h2><span class="section-number">5.4.11. </span>UCTB.model.ASTGCN module<a class="headerlink" href="#uctb-model-astgcn-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-gman-module">
+<h2><span class="section-number">5.4.12. </span>UCTB.model.GMAN module<a class="headerlink" href="#uctb-model-gman-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-graphwavenet-module">
 <h2><span class="section-number">5.4.13. </span>UCTB.model.GraphWaveNet module<a class="headerlink" href="#uctb-model-graphwavenet-module" title="Permalink to this headline">¶</a></h2>
-<span class="target" id="module-UCTB.model.GraphWaveNet"></span><dl class="class">
-<dt id="UCTB.model.GraphWaveNet.gcn">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GraphWaveNet.</code><code class="sig-name descname">gcn</code><span class="sig-paren">(</span><em class="sig-param">c_in</em>, <em class="sig-param">c_out</em>, <em class="sig-param">dropout</em>, <em class="sig-param">support_len=3</em>, <em class="sig-param">order=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.gcn" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.GraphWaveNet.gcn.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">support</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.gcn.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.GraphWaveNet.gwnet">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GraphWaveNet.</code><code class="sig-name descname">gwnet</code><span class="sig-paren">(</span><em class="sig-param">device</em>, <em class="sig-param">num_nodes</em>, <em class="sig-param">dropout=0.3</em>, <em class="sig-param">supports=None</em>, <em class="sig-param">gcn_bool=True</em>, <em class="sig-param">addaptadj=True</em>, <em class="sig-param">aptinit=None</em>, <em class="sig-param">in_dim=2</em>, <em class="sig-param">out_dim=12</em>, <em class="sig-param">residual_channels=32</em>, <em class="sig-param">dilation_channels=32</em>, <em class="sig-param">skip_channels=256</em>, <em class="sig-param">end_channels=512</em>, <em class="sig-param">kernel_size=2</em>, <em class="sig-param">blocks=4</em>, <em class="sig-param">layers=2</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.gwnet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2019/0264.pdf">Graph wavenet for deep spatial-temporal graph modeling.</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/nnzhan/Graph-WaveNet">A PyTorch implementation of the GraphWaveNet model  (nnzhan)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>device</strong> (<em>torch.device</em>) – Which device use to train.</p></li>
-<li><p><strong>num_nodes</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of blocks.</p></li>
-<li><p><strong>drop_out</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of input channels.</p></li>
-<li><p><strong>supports</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Order of chebyshev polynomial.</p></li>
-<li><p><strong>gcn_bool</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of chebyshev filter.</p></li>
-<li><p><strong>addaptadj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to add adaptive adjacent matrix.</p></li>
-<li><p><strong>aptinit</strong> (<em>torch.tensor</em>) – Initialization of adjacent matrix.</p></li>
-<li><p><strong>in_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of input’s dimension.</p></li>
-<li><p><strong>out_dim</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of output’s dimension.</p></li>
-<li><p><strong>residual_channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of channels after residual module.</p></li>
-<li><p><strong>dilation_channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of channels after dilation module.</p></li>
-<li><p><strong>skip_channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of skip channels.</p></li>
-<li><p><strong>end_channels</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of end channels.</p></li>
-<li><p><strong>kernel_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Kernel Size for dilation convolution.</p></li>
-<li><p><strong>blocks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of block.</p></li>
-<li><p><strong>layers</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of layer.</p></li>
-</ul>
-</dd>
-</dl>
-<dl class="method">
-<dt id="UCTB.model.GraphWaveNet.gwnet.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">input</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.gwnet.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.GraphWaveNet.linear">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GraphWaveNet.</code><code class="sig-name descname">linear</code><span class="sig-paren">(</span><em class="sig-param">c_in</em>, <em class="sig-param">c_out</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.linear" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.GraphWaveNet.linear.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.linear.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model.GraphWaveNet.nconv">
-<em class="property">class </em><code class="sig-prename descclassname">UCTB.model.GraphWaveNet.</code><code class="sig-name descname">nconv</code><a class="headerlink" href="#UCTB.model.GraphWaveNet.nconv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">torch.nn.modules.module.Module</span></code></p>
-<dl class="method">
-<dt id="UCTB.model.GraphWaveNet.nconv.forward">
-<code class="sig-name descname">forward</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">A</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.GraphWaveNet.nconv.forward" title="Permalink to this definition">¶</a></dt>
-<dd><p>Defines the computation performed at every call.</p>
-<p>Should be overridden by all subclasses.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Although the recipe for forward pass needs to be defined within
-this function, one should call the <code class="xref py py-class docutils literal notranslate"><span class="pre">Module</span></code> instance afterwards
-instead of this since the former takes care of running the
-registered hooks while the latter silently ignores them.</p>
-</aside>
-</dd></dl>
-
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.STGCN">
-<span id="uctb-model-stgcn-module"></span><h2><span class="section-number">5.4.14. </span>UCTB.model.STGCN module<a class="headerlink" href="#module-UCTB.model.STGCN" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.model.STGCN.build_model">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">build_model</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">n_his</em>, <em class="sig-param">Ks</em>, <em class="sig-param">Kt</em>, <em class="sig-param">blocks</em>, <em class="sig-param">keep_prob</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.build_model" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://www.ijcai.org/proceedings/2018/0505.pdf">Spatio-temporal graph convolutional networks: A deep learning framework for traffic forecasting.</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/VeritasYin/STGCN_IJCAI-18">A Tensorflow implementation of the STGCN model  (VeritasYin)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>inputs</strong> – Placeholder.</p></li>
-<li><p><strong>n_his</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Size of historical records for training.</p></li>
-<li><p><strong>Ks</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Kernel size of spatial convolution.</p></li>
-<li><p><strong>Kt</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Kernel size of temporal convolution.</p></li>
-<li><p><strong>blocks</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Channel configs of st_conv blocks.</p></li>
-<li><p><strong>keep_prob</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Placeholder.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.cheb_poly_approx">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">cheb_poly_approx</code><span class="sig-paren">(</span><em class="sig-param">L</em>, <em class="sig-param">Ks</em>, <em class="sig-param">n</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.cheb_poly_approx" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chebyshev polynomials approximation function.
-:param L: np.matrix, [n_route, n_route], graph Laplacian.
-:param Ks: int, kernel size of spatial convolution.
-:param n: int, number of routes / size of graph.
-:return: np.ndarray, [n_route, Ks*n_route].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.fully_con_layer">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">fully_con_layer</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">n</em>, <em class="sig-param">channel</em>, <em class="sig-param">scope</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.fully_con_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fully connected layer: maps multi-channels to one.
-:param x: tensor, [batch_size, 1, n_route, channel].
-:param n: int, number of route / size of graph.
-:param channel: channel size of input x.
-:param scope: str, variable scope.
-:return: tensor, [batch_size, 1, n_route, 1].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.gconv">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">gconv</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">theta</em>, <em class="sig-param">Ks</em>, <em class="sig-param">c_in</em>, <em class="sig-param">c_out</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.gconv" title="Permalink to this definition">¶</a></dt>
-<dd><p>Spectral-based graph convolution function.
-:param x: tensor, [batch_size, n_route, c_in].
-:param theta: tensor, [Ks*c_in, c_out], trainable kernel parameters.
-:param Ks: int, kernel size of graph convolution.
-:param c_in: int, size of input channel.
-:param c_out: int, size of output channel.
-:return: tensor, [batch_size, n_route, c_out].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.gen_batch">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">gen_batch</code><span class="sig-paren">(</span><em class="sig-param">inputs</em>, <em class="sig-param">batch_size</em>, <em class="sig-param">dynamic_batch=False</em>, <em class="sig-param">shuffle=False</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.gen_batch" title="Permalink to this definition">¶</a></dt>
-<dd><p>Data iterator in batch.
-:param inputs: np.ndarray, [len_seq, n_frame, n_route, C_0], standard sequence units.
-:param batch_size: int, the size of batch.
-:param dynamic_batch: bool, whether changes the batch size in the last batch if its length is less than the default.
-:param shuffle: bool, whether shuffle the batches.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.layer_norm">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">layer_norm</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">scope</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.layer_norm" title="Permalink to this definition">¶</a></dt>
-<dd><p>Layer normalization function.
-:param x: tensor, [batch_size, time_step, n_route, channel].
-:param scope: str, variable scope.
-:return: tensor, [batch_size, time_step, n_route, channel].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.output_layer">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">output_layer</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">T</em>, <em class="sig-param">scope</em>, <em class="sig-param">act_func='GLU'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.output_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Output layer: temporal convolution layers attach with one fully connected layer,
-which map outputs of the last st_conv block to a single-step prediction.
-:param x: tensor, [batch_size, time_step, n_route, channel].
-:param T: int, kernel size of temporal convolution.
-:param scope: str, variable scope.
-:param act_func: str, activation function.
-:return: tensor, [batch_size, 1, n_route, 1].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.spatio_conv_layer">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">spatio_conv_layer</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">Ks</em>, <em class="sig-param">c_in</em>, <em class="sig-param">c_out</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.spatio_conv_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Spatial graph convolution layer.
-:param x: tensor, [batch_size, time_step, n_route, c_in].
-:param Ks: int, kernel size of spatial convolution.
-:param c_in: int, size of input channel.
-:param c_out: int, size of output channel.
-:return: tensor, [batch_size, time_step, n_route, c_out].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.st_conv_block">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">st_conv_block</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">Ks</em>, <em class="sig-param">Kt</em>, <em class="sig-param">channels</em>, <em class="sig-param">scope</em>, <em class="sig-param">keep_prob</em>, <em class="sig-param">act_func='GLU'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.st_conv_block" title="Permalink to this definition">¶</a></dt>
-<dd><p>Spatio-temporal convolutional block, which contains two temporal gated convolution layers
-and one spatial graph convolution layer in the middle.
-:param x: tensor, batch_size, time_step, n_route, c_in].
-:param Ks: int, kernel size of spatial convolution.
-:param Kt: int, kernel size of temporal convolution.
-:param channels: list, channel configs of a single st_conv block.
-:param scope: str, variable scope.
-:param keep_prob: placeholder, prob of dropout.
-:param act_func: str, activation function.
-:return: tensor, [batch_size, time_step, n_route, c_out].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.temporal_conv_layer">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">temporal_conv_layer</code><span class="sig-paren">(</span><em class="sig-param">x</em>, <em class="sig-param">Kt</em>, <em class="sig-param">c_in</em>, <em class="sig-param">c_out</em>, <em class="sig-param">act_func='relu'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.temporal_conv_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Temporal convolution layer.
-:param x: tensor, [batch_size, time_step, n_route, c_in].
-:param Kt: int, kernel size of temporal convolution.
-:param c_in: int, size of input channel.
-:param c_out: int, size of output channel.
-:param act_func: str, activation function.
-:return: tensor, [batch_size, time_step-Kt+1, n_route, c_out].</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STGCN.variable_summaries">
-<code class="sig-prename descclassname">UCTB.model.STGCN.</code><code class="sig-name descname">variable_summaries</code><span class="sig-paren">(</span><em class="sig-param">var</em>, <em class="sig-param">v_name</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STGCN.variable_summaries" title="Permalink to this definition">¶</a></dt>
-<dd><p>Attach summaries to a Tensor (for TensorBoard visualization).
-Ref: <a class="reference external" href="https://zhuanlan.zhihu.com/p/33178205">https://zhuanlan.zhihu.com/p/33178205</a>
-:param var: tf.Variable().
-:param v_name: str, name of the variable.</p>
-</dd></dl>
-
-</section>
-<section id="module-UCTB.model.STSGCN">
-<span id="uctb-model-stsgcn-module"></span><h2><span class="section-number">5.4.15. </span>UCTB.model.STSGCN module<a class="headerlink" href="#module-UCTB.model.STSGCN" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.model.STSGCN.construct_adj">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">construct_adj</code><span class="sig-paren">(</span><em class="sig-param">A</em>, <em class="sig-param">steps</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.construct_adj" title="Permalink to this definition">¶</a></dt>
-<dd><p>construct a bigger adjacency matrix using the given matrix</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>A</strong> (<em>np.ndarray</em><em>, </em><em>adjacency matrix</em><em>, </em><em>shape is</em><em> (</em><em>N</em><em>, </em><em>N</em><em>)</em>) – </p></li>
-<li><p><strong>steps</strong> (<em>how many times of the does the new adj mx bigger than A</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>new adjacency matrix</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>csr_matrix, shape is (N * steps, N * steps)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.gcn_operation">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">gcn_operation</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">adj</em>, <em class="sig-param">num_of_filter</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">activation</em>, <em class="sig-param">prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.gcn_operation" title="Permalink to this definition">¶</a></dt>
-<dd><p>graph convolutional operation, a simple GCN we defined in paper</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>B</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>adj</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>3N</em><em>)</em>) – </p></li>
-<li><p><strong>num_of_filter</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C'</em>) – </p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{'GLU'</em><em>, </em><em>'relu'}</em>) – </p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (3N, B, C’)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.get_adjacency_matrix">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">get_adjacency_matrix</code><span class="sig-paren">(</span><em class="sig-param">distance_df_filename</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">type_='connectivity'</em>, <em class="sig-param">id_filename=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.get_adjacency_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>distance_df_filename</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>path of the csv file contains edges information</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>the number of vertices</em>) – </p></li>
-<li><p><strong>type_</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{connectivity</em><em>, </em><em>distance}</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>A</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>np.ndarray, adjacency matrix</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.output_layer">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">output_layer</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">input_length</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">num_of_filters=128</em>, <em class="sig-param">predict_length=12</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.output_layer" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>B</em><em>, </em><em>T</em><em>, </em><em>N</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>input_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>length of time series</em><em>, </em><em>T</em>) – </p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>num_of_filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C'</em>) – </p></li>
-<li><p><strong>predict_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>length of predicted time series</em><em>, </em><em>T'</em>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (B, T’, N)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.position_embedding">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">position_embedding</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">input_length</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">embedding_size</em>, <em class="sig-param">temporal=True</em>, <em class="sig-param">spatial=True</em>, <em class="sig-param">init=&lt;mxnet.initializer.Xavier object&gt;</em>, <em class="sig-param">prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.position_embedding" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>B</em><em>, </em><em>T</em><em>, </em><em>N</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>input_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>length of time series</em><em>, </em><em>T</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>embedding_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>spatial</strong> (<em>temporal</em><em>,</em>) – </p></li>
-<li><p><strong>init</strong> (<em>mx.initializer.Initializer</em>) – </p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>data</strong></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (B, T, N, C)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.sthgcn_layer_individual">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">sthgcn_layer_individual</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">adj</em>, <em class="sig-param">T</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">filters</em>, <em class="sig-param">activation</em>, <em class="sig-param">temporal_emb=True</em>, <em class="sig-param">spatial_emb=True</em>, <em class="sig-param">prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.sthgcn_layer_individual" title="Permalink to this definition">¶</a></dt>
-<dd><p>STSGCL, multiple individual STSGCMs</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>B</em><em>, </em><em>T</em><em>, </em><em>N</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>adj</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>3N</em><em>)</em>) – </p></li>
-<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>length of time series</em><em>, </em><em>T</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>list of C'</em>) – </p></li>
-<li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{'GLU'</em><em>, </em><em>'relu'}</em>) – </p></li>
-<li><p><strong>spatial_emb</strong> (<em>temporal_emb</em><em>,</em>) – </p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (B, T-2, N, C’)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.sthgcn_layer_sharing">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">sthgcn_layer_sharing</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">adj</em>, <em class="sig-param">T</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">filters</em>, <em class="sig-param">activation</em>, <em class="sig-param">temporal_emb=True</em>, <em class="sig-param">spatial_emb=True</em>, <em class="sig-param">prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.sthgcn_layer_sharing" title="Permalink to this definition">¶</a></dt>
-<dd><p>STSGCL, multiple a sharing STSGCM</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>B</em><em>, </em><em>T</em><em>, </em><em>N</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>adj</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>3N</em><em>)</em>) – </p></li>
-<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>length of time series</em><em>, </em><em>T</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>list of C'</em>) – </p></li>
-<li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{'GLU'</em><em>, </em><em>'relu'}</em>) – </p></li>
-<li><p><strong>spatial_emb</strong> (<em>temporal_emb</em><em>,</em>) – </p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (B, T-2, N, C’)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.stsgcl">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">stsgcl</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">adj</em>, <em class="sig-param">T</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">filters</em>, <em class="sig-param">module_type</em>, <em class="sig-param">activation</em>, <em class="sig-param">temporal_emb=True</em>, <em class="sig-param">spatial_emb=True</em>, <em class="sig-param">prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.stsgcl" title="Permalink to this definition">¶</a></dt>
-<dd><p>STSGCL</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>B</em><em>, </em><em>T</em><em>, </em><em>N</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>adj</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>3N</em><em>)</em>) – </p></li>
-<li><p><strong>T</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>length of time series</em><em>, </em><em>T</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>list of C'</em>) – </p></li>
-<li><p><strong>module_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{'sharing'</em><em>, </em><em>'individual'}</em>) – </p></li>
-<li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{'GLU'</em><em>, </em><em>'relu'}</em>) – </p></li>
-<li><p><strong>spatial_emb</strong> (<em>temporal_emb</em><em>,</em>) – </p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (B, T-2, N, C’)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.stsgcm">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">stsgcm</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">adj</em>, <em class="sig-param">filters</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">activation</em>, <em class="sig-param">prefix=''</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.stsgcm" title="Permalink to this definition">¶</a></dt>
-<dd><p>STSGCM, multiple stacked gcn layers with cropping and max operation</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>B</em><em>, </em><em>C</em><em>)</em>) – </p></li>
-<li><p><strong>adj</strong> (<em>mx.sym.var</em><em>, </em><em>shape is</em><em> (</em><em>3N</em><em>, </em><em>3N</em><em>)</em>) – </p></li>
-<li><p><strong>filters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a><em>[</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>]</em><em>, </em><em>list of C'</em>) – </p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>C</em>) – </p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a><em>, </em><em>N</em>) – </p></li>
-<li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a><em>, </em><em>{'GLU'</em><em>, </em><em>'relu'}</em>) – </p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – </p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p></p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>output shape is (N, B, C’)</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.model.STSGCN.stsgcn">
-<code class="sig-prename descclassname">UCTB.model.STSGCN.</code><code class="sig-name descname">stsgcn</code><span class="sig-paren">(</span><em class="sig-param">data</em>, <em class="sig-param">adj</em>, <em class="sig-param">label</em>, <em class="sig-param">input_length</em>, <em class="sig-param">num_of_vertices</em>, <em class="sig-param">num_of_features</em>, <em class="sig-param">filter_list</em>, <em class="sig-param">module_type</em>, <em class="sig-param">activation</em>, <em class="sig-param">use_mask=True</em>, <em class="sig-param">mask_init_value=None</em>, <em class="sig-param">temporal_emb=True</em>, <em class="sig-param">spatial_emb=True</em>, <em class="sig-param">prefix=''</em>, <em class="sig-param">rho=1</em>, <em class="sig-param">predict_length=12</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.STSGCN.stsgcn" title="Permalink to this definition">¶</a></dt>
-<dd><p class="rubric">References</p>
-<ul class="simple">
-<li><p><a class="reference external" href="https://ojs.aaai.org/index.php/AAAI/article/view/5438">Spatial-temporal synchronous graph convolutional networks: A new framework for spatial-temporal network data forecasting.</a>.</p></li>
-<li><p><a class="reference external" href="https://github.com/Davidham3/STSGCN">A Mxnet implementation of the stsgcn model  (Davidham3)</a>.</p></li>
-</ul>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>mxnet.sym</em>) – Input data.</p></li>
-<li><p><strong>adj</strong> (<em>mxnet.sym</em>) – Adjacent matrix.</p></li>
-<li><p><strong>label</strong> (<em>mxnet.sym</em>) – Prediction label.</p></li>
-<li><p><strong>input_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Length of input data.</p></li>
-<li><p><strong>num_of_vertices</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of vertices in the graph.</p></li>
-<li><p><strong>num_of_features</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of features of each vertice.</p></li>
-<li><p><strong>filter_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – Filters.</p></li>
-<li><p><strong>module_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Whether sharing weights.</p></li>
-<li><p><strong>activation</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – Choose which activate function.</p></li>
-<li><p><strong>use_mask</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether we use mask.</p></li>
-<li><p><strong>mask_init_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Initial value of mask.</p></li>
-<li><p><strong>temporal_emb</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to use temporal embedding.</p></li>
-<li><p><strong>spatial_emb</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – Whether to use spatial embedding.</p></li>
-<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – String prefix of mask.</p></li>
-<li><p><strong>rho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – Hyperparameters used to calculate huber loss.</p></li>
-<li><p><strong>predict_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Length of prediction.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-</section>
+</div>
+<div class="section" id="uctb-model-stgcn-module">
+<h2><span class="section-number">5.4.14. </span>UCTB.model.STGCN module<a class="headerlink" href="#uctb-model-stgcn-module" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="uctb-model-stsgcn-module">
+<h2><span class="section-number">5.4.15. </span>UCTB.model.STSGCN module<a class="headerlink" href="#uctb-model-stsgcn-module" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
 
 
            </div>

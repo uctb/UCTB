@@ -160,7 +160,7 @@ class STMeta(BaseModel):
                         if self._st_method == 'GCLSTM':
 
                             multi_layer_cell = tf.keras.layers.StackedRNNCells(
-                                [GCLSTMCell(units=self._num_hidden_unit, num_nodes=self._num_node,
+                                [GCLSTMCell(units=self._num_hidden_unit, num_node=self._num_node,
                                             laplacian_matrix=laplace_matrix[graph_index],
                                             gcn_k=self._gcn_k, gcn_l=self._gcn_layer)
                                  for _ in range(self._gclstm_layers)])
@@ -175,7 +175,7 @@ class STMeta(BaseModel):
                             encoding_cells = [DCGRUCell(self._num_hidden_unit, self._input_dim, self._num_graph,
                                              laplace_matrix,
                                              max_diffusion_step=self._gcn_k,
-                                             num_nodes=self._num_node, name=str(graph_index) + given_name) for _ in range(self._gclstm_layers)]
+                                             num_node=self._num_node, name=str(graph_index) + given_name) for _ in range(self._gclstm_layers)]
 
                             encoding_cells = tf.contrib.rnn.MultiRNNCell(encoding_cells, state_is_tuple=True)
 

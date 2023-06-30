@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Experiments on subway traffic-flow prediction &mdash; UCTB  documentation</title>
@@ -81,15 +82,12 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#urban-datasts">2. Urban Datasts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#prediction-models">3. Prediction Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../introduction.html#visualization-tool">4. Visualization Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../installation.html">5. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">6. Quick start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">7. Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../APIReference.html">8. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../all_results.html">9. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../uctb_group.html">10. About us (UCTB Group)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">3. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">4. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../APIReference.html">5. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all_results.html">6. Results on different datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -148,7 +146,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="experiments-on-subway-traffic-flow-prediction">
+  <section id="experiments-on-subway-traffic-flow-prediction">
 <h1>Experiments on subway traffic-flow prediction<a class="headerlink" href="#experiments-on-subway-traffic-flow-prediction" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><p>Experiment Setting</p>
@@ -189,103 +187,103 @@
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;"></th>
-<th style="text-align: center;">Chongqing</th>
-<th style="text-align: center;">Shanghai</th>
+<th align="center"></th>
+<th align="center">Chongqing</th>
+<th align="center">Shanghai</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;">786.01197</td>
-<td style="text-align: center;">1247.56662</td>
+<td align="center">HM</td>
+<td align="center">786.01197</td>
+<td align="center">1247.56662</td>
 </tr>
 <tr>
-<td style="text-align: center;">ARIMA</td>
-<td style="text-align: center;">660.28378</td>
-<td style="text-align: center;">967.16123</td>
+<td align="center">ARIMA</td>
+<td align="center">660.28378</td>
+<td align="center">967.16123</td>
 </tr>
 <tr>
-<td style="text-align: center;">HMM</td>
-<td style="text-align: center;">660.28378</td>
-<td style="text-align: center;">614.19177</td>
+<td align="center">HMM</td>
+<td align="center">660.28378</td>
+<td align="center">614.19177</td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;">289.70050</td>
-<td style="text-align: center;">416.58629</td>
+<td align="center">XGBoost</td>
+<td align="center">289.70050</td>
+<td align="center">416.58629</td>
 </tr>
 <tr>
-<td style="text-align: center;">LSTM</td>
-<td style="text-align: center;">239.97653</td>
-<td style="text-align: center;">408.09871</td>
+<td align="center">LSTM</td>
+<td align="center">239.97653</td>
+<td align="center">408.09871</td>
 </tr>
 <tr>
-<td style="text-align: center;">STMeta</td>
-<td style="text-align: center;">138.81463</td>
-<td style="text-align: center;">251.38817</td>
+<td align="center">STMeta</td>
+<td align="center">138.81463</td>
+<td align="center">251.38817</td>
 </tr>
 </tbody>
-</table><div class="section" id="adding-period-and-closeness-feature-into-mode">
+</table><section id="adding-period-and-closeness-feature-into-mode">
 <h2>Adding period and closeness feature into mode<a class="headerlink" href="#adding-period-and-closeness-feature-into-mode" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;"></th>
-<th style="text-align: center;">Chongqing</th>
-<th style="text-align: center;">Shanghai</th>
+<th align="center"></th>
+<th align="center">Chongqing</th>
+<th align="center">Shanghai</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;">227.0985</td>
-<td style="text-align: center;"></td>
+<td align="center">HM</td>
+<td align="center">227.0985</td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">ARIMA</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td align="center">ARIMA</td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;">134.9760</td>
-<td style="text-align: center;"></td>
+<td align="center">XGBoost</td>
+<td align="center">134.9760</td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;">120.3337</td>
-<td style="text-align: center;"></td>
+<td align="center">GBRT</td>
+<td align="center">120.3337</td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">LSTM</td>
-<td style="text-align: center;">124.6012</td>
-<td style="text-align: center;"></td>
+<td align="center">LSTM</td>
+<td align="center">124.6012</td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">DG-GCLSTM</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td align="center">DG-GCLSTM</td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">IG-GCLSTM</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td align="center">IG-GCLSTM</td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">CG-GCLSTM</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td align="center">CG-GCLSTM</td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 <tr>
-<td style="text-align: center;">STMeta</td>
-<td style="text-align: center;"></td>
-<td style="text-align: center;"></td>
+<td align="center">STMeta</td>
+<td align="center"></td>
+<td align="center"></td>
 </tr>
 </tbody>
 </table><p><u><a class="reference external" href="../../index.html">Back To HomePage</a></u></p>
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

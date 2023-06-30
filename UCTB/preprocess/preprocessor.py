@@ -3,8 +3,9 @@ from abc import ABC, abstractmethod
 
 
 class Normalizer(ABC):
-    """Normalizer is the base abstract class for many normalizers such as MaxMinNormalizer and Zscore Normalizer,
-        you can also build your own normalizer by inheriting this class.
+    """
+    Normalizer is the base abstract class for many normalizers such as MaxMinNormalizer and ZscoreNormalizer.You can also build your own normalizer by inheriting this class.
+
     Args:
         X: Data which normalizer extracts characteristics from.
     """
@@ -21,10 +22,12 @@ class Normalizer(ABC):
 
 
 class MaxMinNormalizer(Normalizer):
-    '''This class can help normalize and denormalize data using maximum and minimum in data by calling transform and inverse_transform method.
+    '''
+    This class can help normalize and denormalize data using maximum and minimum of data by calling transform and inverse_transform method.
+
     Args:
-        X: Data which normalizer extracts characteristics from.
-        method: Parameter to choose in which way the input data will be processed.
+        X(ndarray): Data which normalizer extracts characteristics from.
+        method(str): Parameter to choose in which way the input data will be processed.
     '''
     def __init__(self, X,method='all'):
         self.method = method
@@ -34,7 +37,11 @@ class MaxMinNormalizer(Normalizer):
         self._max_by_column = np.max(X,axis=0)
 
     def transform(self, X):
-        '''Process input data to obtain normalized data.
+        '''
+        Process input data to obtain normalized data.
+
+        Args:
+            X(ndarray): input data. 
         :return: normalized data.
         :type: numpy.ndarray.
         '''
@@ -44,7 +51,11 @@ class MaxMinNormalizer(Normalizer):
             return (X - self._min_by_column) / (self._max_by_column - self._min_by_column)
 
     def inverse_transform(self, X):
-        '''Restore normalized data.
+        '''
+        Restore normalized data.
+
+        Args:
+            X(ndarray): normalized data. 
         :return: denormalized data.
         :type: numpy.ndarray.
         '''
@@ -53,34 +64,43 @@ class MaxMinNormalizer(Normalizer):
         elif self.method=='column':
             return X * (self._max_by_column - self._min_by_column) + self._min_by_column
 
-    # def white_normal(self):
-    #     pass
 
 class WhiteNormalizer(Normalizer):
-    '''This class's normalization won't do anything.
+    '''
+    This class's normalization won't do anything.
     '''
     def __init__(self, X,method='all'):
         pass
 
     def transform(self, X):
-        '''Process input data to obtain normalized data.
+        '''
+        Process input data to obtain normalized data.
+
+        Args:
+            X(ndarray): input data. 
         :return: normalized data.
         :type: numpy.ndarray.
         '''
         return X
 
     def inverse_transform(self, X):
-        '''Restore normalized data.
+        '''
+        Restore normalized data.
+
+        Args:
+            X(ndarray): normalized data. 
         :return: denormalized data.
         :type: numpy.ndarray.
         '''
         return X
 
 class ZscoreNormalizer(Normalizer):
-    '''This class can help normalize and denormalize data using mean and standard deviation in data by calling transform and inverse_transform method.
+    '''
+    This class can help normalize and denormalize data using mean and standard deviation in data by calling transform and inverse_transform method.
+
     Args:
-        X: Data which normalizer extracts characteristics from.
-        method: Parameter to choose in which way the input data will be processed.
+        X(ndarray): Data which normalizer extracts characteristics from.
+        method(str): Parameter to choose in which way the input data will be processed.
     '''
     def __init__(self, X,method='all'):
         self.method = method
@@ -90,7 +110,11 @@ class ZscoreNormalizer(Normalizer):
         self._std_by_column = np.std(X,axis=0)
 
     def transform(self, X):
-        '''Process input data to obtain normalized data.
+        '''
+        Process input data to obtain normalized data.
+
+        Args:
+            X(ndarray): input data. 
         :return: normalized data.
         :type: numpy.ndarray.
         '''
@@ -100,7 +124,11 @@ class ZscoreNormalizer(Normalizer):
             return (X - self._mean_by_column) / self._std_by_column
 
     def inverse_transform(self, X):
-        '''Restore normalized data.
+        '''
+        Restore normalized data.
+
+        Args:
+            X(ndarray): normalized data. 
         :return: denormalized data.
         :type: numpy.ndarray.
         '''
@@ -251,12 +279,13 @@ class SplitData(object):
 
 def chooseNormalizer(in_arg,X_train):
     '''
-        Choose a proper normalizer consistent with user's input.
-        Args:
-            in_arg(str|bool|object):Function is based on it to choose different normalizer.
-            X_train(numpy.ndarray):Function is based on it to initialize the normalizer.
-        :return: The normalizer consistent with definition.
-        :type: object.
+    Choose a proper normalizer consistent with user's input.
+
+    Args:
+        in_arg(str|bool|object):Function is based on it to choose different normalizer.
+        X_train(numpy.ndarray):Function is based on it to initialize the normalizer.
+    :return: The normalizer consistent with definition.
+    :type: object.
     '''
     if type(in_arg) == str:
         if '-' in in_arg:

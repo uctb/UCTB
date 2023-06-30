@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Urban Computing ToolBox &mdash; UCTB  documentation</title>
@@ -81,15 +82,12 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html#urban-datasts">2. Urban Datasts</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html#prediction-models">3. Prediction Models</a></li>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html#visualization-tool">4. Visualization Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">5. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">6. Quick start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">7. Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">8. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="all_results.html">9. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">10. About us (UCTB Group)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. Quick start</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">4. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all_results.html">6. Results on different datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">7. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -148,9 +146,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="urban-computing-toolbox">
+  <section id="urban-computing-toolbox">
 <h1><a class="reference external" href="https://github.com/Di-Chai/UCTB">Urban Computing ToolBox</a><a class="headerlink" href="#urban-computing-toolbox" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="introduction">
+<section id="introduction">
 <h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
 <p><strong>Urban Computing Tool Box</strong> is a package providing <strong>spatial-temporal prediction models</strong> for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. It contains both conventional models and state-of-art models.</p>
 <p>Currently the package supported the following models: (This tool box is constructed based on some open-source repos. We appreciate these awesome implements.  <a class="reference external" href="https://uctb.github.io/UCTB/md_file/static/current_supported_models.html">See more details</a>)</p>
@@ -173,19 +171,19 @@
 <li><p>STMeta  <a class="reference external" href="https://arxiv.org/abs/2009.09379">[TKDE 2021]</a></p></li>
 </ul>
 <p>UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.</p>
-</div>
-<div class="section" id="installation">
+</section>
+<section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="install-uctb">
+<section id="install-uctb">
 <h3>Install UCTB<a class="headerlink" href="#install-uctb" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="step-1-install-tensorflow">
+<section id="step-1-install-tensorflow">
 <h4>Step 1: Install TensorFlow<a class="headerlink" href="#step-1-install-tensorflow" title="Permalink to this headline">¶</a></h4>
 <p>You can skip to step 2 if you already installed tensorflow.</p>
 <p>You can refer to this page <a class="reference external" href="https://www.tensorflow.org/install">https://www.tensorflow.org/install</a> to install tensorflow, if you have a Nvidia GPU installed on you computer, we highly recommend you to install GPU version of tensorflow.</p>
-</div>
-<div class="section" id="step-2-install-uctb">
+</section>
+<section id="step-2-install-uctb">
 <h4>Step 2: Install UCTB<a class="headerlink" href="#step-2-install-uctb" title="Permalink to this headline">¶</a></h4>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install --upgrade UCTB
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>UCTB
 </pre></div>
 </div>
 <p>The following required package will be installed or upgraded with UCTB:</p>
@@ -205,36 +203,36 @@
 <span class="s1">&#39;PyYAML&#39;</span>
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="uctb-docker">
+</section>
+</section>
+<section id="uctb-docker">
 <h3>UCTB Docker<a class="headerlink" href="#uctb-docker" title="Permalink to this headline">¶</a></h3>
 <p>You can also  use UCTB by docker. First pull uctb docker from docker hub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker pull dichai/uctb:v0.2.0
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>dichai/uctb:v0.2.0
 </pre></div>
 </div>
 <p>And  you then can run it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker run  --runtime<span class="o">=</span>nvidia  -it -d dichai/uctb:v0.2.0 /bin/bash
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w">  </span>--runtime<span class="o">=</span>nvidia<span class="w">  </span>-it<span class="w"> </span>-d<span class="w"> </span>dichai/uctb:v0.2.0<span class="w"> </span>/bin/bash
 </pre></div>
 </div>
-</div>
-</div>
-<div class="section" id="quick-start">
+</section>
+</section>
+<section id="quick-start">
 <h2>Quick start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li></li>
 </ul>
-<div class="section" id="quick-start-with-stmeta">
+<section id="quick-start-with-stmeta">
 <h3>Quick start with STMeta<a class="headerlink" href="#quick-start-with-stmeta" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
+</section>
+</section>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">STMeta</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
 
 <span class="c1"># Config data loader</span>
 <span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">,</span> <span class="n">graph</span><span class="o">=</span><span class="s1">&#39;Correlation&#39;</span><span class="p">,</span>
-                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+                                <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Init model object</span>
 <span class="n">STMeta_Obj</span> <span class="o">=</span> <span class="n">STMeta</span><span class="p">(</span><span class="n">closeness_len</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">closeness_len</span><span class="p">,</span>
@@ -263,88 +261,88 @@
                                        <span class="n">sequence_length</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_sequence_len</span><span class="p">)</span>
 
 <span class="c1"># Evaluate</span>
-<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">prediction</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">]),</span>
                                  <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">),</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><p><a class="reference external" href="./static/quick_start.html">Quick start with other models</a></p></li>
 </ul>
-<div class="section" id="tutorial">
+<section id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><p>Compare different version of STMeta</p></li>
 <li></li>
 </ul>
-<div class="section" id="use-datasets-from-uctb">
+<section id="use-datasets-from-uctb">
 <h3><a class="reference external" href="./static/tutorial.html">Use datasets from UCTB</a><a class="headerlink" href="#use-datasets-from-uctb" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="build-your-own-datasets">
+<section id="build-your-own-datasets">
 <h3><a class="reference external" href="./static/tutorial.html">Build your own datasets</a><a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="use-build-in-models-from-uctb">
+<section id="use-build-in-models-from-uctb">
 <h3>Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="build-your-own-model-using-uctb">
+<section id="build-your-own-model-using-uctb">
 <h3>Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="api-reference">
+</section>
+</section>
+<section id="api-reference">
 <h2>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li></li>
 </ul>
-<div class="section" id="model-class">
+<section id="model-class">
 <h3>Model Class<a class="headerlink" href="#model-class" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="modelunit-class">
+<section id="modelunit-class">
 <h3>ModelUnit Class<a class="headerlink" href="#modelunit-class" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="evaluation-class">
+<section id="evaluation-class">
 <h3>Evaluation Class<a class="headerlink" href="#evaluation-class" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="training-class">
+<section id="training-class">
 <h3>Training Class<a class="headerlink" href="#training-class" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-<div class="section" id="full-examples">
+</section>
+</section>
+<section id="full-examples">
 <h2>Full examples<a class="headerlink" href="#full-examples" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li></li>
 </ul>
-<div class="section" id="experiments-on-bike-traffic-flow-prediction">
+<section id="experiments-on-bike-traffic-flow-prediction">
 <h3><a class="reference external" href="./static/experiment_on_bike.html">Experiments on bike traffic-flow prediction</a><a class="headerlink" href="#experiments-on-bike-traffic-flow-prediction" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="experiments-on-metro-traffic-flow-prediction">
+<section id="experiments-on-metro-traffic-flow-prediction">
 <h3><a class="reference external" href="./static/experiment_on_metro.html">Experiments on metro traffic-flow prediction</a><a class="headerlink" href="#experiments-on-metro-traffic-flow-prediction" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li><p>Experiments on charge station demand prediction</p></li>
-</div>
-<div class="section" id="contribute-to-uctb-delay">
+</section>
+<section id="contribute-to-uctb-delay">
 <h2>Contribute to UCTB (Delay)<a class="headerlink" href="#contribute-to-uctb-delay" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li></li>
 </ul>
-<div class="section" id="contribute-data">
+<section id="contribute-data">
 <h3>Contribute Data<a class="headerlink" href="#contribute-data" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="contribute-models">
+<section id="contribute-models">
 <h3>Contribute Models<a class="headerlink" href="#contribute-models" title="Permalink to this headline">¶</a></h3>
-</div>
+</section>
 <li></li>
-<div class="section" id="contribute-model-units">
+<section id="contribute-model-units">
 <h3>Contribute Model-Units<a class="headerlink" href="#contribute-model-units" title="Permalink to this headline">¶</a></h3>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
            </div>

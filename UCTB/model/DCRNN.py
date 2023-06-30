@@ -16,7 +16,7 @@ class DCRNN(BaseModel):
           <https://github.com/liyaguang/DCRNN>`_.
 
     Args:
-        num_nodes(int): Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.
+        num_node(int): Number of nodes in the graph, e.g. number of stations in NYC-Bike dataset.
         num_diffusion_matrix: Number of diffusion matrix used in model.
         num_rnn_units: Number of RNN units.
         num_rnn_layers: Number of RNN layers
@@ -36,7 +36,7 @@ class DCRNN(BaseModel):
         gpu_device(str): To specify the GPU to use. Default: '0'.
     """
     def __init__(self,
-                 num_nodes,
+                 num_node,
                  num_diffusion_matrix,
                  num_rnn_units=64,
                  num_rnn_layers=1,
@@ -56,7 +56,7 @@ class DCRNN(BaseModel):
 
         super(DCRNN, self).__init__(code_version=code_version, model_dir=model_dir, gpu_device=gpu_device)
 
-        self._num_nodes = num_nodes
+        self._num_node = num_node
         self._num_diffusion_matrix = num_diffusion_matrix
         self._num_rnn_units = num_rnn_units
         self._num_rnn_layers = num_rnn_layers
@@ -75,12 +75,12 @@ class DCRNN(BaseModel):
     def build(self, init_vars=True, max_to_keep=5):
         with self._graph.as_default():
             inputs = tf.placeholder(tf.float32, shape=(None, self._seq_len,
-                                                       self._num_nodes, self._input_dim), name='inputs')
+                                                       self._num_node, self._input_dim), name='inputs')
             labels = tf.placeholder(tf.float32, shape=(None, self._target_len,
-                                                       self._num_nodes, self._output_dim), name='labels')
+                                                       self._num_node, self._output_dim), name='labels')
 
-            diffusion_matrix = tf.placeholder(tf.float32, shape=(self._num_diffusion_matrix, self._num_nodes,
-                                                                 self._num_nodes), name='diffusion_matrix')
+            diffusion_matrix = tf.placeholder(tf.float32, shape=(self._num_diffusion_matrix, self._num_node,
+                                                                 self._num_node), name='diffusion_matrix')
 
             batch_size = tf.shape(inputs)[0]
 
@@ -88,15 +88,15 @@ class DCRNN(BaseModel):
             self._input['target'] = labels.name
             self._input['diffusion_matrix'] = diffusion_matrix.name
 
-            go_symbol = tf.zeros(shape=(tf.shape(inputs)[0], self._num_nodes * self._output_dim))
+            go_symbol = tf.zeros(shape=(tf.shape(inputs)[0], self._num_node * self._output_dim))
 
             cell = DCGRUCell(self._num_rnn_units, self._input_dim, self._num_diffusion_matrix, diffusion_matrix,
-                             max_diffusion_step=self._max_diffusion_step, num_nodes=self._num_nodes)
+                             max_diffusion_step=self._max_diffusion_step, num_node=self._num_node)
 
             cell_with_projection = DCGRUCell(self._num_rnn_units, self._input_dim,
                                              self._num_diffusion_matrix, diffusion_matrix,
                                              max_diffusion_step=self._max_diffusion_step,
-                                             num_nodes=self._num_nodes, num_proj=self._output_dim)
+                                             num_node=self._num_node, num_proj=self._output_dim)
 
             encoding_cells = [cell] * self._num_rnn_layers
             decoding_cells = [cell] * (self._num_rnn_layers - 1) + [cell_with_projection]
@@ -105,14 +105,14 @@ class DCRNN(BaseModel):
 
             global_step = tf.train.get_or_create_global_step()
 
-            # Outputs: (batch_size, timesteps, num_nodes, output_dim)
+            # Outputs: (batch_size, timesteps, num_node, output_dim)
             with tf.variable_scope('DCRNN_SEQ'):
                 inputs_unstack = tf.unstack(tf.reshape(inputs, (batch_size,
-                                                                self._seq_len, self._num_nodes * self._input_dim)),
+                                                                self._seq_len, self._num_node * self._input_dim)),
                                             axis=1)
                 labels_unstack = tf.unstack(
                     tf.reshape(labels[..., :self._output_dim],
-                               (batch_size, self._target_len, self._num_nodes * self._output_dim)), axis=1)
+                               (batch_size, self._target_len, self._num_node * self._output_dim)), axis=1)
                 labels_unstack.insert(0, go_symbol)
 
                 def _compute_sampling_threshold(global_step, k):

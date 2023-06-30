@@ -18,14 +18,14 @@ class DCGRUCell(RNNCell):
     def compute_output_shape(self, input_shape):
         pass
 
-    def __init__(self, num_units, input_dim, num_graphs, supports, max_diffusion_step, num_nodes, num_proj=None,
+    def __init__(self, num_units, input_dim, num_graphs, supports, max_diffusion_step, num_node, num_proj=None,
                  activation=tf.nn.tanh, reuse=None, use_gc_for_ru=True, name=None):
         """
 
         :param num_units:
         :param adj_mx:
         :param max_diffusion_step:
-        :param num_nodes:
+        :param num_node:
         :param input_size:
         :param num_proj:
         :param activation:
@@ -35,7 +35,7 @@ class DCGRUCell(RNNCell):
         """
         super(DCGRUCell, self).__init__(_reuse=reuse)
         self._activation = activation
-        self._num_nodes = num_nodes
+        self._num_node = num_node
         self._input_dim = input_dim
         self._num_graphs = num_graphs
         self._num_proj = num_proj
@@ -48,18 +48,18 @@ class DCGRUCell(RNNCell):
 
     @property
     def state_size(self):
-        return self._num_nodes * self._num_units
+        return self._num_node * self._num_units
 
     @property
     def output_size(self):
-        output_size = self._num_nodes * self._num_units
+        output_size = self._num_node * self._num_units
         if self._num_proj is not None:
-            output_size = self._num_nodes * self._num_proj
+            output_size = self._num_node * self._num_proj
         return output_size
 
     def __call__(self, inputs, state, scope=None):
         """Gated recurrent unit (GRU) with Graph Convolution.
-        :param inputs: (B, num_nodes * input_dim)
+        :param inputs: (B, num_node * input_dim)
 
         :return
         - Output: A `2-D` tensor with shape `[batch_size x self.output_size]`.
@@ -75,10 +75,10 @@ class DCGRUCell(RNNCell):
                 else:
                     fn = self._fc
                 value = tf.nn.sigmoid(fn(inputs, state, output_size, bias_start=1.0))
-                value = tf.reshape(value, (-1, self._num_nodes, output_size))
+                value = tf.reshape(value, (-1, self._num_node, output_size))
                 r, u = tf.split(value=value, num_or_size_splits=2, axis=-1)
-                r = tf.reshape(r, (-1, self._num_nodes * self._num_units))
-                u = tf.reshape(u, (-1, self._num_nodes * self._num_units))
+                r = tf.reshape(r, (-1, self._num_node * self._num_units))
+                u = tf.reshape(u, (-1, self._num_node * self._num_units))
             with tf.variable_scope("candidate"):
                 c = self._gconv(inputs, r * state, self._num_units)
                 if self._activation is not None:
@@ -99,8 +99,8 @@ class DCGRUCell(RNNCell):
     def _fc(self, inputs, state, output_size, bias_start=0.0):
         dtype = inputs.dtype
         batch_size = inputs.get_shape()[0].value
-        inputs = tf.reshape(inputs, (batch_size * self._num_nodes, -1))
-        state = tf.reshape(state, (batch_size * self._num_nodes, -1))
+        inputs = tf.reshape(inputs, (batch_size * self._num_node, -1))
+        state = tf.reshape(state, (batch_size * self._num_node, -1))
         inputs_and_state = tf.concat([inputs, state], axis=-1)
         input_size = inputs_and_state.get_shape()[-1].value
         weights = tf.get_variable(
@@ -122,17 +122,17 @@ class DCGRUCell(RNNCell):
         :param scope:
         :return:
         """
-        # Reshape input and state to (batch_size, num_nodes, input_dim/state_dim)
+        # Reshape input and state to (batch_size, num_node, input_dim/state_dim)
         last_dim = inputs.get_shape()[-1].value
-        inputs = tf.reshape(inputs, (-1, self._num_nodes, int(last_dim / self._num_nodes)))
-        state = tf.reshape(state, (-1, self._num_nodes, self._num_units))
+        inputs = tf.reshape(inputs, (-1, self._num_node, int(last_dim / self._num_node)))
+        state = tf.reshape(state, (-1, self._num_node, self._num_units))
         inputs_and_state = tf.concat([inputs, state], axis=2)
         input_size = inputs_and_state.get_shape()[2].value
         dtype = inputs.dtype
 
         x = inputs_and_state
-        x0 = tf.transpose(x, perm=[1, 2, 0])  # (num_nodes, total_arg_size, batch_size)
-        x0 = tf.reshape(x0, shape=[self._num_nodes, -1])
+        x0 = tf.transpose(x, perm=[1, 2, 0])  # (num_node, total_arg_size, batch_size)
+        x0 = tf.reshape(x0, shape=[self._num_node, -1])
         x = tf.expand_dims(x0, axis=0)
 
         scope = tf.get_variable_scope()
@@ -150,17 +150,17 @@ class DCGRUCell(RNNCell):
                         x1, x0 = x2, x1
 
             num_matrices = self._num_diff_matrix * self._max_diffusion_step + 1  # Adds for x itself.
-            x = tf.reshape(x, shape=[num_matrices, self._num_nodes, input_size, -1])
-            x = tf.transpose(x, perm=[3, 1, 2, 0])  # (batch_size, num_nodes, input_size, order)
+            x = tf.reshape(x, shape=[num_matrices, self._num_node, input_size, -1])
+            x = tf.transpose(x, perm=[3, 1, 2, 0])  # (batch_size, num_node, input_size, order)
             x = tf.reshape(x, shape=[-1, input_size * num_matrices])
 
             weights = tf.get_variable(
                 'weights', [input_size * num_matrices, output_size], dtype=dtype,
                 initializer=tf.contrib.layers.xavier_initializer())
-            x = tf.matmul(x, weights)  # (batch_size * self._num_nodes, output_size)
+            x = tf.matmul(x, weights)  # (batch_size * self._num_node, output_size)
 
             biases = tf.get_variable("biases", [output_size], dtype=dtype,
                                      initializer=tf.constant_initializer(bias_start, dtype=dtype))
             x = tf.nn.bias_add(x, biases)
         # Reshape res back to 2D: (batch_size, num_node, state_dim) -> (batch_size, num_node * state_dim)
-        return tf.reshape(x, [-1, self._num_nodes * output_size])
+        return tf.reshape(x, [-1, self._num_node * output_size])

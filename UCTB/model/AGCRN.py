@@ -75,7 +75,7 @@ class AGCRN(nn.Module):
           <https://github.com/LeiBAI/AGCRN>`_.
 
     Args:
-        num_nodes(int): Number of nodes.
+        num_node(int): Number of nodes.
         input_dim(int): Input feature dimension.
         hidden_dim(int): Number of hidden units of RNN.
         output_dim(int): Number of dimension of output.
@@ -85,9 +85,9 @@ class AGCRN(nn.Module):
         embed_dim(int): Number of dimension of embedding.
         cheb_k(int): Order of chebyshev polynomial.
     """
-    def __init__(self, num_nodes,input_dim,hidden_dim,output_dim,pred_step,num_layers,default_graph,embed_dim,cheb_k):
+    def __init__(self, num_node,input_dim,hidden_dim,output_dim,pred_step,num_layers,default_graph,embed_dim,cheb_k):
         super(AGCRN, self).__init__()
-        self.num_nodes = num_nodes
+        self.num_node = num_node
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.output_dim = output_dim
@@ -97,9 +97,9 @@ class AGCRN(nn.Module):
         self.num_layers = num_layers
 
         self.default_graph = default_graph
-        self.node_embeddings = nn.Parameter(torch.randn(self.num_nodes, embed_dim), requires_grad=True)
+        self.node_embeddings = nn.Parameter(torch.randn(self.num_node, embed_dim), requires_grad=True)
 
-        self.encoder = AVWDCRNN(self.num_nodes, self.input_dim, self.hidden_dim, cheb_k,
+        self.encoder = AVWDCRNN(self.num_node, self.input_dim, self.hidden_dim, cheb_k,
                                 embed_dim, self.num_layers)
 
         #predictor
@@ -130,8 +130,8 @@ class AGCRNCell(nn.Module):
         self.update = AVWGCN(dim_in+self.hidden_dim, dim_out, cheb_k, embed_dim)
 
     def forward(self, x, state, node_embeddings):
-        #x: B, num_nodes, input_dim
-        #state: B, num_nodes, hidden_dim
+        #x: B, num_node, input_dim
+        #state: B, num_node, hidden_dim
         state = state.to(x.device)
         input_and_state = torch.cat((x, state), dim=-1)
         z_r = torch.sigmoid(self.gate(input_and_state, node_embeddings))

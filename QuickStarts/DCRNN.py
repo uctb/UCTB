@@ -44,7 +44,7 @@ diffusion_matrix = data_loader.diffusion_matrix()
 
 batch_size = 64
 
-DCRNN_Obj = DCRNN(num_nodes=data_loader.station_number,
+DCRNN_Obj = DCRNN(num_node=data_loader.station_number,
                   num_diffusion_matrix=diffusion_matrix.shape[0],
                   num_rnn_units=64,
                   num_rnn_layers=1,

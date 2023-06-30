@@ -7,7 +7,7 @@ class Normalizer(ABC):
     Normalizer is the base abstract class for many normalizers such as MaxMinNormalizer and ZscoreNormalizer.You can also build your own normalizer by inheriting this class.
 
     Args:
-        X: Data which normalizer extracts characteristics from.
+        X(ndarray): Data which normalizer extracts characteristics from.
     """
     @abstractmethod
     def __init__(self, X):

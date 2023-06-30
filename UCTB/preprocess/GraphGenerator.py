@@ -235,9 +235,3 @@ def scaled_laplacian_STGCN(W):
     # lambda_max \approx 2.0, the largest eigenvalues of L.
     lambda_max = eigs(L, k=1, which='LR')[0][0].real
     return np.mat(2 * L / lambda_max - np.identity(n))
-
-if __name__ == '__main__':
-    am = np.array([[0,1,0,0,1,0],[1,0,1,0,1,0],[0,1,0,1,0,0],[0,0,1,0,1,1],[1,1,0,1,0,0],[0,0,0,1,0,0]],dtype=np.float32)
-    print(scaled_Laplacian_ASTGCN(am))
-    print(scaled_laplacian_STGCN(am))
-    print(GraphGenerator.adjacent_to_laplacian(am))

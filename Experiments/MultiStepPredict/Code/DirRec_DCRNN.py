@@ -64,7 +64,7 @@ for i in range(n_pred):
     temp_code_version = code_version + "-Step_"+ str(i+1)
     if i != 0:
         temp_trainX = np.concatenate((temp_trainX,temp_predict), axis=1)
-    temp_model = DCRNN(num_nodes=data_loader.station_number,
+    temp_model = DCRNN(num_node=data_loader.station_number,
         num_diffusion_matrix=diffusion_matrix.shape[0],
         num_rnn_units=64,
         num_rnn_layers=1,

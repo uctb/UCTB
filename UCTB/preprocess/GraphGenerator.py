@@ -2,7 +2,7 @@ import numpy as np
 import tensorflow as tf
 import heapq
 
-from UCTB.preprocess import Normalizer, SplitData
+# from UCTB.preprocess import Normalizer, SplitData
 
 from math import radians, cos, sin, asin, sqrt
 from scipy.stats import pearsonr
@@ -188,17 +188,18 @@ class GraphGenerator():
         return laplacian_matrix
 
 
+
 def scaled_Laplacian_ASTGCN(W):
     '''
     compute \tilde{L}
 
     Parameters
     ----------
-    W: np.ndarray, shape is (N, N), N is the num of vertices
+    W(np.ndarray): shape is (num_node, num_node).
 
     Returns
     ----------
-    scaled_Laplacian_ASTGCN: np.ndarray, shape (N, N)
+    scaled_Laplacian_ASTGCN: np.ndarray, shape (num_node, num_node)
 
     '''
 
@@ -216,8 +217,11 @@ def scaled_Laplacian_ASTGCN(W):
 def scaled_laplacian_STGCN(W):
     '''
     Normalized graph Laplacian function.
-    :param W: np.ndarray, [n_route, n_route], weighted adjacency matrix of G.
-    :return: np.matrix, [n_route, n_route].
+
+    Args:
+        W(np.ndarray): [num_node, num_node], weighted adjacency matrix of G.
+    :return: Scaled laplacian matrix.
+    :type: np.matrix, [num_node, num_node].
     '''
     # d ->  diagonal degree matrix
     n, d = np.shape(W)[0], np.sum(W, axis=1)
@@ -231,3 +235,9 @@ def scaled_laplacian_STGCN(W):
     # lambda_max \approx 2.0, the largest eigenvalues of L.
     lambda_max = eigs(L, k=1, which='LR')[0][0].real
     return np.mat(2 * L / lambda_max - np.identity(n))
+
+if __name__ == '__main__':
+    am = np.array([[0,1,0,0,1,0],[1,0,1,0,1,0],[0,1,0,1,0,0],[0,0,1,0,1,1],[1,1,0,1,0,0],[0,0,0,1,0,0]],dtype=np.float32)
+    print(scaled_Laplacian_ASTGCN(am))
+    print(scaled_laplacian_STGCN(am))
+    print(GraphGenerator.adjacent_to_laplacian(am))

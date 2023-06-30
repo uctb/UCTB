@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>5.5. UCTB.evaluation package &mdash; UCTB  documentation</title>
@@ -150,19 +151,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-evaluation-package">
+  <section id="uctb-evaluation-package">
 <h1><span class="section-number">5.5. </span>UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.evaluation.metric">
+<section id="module-UCTB.evaluation.metric">
 <span id="uctb-evaluation-metric-module"></span><h2><span class="section-number">5.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="UCTB.evaluation.metric.mape">
 <code class="sig-prename descclassname">UCTB.evaluation.metric.</code><code class="sig-name descname">mape</code><span class="sig-paren">(</span><em class="sig-param">prediction</em>, <em class="sig-param">target</em>, <em class="sig-param">threshold=0</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mape" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
 <li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the mape,
+<li><p><strong>threshold</strong> (<em>float</em>) – data smaller than threshold in target will be removed in computing the mape,
 the smallest threshold in mape is zero.</p></li>
 </ul>
 </dd>
@@ -173,19 +174,19 @@ the smallest threshold in mape is zero.</p></li>
 <dt id="UCTB.evaluation.metric.rmse">
 <code class="sig-prename descclassname">UCTB.evaluation.metric.</code><code class="sig-name descname">rmse</code><span class="sig-paren">(</span><em class="sig-param">prediction</em>, <em class="sig-param">target</em>, <em class="sig-param">threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.rmse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
 <li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
-<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller or equal to threshold in target
+<li><p><strong>threshold</strong> (<em>float</em>) – data smaller or equal to threshold in target
 will be removed in computing the rmse</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-</div>
-</div>
+</section>
+</section>
 
 
            </div>

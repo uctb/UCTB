@@ -28,19 +28,19 @@ class GCLSTMCell(tf.keras.layers.LSTMCell):
 
     Args:
         units(int): number of units of LSTM
-        num_nodes(int): number of nodes in the graph
+        num_node(int): number of nodes in the graph
         laplacian_matrix(ndarray): laplacian matrix used in GCN, with shape [num_node, num_node]
         gcn_k(int): highest order of Chebyshev Polynomial approximation in GCN
         gcn_l(int): number of GCN layers
         kwargs: other parameters supported by LSTMCell, such as activation, kernel_initializer ... and so on.
     """
 
-    def __init__(self, units, num_nodes, laplacian_matrix, gcn_k=1, gcn_l=1, **kwargs):
+    def __init__(self, units, num_node, laplacian_matrix, gcn_k=1, gcn_l=1, **kwargs):
 
         super().__init__(units, **kwargs)
 
         self._units = units
-        self._num_node = num_nodes
+        self._num_node = num_node
         self._gcn_k = gcn_k
         self._gcn_l = gcn_l
         self._laplacian_matrix = laplacian_matrix
@@ -101,8 +101,8 @@ class GCLSTMCell(tf.keras.layers.LSTMCell):
         if 0. < self.recurrent_dropout < 1.:
             h_tm1 *= rec_dp_mask[0]
 
-        # inputs has shape: [batch * num_nodes, input_dim]
-        # h_tm1 has shape: [batch * num_nodes, units]
+        # inputs has shape: [batch * num_node, input_dim]
+        # h_tm1 has shape: [batch * num_node, units]
         inputs_before_gcn = tf.reshape(tf.transpose(tf.reshape(inputs, [-1, self._num_node, input_dim]),
                                                     [1, 0, 2]), [self._num_node, -1])
         h_tm1_before_gcn = tf.reshape(tf.transpose(tf.reshape(h_tm1, [-1, self._num_node, self._units]),

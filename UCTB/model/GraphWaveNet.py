@@ -54,7 +54,7 @@ class gwnet(nn.Module):
 
     Args:
         device(torch.device): Which device use to train.
-        num_nodes(int): Number of blocks.
+        num_node(int): Number of blocks.
         drop_out(int): Number of input channels.
         supports(int): Order of chebyshev polynomial.
         gcn_bool(int): Number of chebyshev filter.
@@ -70,7 +70,7 @@ class gwnet(nn.Module):
         blocks(int): Number of block.
         layers(int): Number of layer.
     """
-    def __init__(self, device, num_nodes, dropout=0.3, supports=None, gcn_bool=True, addaptadj=True, aptinit=None, in_dim=2,out_dim=12,residual_channels=32,dilation_channels=32,skip_channels=256,end_channels=512,kernel_size=2,blocks=4,layers=2):
+    def __init__(self, device, num_node, dropout=0.3, supports=None, gcn_bool=True, addaptadj=True, aptinit=None, in_dim=2,out_dim=12,residual_channels=32,dilation_channels=32,skip_channels=256,end_channels=512,kernel_size=2,blocks=4,layers=2):
         super(gwnet, self).__init__()
         self.dropout = dropout
         self.blocks = blocks
@@ -100,8 +100,8 @@ class gwnet(nn.Module):
             if aptinit is None:
                 if supports is None:
                     self.supports = []
-                self.nodevec1 = nn.Parameter(torch.randn(num_nodes, 10).to(device), requires_grad=True).to(device)
-                self.nodevec2 = nn.Parameter(torch.randn(10, num_nodes).to(device), requires_grad=True).to(device)
+                self.nodevec1 = nn.Parameter(torch.randn(num_node, 10).to(device), requires_grad=True).to(device)
+                self.nodevec2 = nn.Parameter(torch.randn(10, num_node).to(device), requires_grad=True).to(device)
                 self.supports_len +=1
             else:
                 if supports is None:

@@ -236,16 +236,16 @@ class ASTGCN_submodule(nn.Module):
         cheb_polynomials(int): Chebyshev Polynomials.
         pred_step(int): Number of steps of prediction.
         len_input(int): Number of steps of sequence input.
-        num_nodes(int): Number of nodes.
+        num_node(int): Number of nodes.
     """
 
-    def __init__(self, DEVICE, num_blocks, in_channels, K, num_chev_filter, num_time_filter, time_strides, cheb_polynomials, pred_step, len_input, num_nodes):
+    def __init__(self, DEVICE, num_blocks, in_channels, K, num_chev_filter, num_time_filter, time_strides, cheb_polynomials, pred_step, len_input, num_node):
 
         super(ASTGCN_submodule, self).__init__()
 
-        self.BlockList = nn.ModuleList([ASTGCN_block(DEVICE, in_channels, K, num_chev_filter, num_time_filter, time_strides, cheb_polynomials, num_nodes, len_input)])
+        self.BlockList = nn.ModuleList([ASTGCN_block(DEVICE, in_channels, K, num_chev_filter, num_time_filter, time_strides, cheb_polynomials, num_node, len_input)])
 
-        self.BlockList.extend([ASTGCN_block(DEVICE, num_time_filter, K, num_chev_filter, num_time_filter, 1, cheb_polynomials, num_nodes, len_input//time_strides) for _ in range(num_blocks-1)])
+        self.BlockList.extend([ASTGCN_block(DEVICE, num_time_filter, K, num_chev_filter, num_time_filter, 1, cheb_polynomials, num_node, len_input//time_strides) for _ in range(num_blocks-1)])
 
         self.final_conv = nn.Conv2d(int(len_input/time_strides), pred_step, kernel_size=(1, num_time_filter))
 

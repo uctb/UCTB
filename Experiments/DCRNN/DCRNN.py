@@ -98,7 +98,7 @@ print('Number of training samples', data_loader.train_sequence_len)
 
 diffusion_matrix = data_loader.diffusion_matrix()
 
-DCRNN_Obj = DCRNN(num_nodes=data_loader.station_number,
+DCRNN_Obj = DCRNN(num_node=data_loader.station_number,
                   num_diffusion_matrix=diffusion_matrix.shape[0],
                   num_rnn_units=args.LSTMUnits,
                   num_rnn_layers=args.LSTMLayers,

@@ -12,11 +12,11 @@ Welcome to UCTB's documentation!
 
    md_file/introduction.md
 
-   md_file/installation.md
+   md_file/urban_dataset.md
 
-   md_file/quickstart.md
+   md_file/predictive_tool.md
 
-   md_file/tutorial.md
+   md_file/visualization_tool.md
 
    APIReference.rst
 

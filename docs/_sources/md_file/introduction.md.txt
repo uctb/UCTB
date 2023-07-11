@@ -20,7 +20,7 @@ UCTB also releases [a public dataset repository](https://github.com/uctb/Urban-D
 
 We provide [detailed documents](https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb) about how to build and how to use these datasets.
 
-### Prediction Models
+### Predictive Tool
 
 Currently, the package supports the following models: (This toolbox is constructed based on some open-source repos. We appreciate these awesome implements. [See more details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html)).
 

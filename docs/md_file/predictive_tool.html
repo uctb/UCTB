@@ -5,11 +5,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>3. Predictive Tool &mdash; UCTB  documentation</title>
+  <title>4. Predictive Tool &mdash; UCTB  documentation</title>
   
 
   
@@ -35,8 +34,8 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="UCTB  documentation" href="../index.html"/>
-        <link rel="next" title="4. Visualization Tool" href="visualization_tool.html"/>
-        <link rel="prev" title="2. Urban Datasets" href="urban_dataset.html"/> 
+        <link rel="next" title="5. Visualization Tool" href="visualization_tool.html"/>
+        <link rel="prev" title="3. Urban Datasets" href="urban_dataset.html"/> 
 
   
   <script src="../_static/js/modernizr.min.js"></script>
@@ -84,57 +83,58 @@
             
                 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="urban_dataset.html">2. Urban Datasets</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">3. Predictive Tool</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#currently-supported-models">3.1. Currently Supported Models</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#agcrn-adaptive-graph-convolutional-recurrent-network">3.1.1. AGCRN (Adaptive Graph Convolutional Recurrent Network)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#arima-autoregressive-integrated-moving-average">3.1.2. ARIMA (Autoregressive Integrated Moving Average)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#astgcn-attenion-based-spatial-temporal-graph-convolutional-networks">3.1.3. ASTGCN (Attenion Based Spatial-temporal Graph Convolutional Networks)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#dcrnn-diffusion-convolutional-recurrent-neural-network">3.1.4. DCRNN (Diffusion Convolutional Recurrent Neural Network)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#deepst-deep-learning-based-prediction-model-for-spatial-temporal-data">3.1.5. DeepST (Deep learning-based prediction model for Spatial-Temporal data)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction">3.1.6. GeoMAN (Multi-level Attention Networks for Geo-sensory Time Series Prediction)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#gman-graph-multi-attention-network">3.1.7. GMAN (Graph Multi-Attention Network)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#graphwavenet">3.1.8. GraphWaveNet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hm-historical-mean">3.1.9. HM (Historical Mean)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#hmm-hidden-markov-model">3.1.10. HMM (Hidden Markov Model)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#stgcn-spatio-temporal-graph-convolutional-networks">3.1.11. STGCN (Spatio-temporal Graph Convolutional Networks)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#stmeta">3.1.12. STMeta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#st-mgcn-spatiotemporal-multi-graph-convolution-network">3.1.13. ST-MGCN (Spatiotemporal Multi-graph Convolution Network)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#st-resnet">3.1.14. ST-ResNet</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#stsgcn-spatial-temporal-synchronous-graph-convolutional-networks">3.1.15. STSGCN (Spatial-temporal Synchronous Graph Convolutional Networks)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#xgboost">3.1.16. XGBoost</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urban_dataset.html">3. Urban Datasets</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Predictive Tool</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#currently-supported-models">4.1. Currently Supported Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#agcrn">4.1.1. AGCRN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#arima">4.1.2. ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#astgcn">4.1.3. ASTGCN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dcrnn">4.1.4. DCRNN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#deepst">4.1.5. DeepST</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#geoman">4.1.6. GeoMAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gman">4.1.7. GMAN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graphwavenet">4.1.8. GraphWaveNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hm-historical-mean">4.1.9. HM (Historical Mean)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hmm-hidden-markov-model">4.1.10. HMM (Hidden Markov Model)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stgcn">4.1.11. STGCN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stmeta">4.1.12. STMeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#st-mgcn">4.1.13. ST-MGCN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#st-resnet">4.1.14. ST-ResNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#stsgcn">4.1.15. STSGCN</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#xgboost">4.1.16. XGBoost</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#quick-start">3.2. Quick Start</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-stmeta">3.2.1. Quick start with STMeta</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-hm-historical-mean">3.2.2. Quick Start with HM (Historical Mean)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-arima">3.2.3. Quick Start with ARIMA</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-hmm">3.2.4. Quick Start with HMM</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-xgboost">3.2.5. Quick Start with XGBoost</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#quick-start">4.2. Quick Start</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-stmeta">4.2.1. Quick start with STMeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-hm">4.2.2. Quick Start with HM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-arima">4.2.3. Quick Start with ARIMA</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-hmm">4.2.4. Quick Start with HMM</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#quick-start-with-xgboost">4.2.5. Quick Start with XGBoost</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#tutorial">3.3. Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#use-build-in-models-from-uctb">3.3.1. Use build-in models from UCTB</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#use-single-temporal-feature-in-regression">3.3.1.1. Use single temporal feature in regression</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#use-multiple-temporal-features-in-regression">3.3.1.2. Use multiple temporal features in regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tutorial">4.3. Tutorial</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#use-build-in-models-from-uctb">4.3.1. Use build-in models from UCTB</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#use-single-temporal-feature-in-regression">4.3.1.1. Use single temporal feature in regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-multiple-temporal-features-in-regression">4.3.1.2. Use multiple temporal features in regression</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#build-your-own-model-using-uctb">3.3.2. Build your own model using UCTB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-your-own-graph-with-stmeta">3.3.3. Build your own graph with STMeta</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#top-k-graph">3.3.3.1. Top-K graph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#realize-topk-graph-analysis-module">3.3.3.2. Realize TopK graph analysis module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#redefine-the-call-statement-of-the-above-class">3.3.3.3. Redefine the call statement of the above class</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#modify-the-function-call-location">3.3.3.4. Modify the function call location</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-your-own-model-using-uctb">4.3.2. Build your own model using UCTB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-your-own-graph-with-stmeta">4.3.3. Build your own graph with STMeta</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#top-k-graph">4.3.3.1. Top-K graph</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#realize-topk-graph-analysis-module">4.3.3.2. Realize TopK graph analysis module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#redefine-the-call-statement-of-the-above-class">4.3.3.3. Redefine the call statement of the above class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modify-the-function-call-location">4.3.3.4. Modify the function call location</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">4. Visualization Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="all_results.html">6. Benchmark Results</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">7. About us (UCTB Group)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -176,7 +176,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li><span class="section-number">3. </span>Predictive Tool</li>
+      <li><span class="section-number">4. </span>Predictive Tool</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -193,13 +193,13 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="predictive-tool">
-<h1><span class="section-number">3. </span>Predictive Tool<a class="headerlink" href="#predictive-tool" title="Permalink to this headline">¶</a></h1>
-<section id="currently-supported-models">
-<h2><span class="section-number">3.1. </span>Currently Supported Models<a class="headerlink" href="#currently-supported-models" title="Permalink to this headline">¶</a></h2>
-<section id="agcrn-adaptive-graph-convolutional-recurrent-network">
-<h3><span class="section-number">3.1.1. </span>AGCRN (Adaptive Graph Convolutional Recurrent Network)<a class="headerlink" href="#agcrn-adaptive-graph-convolutional-recurrent-network" title="Permalink to this headline">¶</a></h3>
-<p>AGCRN is a deep nerual network for traffic prediction consisting of two adaptive module and recurrent networks.</p>
+  <div class="section" id="predictive-tool">
+<h1><span class="section-number">4. </span>Predictive Tool<a class="headerlink" href="#predictive-tool" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="currently-supported-models">
+<h2><span class="section-number">4.1. </span>Currently Supported Models<a class="headerlink" href="#currently-supported-models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="agcrn">
+<h3><span class="section-number">4.1.1. </span>AGCRN<a class="headerlink" href="#agcrn" title="Permalink to this headline">¶</a></h3>
+<p>AGCRN (Adaptive Graph Convolutional Recurrent Network) is a deep nerual network for traffic prediction consisting of two adaptive module and recurrent networks.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -212,22 +212,22 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="arima-autoregressive-integrated-moving-average">
-<h3><span class="section-number">3.1.2. </span>ARIMA (Autoregressive Integrated Moving Average)<a class="headerlink" href="#arima-autoregressive-integrated-moving-average" title="Permalink to this headline">¶</a></h3>
-<p>ARIMA is a widely used classical statistical model on time series prediction.</p>
+</div>
+<div class="section" id="arima">
+<h3><span class="section-number">4.1.2. </span>ARIMA<a class="headerlink" href="#arima" title="Permalink to this headline">¶</a></h3>
+<p>ARIMA (Autoregressive Integrated Moving Average) is a widely used classical statistical model on time series prediction.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
-<li><p><a class="reference external" href="https://www3.nd.edu/%7Ebusiforc/handouts/ARIMA%20Engineering%20Article.pdf">Williams, B. M., &amp; Hoel, L. A. (2003). Modeling and forecasting vehicular traffic flow as a seasonal ARIMA process: Theoretical basis and empirical results</a></p></li>
+<li><p><a class="reference external" href="https://www3.nd.edu/~busiforc/handouts/ARIMA%20Engineering%20Article.pdf">Williams, B. M., &amp; Hoel, L. A. (2003). Modeling and forecasting vehicular traffic flow as a seasonal ARIMA process: Theoretical basis and empirical results</a></p></li>
 </ul>
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">pandas</span></code>, <code class="docutils literal notranslate"><span class="pre">statsmodels</span></code></p></li>
 </ul>
-</section>
-<section id="astgcn-attenion-based-spatial-temporal-graph-convolutional-networks">
-<h3><span class="section-number">3.1.3. </span>ASTGCN (Attenion Based Spatial-temporal Graph Convolutional Networks)<a class="headerlink" href="#astgcn-attenion-based-spatial-temporal-graph-convolutional-networks" title="Permalink to this headline">¶</a></h3>
-<p>ASTGCN is a deep neural network for traffic flow forecasting. It models temporal-dependencies from three perspectives using attetion mechanism. And it models spatial-dependencies employing graph convolutions.</p>
+</div>
+<div class="section" id="astgcn">
+<h3><span class="section-number">4.1.3. </span>ASTGCN<a class="headerlink" href="#astgcn" title="Permalink to this headline">¶</a></h3>
+<p>ASTGCN (Attenion Based Spatial-temporal Graph Convolutional Networks) is a deep neural network for traffic flow forecasting. It models temporal-dependencies from three perspectives using attetion mechanism. And it models spatial-dependencies employing graph convolutions.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -240,10 +240,10 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="dcrnn-diffusion-convolutional-recurrent-neural-network">
-<h3><span class="section-number">3.1.4. </span>DCRNN (Diffusion Convolutional Recurrent Neural Network)<a class="headerlink" href="#dcrnn-diffusion-convolutional-recurrent-neural-network" title="Permalink to this headline">¶</a></h3>
-<p>DCRNN is a deep learning framework for traffic forecasting that incorporates both spatial and temporal dependency in the traffic flow. It captures the spatial dependency using bidirectional random walks on the graph, and the temporal dependency using the encoder-decoder architecture with scheduled sampling.</p>
+</div>
+<div class="section" id="dcrnn">
+<h3><span class="section-number">4.1.4. </span>DCRNN<a class="headerlink" href="#dcrnn" title="Permalink to this headline">¶</a></h3>
+<p>DCRNN (Diffusion Convolutional Recurrent Neural Network) is a deep learning framework for traffic forecasting that incorporates both spatial and temporal dependency in the traffic flow. It captures the spatial dependency using bidirectional random walks on the graph, and the temporal dependency using the encoder-decoder architecture with scheduled sampling.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -256,10 +256,10 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="deepst-deep-learning-based-prediction-model-for-spatial-temporal-data">
-<h3><span class="section-number">3.1.5. </span>DeepST (Deep learning-based prediction model for Spatial-Temporal data)<a class="headerlink" href="#deepst-deep-learning-based-prediction-model-for-spatial-temporal-data" title="Permalink to this headline">¶</a></h3>
-<p>DeepST is composed of three components: 1) temporal dependent instances: describing temporal closeness, period and seasonal trend; 2) convolutional neural networks: capturing near and far spatial dependencies; 3) early and late fusions: fusing similar and different domains’ data.</p>
+</div>
+<div class="section" id="deepst">
+<h3><span class="section-number">4.1.5. </span>DeepST<a class="headerlink" href="#deepst" title="Permalink to this headline">¶</a></h3>
+<p>DeepST (Deep learning-based prediction model for Spatial-Temporal data) is composed of three components: 1) temporal dependent instances: describing temporal closeness, period and seasonal trend; 2) convolutional neural networks: capturing near and far spatial dependencies; 3) early and late fusions: fusing similar and different domains’ data.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -267,10 +267,10 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction">
-<h3><span class="section-number">3.1.6. </span>GeoMAN (Multi-level Attention Networks for Geo-sensory Time Series Prediction)<a class="headerlink" href="#geoman-multi-level-attention-networks-for-geo-sensory-time-series-prediction" title="Permalink to this headline">¶</a></h3>
-<p>GeoMAN consists of two major parts: 1) A multi-level attention mechanism (including both local and global  spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal  dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,  meteorology, time of day and land use).</p>
+</div>
+<div class="section" id="geoman">
+<h3><span class="section-number">4.1.6. </span>GeoMAN<a class="headerlink" href="#geoman" title="Permalink to this headline">¶</a></h3>
+<p>GeoMAN (Multi-level Attention Networks for Geo-sensory Time Series Prediction) consists of two major parts: 1) A multi-level attention mechanism (including both local and global  spatial attentions in encoder and temporal attention in decoder) to model the dynamic spatio-temporal  dependencies; 2) A general fusion module to incorporate the external factors from different domains (e.g.,  meteorology, time of day and land use).</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -283,10 +283,10 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="gman-graph-multi-attention-network">
-<h3><span class="section-number">3.1.7. </span>GMAN (Graph Multi-Attention Network)<a class="headerlink" href="#gman-graph-multi-attention-network" title="Permalink to this headline">¶</a></h3>
-<p>GMAN is a deep nerual network for traffic prediction adopting encoder-decoder architecture. Both encode and decoder consist of multiple spatio-temporal attention blocks to model spatio-temporal dependencies.</p>
+</div>
+<div class="section" id="gman">
+<h3><span class="section-number">4.1.7. </span>GMAN<a class="headerlink" href="#gman" title="Permalink to this headline">¶</a></h3>
+<p>GMAN (Graph Multi-Attention Network) is a deep nerual network for traffic prediction adopting encoder-decoder architecture. Both encode and decoder consist of multiple spatio-temporal attention blocks to model spatio-temporal dependencies.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -299,9 +299,9 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="graphwavenet">
-<h3><span class="section-number">3.1.8. </span>GraphWaveNet<a class="headerlink" href="#graphwavenet" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="graphwavenet">
+<h3><span class="section-number">4.1.8. </span>GraphWaveNet<a class="headerlink" href="#graphwavenet" title="Permalink to this headline">¶</a></h3>
 <p>GraphWaveNet is an end-to-end novel graph neural network. It captures spatial dependencies through a self-adptive adjacency matrix. And it captures temporal dependencies through convolutions.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
@@ -315,13 +315,13 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="hm-historical-mean">
-<h3><span class="section-number">3.1.9. </span>HM (Historical Mean)<a class="headerlink" href="#hm-historical-mean" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="hm-historical-mean">
+<h3><span class="section-number">4.1.9. </span>HM (Historical Mean)<a class="headerlink" href="#hm-historical-mean" title="Permalink to this headline">¶</a></h3>
 <p>HM is a constant model and always forecasts the sample mean of the historical data.</p>
-</section>
-<section id="hmm-hidden-markov-model">
-<h3><span class="section-number">3.1.10. </span>HMM (Hidden Markov Model)<a class="headerlink" href="#hmm-hidden-markov-model" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="hmm-hidden-markov-model">
+<h3><span class="section-number">4.1.10. </span>HMM (Hidden Markov Model)<a class="headerlink" href="#hmm-hidden-markov-model" title="Permalink to this headline">¶</a></h3>
 <p>Hidden Markov Model is a statistical Markov model in which the system being modeled is assumed to be a Markov process with hidden states. It is often used in temporal pattern recognition.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
@@ -331,10 +331,10 @@
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">hmmlearn</span></code></p></li>
 </ul>
-</section>
-<section id="stgcn-spatio-temporal-graph-convolutional-networks">
-<h3><span class="section-number">3.1.11. </span>STGCN (Spatio-temporal Graph Convolutional Networks)<a class="headerlink" href="#stgcn-spatio-temporal-graph-convolutional-networks" title="Permalink to this headline">¶</a></h3>
-<p>STGCN is a deep learning framework for traffic forecasting with complete convolutional structures.</p>
+</div>
+<div class="section" id="stgcn">
+<h3><span class="section-number">4.1.11. </span>STGCN<a class="headerlink" href="#stgcn" title="Permalink to this headline">¶</a></h3>
+<p>STGCN (Spatio-temporal Graph Convolutional Networks) is a deep learning framework for traffic forecasting with complete convolutional structures.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -347,17 +347,17 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="stmeta">
-<h3><span class="section-number">3.1.12. </span>STMeta<a class="headerlink" href="#stmeta" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="stmeta">
+<h3><span class="section-number">4.1.12. </span>STMeta<a class="headerlink" href="#stmeta" title="Permalink to this headline">¶</a></h3>
 <p>STMeta is our prediction model, which requires extra graph information as input, and combines Graph Convolution LSTM and Attention mechanism.</p>
 <ul class="simple">
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">tensorflow</span></code></p></li>
 </ul>
-</section>
-<section id="st-mgcn-spatiotemporal-multi-graph-convolution-network">
-<h3><span class="section-number">3.1.13. </span>ST-MGCN (Spatiotemporal Multi-graph Convolution Network)<a class="headerlink" href="#st-mgcn-spatiotemporal-multi-graph-convolution-network" title="Permalink to this headline">¶</a></h3>
-<p>ST-MGCN is a deep learning based model which encoded the non-Euclidean correlations among regions using multiple graphs and explicitly captured them using multi-graph convolution.</p>
+</div>
+<div class="section" id="st-mgcn">
+<h3><span class="section-number">4.1.13. </span>ST-MGCN<a class="headerlink" href="#st-mgcn" title="Permalink to this headline">¶</a></h3>
+<p>ST-MGCN (Spatiotemporal Multi-graph Convolution Network) is a deep learning based model which encoded the non-Euclidean correlations among regions using multiple graphs and explicitly captured them using multi-graph convolution.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -370,9 +370,9 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="st-resnet">
-<h3><span class="section-number">3.1.14. </span>ST-ResNet<a class="headerlink" href="#st-resnet" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="st-resnet">
+<h3><span class="section-number">4.1.14. </span>ST-ResNet<a class="headerlink" href="#st-resnet" title="Permalink to this headline">¶</a></h3>
 <p>ST-ResNet is a deep-learning model with an end-to-end structure based on unique properties of spatio-temporal data making use of convolution and residual units.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
@@ -386,10 +386,10 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="stsgcn-spatial-temporal-synchronous-graph-convolutional-networks">
-<h3><span class="section-number">3.1.15. </span>STSGCN (Spatial-temporal Synchronous Graph Convolutional Networks)<a class="headerlink" href="#stsgcn-spatial-temporal-synchronous-graph-convolutional-networks" title="Permalink to this headline">¶</a></h3>
-<p>STSGCN is a deep learning framework for spatial-temporal network data forecasting. It is able to capture spatial-temporal dependencies through a designed spatial-temporal synchronous modeling mechanism.</p>
+</div>
+<div class="section" id="stsgcn">
+<h3><span class="section-number">4.1.15. </span>STSGCN<a class="headerlink" href="#stsgcn" title="Permalink to this headline">¶</a></h3>
+<p>STSGCN (Spatial-temporal Synchronous Graph Convolutional Networks) is a deep learning framework for spatial-temporal network data forecasting. It is able to capture spatial-temporal dependencies through a designed spatial-temporal synchronous modeling mechanism.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
 <ul>
@@ -402,9 +402,9 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="xgboost">
-<h3><span class="section-number">3.1.16. </span>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="xgboost">
+<h3><span class="section-number">4.1.16. </span>XGBoost<a class="headerlink" href="#xgboost" title="Permalink to this headline">¶</a></h3>
 <p>XGBoost is a gradient boosting machine learning algorithm widely used in flow prediction and other machine learning prediction areas.</p>
 <ul class="simple">
 <li><p>Reference Paper:</p>
@@ -414,12 +414,12 @@
 </li>
 <li><p>Reference Package: <code class="docutils literal notranslate"><span class="pre">xgboost</span></code></p></li>
 </ul>
-</section>
-</section>
-<section id="quick-start">
-<h2><span class="section-number">3.2. </span>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
-<section id="quick-start-with-stmeta">
-<h3><span class="section-number">3.2.1. </span>Quick start with STMeta<a class="headerlink" href="#quick-start-with-stmeta" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="quick-start">
+<h2><span class="section-number">4.2. </span>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="quick-start-with-stmeta">
+<h3><span class="section-number">4.2.1. </span>Quick start with STMeta<a class="headerlink" href="#quick-start-with-stmeta" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">STMeta</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
@@ -465,9 +465,9 @@
                                  <span class="n">target</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">),</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-hm-historical-mean">
-<h3><span class="section-number">3.2.2. </span>Quick Start with HM (Historical Mean)<a class="headerlink" href="#quick-start-with-hm-historical-mean" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="quick-start-with-hm">
+<h3><span class="section-number">4.2.2. </span>Quick Start with HM<a class="headerlink" href="#quick-start-with-hm" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">HM</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
@@ -484,9 +484,9 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-arima">
-<h3><span class="section-number">3.2.3. </span>Quick Start with ARIMA<a class="headerlink" href="#quick-start-with-arima" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="quick-start-with-arima">
+<h3><span class="section-number">4.2.3. </span>Quick Start with ARIMA<a class="headerlink" href="#quick-start-with-arima" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">ARIMA</span>
@@ -516,9 +516,9 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_rmse&#39;</span><span class="p">,</span> <span class="n">test_rmse</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-hmm">
-<h3><span class="section-number">3.2.4. </span>Quick Start with HMM<a class="headerlink" href="#quick-start-with-hmm" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="quick-start-with-hmm">
+<h3><span class="section-number">4.2.4. </span>Quick Start with HMM<a class="headerlink" href="#quick-start-with-hmm" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
@@ -551,9 +551,9 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-xgboost">
-<h3><span class="section-number">3.2.5. </span>Quick Start with XGBoost<a class="headerlink" href="#quick-start-with-xgboost" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="quick-start-with-xgboost">
+<h3><span class="section-number">4.2.5. </span>Quick Start with XGBoost<a class="headerlink" href="#quick-start-with-xgboost" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
@@ -588,14 +588,14 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="tutorial">
-<h2><span class="section-number">3.3. </span>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
-<section id="use-build-in-models-from-uctb">
-<h3><span class="section-number">3.3.1. </span>Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h3>
-<section id="use-single-temporal-feature-in-regression">
-<h4><span class="section-number">3.3.1.1. </span>Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h4>
+</div>
+</div>
+<div class="section" id="tutorial">
+<h2><span class="section-number">4.3. </span>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="use-build-in-models-from-uctb">
+<h3><span class="section-number">4.3.1. </span>Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="use-single-temporal-feature-in-regression">
+<h4><span class="section-number">4.3.1.1. </span>Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h4>
 <p>UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in <a class="reference external" href="./static/current_supported_models.html"><code class="docutils literal notranslate"><span class="pre">UCTB.model</span></code></a>.</p>
 <p>The following example shows how to use a <strong>Hidden Markov model (HMM)</strong> to handle a simple time series predicting a problem. We will try to predict the bike demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code> of a fixed station <code class="docutils literal notranslate"><span class="pre">target_node</span></code> in New York City by checking back the historical demands in recent time slots <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -667,9 +667,9 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.76137200105079</span>
 </pre></div>
 </div>
-</section>
-<section id="use-multiple-temporal-features-in-regression">
-<h4><span class="section-number">3.3.1.2. </span>Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="use-multiple-temporal-features-in-regression">
+<h4><span class="section-number">4.3.1.2. </span>Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h4>
 <p>In this case, let’s take more temporal knowledge related to <code class="docutils literal notranslate"><span class="pre">target_node</span></code> into account. We will concatenate factors including <code class="docutils literal notranslate"><span class="pre">closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">period</span></code>, and <code class="docutils literal notranslate"><span class="pre">trend</span></code>, and use <strong>XGBoost</strong> as the predicting model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -716,10 +716,10 @@
 <span class="n">Test</span> <span class="n">RMSE</span> <span class="mf">3.3267457</span>
 </pre></div>
 </div>
-</section>
-</section>
-<section id="build-your-own-model-using-uctb">
-<h3><span class="section-number">3.3.2. </span>Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="build-your-own-model-using-uctb">
+<h3><span class="section-number">4.3.2. </span>Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h3>
 <p>UCTB provides extendable APIs to build your own model. Currently, it can support the running of all the <code class="docutils literal notranslate"><span class="pre">1.x</span></code> version of <strong>Tensorflow-based</strong> models. In the following tutorial, we will show you how to takes the least efforts to implement a UCTB model.</p>
 <p>Commonly, a new model needs to inherit <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> to acquire the features provided by UCTB, such as batch division, early stopping, etc. The necessary components for a subclass of <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> include:</p>
 <ul class="simple">
@@ -887,16 +887,16 @@
 </pre></div>
 </div>
 <p>Since we only use a short period of the dataset (<code class="docutils literal notranslate"><span class="pre">data_range=0.1</span></code>) in this toy example, the result looks good compared with the <a class="reference external" href="./all_results.html#results-on-bike">experiment</a>. You can also take a try to test the completed dataset on your model.</p>
-</section>
-<section id="build-your-own-graph-with-stmeta">
-<h3><span class="section-number">3.3.3. </span>Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="build-your-own-graph-with-stmeta">
+<h3><span class="section-number">4.3.3. </span>Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h3>
 <p>Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found <a class="reference external" href="https://anonymous.4open.science/r/561305b5-e65e-46c6-9371-ae76b85109ee/Experiments/CustomizedDemo/">here</a>.</p>
-<section id="top-k-graph">
-<h4><span class="section-number">3.3.3.1. </span>Top-K graph<a class="headerlink" href="#top-k-graph" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="top-k-graph">
+<h4><span class="section-number">4.3.3.1. </span>Top-K graph<a class="headerlink" href="#top-k-graph" title="Permalink to this headline">¶</a></h4>
 <p>First of all, the customized graphs used in this section is called Top-K graph. We construct the corresponding adjacent graph by marking the point pair that consist of each point and its nearest K points as 1, and the others are marked as 0. Then, we use the adjacent graph to generate the laplacian matrix for input. The hyperparameter K is designed via ad-hoc heuristics. In this demonstration, we chose 23 as the value of K.</p>
-</section>
-<section id="realize-topk-graph-analysis-module">
-<h4><span class="section-number">3.3.3.2. </span>Realize TopK graph analysis module<a class="headerlink" href="#realize-topk-graph-analysis-module" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="realize-topk-graph-analysis-module">
+<h4><span class="section-number">4.3.3.2. </span>Realize TopK graph analysis module<a class="headerlink" href="#realize-topk-graph-analysis-module" title="Permalink to this headline">¶</a></h4>
 <p>To adopt customized graphs (<em><strong>e.g.,</strong></em> Top-K) in UCTB, you should first build your own analysis class by inheriting <code class="docutils literal notranslate"><span class="pre">UCTB.preprocess.GraphGenerator</span> <span class="pre">class</span></code>.</p>
 <p>It is worth noting that the ultimate goal is to generate the member variables: <code class="docutils literal notranslate"><span class="pre">self.LM</span></code> and <code class="docutils literal notranslate"><span class="pre">self.AM</span></code>, which is the input matrix of the graph. In this phase, we need to make the corresponding analytical implementation according to the type of the custom graph passed in.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/preprocess/topKGraph.py&quot;</span>
@@ -949,9 +949,9 @@
        <span class="k">return</span> <span class="n">adjacent_matrix</span>
 </pre></div>
 </div>
-</section>
-<section id="redefine-the-call-statement-of-the-above-class">
-<h4><span class="section-number">3.3.3.3. </span>Redefine the call statement of the above class<a class="headerlink" href="#redefine-the-call-statement-of-the-above-class" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="redefine-the-call-statement-of-the-above-class">
+<h4><span class="section-number">4.3.3.3. </span>Redefine the call statement of the above class<a class="headerlink" href="#redefine-the-call-statement-of-the-above-class" title="Permalink to this headline">¶</a></h4>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/Experiments/CustomizedDemo/STMeta_Obj_topk.py&quot;</span>
 
 <span class="c1"># Import the Class: topKGraph</span>
@@ -966,9 +966,9 @@
 <span class="c1"># ......</span>
 </pre></div>
 </div>
-</section>
-<section id="modify-the-function-call-location">
-<h4><span class="section-number">3.3.3.4. </span>Modify the function call location<a class="headerlink" href="#modify-the-function-call-location" title="Permalink to this headline">¶</a></h4>
+</div>
+<div class="section" id="modify-the-function-call-location">
+<h4><span class="section-number">4.3.3.4. </span>Modify the function call location<a class="headerlink" href="#modify-the-function-call-location" title="Permalink to this headline">¶</a></h4>
 <p>Add the new graph name when fitting model and then execute it for experiments. <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/Experiments/CustomizedDemo/Runner_topk.py">code</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj_topk.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line-TopK,MergeIndex:12&#39;</span><span class="p">)</span>
@@ -978,30 +978,30 @@
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th align="center"><strong>Metro: Shanghai</strong></th>
-<th align="center">Graph</th>
-<th align="center">Test-RMSE</th>
+<th style="text-align: center;"><strong>Metro: Shanghai</strong></th>
+<th style="text-align: center;">Graph</th>
+<th style="text-align: center;">Test-RMSE</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">STMeta_V1</td>
-<td align="center">Distance-Correlation-Line</td>
-<td align="center">153.17</td>
+<td style="text-align: center;">STMeta_V1</td>
+<td style="text-align: center;">Distance-Correlation-Line</td>
+<td style="text-align: center;">153.17</td>
 </tr>
 <tr>
-<td align="center">STMeta_V1</td>
-<td align="center">Distance-Correlation-Line-TopK</td>
-<td align="center">140.82</td>
+<td style="text-align: center;">STMeta_V1</td>
+<td style="text-align: center;">Distance-Correlation-Line-TopK</td>
+<td style="text-align: center;">140.82</td>
 </tr>
 </tbody>
 </table><p>The results show that the performance of STMeta_V1 with the graph “Distance-Correlation-Line-TopK” is better than “Distance-Correlation-Line” model and the RMSE is reduced by about 12.4%, which validates the effectiveness of the topk graph for spatiotemporal modeling STMeta algorithm.</p>
 <hr class="docutils" />
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</section>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
+</div>
 
 
            </div>
@@ -1010,10 +1010,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="visualization_tool.html" class="btn btn-neutral float-right" title="4. Visualization Tool" accesskey="n">Next →</a>
+        <a href="visualization_tool.html" class="btn btn-neutral float-right" title="5. Visualization Tool" accesskey="n">Next →</a>
       
       
-        <a href="urban_dataset.html" class="btn btn-neutral" title="2. Urban Datasets" accesskey="p">← Previous</a>
+        <a href="urban_dataset.html" class="btn btn-neutral" title="3. Urban Datasets" accesskey="p">← Previous</a>
       
     </div>
   

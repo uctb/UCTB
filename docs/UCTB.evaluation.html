@@ -5,11 +5,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5.5. UCTB.evaluation package &mdash; UCTB  documentation</title>
+  <title>6.5. UCTB.evaluation package &mdash; UCTB  documentation</title>
   
 
   
@@ -35,9 +34,9 @@
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="UCTB  documentation" href="index.html"/>
-        <link rel="up" title="5. API Reference" href="APIReference.html"/>
-        <link rel="next" title="5.6. UCTB.train package" href="UCTB.train.html"/>
-        <link rel="prev" title="5.4. UCTB.model package" href="UCTB.model.html"/> 
+        <link rel="up" title="6. API Reference" href="APIReference.html"/>
+        <link rel="next" title="6.6. UCTB.train package" href="UCTB.train.html"/>
+        <link rel="prev" title="6.4. UCTB.model package" href="UCTB.model.html"/> 
 
   
   <script src="_static/js/modernizr.min.js"></script>
@@ -85,12 +84,13 @@
             
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="md_file/introduction.html">1. Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/urban_dataset.html">2. Urban Datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/predictive_tool.html">3. Predictive Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/visualization_tool.html">4. Visualization Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="APIReference.html">5. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">6. Benchmark Results</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">7. About us (UCTB Group)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/installation.html">2. Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/urban_dataset.html">3. Urban Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/predictive_tool.html">4. Predictive Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="APIReference.html">6. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">7. Benchmark Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">8. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -132,9 +132,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html"><span class="section-number">5. </span>API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">6. </span>API Reference</a> &raquo;</li>
         
-      <li><span class="section-number">5.5. </span>UCTB.evaluation package</li>
+      <li><span class="section-number">6.5. </span>UCTB.evaluation package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,19 +151,19 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="uctb-evaluation-package">
-<h1><span class="section-number">5.5. </span>UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this headline">¶</a></h1>
-<section id="module-UCTB.evaluation.metric">
-<span id="uctb-evaluation-metric-module"></span><h2><span class="section-number">5.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this headline">¶</a></h2>
+  <div class="section" id="uctb-evaluation-package">
+<h1><span class="section-number">6.5. </span>UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-UCTB.evaluation.metric">
+<span id="uctb-evaluation-metric-module"></span><h2><span class="section-number">6.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="UCTB.evaluation.metric.mape">
 <code class="sig-prename descclassname">UCTB.evaluation.metric.</code><code class="sig-name descname">mape</code><span class="sig-paren">(</span><em class="sig-param">prediction</em>, <em class="sig-param">target</em>, <em class="sig-param">threshold=0</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mape" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
 <li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
-<li><p><strong>threshold</strong> (<em>float</em>) – data smaller than threshold in target will be removed in computing the mape,
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the mape,
 the smallest threshold in mape is zero.</p></li>
 </ul>
 </dd>
@@ -174,19 +174,19 @@ the smallest threshold in mape is zero.</p></li>
 <dt id="UCTB.evaluation.metric.rmse">
 <code class="sig-prename descclassname">UCTB.evaluation.metric.</code><code class="sig-name descname">rmse</code><span class="sig-paren">(</span><em class="sig-param">prediction</em>, <em class="sig-param">target</em>, <em class="sig-param">threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.rmse" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
 <li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
-<li><p><strong>threshold</strong> (<em>float</em>) – data smaller or equal to threshold in target
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller or equal to threshold in target
 will be removed in computing the rmse</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -195,10 +195,10 @@ will be removed in computing the rmse</p></li>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="UCTB.train.html" class="btn btn-neutral float-right" title="5.6. UCTB.train package" accesskey="n">Next →</a>
+        <a href="UCTB.train.html" class="btn btn-neutral float-right" title="6.6. UCTB.train package" accesskey="n">Next →</a>
       
       
-        <a href="UCTB.model.html" class="btn btn-neutral" title="5.4. UCTB.model package" accesskey="p">← Previous</a>
+        <a href="UCTB.model.html" class="btn btn-neutral" title="6.4. UCTB.model package" accesskey="p">← Previous</a>
       
     </div>
   

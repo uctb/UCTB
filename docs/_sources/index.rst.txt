@@ -12,6 +12,8 @@ Welcome to UCTB's documentation!
 
    md_file/introduction.md
 
+   md_file/installation.md
+
    md_file/urban_dataset.md
 
    md_file/predictive_tool.md

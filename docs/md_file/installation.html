@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>2. Installation &mdash; UCTB  documentation</title>
@@ -35,7 +34,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="UCTB  documentation" href="../index.html"/>
-        <link rel="next" title="3. Quick start" href="quickstart.html"/>
+        <link rel="next" title="3. Urban Datasets" href="urban_dataset.html"/>
         <link rel="prev" title="1. Introduction" href="introduction.html"/> 
 
   
@@ -87,13 +86,16 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">2. Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#install-via-anaconda">2.1. Install via Anaconda</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#uctb-docker">2.2. UCTB Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#check-for-success">2.3. Check for Success</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#q-a">2.4. Q &amp; A</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="quickstart.html">3. Quick start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="tutorial.html">4. Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">5. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="all_results.html">6. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">7. About us (UCTB Group)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="urban_dataset.html">3. Urban Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="predictive_tool.html">4. Predictive Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -152,10 +154,51 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="installation">
+  <div class="section" id="installation">
 <h1><span class="section-number">2. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<p>UCTB is based on several well-known deep learning frameworks, including PyTorch, TensorFlow, and MXNet. If you have an Nvidia GPU installed on your computer, we highly recommend you install the GPU version of these frameworks.</p>
+<p>UCTB is based on several well-known deep learning frameworks, including <strong>PyTorch</strong>, <strong>TensorFlow</strong>, and <strong>MXNet</strong>. If you have an Nvidia GPU installed on your computer, we highly recommend you install the GPU version of these frameworks.</p>
 <p>UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. <em><strong>To avoid potential conflict, we highly recommend you install UCTB vis Anaconda or use our docker environment.</strong></em></p>
+<div class="section" id="install-via-anaconda">
+<h2><span class="section-number">2.1. </span>Install via Anaconda<a class="headerlink" href="#install-via-anaconda" title="Permalink to this headline">¶</a></h2>
+<p><strong>Step 1: Install Anaconda</strong></p>
+<p>You can skip to step 2 if you already installed Anaconda.</p>
+<p>To install Anaconda, please refer to this page <a class="reference external" href="https://www.anaconda.com/download">https://www.anaconda.com/download</a>.</p>
+<p><strong>Step 2: create UCTB environment</strong></p>
+<p>Create the UCTB environment by the following command. You may need the <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/environment.yaml">environment.yaml</a> file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yaml
+</pre></div>
+</div>
+<p>Then activate the UCTB environment and start to use it. 🎉🎉🎉</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>UCTB
+</pre></div>
+</div>
+</div>
+<div class="section" id="uctb-docker">
+<h2><span class="section-number">2.2. </span>UCTB Docker<a class="headerlink" href="#uctb-docker" title="Permalink to this headline">¶</a></h2>
+<p>You can also  use UCTB by docker. First pull uctb docker from docker hub.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>dichai/uctb:v0.2.0
+</pre></div>
+</div>
+<p>And  you then can run it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w">  </span>--runtime<span class="o">=</span>nvidia<span class="w">  </span>-it<span class="w"> </span>-d<span class="w"> </span>dichai/uctb:v0.2.0<span class="w"> </span>/bin/bash
+</pre></div>
+</div>
+</div>
+<div class="section" id="check-for-success">
+<h2><span class="section-number">2.3. </span>Check for Success<a class="headerlink" href="#check-for-success" title="Permalink to this headline">¶</a></h2>
+<p>If you  successfully install UCTB, you may get the following output after importing UCTB.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">UCTB</span><span class="p">)</span> <span class="n">XXX</span><span class="c1"># python</span>
+<span class="n">Type</span> <span class="s2">&quot;help&quot;</span><span class="p">,</span> <span class="s2">&quot;copyright&quot;</span><span class="p">,</span> <span class="s2">&quot;credits&quot;</span> <span class="ow">or</span> <span class="s2">&quot;license&quot;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">UCTB</span>
+<span class="n">Using</span> <span class="n">TensorFlow</span> <span class="n">backend</span><span class="o">.</span>
+<span class="o">&gt;&gt;&gt;</span> 
+</pre></div>
+</div>
+</div>
+<div class="section" id="q-a">
+<h2><span class="section-number">2.4. </span>Q &amp; A<a class="headerlink" href="#q-a" title="Permalink to this headline">¶</a></h2>
+<p><strong>Q: I fail to install PyTorch, TensorFlow, and MXNet, what is the version number of them?</strong></p>
+<p>A: We recommend you install PyTorch==1.1.0, TensorFlow==1.13.1, and MXNet==1.5.0 with cuda version 10.0. We here give the installation command:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install PyTorch</span>
 conda<span class="w"> </span>install<span class="w"> </span><span class="nv">pytorch</span><span class="o">==</span><span class="m">1</span>.1.0<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.3.0<span class="w"> </span><span class="nv">cudatoolkit</span><span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>-c<span class="w"> </span>pytorch
 
@@ -166,68 +209,25 @@ conda<span class="w"> </span>install<span class="w"> </span>tensorflow-gpu<span 
 pip<span class="w"> </span>install<span class="w"> </span>mxnet-cu100<span class="o">==</span><span class="m">1</span>.5.0
 </pre></div>
 </div>
-<section id="install-via-anaconda">
-<h2><span class="section-number">2.1. </span>Install via Anaconda<a class="headerlink" href="#install-via-anaconda" title="Permalink to this headline">¶</a></h2>
-<p><strong>Step 1: Install Anaconda</strong></p>
-<p>You can skip to step 2 if you already installed Anaconda.</p>
-<p>You can refer to this page <a class="reference external" href="https://www.anaconda.com/download">https://www.anaconda.com/download</a> to install Anaconda.</p>
-<p><strong>Step 2: create UCTB environment</strong></p>
-<p>Create the UCTB environment by the following command. You may need the <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/environment.yaml">environment.yaml</a> file.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">env</span> <span class="n">create</span> <span class="o">-</span><span class="n">f</span> <span class="n">environment</span><span class="o">.</span><span class="n">yaml</span>
+<p><strong>Q:  I’m using Windows OS, and my Anaconda reports that it cannot find the PyTorch 1.1.0 packages. How to install it?</strong></p>
+<p>A: You could install it by the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">1</span>.1.0<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.3.0<span class="w"> </span>-f<span class="w"> </span>https://download.pytorch.org/whl/cu100/torch_stable.html
 </pre></div>
 </div>
-<p>Then activate the UCTB enviroment.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">conda</span> <span class="n">activate</span> <span class="n">UCTB</span>
-</pre></div>
-</div>
-<p><strong>Step 3: Install UCTB</strong></p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>UCTB
-</pre></div>
-</div>
-<p>Then we finish installing UCTB, and we could start it in the conda environment.</p>
-<p><strong>[Optional Step] If fail in Step 3</strong></p>
-<p>If you fail to install UCTB via the pip command (This situation may occur when your OS is Windows), you could install UCTB by source code.</p>
-<p>First, download UCTB’s source code, then go to the main folder of UCTB. Your directory may look like</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>XXX/UCTB#<span class="w"> </span>ls
+<p><strong>Q:  I fail to install UCTB via pip. How to install it ?</strong></p>
+<p>A: This situation may occur when your OS is Windows. You could install UCTB by its source code. First download UCTB’s source code and your folder may look like this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>XXX/UCTB-master#<span class="w"> </span>ls
 build_install.py<span class="w">  </span>dist<span class="w">  </span>environment.yaml<span class="w">  </span>__init__.py<span class="w">  </span>QuickStarts<span class="w">  </span>setup.py
 build.py<span class="w">          </span>docs<span class="w">  </span>Experiments<span class="w">       </span>LICENSE<span class="w">      </span>README.md<span class="w">    </span>UCTB
 </pre></div>
 </div>
-<p>Then run the following command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>build_install.py<span class="w"> </span>
-</pre></div>
-</div>
-<p>The following required package will be installed or upgraded with UCTB:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;hmmlearn&#39;</span>,
-<span class="s1">&#39;keras&#39;</span>,
-<span class="s1">&#39;GPUtil&#39;</span>,
-<span class="s1">&#39;numpy&#39;</span>,
-<span class="s1">&#39;pandas&#39;</span>,
-<span class="s1">&#39;python-dateutil&#39;</span>,
-<span class="s1">&#39;scikit-learn&#39;</span>,
-<span class="s1">&#39;scipy&#39;</span>,
-<span class="s1">&#39;statsmodels&#39;</span>,
-<span class="s1">&#39;wget&#39;</span>,
-<span class="s1">&#39;xgboost&#39;</span>,
-<span class="s1">&#39;nni&#39;</span>,
-<span class="s1">&#39;chinesecalendar&#39;</span>,
-<span class="s1">&#39;PyYAML&#39;</span>
-</pre></div>
-</div>
-</section>
-<section id="uctb-docker">
-<h2><span class="section-number">2.2. </span>UCTB Docker<a class="headerlink" href="#uctb-docker" title="Permalink to this headline">¶</a></h2>
-<p>You can also  use UCTB by docker. First pull uctb docker from docker hub.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>dichai/uctb:v0.2.0
-</pre></div>
-</div>
-<p>And  you then can run it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>run<span class="w">  </span>--runtime<span class="o">=</span>nvidia<span class="w">  </span>-it<span class="w"> </span>-d<span class="w"> </span>dichai/uctb:v0.2.0<span class="w"> </span>/bin/bash
+<p>then build and install UCTB by the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>build_install.py
 </pre></div>
 </div>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -236,7 +236,7 @@ build.py<span class="w">          </span>docs<span class="w">  </span>Experiment
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="quickstart.html" class="btn btn-neutral float-right" title="3. Quick start" accesskey="n">Next →</a>
+        <a href="urban_dataset.html" class="btn btn-neutral float-right" title="3. Urban Datasets" accesskey="n">Next →</a>
       
       
         <a href="introduction.html" class="btn btn-neutral" title="1. Introduction" accesskey="p">← Previous</a>

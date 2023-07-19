@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>Quick Start with HM (Historical Mean) &mdash; UCTB  documentation</title>
@@ -83,11 +82,12 @@
                 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">1. Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">2. Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quickstart.html">3. Quick start</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../tutorial.html">4. Tutorial</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../APIReference.html">5. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../all_results.html">6. Results on different datasets</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../uctb_group.html">7. About us (UCTB Group)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../urban_dataset.html">3. Urban Datasets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../predictive_tool.html">4. Predictive Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../APIReference.html">6. API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../all_results.html">7. Benchmark Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../uctb_group.html">8. About us (UCTB Group)</a></li>
 </ul>
 
             
@@ -146,7 +146,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="quick-start-with-hm-historical-mean">
+  <div class="section" id="quick-start-with-hm-historical-mean">
 <h1>Quick Start with HM (Historical Mean)<a class="headerlink" href="#quick-start-with-hm-historical-mean" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">HM</span>
@@ -164,8 +164,8 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-arima">
+</div>
+<div class="section" id="quick-start-with-arima">
 <h1>Quick Start with ARIMA<a class="headerlink" href="#quick-start-with-arima" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -196,8 +196,8 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;test_rmse&#39;</span><span class="p">,</span> <span class="n">test_rmse</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-hmm">
+</div>
+<div class="section" id="quick-start-with-hmm">
 <h1>Quick Start with HMM<a class="headerlink" href="#quick-start-with-hmm" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -231,8 +231,8 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
-<section id="quick-start-with-xgboost">
+</div>
+<div class="section" id="quick-start-with-xgboost">
 <h1>Quick Start with XGBoost<a class="headerlink" href="#quick-start-with-xgboost" title="Permalink to this headline">¶</a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
@@ -268,7 +268,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 </pre></div>
 </div>
-</section>
+</div>
 
 
            </div>

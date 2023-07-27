@@ -1,6 +1,6 @@
 # STORM: A Spatiotemporal Context-Aware Model for Predicting Event-Triggered Abnormal Crowd Traffic
 
-![framework](/Users/hyymmmint/Documents/CodeHubs/UCTB/framework.png)
+![framework](./framework.png)
 
 This is the Tensorflow implementation of STORM. 
 

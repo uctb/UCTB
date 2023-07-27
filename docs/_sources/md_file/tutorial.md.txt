@@ -51,8 +51,7 @@ plt.plot(data_loader.traffic_data[:, 0])
 plt.show()
 ```
 
-
-![png](https://uctb.github.io/UCTB/sphinx/md_file/src/image/toturial_p1_dataplot.png)
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/toturial_p1_dataplot.png" alt="png" style="zoom:50%;" />
 
 #### Build your own datasets
 

@@ -14,7 +14,7 @@ Some description and external link of open datasets are listed in the table belo
 | Pedestrian Count | Melbourne |   2021.01.01-2022.11.01    |55|60 minutes| [1.18M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip) |[source](https://data.melbourne.vic.gov.au/pages/home/)|
 |  Vehicle Speed   |    LA     |   2012.03.01-2012.06.28     |207|5 minutes| [11.8M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip) |[source](https://github.com/liyaguang/DCRNN)|
 |  Vehicle Speed   |    BAY    |   2017.01.01-2017.07.01     |325|5 minutes| [27.9M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip) |[source](https://github.com/liyaguang/DCRNN)|
-|   Ride-sharing   |  Chicago  |  2013.01.01-2018.01.01 |121|60 minutes| [9.1M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip) |[source](https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew)|
+|   Taxi Demand   |  Chicago  |  2013.01.01-2018.01.01 |77|15 minutes| [6.1M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip) |[source](https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew)|
 
 ## Load UCTB Dataset
 
@@ -114,13 +114,13 @@ Also, we provide interface to help build your own dataset, through which we clar
 
 To build a UCTB dataset, it is necessary to provide variables listed as below.
 
-|variable_name|description|
+|Variable_name|Description|
 |:--|:--|
 |time_fitness|The length of the interval between adjacent slots|
-|time_range| the time interval at the beginning and end of the data |
-|traffic_node| the spatio-temporal information |
-|node_satation_info| the basic information of each data collecting node|
-|dataset_name| name of the dataset |
+|time_range| The time interval at the beginning and end of the data |
+|traffic_node| The spatio-temporal information |
+|node_satation_info| The basic information of each data collecting node |
+|dataset_name| Name of the dataset |
 |city| A variable used to integrate holiday and weather information to traffic data|
 
 Then, use the specified path to save the dataset, otherwise it will be saved in the current run-time path.
@@ -180,11 +180,11 @@ Output:
 
 What's more, if you want to integrate additional information of the dataset, just specify the optional argument as bellow.
 
-|variable_name|description|
+|Variable_name|Description|
 |:--|:--|
-|traffic_monthly_interaction| the interactive information among data collecting nodes. |
-|poi| point of interests |
-|traffic_grid| the spatio-temporal information in grid format. |
+|traffic_monthly_interaction| The interactive information among data collecting nodes. |
+|poi| Point of interests |
+|traffic_grid| The spatio-temporal information in grid format. |
 |gird_lat_lng| the basic information of each data collecting grid.|
 |Weather| the weather information of each day. |
 

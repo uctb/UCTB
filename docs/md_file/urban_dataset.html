@@ -86,20 +86,12 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Urban Datasets</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#open-datasets">3.1. Open Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#tutorial-on-dataset">3.2. Tutorial on Dataset</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#use-datasets-from-uctb">3.2.1. Use datasets from UCTB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-your-own-datasets">3.2.2. Build your own datasets</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#load-datasets-from-urban-dataset">3.2.3. Load datasets from Urban_dataset</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#nodetrafficloader">3.2.3.1. NodeTrafficLoader</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-uctb-dataset">3.2. Load UCTB Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-format">3.2.1. Dataset format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-datasets-from-urban-datasets">3.2.2. Use datasets from Urban Datasets</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#model-building">3.2.4. Model building</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#utilize-simple-models-to-predict">3.2.4.1. Utilize simple models to predict</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#utilize-uctb-to-predict">3.2.5. Utilize UCTB to predict</a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#build-your-own-datasets">3.3. Build your own datasets</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="predictive_tool.html">4. Predictive Tool</a></li>
@@ -170,103 +162,91 @@
 <p>UCTB is designed for urban computing in various scenarios. Currently, It releases <a class="reference external" href="https://github.com/uctb/Urban-Dataset">a public dataset repository</a> including bike sharing, ride sharing, traffic speed, and pedestrian counting applications. <strong>If you are interested in this project, making a contribution to the dataset is strongly welcomed :)</strong></p>
 <div class="section" id="open-datasets">
 <h2><span class="section-number">3.1. </span>Open Datasets<a class="headerlink" href="#open-datasets" title="Permalink to this headline">¶</a></h2>
+<p>Some description and external link of open datasets are listed in the table below.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
 <th style="text-align: center;"><strong>Application</strong></th>
 <th style="text-align: center;"><strong>City</strong></th>
-<th style="text-align: center;"><strong>Granularity</strong></th>
-<th style="text-align: center;"><strong>Download Link</strong></th>
+<th style="text-align: center;"><strong>Time Range</strong></th>
+<th style="text-align: center;"><strong>Number of Station</strong></th>
+<th style="text-align: center;"><strong>Temporal Granularity</strong></th>
+<th style="text-align: center;"><strong>Dataset Link</strong></th>
+<th style="text-align: center;"><strong>Raw Data Link</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: center;">Bike-sharing</td>
 <td style="text-align: center;">NYC</td>
+<td style="text-align: center;">2013.07.01-2017.09.30</td>
+<td style="text-align: center;">820</td>
 <td style="text-align: center;">5 minutes</td>
 <td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip">66.0M</a></td>
+<td style="text-align: center;"><a href="https://www.citibikenyc.com/system-data">source</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">Bike-sharing</td>
 <td style="text-align: center;">Chicago</td>
+<td style="text-align: center;">2013.07.01-2017.09.30</td>
+<td style="text-align: center;">585</td>
 <td style="text-align: center;">5 minutes</td>
 <td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip">30.2M</a></td>
+<td style="text-align: center;"><a href="https://www.divvybikes.com/system-data">source</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">Bike-sharing</td>
 <td style="text-align: center;">DC</td>
+<td style="text-align: center;">2013.07.01-2017.09.30</td>
+<td style="text-align: center;">532</td>
 <td style="text-align: center;">5 minutes</td>
 <td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip">31.0M</a></td>
+<td style="text-align: center;"><a href="https://www.capitalbikeshare.com/system-data">source</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">Pedestrian Count</td>
 <td style="text-align: center;">Melbourne</td>
+<td style="text-align: center;">2021.01.01-2022.11.01</td>
+<td style="text-align: center;">55</td>
 <td style="text-align: center;">60 minutes</td>
 <td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip">1.18M</a></td>
+<td style="text-align: center;"><a href="https://data.melbourne.vic.gov.au/pages/home/">source</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">Vehicle Speed</td>
 <td style="text-align: center;">LA</td>
+<td style="text-align: center;">2012.03.01-2012.06.28</td>
+<td style="text-align: center;">207</td>
 <td style="text-align: center;">5 minutes</td>
 <td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip">11.8M</a></td>
+<td style="text-align: center;"><a href="https://github.com/liyaguang/DCRNN">source</a></td>
 </tr>
 <tr>
 <td style="text-align: center;">Vehicle Speed</td>
 <td style="text-align: center;">BAY</td>
+<td style="text-align: center;">2017.01.01-2017.07.01</td>
+<td style="text-align: center;">325</td>
 <td style="text-align: center;">5 minutes</td>
 <td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip">27.9M</a></td>
+<td style="text-align: center;"><a href="https://github.com/liyaguang/DCRNN">source</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Ride-sharing</td>
+<td style="text-align: center;">Taxi Demand</td>
 <td style="text-align: center;">Chicago</td>
-<td style="text-align: center;">60 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip">9.1M</a></td>
+<td style="text-align: center;">2013.01.01-2018.01.01</td>
+<td style="text-align: center;">77</td>
+<td style="text-align: center;">15 minutes</td>
+<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip">6.1M</a></td>
+<td style="text-align: center;"><a href="https://data.cityofchicago.org/Transportation/Taxi-Trips/wrvz-psew">source</a></td>
 </tr>
 </tbody>
-</table><p>We provide <a class="reference external" href="https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb">detailed documents</a> about how to build and how to use these datasets.</p>
-</div>
-<div class="section" id="tutorial-on-dataset">
-<h2><span class="section-number">3.2. </span>Tutorial on Dataset<a class="headerlink" href="#tutorial-on-dataset" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="use-datasets-from-uctb">
-<h3><span class="section-number">3.2.1. </span>Use datasets from UCTB<a class="headerlink" href="#use-datasets-from-uctb" title="Permalink to this headline">¶</a></h3>
-<p>To help better accuse dataset, UCTB provides data loader APIs <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code>, which can be used to preprocess data, including data division, normalization, and extract temporal and spatial knowledge.</p>
-<p>In the following tutorial, we illustrate how to use <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code> APIs to inspect the bikesharing dataset.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset.data_loader</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
-</pre></div>
-</div>
-<p>We use 10% (<code class="docutils literal notranslate"><span class="pre">data_range=0.1</span></code>) of the bike data in New York as an example. Firstly, let’s initialize a <code class="docutils literal notranslate"><span class="pre">NodeTrafficLoader</span></code> object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">data_range</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;Bike&#39;</span><span class="p">,</span> <span class="n">city</span><span class="o">=</span><span class="s1">&#39;NYC&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Take a look at the necessary information about the dataset:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Traffic data </span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data time range&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_range</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Traffic data shape:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="c1"># The first dimension of data_loader.traffic_data is the length of time-sequence.</span>
-<span class="c1"># The second dimension is the number of stations.</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time fitness:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">dataset</span><span class="o">.</span><span class="n">time_fitness</span><span class="p">,</span> <span class="s1">&#39;minutes&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time sequence length:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of stations:&#39;</span><span class="p">,</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">time</span> <span class="nb">range</span> <span class="p">[</span><span class="s1">&#39;2013-07-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2017-09-30&#39;</span><span class="p">]</span>
-<span class="n">Traffic</span> <span class="n">data</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">3724</span><span class="p">,</span> <span class="mi">717</span><span class="p">)</span>
-<span class="n">Time</span> <span class="n">fitness</span><span class="p">:</span> <span class="mi">60</span> <span class="n">minutes</span>
-<span class="n">Time</span> <span class="n">sequence</span> <span class="n">length</span><span class="p">:</span> <span class="mi">3724</span>
-<span class="n">Number</span> <span class="n">of</span> <span class="n">stations</span><span class="p">:</span> <span class="mi">717</span>
-</pre></div>
-</div>
-<p>Visualize the distribution of the traffic data:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><img alt="png" src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/toturial_p1_dataplot.png" /></p>
-</div>
-<div class="section" id="build-your-own-datasets">
-<h3><span class="section-number">3.2.2. </span>Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h3>
-<p>If you want to apply uctb dataloaders to your dataset, make your dataset compatible with the template as follows:</p>
+</table></div>
+<div class="section" id="load-uctb-dataset">
+<h2><span class="section-number">3.2. </span>Load UCTB Dataset<a class="headerlink" href="#load-uctb-dataset" title="Permalink to this headline">¶</a></h2>
+<!-- TODO: 介绍pickle --><p>The <code class="docutils literal notranslate"><span class="pre">pickle</span></code> module is an external library that comes built-in with Python and provides functionality for converting Python objects into a byte stream (serialization) and restoring them back to their original state (deserialization). We use it to help data format instances to transform between memory and disk.</p>
+<div class="section" id="dataset-format">
+<h3><span class="section-number">3.2.1. </span>Dataset format<a class="headerlink" href="#dataset-format" title="Permalink to this headline">¶</a></h3>
+<p>Our abstract data format is externalized in the way of class <code class="docutils literal notranslate"><span class="pre">dict</span></code> in programming language Python as follows.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s say ``my_dataset`` is your dataset.</span>
 <span class="n">my_dataset</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;TimeRange&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">,</span> <span class="s1">&#39;YYYY-MM-DD&#39;</span><span class="p">],</span>
@@ -291,7 +271,48 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>And then save it with package <code class="docutils literal notranslate"><span class="pre">pickle</span></code> to a local path <code class="docutils literal notranslate"><span class="pre">pkl_file_name</span></code>.</p>
+</div>
+<div class="section" id="use-datasets-from-urban-datasets">
+<h3><span class="section-number">3.2.2. </span>Use datasets from Urban Datasets<a class="headerlink" href="#use-datasets-from-urban-datasets" title="Permalink to this headline">¶</a></h3>
+<p>In this section, we will introduce how to get the dataset from Urban_Dataset and read the dataset using python.</p>
+<p>You are proposed to download the zip file from the <a class="reference external" href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip">link</a> and unzip the file. Let’s say the following scripts are placed at the same directory with the dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="n">data_path</span> <span class="o">=</span> <span class="s1">&#39;Pedestrian_Melbourne.pkl&#39;</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fp</span><span class="p">:</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pkl</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fp</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Take a look at the necessary information about the dataset:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Traffic data </span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Data time range&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TimeRange&#39;</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Traffic data shape:&#39;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">shape</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;TrafficNode&#39;</span><span class="p">]))</span>
+<span class="c1"># The first dimension of data[&#39;Node&#39;][&#39;TrafficNode&#39;] is the length of time-sequence.</span>
+<span class="c1"># The second dimension is the number of stations.</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time fitness:&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;TimeFitness&#39;</span><span class="p">],</span> <span class="s1">&#39;minutes&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Time sequence length:&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;TrafficNode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Number of stations:&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;TrafficNode&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Data</span> <span class="n">time</span> <span class="nb">range</span> <span class="p">[</span><span class="s1">&#39;2021-01-01&#39;</span><span class="p">,</span> <span class="s1">&#39;2022-11-01&#39;</span><span class="p">]</span>
+<span class="n">Traffic</span> <span class="n">data</span> <span class="n">shape</span><span class="p">:</span> <span class="p">(</span><span class="mi">16056</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
+<span class="n">Time</span> <span class="n">fitness</span><span class="p">:</span> <span class="mi">60</span> <span class="n">minutes</span>
+<span class="n">Time</span> <span class="n">sequence</span> <span class="n">length</span><span class="p">:</span> <span class="mi">16056</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">stations</span><span class="p">:</span> <span class="mi">55</span>
+</pre></div>
+</div>
+<p>Visualize the distribution of the traffic data:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;Node&#39;</span><span class="p">][</span><span class="s1">&#39;TrafficNode&#39;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="png" src="../_images/toturial_p1_dataplot.png" /></p>
+</div>
+</div>
+<div class="section" id="build-your-own-datasets">
+<h2><span class="section-number">3.3. </span>Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this headline">¶</a></h2>
+<p>If you want to apply uctb dataloaders to your dataset, make your dataset compatible with the template as section 3.2.1 shown. And then save it with package <code class="docutils literal notranslate"><span class="pre">pickle</span></code> to a local path <code class="docutils literal notranslate"><span class="pre">pkl_file_name</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="n">pkl_file_name</span> <span class="o">=</span> <span class="s1">&#39;./my_dataset.pkl&#39;</span>  
 <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">pkl_file_name</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
@@ -307,8 +328,8 @@
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: left;">variable_name</th>
-<th style="text-align: left;">description</th>
+<th style="text-align: left;">Variable_name</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
@@ -318,19 +339,19 @@
 </tr>
 <tr>
 <td style="text-align: left;">time_range</td>
-<td style="text-align: left;">the time interval at the beginning and end of the data</td>
+<td style="text-align: left;">The time interval at the beginning and end of the data</td>
 </tr>
 <tr>
 <td style="text-align: left;">traffic_node</td>
-<td style="text-align: left;">the spatio-temporal information</td>
+<td style="text-align: left;">The spatio-temporal information</td>
 </tr>
 <tr>
 <td style="text-align: left;">node_satation_info</td>
-<td style="text-align: left;">the basic information of each data collecting node</td>
+<td style="text-align: left;">The basic information of each data collecting node</td>
 </tr>
 <tr>
 <td style="text-align: left;">dataset_name</td>
-<td style="text-align: left;">name of the dataset</td>
+<td style="text-align: left;">Name of the dataset</td>
 </tr>
 <tr>
 <td style="text-align: left;">city</td>
@@ -357,7 +378,7 @@
 <ul>
 <li><p>Spatio-temporal raster data building</p>
 <ol class="simple">
-<li><p>Allocate memory</p></li>
+<li><p>Initialization</p></li>
 <li><p>iterate raw data table and fill the matrix</p></li>
 </ol>
 </li>
@@ -403,22 +424,22 @@ dataset[LenTimeSlots]:&lt;class &#39;int&#39;&gt;
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: left;">variable_name</th>
-<th style="text-align: left;">description</th>
+<th style="text-align: left;">Variable_name</th>
+<th style="text-align: left;">Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align: left;">traffic_monthly_interaction</td>
-<td style="text-align: left;">the interactive information among data collecting nodes.</td>
+<td style="text-align: left;">The interactive information among data collecting nodes.</td>
 </tr>
 <tr>
 <td style="text-align: left;">poi</td>
-<td style="text-align: left;">point of interests</td>
+<td style="text-align: left;">Point of interests</td>
 </tr>
 <tr>
 <td style="text-align: left;">traffic_grid</td>
-<td style="text-align: left;">the spatio-temporal information in grid format.</td>
+<td style="text-align: left;">The spatio-temporal information in grid format.</td>
 </tr>
 <tr>
 <td style="text-align: left;">gird_lat_lng</td>
@@ -437,260 +458,6 @@ dataset[LenTimeSlots]:&lt;class &#39;int&#39;&gt;
 </pre></div>
 </div>
 <p>The code above use zero matrix to specify the argument <code class="docutils literal notranslate"><span class="pre">external_feature_weather</span></code>. While in practical application scenario, you should substitute it with real feather matrix. The first dimension of the matrx is the number of time slots, and the second dimension corresponds to the dimension of weather features.</p>
-</div>
-<div class="section" id="load-datasets-from-urban-dataset">
-<h3><span class="section-number">3.2.3. </span>Load datasets from Urban_dataset<a class="headerlink" href="#load-datasets-from-urban-dataset" title="Permalink to this headline">¶</a></h3>
-<p>To help better accuse dataset, UCTB provides data loader APIs <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code>, which can be used to preprocess data, including <strong>data division</strong>, <strong>normalization</strong>, and <strong>extract temporal and spatial knowledge</strong>.</p>
-<p>In the following tutorial, we will illustrate how to use <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code> APIs to inspect the pedestrian dataset.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset.data_loader</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
-</pre></div>
-</div>
-<p>We use all(data_range=’all’) of pedestrian data in Pedestrian_Melbourne. Firstly, let’s initialize a NodeTrafficLoader object:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">data_range</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
-                 <span class="n">train_data_length</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
-                 <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
-                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
-                 <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
-                 <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                 <span class="n">target_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">data_dir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                 <span class="n">MergeIndex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                 <span class="n">MergeWay</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;../Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="section" id="nodetrafficloader">
-<h4><span class="section-number">3.2.3.1. </span>NodeTrafficLoader<a class="headerlink" href="#nodetrafficloader" title="Permalink to this headline">¶</a></h4>
-<p>NodeTrafficLoader is the base class for dataset extracting and processing. Input arguments appeared in constructor above will be explained.</p>
-<div class="section" id="data-structure-building">
-<h5><span class="section-number">3.2.3.1.1. </span>Data structure building<a class="headerlink" href="#data-structure-building" title="Permalink to this headline">¶</a></h5>
-<ul class="simple">
-<li><p>data range selection
-<code class="docutils literal notranslate"><span class="pre">*data</span> <span class="pre">range</span> <span class="pre">=</span> <span class="pre">'all'</span></code> means that we choose the whole data as our traffic_data to train, test, and predict.</p></li>
-<li><p>data spliting(train set and test set spliting)</p></li>
-</ul>
-<p><code class="docutils literal notranslate"><span class="pre">train_data</span> <span class="pre">length</span> <span class="pre">=</span> <span class="pre">'all'</span></code> means that we exploit all of the traffic_data. <code class="docutils literal notranslate"><span class="pre">'train_test_ratio</span> <span class="pre">=</span> <span class="pre">0.1</span></code> means we divide the dataset into train and test sets. And the train set to the test set is nine to one.</p>
-<ul class="simple">
-<li><p>normalization</p></li>
-</ul>
-<p><code class="docutils literal notranslate"><span class="pre">normalization</span> <span class="pre">=</span> <span class="pre">True</span></code> means that we normalized the dataset through min-max-normalization method. When we input False, we simply do not employ any preprocessing tricks on the dataset.</p>
-<ul class="simple">
-<li><p>data merging</p></li>
-</ul>
-<p><code class="docutils literal notranslate"><span class="pre">MergeIndex</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">MergeWay</span> <span class="pre">=</span> <span class="pre">'sum'</span></code> means that granularity of raw dataset will not be changed. If we try MergeIndex &gt; 1, we can obtain combination of MergeIndex time slots of data in a way of ‘sum’ or ‘average’.</p>
-<ul class="simple">
-<li><p>multiple time series building(temporal knowledge exploiting)</p></li>
-</ul>
-<p><code class="docutils literal notranslate"><span class="pre">closeness_len</span> <span class="pre">=</span> <span class="pre">6,</span> <span class="pre">period_len=7,</span> <span class="pre">trend_len=4,</span> <span class="pre">target_length=1</span></code> means that we create 3 time series, using former consecutive closeness_len time slots of data as a unit, former every other daily_slots time slots of data as a unit(consisting of period_len piece of data), former every other daily_slots*7 time slots of data as a unit(consisting of trend_len piece of data) respectively.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p>(100584, 70, 6, 1)
-(100584, 70, 7, 1)
-(100584, 70, 4, 1)
-(101256, 70)</p>
-</div></blockquote>
-<p>You may probably note that the length of train_closeness is 672 less than that of train_data. It’s because we choose the shortest data length among the three series(train_trend) for alignment.</p>
-<p><img alt="../_images/data_reassemble.png" src="../_images/data_reassemble.png" /></p>
-<p>Above is the visualization of a new time series’s construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.</p>
-<p>Through the process in the figure shown above, we can calculate the length of train_trend is $101256-24<em>7</em>4-1=100584$, which is the minimum among three time series.</p>
-</div>
-<div class="section" id="operations">
-<h5><span class="section-number">3.2.3.1.2. </span>Operations<a class="headerlink" href="#operations" title="Permalink to this headline">¶</a></h5>
-<ul class="simple">
-<li><p>Denormalization/Normalization</p></li>
-<li><p>Visualization</p></li>
-<li><p>Temporal Knowledge Exploitation</p></li>
-<li><p>Spatial knowledge Exploration</p></li>
-<li><p>Access to raw data</p></li>
-</ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">UCTB.preprocess.preprocessor</span> <span class="kn">import</span> <span class="n">Normalizer</span>
-
-<span class="c1"># without normalization</span>
-
-<span class="n">target_node</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[:,</span><span class="mi">5</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Raw&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-
-<span class="c1"># normalization</span>
-
-<span class="n">normalizer</span><span class="o">=</span><span class="n">Normalizer</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">)</span>
-<span class="n">X_normalized</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_normal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">)</span>
-
-<span class="c1"># denormalization</span>
-
-<span class="n">X_denormalized</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">X_normalized</span><span class="p">)</span>
-
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_normalized</span><span class="p">[:,</span><span class="mi">5</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Normalized&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_denormalized</span><span class="p">[:,</span><span class="mi">5</span><span class="p">])</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Denormalized&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><img alt="Raw_data" src="../_images/Raw_data.png" />
-<img alt="../_images/normalized_data.png" src="../_images/normalized_data.png" />
-<img alt="../_images/denormalized_data.png" src="../_images/denormalized_data.png" /></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nodes&#39; location visualizations</span>
-<span class="n">data_loader</span><span class="o">.</span><span class="n">st_map</span><span class="p">()</span>
-</pre></div>
-</div>
-<p>Visualization result is as follows:
-<img alt="Node location of Pedestrain_Melbourne" src="../_images/Pedestrain_Melbourne.png" /></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># data visualization</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="n">real_denormed</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">)</span>
-<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">real_denormed</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Time Slot&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sensor Node&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Visualization&quot;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature stitching</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">make_concat</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;before concatenate&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;closeness&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;period&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;trend&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;After concatenate&#39;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p>before concatenate
-closeness
-(100584, 70, 6, 1)
-period
-(100584, 70, 7, 1)
-trend
-(100584, 70, 4, 1)
-After concatenate
-(100584, 70, 17, 1)</p>
-</div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># access to raw data</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
-</pre></div>
-</div>
-<blockquote>
-<div><p>52.0</p>
-</div></blockquote>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="nn">nx</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">sp</span>
-<span class="kn">from</span> <span class="nn">UCTB.preprocess.GraphGenerator</span> <span class="kn">import</span> <span class="n">GraphGenerator</span>
-
-<span class="c1"># Some parameters</span>
-<span class="n">threshold_distance</span> <span class="o">=</span> <span class="mi">500</span>
-<span class="n">threshold_correlation</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">def</span> <span class="nf">get_matrix_triad</span><span class="p">(</span><span class="n">coo_matrix</span> <span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-	<span class="c1"># check type</span>
-	<span class="k">if</span> <span class="ow">not</span> <span class="n">sp</span><span class="o">.</span><span class="n">isspmatrix_coo</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">):</span>
-		<span class="n">coo_matrix</span> <span class="o">=</span> <span class="n">sp</span><span class="o">.</span><span class="n">coo_matrix</span><span class="p">(</span><span class="n">coo_matrix</span><span class="p">)</span>
-	<span class="n">temp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">coo_matrix</span><span class="o">.</span><span class="n">row</span> <span class="p">,</span> <span class="n">coo_matrix</span><span class="o">.</span><span class="n">col</span> <span class="p">,</span> <span class="n">coo_matrix</span><span class="o">.</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
-	<span class="k">return</span> <span class="n">temp</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-
-<span class="n">graphBuilder</span> <span class="o">=</span> <span class="n">GraphGenerator</span> <span class="p">(</span><span class="n">data_loader</span><span class="p">,</span><span class="n">threshold_correlation</span> <span class="o">=</span> <span class="n">threshold_correlation</span><span class="p">)</span>
-
-
-<span class="n">Matrix</span><span class="o">=</span><span class="n">graphBuilder</span><span class="o">.</span><span class="n">AM</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">edags</span> <span class="o">=</span> <span class="n">get_matrix_triad</span><span class="p">(</span><span class="n">Matrix</span><span class="p">)</span>
-<span class="n">G</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
-<span class="n">H</span> <span class="o">=</span> <span class="n">nx</span><span class="o">.</span><span class="n">path_graph</span><span class="p">(</span><span class="n">Matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> 
-<span class="n">G</span><span class="o">.</span><span class="n">add_nodes_from</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
-<span class="n">G</span><span class="o">.</span><span class="n">add_weighted_edges_from</span><span class="p">(</span><span class="n">edags</span><span class="p">,</span><span class="n">weight</span><span class="o">=</span><span class="s1">&#39;weight&#39;</span><span class="p">)</span>
-<span class="n">colors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">Matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-<span class="n">nx</span><span class="o">.</span><span class="n">draw</span><span class="p">(</span><span class="n">G</span><span class="p">,</span><span class="n">pos</span><span class="o">=</span><span class="n">nx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span><span class="n">node_color</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Adjacent Matrix Visualization&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-<p><img alt="Adjacent Matrix Visualization" src="../_images/adjacent_matrix_visualization.png" /></p>
-<p>You can find more graph building method and results in this <a class="reference external" href="https://uctb.github.io/UCTB/UCTB.preprocess.html#uctb-preprocess-graphgenerator-module">doc</a></p>
-</div>
-</div>
-</div>
-<div class="section" id="model-building">
-<h3><span class="section-number">3.2.4. </span>Model building<a class="headerlink" href="#model-building" title="Permalink to this headline">¶</a></h3>
-<p>Our data loader can apply to different kinds of demand in model building.</p>
-<div class="section" id="utilize-simple-models-to-predict">
-<h4><span class="section-number">3.2.4.1. </span>Utilize simple models to predict<a class="headerlink" href="#utilize-simple-models-to-predict" title="Permalink to this headline">¶</a></h4>
-<p>We can simply use XGBoost to construct our predicting model.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">xgboost</span> <span class="k">as</span> <span class="nn">xgb</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
-<span class="kn">from</span> <span class="nn">UCTB.preprocess</span> <span class="kn">import</span> <span class="n">Normalizer</span>
-<span class="c1"># select prediction target</span>
-<span class="n">target_node</span> <span class="o">=</span> <span class="mi">5</span>
-
-<span class="c1"># some parameters setting</span>
-<span class="n">max_depth</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">objective</span> <span class="o">=</span> <span class="s1">&#39;reg:squarederror&#39;</span>
-<span class="n">param</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s1">&#39;max_depth&#39;</span><span class="p">:</span> <span class="n">max_depth</span><span class="p">,</span>
-            <span class="s1">&#39;objective&#39;</span><span class="p">:</span> <span class="n">objective</span><span class="p">,</span>
-        <span class="p">}</span>
-<span class="n">n_estimators</span> <span class="o">=</span> <span class="mi">200</span>
-<span class="n">font</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;family&#39;</span> <span class="p">:</span> <span class="s1">&#39;Times New Roman&#39;</span><span class="p">,</span>
-<span class="s1">&#39;weight&#39;</span> <span class="p">:</span> <span class="s1">&#39;normal&#39;</span><span class="p">,</span>
-<span class="s1">&#39;size&#39;</span>   <span class="p">:</span> <span class="mi">18</span><span class="p">,</span>
-<span class="p">}</span>
-<span class="n">normalizer</span><span class="o">=</span><span class="n">Normalizer</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">)</span>
-
-<span class="c1"># forming data fed to XGBoost model from data_loader </span>
-<span class="n">train_closeness</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">train_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-
-<span class="n">test_closeness</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">test_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-
-<span class="n">train_X</span> <span class="o">=</span> <span class="n">train_closeness</span>
-<span class="n">test_X</span> <span class="o">=</span> <span class="n">test_closeness</span>
-
-<span class="c1"># model building and training</span>
-<span class="n">train_matrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">train_X</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">train_y</span><span class="p">)</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">train_matrix</span><span class="p">,</span> <span class="n">n_estimators</span><span class="p">)</span>
-
-<span class="c1"># prediction</span>
-<span class="n">test_matrix</span> <span class="o">=</span> <span class="n">xgb</span><span class="o">.</span><span class="n">DMatrix</span><span class="p">(</span><span class="n">test_X</span><span class="p">)</span>
-<span class="n">predictions</span><span class="o">=</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_matrix</span><span class="p">)</span>
-
-<span class="c1"># plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Time Slot&quot;</span><span class="p">,</span><span class="n">font</span><span class="p">)</span>         
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Count&quot;</span><span class="p">,</span><span class="n">font</span><span class="p">)</span> 
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;XGBoost Result&quot;</span><span class="p">,</span><span class="n">font</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">test_y</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;real&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">predictions</span><span class="p">),</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;pred&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">predictions</span><span class="p">),</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">test_y</span><span class="p">),</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
-</pre></div>
-</div>
-<p><img alt="XGBoost Result" src="../_images/XGBoost_Result.png" /></p>
-<blockquote>
-<div><p>Test RMSE 468.06454</p>
-</div></blockquote>
-</div>
-</div>
-<div class="section" id="utilize-uctb-to-predict">
-<h3><span class="section-number">3.2.5. </span>Utilize UCTB to predict<a class="headerlink" href="#utilize-uctb-to-predict" title="Permalink to this headline">¶</a></h3>
-<p>Although XGBoost can work really well in many situation, it only mine patterns from time series themselves. Different to XGBoost, many of models in UCTB can combine spatial knowledge and temporal knowledge, which means larger possiblity of finding more accurate pattern of data. Besides, the models in this framework fit very well with our data loader, which reduces complexity of operations.</p>
-<p>If you want to learn more about how to use UCTB to build models and make predictions, you can visit this <a class="reference external" href="https://uctb.github.io/UCTB/md_file/introduction.html">website</a> where more detailed description and instruction will be found.</p>
-</div>
 </div>
 </div>
 

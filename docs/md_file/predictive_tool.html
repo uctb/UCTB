@@ -114,19 +114,18 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#tutorial">4.3. Tutorial</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#use-build-in-models-from-uctb">4.3.1. Use build-in models from UCTB</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#use-single-temporal-feature-in-regression">4.3.1.1. Use single temporal feature in regression</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#use-multiple-temporal-features-in-regression">4.3.1.2. Use multiple temporal features in regression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-datasets-from-urban-dataset">4.3.1. Load datasets from Urban_dataset</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#model-definition-train-test-and-evaluation">4.3.2. Model definition, train, test and evaluation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#single-vs-multiple-kinds-of-temporal-knowledge">4.3.3. Single vs. Multiple kinds of temporal knowledge</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#use-temporal-closeness-feature-in-regression">4.3.3.1. Use temporal closeness feature in regression</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#make-full-use-of-closeness-period-and-trend-features">4.3.3.2. Make full use of closeness, period, and trend features</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#build-your-own-model-using-uctb">4.3.2. Build your own model using UCTB</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#build-your-own-graph-with-stmeta">4.3.3. Build your own graph with STMeta</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#top-k-graph">4.3.3.1. Top-K graph</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#realize-topk-graph-analysis-module">4.3.3.2. Realize TopK graph analysis module</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#redefine-the-call-statement-of-the-above-class">4.3.3.3. Redefine the call statement of the above class</a></li>
-<li class="toctree-l4"><a class="reference internal" href="#modify-the-function-call-location">4.3.3.4. Modify the function call location</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#advanced-features">4.4. Advanced Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#build-your-own-model-using-uctb">4.4.1. Build your own model using UCTB</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-your-own-graph-with-stmeta">4.4.2. Build your own graph with STMeta</a></li>
 </ul>
 </li>
 </ul>
@@ -592,10 +591,199 @@
 </div>
 <div class="section" id="tutorial">
 <h2><span class="section-number">4.3. </span>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="use-build-in-models-from-uctb">
-<h3><span class="section-number">4.3.1. </span>Use build-in models from UCTB<a class="headerlink" href="#use-build-in-models-from-uctb" title="Permalink to this headline">¶</a></h3>
-<div class="section" id="use-single-temporal-feature-in-regression">
-<h4><span class="section-number">4.3.1.1. </span>Use single temporal feature in regression<a class="headerlink" href="#use-single-temporal-feature-in-regression" title="Permalink to this headline">¶</a></h4>
+<p>The general process of completing a spatiotemporal prediction task includes: loading dataset, defining model, training, testing, model evaluation.
+<img alt="tutorial" src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/tutorial.png" /></p>
+<div class="section" id="load-datasets-from-urban-dataset">
+<h3><span class="section-number">4.3.1. </span>Load datasets from Urban_dataset<a class="headerlink" href="#load-datasets-from-urban-dataset" title="Permalink to this headline">¶</a></h3>
+<p>To help better accuse dataset, UCTB provides data loader APIs <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code>, which can be used to preprocess data, including <strong>data division</strong>, <strong>normalization</strong>, and <strong>extract temporal and spatial knowledge</strong>.</p>
+<p>In the following tutorial, we will illustrate how to use <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code> APIs to inspect the speed dataset.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset.data_loader</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
+</pre></div>
+</div>
+<p>We use all(data_range=’all’) of speed data in METR_LA(Assume that scripts are put under root directory, METR_LA dataset is put under <code class="docutils literal notranslate"><span class="pre">./data</span></code> directory.). Firstly, let’s initialize a NodeTrafficLoader object:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">data_loader</span> <span class="o">=</span> <span class="n">NodeTrafficLoader</span><span class="p">(</span><span class="n">city</span><span class="o">=</span><span class="s1">&#39;LA&#39;</span><span class="p">,</span>
+                 <span class="n">data_range</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                 <span class="n">train_data_length</span><span class="o">=</span><span class="s1">&#39;all&#39;</span><span class="p">,</span>
+                 <span class="n">test_ratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                 <span class="n">closeness_len</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                 <span class="n">period_len</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span>
+                 <span class="n">trend_len</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                 <span class="n">target_length</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">normalize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">data_dir</span><span class="o">=</span><span class="s1">&#39;data&#39;</span><span class="p">,</span>
+                 <span class="n">MergeIndex</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">MergeWay</span><span class="o">=</span><span class="s2">&quot;sum&quot;</span><span class="p">,</span><span class="n">dataset</span><span class="o">=</span><span class="s1">&#39;METR&#39;</span><span class="p">,</span><span class="n">remove</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>NodeTrafficLoader is the base class for dataset extracting and processing. Input arguments appeared in constructor above will be explained.</p>
+<ul class="simple">
+<li><p>data range selection
+<code class="docutils literal notranslate"><span class="pre">*data</span> <span class="pre">range</span> <span class="pre">=</span> <span class="pre">'all'</span></code> means that we choose the whole data as our traffic_data to train, test, and predict.</p></li>
+<li><p>data spliting(train set and test set spliting)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">train_data</span> <span class="pre">length</span> <span class="pre">=</span> <span class="pre">'all'</span></code> means that we exploit all of the traffic_data. <code class="docutils literal notranslate"><span class="pre">'train_test_ratio</span> <span class="pre">=</span> <span class="pre">0.1</span></code> means we divide the dataset into train and test sets. And the train set to the test set is nine to one.</p>
+<ul class="simple">
+<li><p>normalization</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">normalization</span> <span class="pre">=</span> <span class="pre">False</span></code> means that we normalized the dataset through min-max-normalization method. When we input False, we simply do not employ any preprocessing tricks on the dataset.</p>
+<ul class="simple">
+<li><p>data merging</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">MergeIndex</span> <span class="pre">=</span> <span class="pre">1,</span> <span class="pre">MergeWay</span> <span class="pre">=</span> <span class="pre">'sum'</span></code> means that granularity of raw dataset will not be changed. If we try MergeIndex &gt; 1, we can obtain combination of MergeIndex time slots of data in a way of ‘sum’ or ‘average’.</p>
+<ul class="simple">
+<li><p>multiple time series building(temporal knowledge exploiting)</p></li>
+</ul>
+<p><code class="docutils literal notranslate"><span class="pre">closeness_len</span> <span class="pre">=</span> <span class="pre">6,</span> <span class="pre">period_len=7,</span> <span class="pre">trend_len=4,</span> <span class="pre">target_length=1</span></code> means that we create 3 time series, using former consecutive closeness_len time slots of data as a unit, former every other daily_slots time slots of data as a unit(consisting of period_len piece of data), former every other daily_slots*7 time slots of data as a unit(consisting of trend_len piece of data) respectively.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">30844</span><span class="p">,</span> <span class="mi">207</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You may probably note that the length of train_closeness is 13778 less than that of train_data. It’s because we choose the shortest data length among the three series(train_trend) for alignment.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/data_reassemble.png" style="zoom: 33%;" /><p>Above is the visualization of a new time series’s construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.</p>
+<p>Through the process in the figure shown above, we can calculate the length of train_trend is $30844-12<em>24</em>7*4=22780$, which is the minimum among three time series.</p>
+<p><strong>Operations</strong></p>
+<ul class="simple">
+<li><p>Denormalization/Normalization</p></li>
+<li><p>Visualization</p></li>
+<li><p>Temporal Knowledge Exploitation</p></li>
+<li><p>Spatial knowledge Exploration</p></li>
+<li><p>Access to raw data</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">UCTB.preprocess.preprocessor</span> <span class="kn">import</span> <span class="n">Normalizer</span>
+
+<span class="c1"># without normalization</span>
+
+<span class="n">target_node</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[:,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Raw&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="c1"># normalization</span>
+
+<span class="n">normalizer</span><span class="o">=</span><span class="n">Normalizer</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">)</span>
+<span class="n">X_normalized</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_normal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">)</span>
+
+<span class="c1"># denormalization</span>
+
+<span class="n">X_denormalized</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">X_normalized</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_normalized</span><span class="p">[:,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Normalized&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">X_denormalized</span><span class="p">[:,</span><span class="mi">5</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Denormalized&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Raw_data.png" alt="Raw_data" style="zoom:33%;" /><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/normalized_data.png" style="zoom:33%;" /><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/denormalized_data.png" style="zoom:33%;" /></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Nodes&#39; location visualizations</span>
+<span class="n">data_loader</span><span class="o">.</span><span class="n">st_map</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Visualization result is as follows:</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" alt="Node location of METR_LA" style="zoom: 50%;" /><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># data visualization</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="n">real_denormed</span><span class="o">=</span><span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">)</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">heatmap</span><span class="p">(</span><span class="n">real_denormed</span><span class="p">[:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Reds&#39;</span><span class="p">,</span> <span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1000</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="mi">4000</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Time Slot&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Sensor Node&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Visualization&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Feature stitching</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">make_concat</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;before concatenate&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;closeness&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;period&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;trend&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;After concatenate&#39;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">before</span> <span class="n">concatenate</span>
+<span class="n">closeness</span>
+<span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">period</span>
+<span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">trend</span>
+<span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">After</span> <span class="n">concatenate</span>
+<span class="p">(</span><span class="mi">22780</span><span class="p">,</span> <span class="mi">207</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># access to raw data</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">traffic_data</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">64.375</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="model-definition-train-test-and-evaluation">
+<h3><span class="section-number">4.3.2. </span>Model definition, train, test and evaluation<a class="headerlink" href="#model-definition-train-test-and-evaluation" title="Permalink to this headline">¶</a></h3>
+<p>We use XGBoost interface in UCTB as an example to define a model. Since there are total 207 stations in METR_LA dataset, we define 207 XGBoost models respectively. They are trained and tested in their own iteration related to stations. Finally, when we evaluate our model, we consider the prediction results as a whole and evaluate it against GroundTruth provided by <code class="docutils literal notranslate"><span class="pre">data_loader</span></code> using <a class="reference external" href="https://en.wikipedia.org/wiki/Root-mean-square_deviation">RMSE</a> metric.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">XGBoost</span>
+<span class="kn">import</span> <span class="nn">UCTB.evaluation.metric</span> <span class="k">as</span> <span class="nn">metric</span>
+<span class="n">prediction_test</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">station_number</span><span class="p">):</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;*************************************************************&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Station&#39;</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:squarederror&#39;</span><span class="p">)</span>
+
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                              <span class="n">data_loader</span><span class="o">.</span><span class="n">train_period</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                              <span class="n">data_loader</span><span class="o">.</span><span class="n">train_trend</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span>
+              <span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+
+    <span class="n">p_test</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">data_loader</span><span class="o">.</span><span class="n">test_period</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span>
+                                           <span class="n">data_loader</span><span class="o">.</span><span class="n">test_trend</span><span class="p">[:,</span> <span class="n">i</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],),</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">prediction_test</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p_test</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+
+<span class="n">prediction_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">,</span> <span class="n">axis</span><span class="o">=-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">y_truth</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">)</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">prediction_test</span><span class="p">)</span>
+<span class="n">y_truth</span> <span class="o">=</span> <span class="n">y_truth</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">207</span><span class="p">])</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span><span class="o">.</span><span class="n">reshape</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">207</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test RMSE&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">y_pred</span><span class="p">,</span> <span class="n">y_truth</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;XGBoost Result&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Time Slot&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Speed&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_pred</span><span class="p">[:</span><span class="mi">12</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">7</span><span class="p">,</span><span class="n">target_node</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_truth</span><span class="p">[:</span><span class="mi">12</span><span class="o">*</span><span class="mi">24</span><span class="o">*</span><span class="mi">7</span><span class="p">,</span><span class="n">target_node</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">([</span><span class="s1">&#39;gt&#39;</span><span class="p">,</span><span class="s1">&#39;pred&#39;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/XGBoost_Result.png" alt="XGBoost Result" style="zoom:50%;" /><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Test</span> <span class="n">RMSE</span> <span class="mf">5.549781682961724</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="single-vs-multiple-kinds-of-temporal-knowledge">
+<h3><span class="section-number">4.3.3. </span>Single vs. Multiple kinds of temporal knowledge<a class="headerlink" href="#single-vs-multiple-kinds-of-temporal-knowledge" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="use-temporal-closeness-feature-in-regression">
+<h4><span class="section-number">4.3.3.1. </span>Use temporal closeness feature in regression<a class="headerlink" href="#use-temporal-closeness-feature-in-regression" title="Permalink to this headline">¶</a></h4>
 <p>UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in <a class="reference external" href="./static/current_supported_models.html"><code class="docutils literal notranslate"><span class="pre">UCTB.model</span></code></a>.</p>
 <p>The following example shows how to use a <strong>Hidden Markov model (HMM)</strong> to handle a simple time series predicting a problem. We will try to predict the bike demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code> of a fixed station <code class="docutils literal notranslate"><span class="pre">target_node</span></code> in New York City by checking back the historical demands in recent time slots <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -668,8 +856,8 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="use-multiple-temporal-features-in-regression">
-<h4><span class="section-number">4.3.1.2. </span>Use multiple temporal features in regression<a class="headerlink" href="#use-multiple-temporal-features-in-regression" title="Permalink to this headline">¶</a></h4>
+<div class="section" id="make-full-use-of-closeness-period-and-trend-features">
+<h4><span class="section-number">4.3.3.2. </span>Make full use of closeness, period, and trend features<a class="headerlink" href="#make-full-use-of-closeness-period-and-trend-features" title="Permalink to this headline">¶</a></h4>
 <p>In this case, let’s take more temporal knowledge related to <code class="docutils literal notranslate"><span class="pre">target_node</span></code> into account. We will concatenate factors including <code class="docutils literal notranslate"><span class="pre">closeness</span></code>, <code class="docutils literal notranslate"><span class="pre">period</span></code>, and <code class="docutils literal notranslate"><span class="pre">trend</span></code>, and use <strong>XGBoost</strong> as the predicting model.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -718,8 +906,11 @@
 </div>
 </div>
 </div>
+</div>
+<div class="section" id="advanced-features">
+<h2><span class="section-number">4.4. </span>Advanced Features<a class="headerlink" href="#advanced-features" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="build-your-own-model-using-uctb">
-<h3><span class="section-number">4.3.2. </span>Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.4.1. </span>Build your own model using UCTB<a class="headerlink" href="#build-your-own-model-using-uctb" title="Permalink to this headline">¶</a></h3>
 <p>UCTB provides extendable APIs to build your own model. Currently, it can support the running of all the <code class="docutils literal notranslate"><span class="pre">1.x</span></code> version of <strong>Tensorflow-based</strong> models. In the following tutorial, we will show you how to takes the least efforts to implement a UCTB model.</p>
 <p>Commonly, a new model needs to inherit <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> to acquire the features provided by UCTB, such as batch division, early stopping, etc. The necessary components for a subclass of <code class="docutils literal notranslate"><span class="pre">BaseModel</span></code> include:</p>
 <ul class="simple">
@@ -889,14 +1080,11 @@
 <p>Since we only use a short period of the dataset (<code class="docutils literal notranslate"><span class="pre">data_range=0.1</span></code>) in this toy example, the result looks good compared with the <a class="reference external" href="./all_results.html#results-on-bike">experiment</a>. You can also take a try to test the completed dataset on your model.</p>
 </div>
 <div class="section" id="build-your-own-graph-with-stmeta">
-<h3><span class="section-number">4.3.3. </span>Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h3>
+<h3><span class="section-number">4.4.2. </span>Build your own graph with STMeta<a class="headerlink" href="#build-your-own-graph-with-stmeta" title="Permalink to this headline">¶</a></h3>
 <p>Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found <a class="reference external" href="https://anonymous.4open.science/r/561305b5-e65e-46c6-9371-ae76b85109ee/Experiments/CustomizedDemo/">here</a>.</p>
-<div class="section" id="top-k-graph">
-<h4><span class="section-number">4.3.3.1. </span>Top-K graph<a class="headerlink" href="#top-k-graph" title="Permalink to this headline">¶</a></h4>
+<p><strong>Top-K graph</strong></p>
 <p>First of all, the customized graphs used in this section is called Top-K graph. We construct the corresponding adjacent graph by marking the point pair that consist of each point and its nearest K points as 1, and the others are marked as 0. Then, we use the adjacent graph to generate the laplacian matrix for input. The hyperparameter K is designed via ad-hoc heuristics. In this demonstration, we chose 23 as the value of K.</p>
-</div>
-<div class="section" id="realize-topk-graph-analysis-module">
-<h4><span class="section-number">4.3.3.2. </span>Realize TopK graph analysis module<a class="headerlink" href="#realize-topk-graph-analysis-module" title="Permalink to this headline">¶</a></h4>
+<p><strong>Realize TopK graph analysis module</strong></p>
 <p>To adopt customized graphs (<em><strong>e.g.,</strong></em> Top-K) in UCTB, you should first build your own analysis class by inheriting <code class="docutils literal notranslate"><span class="pre">UCTB.preprocess.GraphGenerator</span> <span class="pre">class</span></code>.</p>
 <p>It is worth noting that the ultimate goal is to generate the member variables: <code class="docutils literal notranslate"><span class="pre">self.LM</span></code> and <code class="docutils literal notranslate"><span class="pre">self.AM</span></code>, which is the input matrix of the graph. In this phase, we need to make the corresponding analytical implementation according to the type of the custom graph passed in.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/preprocess/topKGraph.py&quot;</span>
@@ -949,9 +1137,7 @@
        <span class="k">return</span> <span class="n">adjacent_matrix</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="redefine-the-call-statement-of-the-above-class">
-<h4><span class="section-number">4.3.3.3. </span>Redefine the call statement of the above class<a class="headerlink" href="#redefine-the-call-statement-of-the-above-class" title="Permalink to this headline">¶</a></h4>
+<p><strong>Redefine the call statement of the above class</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># &quot;UCTB/Experiments/CustomizedDemo/STMeta_Obj_topk.py&quot;</span>
 
 <span class="c1"># Import the Class: topKGraph</span>
@@ -966,9 +1152,7 @@
 <span class="c1"># ......</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="modify-the-function-call-location">
-<h4><span class="section-number">4.3.3.4. </span>Modify the function call location<a class="headerlink" href="#modify-the-function-call-location" title="Permalink to this headline">¶</a></h4>
+<p><strong>Modify the function call location</strong></p>
 <p>Add the new graph name when fitting model and then execute it for experiments. <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/Experiments/CustomizedDemo/Runner_topk.py">code</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj_topk.py -m STMeta_v1.model.yml -d metro_shanghai.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line-TopK,MergeIndex:12&#39;</span><span class="p">)</span>
@@ -998,7 +1182,6 @@
 </table><p>The results show that the performance of STMeta_V1 with the graph “Distance-Correlation-Line-TopK” is better than “Distance-Correlation-Line” model and the RMSE is reduced by about 12.4%, which validates the effectiveness of the topk graph for spatiotemporal modeling STMeta algorithm.</p>
 <hr class="docutils" />
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</div>
 </div>
 </div>
 </div>

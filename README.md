@@ -67,4 +67,4 @@ Welcome to visit the [website](http://39.107.116.221/) for a trial!
 
 ## Installation
 
-UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. ***To avoid potential conflict, we highly recommend you install UCTB vis Anaconda or use our docker environment.*** The installation details are in our [documents](https://uctb.github.io/UCTB/md_file/installation.html). 
+UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. ***To avoid potential conflict, we highly recommend you install UCTB vis Anaconda.*** The installation details are in our [documents](https://uctb.github.io/UCTB/md_file/installation.html). 

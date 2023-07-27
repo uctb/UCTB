@@ -315,7 +315,7 @@ print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0)
 ## Tutorial
 
 The general process of completing a spatiotemporal prediction task includes: loading dataset, defining model, training, testing, model evaluation.
-![tutorial](src/image/tutorial.png)
+![tutorial](https://uctb.github.io/UCTB/sphinx/md_file/src/image/tutorial.png)
 
 ### Load datasets from Urban_dataset
 
@@ -381,7 +381,7 @@ print(data_loader.train_data.shape)
 ```
 You may probably note that the length of train_closeness is 13778 less than that of train_data. It's because we choose the shortest data length among the three series(train_trend) for alignment.
 
-![](src/image/data_reassemble.png)
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/data_reassemble.png" style="zoom: 33%;" />
 
 Above is the visualization of a new time series's construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.
 
@@ -423,9 +423,7 @@ plt.title('Denormalized')
 plt.show()
 ```
 
-![Raw_data](src/image/Raw_data.png)
-![](src/image/normalized_data.png)
-![](src/image/denormalized_data.png)
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Raw_data.png" alt="Raw_data" style="zoom:33%;" /><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/normalized_data.png" style="zoom:33%;" /><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/denormalized_data.png" style="zoom:33%;" />
 
 ```python
 # Nodes' location visualizations
@@ -434,7 +432,7 @@ data_loader.st_map()
 
 Visualization result is as follows:
 
-![Node location of METR_LA](src/image/METR_LA.png)
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" alt="Node location of METR_LA" style="zoom: 50%;" />
 
 ```python
 # data visualization
@@ -525,16 +523,15 @@ plt.plot(y_truth[:12*24*7,target_node])
 plt.legend(['gt','pred'])
 plt.show()
 ```
-![XGBoost Result](src/image/XGBoost_Result.png)
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/XGBoost_Result.png" alt="XGBoost Result" style="zoom:50%;" />
+
 ```
 Test RMSE 5.549781682961724
 ```
 
-**以下不跑！！！**
+### Single vs. Multiple kinds of temporal knowledge
 
-### Use build-in models from UCTB
-
-#### Use single temporal feature in regression
+#### Use temporal closeness feature in regression
 
 UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in [``UCTB.model``](./static/current_supported_models.html).
 
@@ -634,7 +631,7 @@ print(test_rmse)
 
     3.76137200105079
 
-#### Use multiple temporal features in regression
+#### Make full use of closeness, period, and trend features 
 
 In this case, let's take more temporal knowledge related to ``target_node`` into account. We will concatenate factors including ``closeness``, ``period``, and ``trend``, and use **XGBoost** as the predicting model.
 
@@ -880,11 +877,11 @@ Since we only use a short period of the dataset (``data_range=0.1``) in this toy
 
 Next, we will use the Top-K graph as an example to illustrate how to build customized graphs in UCTB. All of the code in this section can be found [here](https://anonymous.4open.science/r/561305b5-e65e-46c6-9371-ae76b85109ee/Experiments/CustomizedDemo/).
 
-#### Top-K graph
+**Top-K graph**
 
 First of all, the customized graphs used in this section is called Top-K graph. We construct the corresponding adjacent graph by marking the point pair that consist of each point and its nearest K points as 1, and the others are marked as 0. Then, we use the adjacent graph to generate the laplacian matrix for input. The hyperparameter K is designed via ad-hoc heuristics. In this demonstration, we chose 23 as the value of K.
 
-#### Realize TopK graph analysis module
+**Realize TopK graph analysis module**
 
 To adopt customized graphs (***e.g.,*** Top-K) in UCTB, you should first build your own analysis class by inheriting `UCTB.preprocess.GraphGenerator class`.
 
@@ -941,7 +938,7 @@ class topKGraph(GraphGenerator):  # Init NodeTrafficLoader
         return adjacent_matrix
  ```
 
-#### Redefine the call statement of the above class
+**Redefine the call statement of the above class**
 
 ```python
 # "UCTB/Experiments/CustomizedDemo/STMeta_Obj_topk.py"
@@ -958,7 +955,7 @@ graphBuilder = topKGraph(graph=args['graph'],
 # ......
 ```
 
-#### Modify the function call location
+**Modify the function call location**
 
 Add the new graph name when fitting model and then execute it for experiments. [code](https://github.com/uctb/UCTB/blob/master/Experiments/CustomizedDemo/Runner_topk.py)
 

@@ -12,6 +12,8 @@ Email: leyewang@pku.edu.cn
 
 [Leye Wang's HomePage](https://cs.pku.edu.cn/info/1174/2334.htm)
 
+______
+
 **Longbiao Chen**  
 
 ```From March 2022, till now.```
@@ -44,16 +46,6 @@ Email:  chenliyue2019@gmail.com
 
 ------
 
-**Hang Zhu** (active)
-
-```From March 2022, till now.```
-
-Master student in Fujian Key Laboratory of Sensing and Computing for Smart Cities at Xiamen University.
-
-Email:  zhuhang@stu.xmu.edu.cn
-
-------
-
 **Jiangyi Fang** (active)
 
 ```From April 2022, till now.```
@@ -81,6 +73,16 @@ Email:  hyymmmint@stu.xmu.edu.cn
 Undergraduate student in computer science and technology at China University of Geosciences.
 
 Email:  tf66366@cug.edu.cn
+
+------
+
+**Hang Zhu**
+
+```From March 2022, Jul 2023.```
+
+Master student in Fujian Key Laboratory of Sensing and Computing for Smart Cities at Xiamen University.
+
+Email:  zhuhang@stu.xmu.edu.cn
 
 ------
 

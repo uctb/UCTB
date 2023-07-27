@@ -2,7 +2,7 @@
 
 UCTB is based on several well-known deep learning frameworks, including **PyTorch**, **TensorFlow**, and **MXNet**. If you have an Nvidia GPU installed on your computer, we highly recommend you install the GPU version of these frameworks.
 
-UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. ***To avoid potential conflict, we highly recommend you install UCTB vis Anaconda or use our docker environment.***
+UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. ***To avoid potential conflict, we highly recommend you install UCTB vis Anaconda.***
 
 ### Install via Anaconda
 
@@ -30,28 +30,12 @@ conda activate UCTB
 
 
 
-### UCTB Docker
-
-You can also  use UCTB by docker. First pull uctb docker from docker hub.
-
-```bash
-docker pull dichai/uctb:v0.2.0
-```
-
-And  you then can run it.
-
-```bash
-docker run  --runtime=nvidia  -it -d dichai/uctb:v0.2.0 /bin/bash
-```
-
-
-
 ### Check for Success
 
 If you  successfully install UCTB, you may get the following output after importing UCTB. 
 
 ```
-(UCTB) XXX# python
+(UCTB) XXX:~$ python
 Type "help", "copyright", "credits" or "license" for more information.
 >>> import UCTB
 Using TensorFlow backend.

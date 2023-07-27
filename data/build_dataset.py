@@ -11,13 +11,13 @@ if __name__ == '__main__':
     node_num = 58
     file_dir = '../csv/'
     TimeRange = ['2017-06-01', '2017-06-19']
-    region_filename = '../csv/region_17_bike_in_hour_clean2.csv'
+    region_filename = 'region_17_bike_in_hour_clean.csv'
     traffic_filename = '17_bike_in_hour_clean2.csv'
     EventImpulse = 'EventImpulse.csv'
 
-    # weather_filename = '../csv/Xiamen17_origin/2017_09&10_clean_xm.csv'
+    weather_filename = file_dir + 'Xiamen17_origin/2017_09&10_clean_xm.csv'
     EventInfluence_filename = 'EventImpulseResponse.csv'
-    # POIVec_filename = file_dir+'POI_vector.txt'
+    POIVec_filename = file_dir + 'POI_vector.txt'
     EventInfluenceFactor_filename = 'EventInfluenceFactorFitness.csv'
 
 
@@ -45,27 +45,26 @@ if __name__ == '__main__':
     StationInfo = StationInfo.values.tolist()
 
     # poi-info
-    # file = open(POIVec_filename, 'r')
-    # poi = []
-    # lines = file.readlines()
-    # for i in lines:
-    #     tmp = []
-    #     i = i.strip('\n')
-    #     i = i.split(',')
-    #     for num in i:
-    #         if num != '':
-    #             num = int(num)
-    #             tmp.append(num)
-    #     poi.append(tmp)
-    # poi = np.array(poi)
-    # print("poi shape is", poi.shape)
-
+    file = open(POIVec_filename, 'r')
+    poi = []
+    lines = file.readlines()
+    for i in lines:
+        tmp = []
+        i = i.strip('\n')
+        i = i.split(',')
+        for num in i:
+            if num != '':
+                num = int(num)
+                tmp.append(num)
+        poi.append(tmp)
+    poi = np.array(poi)
+    print("poi shape is", poi.shape)
 
     # external weather
-    # Weather = pd.read_csv(weather_filename, header=0, index_col=None,
-    #                       usecols=['temperature', 'dew_point', 'humidity', 'wind_speed', 'pressure', 'condition_id', 'wind_id'],
-    #                       nrows=time_num).values
-    # print("Weather shape is:", Weather.shape)
+    Weather = pd.read_csv(weather_filename, header=0, index_col=None,
+                          usecols=['temperature', 'dew_point', 'humidity', 'wind_speed', 'pressure', 'condition_id', 'wind_id'],
+                          nrows=time_num).values
+    print("Weather shape is:", Weather.shape)
 
     # external Time
     timeIndex = pd.to_datetime(TrafficNode.index)
@@ -88,15 +87,13 @@ if __name__ == '__main__':
     print("EventImpulseResponse shape is", event_impulse_response.shape)
     print("EventInfluenceFactor shape is", event_influence_factor.shape)
 
-    # 拼接Time和weather
-    # ExternalFeature = np.concatenate((Weather, timeFeature), axis=1)
 
     my_dataset = {"TimeRange": TimeRange,
                   "TimeFitness": TimeFitness,
                   "Node": {"TrafficNode": traffic,
                            "TrafficMonthlyInteraction": np.array([]),
                            "StationInfo": StationInfo,
-                           "POI": []
+                           "POI": poi
                            },
                   "Grid": {
                       "TrafficGrid": [],
@@ -104,14 +101,14 @@ if __name__ == '__main__':
                       "POI": []
                   },
                   "ExternalFeature": {
-                      "Weather": [],
-                      "Time": [],
+                      "Weather": Weather,
+                      "Time": timeFeature,
                       "EventImpulse": event_impulse_data,
                       "EventImpulseResponse": event_impulse_response,
                       "EventInfluenceFactor": event_influence_factor
                   }}
 
-    pkl_file_name = '/Users/hyymmmint/Documents/XMU/project/uctb-nas/papers/TITS2023/data/pkl/bike_hour2' + '.pkl'
+    pkl_file_name = 'data/violation_XM' + '.pkl'
     with open(pkl_file_name, 'wb') as handle:
         pickle.dump(my_dataset, handle, protocol=3)
 

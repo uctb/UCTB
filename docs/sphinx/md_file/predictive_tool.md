@@ -314,6 +314,224 @@ print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0)
 
 ## Tutorial
 
+The general process of completing a spatiotemporal prediction task includes: loading dataset, defining model, training, testing, model evaluation.
+![tutorial](src/image/tutorial.png)
+
+### Load datasets from Urban_dataset
+
+To help better accuse dataset, UCTB provides data loader APIs `UCTB.dataset.data_loader`, which can be used to preprocess data, including **data division**, **normalization**, and **extract temporal and spatial knowledge**.
+
+In the following tutorial, we will illustrate how to use `UCTB.dataset.data_loader` APIs to inspect the speed dataset.
+
+```python
+from UCTB.dataset.data_loader import NodeTrafficLoader
+```
+
+We use all(data_range='all') of speed data in METR_LA(Assume that scripts are put under root directory, METR_LA dataset is put under `./data` directory.). Firstly, let's initialize a NodeTrafficLoader object:
+
+```python
+data_loader = NodeTrafficLoader(city='LA',
+                 data_range='all',
+                 train_data_length='all',
+                 test_ratio=0.1,
+                 closeness_len=6,
+                 period_len=7,
+                 trend_len=4,
+                 target_length=1,
+                 normalize=False,
+                 data_dir='data',
+                 MergeIndex=1,
+                 MergeWay="sum",dataset='METR',remove=False)
+```
+
+
+
+NodeTrafficLoader is the base class for dataset extracting and processing. Input arguments appeared in constructor above will be explained.
+
+- data range selection
+`*data range = 'all'` means that we choose the whole data as our traffic_data to train, test, and predict.
+
+- data spliting(train set and test set spliting)
+
+`train_data length = 'all'` means that we exploit all of the traffic_data. `'train_test_ratio = 0.1` means we divide the dataset into train and test sets. And the train set to the test set is nine to one.
+
+- normalization
+
+`normalization = False` means that we normalized the dataset through min-max-normalization method. When we input False, we simply do not employ any preprocessing tricks on the dataset.
+
+- data merging
+
+`MergeIndex = 1, MergeWay = 'sum'` means that granularity of raw dataset will not be changed. If we try MergeIndex > 1, we can obtain combination of MergeIndex time slots of data in a way of 'sum' or 'average'.
+
+- multiple time series building(temporal knowledge exploiting)
+
+`closeness_len = 6, period_len=7, trend_len=4, target_length=1` means that we create 3 time series, using former consecutive closeness_len time slots of data as a unit, former every other daily_slots time slots of data as a unit(consisting of period_len piece of data), former every other daily_slots*7 time slots of data as a unit(consisting of trend_len piece of data) respectively.
+
+```python
+print(data_loader.train_closeness.shape)
+print(data_loader.train_period.shape)
+print(data_loader.train_trend.shape)
+print(data_loader.train_data.shape)
+```
+```
+(22780, 207, 6, 1)
+(22780, 207, 7, 1)
+(22780, 207, 4, 1)
+(30844, 207)
+```
+You may probably note that the length of train_closeness is 13778 less than that of train_data. It's because we choose the shortest data length among the three series(train_trend) for alignment.
+
+![](src/image/data_reassemble.png)
+
+Above is the visualization of a new time series's construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.
+
+Through the process in the figure shown above, we can calculate the length of train_trend is $30844-12*24*7*4=22780$, which is the minimum among three time series.
+
+**Operations**
+
+- Denormalization/Normalization
+- Visualization
+- Temporal Knowledge Exploitation
+- Spatial knowledge Exploration
+- Access to raw data
+
+```python
+import matplotlib.pyplot as plt
+from UCTB.preprocess.preprocessor import Normalizer
+
+# without normalization
+
+target_node = 5
+plt.plot(data_loader.traffic_data[:,5])
+plt.title('Raw')
+plt.show()
+
+# normalization
+
+normalizer=Normalizer(data_loader.traffic_data)
+X_normalized = normalizer.min_max_normal(data_loader.traffic_data)
+
+# denormalization
+
+X_denormalized = normalizer.min_max_denormal(X_normalized)
+
+plt.plot(X_normalized[:,5])
+plt.title('Normalized')
+plt.show()
+plt.plot(X_denormalized[:,5])
+plt.title('Denormalized')
+plt.show()
+```
+
+![Raw_data](src/image/Raw_data.png)
+![](src/image/normalized_data.png)
+![](src/image/denormalized_data.png)
+
+```python
+# Nodes' location visualizations
+data_loader.st_map()
+```
+
+Visualization result is as follows:
+
+![Node location of METR_LA](src/image/METR_LA.png)
+
+```python
+# data visualization
+import seaborn as sns
+import matplotlib.pyplot as plt
+real_denormed=data_loader.normalizer.min_max_denormal(data_loader.test_y)
+sns.heatmap(real_denormed[:,:,0], cmap='Reds', vmin = -1000, vmax = 4000)
+plt.ylabel("Time Slot")
+plt.xlabel("Sensor Node")
+plt.title("Visualization")
+plt.show()
+```
+
+```python
+# Feature stitching
+X = data_loader.make_concat()
+print('before concatenate')
+print('closeness')
+print(data_loader.train_closeness.shape)
+print('period')
+print(data_loader.train_period.shape)
+print('trend')
+print(data_loader.train_trend.shape)
+print('After concatenate')
+print(X.shape)
+```
+```
+before concatenate
+closeness
+(22780, 207, 6, 1)
+period
+(22780, 207, 7, 1)
+trend
+(22780, 207, 4, 1)
+After concatenate
+(22780, 207, 17, 1)
+```
+```python
+# access to raw data
+print(data_loader.traffic_data[0,0])
+```
+
+```
+64.375
+```
+
+### Model definition, train, test and evaluation
+
+We use XGBoost interface in UCTB as an example to define a model. Since there are total 207 stations in METR_LA dataset, we define 207 XGBoost models respectively. They are trained and tested in their own iteration related to stations. Finally, when we evaluate our model, we consider the prediction results as a whole and evaluate it against GroundTruth provided by `data_loader` using [RMSE](https://en.wikipedia.org/wiki/Root-mean-square_deviation) metric.
+
+```python
+
+from UCTB.evaluation import metric
+from UCTB.model import XGBoost
+import UCTB.evaluation.metric as metric
+prediction_test = []
+
+for i in range(data_loader.station_number):
+
+    print('*************************************************************')
+    print('Station', i)
+
+    model = XGBoost(n_estimators=100, max_depth=3, objective='reg:squarederror')
+
+    model.fit(np.concatenate((data_loader.train_closeness[:, i, :, 0],
+                              data_loader.train_period[:, i, :, 0],
+                              data_loader.train_trend[:, i, :, 0],), axis=-1),
+              data_loader.train_y[:, i, 0])
+
+    p_test = model.predict(np.concatenate((data_loader.test_closeness[:, i, :, 0],
+                                           data_loader.test_period[:, i, :, 0],
+                                           data_loader.test_trend[:, i, :, 0],), axis=-1))
+
+    prediction_test.append(p_test.reshape([-1, 1, 1]))
+
+prediction_test = np.concatenate(prediction_test, axis=-2)
+
+y_truth = data_loader.normalizer.inverse_transform(data_loader.test_y)
+y_pred = data_loader.normalizer.inverse_transform(prediction_test)
+y_truth = y_truth.reshape([-1,207])
+y_pred = y_pred.reshape([-1,207])
+print('Test RMSE', metric.rmse(y_pred, y_truth, threshold=0))
+plt.title('XGBoost Result')
+plt.xlabel('Time Slot')
+plt.ylabel('Speed')
+plt.plot(y_pred[:12*24*7,target_node])
+plt.plot(y_truth[:12*24*7,target_node])
+plt.legend(['gt','pred'])
+plt.show()
+```
+![XGBoost Result](src/image/XGBoost_Result.png)
+```
+Test RMSE 5.549781682961724
+```
+
+**以下不跑！！！**
+
 ### Use build-in models from UCTB
 
 #### Use single temporal feature in regression
@@ -465,6 +683,7 @@ print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
     (745, 17)
     (745,)
     Test RMSE 3.3267457
+## Advanced Features
 
 ### Build your own model using UCTB
 

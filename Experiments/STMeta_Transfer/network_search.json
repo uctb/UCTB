@@ -1,7 +1,0 @@
-{
-    "st_method": {"_type":"choice","_value":["gclstm", "gal_gcn"]},
-
-    "temporal_merge": {"_type":"choice","_value":["concat", "gal"]},
-
-    "graph_merge": {"_type":"choice","_value":["concat", "gal"]}
-}

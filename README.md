@@ -1,40 +1,56 @@
-# UCTB (Urban Computing Tool Box)
+# STORM: A Spatiotemporal Context-Aware Model for Predicting Event-Triggered Abnormal Crowd Traffic
 
- [![Python](https://img.shields.io/badge/python-3.6%7C3.7-blue)]() [![PyPI](https://img.shields.io/badge/pypi%20package-v0.3.0-sucess)](https://pypi.org/project/UCTB/) ![tensorflow](https://img.shields.io/badge/tensorflow-1.13-important)[![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)]() 
+![framework](/Users/hyymmmint/Documents/CodeHubs/UCTB/framework.png)
 
-------
+This is the Tensorflow implementation of STORM. 
 
-### News
 
-**2021-11**: Our paper on UCTB, entitled '*Exploring the Generalizability of Spatio-Temporal Traffic Prediction: Meta-Modeling and an Analytic Framework*', has been accepted by IEEE TKDE! [[IEEE Xplore](https://ieeexplore.ieee.org/document/9627543)][[arXiv](https://arxiv.org/abs/2009.09379)]
 
-------
+## Requirements for Reproducibility
 
-**Urban Computing Tool Box** is a package providing **spatial-temporal prediction models** for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. It contains both conventional models and state-of-art models. 
+- tensorflow == 1.13.1
+- Keras == 2.2.3
+- numpy == 1.19.5
+- pandas == 1.1.5
 
-Currently the package supported the following models: ([Details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html))
 
-- ARIMA
-- DCRNN
-- DeepST
-- GeoMAN
-- HM
-- HMM
-- ST-MGCN
-- ST-ResNet
-- STMeta
-- XGBoost
 
-UCTB is a flexible and open package. You can use the data we provided or use your own data, the data structure is well stated in the tutorial chapter. You can build your own model based on model-units we provided and use the model-training class to train the model.
+## Structure
 
-UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages or use our docker environment to avoid these unseen errors.
+- data: while the full datasets are temporarily unavailable due to data privacy concerns, sample data is provided in `data/` for reference.
+- units: contains self-defined modules for our work based UCTB, such as data_loader, GraphGenerator, etc.
+- model: implementation of our STORM model
 
+
+
+## Usage
+
+### Data Preparation
+
+Please make your dataset compatible with the template as follows:
+
+```python
+ my_dataset = {
+   "TimeRange": ['YYYY-MM-DD', 'YYYY-MM-DD'],
+   "TimeFitness": 60, # Minutes
+   
+   "Node": {
+       "TrafficNode": np.array, # with shape [time, num-of-node]
+       "StationInfo": list,  # elements in it should be [id, build-time, lat, lng, name]
+       "POI": np.array # with shape [num-of-node, #POI_category]
+   },
+   "ExternalFeature": {
+     "Weather": np.array, # with shape [time, #feature]
+     "Time": np.array, # with shape [time, #feature]
+     "EventImpulse": np.array, # with shape [time, 1]
+     "EventImpulseResponse": np.array, # with shape [time, num-of-node]
+     "EventInfluenceFactor": np.array, # with shape [time, num-of-node]
+   }
+ }
 ```
-python==3.6
-tensorflow==1.13
-Keras==2.2.4
-h5py==2.9.0
-```
 
-[![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://uctb.github.io/UCTB)
 
+
+### Run
+
+`python run_STORM.py` 

@@ -1,3 +1,0 @@
-When update docstrings, run this code in cmd:
-sphinx-apidoc -o . ../../UCTB
-sphinx-build -b html . ..

@@ -1,9 +1,0 @@
-{
-
-    "CT": {"_type": "randint", "_value": [0,13]},
-    "PT": {"_type": "randint", "_value": [0,15]},
-    "TT": {"_type": "randint", "_value": [0,5]},
-
-    "max_depth": {"_type":"randint","_value":[2, 11]},
-    "num_boost_round": {"_type":"randint","_value":[10, 201]}
-}

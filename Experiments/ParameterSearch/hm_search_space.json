@@ -1,9 +1,0 @@
-{
-
-    "Dataset": {"_type": "choice", "_value": ["Bike"]},
-    "City": {"_type": "choice", "_value": ["DC"]},
-
-    "CT": {"_type":"randint","_value":[0, 6]},
-    "PT": {"_type":"randint","_value":[0, 7]},
-    "TT": {"_type":"randint","_value":[0, 4]}
-}

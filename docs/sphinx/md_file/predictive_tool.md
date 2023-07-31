@@ -315,6 +315,7 @@ print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0)
 ## Tutorial
 
 The general process of completing a spatiotemporal prediction task includes: loading dataset, defining model, training, testing, model evaluation.
+
 ![tutorial](https://uctb.github.io/UCTB/sphinx/md_file/src/image/tutorial.png)
 
 ### Load datasets from Urban_dataset

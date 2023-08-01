@@ -75,6 +75,14 @@ Undergraduate student in computer science and technology at China University of 
 Email:  tf66366@cug.edu.cn
 
 ------
+**Xiuhuai Xie** (active)
+
+```From July 2023, till now.```
+
+Postgraduate student majored in Computer Technology in Xiamen University.
+Email: trafalgar2001@163.com
+
+------
 
 **Hang Zhu**
 

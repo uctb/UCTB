@@ -785,11 +785,11 @@
 <div class="section" id="use-temporal-closeness-feature-in-regression">
 <h4><span class="section-number">4.3.3.1. </span>Use temporal closeness feature in regression<a class="headerlink" href="#use-temporal-closeness-feature-in-regression" title="Permalink to this headline">¶</a></h4>
 <p>UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in <a class="reference external" href="./static/current_supported_models.html"><code class="docutils literal notranslate"><span class="pre">UCTB.model</span></code></a>.</p>
-<p>The following example shows how to use a <strong>Hidden Markov model (HMM)</strong> to handle a simple time series predicting a problem. We will try to predict the bike demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code> of a fixed station <code class="docutils literal notranslate"><span class="pre">target_node</span></code> in New York City by checking back the historical demands in recent time slots <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>.</p>
+<p>The following example shows how to use a <strong>XGBoost</strong> model to handle a simple time series predicting a problem. We will try to predict the bike demands <code class="docutils literal notranslate"><span class="pre">test_y</span></code> of a fixed station <code class="docutils literal notranslate"><span class="pre">target_node</span></code> in New York City by checking back the historical demands in recent time slots <code class="docutils literal notranslate"><span class="pre">train_closeness</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">HMM</span>
+<span class="kn">from</span> <span class="nn">UCTB.model</span> <span class="kn">import</span> <span class="n">XGBoost</span>
 <span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 <span class="kn">from</span> <span class="nn">UCTB.evaluation</span> <span class="kn">import</span> <span class="n">metric</span>
 
@@ -814,37 +814,31 @@
 <span class="p">(</span><span class="mi">745</span><span class="p">,</span> <span class="mi">717</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_x</span><span class="p">,</span> <span class="n">test_x</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">:</span><span class="n">target_node</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">train_x</span><span class="p">,</span> <span class="n">test_x</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_closeness</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">train_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">train_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">test_y</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">test_y</span><span class="p">[:,</span> <span class="n">target_node</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 </pre></div>
 </div>
 <p>Inspect the shape of data. Here are the all we need for one-station prediction.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">train_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">test_y</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2967</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="p">(</span><span class="mi">745</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mi">2967</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="p">(</span><span class="mi">2967</span><span class="p">,)</span>
+<span class="p">(</span><span class="mi">745</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
 <span class="p">(</span><span class="mi">745</span><span class="p">,)</span>
 </pre></div>
 </div>
-<p>Build the HMM model.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">HMM</span><span class="p">(</span><span class="n">num_components</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">n_iter</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+<p>Build the XGBoost model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">XGBoost</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">max_depth</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">objective</span><span class="o">=</span><span class="s1">&#39;reg:linear&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Now, we can fit the model with the train dataset.</p>
+<p>Now, we can fit the model with the train dataset and make predictions on the test dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">train_x</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Status</span><span class="p">:</span> <span class="n">converged</span>
-</pre></div>
-</div>
-<p>When the model is converged, we make predictions on test data.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">test_x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">test_x</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-    <span class="n">predictions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="n">predictions</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>We can evaluate the performance of the model by build-in <code class="docutils literal notranslate"><span class="pre">UCTB.evaluation</span></code> APIs.</p>
@@ -852,7 +846,7 @@
 <span class="nb">print</span><span class="p">(</span><span class="n">test_rmse</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.76137200105079</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">3.6033132</span>
 </pre></div>
 </div>
 </div>

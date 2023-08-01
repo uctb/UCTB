@@ -536,14 +536,14 @@ Test RMSE 5.549781682961724
 
 UCTB provides many classical and popular spatial-temporal predicting models. These models can be used to either predicting series for a single station or all stations. You can find the details in [``UCTB.model``](./static/current_supported_models.html).
 
-The following example shows how to use a **Hidden Markov model (HMM)** to handle a simple time series predicting a problem. We will try to predict the bike demands ``test_y`` of a fixed station ``target_node`` in New York City by checking back the historical demands in recent time slots ``train_closeness``.
+The following example shows how to use a **XGBoost** model to handle a simple time series predicting a problem. We will try to predict the bike demands ``test_y`` of a fixed station ``target_node`` in New York City by checking back the historical demands in recent time slots ``train_closeness``.
 
 
 ```python
 import numpy as np
 import matplotlib.pyplot as plt
 
-from UCTB.model import HMM
+from UCTB.model import XGBoost
 from UCTB.dataset import NodeTrafficLoader
 from UCTB.evaluation import metric
 
@@ -576,7 +576,8 @@ print(data_loader.test_y.shape)
 
 
 ```python
-train_x, test_x = data_loader.train_closeness[:, target_node:target_node+1, -1, 0], data_loader.test_closeness[:, target_node, :, :]
+train_x, test_x = data_loader.train_closeness[:, target_node, :, 0], data_loader.test_closeness[:, target_node, :, 0]
+train_y = data_loader.train_y[:, target_node,0]
 test_y = data_loader.test_y[:, target_node, 0]
 ```
 
@@ -585,52 +586,37 @@ Inspect the shape of data. Here are the all we need for one-station prediction.
 
 ```python
 print(train_x.shape)
+print(train_y.shape)
 print(test_x.shape)
 print(test_y.shape)
 ```
 
-    (2967, 1)
-    (745, 12, 1)
+    (2967, 12)
+    (2967,)
+    (745, 12)
     (745,)
 
-
-Build the HMM model.
-
+Build the XGBoost model.
 
 ```python
-model = HMM(num_components=8, n_iter=50)
+model = XGBoost(n_estimators=100, max_depth=3, objective='reg:linear')
 ```
 
-Now, we can fit the model with the train dataset.
-
+Now, we can fit the model with the train dataset and make predictions on the test dataset.
 
 ```python
 model.fit(x=train_x)
-```
-
-    Status: converged
-
-
-When the model is converged, we make predictions on test data.
-
-
-```python
-predictions = []
-for t in range(test_x.shape[0]):
-    p = np.squeeze(model.predict(x=test_x[t], length=1))
-    predictions.append(p)
+predictions = model.predict(test_x)
 ```
 
 We can evaluate the performance of the model by build-in ``UCTB.evaluation`` APIs.
-
 
 ```python
 test_rmse = metric.rmse(predictions, test_y, threshold=0)
 print(test_rmse)
 ```
 
-
-    3.76137200105079
+    3.6033132
 
 #### Make full use of closeness, period, and trend features 
 

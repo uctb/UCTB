@@ -34,7 +34,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="UCTB  documentation" href="../index.html"/>
-        <link rel="next" title="5. Visualization Tool" href="visualization_tool.html"/>
+        <link rel="next" title="5. Visualization-tool" href="visualization_tool.html"/>
         <link rel="prev" title="3. Urban Datasets" href="urban_dataset.html"/> 
 
   
@@ -130,7 +130,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization-tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
@@ -591,8 +591,8 @@
 </div>
 <div class="section" id="tutorial">
 <h2><span class="section-number">4.3. </span>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h2>
-<p>The general process of completing a spatiotemporal prediction task includes: loading dataset, defining model, training, testing, model evaluation.
-<img alt="tutorial" src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/tutorial.png" /></p>
+<p>The general process of completing a spatiotemporal prediction task includes: loading dataset, defining model, training, testing, model evaluation.</p>
+<p><img alt="tutorial" src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/tutorial.png" /></p>
 <div class="section" id="load-datasets-from-urban-dataset">
 <h3><span class="section-number">4.3.1. </span>Load datasets from Urban_dataset<a class="headerlink" href="#load-datasets-from-urban-dataset" title="Permalink to this headline">¶</a></h3>
 <p>To help better accuse dataset, UCTB provides data loader APIs <code class="docutils literal notranslate"><span class="pre">UCTB.dataset.data_loader</span></code>, which can be used to preprocess data, including <strong>data division</strong>, <strong>normalization</strong>, and <strong>extract temporal and spatial knowledge</strong>.</p>
@@ -647,7 +647,7 @@
 </pre></div>
 </div>
 <p>You may probably note that the length of train_closeness is 13778 less than that of train_data. It’s because we choose the shortest data length among the three series(train_trend) for alignment.</p>
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/data_reassemble.png" style="zoom: 33%;" /><p>Above is the visualization of a new time series’s construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/data_reassemble.png" style="zoom: 10%;" /><p>Above is the visualization of a new time series’s construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.</p>
 <p>Through the process in the figure shown above, we can calculate the length of train_trend is $30844-12<em>24</em>7*4=22780$, which is the minimum among three time series.</p>
 <p><strong>Operations</strong></p>
 <ul class="simple">
@@ -1193,7 +1193,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="visualization_tool.html" class="btn btn-neutral float-right" title="5. Visualization Tool" accesskey="n">Next →</a>
+        <a href="visualization_tool.html" class="btn btn-neutral float-right" title="5. Visualization-tool" accesskey="n">Next →</a>
       
       
         <a href="urban_dataset.html" class="btn btn-neutral" title="3. Urban Datasets" accesskey="p">← Previous</a>

@@ -8,31 +8,31 @@ We have developed a tool that integrates visualization, error localization, and 
 
 You can click on the dropdown menu in the `predefined` module of the `Data Loader`, select the dataset you need, and click `confirm` to obtain the required diagnosis and visualization.
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/25407596/1690510153791-46db1f3f-992b-411e-839f-f6aeafbf165b.png" alt="img" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_1.png" alt="img" style="zoom: 33%;" />
 
 ### Start with prediction and ground truth
 
 You can upload specifically formatted TSV files for prediction and ground truth in the `upload` module of the Data Loader. Clicking `confirm` will enable you to obtain the corresponding diagnosis and visualization.
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/25407596/1690511650966-1c88d248-dba3-44db-bceb-c2e052effbf9.png" alt="img" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_2.png" alt="img" style="zoom: 33%;" />
 
 ### Start with prediction, ground truth and spatial information
 
 You can upload specifically formatted TSV files for prediction, ground truth, and spatial information in the `upload` module of the `Data Loader`. Clicking `confirm` will enable you to obtain the corresponding diagnosis and visualization.
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/25407596/1690511935384-dff39c5c-3411-4973-82f0-17f554d6c28b.png" alt="img" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_3.png" alt="img" style="zoom: 33%;" />
 
 ###  Start with prediction, ground truth and temporal information
 
 You can upload specifically formatted TSV files for prediction, and ground truth in the `upload` module of the 'Data Loader', along with the corresponding temporal information. Clicking `confirm` will enable you to obtain the corresponding diagnosis and visualization.
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/25407596/1690521987144-92ed25fb-80a8-46ee-8cb4-5e9c2a07040c.png" alt="img" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_4.png" alt="img" style="zoom: 33%;" />
 
 ### Start with prediction, ground truth as well as spatial and temporal information
 
 You can upload specifically formatted TSV files for prediction, ground truth, and spatial information in the `upload` module of the `Data Loader`, along with the corresponding temporal information. Clicking `confirm` will enable you to obtain the corresponding diagnosis and visualization.
 
-<img src="https://cdn.nlark.com/yuque/0/2023/png/25407596/1690522114029-0a547ce9-f4f8-4cec-98ad-757492877022.png" alt=".img" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_5.png" alt=".img" style="zoom: 33%;" />
 
 ## Contribute to our project.
 

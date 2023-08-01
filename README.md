@@ -1,12 +1,12 @@
 # UCTB (Urban Computing Tool Box)
 
- [![Python](https://img.shields.io/badge/python-3.6%7C3.7-blue)]() [![PyPI](https://img.shields.io/badge/pypi%20package-v0.3.0-sucess)](https://pypi.org/project/UCTB/) [![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)]() [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://uctb.github.io/UCTB)
+ [![Python](https://img.shields.io/badge/python-3.6%7C3.7-blue)]() [![PyPI](https://img.shields.io/badge/pypi%20package-v0.3.5-sucess)](https://pypi.org/project/UCTB/) [![https://img.shields.io/badge/license-MIT-green](https://img.shields.io/badge/license-MIT-green)]() [![Documentation](https://img.shields.io/badge/api-reference-blue.svg)](https://uctb.github.io/UCTB)
 
 ------
 
 **Urban Computing Tool Box** is a package providing [**urban datasets**](https://github.com/uctb/Urban-Dataset), [**spatial-temporal prediction models**](https://github.com/uctb/UCTB), and [**visualization tools**](https://github.com/uctb/visualization-tool-UCTB) for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc. 
 
-UCTB is a flexible and open package. You can use the data we provided or use your data, and the data structure is well stated in the [**tutorial section**](https://uctb.github.io/UCTB/md_file/tutorial.html). 
+UCTB is a flexible and open package. You can use the data we provided or use your data, and the data structure is well stated in the [**document**](https://uctb.github.io/UCTB/md_file/urban_dataset.html#). 
 
 ## News
 
@@ -36,7 +36,7 @@ We provide [detailed documents](https://github.com/uctb/Urban-Dataset/blob/main/
 
 ## Prediction Models
 
-Currently, the package supports the following models: (This toolbox is constructed based on some open-source repos. We appreciate these awesome implements. [See more details](https://uctb.github.io/UCTB/md_file/static/current_supported_models.html)). 
+Currently, the package supports the following models: (This toolbox is constructed based on some open-source repos. We appreciate these awesome implements. [See more details](https://uctb.github.io/UCTB/md_file/predictive_tool.html#)). 
 
 |  Model Name  |   Input Data Format   |   Spatial Modeling Technique   |Graph Type|Temporal Modeling Technique|Temporal Knowledge|Module|
 | ---- | ---- | ---- |----|----|----|----|

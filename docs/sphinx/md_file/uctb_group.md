@@ -8,7 +8,7 @@
 
 Assistant professor @ Key Lab of High Confidence Software Technologies, Department of Computer Science & Technology, Peking University.
 
-Email: leyewang@pku.edu.cn
+Email: [leyewang@pku.edu.cn](mailto:leyewang@pku.edu.cn) 
 
 [Leye Wang's HomePage](https://cs.pku.edu.cn/info/1174/2334.htm)
 

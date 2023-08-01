@@ -95,7 +95,7 @@
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="predictive_tool.html">4. Predictive Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization-tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
@@ -434,8 +434,12 @@ dataset[LenTimeSlots]:&lt;class &#39;int&#39;&gt;
 <td style="text-align: left;">The interactive information among data collecting nodes.</td>
 </tr>
 <tr>
-<td style="text-align: left;">poi</td>
-<td style="text-align: left;">Point of interests</td>
+<td style="text-align: left;">node_poi</td>
+<td style="text-align: left;">Point of interests conformed with node format</td>
+</tr>
+<tr>
+<td style="text-align: left;">grid_poi</td>
+<td style="text-align: left;">Point of interests conformed with grid format</td>
 </tr>
 <tr>
 <td style="text-align: left;">traffic_grid</td>
@@ -443,11 +447,11 @@ dataset[LenTimeSlots]:&lt;class &#39;int&#39;&gt;
 </tr>
 <tr>
 <td style="text-align: left;">gird_lat_lng</td>
-<td style="text-align: left;">the basic information of each data collecting grid.</td>
+<td style="text-align: left;">The basic information of each data collecting grid.</td>
 </tr>
 <tr>
-<td style="text-align: left;">Weather</td>
-<td style="text-align: left;">the weather information of each day.</td>
+<td style="text-align: left;">external_feature_weather</td>
+<td style="text-align: left;">The weather information of each day.</td>
 </tr>
 </tbody>
 </table><p>for example, specify the argument <code class="docutils literal notranslate"><span class="pre">external_feature_weather</span></code> with numpy.array object.</p>

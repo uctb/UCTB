@@ -183,10 +183,11 @@ What's more, if you want to integrate additional information of the dataset, jus
 |Variable_name|Description|
 |:--|:--|
 |traffic_monthly_interaction| The interactive information among data collecting nodes. |
-|poi| Point of interests |
+|node_poi| Point of interests conformed with node format|
+|grid_poi| Point of interests conformed with grid format|
 |traffic_grid| The spatio-temporal information in grid format. |
-|gird_lat_lng| the basic information of each data collecting grid.|
-|Weather| the weather information of each day. |
+|gird_lat_lng| The basic information of each data collecting grid.|
+|external_feature_weather| The weather information of each day. |
 
 for example, specify the argument ``external_feature_weather`` with numpy.array object.
 

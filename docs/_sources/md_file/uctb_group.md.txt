@@ -1,6 +1,6 @@
 ## About us (UCTB Group)
 
-#### PI
+### PI
 
 **Leye Wang**  
 
@@ -24,7 +24,7 @@ Email: [longbiaochen@xmu.edu.cn](mailto:longbiaochen@xmu.edu.cn)
 
 [Longbiao Chen's HomePage](https://longbiao.crowdsensing.cn/)
 
-#### Key Contributors
+### Key Contributors
 
 **Di Chai** (active)
 
@@ -82,7 +82,7 @@ Email:  tf66366@cug.edu.cn
 Postgraduate student majored in Computer Technology in Xiamen University.
 Email: trafalgar2001@163.com
 
-------
+### Past Contributors
 
 **Hang Zhu**
 

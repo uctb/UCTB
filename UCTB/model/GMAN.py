@@ -233,6 +233,7 @@ def FC(x, units, activations, bn, bn_decay, is_training, use_bias=True):
 def STEmbedding(SE, TE, T, D, bn, bn_decay, is_training):
 	'''
 	spatio-temporal embedding
+
 	SE:	 [N, D]
 	TE:	 [batch_size, P + Q, 2] (dayofweek, timeofday)
 	T:	  num of time steps in one day
@@ -258,6 +259,7 @@ def STEmbedding(SE, TE, T, D, bn, bn_decay, is_training):
 def spatialAttention(X, STE, K, d, bn, bn_decay, is_training):
 	'''
 	spatial attention mechanism
+
 	X:	  [batch_size, num_step, N, D]
 	STE:	[batch_size, num_step, N, D]
 	K:	  number of attention heads
@@ -296,6 +298,7 @@ def spatialAttention(X, STE, K, d, bn, bn_decay, is_training):
 def temporalAttention(X, STE, K, d, bn, bn_decay, is_training, mask=True):
 	'''
 	temporal attention mechanism
+
 	X:	  [batch_size, num_step, N, D]
 	STE:	[batch_size, num_step, N, D]
 	K:	  number of attention heads
@@ -354,6 +357,7 @@ def temporalAttention(X, STE, K, d, bn, bn_decay, is_training, mask=True):
 def gatedFusion(HS, HT, D, bn, bn_decay, is_training):
 	'''
 	gated fusion
+
 	HS:	 [batch_size, num_step, N, D]
 	HT:	 [batch_size, num_step, N, D]
 	D:	  output dims
@@ -385,6 +389,7 @@ def STAttBlock(X, STE, K, d, bn, bn_decay, is_training, mask=False):
 def transformAttention(X, STE_P, STE_Q, K, d, bn, bn_decay, is_training):
 	'''
 	transform attention mechanism
+	
 	X:	  [batch_size, P, N, D]
 	STE_P:  [batch_size, P, N, D]
 	STE_Q:  [batch_size, Q, N, D]

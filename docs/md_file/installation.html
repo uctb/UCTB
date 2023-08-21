@@ -91,9 +91,9 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="urban_dataset.html">3. Urban Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predictive_tool.html">4. Predictive Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization-tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
 </ul>
 
@@ -136,7 +136,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li><span class="section-number">2. </span>Installation</li>
+      <li>2. Installation</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -154,28 +154,28 @@
            <div itemprop="articleBody">
             
   <div class="section" id="installation">
-<h1><span class="section-number">2. </span>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h1>2. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>UCTB is based on several well-known deep learning frameworks, including <strong>PyTorch</strong>, <strong>TensorFlow</strong>, and <strong>MXNet</strong>. If you have an Nvidia GPU installed on your computer, we highly recommend you install the GPU version of these frameworks.</p>
 <p>UCTB toolbox may not work successfully with the upgrade of some packages. We thus encourage you to use the specific version of packages to avoid unseen errors. <em><strong>To avoid potential conflict, we highly recommend you install UCTB vis Anaconda.</strong></em></p>
 <div class="section" id="install-via-anaconda">
-<h2><span class="section-number">2.1. </span>Install via Anaconda<a class="headerlink" href="#install-via-anaconda" title="Permalink to this headline">¶</a></h2>
+<h2>2.1. Install via Anaconda<a class="headerlink" href="#install-via-anaconda" title="Permalink to this headline">¶</a></h2>
 <p><strong>Step 1: Install Anaconda</strong></p>
 <p>You can skip to step 2 if you already installed Anaconda.</p>
 <p>To install Anaconda, please refer to this page <a class="reference external" href="https://www.anaconda.com/download">https://www.anaconda.com/download</a>.</p>
 <p><strong>Step 2: create UCTB environment</strong></p>
 <p>Create the UCTB environment by the following command. You may need the <a class="reference external" href="https://github.com/uctb/UCTB/blob/master/environment.yaml">environment.yaml</a> file.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yaml
+<div class="highlight-bash"><div class="highlight"><pre><span></span>conda env create -f environment.yaml
 </pre></div>
 </div>
 <p>Then activate the UCTB environment and start to use it. 🎉🎉🎉</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>UCTB
+<div class="highlight-bash"><div class="highlight"><pre><span></span>conda activate UCTB
 </pre></div>
 </div>
 </div>
 <div class="section" id="check-for-success">
-<h2><span class="section-number">2.2. </span>Check for Success<a class="headerlink" href="#check-for-success" title="Permalink to this headline">¶</a></h2>
+<h2>2.2. Check for Success<a class="headerlink" href="#check-for-success" title="Permalink to this headline">¶</a></h2>
 <p>If you  successfully install UCTB, you may get the following output after importing UCTB.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(UCTB) XXX:~$ python
+<div class="highlight-default"><div class="highlight"><pre><span></span>(UCTB) XXX:~$ python
 Type &quot;help&quot;, &quot;copyright&quot;, &quot;credits&quot; or &quot;license&quot; for more information.
 &gt;&gt;&gt; import UCTB
 Using TensorFlow backend.
@@ -184,33 +184,33 @@ Using TensorFlow backend.
 </div>
 </div>
 <div class="section" id="q-a">
-<h2><span class="section-number">2.3. </span>Q &amp; A<a class="headerlink" href="#q-a" title="Permalink to this headline">¶</a></h2>
+<h2>2.3. Q &amp; A<a class="headerlink" href="#q-a" title="Permalink to this headline">¶</a></h2>
 <p><strong>Q: I fail to install PyTorch, TensorFlow, and MXNet, what is the version number of them?</strong></p>
 <p>A: We recommend you install PyTorch==1.1.0, TensorFlow==1.13.1, and MXNet==1.5.0 with cuda version 10.0. We here give the installation command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install PyTorch</span>
-conda<span class="w"> </span>install<span class="w"> </span><span class="nv">pytorch</span><span class="o">==</span><span class="m">1</span>.1.0<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.3.0<span class="w"> </span><span class="nv">cudatoolkit</span><span class="o">=</span><span class="m">10</span>.0<span class="w"> </span>-c<span class="w"> </span>pytorch
+<div class="highlight-bash"><div class="highlight"><pre><span></span><span class="c1"># Install PyTorch</span>
+conda install <span class="nv">pytorch</span><span class="o">==</span><span class="m">1</span>.1.0 <span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.3.0 <span class="nv">cudatoolkit</span><span class="o">=</span><span class="m">10</span>.0 -c pytorch
 
 <span class="c1"># Install TensorFlow</span>
-conda<span class="w"> </span>install<span class="w"> </span>tensorflow-gpu<span class="o">==</span><span class="m">1</span>.13.1
+conda install tensorflow-gpu<span class="o">==</span><span class="m">1</span>.13.1
 
 <span class="c1"># Install MXNet</span>
-pip<span class="w"> </span>install<span class="w"> </span>mxnet-cu100<span class="o">==</span><span class="m">1</span>.5.0
+pip install mxnet-cu100<span class="o">==</span><span class="m">1</span>.5.0
 </pre></div>
 </div>
-<p><strong>Q:  I’m using Windows OS, and my Anaconda reports that it cannot find the PyTorch 1.1.0 packages. How to install it?</strong></p>
+<p><strong>Q:  I'm using Windows OS, and my Anaconda reports that it cannot find the PyTorch 1.1.0 packages. How to install it?</strong></p>
 <p>A: You could install it by the following command.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">1</span>.1.0<span class="w"> </span><span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.3.0<span class="w"> </span>-f<span class="w"> </span>https://download.pytorch.org/whl/cu100/torch_stable.html
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install <span class="nv">torch</span><span class="o">==</span><span class="m">1</span>.1.0 <span class="nv">torchvision</span><span class="o">==</span><span class="m">0</span>.3.0 -f https://download.pytorch.org/whl/cu100/torch_stable.html
 </pre></div>
 </div>
 <p><strong>Q:  I fail to install UCTB via pip. How to install it ?</strong></p>
-<p>A: This situation may occur when your OS is Windows. You could install UCTB by its source code. First download UCTB’s source code and your folder may look like this:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>XXX/UCTB-master#<span class="w"> </span>ls
-build_install.py<span class="w">  </span>dist<span class="w">  </span>environment.yaml<span class="w">  </span>__init__.py<span class="w">  </span>QuickStarts<span class="w">  </span>setup.py
-build.py<span class="w">          </span>docs<span class="w">  </span>Experiments<span class="w">       </span>LICENSE<span class="w">      </span>README.md<span class="w">    </span>UCTB
+<p>A: This situation may occur when your OS is Windows. You could install UCTB by its source code. First download UCTB's source code and your folder may look like this:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>XXX/UCTB-master# ls
+build_install.py  dist  environment.yaml  __init__.py  QuickStarts  setup.py
+build.py          docs  Experiments       LICENSE      README.md    UCTB
 </pre></div>
 </div>
 <p>then build and install UCTB by the following command:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>build_install.py
+<div class="highlight-bash"><div class="highlight"><pre><span></span>python build_install.py
 </pre></div>
 </div>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
@@ -267,7 +267,7 @@ build.py<span class="w">          </span>docs<span class="w">  </span>Experiment
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
-      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

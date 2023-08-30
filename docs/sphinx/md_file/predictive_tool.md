@@ -382,7 +382,7 @@ print(data_loader.train_data.shape)
 ```
 You may probably note that the length of train_closeness is 13778 less than that of train_data. It's because we choose the shortest data length among the three series(train_trend) for alignment.
 
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/data_reassemble.png" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/data_reassemble.png" style="zoom: 10%;" />
 
 Above is the visualization of a new time series's construction. In this situation, feature_stride = 3(means sampling interval), feature_step = 3(means how many times we sample).Other time series are just the same situation.
 

@@ -1,6 +1,6 @@
 ## About us (UCTB Group)
 
-#### PI
+### PI
 
 **Leye Wang**  
 
@@ -8,7 +8,7 @@
 
 Assistant professor @ Key Lab of High Confidence Software Technologies, Department of Computer Science & Technology, Peking University.
 
-Email: leyewang@pku.edu.cn
+Email: [leyewang@pku.edu.cn](mailto:leyewang@pku.edu.cn) 
 
 [Leye Wang's HomePage](https://cs.pku.edu.cn/info/1174/2334.htm)
 
@@ -24,7 +24,7 @@ Email: [longbiaochen@xmu.edu.cn](mailto:longbiaochen@xmu.edu.cn)
 
 [Longbiao Chen's HomePage](https://longbiao.crowdsensing.cn/)
 
-#### Key Contributors
+### Key Contributors
 
 **Di Chai** (active)
 
@@ -82,7 +82,7 @@ Email:  tf66366@cug.edu.cn
 Postgraduate student majored in Computer Technology in Xiamen University.
 Email: trafalgar2001@163.com
 
-------
+### Past Contributors
 
 **Hang Zhu**
 

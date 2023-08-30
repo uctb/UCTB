@@ -1,310 +1,101 @@
-#   Benchmark Results
+#   Benchmark
 
-## STMeta Version
+## Datasets
 
-As introduced in [Currently Supported Models](./static/current_supported_models.html#stmeta), STMeta is a meta-model that can be implemented by different deep learning techniques based on its applications. Here we realize three versions of STMeta to evaluate its generalizability. The main differences between these three variants are the techniques used in spatio-temporal modeling and aggregation units:
+| Application              |  Bike-sharing   |  Bike-sharing   |  Bike-sharing   |  Ride-sharing   |  Ride-sharing   |      Metro      |      Metro      |       EV        |  Traffic Speed  |  Traffic Speed  |
+| :----------------------- | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: | :-------------: |
+| City                     | *New York City* |    *Chicago*    |      *DC*       |     *Xi'an*     |    *Chengdu*    |   *Chongqing*   |   *Shanghai*    |    *Beijing*    |    *METR-LA*    |   *PEMS-BAY*    |
+| Time span                | 2013.03-2017.09 | 2013.07-2017.09 | 2013.07-2017.09 | 2016.10-2016.11 | 2016.10-2016.11 | 2016.08-2017.07 | 2016.07-2016.09 | 2018.03-2018.05 | 2012.03-2012.06 | 2017.01-2017.07 |
+| Number of riding records |   49,100,694    |   13,130,969    |   13,763,675    |    5,922,961    |    8,439,537    |   409,277,117   |   333,149,034   |    1,272,961    |     34,272      |     52,128      |
+| Number of stations       |       820       |       585       |       532       |       256       |       256       |       113       |       288       |       629       |       207       |       325       |
 
-| Version Name |                     Spatio-Temporal Unit                     |                  Temporal Aggregation Unit                   | Spatial Aggregation Unit |
-| :----------: | :----------------------------------------------------------: | :----------------------------------------------------------: | :----------------------: |
-|  STMeta-V1   | [GCLSTM](../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.ST_RNN.GCLSTMCell) | [GAL](../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.GraphModelLayers.GAL) |           GAL            |
-|  STMeta-V2   |                            GCLSTM                            |                        Concat & Dense                        |           GAL            |
-|  STMeta-V3   | [DCGRU](../UCTB.model_unit.html?highlight=gclstmcel#UCTB.model_unit.DCRNN_CELL.DCGRUCell) |                             GAL                              |           GAL            |
+Following shows the map-visualization of stations in NYC, Chicago, DC, Xian and Chengdu.
 
-By default, we use `STMeta-V1` to run LSTM and single graph model tests.
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_NYC.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_Chicago.jpg" style="zoom:23%;height:800px;width:800px;"/> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_DC.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/DiDi_Xian.jpg" style="zoom:23%;height:800px;width:800px;" />  <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/DiDi_Chengdu.jpg" style="zoom:23%;height:800px;width:800px;" />
 
-References:
 
-- GCLSTM (Graph Convolutional Long short-term Memory):
-  [Chai, D., Wang, L., & Yang, Q. (2018, November). Bike flow prediction with multi-graph convolutional networks](https://arxiv.org/pdf/1807.10934) 
 
-- DCGRU (Diffusion Convolutional Gated Recurrent Unit):
-  [Li, Y., Yu, R., Shahabi, C., & Liu, Y. (2017). Diffusion convolutional recurrent neural network: Data-driven traffic forecasting](https://arxiv.org/pdf/1707.01926.pdf)  
+Following shows the map-visualization of stations in Chongqing, Shanghai and Beijing, METR-LA and PEMS-BAY.
 
-- GAL (Graph Attention Layer):
-  [Veličković, P., Cucurull, G., Casanova, A., Romero, A., Lio, P., & Bengio, Y. (2017). Graph attention networks](https://arxiv.org/pdf/1710.10903.pdf) 
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Metro_Chongqing.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Metro_Shanghai.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/EV_Beijing.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/PEMS_BAY.png" style="zoom:23%;height:800px;width:800px;" />  
 
-We conducted experiments on the following datasets at the granularity of 15 minutes, 30 minutes and 60 minutes respectively. Our running code and detailed parameter settings can be found in [Experiment Setting](./all_results.html#experiment-setting-on-different-datasets).
+## Results
 
-## Results on Bike
+We conducted experiments on the following datasets at the granularity of 15 minutes, 30 minutes, and 60 minutes respectively. More details and conclusions can be found in the this paper.  [IEEE Xplore](https://ieeexplore.ieee.org/document/9627543), [arXiv](https://arxiv.org/abs/2009.09379)
 
-### Dataset Statistics
+### 15-minute prediction tasks
 
-|        Attributes        | **New York City** |   **Chicago**   |     **DC**      |
-| :----------------------: | :---------------: | :-------------: | :-------------: |
-|        Time span         |  2013.03-2017.09  | 2013.07-2017.09 | 2013.07-2017.09 |
-| Number of riding records |    49,100,694     |   13,130,969    |   13,763,675    |
-|    Number of stations    |        820        |       585       |       532       |
+The best two results are highlighted in bold, and the top one result is marked with `*'. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction
 
-Following shows the map-visualization of bike stations in NYC, Chicago and DC.
+|                          |    NYC     |  Chicago   |     DC     |   Xi'an    |  Chengdu   |  Shanghai  | Chongqing  |  METR-LA   |  PEMS-BAY  |
+| :----------------------- | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
+| HM (TC)                  |   1.903    |   1.756    |   1.655    |   3.155    |   4.050    |   93.81    |   76.67    |   7.150    |   2.967    |
+| ARIMA (TC)               |   1.874    |   1.784    |   1.689    |   3.088    |   3.948    |   83.54    |   67.11    |   7.028    |   2.869    |
+| LSTM  (TC)               |   1.989    |   1.802    |   1.678    |   3.051    |   3.888    |   80.40    |   55.37    |   6.380    |   2.690    |
+| HM (TM)                  |   1.892    |   1.668    |   1.555    |   2.828    |   3.347    |   49.75    |   45.26    |   8.934    |   3.690    |
+| XGBoost (TM)             |   1.712    |   1.672    |   1.559    |   2.799    |   3.430    |   47.89    |   35.70    |   6.443    |   2.623    |
+| GBRT (TM)                |   1.708    |   1.667    |   1.552    |   2.775    |   3.363    |   44.55    |   33.29    |   6.371    |   2.645    |
+| TMeta-LSTM-GAL (TM)      |   1.818    |   1.623    |   1.540    |   2.917    |   3.286    |   45.88    |   33.34    |   6.156    |   2.544    |
+| DCRNN (TC+SP)            |   1.712    |   1.718    |   1.594    |   2.889    |   3.743    |   56.00    |   37.07    |   6.440    |   5.322    |
+| STGCN (TC+SP)            |   1.738    |   1.806    |   1.630    |   2.789    |   3.453    |   47.40    |   35.19    |   6.236    |   2.493    |
+| GMAN (TC+SP)             | **1.632*** | **1.529**  | **1.355*** |   2.769    |   3.520    |   49.21    |   36.66    |   6.214    |   3.484    |
+| Graph-WaveNet (TC+SP+SD) | **1.644**  | **1.460*** | **1.357**  |   2.764    |   3.442    |   47.84    |   35.04    | **5.270*** |   2.780    |
+| ST-ResNet (TM+SP)        |    ---     |    ---     |    ---     |   2.686    |   3.314    |    ---     |    ---     |    ---     |    ---     |
+| ST-MGCN (TM+SM)          |   1.687    |   1.646    |   1.545    |   2.714    |   3.293    |   46.54    | **32.72**  |   6.645    | **2.426*** |
+| AGCRN-CDW (TM+SD)        |   1.836    |   1.883    |   1.745    |   2.722    |   3.296    |   77.06    |   46.95    |   6.709    |   2.453    |
+| STMeta-GCL-GAL (TM+SM)   |   1.659    |   1.607    |   1.527    |   2.653    | **3.244**  | **41.67**  | **31.39*** | **5.644**  | **2.433**  |
+| STMeta-GCL-CON (TM+SM)   |   1.673    |   1.629    |   1.512    | **2.637*** | **3.241*** |   43.83    |   38.21    |   5.800    |   2.449    |
+| STMeta-DCG-GAL (TM+SM)   |   1.654    |   1.609    |   1.517    | **2.648**  |   3.254    | **40.94*** |   36.90    |   5.788    |   2.446    |
 
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_NYC.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_Chicago.jpg" style="zoom:30%;height:800px;width:800px;"/> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_DC.jpg" style="zoom:30%;height:800px;width:800px;" />
+### Results on 30-minute prediction tasks
 
-### Experiment Results
+The best two results are highlighted in bold, and the top one result is marked with `*'. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction
 
-| **15 minutes** |     NYC     |   Chicago   |     DC      |
-| :------------: | :---------: | :---------: | :---------: |
-|       HM       |   1.89180   |   1.66782   |   1.55471   |
-|     ARIMA      |   1.87415   |   1.78399   |   1.68858   |
-|    XGBoost     |   1.71216   |   1.67219   |   1.55872   |
-|      GBRT      |   1.70757   |   1.66691   |   1.55246   |
-|    ST_MGCN     |   1.68659   |   1.64642   |   1.54455   |
-|     DCRNN      |   1.71223   |   1.71789   |   1.59412   |
-|      LSTM      |   1.98866   |   1.80222   |   1.67762   |
-| TMeta-LSTM-GAL |   1.81819   |   1.62269   |   1.54041   |
-|   STMeta-V1    |   1.65939   | **1.60743** |   1.52698   |
-|   STMeta-V2    |   1.67336   |   1.62883   | **1.51158** |
-|   STMeta-V3    | **1.65351** |   1.60917   |   1.51720   |
+|                          |    NYC     |  Chicago   |     DC     |   Xi'an    |  Chengdu   |  Shanghai  | Chongqing  |  Beijing   |  METR-LA   |  PEMS-BAY  |
+| :----------------------- | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: | :--------: |
+| HM (TC)                  |   3.206    |   2.458    |   2.304    |   5.280    |   6.969    |   269.16   |   221.39   |   0.768    |   9.471    |   4.155    |
+| ARIMA (TC)               |   3.178    |   2.428    |   2.228    |   5.035    |   6.618    |   212.01   |   180.53   |   0.755    |   9.230    |   3.936    |
+| LSTM  (TC)               |   3.018    |   2.493    |   2.212    |   4.950    |   6.444    |   195.60   |   104.61   |   0.755    |   7.866    |   3.683    |
+| HM (TM)                  |   2.686    |   2.230    |   1.956    |   4.239    |   4.851    |   108.59   |   74.55    |   0.864    |   9.560    |   3.965    |
+| XGBoost (TM)             |   2.704    |   2.376    |   1.956    |   4.172    |   4.915    |   81.82    |   69.50    |   0.686    |   8.298    |   3.253    |
+| GBRT (TM)                |   2.682    |   2.355    |   1.928    |   4.135    |   4.873    |   83.94    |   72.99    |   0.689    |   8.269    |   3.370    |
+| TMeta-LSTM-GAL (TM)      |   2.511    | **2.133*** |   1.927    |   3.847    |   4.678    |   85.19    |   53.18    |   0.686    |   7.436    |   3.231    |
+| DCRNN (TC+SP)            |   2.618    |   2.246    |   2.118    |   4.529    |   6.258    |   116.15   |   65.72    |   0.757    |   8.562    |   6.198    |
+| STGCN (TC+SP)            |   2.841    |   2.482    |   2.067    |   3.992    |   5.051    |   91.29    |   58.34    |   0.694    |   7.871    |   3.136    |
+| GMAN (TC+SP)             |   2.792    |   2.336    | **1.836*** |   4.026    |   5.293    |   97.58    |   51.37    |   0.764    |   7.276    |   3.688    |
+| Graph-WaveNet (TC+SP+SD) |   2.666    |   2.158    |   1.874    |   3.986    |   5.097    |   92.88    |   52.52    |   0.719    | **6.809*** |   3.589    |
+| ST-ResNet (TM+SP)        |    ---     |    ---     |    ---     |   3.903    |   4.673    |    ---     |    ---     |    ---     |    ---     |    ---     |
+| ST-MGCN (TM+SM)          |   2.513    |   2.177    |   1.903    |   3.886    |   4.732    |   88.76    |   50.96    |   0.691    |   8.079    | **3.042**  |
+| AGCRN-CDW (TM+SD)        |   2.830    |   2.565    |   2.074    |   3.958    |   4.753    |   238.99   |   131.55   |   0.688    |   8.575    | **3.022*** |
+| STMeta-GCL-GAL (TM+SM)   | **2.410*** |   2.170    |   1.856    | **3.808**  |   4.650    | **75.36*** | **49.47**  | **0.670**  |   7.156    |   3.116    |
+| STMeta-GCL-CON (TM+SM)   | **2.411**  | **2.133*** |   1.859    | **3.772*** | **4.613*** |   80.69    |   50.01    | **0.667*** | **6.889*** |   3.204    |
+| STMeta-DCG-GAL (TM+SM)   | **2.411**  |   2.182    | **1.852**  |   3.833    | **4.635**  | **77.49**  | **48.96*** | **0.670**  |   7.184    |   3.187    |
 
-| **30 minutes** |     NYC     |   Chicago   |     DC      |
-| :------------: | :---------: | :---------: | :---------: |
-|       HM       |   2.68564   |   2.22987   |   1.95601   |
-|     ARIMA      |   3.17849   |   2.42798   |   2.22804   |
-|    XGBoost     |   2.70377   |   2.37553   |   1.95560   |
-|      GBRT      |   2.68164   |   2.35532   |   1.92799   |
-|    ST_MGCN     |   2.51288   |   2.17659   |   1.90305   |
-|     DCRNN      |   2.61848   |   2.24642   |   2.11771   |
-|      LSTM      |   3.01836   |   2.49270   |   2.21191   |
-| TMeta-LSTM-GAL |   2.51124   |   2.13333   |   1.92748   |
-|   STMeta-V1    | **2.40976** |   2.17032   |   1.85628   |
-|   STMeta-V2    |   2.41088   | **2.13330** |   1.85876   |
-|   STMeta-V3    |   2.41109   |   2.18174   | **1.85199** |
+### Results on 60-minute prediction tasks
 
-| **60 minutes** |    NYC    |  Chicago  |    DC     |
-| :------------: | :-------: | :-------: | :-------: |
-|       HM       |   3.992   |   2.976   |   2.631   |
-|     ARIMA      |   5.609   |   3.835   |   3.604   |
-|    XGBoost     |   4.124   |   2.925   |   2.656   |
-|      GBRT      |   3.999   |   2.842   |   2.617   |
-|    ST_MGCN     |   3.723   |   2.883   |   2.485   |
-|     DCRNN      |   4.186   |   3.277   |   3.086   |
-|      LSTM      |   4.556   |   3.370   |   2.915   |
-| TMeta-LSTM-GAL |   3.784   |   2.790   |   2.547   |
-|   STMeta-V1    |   3.504   | **2.655** |   2.425   |
-|   STMeta-V2    | **3.438** |   2.663   |   2.411   |
-|   STMeta-V3    |   3.478   |   2.661   | **2.388** |
+The best two results are highlighted in bold, and the top one result is marked with `*'. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction
 
-## Results on DiDi
+|                          |    NYC     |  Chicago   |     DC     |   Xi'an    |  Chengdu   |  Shanghai   | Chongqing  |  Beijing   |  METR-LA   |  PEMS-BAY  |
+| :----------------------- | :--------: | :--------: | :--------: | :--------: | :--------: | :---------: | :--------: | :--------: | :--------: | :--------: |
+| HM (TC)                  |   5.814    |   4.143    |   3.485    |   10.136   |   14.145   |   824.94    |   673.55   |   1.178    |   12.303   |   5.779    |
+| ARIMA (TC)               |   5.289    |   3.744    |   3.183    |   9.475    |   13.259   |   676.79    |   578.19   |   0.982    |   11.739   |   5.670    |
+| LSTM  (TC)               |   5.167    |   3.721    |   3.234    |   9.830    |   13.483   |   506.07    |   322.81   |   0.999    |   10.083   |   4.777    |
+| HM (TM)                  |   3.992    |   3.104    |   2.632    |   6.186    |   7.512    |   172.55    |   119.86   |   1.016    |   10.727   |   4.018    |
+| XGBoost (TM)             |   4.102    |   3.003    |   2.643    |   6.733    |   7.592    |   160.38    |   117.05   |   0.834    |   10.299   |   3.703    |
+| GBRT (TM)                |   4.039    |   2.984    |   2.611    |   6.446    |   7.511    |   154.29    |   113.92   |   0.828    |   10.013   |   3.704    |
+| TMeta-LSTM-GAL (TM)      |   3.739    |   2.840    |   2.557    | **5.843**  |   6.949    |   163.31    |   102.86   |   0.840    | **8.670*** |   3.616    |
+| DCRNN (TC+SP)            |   4.187    |   3.081    |   3.016    |   8.203    |   11.444   |   340.25    |   122.31   |   0.989    |   11.121   |   6.920    |
+| STGCN (TC+SP)            |   3.895    |   2.989    |   2.597    |   6.150    |   7.710    |   187.98    |   106.16   |   0.859    |   10.688   |   3.472    |
+| GMAN (TC+SP)             |   4.251    |   2.875    |   2.530    |   7.099    |   13.351   |   193.39    |   117.52   |   0.949    |   10.012   |   3.846    |
+| Graph-WaveNet (TC+SP+SD) |   3.863    |   2.812    | **2.403*** |   6.541    |   8.162    |   186.82    |   102.75   |   0.930    |   9.463    |   4.135    |
+| ST-ResNet (TM+SP)        |    ---     |    ---     |    ---     |   6.075    |   7.155    |     ---     |    ---     |    ---     |    ---     |    ---     |
+| ST-MGCN (TM+SM)          |   3.723    |   2.904    |   2.518    |   5.878    |   7.067    |   159.52    |   104.87   |   0.827    |   10.798   | **3.486**  |
+| AGCRN-CDW (TM+SD)        |   3.795    |   2.935    |   2.580    |   8.835    |   10.275   |   658.12    |   287.41   |   0.844    |   10.728   | **3.381*** |
+| STMeta-GCL-GAL (TM+SM)   | **3.518**  | **2.695**  |   2.405    |   5.871    | **6.858*** |   153.17    | **97.87**  |   0.831    | **8.834**  |   3.514    |
+| STMeta-GCL-CON (TM+SM)   | **3.507*** |   2.739    | **2.404**  | **5.829*** | **6.873**  | **149.05**  |   106.41   | **0.807**  |   9.147    |   3.552    |
+| STMeta-DCG-GAL (TM+SM)   |   3.521    | **2.652*** |   2.423    |   5.908    |   6.904    | **143.18*** | **94.78*** | **0.803*** |   8.993    |   3.500    |
 
-### Dataset Statistics
-
-|     Attributes     |    **Xi'an**    |   **Chengdu**   |
-| :----------------: | :-------------: | :-------------: |
-|     Time span      | 2016.10-2016.11 | 2016.10-2016.11 |
-| Number of records  |    5,922,961    |    8,439,537    |
-| Number of stations |       256       |       256       |
-
-Following shows the map-visualization of grid-based ride-sharing stations in Xi'an and Chengdu.
-
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/DiDi_Xian.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/DiDi_Chengdu.jpg" style="zoom:30%;height:800px;width:800px;" />
-
-### Experiment Results
-
-|   15 minutes   |  **Xian**   | **Chengdu** |
-| :------------: | :---------: | :---------: |
-|       HM       |   2.82784   |   3.34701   |
-|     ARIMA      |   3.08823   |   3.94791   |
-|    XGBoost     |   2.79919   |   3.42954   |
-|      GBRT      |   2.77484   |   3.36292   |
-|   ST-ResNet    |   2.68641   |   3.31394   |
-|    ST_MGCN     |   2.71417   |   3.29300   |
-|     DCRNN      |   2.88934   |   3.74328   |
-|      LSTM      |   3.05138   |   3.88830   |
-| TMeta-LSTM-GAL |   2.91712   |   3.28553   |
-|   STMeta-V1    |   2.65320   |   3.24408   |
-|   STMeta-V2    | **2.63673** | **3.24125** |
-|   STMeta-V3    |   2.64849   |   3.25353   |
-
-|   30 minutes   |  **Xian**   | **Chengdu** |
-| :------------: | :---------: | :---------: |
-|       HM       |   4.23940   |   4.85059   |
-|     ARIMA      |   5.03538   |   6.61832   |
-|    XGBoost     |   4.17160   |   4.91460   |
-|      GBRT      |   4.13541   |   4.87335   |
-|   ST-ResNet    |   3.90263   |   4.67278   |
-|    ST_MGCN     |   3.88621   |   4.73162   |
-|     DCRNN      |   4.52889   |   6.25836   |
-|      LSTM      |   4.95037   |   6.44397   |
-| TMeta-LSTM-GAL |   3.84690   |   4.67784   |
-|   STMeta-V1    |   3.80812   |   4.64988   |
-|   STMeta-V2    | **3.77190** | **4.61277** |
-|   STMeta-V3    |   3.83278   |   4.63502   |
-
-|   60 minutes   | **Xian**  | **Chengdu** |
-| :------------: | :-------: | :---------: |
-|       HM       |   6.186   |    7.354    |
-|     ARIMA      |   9.474   |   12.526    |
-|    XGBoost     |   6.733   |    7.738    |
-|      GBRT      |   6.446   |    7.588    |
-|   ST-ResNet    |   6.084   |    7.146    |
-|    ST_MGCN     |   5.874   |  **7.032**  |
-|     DCRNN      |   8.202   |   11.505    |
-|      LSTM      |   7.399   |   10.113    |
-| TMeta-LSTM-GAL |   5.814   |    7.048    |
-|   STMeta-V1    |   5.891   |    7.062    |
-|   STMeta-V2    | **5.755** |    7.097    |
-|   STMeta-V3    |   5.955   |    7.043    |
-
-## Results on Metro
-
-### Dataset Statistics
-
-|     Attributes     |  **Chongqing**  |  **Shanghai**   |
-| :----------------: | :-------------: | :-------------: |
-|     Time span      | 2016.08-2017.07 | 2016.07-2016.09 |
-| Number of records  |   409,277,117   |   333,149,034   |
-| Number of stations |       113       |       288       |
-
-Following shows the map-visualization of metro stations in Chongqing and Shanghai.
-
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Metro_Chongqing.jpg" style="zoom:30%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Metro_Shanghai.jpg" style="zoom:30%;height:800px;width:800px;" />
-
-### Experiment Results
-
-|   15 minutes   | **Chongqing** | **Shanghai** |
-| :------------: | :-----------: | :----------: |
-|       HM       |   45.25524    |   49.74561   |
-|     ARIMA      |   67.11072    |   83.53750   |
-|    XGBoost     |   35.69683    |   47.88690   |
-|      GBRT      |   33.28726    |   44.55068   |
-|    ST_MGCN     |   32.71874    |   46.54292   |
-|     DCRNN      |   37.06903    |   56.00411   |
-|      LSTM      |   55.36633    |   80.40264   |
-| TMeta-LSTM-GAL |   33.34361    |   45.88331   |
-|   STMeta-V1    | **31.39239**  |   41.66834   |
-|   STMeta-V2    |   38.20912    |   43.82808   |
-|   STMeta-V3    |   36.90250    | **40.94003** |
-
-| **30 minutes** |  Chongqing   |   Shanghai   |
-| :------------: | :----------: | :----------: |
-|       HM       |   74.54662   |  108.59372   |
-|     ARIMA      |  180.53262   |  212.00777   |
-|    XGBoost     |   69.50227   |   81.82434   |
-|      GBRT      |   72.98518   |   83.93989   |
-|    ST_MGCN     |   50.95764   |   88.76412   |
-|     DCRNN      |   65.71969   |  116.14510   |
-|      LSTM      |  104.60832   |  195.60097   |
-| TMeta-LSTM-GAL |   53.17723   |   85.19422   |
-|   STMeta-V1    |   49.46800   | **75.36282** |
-|   STMeta-V2    |   50.01080   |   80.68939   |
-|   STMeta-V3    | **48.95798** |   77.48744   |
-
-|   60 minutes   | **Chongqing** | **Shanghai** |
-| :------------: | :-----------: | :----------: |
-|       HM       |    120.30     |    197.97    |
-|     ARIMA      |    578.18     |    792.15    |
-|    XGBoost     |    117.05     |    185.00    |
-|      GBRT      |    113.92     |    186.74    |
-|    ST_MGCN     |    118.86     |    181.55    |
-|     DCRNN      |    122.31     |    326.97    |
-|      LSTM      |    196.17     |    368.84    |
-| TMeta-LSTM-GAL |     97.50     |    182.28    |
-|   STMeta-V1    |   **92.74**   |  **151.11**  |
-|   STMeta-V2    |     98.86     |    158.21    |
-|   STMeta-V3    |    101.78     |    156.58    |
-
-## Results on Charge-Station
-
-### Dataset Statistics
-
-|     Attributes     |   **Beijing**   |
-| :----------------: | :-------------: |
-|     Time span      | 2018.03-2018.05 |
-| Number of records  |    1,272,961    |
-| Number of stations |       629       |
-
-Following shows the map-visualization of  629 EV charging stations in Beijing.
-
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/EV_Beijing.jpg" style="zoom:40%;height:800px;width:800px;" />
-
-### Experiment Results
-
-|   30 minutes   | **Beijing** |
-| :------------: | :---------: |
-|       HM       |   0.86361   |
-|     ARIMA      |   0.75522   |
-|    XGBoost     |   0.68649   |
-|      GBRT      |   0.68931   |
-|    ST_MGCN     |   0.69083   |
-|     DCRNN      |   0.75740   |
-|      LSTM      |   0.75474   |
-| TMeta-LSTM-GAL |   0.68627   |
-|   STMeta-V1    |   0.66985   |
-|   STMeta-V2    | **0.66675** |
-|   STMeta-V3    |   0.66966   |
-
-|   60 minutes   | **Beijing** |
-| :------------: | :---------: |
-|       HM       |    1.016    |
-|     ARIMA      |    0.982    |
-|    XGBoost     |    0.833    |
-|      GBRT      |    0.828    |
-|    ST_MGCN     |    0.827    |
-|     DCRNN      |    0.988    |
-|      LSTM      |    1.585    |
-| TMeta-LSTM-GAL |    0.833    |
-|   STMeta-V1    |  **0.815**  |
-|   STMeta-V2    |    0.821    |
-|   STMeta-V3    |  **0.815**  |
-
-## Results on Traffic Speed
-
-### Dataset Statistics
-
-|        Attributes        |   **METR-LA**   |  **PEMS-BAY**   |
-| :----------------------: | :-------------: | :-------------: |
-|        Time span         | 2012.03-2012.06 | 2017.01-2017.07 |
-| Number of riding records |     34,272      |     52,128      |
-|    Number of stations    |       207       |       325       |
-
-Following shows the map-visualization of grid-based ride-sharing stations in METR-LA and PEMS-BAY.
-
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" style="zoom:30%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/PEMS_BAY.png" style="zoom:30%;height:800px;width:800px;" /> 
-
-### Experiment Results
-
-|   15 minutes   | **METR-LA** | **PEMS-BAY** |
-| :------------: | :---------: | :----------: |
-|       HM       |   8.93415   |   3.68983    |
-|     ARIMA      |   7.02787   |   2.86893    |
-|    XGBoost     |   6.44322   |   2.62339    |
-|      GBRT      |   6.37050   |   2.64524    |
-|    ST_MGCN     |   6.64489   |   2.42605    |
-|     DCRNN      |   6.44030   |   5.32297    |
-|      LSTM      |   6.38015   |   2.68953    |
-| TMeta-LSTM-GAL |   6.15585   |   2.54368    |
-|   STMeta-V1    |   5.64445   |   2.43292    |
-|   STMeta-V2    |   5.79998   |   2.44947    |
-|   STMeta-V3    |   5.78807   |   2.44571    |
-
-|   30 minutes   | **METR-LA** | **PEMS-BAY** |
-| :------------: | :---------: | :----------: |
-|       HM       |   9.55981   |   3.96537    |
-|     ARIMA      |   9.22951   |   3.93569    |
-|    XGBoost     |   8.29796   |   3.25334    |
-|      GBRT      |   8.26941   |   3.37025    |
-|    ST_MGCN     |   8.07924   |   3.04172    |
-|     DCRNN      |   8.56215   |   6.19802    |
-|      LSTM      |   7.86569   |   3.68256    |
-| TMeta-LSTM-GAL |   7.43553   |   3.23098    |
-|   STMeta-V1    |   7.15628   |   3.11554    |
-|   STMeta-V2    |   6.88889   |   3.20407    |
-|   STMeta-V3    |   7.18431   |   3.18722    |
-
-|   60 minutes   | **METR-LA** | **PEMS-BAY** |
-| :------------: | :---------: | :----------: |
-|       HM       |  10.72724   |   4.01788    |
-|     ARIMA      |  11.73901   |   5.67008    |
-|    XGBoost     |  10.29861   |   3.70330    |
-|      GBRT      |  10.01320   |   3.70401    |
-|    ST_MGCN     |  10.79813   |   3.48569    |
-|     DCRNN      |  11.12053   |   6.91955    |
-|      LSTM      |  10.08317   |   4.77696    |
-| TMeta-LSTM-GAL |   8.66965   |   3.61642    |
-|   STMeta-V1    |   8.83393   |   3.51389    |
-|   STMeta-V2    |   9.14697   |   3.55159    |
-|   STMeta-V3    |   8.99345   |   3.49954    |
-
-## Experiment Setting on different datasets
+## Implement Details
 
 ### Search Space
 
@@ -317,17 +108,7 @@ We use [nni](https://github.com/microsoft/nni) toolkit to search the best parame
 | XGBoost | `CT: 0~12`, `PT: 0~14`, `TT: 0~4`, `estimater: 10~200`, `depth: 2~10` |
 |  GBRT   | `CT: 0~12`, `PT: 0~14`, `TT: 0~4`, `estimater: 10~200`, `depth: 2~10` |
 
-### Results on Bike
-
-#### Dataset Statistics
-
-|        Attributes        | **New York City** |   **Chicago**   |     **DC**      |
-| :----------------------: | :---------------: | :-------------: | :-------------: |
-|        Time span         |  2013.03-2017.09  | 2013.07-2017.09 | 2013.07-2017.09 |
-| Number of riding records |    49,100,694     |   13,130,969    |   13,763,675    |
-|    Number of stations    |        820        |       585       |       532       |
-
-#### Experiment Setting
+### Bike-sharing
 
 * HM & XGBoost & GBRT
 
@@ -477,21 +258,7 @@ We use [nni](https://github.com/microsoft/nni) toolkit to search the best parame
             '-p graph:Distance-Correlation-Interaction,MergeIndex:12')
   ```
 
-The result of Bike dataset can be found [here](./all_results.html#experiment-results).
-
-#### 
-
-### Results on DiDi
-
-#### Dataset Statistics
-
-|     Attributes     |    **Xi'an**    |   **Chengdu**   |
-| :----------------: | :-------------: | :-------------: |
-|     Time span      | 2016.10-2016.11 | 2016.10-2016.11 |
-| Number of records  |    5,922,961    |    8,439,537    |
-| Number of stations |       256       |       256       |
-
-#### Experiment Setting
+### Ride-sharing
 
 * HM & XGBoost & GBRT
 
@@ -530,7 +297,7 @@ The result of Bike dataset can be found [here](./all_results.html#experiment-res
     'kernel_size': 3,
     'lr': 1e-5,
     'batch_size': 32
-  }
+  
   ```
 
   We can modify `city` parameter to `Chengdu` or `Xian` in [ST_ResNet.py]( https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_ResNet/ST_ResNet.py ) , and then run it.
@@ -636,19 +403,7 @@ The result of Bike dataset can be found [here](./all_results.html#experiment-res
     ```
     
 
-The result of DiDi dataset can be found [here](./all_results.html#id2).
-
-### Results on Metro
-
-#### Dataset Statistics
-
-|     Attributes     |  **Chongqing**  |  **Shanghai**   |
-| :----------------: | :-------------: | :-------------: |
-|     Time span      | 2016.08-2017.07 | 2016.07-2016.09 |
-| Number of records  |   409,277,117   |   333,149,034   |
-| Number of stations |       113       |       288       |
-
-#### Experiment Setting
+### Metro Passenger
 
 * HM & XGBoost & GBRT
 
@@ -767,19 +522,7 @@ The result of DiDi dataset can be found [here](./all_results.html#id2).
     ```
     
 
-The result of Metro dataset can be found [here](./all_results.html#id4).
-
-### Results on Charge-Station
-
-#### Dataset Statistics
-
-|     Attributes     |   **Beijing**   |
-| :----------------: | :-------------: |
-|     Time span      | 2018.03-2018.05 |
-| Number of records  |    1,272,961    |
-| Number of stations |       629       |
-
-#### Experiment Setting
+### Electric Vehicle
 
 * HM & XGBoost & GBRT
 
@@ -845,19 +588,7 @@ The result of Metro dataset can be found [here](./all_results.html#id4).
               ' -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2')
     ```
 
-The result of Charge-Station dataset can be found [here](./all_results.html#id6).
-
-### Results on Traffic Speed
-
-#### Dataset Statistics
-
-|        Attributes        |   **METR-LA**   |  **PEMS-BAY**   |
-| :----------------------: | :-------------: | :-------------: |
-|        Time span         | 2012.03-2012.06 | 2017.01-2017.07 |
-| Number of riding records |     34,272      |     52,128      |
-|    Number of stations    |       207       |       325       |
-
-#### Experiment Setting
+### Traffic Speed
 
 * HM & XGBoost & GBRT
 
@@ -981,4 +712,3 @@ The result of Charge-Station dataset can be found [here](./all_results.html#id6)
               ' -d pems_bay.data.yml -p graph:Distance-Correlation,MergeIndex:12')
     ```
 
-The results of METR-LA and PEMS-BAY can be found [here](./all_results.html#id7).

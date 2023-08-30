@@ -35,7 +35,7 @@
         <link rel="search" title="Search" href="search.html"/>
     <link rel="top" title="UCTB  documentation" href="index.html"/>
         <link rel="up" title="6. API Reference" href="APIReference.html"/>
-        <link rel="next" title="7. Benchmark Results" href="md_file/all_results.html"/>
+        <link rel="next" title="7. Benchmark" href="md_file/all_results.html"/>
         <link rel="prev" title="6.6. UCTB.train package" href="UCTB.train.html"/> 
 
   
@@ -87,9 +87,9 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/urban_dataset.html">3. Urban Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/predictive_tool.html">4. Predictive Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/visualization_tool.html">5. Visualization Tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/visualization_tool.html">5. Visualization-tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">6. API Reference</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">7. Benchmark Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">7. Benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">8. About us (UCTB Group)</a></li>
 </ul>
 
@@ -132,9 +132,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html"><span class="section-number">6. </span>API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html">6. API Reference</a> &raquo;</li>
         
-      <li><span class="section-number">6.7. </span>UCTB.utils package</li>
+      <li>6.7. UCTB.utils package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,9 +152,34 @@
            <div itemprop="articleBody">
             
   <div class="section" id="uctb-utils-package">
-<h1><span class="section-number">6.7. </span>UCTB.utils package<a class="headerlink" href="#uctb-utils-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="uctb-utils-multi-threads-module">
-<h2><span class="section-number">6.7.1. </span>UCTB.utils.multi_threads module<a class="headerlink" href="#uctb-utils-multi-threads-module" title="Permalink to this headline">¶</a></h2>
+<h1>6.7. UCTB.utils package<a class="headerlink" href="#uctb-utils-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-UCTB.utils.multi_threads">
+<span id="uctb-utils-multi-threads-module"></span><h2>6.7.1. UCTB.utils.multi_threads module<a class="headerlink" href="#module-UCTB.utils.multi_threads" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="UCTB.utils.multi_threads.multiple_process">
+<code class="descclassname">UCTB.utils.multi_threads.</code><code class="descname">multiple_process</code><span class="sig-paren">(</span><em>distribute_list</em>, <em>partition_func</em>, <em>task_func</em>, <em>n_jobs</em>, <em>reduce_func</em>, <em>parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.utils.multi_threads.multiple_process" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>distribute_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – The “data” list to be partitioned, such as a list of files which will be
+distributed among different tasks and each task process a part of the files.</li>
+<li><strong>partition_func</strong> (<em>function</em>) – Partition function will be used to cut the distribute_list, it should accept
+three inputs: distribute_list, i, n_job, where i is the index of jobs (i.e. integer from 0 to n_jobs-1),
+n_jos is the number of threads; partition function should return a data_list for the job_i</li>
+<li><strong>task_func</strong> (<em>function</em>) – Task function, where the inputs are share_queue, locker, data, parameters, no return.
+pls refer to the DiDi-Data processing codes for more information.</li>
+<li><strong>n_jobs</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of threads</li>
+<li><strong>reduce_func</strong> (<em>function</em>) – Reduce function which combine the outputs from all the threads into one final output.</li>
+<li><strong>parameters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.11)"><em>list</em></a>) – parameters send to the task function</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 </div>
 
@@ -165,7 +190,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="md_file/all_results.html" class="btn btn-neutral float-right" title="7. Benchmark Results" accesskey="n">Next →</a>
+        <a href="md_file/all_results.html" class="btn btn-neutral float-right" title="7. Benchmark" accesskey="n">Next →</a>
       
       
         <a href="UCTB.train.html" class="btn btn-neutral" title="6.6. UCTB.train package" accesskey="p">← Previous</a>
@@ -208,7 +233,7 @@
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

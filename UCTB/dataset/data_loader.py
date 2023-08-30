@@ -76,9 +76,9 @@ class GridTrafficLoader(object):
 
         # Normalize the traffic data
         if normalize:
-            self.normalizer = Normalizer(self.train_data)
-            self.train_data = self.normalizer.min_max_normal(self.train_data)
-            self.test_data = self.normalizer.min_max_normal(self.test_data)
+            self.normalizer = chooseNormalizer(normalize,self.train_data)
+            self.train_data = self.normalizer.transform(self.train_data)
+            self.test_data = self.normalizer.transform(self.test_data)
 
         if train_data_length.lower() != 'all':
             train_day_length = int(train_data_length)

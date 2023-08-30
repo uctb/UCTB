@@ -148,6 +148,8 @@ class MoveSample(object):
     def general_move_sample(self, data):
         feature = []
         target = []
+        # sample_num = len(data) - window_size + 1
+        # window_size = feature_length + (feature_step-1)*feature_stride + target_length
         for i in range(len(data) - self.feature_length -
                        (self.feature_step-1)*self.feature_stride - self.target_length + 1):
             feature.append([data[i + step*self.feature_stride: i + step*self.feature_stride + self.feature_length]
@@ -310,4 +312,10 @@ def chooseNormalizer(in_arg,X_train):
             raise TypeError('Your custom normalizer is not in compliance')
     else:
         raise TypeError('We don\'t accept {} of input for how to do normalization')
+
+if __name__ == '__main__':
+    a = np.arange(0,1000)
+    st_movesample = ST_MoveSample(6,7,4)
+    closeness,period,trend,y = st_movesample.move_sample(a)
+    print(y)
 

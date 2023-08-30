@@ -30,3 +30,5 @@ build/
 model_dir/
 .ipynb_checkpoints/
 @*
+output/
+*data/

@@ -20,7 +20,7 @@ UCTB is a flexible and open package. You can use the data we provided or use you
 
 We maintain [a paper list]((https://github.com/uctb/ST-Paper)) focusing on spatio-temporal prediction papers from venues such as KDD, NeurIPS, AAAI, WWW, ICDE, IJCAI, WSDM, and CIKM. Note that the metadata may not encompass all relevant papers and could include unrelated ones, as selected by large language models.
 
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/venue_stat.png" alt=".img" style="zoom: 33%;" />
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/venue_stat.png" alt=".img" style="zoom: 33%;height: 327px; width:424" />
 
 ## Urban Datasets
 
@@ -100,5 +100,3 @@ If UCTB is helpful for your work, please cite and star our project.
   pages={3870-3884},
   doi={10.1109/TKDE.2021.3130762}}
 ```
-
-<iframe style="width:100%;height:auto;min-width:600px;min-height:400px;" src="https://star-history.com/embed?secret=Z2l0aHViX3BhdF8xMUFLRUxSSkkwdkhmbEUzdVJuY2N4X3JFa0pwTlBnQkkwV08xQXc4emFQdjJId0U1R00xV0diN0NvalY1ZjdQU1VCTFZOS05NSHpBcmNaU0pY#UCTB/UCTB&Date" frameBorder="0"></iframe>

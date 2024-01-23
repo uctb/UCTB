@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>1. Introduction &mdash; UCTB  documentation</title>
@@ -28,10 +27,6 @@
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
-  
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
   
@@ -141,7 +136,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li><span class="section-number">1. </span>Introduction</li>
+      <li>1. Introduction</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -158,70 +153,70 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="introduction">
-<h1><span class="section-number">1. </span>Introduction<a class="headerlink" href="#introduction" title="Permalink to this heading">¶</a></h1>
+  <div class="section" id="introduction">
+<h1>1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <p><strong>Urban Computing Tool Box</strong> is a package providing <a class="reference external" href="https://github.com/uctb/Urban-Dataset"><strong>urban datasets</strong></a>, <a class="reference external" href="https://github.com/uctb/UCTB"><strong>spatial-temporal prediction models</strong></a>, and <a class="reference external" href="https://github.com/uctb/visualization-tool-UCTB"><strong>visualization tools</strong></a> for various urban computing tasks, such as traffic prediction, crowd flow prediction, ridesharing demand prediction, etc.</p>
 <p>UCTB is a flexible and open package. You can use the data we provided or use your data, and the data structure is well stated in the <a class="reference external" href="https://uctb.github.io/UCTB/md_file/tutorial.html"><strong>tutorial section</strong></a>.</p>
-<section id="urban-datasts">
-<h2><span class="section-number">1.1. </span>Urban Datasts<a class="headerlink" href="#urban-datasts" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="urban-datasts">
+<h2>1.1. Urban Datasts<a class="headerlink" href="#urban-datasts" title="Permalink to this headline">¶</a></h2>
 <p>UCTB also releases <a class="reference external" href="https://github.com/uctb/Urban-Dataset">a public dataset repository</a> including the following applications:</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;"><strong>Application</strong></th>
-<th style="text-align: center;"><strong>City</strong></th>
-<th style="text-align: center;"><strong>Granularity</strong></th>
-<th style="text-align: center;"><strong>Download Link</strong></th>
+<th align="center"><strong>Application</strong></th>
+<th align="center"><strong>City</strong></th>
+<th align="center"><strong>Granularity</strong></th>
+<th align="center"><strong>Download Link</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">Bike-sharing</td>
-<td style="text-align: center;">NYC</td>
-<td style="text-align: center;">5 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip">66.0M</a></td>
+<td align="center">Bike-sharing</td>
+<td align="center">NYC</td>
+<td align="center">5 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip">66.0M</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Bike-sharing</td>
-<td style="text-align: center;">Chicago</td>
-<td style="text-align: center;">5 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip">30.2M</a></td>
+<td align="center">Bike-sharing</td>
+<td align="center">Chicago</td>
+<td align="center">5 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip">30.2M</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Bike-sharing</td>
-<td style="text-align: center;">DC</td>
-<td style="text-align: center;">5 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip">31.0M</a></td>
+<td align="center">Bike-sharing</td>
+<td align="center">DC</td>
+<td align="center">5 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip">31.0M</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Pedestrian Count</td>
-<td style="text-align: center;">Melbourne</td>
-<td style="text-align: center;">60 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip">1.18M</a></td>
+<td align="center">Pedestrian Count</td>
+<td align="center">Melbourne</td>
+<td align="center">60 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip">1.18M</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Vehicle Speed</td>
-<td style="text-align: center;">LA</td>
-<td style="text-align: center;">5 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip">11.8M</a></td>
+<td align="center">Vehicle Speed</td>
+<td align="center">LA</td>
+<td align="center">5 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip">11.8M</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Vehicle Speed</td>
-<td style="text-align: center;">BAY</td>
-<td style="text-align: center;">5 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip">27.9M</a></td>
+<td align="center">Vehicle Speed</td>
+<td align="center">BAY</td>
+<td align="center">5 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip">27.9M</a></td>
 </tr>
 <tr>
-<td style="text-align: center;">Ride-sharing</td>
-<td style="text-align: center;">Chicago</td>
-<td style="text-align: center;">60 minutes</td>
-<td style="text-align: center;"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip">9.1M</a></td>
+<td align="center">Ride-sharing</td>
+<td align="center">Chicago</td>
+<td align="center">60 minutes</td>
+<td align="center"><a href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip">9.1M</a></td>
 </tr>
 </tbody>
 </table><p>We provide <a class="reference external" href="https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb">detailed documents</a> about how to build and how to use these datasets.</p>
-</section>
-<section id="predictive-tool">
-<h2><span class="section-number">1.2. </span>Predictive Tool<a class="headerlink" href="#predictive-tool" title="Permalink to this heading">¶</a></h2>
+</div>
+<div class="section" id="predictive-tool">
+<h2>1.2. Predictive Tool<a class="headerlink" href="#predictive-tool" title="Permalink to this headline">¶</a></h2>
 <p>Currently, the package supports the following models: (This toolbox is constructed based on some open-source repos. We appreciate these awesome implements. <a class="reference external" href="https://uctb.github.io/UCTB/md_file/static/current_supported_models.html">See more details</a>).</p>
 <table border="1" class="docutils">
 <thead>
@@ -381,14 +376,14 @@
 <td><code>UCTB.model.STMeta</code></td>
 </tr>
 </tbody>
-</table></section>
-<section id="visualization-tool">
-<h2><span class="section-number">1.3. </span>Visualization Tool<a class="headerlink" href="#visualization-tool" title="Permalink to this heading">¶</a></h2>
+</table></div>
+<div class="section" id="visualization-tool">
+<h2>1.3. Visualization Tool<a class="headerlink" href="#visualization-tool" title="Permalink to this headline">¶</a></h2>
 <p>The Visualization tool integrates visualization, error localization, and error diagnosis. Specifically, it allows data to be uploaded and provides interactive visual charts to show model errors, combined with spatiotemporal knowledge for error diagnosis.</p>
 <p>Welcome to visit the <a class="reference external" href="http://39.107.116.221/">website</a> for a trial!</p>
 <p><u><a class="reference external" href="../index.html">Back To HomePage</a></u></p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -437,11 +432,10 @@
             HAS_SOURCE: 'true'
         };
     </script>
-      <script type="text/javascript" src="../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -80,15 +80,15 @@ for i in tqdm(range(data_loader.station_number)):
     test_prediction_collector.append(test_prediction)
 
     print('Station', i, metric.rmse(test_prediction,
-                                    data_loader.test_y[:, i:i+1], threshold=0))
+                                    data_loader.test_y[:, i:i+1]))
 
 
 val_prediction_collector = np.concatenate(val_prediction_collector, axis=-2)
 test_prediction_collector = np.concatenate(test_prediction_collector, axis=-2)
 
-val_rmse = metric.rmse(val_prediction_collector, val_y, threshold=0)
+val_rmse = metric.rmse(val_prediction_collector, val_y)
 test_rmse = metric.rmse(test_prediction_collector,
-                        data_loader.test_y, threshold=0)
+                        data_loader.test_y)
 
 print(args['dataset'], args['city'], 'val_rmse', val_rmse)
 print(args['dataset'], args['city'],'test_rmse', test_rmse)

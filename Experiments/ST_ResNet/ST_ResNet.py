@@ -74,7 +74,7 @@ prediction = ST_ResNet_Obj.predict(closeness_feature=data_loader.test_closeness,
 
 # Compute metric
 test_rmse = metric.rmse(prediction=data_loader.normalizer.inverse_transform(prediction['prediction']),
-                        target=data_loader.normalizer.inverse_transform(data_loader.test_y), threshold=0)
+                        target=data_loader.normalizer.inverse_transform(data_loader.test_y))
 
 # Evaluate
 val_loss = ST_ResNet_Obj.load_event_scalar('val_loss')

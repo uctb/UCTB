@@ -132,6 +132,6 @@ test_prediction = Test(log, args, testX, testTE, X,
 test_prediction = data_loader.normalizer.inverse_transform(test_prediction)
 y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
 test_rmse = metric.rmse(prediction=test_prediction.squeeze(),
-                        target=y_true.squeeze(), threshold=0)
+                        target=y_true.squeeze())
 
 print("Test RMSE:", test_rmse)

@@ -163,7 +163,7 @@ if de_normalizer:
     test_prediction = de_normalizer(test_prediction)
     data_loader.test_y = de_normalizer(data_loader.test_y)
 
-test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0),\
+test_rmse, test_mape = metric.rmse(prediction=test_prediction, target=data_loader.test_y),\
                        metric.mape(prediction=test_prediction, target=data_loader.test_y, threshold=0)
 
 # Evaluate

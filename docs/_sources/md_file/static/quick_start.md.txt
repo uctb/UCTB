@@ -14,7 +14,7 @@ prediction = hm_obj.predict(closeness_feature=data_loader.test_closeness,
                             period_feature=data_loader.test_period,
                             trend_feature=data_loader.test_trend)
 
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))
 ```
 
 ## Quick Start with ARIMA
@@ -44,7 +44,7 @@ for i in range(data_loader.station_number):
     test_prediction_collector.append(test_prediction)
     print('Station', i, 'finished')
 
-test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y, threshold=0)
+test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y)
 
 print('test_rmse', test_rmse)
 ```
@@ -81,7 +81,7 @@ for station_index in range(data_loader.station_number):
     print('Node', station_index, 'finished')
 
 prediction = np.array(prediction).transpose([1, 0, 2])
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))
 ```
 
 ## Quick Start with XGBoost
@@ -118,6 +118,6 @@ for i in range(data_loader.station_number):
 
 prediction_test = np.concatenate(prediction_test, axis=-2)
 
-print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0))
+print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y))
 ```
 

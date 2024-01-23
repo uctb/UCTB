@@ -175,7 +175,7 @@ if args['pretrain'] == 'True':
     test_prediction = prediction['prediction']
 
     test_rmse, test_mape = metric.rmse(prediction=sd_de_normalizer(test_prediction),
-                                       target=sd_de_normalizer(data_loader.sd_loader.test_y), threshold=0), \
+                                       target=sd_de_normalizer(data_loader.sd_loader.test_y)), \
                            metric.mape(prediction=sd_de_normalizer(test_prediction),
                                        target=sd_de_normalizer(data_loader.sd_loader.test_y), threshold=0)
 
@@ -198,7 +198,7 @@ if args['pretrain'] == 'True':
     pretrain_prediction = prediction['prediction']
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(pretrain_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y)), \
                            metric.mape(prediction=td_de_normalizer(pretrain_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
@@ -252,7 +252,7 @@ if args['finetune'] == 'True':
                                                    for i in range(len(finetune_prediction[0]))])
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(finetune_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y)), \
                            metric.mape(prediction=td_de_normalizer(finetune_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 
@@ -331,8 +331,7 @@ if args['transfer'] == 'True':
                                        for i in range(len(transfer_prediction[0]))])
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(transfer_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y),
-                                       threshold=0), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y)), \
                            metric.mape(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 

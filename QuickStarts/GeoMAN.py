@@ -106,7 +106,7 @@ for node in range(data_loader.station_number):
                          external_features=data_loader.test_external_features,
                          targets=data_loader.test_y[node],
                          sequence_length=data_loader.test_seq_len)
-    results.append(metric.rmse(pred['prediction'], data_loader.test_y[node], threshold=0))
+    results.append(metric.rmse(pred['prediction'], data_loader.test_y[node]))
     seconds = int(time.time() - each_time)
     print('[Node {}] - {}s - RMSE: {}'.format(node, seconds, results[-1]))
 

@@ -19,9 +19,9 @@ val_prediction = hm_obj.predict(val_start_index, data_loader.traffic_data[:test_
 
 test_prediction = hm_obj.predict(test_start_index, data_loader.traffic_data, time_fitness=data_loader.dataset.time_fitness)
 
-val_rmse = metric.rmse(val_prediction, data_loader.traffic_data[val_start_index: test_start_index], threshold=0)
+val_rmse = metric.rmse(val_prediction, data_loader.traffic_data[val_start_index: test_start_index])
 
-test_rmse = metric.rmse(test_prediction, data_loader.test_data, threshold=0)
+test_rmse = metric.rmse(test_prediction, data_loader.test_data)
 
 print(val_rmse, test_rmse)
 

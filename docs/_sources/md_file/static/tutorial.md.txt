@@ -184,7 +184,7 @@ We can evaluate the performance of the model by build-in ``UCTB.evaluation`` API
 
 
 ```python
-test_rmse = metric.rmse(predictions, test_y, threshold=0)
+test_rmse = metric.rmse(predictions, test_y)
 test_rmse
 ```
 
@@ -261,7 +261,7 @@ predictions = model.predict(test_X)
 
 
 ```python
-print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
+print('Test RMSE', metric.rmse(predictions, test_y))
 ```
 
     Test RMSE 3.3267457

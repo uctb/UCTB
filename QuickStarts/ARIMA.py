@@ -22,6 +22,6 @@ for i in range(data_loader.station_number):
     test_prediction_collector.append(test_prediction)
     print('Station', i, 'finished')
 
-test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y, threshold=0)
+test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y)
 
 print('test_rmse', test_rmse)

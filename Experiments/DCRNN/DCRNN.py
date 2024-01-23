@@ -149,8 +149,7 @@ prediction = DCRNN_Obj.predict(inputs=
 
 # Evaluate
 print('Test result', metric.rmse(prediction=data_loader.normalizer.inverse_transform(prediction['prediction']),
-                                 target=data_loader.normalizer.inverse_transform(data_loader.test_y.transpose([0, 2, 1])),
-                                 threshold=0))
+                                 target=data_loader.normalizer.inverse_transform(data_loader.test_y.transpose([0, 2, 1]))))
 
 val_loss = DCRNN_Obj.load_event_scalar('val_loss')
 

@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>6.1. UCTB.dataset package &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
   
@@ -132,9 +137,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html">6. API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">6. </span>API Reference</a> &raquo;</li>
         
-      <li>6.1. UCTB.dataset package</li>
+      <li><span class="section-number">6.1. </span>UCTB.dataset package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,217 +156,15 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-dataset-package">
-<h1>6.1. UCTB.dataset package<a class="headerlink" href="#uctb-dataset-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.dataset.data_loader">
-<span id="uctb-dataset-data-loader-module"></span><h2>6.1.1. UCTB.dataset.data_loader module<a class="headerlink" href="#module-UCTB.dataset.data_loader" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader">
-<em class="property">class </em><code class="descclassname">UCTB.dataset.data_loader.</code><code class="descname">NodeTrafficLoader</code><span class="sig-paren">(</span><em>dataset</em>, <em>city=None</em>, <em>data_range='all'</em>, <em>train_data_length='all'</em>, <em>test_ratio=0.1</em>, <em>closeness_len=6</em>, <em>period_len=7</em>, <em>trend_len=4</em>, <em>target_length=1</em>, <em>normalize=True</em>, <em>workday_parser=&lt;function is_work_day_america&gt;</em>, <em>with_tpe=False</em>, <em>data_dir=None</em>, <em>MergeIndex=1</em>, <em>MergeWay='sum'</em>, <em>remove=True</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>The data loader that extracts and processes data from a <code class="xref py py-obj docutils literal"><span class="pre">DataSet</span></code> object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>dataset</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – A string containing path of the dataset pickle file or a string of name of the dataset.</li>
-<li><strong>city</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a> or <code class="docutils literal"><span class="pre">None</span></code>) – <code class="docutils literal"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city.
-Default: <code class="docutils literal"><span class="pre">None</span></code></li>
-<li><strong>data_range</strong> – The range of data extracted from <code class="docutils literal"><span class="pre">self.dataset</span></code> to be further used. If set to <code class="docutils literal"><span class="pre">'all'</span></code>, all data in
-<code class="docutils literal"><span class="pre">self.dataset</span></code> will be used. If set to a float between 0.0 and 1.0, the relative former proportion of data in
-<code class="docutils literal"><span class="pre">self.dataset</span></code> will be used. If set to a list of two integers <code class="docutils literal"><span class="pre">[start,</span> <span class="pre">end]</span></code>, the data from <em>start</em> day to
-(<em>end</em> - 1) day of data in <code class="docutils literal"><span class="pre">self.dataset</span></code> will be used. Default: <code class="docutils literal"><span class="pre">'all'</span></code></li>
-<li><strong>train_data_length</strong> – The length of train data. If set to <code class="docutils literal"><span class="pre">'all'</span></code>, all data in the split train set will be used.
-If set to int, the latest <code class="docutils literal"><span class="pre">train_data_length</span></code> days of data will be used as train set. Default: <code class="docutils literal"><span class="pre">'all'</span></code></li>
-<li><strong>test_ratio</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – The ratio of test set as data will be split into train set and test set. Default: 0.1</li>
-<li><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal"><span class="pre">closeness_len</span></code> time slots
-of data will be used as closeness history. Default: 6</li>
-<li><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
-<code class="docutils literal"><span class="pre">period_len</span></code> days will be used as period history. Default: 7</li>
-<li><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
-<code class="docutils literal"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history. Default: 4</li>
-<li><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
-Default: 1</li>
-<li><strong>normalize</strong> (<em>bool|str|object</em>) – Select which normalizer to normalize input data. Default: <code class="docutils literal"><span class="pre">True</span></code></li>
-<li><strong>workday_parser</strong> – Used to build external features to be used in neural methods. Default: <code class="docutils literal"><span class="pre">is_work_day_america</span></code></li>
-<li><strong>with_tpe</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal"><span class="pre">True</span></code>, data loader will build time position embeddings. Default: <code class="docutils literal"><span class="pre">False</span></code></li>
-<li><strong>data_dir</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><code class="xref py py-obj docutils literal"><span class="pre">str</span></code></a> or <code class="docutils literal"><span class="pre">None</span></code>) – The dataset directory. If set to <code class="docutils literal"><span class="pre">None</span></code>, a directory will be created. If
-<code class="docutils literal"><span class="pre">dataset</span></code> is file path, <code class="docutils literal"><span class="pre">data_dir</span></code> should be <code class="docutils literal"><span class="pre">None</span></code> too. Default: <code class="docutils literal"><span class="pre">None</span></code></li>
-<li><strong>MergeIndex</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The granularity of dataset will be <code class="docutils literal"><span class="pre">MergeIndex</span></code> * original granularity.</li>
-<li><strong>MergeWay</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.11)"><em>str</em></a>) – How to change the data granularity. Now it can be <code class="docutils literal"><span class="pre">sum</span></code> <code class="docutils literal"><span class="pre">average</span></code> or <code class="docutils literal"><span class="pre">max</span></code>.</li>
-<li><strong>remove</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If <code class="docutils literal"><span class="pre">True</span></code>, dataloader  will remove stations whose average traffic is less than 1.
-Othewise, dataloader will use all stations.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.dataset">
-<code class="descname">dataset</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.dataset" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>DataSet</em> – The DataSet object storing basic data.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.daily_slots">
-<code class="descname">daily_slots</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.daily_slots" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – The number of time slots in one single day.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.station_number">
-<code class="descname">station_number</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.station_number" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – The number of nodes.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.external_dim">
-<code class="descname">external_dim</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.external_dim" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – The number of dimensions of external features.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.train_closeness">
-<code class="descname">train_closeness</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.train_closeness" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>np.ndarray</em> – The closeness history of train set data. When <code class="docutils literal"><span class="pre">with_tpe</span></code> is <code class="docutils literal"><span class="pre">False</span></code>,
-its shape is [train_time_slot_num, <code class="docutils literal"><span class="pre">station_number</span></code>, <code class="docutils literal"><span class="pre">closeness_len</span></code>, 1].
-On the dimension of <code class="docutils literal"><span class="pre">closeness_len</span></code>, data are arranged from earlier time slots to later time slots.
-If <code class="docutils literal"><span class="pre">closeness_len</span></code> is set to 0, train_closeness will be an empty ndarray.
-<code class="docutils literal"><span class="pre">train_period</span></code>, <code class="docutils literal"><span class="pre">train_trend</span></code>, <code class="docutils literal"><span class="pre">test_closeness</span></code>, <code class="docutils literal"><span class="pre">test_period</span></code>, <code class="docutils literal"><span class="pre">test_trend</span></code> have similar shape
-and construction.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.train_y">
-<code class="descname">train_y</code><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.train_y" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>np.ndarray</em> – The train set data. Its shape is [train_time_slot_num, <code class="docutils literal"><span class="pre">station_number</span></code>, 1].
-<code class="docutils literal"><span class="pre">test_y</span></code> has similar shape and construction.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.dataset.data_loader.NodeTrafficLoader.make_concat">
-<code class="descname">make_concat</code><span class="sig-paren">(</span><em>node='all'</em>, <em>is_train=True</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.data_loader.NodeTrafficLoader.make_concat" title="Permalink to this definition">¶</a></dt>
-<dd><p>A function to concatenate all closeness, period and trend history data to use as inputs of models.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>node</strong> (int or <code class="docutils literal"><span class="pre">'all'</span></code>) – To specify the index of certain node. If set to <code class="docutils literal"><span class="pre">'all'</span></code>, return the concatenation
-result of all nodes. If set to an integer, it will be the index of the selected node. Default: <code class="docutils literal"><span class="pre">'all'</span></code></li>
-<li><strong>is_train</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – If set to <code class="docutils literal"><span class="pre">True</span></code>, <code class="docutils literal"><span class="pre">train_closeness</span></code>, <code class="docutils literal"><span class="pre">train_period</span></code>, and <code class="docutils literal"><span class="pre">train_trend</span></code> will be
-concatenated. If set to <code class="docutils literal"><span class="pre">False</span></code>, <code class="docutils literal"><span class="pre">test_closeness</span></code>, <code class="docutils literal"><span class="pre">test_period</span></code>, and <code class="docutils literal"><span class="pre">test_trend</span></code> will be
-concatenated. Default: True</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Function returns an ndarray with shape as
-[time_slot_num, <code class="docutils literal"><span class="pre">station_number</span></code>, <code class="docutils literal"><span class="pre">closeness_len</span></code> + <code class="docutils literal"><span class="pre">period_len</span></code> + <code class="docutils literal"><span class="pre">trend_len</span></code>, 1],
-and time_slot_num is the temporal length of train set data if <code class="docutils literal"><span class="pre">is_train</span></code> is <code class="docutils literal"><span class="pre">True</span></code>
-or the temporal length of test set data if <code class="docutils literal"><span class="pre">is_train</span></code> is <code class="docutils literal"><span class="pre">False</span></code>.
-On the second dimension, data are arranged as
-<code class="docutils literal"><span class="pre">earlier</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">closeness</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">period</span> <span class="pre">-&gt;</span> <span class="pre">earlier</span> <span class="pre">trend</span> <span class="pre">-&gt;</span> <span class="pre">later</span> <span class="pre">trend</span></code>.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">np.ndarray</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-UCTB.dataset.dataset">
-<span id="uctb-dataset-dataset-module"></span><h2>6.1.2. UCTB.dataset.dataset module<a class="headerlink" href="#module-UCTB.dataset.dataset" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.dataset.dataset.DataSet">
-<em class="property">class </em><code class="descclassname">UCTB.dataset.dataset.</code><code class="descname">DataSet</code><span class="sig-paren">(</span><em>dataset</em>, <em>MergeIndex</em>, <em>MergeWay</em>, <em>city=None</em>, <em>data_dir=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.dataset.DataSet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>An object storing basic data from a formatted pickle file.
-See also <a class="reference external" href="./md_file/tutorial.html">Build your own datasets</a>.
-:param dataset: A string containing path of the dataset pickle file or a string of name of the dataset.
-:type dataset: str
-:param city: <code class="docutils literal"><span class="pre">None</span></code> if dataset is file path, or a string of name of the city. Default: <code class="docutils literal"><span class="pre">None</span></code>
-:type city: str or <code class="docutils literal"><span class="pre">None</span></code>
-:param data_dir: The dataset directory. If set to <code class="docutils literal"><span class="pre">None</span></code>, a directory will be created.</p>
-<blockquote>
-<div>If <code class="docutils literal"><span class="pre">dataset</span></code> is file path, <code class="docutils literal"><span class="pre">data_dir</span></code> should be <code class="docutils literal"><span class="pre">None</span></code> too. Default: <code class="docutils literal"><span class="pre">None</span></code></div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.data">
-<code class="descname">data</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.data" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>dict</em> – The data directly from the pickle file. <code class="docutils literal"><span class="pre">data</span></code> may have a <code class="docutils literal"><span class="pre">data['contribute_data']</span></code> dict to
-store supplementary data.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.time_range">
-<code class="descname">time_range</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.time_range" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>list</em> – From <code class="docutils literal"><span class="pre">data['TimeRange']</span></code> in the format of [YYYY-MM-DD, YYYY-MM-DD] indicating the time
-range of the data.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.time_fitness">
-<code class="descname">time_fitness</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.time_fitness" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – From <code class="docutils literal"><span class="pre">data['TimeFitness']</span></code> indicating how many minutes is a single time slot.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.node_traffic">
-<code class="descname">node_traffic</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.node_traffic" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>np.ndarray</em> – Data recording the main stream data of the nodes in during the time range.
-From <code class="docutils literal"><span class="pre">data['Node']['TrafficNode']</span></code> with shape as [time_slot_num, node_num].</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.node_monthly_interaction">
-<code class="descname">node_monthly_interaction</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.node_monthly_interaction" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>np.ndarray</em> – Data recording the monthly interaction of pairs of nodes.
-Its shape is [month_num, node_num, node_num].It’s from <code class="docutils literal"><span class="pre">data['Node']['TrafficMonthlyInteraction']</span></code>
-and is used to build interaction graph.
-Its an optional attribute and can be set as an empty list if interaction graph is not needed.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.node_station_info">
-<code class="descname">node_station_info</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.node_station_info" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>dict</em> – A dict storing the coordinates of nodes. It shall be formatted as {id (may be
-arbitrary): [id (when sorted, should be consistant with index of <code class="docutils literal"><span class="pre">node_traffic</span></code>), latitude, longitude,
-other notes]}. It’s from <code class="docutils literal"><span class="pre">data['Node']['StationInfo']</span></code> and is used to build distance graph.
-Its an optional attribute and can be set as an empty list if distance graph is not needed.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.MergeIndex">
-<code class="descname">MergeIndex</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.MergeIndex" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>int</em> – A int number that used to adjust the granularity of the dataset, the granularity of the new
-dataset is time_fitness*MergeIndex. default: 1</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.dataset.dataset.DataSet.MergeWay">
-<code class="descname">MergeWay</code><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.MergeWay" title="Permalink to this definition">¶</a></dt>
-<dd><p><em>str</em> – can be <cite>sum</cite> and <cite>average</cite>.  default: <a href="#id1"><span class="problematic" id="id2">``</span></a>sum</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.dataset.dataset.DataSet.merge_data">
-<code class="descname">merge_data</code><span class="sig-paren">(</span><em>data</em>, <em>dataType</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.dataset.dataset.DataSet.merge_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-</div>
+  <section id="uctb-dataset-package">
+<h1><span class="section-number">6.1. </span>UCTB.dataset package<a class="headerlink" href="#uctb-dataset-package" title="Permalink to this heading">¶</a></h1>
+<section id="uctb-dataset-data-loader-module">
+<h2><span class="section-number">6.1.1. </span>UCTB.dataset.data_loader module<a class="headerlink" href="#uctb-dataset-data-loader-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="uctb-dataset-dataset-module">
+<h2><span class="section-number">6.1.2. </span>UCTB.dataset.dataset module<a class="headerlink" href="#uctb-dataset-dataset-module" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
 
 
            </div>
@@ -410,10 +213,11 @@ dataset is time_fitness*MergeIndex. default: 1</p>
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/_sphinx_javascript_frameworks_compat.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -57,7 +57,7 @@ prediction = deep_st_obj.predict(closeness_feature=data_loader.test_closeness,
                                  sequence_length=data_loader.test_sequence_len)
 
 test_rmse = metric.rmse(prediction=data_loader.normalizer.inverse_transform(prediction['prediction']),
-                        target=data_loader.normalizer.inverse_transform(data_loader.test_y), threshold=0)
+                        target=data_loader.normalizer.inverse_transform(data_loader.test_y))
 
 # Compute metric
 print('Test result', test_rmse)

@@ -268,7 +268,7 @@ We can evaluate the performance of the model by build-in ``UCTB.evaluation`` API
 
 
 ```python
-test_rmse = metric.rmse(predictions, test_y, threshold=0)
+test_rmse = metric.rmse(predictions, test_y)
 print(test_rmse)
 ```
 
@@ -316,7 +316,7 @@ print(test_y.shape)
 model = XGBoost(n_estimators=100, max_depth=3, objective='reg:linear')
 model.fit(train_X, train_y)
 predictions = model.predict(test_X)
-print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
+print('Test RMSE', metric.rmse(predictions, test_y))
 ```
 
     (2307, 17)
@@ -509,7 +509,7 @@ Reverse the normalization by ``data_loader`` and evaluate the results:
 ```python
 predictions = data_loader.normalizer.min_max_denormal(predictions['prediction'])
 targets = data_loader.normalizer.min_max_denormal(test_y)
-print('Test result', metric.rmse(prediction=predictions, target=targets, threshold=0))
+print('Test result', metric.rmse(prediction=predictions, target=targets))
 ```
 
     Test result 2.9765626570592545

@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>6.5. UCTB.evaluation package &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
   
@@ -132,9 +137,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html">6. API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">6. </span>API Reference</a> &raquo;</li>
         
-      <li>6.5. UCTB.evaluation package</li>
+      <li><span class="section-number">6.5. </span>UCTB.evaluation package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,88 +156,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-evaluation-package">
-<h1>6.5. UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.evaluation.metric">
-<span id="uctb-evaluation-metric-module"></span><h2>6.5.1. UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="UCTB.evaluation.metric.mae">
-<code class="descclassname">UCTB.evaluation.metric.</code><code class="descname">mae</code><span class="sig-paren">(</span><em>prediction</em>, <em>target</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mae" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mean Absolute Error (MAE)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</li>
-<li><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</li>
-<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller or equal to threshold in target will be removed in computing the mae</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.evaluation.metric.mape">
-<code class="descclassname">UCTB.evaluation.metric.</code><code class="descname">mape</code><span class="sig-paren">(</span><em>prediction</em>, <em>target</em>, <em>threshold=0</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Mean Absolute Percentage Error (MAPE)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</li>
-<li><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</li>
-<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the mape.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.evaluation.metric.rmse">
-<code class="descclassname">UCTB.evaluation.metric.</code><code class="descname">rmse</code><span class="sig-paren">(</span><em>prediction</em>, <em>target</em>, <em>threshold=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.rmse" title="Permalink to this definition">¶</a></dt>
-<dd><p>Root Mean Square Error (RMSE)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</li>
-<li><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</li>
-<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller or equal to threshold in target will be removed in computing the rmse</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="UCTB.evaluation.metric.smape">
-<code class="descclassname">UCTB.evaluation.metric.</code><code class="descname">smape</code><span class="sig-paren">(</span><em>prediction</em>, <em>target</em>, <em>threshold=0</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.smape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Symmetric Mean Absolute Percentage Error (SMAPE)</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</li>
-<li><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</li>
-<li><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.11)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the smape.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-</div>
+  <section id="uctb-evaluation-package">
+<h1><span class="section-number">6.5. </span>UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this heading">¶</a></h1>
+<section id="uctb-evaluation-metric-module">
+<h2><span class="section-number">6.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#uctb-evaluation-metric-module" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
 
 
            </div>
@@ -281,10 +210,11 @@
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/_sphinx_javascript_frameworks_compat.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

@@ -117,5 +117,5 @@ test_prediction = predict_main(net, best_epoch, test_loader, test_target_tensor,
 test_prediction = uctb_data_loader.normalizer.inverse_transform(test_prediction)
 y_truth = uctb_data_loader.normalizer.inverse_transform(uctb_data_loader.test_y)
 test_rmse = metric.rmse(prediction=test_prediction,
-                        target=y_truth, threshold=0)
+                        target=y_truth)
 print('Test RMSE', test_rmse)

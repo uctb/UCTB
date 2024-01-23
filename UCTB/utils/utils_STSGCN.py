@@ -146,7 +146,7 @@ def training(epochs, metric, mod, train_loader, val_loader, test_loader, normali
 
             prediction = normalizer.inverse_transform(prediction)
             de_norm_test_y = normalizer.inverse_transform(test_y)
-            rmse_result = rmse(prediction=prediction.squeeze(), target=de_norm_test_y.squeeze(), threshold=0)
+            rmse_result = rmse(prediction=prediction.squeeze(), target=de_norm_test_y.squeeze())
             mape_result = mape(prediction=prediction.squeeze(), target=de_norm_test_y.squeeze(), threshold=0.01)
 
             print('test: Epoch: {}, MAPE: {:.2f}, RMSE: {:.2f}, '

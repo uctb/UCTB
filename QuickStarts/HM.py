@@ -15,4 +15,4 @@ prediction = hm_obj.predict(closeness_feature=data_loader.test_closeness,
 
 #save_predict_in_dataset(data_loader, prediction, "HM")
 
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))

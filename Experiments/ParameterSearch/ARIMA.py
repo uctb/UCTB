@@ -27,4 +27,4 @@ for i in range(data_loader.station_number):
 
 prediction = np.concatenate(prediction, axis=-1)
 
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))

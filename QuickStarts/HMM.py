@@ -27,4 +27,4 @@ for station_index in range(data_loader.station_number):
     print('Node', station_index, 'finished')
 
 prediction = np.array(prediction).transpose([1, 0, 2])
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))

@@ -64,8 +64,8 @@ for i in range(data_loader.station_number):
 test_prediction = np.concatenate(test_prediction, axis=-2)
 val_prediction = np.concatenate(val_prediction, axis=-2)
 
-val_rmse = metric.rmse(val_prediction, data_loader.train_y[-len(data_loader.test_y):], threshold=0)
-test_rmse = metric.rmse(test_prediction, data_loader.test_y, threshold=0)
+val_rmse = metric.rmse(val_prediction, data_loader.train_y[-len(data_loader.test_y):])
+test_rmse = metric.rmse(test_prediction, data_loader.test_y)
 
 # nni.report_final_result({
 #     'default': val_rmse,

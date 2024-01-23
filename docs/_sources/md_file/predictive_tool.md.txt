@@ -186,7 +186,7 @@ prediction = STMeta_Obj.predict(closeness_feature=data_loader.test_closeness,
 
 # Evaluate
 print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0))
+                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y)))
 ```
 
 ### Quick Start with HM
@@ -205,7 +205,7 @@ prediction = hm_obj.predict(closeness_feature=data_loader.test_closeness,
                             period_feature=data_loader.test_period,
                             trend_feature=data_loader.test_trend)
 
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))
 ```
 
 ### Quick Start with ARIMA
@@ -235,7 +235,7 @@ for i in range(data_loader.station_number):
     test_prediction_collector.append(test_prediction)
     print('Station', i, 'finished')
 
-test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y, threshold=0)
+test_rmse = metric.rmse(np.concatenate(test_prediction_collector, axis=-2), data_loader.test_y)
 
 print('test_rmse', test_rmse)
 ```
@@ -272,7 +272,7 @@ for station_index in range(data_loader.station_number):
     print('Node', station_index, 'finished')
 
 prediction = np.array(prediction).transpose([1, 0, 2])
-print('RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print('RMSE', metric.rmse(prediction, data_loader.test_y))
 ```
 
 ### Quick Start with XGBoost
@@ -309,7 +309,7 @@ for i in range(data_loader.station_number):
 
 prediction_test = np.concatenate(prediction_test, axis=-2)
 
-print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0))
+print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y))
 ```
 
 ## Tutorial
@@ -515,7 +515,7 @@ y_truth = data_loader.normalizer.inverse_transform(data_loader.test_y)
 y_pred = data_loader.normalizer.inverse_transform(prediction_test)
 y_truth = y_truth.reshape([-1,207])
 y_pred = y_pred.reshape([-1,207])
-print('Test RMSE', metric.rmse(y_pred, y_truth, threshold=0))
+print('Test RMSE', metric.rmse(y_pred, y_truth))
 plt.title('XGBoost Result')
 plt.xlabel('Time Slot')
 plt.ylabel('Speed')
@@ -612,7 +612,7 @@ predictions = model.predict(test_x)
 We can evaluate the performance of the model by build-in ``UCTB.evaluation`` APIs.
 
 ```python
-test_rmse = metric.rmse(predictions, test_y, threshold=0)
+test_rmse = metric.rmse(predictions, test_y)
 print(test_rmse)
 ```
 
@@ -659,7 +659,7 @@ print(test_y.shape)
 model = XGBoost(n_estimators=100, max_depth=3, objective='reg:linear')
 model.fit(train_X, train_y)
 predictions = model.predict(test_X)
-print('Test RMSE', metric.rmse(predictions, test_y, threshold=0))
+print('Test RMSE', metric.rmse(predictions, test_y))
 ```
 
     (2307, 17)
@@ -853,7 +853,7 @@ Reverse the normalization by ``data_loader`` and evaluate the results:
 ```python
 predictions = data_loader.normalizer.min_max_denormal(predictions['prediction'])
 targets = data_loader.normalizer.min_max_denormal(test_y)
-print('Test result', metric.rmse(prediction=predictions, target=targets, threshold=0))
+print('Test result', metric.rmse(prediction=predictions, target=targets))
 ```
 
     Test result 2.9765626570592545

@@ -195,7 +195,7 @@ if args['pretrain'] == 'True':
     transfer_prediction = prediction['prediction']
 
     test_rmse, test_mape = metric.rmse(prediction=td_de_normalizer(transfer_prediction),
-                                       target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0), \
+                                       target=td_de_normalizer(data_loader.td_loader.test_y)), \
                            metric.mape(prediction=td_de_normalizer(transfer_prediction),
                                        target=td_de_normalizer(data_loader.td_loader.test_y), threshold=0)
 

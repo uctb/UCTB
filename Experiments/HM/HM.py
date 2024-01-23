@@ -60,9 +60,9 @@ val_prediction = hm_obj.predict(closeness_feature=val_closeness,
                                 trend_feature=val_trend)
 
 
-print('Test RMSE', metric.rmse(test_prediction, data_loader.test_y, threshold=0))
-print('Val RMSE', metric.rmse(val_prediction, val_y, threshold=0))
+print('Test RMSE', metric.rmse(test_prediction, data_loader.test_y))
+print('Val RMSE', metric.rmse(val_prediction, val_y))
 
 
-nni.report_final_result({'default': metric.rmse(val_prediction, val_y, threshold=0),
-                         'test-rmse': metric.rmse(test_prediction, data_loader.test_y, threshold=0)})
+nni.report_final_result({'default': metric.rmse(val_prediction, val_y),
+                         'test-rmse': metric.rmse(test_prediction, data_loader.test_y)})

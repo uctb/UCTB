@@ -64,7 +64,7 @@ def task(share_queue, locker, data, parameters):
 
         test_collector[i] = test_prediction
 
-        print('Station', i, metric.rmse(test_prediction, data_loader.test_y[:, i:i + 1], threshold=0))
+        print('Station', i, metric.rmse(test_prediction, data_loader.test_y[:, i:i + 1]))
 
     locker.acquire()
     share_queue.put([val_collector, test_collector])
@@ -90,6 +90,6 @@ if __name__ == '__main__':
 
     test_rmse_collector = np.concatenate(test_rmse_collector, axis=-2)
 
-    test_rmse = metric.rmse(test_rmse_collector, data_loader.test_y, threshold=0)
+    test_rmse = metric.rmse(test_rmse_collector, data_loader.test_y)
 
     print(args['Dataset'], args['City'], 'test_rmse', test_rmse)

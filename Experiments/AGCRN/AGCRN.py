@@ -155,7 +155,7 @@ test_prediction = trainer.test(
     model, trainer.args, test_loader, trainer.logger)
 test_prediction = data_loader.normalizer.inverse_transform(test_prediction)
 y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
-test_rmse = metric.rmse(prediction=test_prediction.squeeze(), target=y_true.squeeze(), threshold=0)
-test_rmse = metric.rmse(prediction=test_prediction.squeeze(), target=data_loader.test_y.squeeze(), threshold=0)
+test_rmse = metric.rmse(prediction=test_prediction.squeeze(), target=y_true.squeeze())
+test_rmse = metric.rmse(prediction=test_prediction.squeeze(), target=data_loader.test_y.squeeze())
 
 print('Test RMSE', test_rmse)

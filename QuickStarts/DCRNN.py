@@ -88,5 +88,4 @@ prediction = DCRNN_Obj.predict(inputs=np.concatenate((data_loader.test_trend.tra
 # Evaluate
 print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
                                  target=data_loader.normalizer.min_max_denormal(
-                                     data_loader.test_y.transpose([0, 2, 1])),
-                                 threshold=0))
+                                     data_loader.test_y.transpose([0, 2, 1]))))

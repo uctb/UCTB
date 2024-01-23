@@ -40,4 +40,4 @@ prediction = STMeta_Obj.predict(closeness_feature=data_loader.test_closeness,
 
 # Evaluate
 print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0))
+                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y)))

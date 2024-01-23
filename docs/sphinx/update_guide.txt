@@ -4,15 +4,20 @@ sphinx-build -b html . ..
 
 Current version of related packages
 
-Sphinx                        2.4.0
-sphinx-markdown-tables        0.0.1
-sphinx-rtd-theme              1.2.1
-sphinxcontrib-applehelp       1.0.2
-sphinxcontrib-devhelp         1.0.2
-sphinxcontrib-htmlhelp        2.0.0
-sphinxcontrib-jsmath          1.0.1
-sphinxcontrib-qthelp          1.0.3
-sphinxcontrib-serializinghtml 1.1.5
-rtcat-sphinx-theme            0.1.1
-recommonmark                  0.7.1
-commonmark                    0.9.1
+pip install Sphinx==5.1.1
+pip install sphinx-markdown-tables==0.0.17
+pip install sphinx-rtd-theme==1.2.1
+pip install sphinxcontrib-applehelp==1.0.2
+pip install sphinxcontrib-devhelp==1.0.2
+pip install sphinxcontrib-htmlhelp==2.0.0
+pip install sphinxcontrib-jsmath==1.0.1
+pip install sphinxcontrib-qthelp==1.0.3
+pip install sphinxcontrib-serializinghtml==1.1.5
+pip install rtcat-sphinx-theme==0.1.1
+pip install recommonmark==0.7.1
+pip install commonmark==0.9.1
+
+
+pip install Sphinx==5.1.1
+pip install recommonmark==0.7.1
+pip install sphinx-markdown-tables==0.0.17

@@ -5,7 +5,8 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>6.3. UCTB.model_unit package &mdash; UCTB  documentation</title>
@@ -27,6 +28,10 @@
     <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
+  
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   
 
   
@@ -132,9 +137,9 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-          <li><a href="APIReference.html">6. API Reference</a> &raquo;</li>
+          <li><a href="APIReference.html"><span class="section-number">6. </span>API Reference</a> &raquo;</li>
         
-      <li>6.3. UCTB.model_unit package</li>
+      <li><span class="section-number">6.3. </span>UCTB.model_unit package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -151,299 +156,21 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="uctb-model-unit-package">
-<h1>6.3. UCTB.model_unit package<a class="headerlink" href="#uctb-model-unit-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-UCTB.model_unit.BaseModel">
-<span id="uctb-model-unit-basemodel-module"></span><h2>6.3.1. UCTB.model_unit.BaseModel module<a class="headerlink" href="#module-UCTB.model_unit.BaseModel" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model_unit.BaseModel.BaseModel">
-<em class="property">class </em><code class="descclassname">UCTB.model_unit.BaseModel.</code><code class="descname">BaseModel</code><span class="sig-paren">(</span><em>code_version</em>, <em>model_dir</em>, <em>gpu_device</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<dl class="docutils">
-<dt>BaseModel is the base class for many models, such as STMeta, ST-MGCN and ST_ResNet,</dt>
-<dd>you can also build your own model using this class. More information can be found in tutorial.</dd>
-</dl>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>code_version</strong> – Current version of this model code, which will be used as filename for saving the model.</li>
-<li><strong>model_dir</strong> – The directory to store model files. Default:’model_dir’.</li>
-<li><strong>gpu_device</strong> – To specify the GPU to use. Default: ‘0’.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.build">
-<code class="descname">build</code><span class="sig-paren">(</span><em>init_vars=True</em>, <em>max_to_keep=5</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.build" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Args</dt>
-<dd>init_vars(bool): auto init the parameters if set to True, else no parameters will be initialized.
-max_to_keep: max file to keep, which equals to max_to_keep in tf.train.Saver.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.close" title="Permalink to this definition">¶</a></dt>
-<dd><p>Close the session, release memory.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.fit">
-<code class="descname">fit</code><span class="sig-paren">(</span><em>sequence_length</em>, <em>output_names=('loss'</em>, <em>)</em>, <em>op_names=('train_op'</em>, <em>)</em>, <em>evaluate_loss_name='loss'</em>, <em>batch_size=64</em>, <em>max_epoch=10000</em>, <em>validate_ratio=0.1</em>, <em>shuffle_data=True</em>, <em>early_stop_method='t-test'</em>, <em>early_stop_length=10</em>, <em>early_stop_patience=0.1</em>, <em>verbose=True</em>, <em>save_model=True</em>, <em>save_model_name=None</em>, <em>auto_load_model=True</em>, <em>return_outputs=False</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.fit" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>sequence_length</strong> – int, the sequence length which is use in mini-batch training</li>
-<li><strong>output_names</strong> – list, [output_tensor1_name, output_tensor1_name, …]</li>
-<li><strong>op_names</strong> – list, [operation1_name, operation2_name, …]</li>
-<li><strong>evaluate_loss_name</strong> – str, should be on of the output_names, evaluate_loss_name was use in
-early-stopping</li>
-<li><strong>batch_size</strong> – int, default 64, batch size</li>
-<li><strong>max_epoch</strong> – int, default 10000, max number of epochs</li>
-<li><strong>validate_ratio</strong> – float, default 0.1, the ration of data that will be used as validation dataset</li>
-<li><strong>shuffle_data</strong> – bool, default True, whether shuffle data in mini-batch train</li>
-<li><strong>early_stop_method</strong> – should be ‘t-test’ or ‘naive’, both method are explained in train.EarlyStopping</li>
-<li><strong>early_stop_length</strong> – int, must provide when early_stop_method=’t-test’</li>
-<li><strong>early_stop_patience</strong> – int, must provide when early_stop_method=’naive’</li>
-<li><strong>verbose</strong> – Bool, flag to print training information or not</li>
-<li><strong>save_model</strong> – Bool, flog to save model or not</li>
-<li><strong>save_model_name</strong> – String, filename for saving the model, which will overwrite the code_version.</li>
-<li><strong>auto_load_model</strong> – Bool, the “fit” function will automatically load the model from disk, if exists,
-before the training. Set to False to disable the auto-loading.</li>
-<li><strong>return_outputs</strong> – Bool, set True to return the training log, otherwise nothing will be returned</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.load">
-<code class="descname">load</code><span class="sig-paren">(</span><em>subscript</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>subscript</strong> – String, subscript will be appended to the code version as the model file name,
-and load the corresponding model using this filename</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.load_event_scalar">
-<code class="descname">load_event_scalar</code><span class="sig-paren">(</span><em>scalar_name='val_loss'</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.load_event_scalar" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>scalar_name</strong> – load the corresponding scalar name from tensorboard-file,
-e.g. load_event_scalar(‘val_loss)</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.predict">
-<code class="descname">predict</code><span class="sig-paren">(</span><em>sequence_length</em>, <em>output_names=('prediction'</em>, <em>)</em>, <em>cache_volume=64</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.predict" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>output_names</strong> – list, [output_tensor_name1, output_tensor_name2, …]</li>
-<li><strong>sequence_length</strong> – int, the length of sequence, which is use in mini-batch training</li>
-<li><strong>cache_volume</strong> – int, default 64, we need to set cache_volume if the cache can not hold
-the whole validation dataset</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<p>:param : return: outputs_dict: dict, like {output_tensor1_name: output_tensor1_value, …}</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.BaseModel.BaseModel.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>subscript</em>, <em>global_step</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.BaseModel.BaseModel.save" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>subscript</strong> – String, subscript will be appended to the code version as the model filename,
-and save the corresponding model using this filename</li>
-<li><strong>global_step</strong> – Int, current training steps</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-UCTB.model_unit.DCRNN_CELL">
-<span id="uctb-model-unit-dcrnn-cell-module"></span><h2>6.3.2. UCTB.model_unit.DCRNN_CELL module<a class="headerlink" href="#module-UCTB.model_unit.DCRNN_CELL" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell">
-<em class="property">class </em><code class="descclassname">UCTB.model_unit.DCRNN_CELL.</code><code class="descname">DCGRUCell</code><span class="sig-paren">(</span><em>num_units</em>, <em>input_dim</em>, <em>num_graphs</em>, <em>supports</em>, <em>max_diffusion_step</em>, <em>num_node</em>, <em>num_proj=None</em>, <em>activation=&lt;function tanh&gt;</em>, <em>reuse=None</em>, <em>use_gc_for_ru=True</em>, <em>name=None</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tensorflow.python.ops.rnn_cell_impl.RNNCell</span></code></p>
-<p>Graph Convolution Gated Recurrent Unit cell.</p>
-<dl class="method">
-<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.call">
-<code class="descname">call</code><span class="sig-paren">(</span><em>inputs</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.call" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape">
-<code class="descname">compute_output_shape</code><span class="sig-paren">(</span><em>input_shape</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.compute_output_shape" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size">
-<code class="descname">output_size</code><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.output_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size">
-<code class="descname">state_size</code><a class="headerlink" href="#UCTB.model_unit.DCRNN_CELL.DCGRUCell.state_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-UCTB.model_unit.GraphModelLayers">
-<span id="uctb-model-unit-graphmodellayers-module"></span><h2>6.3.3. UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#module-UCTB.model_unit.GraphModelLayers" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model_unit.GraphModelLayers.GAL">
-<em class="property">class </em><code class="descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="descname">GAL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>This class provides static methods for adding Graph Attention Layer.</p>
-<dl class="staticmethod">
-<dt id="UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix">
-<em class="property">static </em><code class="descname">add_ga_layer_matrix</code><span class="sig-paren">(</span><em>inputs</em>, <em>units</em>, <em>num_head</em>, <em>activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_ga_layer_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>This method use Multi-head attention technique to add Graph Attention Layer.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>input</strong> (<em>ndarray</em>) – The set of node features data, with shape [batch, num_node, num_featuer].</li>
-<li><strong>unit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of merge_gal_units used in GAL.</li>
-<li><strong>num_head</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The number of multi-head used in GAL.</li>
-<li><strong>activation</strong> (<em>function</em>) – activation function. default:tf.nn.tanh.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The weight matrix after softmax function.
-gc_output: The final GAL aggregated feature representation from input feature.</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">alpha</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer">
-<em class="property">static </em><code class="descname">add_residual_ga_layer</code><span class="sig-paren">(</span><em>inputs</em>, <em>units</em>, <em>num_head</em>, <em>activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.add_residual_ga_layer" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call the add_ga_layer_matrix function to build the Graph Attention Layer,
-and add the residual layer to optimize the deep neural network.</p>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight">
-<em class="property">static </em><code class="descname">attention_merge_weight</code><span class="sig-paren">(</span><em>inputs</em>, <em>units</em>, <em>num_head</em>, <em>activation=&lt;function leaky_relu&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GAL.attention_merge_weight" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="UCTB.model_unit.GraphModelLayers.GCL">
-<em class="property">class </em><code class="descclassname">UCTB.model_unit.GraphModelLayers.</code><code class="descname">GCL</code><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.11)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
-<p>This class provides static methods for adding Graph Convolution Layer.</p>
-<dl class="staticmethod">
-<dt id="UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer">
-<em class="property">static </em><code class="descname">add_gc_layer</code><span class="sig-paren">(</span><em>inputs</em>, <em>gcn_k</em>, <em>laplacian_matrix</em>, <em>output_size</em>, <em>dtype=tf.float32</em>, <em>use_bias=True</em>, <em>trainable=True</em>, <em>initializer=None</em>, <em>regularizer=None</em>, <em>activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_gc_layer" title="Permalink to this definition">¶</a></dt>
-<dd><table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>Input</strong> (<em>ndarray</em>) – The input features with shape [batch, num_node, num_feature].</li>
-<li><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – The highest order of Chebyshev Polynomial approximation in GCN.</li>
-<li><strong>laplacian_matrix</strong> (<em>ndarray</em>) – Laplacian matrix used in GCN, with shape [num_node, num_node].</li>
-<li><strong>output_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – Number of output channels.</li>
-<li><strong>dtype</strong> – Data type. default:tf.float32.</li>
-<li><strong>use_bias</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – It determines whether to add bias in the output. default:True.</li>
-<li><strong>trainable</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.11)"><em>bool</em></a>) – It determines whether <cite>weights</cite> tensor can be trained. default:True.</li>
-<li><strong>initializer</strong> – It determines whether the “weight” tensor is initialized. default:None.</li>
-<li><strong>regularizer</strong> – It determines whether the “weight” tensor is regularized. default:None.</li>
-<li><strong>activation</strong> (<em>function</em>) – activation function. default:tf.nn.tanh.</li>
-</ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Returns the result of convolution of <cite>inputs</cite> and <cite>laplacian_matrix</cite></p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="staticmethod">
-<dt id="UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers">
-<em class="property">static </em><code class="descname">add_multi_gc_layers</code><span class="sig-paren">(</span><em>inputs</em>, <em>gcn_k</em>, <em>gcn_l</em>, <em>output_size</em>, <em>laplacian_matrix</em>, <em>activation=&lt;function tanh&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.GraphModelLayers.GCL.add_multi_gc_layers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Call add_gc_layer function to add multi Graph Convolution Layer.`gcn_l` is the number of layers added.</p>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-<div class="section" id="module-UCTB.model_unit.ST_RNN">
-<span id="uctb-model-unit-st-rnn-module"></span><h2>6.3.4. UCTB.model_unit.ST_RNN module<a class="headerlink" href="#module-UCTB.model_unit.ST_RNN" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="UCTB.model_unit.ST_RNN.GCLSTMCell">
-<em class="property">class </em><code class="descclassname">UCTB.model_unit.ST_RNN.</code><code class="descname">GCLSTMCell</code><span class="sig-paren">(</span><em>units</em>, <em>num_node</em>, <em>laplacian_matrix</em>, <em>gcn_k=1</em>, <em>gcn_l=1</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model_unit.ST_RNN.GCLSTMCell" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">tensorflow.python.keras.layers.recurrent.LSTMCell</span></code></p>
-<p>GCLSTMCell is one of our implemented ST-RNN models in handling the spatial and temporal features.
-We performed GCN on both LSTM inputs and hidden-states. The code is inherited from tf.keras.layers.LSTMCell,
-thus it can be used almost the same as LSTMCell except that you need to provide the GCN parameters
-in the __init__ function.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>units</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – number of units of LSTM</li>
-<li><strong>num_node</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – number of nodes in the graph</li>
-<li><strong>laplacian_matrix</strong> (<em>ndarray</em>) – laplacian matrix used in GCN, with shape [num_node, num_node]</li>
-<li><strong>gcn_k</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – highest order of Chebyshev Polynomial approximation in GCN</li>
-<li><strong>gcn_l</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.11)"><em>int</em></a>) – number of GCN layers</li>
-<li><strong>kwargs</strong> – other parameters supported by LSTMCell, such as activation, kernel_initializer … and so on.</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</div>
-</div>
+  <section id="uctb-model-unit-package">
+<h1><span class="section-number">6.3. </span>UCTB.model_unit package<a class="headerlink" href="#uctb-model-unit-package" title="Permalink to this heading">¶</a></h1>
+<section id="uctb-model-unit-basemodel-module">
+<h2><span class="section-number">6.3.1. </span>UCTB.model_unit.BaseModel module<a class="headerlink" href="#uctb-model-unit-basemodel-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="uctb-model-unit-dcrnn-cell-module">
+<h2><span class="section-number">6.3.2. </span>UCTB.model_unit.DCRNN_CELL module<a class="headerlink" href="#uctb-model-unit-dcrnn-cell-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="uctb-model-unit-graphmodellayers-module">
+<h2><span class="section-number">6.3.3. </span>UCTB.model_unit.GraphModelLayers module<a class="headerlink" href="#uctb-model-unit-graphmodellayers-module" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="uctb-model-unit-st-rnn-module">
+<h2><span class="section-number">6.3.4. </span>UCTB.model_unit.ST_RNN module<a class="headerlink" href="#uctb-model-unit-st-rnn-module" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
 
 
            </div>
@@ -492,10 +219,11 @@ in the __init__ function.</p>
             HAS_SOURCE: 'true'
         };
     </script>
+      <script type="text/javascript" src="_static/documentation_options.js"></script>
       <script type="text/javascript" src="_static/jquery.js"></script>
       <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/_sphinx_javascript_frameworks_compat.js"></script>
       <script type="text/javascript" src="_static/doctools.js"></script>
-      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

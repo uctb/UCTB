@@ -90,7 +90,7 @@ test_prediction = model_test(dataset_obj, dataset_obj.get_len('test'), n_his, n_
 test_prediction = data_loader.normalizer.inverse_transform(test_prediction)
 y_true = data_loader.normalizer.inverse_transform(data_loader.test_y)
 test_rmse = metric.rmse(prediction=test_prediction.squeeze(),
-                        target=y_true.squeeze(), threshold=0)
+                        target=y_true.squeeze())
 
 
 print('Test RMSE', test_rmse)

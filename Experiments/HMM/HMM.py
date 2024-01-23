@@ -49,8 +49,8 @@ model.fit(X=(train_closeness, train_period, train_trend), y=train_label)
 val_results = model.predict(X=(val_closeness, val_period, val_trend))
 test_results = model.predict(X=(data_loader.test_closeness, data_loader.test_period, data_loader.test_trend))
 
-val_rmse = metric.rmse(val_results, val_label, threshold=0)
-test_rmse = metric.rmse(test_results, data_loader.test_y, threshold=0)
+val_rmse = metric.rmse(val_results, val_label)
+test_rmse = metric.rmse(test_results, data_loader.test_y)
 
 print(args['Dataset'], args['City'], 'val_rmse', val_rmse)
 print(args['Dataset'], args['City'], 'test_rmse', test_rmse)

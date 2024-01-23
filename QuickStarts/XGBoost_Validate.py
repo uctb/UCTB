@@ -60,5 +60,5 @@ for i in range(data_loader.station_number):
 prediction_test = np.concatenate(prediction_test, axis=-2)
 prediction_val = np.concatenate(prediction_val, axis=-2)
 
-print('Val RMSE', metric.rmse(prediction_val, val_y, threshold=0))
-print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y, threshold=0))
+print('Val RMSE', metric.rmse(prediction_val, val_y))
+print('Test RMSE', metric.rmse(prediction_test, data_loader.test_y))

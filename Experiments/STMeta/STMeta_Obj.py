@@ -182,8 +182,8 @@ if de_normalizer:
     val_prediction = de_normalizer(val_prediction)
     val_y = de_normalizer(val_y)
 
-test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y, threshold=0)
-val_rmse = metric.rmse(prediction=val_prediction, target=val_y, threshold=0)
+test_rmse = metric.rmse(prediction=test_prediction, target=data_loader.test_y)
+val_rmse = metric.rmse(prediction=val_prediction, target=val_y)
 
 # Evaluate loss during training 
 val_loss = STMeta_obj.load_event_scalar('val_loss')

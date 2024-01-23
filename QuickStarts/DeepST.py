@@ -35,4 +35,4 @@ prediction = deep_st_obj.predict(closeness_feature=data_loader.test_closeness,
 
 # Compute metric
 print('Test result', metric.rmse(prediction=data_loader.normalizer.min_max_denormal(prediction['prediction']),
-                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y), threshold=0))
+                                 target=data_loader.normalizer.min_max_denormal(data_loader.test_y)))

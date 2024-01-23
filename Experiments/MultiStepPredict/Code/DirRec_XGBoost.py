@@ -78,7 +78,7 @@ for i in range(n_pred):
     cur_target = target[:,:,i]
     # result
     mae = MAE(cur_prediction, cur_target)
-    rmse = metric.rmse(cur_prediction, cur_target, threshold=0)
+    rmse = metric.rmse(cur_prediction, cur_target)
     mape = metric.mape(cur_prediction, cur_target, threshold=0.1)
     # save
     evaluation_result.loc[i+1, "MAE"] = mae

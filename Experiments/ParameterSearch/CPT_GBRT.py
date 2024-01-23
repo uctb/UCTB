@@ -34,7 +34,7 @@ for i in range(data_loader.station_number):
 
 prediction = np.concatenate(prediction, axis=-2)
 
-print(dataset, city, 'RMSE', metric.rmse(prediction, data_loader.test_y, threshold=0))
+print(dataset, city, 'RMSE', metric.rmse(prediction, data_loader.test_y))
 print(dataset, city, 'MAPE', metric.mape(prediction, data_loader.test_y, threshold=0))
 
 

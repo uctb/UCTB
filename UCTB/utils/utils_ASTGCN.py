@@ -11,7 +11,7 @@ import torch.utils.data
 
 from UCTB.preprocess import SplitData
 # from tensorboardX import SummaryWriter
-from UCTB.preprocess.preprocessor import normalization
+
 from UCTB.train.LossFunction import masked_mape, masked_mae, masked_rmse, masked_mse
 
 
@@ -246,7 +246,7 @@ def train_main(training_config, params_path, DEVICE, net, val_loader, train_load
     return best_epoch
 
 
-def predict_main(net, global_step, data_loader, data_target_tensor, _mean, _std, params_path):
+def predict_main(net, global_step, data_loader, data_target_tensor, params_path):
     '''
 
     :param global_step: int
@@ -337,8 +337,3 @@ def compute_val_loss_mstgcn(net, val_loader, criterion,  masked_flag,missing_val
         # sw.add_scalar('validation_loss', validation_loss, epoch)
     return validation_loss
 
-
-
-def re_normalization(x, mean, std):
-    x = x * std + mean
-    return x

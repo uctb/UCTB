@@ -10,6 +10,8 @@ UCTB is a flexible and open package. You can use the data we provided or use you
 
 ## News
 
+**2024-03**: We have released two new datasets for **Metro** and **Bus** applications. These datasets provide hourly estimates of subway and bus ridership. [Welcome to explore them!](https://github.com/uctb/Urban-Dataset)
+
 **2023-06**: We have released a technical report entitled '*UCTB: An Urban Computing Tool Box for Spatiotemporal Crowd Flow Prediction*', introducing the design and implementation principles of UCTB. [[arXiv\]](https://arxiv.org/abs/2306.04144)
 
 **2021-11**: Our paper on UCTB, entitled '*Exploring the Generalizability of Spatio-Temporal Traffic Prediction: Meta-Modeling and an Analytic Framework*', has been accepted by IEEE TKDE! [[IEEE Xplore](https://ieeexplore.ieee.org/document/9627543)] [[arXiv](https://arxiv.org/abs/2009.09379)]
@@ -18,7 +20,7 @@ UCTB is a flexible and open package. You can use the data we provided or use you
 
 ## ST-Paper List
 
-We maintain [a paper list]((https://github.com/uctb/ST-Paper)) focusing on spatio-temporal prediction papers from venues such as KDD, NeurIPS, AAAI, WWW, ICDE, IJCAI, WSDM, and CIKM. Note that the metadata may not encompass all relevant papers and could include unrelated ones, as selected by large language models.
+We maintain [a paper list]((https://github.com/uctb/ST-Paper)) focusing on spatio-temporal prediction papers from venues such as KDD, NeurIPS, AAAI, WWW, ICDE, IJCAI, WSDM, CIKM, and IEEE T-ITS. Note that the metadata may not encompass all relevant papers and could include unrelated ones, as selected by large language models.
 
 <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/venue_stat.png" alt=".img" style="zoom: 33%;height: 327px; width:424" />
 
@@ -31,12 +33,14 @@ UCTB releases [a public dataset repository](https://github.com/uctb/Urban-Datase
 |   Bike-sharing   |          NYC           | 2013.07.01-2017.09.30 | 5 & 60 mins  | [5 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip)  [60 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/60_minutes/Bike_NYC.zip) |
 |   Bike-sharing   |        Chicago         | 2013.07.01-2017.09.30 | 5 & 60 mins  | [5 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip) [60 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/60_minutes/Bike_Chicago.zip) |
 |   Bike-sharing   |           DC           | 2013.07.01-2017.09.30 | 5 & 60 mins  | [5 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip) [60 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/60_minutes/Bike_DC.zip) |
+|       Bus        |          NYC           | 2022.02.01-2024.01.13 |   60 mins    | [60 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bus/60_minutes/Bus_NYC.zip) |
 |  Vehicle Speed   |           LA           | 2012.03.01-2012.06.28 |    5 mins    | [5 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip) |
 |  Vehicle Speed   |          BAY           | 2017.01.01-2017.07.01 |    5 mins    | [5 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip) |
 | Pedestrian Count |       Melbourne        | 2021.01.01-2022.11.01 |   60 mins    | [60 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.zip) |
 |   Ride-sharing   |  Chicago (community)   | 2013.01.01-2018.01.01 |   15 mins    | [15 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip) |
 |   Ride-sharing   | Chicago (census tract) | 2013.01.01-2018.01.01 |   15 mins    | [15 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_fine_grained_Chicago.zip) |
 |   Ride-sharing   |          NYC           | 2009.01.01-2023.06.01 |    5 mins    | [5 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/5_minutes/Taxi_NYC.zip) |
+|      Metro       |          NYC           | 2022.02.01-2023.12.21 |   60 mins    | [60 mins](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Metro/60_minutes/Metro_NYC.zip) |
 
 We provide [detailed documents](https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb) about how to use these datasets.
 

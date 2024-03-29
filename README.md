@@ -67,7 +67,7 @@ Currently, the ST prediction model package supports the following models: (This 
 |   GMAN [[AAAI 2020]](https://ojs.aaai.org/index.php/AAAI/article/view/5477/5333) |   Node   |   Attention   |**Prior** (Road Network)|Attention|Closeness|``UCTB.model.GMAN``|
 |   STSGCN [[AAAI 2020]](https://ojs.aaai.org/index.php/AAAI/article/view/5438) |   Node   |   GNN+Attention   |**Prior** (Spatial Network)|Attention|Closeness|``UCTB.model.STSGCN``|
 |  AGCRN [[NeurIPS 2020]](https://proceedings.neurips.cc/paper/2020/file/ce1aad92b939420fc17005e5461e6f48-Paper.pdf) |   Node   |   GNN   |**Adaptive**|RNN|Closeness|``UCTB.model.AGCRN``|
-|  AGCRN [[KDD 2020]](https://dl.acm.org/doi/abs/10.1145/3394486.3403118) |   Node   |   GNN   |**Adaptive**|TCN|Closeness|``UCTB.model.MTGNN``|
+|  MTGNN [[KDD 2020]](https://dl.acm.org/doi/abs/10.1145/3394486.3403118) |   Node   |   GNN   |**Adaptive**|TCN|Closeness|``UCTB.model.MTGNN``|
 |   STMeta [[TKDE 2021]](https://arxiv.org/abs/2009.09379)  |   Node   |   GNN   |**Prior** (Proximity, Functionality, Interaction/Same-line)|LSTM/RNN|Closeness, Period, Trend|``UCTB.model.STMeta``|
 
 ------

@@ -36,8 +36,8 @@ Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Bi
 
 ## Bus Datasets
 The bus datasets are collected from DATA.NY.GOV: MTA Bus Hourly Ridership. This dataset is provided by the Metropolitan Transportation Authority and is available for public download. It offers bus ridership estimates on an hourly basis by bus route. Data collection started from February 2022 and has been regularly updated. The Bus_NYC dataset includes data up to January 13, 2024. The latest version can be accessed on the website mentioned above. The station info data is downloaded from NYU | Faculty Digital Archive: New York City Bus Routes, Dec 2019. It does not encompass all bus routes. So we discarded the traffic data for bus routes where station information was not found, ultimately retaining 226 bus routes.
-
 Following shows the map-visualization of Bus_NYC datasets.
+
 <img src="https://github.com/uctb/Urban-Dataset/raw/main/images/NYC_Bus.png" alt="Image" style="max-width: 300px; height: auto;">
 
 Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Bus
@@ -54,8 +54,8 @@ Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Sp
 
 ## Pedestrian Datasets
 The pedestrian datasets are collected from open data website of Melbourne. The full datasets' timespan is over 10 years and the datasets are still being updated at a fixed frequency (i.e., 60 minutes). Due to the fact that some sites were not set up in the early days and some sites lacked data, we only choose about a year in temporal dimension and 55 stations in spatial dimension. There is also accessible information about sensors on the same website. In the dataset of sensor information, we obtain the name, the sensor's ID, the sensor's status(whether it is active or not), the latitude and longtitude of each sensor.
-
 Following shows the map-visualization of Pedestrian datasets in Melbourne.
+
 <img src="https://github.com/uctb/Urban-Dataset/raw/main/images/Pedestrain_Melbourne.png" alt="Image" style="max-width: 300px; height: auto;">
 
 Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Pedestrian
@@ -110,9 +110,11 @@ Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Me
 
 ## Flow Speed Datasets
 The traffic flow datasets are collected from UTD19 - Research Collection. UTD19 is a large-scale traffic data set from over 20000 stationary detectors on urban roads in 40 cities worldwide making it the largest multi-city traffic data set publically available. In our dataset, we only consider the data for the city of Luzern. The dataset enriched location information of sensors with further attributes describing the location of the sensor with respect to the road network.
-
 Following shows the map-visualization of station complex in Luzern.
+
 <img src="https://github.com/uctb/Urban-Dataset/raw/main/images/Luzern_Flow.png" alt="Image" style="max-width: 400px; height: auto;">
+
+
 Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Flow
 
 ## Load UCTB Dataset

@@ -160,12 +160,459 @@
 <h1><span class="section-number">6.2. </span>UCTB.preprocess package<a class="headerlink" href="#uctb-preprocess-package" title="Permalink to this heading">¶</a></h1>
 <section id="uctb-preprocess-graphgenerator-module">
 <h2><span class="section-number">6.2.1. </span>UCTB.preprocess.GraphGenerator module<a class="headerlink" href="#uctb-preprocess-graphgenerator-module" title="Permalink to this heading">¶</a></h2>
+<span class="target" id="module-UCTB.preprocess.GraphGenerator"></span><dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.GraphGenerator.</span></span><span class="sig-name descname"><span class="pre">GraphGenerator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_loader</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">graph</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Correlation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1000</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_correlation</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold_interaction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class is used to build graphs.
+Adajacent matrix and lapalace matrix will be stored in self.AM and self.LM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data_loader</strong> (<a class="reference internal" href="UCTB.dataset.html#UCTB.dataset.data_loader.NodeTrafficLoader" title="UCTB.dataset.data_loader.NodeTrafficLoader"><em>NodeTrafficLoader</em></a>) – data_loader object.</p></li>
+<li><p><strong>graph</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Types of graphs used in neural methods. Graphs should be a subset of { <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code>,
+<code class="docutils literal notranslate"><span class="pre">'Distance'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Interaction'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Line'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Neighbor'</span></code>, <code class="docutils literal notranslate"><span class="pre">'Transfer'</span></code> } and concatenated by <code class="docutils literal notranslate"><span class="pre">'-'</span></code>,
+and <em>dataset</em> should have data of selected graphs. Default: <code class="docutils literal notranslate"><span class="pre">'Correlation'</span></code></p></li>
+<li><p><strong>threshold_distance</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Used in building of distance graph. If distance of two nodes in meters is larger
+than <code class="docutils literal notranslate"><span class="pre">threshold_distance</span></code>, the corresponding position of the distance graph will be 1 and otherwise
+0.the corresponding Default: 1000</p></li>
+<li><p><strong>threshold_correlation</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Used in building of correlation graph. If the Pearson correlation coefficient is
+larger than <code class="docutils literal notranslate"><span class="pre">threshold_correlation</span></code>, the corresponding position of the correlation graph will be 1
+and otherwise 0. Default: 0</p></li>
+<li><p><strong>threshold_interaction</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – Used in building of interatction graph. If in the latest 12 months, the number of
+times of interaction between two nodes is larger than <code class="docutils literal notranslate"><span class="pre">threshold_interaction</span></code>, the corresponding position
+of the interaction graph will be 1 and otherwise 0. Default: 500</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.AM">
+<span class="sig-name descname"><span class="pre">AM</span></span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.AM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adajacent matrices of graphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.LM">
+<span class="sig-name descname"><span class="pre">LM</span></span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.LM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Laplacian matrices of graphs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.adjacent_to_laplacian">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">adjacent_to_laplacian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">adjacent_matrix</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.adjacent_to_laplacian" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turn adjacent_matrix into Laplace matrix.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.correlation_adjacent">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">correlation_adjacent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">traffic_data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.correlation_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate correlation graph based on pearson coefficient.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>traffic_data</strong> (<em>ndarray</em>) – numpy array with shape [sequence_length, num_node].</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – float between [-1, 1], nodes with Pearson Correlation coefficient
+larger than this threshold will be linked together.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.distance_adjacent">
+<span class="sig-name descname"><span class="pre">distance_adjacent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat_lng_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.distance_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate distance graph based on geographic distance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lat_lng_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – A list of geographic locations. The format of each element
+in the list is [latitude, longitude].</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – (meters) nodes with geographic distacne smaller than this
+threshold will be linked together.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.haversine">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">haversine</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">lat1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lat2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lon2</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.haversine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the great circle distance between two points
+on the earth (specified in decimal degrees)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.GraphGenerator.interaction_adjacent">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">interaction_adjacent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interaction_matrix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.GraphGenerator.interaction_adjacent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binarize interaction_matrix based on threshold.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>interaction_matrix</strong> (<em>ndarray</em>) – <p>with shape [num_node, num_node], where each
+element represents the number of interactions during a certain time,</p>
+<blockquote>
+<div><p>e.g. 6 monthes, between the corresponding nodes.</p>
+</div></blockquote>
+</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – nodes with number of interactions between them
+greater than this threshold will be linked together.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.scaled_Laplacian_ASTGCN">
+<span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.GraphGenerator.</span></span><span class="sig-name descname"><span class="pre">scaled_Laplacian_ASTGCN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.scaled_Laplacian_ASTGCN" title="Permalink to this definition">¶</a></dt>
+<dd><p>compute     ilde{L}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>W</strong><strong>(</strong><strong>np.ndarray</strong><strong>)</strong> (<em>shape is</em><em> (</em><em>num_node</em><em>, </em><em>num_node</em><em>)</em><em>.</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>scaled_Laplacian_ASTGCN</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.ndarray, shape (num_node, num_node)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.preprocess.GraphGenerator.scaled_laplacian_STGCN">
+<span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.GraphGenerator.</span></span><span class="sig-name descname"><span class="pre">scaled_laplacian_STGCN</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">W</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.GraphGenerator.scaled_laplacian_STGCN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalized graph Laplacian function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>W</strong> (<em>np.ndarray</em>) – [num_node, num_node], weighted adjacency matrix of G.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Scaled laplacian matrix.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.matrix, [num_node, num_node].</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="uctb-preprocess-preprocessor-module">
-<h2><span class="section-number">6.2.2. </span>UCTB.preprocess.preprocessor module<a class="headerlink" href="#uctb-preprocess-preprocessor-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-UCTB.preprocess.preprocessor">
+<span id="uctb-preprocess-preprocessor-module"></span><h2><span class="section-number">6.2.2. </span>UCTB.preprocess.preprocessor module<a class="headerlink" href="#module-UCTB.preprocess.preprocessor" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.MaxMinNormalizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">MaxMinNormalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MaxMinNormalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#UCTB.preprocess.preprocessor.Normalizer" title="UCTB.preprocess.preprocessor.Normalizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Normalizer</span></code></a></p>
+<p>This class can help normalize and denormalize data using maximum and minimum of data by calling transform and inverse_transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>) – Data which normalizer extracts characteristics from.</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Parameter to choose in which way the input data will be processed.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.MaxMinNormalizer.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MaxMinNormalizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restore normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – normalized data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>denormalized data.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.MaxMinNormalizer.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.MaxMinNormalizer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process input data to obtain normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – input data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>normalized data.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.Normalizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">Normalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.Normalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ABC</span></code></a></p>
+<p>Normalizer is the base abstract class for many normalizers such as MaxMinNormalizer and ZscoreNormalizer.You can also build your own normalizer by inheriting this class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – Data which normalizer extracts characteristics from.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.ST_MoveSample">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">ST_MoveSample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closeness_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trend_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">daily_slots</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ST_MoveSample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class can converts raw data into temporal features including closenss, period and trend features.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>closeness_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The length of closeness data history. The former consecutive <code class="docutils literal notranslate"><span class="pre">closeness_len</span></code> time slots
+of data will be used as closeness history.</p></li>
+<li><p><strong>period_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The length of period data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">period_len</span></code> days will be used as period history.</p></li>
+<li><p><strong>trend_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The length of trend data history. The data of exact same time slots in former consecutive
+<code class="docutils literal notranslate"><span class="pre">trend_len</span></code> weeks (every seven days) will be used as trend history.</p></li>
+<li><p><strong>target_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The numbers of steps that need prediction by one piece of history data. Have to be 1 now.
+Default: 1 default:1.</p></li>
+<li><p><strong>daily_slots</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of records of one day. Calculated by 24 * 60 /time_fitness. default:24.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.ST_MoveSample.move_sample">
+<span class="sig-name descname"><span class="pre">move_sample</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ST_MoveSample.move_sample" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input data to generate closeness, period, trend features and target vector y.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>ndarray</em>) – Orginal temporal data.</p>
+</dd>
+</dl>
+<p>:return:closeness, period, trend and y matrices.
+:type: numpy.ndarray.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.SplitData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">SplitData</span></span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>This class can help split data by calling split_data and split_feed_dict method.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.SplitData.split_data">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData.split_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the data based on the given parameter ratio_list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>ndarray</em>) – Data to be split.</p></li>
+<li><p><strong>ratio_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – Split ratio, the <cite>data</cite> will be split according to the ratio.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="simple">
+<dt>:return:The elements in the returned list are the divided data, and the</dt><dd><p>dimensions of the list are the same as ratio_list.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.SplitData.split_feed_dict">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">split_feed_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">feed_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sequence_length</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ratio_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.SplitData.split_feed_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Divide the <cite>value</cite> data in <cite>feed_dict</cite> based on the given parameter ratio_list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>feed_dict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.12)"><em>dict</em></a>) – It is a dictionary composed of <cite>key-value</cite> pairs.</p></li>
+<li><p><strong>sequence_length</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – If the length of <cite>value</cite> in <cite>feed_dict</cite> is equal to sequence_length,
+then this method divides the <cite>value</cite> according to the ratio without changing its <cite>key</cite>.</p></li>
+<li><p><strong>ratio_list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)"><em>list</em></a>) – Split ratio, the data will be split according to the ratio.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The elements in the returned list are divided dictionaries, and the dimensions of the list are the same as ratio_list.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.12)">list</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.WhiteNormalizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">WhiteNormalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.WhiteNormalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#UCTB.preprocess.preprocessor.Normalizer" title="UCTB.preprocess.preprocessor.Normalizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Normalizer</span></code></a></p>
+<p>This class’s normalization won’t do anything.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.WhiteNormalizer.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.WhiteNormalizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restore normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – normalized data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>denormalized data.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.WhiteNormalizer.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.WhiteNormalizer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process input data to obtain normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – input data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>normalized data.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.ZscoreNormalizer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">ZscoreNormalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'all'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ZscoreNormalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#UCTB.preprocess.preprocessor.Normalizer" title="UCTB.preprocess.preprocessor.Normalizer"><code class="xref py py-class docutils literal notranslate"><span class="pre">Normalizer</span></code></a></p>
+<p>This class can help normalize and denormalize data using mean and standard deviation in data by calling transform and inverse_transform method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X</strong> (<em>ndarray</em>) – Data which normalizer extracts characteristics from.</p></li>
+<li><p><strong>method</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – Parameter to choose in which way the input data will be processed.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.ZscoreNormalizer.inverse_transform">
+<span class="sig-name descname"><span class="pre">inverse_transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ZscoreNormalizer.inverse_transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Restore normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – normalized data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>denormalized data.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.ZscoreNormalizer.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.ZscoreNormalizer.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process input data to obtain normalized data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>ndarray</em>) – input data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>normalized data.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.ndarray.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.preprocess.preprocessor.chooseNormalizer">
+<span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.preprocessor.</span></span><span class="sig-name descname"><span class="pre">chooseNormalizer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_arg</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_train</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.preprocessor.chooseNormalizer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose a proper normalizer consistent with user’s input.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>in_arg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a><em>|</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.12)"><em>bool</em></a><em>|</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><em>object</em></a>) – Function is based on it to choose different normalizer.</p></li>
+<li><p><strong>X_train</strong> (<em>numpy.ndarray</em>) – Function is based on it to initialize the normalizer.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The normalizer consistent with definition.</p>
+</dd>
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
-<section id="uctb-preprocess-time-utils-module">
-<h2><span class="section-number">6.2.3. </span>UCTB.preprocess.time_utils module<a class="headerlink" href="#uctb-preprocess-time-utils-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-UCTB.preprocess.time_utils">
+<span id="uctb-preprocess-time-utils-module"></span><h2><span class="section-number">6.2.3. </span>UCTB.preprocess.time_utils module<a class="headerlink" href="#module-UCTB.preprocess.time_utils" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.preprocess.time_utils.is_valid_date">
+<span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.time_utils.</span></span><span class="sig-name descname"><span class="pre">is_valid_date</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date_str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_valid_date" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>date_str</strong> (<em>string</em>) – e.g. 2019-01-01</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if date_str is valid date,
+otherwise return False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.preprocess.time_utils.is_work_day_america">
+<span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.time_utils.</span></span><span class="sig-name descname"><span class="pre">is_work_day_america</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_america" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>date</strong> (<em>string</em><em> or </em><em>datetime</em>) – e.g. 2019-01-01</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if date is not holiday in America,
+otherwise return False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.preprocess.time_utils.is_work_day_china">
+<span class="sig-prename descclassname"><span class="pre">UCTB.preprocess.time_utils.</span></span><span class="sig-name descname"><span class="pre">is_work_day_china</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">date</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">city</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.preprocess.time_utils.is_work_day_china" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>date</strong> (<em>string</em><em> or </em><em>datetime</em>) – e.g. 2019-01-01</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if date is not holiday in China,
+otherwise return False.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

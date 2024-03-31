@@ -89,7 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="md_file/installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/urban_dataset.html">3. Urban Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/predictive_tool.html">4. Predictive Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="md_file/visualization_tool.html">5. Visualization-tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="md_file/visualization_tool.html">5. Visualization-Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="APIReference.html">6. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/all_results.html">7. Benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="md_file/uctb_group.html">8. About us (UCTB Group)</a></li>
@@ -151,11 +151,9 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <p>When update docstrings, run this code in cmd:
-sphinx-apidoc -o . ../../UCTB
-sphinx-build -b html . ..</p>
-<p>Current version of related packages</p>
-<p>pip install Sphinx==5.1.1
+  <p>The first thing is to install the UCTB library, in fact, if you want to update successfully, you must first install the UCTB library successfully。</p>
+<p>The second thing to do is to install the Sphinx-related library functions locally. Here are some of the related versions。
+pip install Sphinx==5.1.1
 pip install sphinx-markdown-tables==0.0.17
 pip install sphinx-rtd-theme==1.2.1
 pip install sphinxcontrib-applehelp==1.0.2
@@ -166,10 +164,15 @@ pip install sphinxcontrib-qthelp==1.0.3
 pip install sphinxcontrib-serializinghtml==1.1.5
 pip install rtcat-sphinx-theme==0.1.1
 pip install recommonmark==0.7.1
-pip install commonmark==0.9.1</p>
-<p>pip install Sphinx==5.1.1
-pip install recommonmark==0.7.1
+pip install commonmark==0.9.1
 pip install sphinx-markdown-tables==0.0.17</p>
+<p>Next, locate the.md file that corresponds to the section you want to update,
+If you want to add text, just copy and paste it, if you want to add a big title, you can use the form of a # title, if you want to add a secondary title, you can use the form of a ## title, and so on.</p>
+<p>When update docstrings, run this code in cmd:
+sphinx-apidoc -o . ../../UCTB
+sphinx-build -b html . ..
+sphinx-build -b html . _build
+Then you can get the html file generated after the update.</p>
 
 
            </div>

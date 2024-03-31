@@ -158,8 +158,116 @@
             
   <section id="uctb-evaluation-package">
 <h1><span class="section-number">6.5. </span>UCTB.evaluation package<a class="headerlink" href="#uctb-evaluation-package" title="Permalink to this heading">¶</a></h1>
-<section id="uctb-evaluation-metric-module">
-<h2><span class="section-number">6.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#uctb-evaluation-metric-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-UCTB.evaluation.metric">
+<span id="uctb-evaluation-metric-module"></span><h2><span class="section-number">6.5.1. </span>UCTB.evaluation.metric module<a class="headerlink" href="#module-UCTB.evaluation.metric" title="Permalink to this heading">¶</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.mae">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">mae</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mae" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean Absolute Error (MAE)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – data smaller or equal to threshold in target will be removed in computing the mae</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.mape">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">mape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.mape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean Absolute Percentage Error (MAPE)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the mape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.rmse">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">rmse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.rmse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root Mean Square Error (RMSE)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – data smaller or equal to threshold in target will be removed in computing the rmse</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.smape">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">smape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.smape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetric Mean Absolute Percentage Error (SMAPE)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – data smaller than threshold in target will be removed in computing the smape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.trunc_mae">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">trunc_mae</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.trunc_mae" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><p>Mean Absolute Error with Truncation (Trunc_MAE)</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – data smaller or equal to threshold in target will be replaced in computing the mae</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.trunc_rmse">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">trunc_rmse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.trunc_rmse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Root Mean Square Error with Truncation (trunc_RMSE)
+:param prediction: prediction with shape [batch_size, …]
+:type prediction: ndarray
+:param target: same shape with prediction, [batch_size, …]
+:type target: ndarray
+:param threshold: data smaller or equal to threshold in target</p>
+<blockquote>
+<div><p>will be replaced by threshold in computing the s_rmse</p>
+</div></blockquote>
+<dl class="field-list simple">
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="UCTB.evaluation.metric.trunc_smape">
+<span class="sig-prename descclassname"><span class="pre">UCTB.evaluation.metric.</span></span><span class="sig-name descname"><span class="pre">trunc_smape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prediction</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.evaluation.metric.trunc_smape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetric Mean Absolute Percentage Error with Truncation (Trunc_SMAPE)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>prediction</strong> (<em>ndarray</em>) – prediction with shape [batch_size, …]</p></li>
+<li><p><strong>target</strong> (<em>ndarray</em>) – same shape with prediction, [batch_size, …]</p></li>
+<li><p><strong>threshold</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.12)"><em>float</em></a>) – data smaller than threshold in target will be replaced in computing the trunc_smape.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

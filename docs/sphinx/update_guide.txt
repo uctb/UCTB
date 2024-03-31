@@ -1,9 +1,6 @@
-When update docstrings, run this code in cmd:
-sphinx-apidoc -o . ../../UCTB
-sphinx-build -b html . ..
+The first thing is to install the UCTB library, in fact, if you want to update successfully, you must first install the UCTB library successfully。
 
-Current version of related packages
-
+The second thing to do is to install the Sphinx-related library functions locally. Here are some of the related versions。
 pip install Sphinx==5.1.1
 pip install sphinx-markdown-tables==0.0.17
 pip install sphinx-rtd-theme==1.2.1
@@ -16,8 +13,13 @@ pip install sphinxcontrib-serializinghtml==1.1.5
 pip install rtcat-sphinx-theme==0.1.1
 pip install recommonmark==0.7.1
 pip install commonmark==0.9.1
-
-
-pip install Sphinx==5.1.1
-pip install recommonmark==0.7.1
 pip install sphinx-markdown-tables==0.0.17
+
+Next, locate the.md file that corresponds to the section you want to update,
+If you want to add text, just copy and paste it, if you want to add a big title, you can use the form of a # title, if you want to add a secondary title, you can use the form of a ## title, and so on.
+
+When update docstrings, run this code in cmd:
+sphinx-apidoc -o . ../../UCTB
+sphinx-build -b html . ..
+sphinx-build -b html . _build
+Then you can get the html file generated after the update.

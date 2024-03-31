@@ -170,8 +170,32 @@
 <section id="uctb-model-geoman-module">
 <h2><span class="section-number">6.4.4. </span>UCTB.model.GeoMAN module<a class="headerlink" href="#uctb-model-geoman-module" title="Permalink to this heading">¶</a></h2>
 </section>
-<section id="uctb-model-hm-module">
-<h2><span class="section-number">6.4.5. </span>UCTB.model.HM module<a class="headerlink" href="#uctb-model-hm-module" title="Permalink to this heading">¶</a></h2>
+<section id="module-UCTB.model.HM">
+<span id="uctb-model-hm-module"></span><h2><span class="section-number">6.4.5. </span>UCTB.model.HM module<a class="headerlink" href="#module-UCTB.model.HM" title="Permalink to this heading">¶</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="UCTB.model.HM.HM">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">UCTB.model.HM.</span></span><span class="sig-name descname"><span class="pre">HM</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">t</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.12)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Historical Mean. A naive method that simply return average of hisrory data of each time slot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of time slots of closeness history.</p></li>
+<li><p><strong>p</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of time slots of period history which presents daily feature.</p></li>
+<li><p><strong>t</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.12)"><em>int</em></a>) – The number of time slots of trend history which presents weekly feature.</p></li>
+<li><p><strong>`</strong> (<em>Note that</em>) – </p></li>
+<li><p><strong>average.</strong> (<em>features should be considerd in</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="UCTB.model.HM.HM.predict">
+<span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">closeness_feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_feature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">trend_feature</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#UCTB.model.HM.HM.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Give closeness, period and trend history values and then use their averages as predict.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="uctb-model-stmeta-module">
 <h2><span class="section-number">6.4.6. </span>UCTB.model.STMeta module<a class="headerlink" href="#uctb-model-stmeta-module" title="Permalink to this heading">¶</a></h2>

@@ -39,7 +39,7 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="UCTB  documentation" href="../index.html"/>
-        <link rel="next" title="5. Visualization-tool" href="visualization_tool.html"/>
+        <link rel="next" title="5. Visualization-Tool" href="visualization_tool.html"/>
         <link rel="prev" title="3. Urban Datasets" href="urban_dataset.html"/> 
 
   
@@ -135,7 +135,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization-tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization-Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
@@ -1068,8 +1068,9 @@
 </pre></div>
 </div>
 <p>Reverse the normalization by <code class="docutils literal notranslate"><span class="pre">data_loader</span></code> and evaluate the results:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">])</span>
-<span class="n">targets</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">min_max_denormal</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span>
+<p>cxgq</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">predictions</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">predictions</span><span class="p">[</span><span class="s1">&#39;prediction&#39;</span><span class="p">])</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">data_loader</span><span class="o">.</span><span class="n">normalizer</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">test_y</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Test result&#39;</span><span class="p">,</span> <span class="n">metric</span><span class="o">.</span><span class="n">rmse</span><span class="p">(</span><span class="n">prediction</span><span class="o">=</span><span class="n">predictions</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="n">targets</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -1192,7 +1193,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="visualization_tool.html" class="btn btn-neutral float-right" title="5. Visualization-tool" accesskey="n">Next →</a>
+        <a href="visualization_tool.html" class="btn btn-neutral float-right" title="5. Visualization-Tool" accesskey="n">Next →</a>
       
       
         <a href="urban_dataset.html" class="btn btn-neutral" title="3. Urban Datasets" accesskey="p">← Previous</a>

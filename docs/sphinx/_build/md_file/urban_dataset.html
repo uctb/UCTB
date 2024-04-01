@@ -91,24 +91,17 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">3. Urban Datasets</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#datasets-overview">3.1. Datasets Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bike-datasets">3.2. Bike Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#bus-datasets">3.3. Bus Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#speed-datasets">3.4. Speed Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pedestrian-datasets">3.5. Pedestrian Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#taxi-datasets">3.6. Taxi Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#metro-datasets">3.7. Metro Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#flow-speed-datasets">3.8. Flow Speed Datasets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#load-uctb-dataset">3.9. Load UCTB Dataset</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#dataset-format">3.9.1. Dataset format</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#use-datasets-from-urban-datasets">3.9.2. Use datasets from Urban Datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-uctb-dataset">3.2. Load UCTB Dataset</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dataset-format">3.2.1. Dataset format</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#use-datasets-from-urban-datasets">3.2.2. Use datasets from Urban Datasets</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-get-the-datasets-at-other-granularities">3.10. How to get the datasets at other granularities?</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#build-your-own-datasets">3.11. Build your own datasets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-get-the-datasets-at-other-granularities">3.3. How to get the datasets at other granularities?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#build-your-own-datasets">3.4. Build your own datasets</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="predictive_tool.html">4. Predictive Tool</a></li>
-<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization-tool</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualization_tool.html">5. Visualization Tool</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../APIReference.html">6. API Reference</a></li>
 <li class="toctree-l1"><a class="reference internal" href="all_results.html">7. Benchmark</a></li>
 <li class="toctree-l1"><a class="reference internal" href="uctb_group.html">8. About us (UCTB Group)</a></li>
@@ -280,76 +273,11 @@
 </tr>
 </tbody>
 </table></section>
-<section id="bike-datasets">
-<h2><span class="section-number">3.2. </span>Bike Datasets<a class="headerlink" href="#bike-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The bike-sharing datasets are collected from U.S. open data portals including New York City (NYC, https://www.citibikenyc.com/system-data), Chicago (CHI, https://www.divvybikes.com/system-data), and DC (https://www.capitalbikeshare.com/system-data). The dataset time span for all three cities is more than four years. The total number of historical flow records is around 49 million, 13 million, and 14 million in NYC, Chicago, and DC, respectively, and each record contains the start station, start time, stop station, stop time, etc.</p>
-<p>The following shows the map visualization of bike stations in NYC, Chicago, and DC.</p>
-<div style="display: flex;">
-  <img src="https://camo.githubusercontent.com/eb6a2130ac83330fa6e79276f561c3966c79b7cc90b6cba5b79980127faaa316/68747470733a2f2f756374622e6769746875622e696f2f554354422f737068696e782f6d645f66696c652f7372632f696d6167652f42696b655f4e59432e6a7067" alt="图片1" style="flex: 1; max-width: 300px; height: auto; margin-right: 10px;">
-  <img src="https://camo.githubusercontent.com/9bb00c6ffb052701433ec46dfe52e96365014a2aa3eab825dc4f52e319ff3d1d/68747470733a2f2f756374622e6769746875622e696f2f554354422f737068696e782f6d645f66696c652f7372632f696d6167652f42696b655f4368696361676f2e6a7067" alt="图片2" style="flex: 1; max-width: 300px; height: auto; margin-right: 10px;">
-  <img src="https://camo.githubusercontent.com/a57455f9f9ccba9ed12ec57b3d5d805d75f4577278c824834ea429dc844cf976/68747470733a2f2f756374622e6769746875622e696f2f554354422f737068696e782f6d645f66696c652f7372632f696d6167652f42696b655f44432e6a7067" alt="图片3" style="flex: 1; max-width: 300px; height: auto;">
-</div>
-Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Bike/</section>
-<section id="bus-datasets">
-<h2><span class="section-number">3.3. </span>Bus Datasets<a class="headerlink" href="#bus-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The bus datasets are collected from DATA.NY.GOV: MTA Bus Hourly Ridership. This dataset is provided by the Metropolitan Transportation Authority and is available for public download. It offers bus ridership estimates on an hourly basis by bus route. Data collection started from February 2022 and has been regularly updated. The Bus_NYC dataset includes data up to January 13, 2024. The latest version can be accessed on the website mentioned above. The station info data is downloaded from NYU | Faculty Digital Archive: New York City Bus Routes, Dec 2019. It does not encompass all bus routes. So we discarded the traffic data for bus routes where station information was not found, ultimately retaining 226 bus routes.
-Following shows the map-visualization of Bus_NYC datasets.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/NYC_Bus.png" alt="Image" style="max-width: 300px; height: auto;"><p>Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Bus</p>
-</section>
-<section id="speed-datasets">
-<h2><span class="section-number">3.4. </span>Speed Datasets<a class="headerlink" href="#speed-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The two traffic speed datasets are widely used in STTP research: METR-LA and PEMS-BAY from Los Angeles (LA) County and Bay Area, respectively. In METR-LA, 207 sensors record highway vehicles’ speeds for four months; In PEMS-BAY, there are 325 sensors for six months. Each sensor can be seen as a station.</p>
-<p>Following shows the map-visualization of METR-LA and PEMS-BAY.</p>
-<div style="display: flex;">
-  <img src="https://camo.githubusercontent.com/7beb63775a5bcd043923b5b749896af2d10358bc30e2c974f07a882e5b70b20a/68747470733a2f2f756374622e6769746875622e696f2f554354422f737068696e782f6d645f66696c652f7372632f696d6167652f4d4554525f4c412e706e67" alt="图片1" style="flex: 1; max-width: 300px; height: auto; margin-right: 10px;">
-  <img src="https://camo.githubusercontent.com/091bdeb27f8c007a2b19adfe23c48e072d90f157cd033932dbd773cb47c55dad/68747470733a2f2f756374622e6769746875622e696f2f554354422f737068696e782f6d645f66696c652f7372632f696d6167652f50454d535f4241592e706e67" alt="图片2" style="flex: 1; max-width: 300px; height: auto;">
-</div>
-Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Speed/</section>
-<section id="pedestrian-datasets">
-<h2><span class="section-number">3.5. </span>Pedestrian Datasets<a class="headerlink" href="#pedestrian-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The pedestrian datasets are collected from open data website of Melbourne. The full datasets’ timespan is over 10 years and the datasets are still being updated at a fixed frequency (i.e., 60 minutes). Due to the fact that some sites were not set up in the early days and some sites lacked data, we only choose about a year in temporal dimension and 55 stations in spatial dimension. There is also accessible information about sensors on the same website. In the dataset of sensor information, we obtain the name, the sensor’s ID, the sensor’s status(whether it is active or not), the latitude and longtitude of each sensor.
-Following shows the map-visualization of Pedestrian datasets in Melbourne.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/Pedestrain_Melbourne.png" alt="Image" style="max-width: 300px; height: auto;"><p>Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Pedestrian</p>
-</section>
-<section id="taxi-datasets">
-<h2><span class="section-number">3.6. </span>Taxi Datasets<a class="headerlink" href="#taxi-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The Taxi datasets are collected from the city of Chicago’s open data portal and the city of New York’s open data portal, where you are able to freely download Chicago city’s and NYC’s datasets for your own analysis. The datasets record taxi trips from these dimensions listed below: pickup and dropoff time, pickup and dropoff location, fee etc. In our dataset, we only consider the pickup info of each record. You can conduct more comprehensive analysis with the help of our datasets and the website.</p>
-<p>Taxi Chicago Dataset
-Facts in dataset description</p>
-<p>There are two candidate spatial discretization information: census tract and community area.
-For each record, it will aggregate census tract granularity into community area due to privacy preserve.
-Which granularity to choose</p>
-<p>Thus, we need to choose a proper granularity. According to the needs of downstream tasks (Spatio-temporal traffic prediction), we summarize two principles of spatial granularity selection:</p>
-<p>Spatial granularity as small as possible (especially in high-demand area).
-Demamd aggregated due to privacy as few as possible.
-On one hand, time distribution of taxi demand in downtown is dense, and the probability of being aggregated is small. on the other hand, the time distribution of taxi demand in the suburbs is sparse, and the probability of being aggregated is high.</p>
-<p>Final datasets we open</p>
-<p>We finally choose to process two datasets: one is Taxi_Chicago, where only spatial granularity community area is used; another is Taxi_fine_grained_Chicago, where community area is used in suburbs while census tract is used in downtown.</p>
-<p>We highly recommend that you conduct more analysis on Taxi_fine_grained_Chicago. By the way, we have adopted a special operation that taxi demand of specific census tract in 15-minute time window equal or less than 2 will be set 2. This operation won’t affect much because all of aggregation situation is ultimately caused by insufficient demand.</p>
-<p>Following shows the map-visualization of Taxi_Chicago datasets.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/Chicago_Taxi.png" alt="Image" style="max-width: 300px; height: auto;"><p>Following shows the map-visualization of Taxi_fine_grained_Chicago datasets.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/Chicago_fine_grained_Taxi.png" alt="Image" style="max-width: 300px; height: auto;"><p>Taxi NYC Datasets
-We collect Taxi NYC dataset from these two websites: https://opendata.cityofnewyork.us/ and https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page. We also obtain information of taxi zones in New York from this website. As a result of size of dataset, we put it on the link with extraction code gw6p.</p>
-<p>Following shows the map-visualization of Taxi_NYC datasets.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/NYC_Taxi.png" alt="Image" style="max-width: 300px; height: auto;"><p>Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Taxi</p>
-</section>
-<section id="metro-datasets">
-<h2><span class="section-number">3.7. </span>Metro Datasets<a class="headerlink" href="#metro-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The metro datasets are collected from DATA.NY.GOV: MTA Subway Hourly Ridership. The Metro_NYC dataset is provided by the Metropolitan Transportation Authority and is available for public download. It offers estimates of subway ridership on an hourly basis by subway station complex. Data collection started from February 2022 and has been regularly updated. The Metro_NYC dataset includes data up to December 21, 2023. The latest version can be accessed on the website mentioned above.</p>
-<p>Following shows the map-visualization of station complex in NYC.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/NYC_Metro.png" alt="Image" style="max-width: 300px; height: auto;"><p>Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Metro</p>
-</section>
-<section id="flow-speed-datasets">
-<h2><span class="section-number">3.8. </span>Flow Speed Datasets<a class="headerlink" href="#flow-speed-datasets" title="Permalink to this heading">¶</a></h2>
-<p>The traffic flow datasets are collected from UTD19 - Research Collection. UTD19 is a large-scale traffic data set from over 20000 stationary detectors on urban roads in 40 cities worldwide making it the largest multi-city traffic data set publically available. In our dataset, we only consider the data for the city of Luzern. The dataset enriched location information of sensors with further attributes describing the location of the sensor with respect to the road network.
-Following shows the map-visualization of station complex in Luzern.</p>
-<img src="https://github.com/uctb/Urban-Dataset/raw/main/images/Luzern_Flow.png" alt="Image" style="max-width: 400px; height: auto;"><p>Data catalog: https://github.com/uctb/Urban-Dataset/tree/main/Public_Datasets/Flow</p>
-</section>
 <section id="load-uctb-dataset">
-<h2><span class="section-number">3.9. </span>Load UCTB Dataset<a class="headerlink" href="#load-uctb-dataset" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">3.2. </span>Load UCTB Dataset<a class="headerlink" href="#load-uctb-dataset" title="Permalink to this heading">¶</a></h2>
 <!-- TODO: 介绍pickle --><p>The <code class="docutils literal notranslate"><span class="pre">pickle</span></code> module is an external library that comes built-in with Python and provides functionality for converting Python objects into a byte stream (serialization) and restoring them back to their original state (deserialization). We use it to help data format instances to transform between memory and disk.</p>
 <section id="dataset-format">
-<h3><span class="section-number">3.9.1. </span>Dataset format<a class="headerlink" href="#dataset-format" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">3.2.1. </span>Dataset format<a class="headerlink" href="#dataset-format" title="Permalink to this heading">¶</a></h3>
 <p>We’ve collected some public datasets and processing them into UCTB dataset format. UCTB dataset is a python build-in dictionary object that could be loaded by pickle package. Here is the example of UCTB dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Let&#39;s say ``my_dataset`` is your dataset.</span>
 <span class="n">my_dataset</span> <span class="o">=</span> <span class="p">{</span>
@@ -377,7 +305,7 @@ Following shows the map-visualization of station complex in Luzern.</p>
 </div>
 </section>
 <section id="use-datasets-from-urban-datasets">
-<h3><span class="section-number">3.9.2. </span>Use datasets from Urban Datasets<a class="headerlink" href="#use-datasets-from-urban-datasets" title="Permalink to this heading">¶</a></h3>
+<h3><span class="section-number">3.2.2. </span>Use datasets from Urban Datasets<a class="headerlink" href="#use-datasets-from-urban-datasets" title="Permalink to this heading">¶</a></h3>
 <p>In this section, we will introduce how to get the dataset from Urban_Dataset and read the dataset using python.</p>
 <p>You are proposed to download the zip file from the <a class="reference external" href="https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip">link</a> and unzip the file. Let’s say the following scripts are placed at the same directory with the dataset.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pkl</span>
@@ -415,7 +343,7 @@ Following shows the map-visualization of station complex in Luzern.</p>
 </section>
 </section>
 <section id="how-to-get-the-datasets-at-other-granularities">
-<h2><span class="section-number">3.10. </span>How to get the datasets at other granularities?<a class="headerlink" href="#how-to-get-the-datasets-at-other-granularities" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">3.3. </span>How to get the datasets at other granularities?<a class="headerlink" href="#how-to-get-the-datasets-at-other-granularities" title="Permalink to this heading">¶</a></h2>
 <p>We could merge the fine-grained data to obtain the datasets at other granularities (e.g., by summing the 12 flows from the 5-minutes datasets to obtain 60-minutes datasets). UCTB provides the API to merge data. You could specify MergeIndex and MergeWay in the NodeTrafficLoader and GridTrafficLoader. Here is an example:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">UCTB.dataset</span> <span class="kn">import</span> <span class="n">NodeTrafficLoader</span>
 
@@ -430,7 +358,7 @@ Following shows the map-visualization of station complex in Luzern.</p>
 </div>
 </section>
 <section id="build-your-own-datasets">
-<h2><span class="section-number">3.11. </span>Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this heading">¶</a></h2>
+<h2><span class="section-number">3.4. </span>Build your own datasets<a class="headerlink" href="#build-your-own-datasets" title="Permalink to this heading">¶</a></h2>
 <p>If you want to apply uctb dataloaders to your dataset, make your dataset compatible with the template as section 3.2.1 shown. And then save it with package <code class="docutils literal notranslate"><span class="pre">pickle</span></code> to a local path <code class="docutils literal notranslate"><span class="pre">pkl_file_name</span></code>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pickle</span>
 <span class="n">pkl_file_name</span> <span class="o">=</span> <span class="s1">&#39;./my_dataset.pkl&#39;</span>  

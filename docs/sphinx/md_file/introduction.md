@@ -8,15 +8,21 @@ UCTB is a flexible and open package. You can use the data we provided or use you
 
 UCTB also releases [a public dataset repository](https://github.com/uctb/Urban-Dataset) including the following applications:
 
-| **Application**  | **City**  | **Granularity** |                      **Download Link**                       |
-| :--------------: | :-------: | :-------------: | :----------------------------------------------------------: |
-|   Bike-sharing   |    NYC    |    5 minutes    | [66.0M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip) |
-|   Bike-sharing   |  Chicago  |    5 minutes    | [30.2M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip) |
-|   Bike-sharing   |    DC     |    5 minutes    | [31.0M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip) |
-| Pedestrian Count | Melbourne |   60 minutes    | [1.18M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip) |
-|  Vehicle Speed   |    LA     |    5 minutes    | [11.8M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip) |
-|  Vehicle Speed   |    BAY    |    5 minutes    | [27.9M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip) |
-|   Ride-sharing   |  Chicago  |   60 minutes    | [9.1M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip) |
+| **Application**  |        **City**        |     **Time Range**     | **Temporal Granularity** |                                                      **Dataset Link**                                                       |
+|:----------------:|:----------------------:|:----------------------:|:------------------------:|:---------------------------------------------------------------------------------------------------------------------------:|
+|   Bike-sharing   |          NYC           | 2013.07.01-2017.09.30  |        5 minutes         |            [66.0M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_NYC.zip)             | 
+|   Bike-sharing   |        Chicago         | 2013.07.01-2017.09.30  |        5 minutes         |          [30.2M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_Chicago.zip)           | 
+|   Bike-sharing   |           DC           | 2013.07.01-2017.09.30  |        5 minutes         |             [31.0M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bike/5_minutes/Bike_DC.zip)             | 
+| Pedestrian Count |       Melbourne        | 2021.01.01-2022.11.01  |        60 minutes        | [1.18M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Pedestrian/60_minutes/Pedestrian_Melbourne.pkl.zip) |
+|  Vehicle Speed   |           LA           | 2012.03.01-2012.06.28  |        5 minutes         |            [11.8M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/METR_LA.zip)             |
+|  Vehicle Speed   |          BAY           | 2017.01.01-2017.07.01  |        5 minutes         |            [27.9M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Speed/5_minutes/PEMS_BAY.zip)            |
+|   Taxi Demand    |        Chicago         | 2013.01.01-2018.01.01  |        15 minutes        |          [6.1M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip)           |
+|       Bus        |          NYC           | 2022.02.01-2024.01.13  |         60 mins          |             [4.89M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Bus/60_minutes/Bus_NYC.zip)             |
+|      Metro       |          NYC           | 2022.02.01-2023.12.21  |         60 mins          |           [11.3M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Metro/60_minutes/Metro_NYC.zip)           |
+|   Traffic Flow   |         Luzern         | 2015.01.01-2016.01.01  |          3 mins          |            [21M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Flow/3_minutes/Flow_Luzern.zip)            |
+|   Ride-sharing   |  Chicago (community)   | 2013.01.01-2018.01.01  |         15 mins          |          [6.06](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_Chicago.zip)           |
+|   Ride-sharing   | Chicago (census tract) | 2013.01.01-2018.01.01  |         15 mins          |    [10M](https://github.com/uctb/Urban-Dataset/blob/main/Public_Datasets/Taxi/15_minutes/Taxi_fine_grained_Chicago.zip)     |
+|   Ride-sharing   |          NYC           | 2009.01.01-2023.06.01  |          5 mins          |    
 
 We provide [detailed documents](https://github.com/uctb/Urban-Dataset/blob/main/Tutorial/tutorial.ipynb) about how to build and how to use these datasets.
 

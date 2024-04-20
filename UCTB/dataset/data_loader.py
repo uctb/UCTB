@@ -224,7 +224,7 @@ class NodeTrafficLoader(object):
         # traffic feature
         
 
-        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], self.traffic_data_index].astype(
+        self.traffic_data = self.dataset.node_traffic[data_range[0]:data_range[1], :].astype(
              np.float32)
 
         # external feature

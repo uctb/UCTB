@@ -59,6 +59,14 @@ npm install
 npm run serve
 ```
 
+Then you will see the following prompt on the screen:
+
+```vue
+ App running at:
+  - Local:   http://localhost:xxxx/ 
+  - Network: http://ip:xxxx/
+```
+
 You can customize the visualization tool in the source code to achieve visual effects that better fit the objectives. To better assist you in achieving personalization of the visualization tool, we recommend following these steps to implement it.
 
 **Step 1: Create your own component**

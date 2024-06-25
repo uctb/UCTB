@@ -851,8 +851,8 @@ Reverse the normalization by ``data_loader`` and evaluate the results:
 
 
 ```python
-predictions = data_loader.normalizer.min_max_denormal(predictions['prediction'])
-targets = data_loader.normalizer.min_max_denormal(test_y)
+predictions = data_loader.normalizer.inverse_transform(predictions['prediction'])
+targets = data_loader.normalizer.inverse_transform(test_y)
 print('Test result', metric.rmse(prediction=predictions, target=targets))
 ```
 

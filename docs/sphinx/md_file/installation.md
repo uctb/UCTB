@@ -42,6 +42,43 @@ Using TensorFlow backend.
 >>> 
 ```
 
+### High version GPU Framework support
+
+**Existing Problems**
+
+Due to changes in the design architecture of high-version GPUs, low-version CUDA is not compatible with high-version GPUs. As a result, Tensorflow 1.x is only compatible with low-version CUDA, leading to runtime failures on machines equipped with high-version GPUs. https://stackoverflow.com/questions/50622525/which-tensorflow-and-cuda-version-combinations-are-compatible 
+
+**Solution**
+
+Thanks to the [Nvidia TensorFlow](https://github.com/NVIDIA/tensorflow) project, which was created to support newer hardware and improve libraries for NVIDIA GPU users using TensorFlow 1.x, we can now install UCTB on machines with newer GPUs. You can follow the installation tutorial below to start enjoying UCTB.
+
+**Clone the project**
+
+```sh
+>>> git clone git@github.com:uctb/UCTB.git
+>>> cd UCTB
+```
+
+**Create Anaconda Environment**
+
+```sh
+>>> conda create -n UCTB python=3.8
+>>> conda activate UCTB
+```
+
+**Install Nvidia Tensorflow**
+
+```sh
+>>> pip install --user nvidia-pyindex
+>>> pip install --user nvidia-tensorflow[horovod]
+```
+
+**Install UCTB from Source**
+
+```sh
+>>> python build_install.py
+```
+
 
 
 ### Q & A

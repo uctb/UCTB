@@ -5,11 +5,10 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>5. Visualization Tool &mdash; UCTB  documentation</title>
+  <title>5. Visualization-tool &mdash; UCTB  documentation</title>
   
 
   
@@ -28,10 +27,6 @@
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
-  
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
   
@@ -91,7 +86,7 @@
 <li class="toctree-l1"><a class="reference internal" href="installation.html">2. Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="urban_dataset.html">3. Urban Datasets</a></li>
 <li class="toctree-l1"><a class="reference internal" href="predictive_tool.html">4. Predictive Tool</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Visualization Tool</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">5. Visualization-tool</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#quick-start">5.1. Quick Start</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#start-with-predefined-dataset">5.1.1. Start with predefined dataset</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#start-with-prediction-and-ground-truth">5.1.2. Start with prediction and ground truth</a></li>
@@ -147,7 +142,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li><span class="section-number">5. </span>Visualization Tool</li>
+      <li>5. Visualization-tool</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,55 +159,59 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="visualization-tool">
-<h1><span class="section-number">5. </span>Visualization Tool<a class="headerlink" href="#visualization-tool" title="Permalink to this heading">¶</a></h1>
+  <div class="section" id="visualization-tool">
+<h1>5. Visualization-tool<a class="headerlink" href="#visualization-tool" title="Permalink to this headline">¶</a></h1>
 <p>We have developed a tool that integrates visualization, error localization, and error diagnosis. Specifically, it allows data to be uploaded and provides interactive visual charts to show model errors, combined with spatiotemporal knowledge for error diagnosis. Welcome to visit the <a class="reference external" href="http://39.107.116.221/">website</a> for a trial.</p>
-<section id="quick-start">
-<h2><span class="section-number">5.1. </span>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this heading">¶</a></h2>
-<section id="start-with-predefined-dataset">
-<h3><span class="section-number">5.1.1. </span>Start with predefined dataset<a class="headerlink" href="#start-with-predefined-dataset" title="Permalink to this heading">¶</a></h3>
-<p>You can click on the dropdown menu in the <code class="docutils literal notranslate"><span class="pre">predefined</span></code> module of the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Loader</span></code>, select the dataset you need, and click <code class="docutils literal notranslate"><span class="pre">confirm</span></code> to obtain the required diagnosis and visualization.</p>
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_1.png" alt="img" style="zoom: 33%;" /></section>
-<section id="start-with-prediction-and-ground-truth">
-<h3><span class="section-number">5.1.2. </span>Start with prediction and ground truth<a class="headerlink" href="#start-with-prediction-and-ground-truth" title="Permalink to this heading">¶</a></h3>
-<p>You can upload specifically formatted TSV files for prediction and ground truth in the <code class="docutils literal notranslate"><span class="pre">upload</span></code> module of the Data Loader. Clicking <code class="docutils literal notranslate"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_2.png" alt="img" style="zoom: 33%;" /></section>
-<section id="start-with-prediction-ground-truth-and-spatial-information">
-<h3><span class="section-number">5.1.3. </span>Start with prediction, ground truth and spatial information<a class="headerlink" href="#start-with-prediction-ground-truth-and-spatial-information" title="Permalink to this heading">¶</a></h3>
-<p>You can upload specifically formatted TSV files for prediction, ground truth, and spatial information in the <code class="docutils literal notranslate"><span class="pre">upload</span></code> module of the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Loader</span></code>. Clicking <code class="docutils literal notranslate"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_3.png" alt="img" style="zoom: 33%;" /></section>
-<section id="start-with-prediction-ground-truth-and-temporal-information">
-<h3><span class="section-number">5.1.4. </span>Start with prediction, ground truth and temporal information<a class="headerlink" href="#start-with-prediction-ground-truth-and-temporal-information" title="Permalink to this heading">¶</a></h3>
-<p>You can upload specifically formatted TSV files for prediction, and ground truth in the <code class="docutils literal notranslate"><span class="pre">upload</span></code> module of the ‘Data Loader’, along with the corresponding temporal information. Clicking <code class="docutils literal notranslate"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_4.png" alt="img" style="zoom: 33%;" /></section>
-<section id="start-with-prediction-ground-truth-as-well-as-spatial-and-temporal-information">
-<h3><span class="section-number">5.1.5. </span>Start with prediction, ground truth as well as spatial and temporal information<a class="headerlink" href="#start-with-prediction-ground-truth-as-well-as-spatial-and-temporal-information" title="Permalink to this heading">¶</a></h3>
-<p>You can upload specifically formatted TSV files for prediction, ground truth, and spatial information in the <code class="docutils literal notranslate"><span class="pre">upload</span></code> module of the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Loader</span></code>, along with the corresponding temporal information. Clicking <code class="docutils literal notranslate"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
-<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_5.png" alt=".img" style="zoom: 33%;" /></section>
-</section>
-<section id="contribute-to-our-project">
-<h2><span class="section-number">5.2. </span>Contribute to our project.<a class="headerlink" href="#contribute-to-our-project" title="Permalink to this heading">¶</a></h2>
+<div class="section" id="quick-start">
+<h2>5.1. Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="start-with-predefined-dataset">
+<h3>5.1.1. Start with predefined dataset<a class="headerlink" href="#start-with-predefined-dataset" title="Permalink to this headline">¶</a></h3>
+<p>You can click on the dropdown menu in the <code class="docutils literal"><span class="pre">predefined</span></code> module of the <code class="docutils literal"><span class="pre">Data</span> <span class="pre">Loader</span></code>, select the dataset you need, and click <code class="docutils literal"><span class="pre">confirm</span></code> to obtain the required diagnosis and visualization.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_1.png" alt="img" style="zoom: 33%;" /></div>
+<div class="section" id="start-with-prediction-and-ground-truth">
+<h3>5.1.2. Start with prediction and ground truth<a class="headerlink" href="#start-with-prediction-and-ground-truth" title="Permalink to this headline">¶</a></h3>
+<p>You can upload specifically formatted TSV files for prediction and ground truth in the <code class="docutils literal"><span class="pre">upload</span></code> module of the Data Loader. Clicking <code class="docutils literal"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_2.png" alt="img" style="zoom: 33%;" /></div>
+<div class="section" id="start-with-prediction-ground-truth-and-spatial-information">
+<h3>5.1.3. Start with prediction, ground truth and spatial information<a class="headerlink" href="#start-with-prediction-ground-truth-and-spatial-information" title="Permalink to this headline">¶</a></h3>
+<p>You can upload specifically formatted TSV files for prediction, ground truth, and spatial information in the <code class="docutils literal"><span class="pre">upload</span></code> module of the <code class="docutils literal"><span class="pre">Data</span> <span class="pre">Loader</span></code>. Clicking <code class="docutils literal"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_3.png" alt="img" style="zoom: 33%;" /></div>
+<div class="section" id="start-with-prediction-ground-truth-and-temporal-information">
+<h3>5.1.4. Start with prediction, ground truth and temporal information<a class="headerlink" href="#start-with-prediction-ground-truth-and-temporal-information" title="Permalink to this headline">¶</a></h3>
+<p>You can upload specifically formatted TSV files for prediction, and ground truth in the <code class="docutils literal"><span class="pre">upload</span></code> module of the 'Data Loader', along with the corresponding temporal information. Clicking <code class="docutils literal"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_4.png" alt="img" style="zoom: 33%;" /></div>
+<div class="section" id="start-with-prediction-ground-truth-as-well-as-spatial-and-temporal-information">
+<h3>5.1.5. Start with prediction, ground truth as well as spatial and temporal information<a class="headerlink" href="#start-with-prediction-ground-truth-as-well-as-spatial-and-temporal-information" title="Permalink to this headline">¶</a></h3>
+<p>You can upload specifically formatted TSV files for prediction, ground truth, and spatial information in the <code class="docutils literal"><span class="pre">upload</span></code> module of the <code class="docutils literal"><span class="pre">Data</span> <span class="pre">Loader</span></code>, along with the corresponding temporal information. Clicking <code class="docutils literal"><span class="pre">confirm</span></code> will enable you to obtain the corresponding diagnosis and visualization.</p>
+<img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/vis_5.png" alt=".img" style="zoom: 33%;" /></div>
+</div>
+<div class="section" id="contribute-to-our-project">
+<h2>5.2. Contribute to our project.<a class="headerlink" href="#contribute-to-our-project" title="Permalink to this headline">¶</a></h2>
 <p>The visualization-tool offers two usage options, which are accessing through the <a class="reference external" href="http://39.107.116.221/">website</a>, or using the source code(for contribution).</p>
 <p><strong>Step 1: Requirements</strong></p>
-<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span>node == 16.14.0
+<div class="highlight-vue"><div class="highlight"><pre><span></span>node == 16.14.0
 npm == 8.3.1
 </pre></div>
 </div>
 <p><strong>Step 2: Clone repository and install dependencies</strong></p>
-<div class="highlight-Vue notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/uctb/visualization-tool-UCTB.git 
+<div class="highlight-Vue"><div class="highlight"><pre><span></span>git clone https://github.com/uctb/visualization-tool-UCTB.git 
 cd visualization-tool-UCTB 
 npm install
 </pre></div>
 </div>
 <p><strong>Step 3: Start</strong></p>
-<div class="highlight-Vue notranslate"><div class="highlight"><pre><span></span> App running at:
+<div class="highlight-Vue"><div class="highlight"><pre><span></span>npm run serve
+</pre></div>
+</div>
+<p>Then you will see the following prompt on the screen:</p>
+<div class="highlight-vue"><div class="highlight"><pre><span></span> App running at:
   - Local:   http://localhost:xxxx/ 
   - Network: http://ip:xxxx/
 </pre></div>
 </div>
 <p>You can customize the visualization tool in the source code to achieve visual effects that better fit the objectives. To better assist you in achieving personalization of the visualization tool, we recommend following these steps to implement it.</p>
 <p><strong>Step 1: Create your own component</strong></p>
-<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span>&lt;template&gt;
+<div class="highlight-vue"><div class="highlight"><pre><span></span>&lt;template&gt;
 &lt;div&gt;Your own HTML&lt;/div&gt;
 &lt;/template&gt;
 
@@ -229,7 +228,7 @@ export default {
 </pre></div>
 </div>
 <p><strong>Step 2: Importing component in App.vue</strong></p>
-<div class="highlight-vue notranslate"><div class="highlight"><pre><span></span>&lt;script&gt;
+<div class="highlight-vue"><div class="highlight"><pre><span></span>&lt;script&gt;
 import YourOwnComponent from &quot;./components/YourOwnComponent.vue&quot;
 export default {
 	name: &#39;App&#39;,
@@ -241,8 +240,8 @@ export default {
 </pre></div>
 </div>
 <p>More instructions on the usage of Vue can be referred to on the <a class="reference external" href="https://v2.vuejs.org/">website</a>. <strong>If you have any interesting or novel ideas, we highly welcome your pull request:)</strong></p>
-</section>
-</section>
+</div>
+</div>
 
 
            </div>
@@ -291,11 +290,10 @@ export default {
             HAS_SOURCE: 'true'
         };
     </script>
-      <script type="text/javascript" src="../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

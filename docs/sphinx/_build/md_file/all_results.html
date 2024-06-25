@@ -5,8 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-
+  
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
   <title>7. Benchmark &mdash; UCTB  documentation</title>
@@ -28,10 +27,6 @@
     <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
-  
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-  
-    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   
 
   
@@ -154,7 +149,7 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li><span class="section-number">7. </span>Benchmark</li>
+      <li>7. Benchmark</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -171,934 +166,936 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <section id="benchmark">
-<h1><span class="section-number">7. </span>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this heading">¶</a></h1>
-<section id="datasets">
-<h2><span class="section-number">7.1. </span>Datasets<a class="headerlink" href="#datasets" title="Permalink to this heading">¶</a></h2>
+  <div class="section" id="benchmark">
+<h1>7. Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="datasets">
+<h2>7.1. Datasets<a class="headerlink" href="#datasets" title="Permalink to this headline">¶</a></h2>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: left;">Application</th>
-<th style="text-align: center;">Bike-sharing</th>
-<th style="text-align: center;">Bike-sharing</th>
-<th style="text-align: center;">Bike-sharing</th>
-<th style="text-align: center;">Ride-sharing</th>
-<th style="text-align: center;">Ride-sharing</th>
-<th style="text-align: center;">Metro</th>
-<th style="text-align: center;">Metro</th>
-<th style="text-align: center;">EV</th>
-<th style="text-align: center;">Traffic Speed</th>
-<th style="text-align: center;">Traffic Speed</th>
+<th align="left">Application</th>
+<th align="center">Bike-sharing</th>
+<th align="center">Bike-sharing</th>
+<th align="center">Bike-sharing</th>
+<th align="center">Ride-sharing</th>
+<th align="center">Ride-sharing</th>
+<th align="center">Metro</th>
+<th align="center">Metro</th>
+<th align="center">EV</th>
+<th align="center">Traffic Speed</th>
+<th align="center">Traffic Speed</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">City</td>
-<td style="text-align: center;"><em>New York City</em></td>
-<td style="text-align: center;"><em>Chicago</em></td>
-<td style="text-align: center;"><em>DC</em></td>
-<td style="text-align: center;"><em>Xi'an</em></td>
-<td style="text-align: center;"><em>Chengdu</em></td>
-<td style="text-align: center;"><em>Chongqing</em></td>
-<td style="text-align: center;"><em>Shanghai</em></td>
-<td style="text-align: center;"><em>Beijing</em></td>
-<td style="text-align: center;"><em>METR-LA</em></td>
-<td style="text-align: center;"><em>PEMS-BAY</em></td>
+<td align="left">City</td>
+<td align="center"><em>New York City</em></td>
+<td align="center"><em>Chicago</em></td>
+<td align="center"><em>DC</em></td>
+<td align="center"><em>Xi'an</em></td>
+<td align="center"><em>Chengdu</em></td>
+<td align="center"><em>Chongqing</em></td>
+<td align="center"><em>Shanghai</em></td>
+<td align="center"><em>Beijing</em></td>
+<td align="center"><em>METR-LA</em></td>
+<td align="center"><em>PEMS-BAY</em></td>
 </tr>
 <tr>
-<td style="text-align: left;">Time span</td>
-<td style="text-align: center;">2013.03-2017.09</td>
-<td style="text-align: center;">2013.07-2017.09</td>
-<td style="text-align: center;">2013.07-2017.09</td>
-<td style="text-align: center;">2016.10-2016.11</td>
-<td style="text-align: center;">2016.10-2016.11</td>
-<td style="text-align: center;">2016.08-2017.07</td>
-<td style="text-align: center;">2016.07-2016.09</td>
-<td style="text-align: center;">2018.03-2018.05</td>
-<td style="text-align: center;">2012.03-2012.06</td>
-<td style="text-align: center;">2017.01-2017.07</td>
+<td align="left">Time span</td>
+<td align="center">2013.03-2017.09</td>
+<td align="center">2013.07-2017.09</td>
+<td align="center">2013.07-2017.09</td>
+<td align="center">2016.10-2016.11</td>
+<td align="center">2016.10-2016.11</td>
+<td align="center">2016.08-2017.07</td>
+<td align="center">2016.07-2016.09</td>
+<td align="center">2018.03-2018.05</td>
+<td align="center">2012.03-2012.06</td>
+<td align="center">2017.01-2017.07</td>
 </tr>
 <tr>
-<td style="text-align: left;">Number of riding records</td>
-<td style="text-align: center;">49,100,694</td>
-<td style="text-align: center;">13,130,969</td>
-<td style="text-align: center;">13,763,675</td>
-<td style="text-align: center;">5,922,961</td>
-<td style="text-align: center;">8,439,537</td>
-<td style="text-align: center;">409,277,117</td>
-<td style="text-align: center;">333,149,034</td>
-<td style="text-align: center;">1,272,961</td>
-<td style="text-align: center;">34,272</td>
-<td style="text-align: center;">52,128</td>
+<td align="left">Number of riding records</td>
+<td align="center">49,100,694</td>
+<td align="center">13,130,969</td>
+<td align="center">13,763,675</td>
+<td align="center">5,922,961</td>
+<td align="center">8,439,537</td>
+<td align="center">409,277,117</td>
+<td align="center">333,149,034</td>
+<td align="center">1,272,961</td>
+<td align="center">34,272</td>
+<td align="center">52,128</td>
 </tr>
 <tr>
-<td style="text-align: left;">Number of stations</td>
-<td style="text-align: center;">820</td>
-<td style="text-align: center;">585</td>
-<td style="text-align: center;">532</td>
-<td style="text-align: center;">256</td>
-<td style="text-align: center;">256</td>
-<td style="text-align: center;">113</td>
-<td style="text-align: center;">288</td>
-<td style="text-align: center;">629</td>
-<td style="text-align: center;">207</td>
-<td style="text-align: center;">325</td>
+<td align="left">Number of stations</td>
+<td align="center">820</td>
+<td align="center">585</td>
+<td align="center">532</td>
+<td align="center">256</td>
+<td align="center">256</td>
+<td align="center">113</td>
+<td align="center">288</td>
+<td align="center">629</td>
+<td align="center">207</td>
+<td align="center">325</td>
 </tr>
 </tbody>
 </table><p>Following shows the map-visualization of stations in NYC, Chicago, DC, Xian and Chengdu.</p>
 <p><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_NYC.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_Chicago.jpg" style="zoom:23%;height:800px;width:800px;"/> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Bike_DC.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/DiDi_Xian.jpg" style="zoom:23%;height:800px;width:800px;" />  <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/DiDi_Chengdu.jpg" style="zoom:23%;height:800px;width:800px;" /></p>
 <p>Following shows the map-visualization of stations in Chongqing, Shanghai and Beijing, METR-LA and PEMS-BAY.</p>
 <p><img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Metro_Chongqing.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/Metro_Shanghai.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/EV_Beijing.jpg" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/METR_LA.png" style="zoom:23%;height:800px;width:800px;" /> <img src="https://uctb.github.io/UCTB/sphinx/md_file/src/image/PEMS_BAY.png" style="zoom:23%;height:800px;width:800px;" /></p>
-</section>
-<section id="results">
-<h2><span class="section-number">7.2. </span>Results<a class="headerlink" href="#results" title="Permalink to this heading">¶</a></h2>
+</div>
+<div class="section" id="results">
+<h2>7.2. Results<a class="headerlink" href="#results" title="Permalink to this headline">¶</a></h2>
 <p>We conducted experiments on the following datasets at the granularity of 15 minutes, 30 minutes, and 60 minutes respectively. More details and conclusions can be found in the this paper.  <a class="reference external" href="https://ieeexplore.ieee.org/document/9627543">IEEE Xplore</a>, <a class="reference external" href="https://arxiv.org/abs/2009.09379">arXiv</a></p>
-<section id="minute-prediction-tasks">
-<h3><span class="section-number">7.2.1. </span>15-minute prediction tasks<a class="headerlink" href="#minute-prediction-tasks" title="Permalink to this heading">¶</a></h3>
-<p>The best two results are highlighted in bold, and the top one result is marked with `*’. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction</p>
+<div class="section" id="minute-prediction-tasks">
+<h3>7.2.1. 15-minute prediction tasks<a class="headerlink" href="#minute-prediction-tasks" title="Permalink to this headline">¶</a></h3>
+<p>The best two results are highlighted in bold, and the top one result is marked with `*'. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: left;"></th>
-<th style="text-align: center;">NYC</th>
-<th style="text-align: center;">Chicago</th>
-<th style="text-align: center;">DC</th>
-<th style="text-align: center;">Xi'an</th>
-<th style="text-align: center;">Chengdu</th>
-<th style="text-align: center;">Shanghai</th>
-<th style="text-align: center;">Chongqing</th>
-<th style="text-align: center;">METR-LA</th>
-<th style="text-align: center;">PEMS-BAY</th>
+<th align="left"></th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
+<th align="center">Xi'an</th>
+<th align="center">Chengdu</th>
+<th align="center">Shanghai</th>
+<th align="center">Chongqing</th>
+<th align="center">METR-LA</th>
+<th align="center">PEMS-BAY</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">HM (TC)</td>
-<td style="text-align: center;">1.903</td>
-<td style="text-align: center;">1.756</td>
-<td style="text-align: center;">1.655</td>
-<td style="text-align: center;">3.155</td>
-<td style="text-align: center;">4.050</td>
-<td style="text-align: center;">93.81</td>
-<td style="text-align: center;">76.67</td>
-<td style="text-align: center;">7.150</td>
-<td style="text-align: center;">2.967</td>
+<td align="left">HM (TC)</td>
+<td align="center">1.903</td>
+<td align="center">1.756</td>
+<td align="center">1.655</td>
+<td align="center">3.155</td>
+<td align="center">4.050</td>
+<td align="center">93.81</td>
+<td align="center">76.67</td>
+<td align="center">7.150</td>
+<td align="center">2.967</td>
 </tr>
 <tr>
-<td style="text-align: left;">ARIMA (TC)</td>
-<td style="text-align: center;">1.874</td>
-<td style="text-align: center;">1.784</td>
-<td style="text-align: center;">1.689</td>
-<td style="text-align: center;">3.088</td>
-<td style="text-align: center;">3.948</td>
-<td style="text-align: center;">83.54</td>
-<td style="text-align: center;">67.11</td>
-<td style="text-align: center;">7.028</td>
-<td style="text-align: center;">2.869</td>
+<td align="left">ARIMA (TC)</td>
+<td align="center">1.874</td>
+<td align="center">1.784</td>
+<td align="center">1.689</td>
+<td align="center">3.088</td>
+<td align="center">3.948</td>
+<td align="center">83.54</td>
+<td align="center">67.11</td>
+<td align="center">7.028</td>
+<td align="center">2.869</td>
 </tr>
 <tr>
-<td style="text-align: left;">LSTM  (TC)</td>
-<td style="text-align: center;">1.989</td>
-<td style="text-align: center;">1.802</td>
-<td style="text-align: center;">1.678</td>
-<td style="text-align: center;">3.051</td>
-<td style="text-align: center;">3.888</td>
-<td style="text-align: center;">80.40</td>
-<td style="text-align: center;">55.37</td>
-<td style="text-align: center;">6.380</td>
-<td style="text-align: center;">2.690</td>
+<td align="left">LSTM  (TC)</td>
+<td align="center">1.989</td>
+<td align="center">1.802</td>
+<td align="center">1.678</td>
+<td align="center">3.051</td>
+<td align="center">3.888</td>
+<td align="center">80.40</td>
+<td align="center">55.37</td>
+<td align="center">6.380</td>
+<td align="center">2.690</td>
 </tr>
 <tr>
-<td style="text-align: left;">HM (TM)</td>
-<td style="text-align: center;">1.892</td>
-<td style="text-align: center;">1.668</td>
-<td style="text-align: center;">1.555</td>
-<td style="text-align: center;">2.828</td>
-<td style="text-align: center;">3.347</td>
-<td style="text-align: center;">49.75</td>
-<td style="text-align: center;">45.26</td>
-<td style="text-align: center;">8.934</td>
-<td style="text-align: center;">3.690</td>
+<td align="left">HM (TM)</td>
+<td align="center">1.892</td>
+<td align="center">1.668</td>
+<td align="center">1.555</td>
+<td align="center">2.828</td>
+<td align="center">3.347</td>
+<td align="center">49.75</td>
+<td align="center">45.26</td>
+<td align="center">8.934</td>
+<td align="center">3.690</td>
 </tr>
 <tr>
-<td style="text-align: left;">XGBoost (TM)</td>
-<td style="text-align: center;">1.712</td>
-<td style="text-align: center;">1.672</td>
-<td style="text-align: center;">1.559</td>
-<td style="text-align: center;">2.799</td>
-<td style="text-align: center;">3.430</td>
-<td style="text-align: center;">47.89</td>
-<td style="text-align: center;">35.70</td>
-<td style="text-align: center;">6.443</td>
-<td style="text-align: center;">2.623</td>
+<td align="left">XGBoost (TM)</td>
+<td align="center">1.712</td>
+<td align="center">1.672</td>
+<td align="center">1.559</td>
+<td align="center">2.799</td>
+<td align="center">3.430</td>
+<td align="center">47.89</td>
+<td align="center">35.70</td>
+<td align="center">6.443</td>
+<td align="center">2.623</td>
 </tr>
 <tr>
-<td style="text-align: left;">GBRT (TM)</td>
-<td style="text-align: center;">1.708</td>
-<td style="text-align: center;">1.667</td>
-<td style="text-align: center;">1.552</td>
-<td style="text-align: center;">2.775</td>
-<td style="text-align: center;">3.363</td>
-<td style="text-align: center;">44.55</td>
-<td style="text-align: center;">33.29</td>
-<td style="text-align: center;">6.371</td>
-<td style="text-align: center;">2.645</td>
+<td align="left">GBRT (TM)</td>
+<td align="center">1.708</td>
+<td align="center">1.667</td>
+<td align="center">1.552</td>
+<td align="center">2.775</td>
+<td align="center">3.363</td>
+<td align="center">44.55</td>
+<td align="center">33.29</td>
+<td align="center">6.371</td>
+<td align="center">2.645</td>
 </tr>
 <tr>
-<td style="text-align: left;">TMeta-LSTM-GAL (TM)</td>
-<td style="text-align: center;">1.818</td>
-<td style="text-align: center;">1.623</td>
-<td style="text-align: center;">1.540</td>
-<td style="text-align: center;">2.917</td>
-<td style="text-align: center;">3.286</td>
-<td style="text-align: center;">45.88</td>
-<td style="text-align: center;">33.34</td>
-<td style="text-align: center;">6.156</td>
-<td style="text-align: center;">2.544</td>
+<td align="left">TMeta-LSTM-GAL (TM)</td>
+<td align="center">1.818</td>
+<td align="center">1.623</td>
+<td align="center">1.540</td>
+<td align="center">2.917</td>
+<td align="center">3.286</td>
+<td align="center">45.88</td>
+<td align="center">33.34</td>
+<td align="center">6.156</td>
+<td align="center">2.544</td>
 </tr>
 <tr>
-<td style="text-align: left;">DCRNN (TC+SP)</td>
-<td style="text-align: center;">1.712</td>
-<td style="text-align: center;">1.718</td>
-<td style="text-align: center;">1.594</td>
-<td style="text-align: center;">2.889</td>
-<td style="text-align: center;">3.743</td>
-<td style="text-align: center;">56.00</td>
-<td style="text-align: center;">37.07</td>
-<td style="text-align: center;">6.440</td>
-<td style="text-align: center;">5.322</td>
+<td align="left">DCRNN (TC+SP)</td>
+<td align="center">1.712</td>
+<td align="center">1.718</td>
+<td align="center">1.594</td>
+<td align="center">2.889</td>
+<td align="center">3.743</td>
+<td align="center">56.00</td>
+<td align="center">37.07</td>
+<td align="center">6.440</td>
+<td align="center">5.322</td>
 </tr>
 <tr>
-<td style="text-align: left;">STGCN (TC+SP)</td>
-<td style="text-align: center;">1.738</td>
-<td style="text-align: center;">1.806</td>
-<td style="text-align: center;">1.630</td>
-<td style="text-align: center;">2.789</td>
-<td style="text-align: center;">3.453</td>
-<td style="text-align: center;">47.40</td>
-<td style="text-align: center;">35.19</td>
-<td style="text-align: center;">6.236</td>
-<td style="text-align: center;">2.493</td>
+<td align="left">STGCN (TC+SP)</td>
+<td align="center">1.738</td>
+<td align="center">1.806</td>
+<td align="center">1.630</td>
+<td align="center">2.789</td>
+<td align="center">3.453</td>
+<td align="center">47.40</td>
+<td align="center">35.19</td>
+<td align="center">6.236</td>
+<td align="center">2.493</td>
 </tr>
 <tr>
-<td style="text-align: left;">GMAN (TC+SP)</td>
-<td style="text-align: center;"><strong>1.632</strong>*</td>
-<td style="text-align: center;"><strong>1.529</strong></td>
-<td style="text-align: center;"><strong>1.355</strong>*</td>
-<td style="text-align: center;">2.769</td>
-<td style="text-align: center;">3.520</td>
-<td style="text-align: center;">49.21</td>
-<td style="text-align: center;">36.66</td>
-<td style="text-align: center;">6.214</td>
-<td style="text-align: center;">3.484</td>
+<td align="left">GMAN (TC+SP)</td>
+<td align="center"><strong>1.632</strong>*</td>
+<td align="center"><strong>1.529</strong></td>
+<td align="center"><strong>1.355</strong>*</td>
+<td align="center">2.769</td>
+<td align="center">3.520</td>
+<td align="center">49.21</td>
+<td align="center">36.66</td>
+<td align="center">6.214</td>
+<td align="center">3.484</td>
 </tr>
 <tr>
-<td style="text-align: left;">Graph-WaveNet (TC+SP+SD)</td>
-<td style="text-align: center;"><strong>1.644</strong></td>
-<td style="text-align: center;"><strong>1.460</strong>*</td>
-<td style="text-align: center;"><strong>1.357</strong></td>
-<td style="text-align: center;">2.764</td>
-<td style="text-align: center;">3.442</td>
-<td style="text-align: center;">47.84</td>
-<td style="text-align: center;">35.04</td>
-<td style="text-align: center;"><strong>5.270</strong>*</td>
-<td style="text-align: center;">2.780</td>
+<td align="left">Graph-WaveNet (TC+SP+SD)</td>
+<td align="center"><strong>1.644</strong></td>
+<td align="center"><strong>1.460</strong>*</td>
+<td align="center"><strong>1.357</strong></td>
+<td align="center">2.764</td>
+<td align="center">3.442</td>
+<td align="center">47.84</td>
+<td align="center">35.04</td>
+<td align="center"><strong>5.270</strong>*</td>
+<td align="center">2.780</td>
 </tr>
 <tr>
-<td style="text-align: left;">ST-ResNet (TM+SP)</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">2.686</td>
-<td style="text-align: center;">3.314</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
+<td align="left">ST-ResNet (TM+SP)</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">2.686</td>
+<td align="center">3.314</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
 </tr>
 <tr>
-<td style="text-align: left;">ST-MGCN (TM+SM)</td>
-<td style="text-align: center;">1.687</td>
-<td style="text-align: center;">1.646</td>
-<td style="text-align: center;">1.545</td>
-<td style="text-align: center;">2.714</td>
-<td style="text-align: center;">3.293</td>
-<td style="text-align: center;">46.54</td>
-<td style="text-align: center;"><strong>32.72</strong></td>
-<td style="text-align: center;">6.645</td>
-<td style="text-align: center;"><strong>2.426</strong>*</td>
+<td align="left">ST-MGCN (TM+SM)</td>
+<td align="center">1.687</td>
+<td align="center">1.646</td>
+<td align="center">1.545</td>
+<td align="center">2.714</td>
+<td align="center">3.293</td>
+<td align="center">46.54</td>
+<td align="center"><strong>32.72</strong></td>
+<td align="center">6.645</td>
+<td align="center"><strong>2.426</strong>*</td>
 </tr>
 <tr>
-<td style="text-align: left;">AGCRN-CDW (TM+SD)</td>
-<td style="text-align: center;">1.836</td>
-<td style="text-align: center;">1.883</td>
-<td style="text-align: center;">1.745</td>
-<td style="text-align: center;">2.722</td>
-<td style="text-align: center;">3.296</td>
-<td style="text-align: center;">77.06</td>
-<td style="text-align: center;">46.95</td>
-<td style="text-align: center;">6.709</td>
-<td style="text-align: center;">2.453</td>
+<td align="left">AGCRN-CDW (TM+SD)</td>
+<td align="center">1.836</td>
+<td align="center">1.883</td>
+<td align="center">1.745</td>
+<td align="center">2.722</td>
+<td align="center">3.296</td>
+<td align="center">77.06</td>
+<td align="center">46.95</td>
+<td align="center">6.709</td>
+<td align="center">2.453</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-GCL-GAL (TM+SM)</td>
-<td style="text-align: center;">1.659</td>
-<td style="text-align: center;">1.607</td>
-<td style="text-align: center;">1.527</td>
-<td style="text-align: center;">2.653</td>
-<td style="text-align: center;"><strong>3.244</strong></td>
-<td style="text-align: center;"><strong>41.67</strong></td>
-<td style="text-align: center;"><strong>31.39</strong>*</td>
-<td style="text-align: center;"><strong>5.644</strong></td>
-<td style="text-align: center;"><strong>2.433</strong></td>
+<td align="left">STMeta-GCL-GAL (TM+SM)</td>
+<td align="center">1.659</td>
+<td align="center">1.607</td>
+<td align="center">1.527</td>
+<td align="center">2.653</td>
+<td align="center"><strong>3.244</strong></td>
+<td align="center"><strong>41.67</strong></td>
+<td align="center"><strong>31.39</strong>*</td>
+<td align="center"><strong>5.644</strong></td>
+<td align="center"><strong>2.433</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-GCL-CON (TM+SM)</td>
-<td style="text-align: center;">1.673</td>
-<td style="text-align: center;">1.629</td>
-<td style="text-align: center;">1.512</td>
-<td style="text-align: center;"><strong>2.637</strong>*</td>
-<td style="text-align: center;"><strong>3.241</strong>*</td>
-<td style="text-align: center;">43.83</td>
-<td style="text-align: center;">38.21</td>
-<td style="text-align: center;">5.800</td>
-<td style="text-align: center;">2.449</td>
+<td align="left">STMeta-GCL-CON (TM+SM)</td>
+<td align="center">1.673</td>
+<td align="center">1.629</td>
+<td align="center">1.512</td>
+<td align="center"><strong>2.637</strong>*</td>
+<td align="center"><strong>3.241</strong>*</td>
+<td align="center">43.83</td>
+<td align="center">38.21</td>
+<td align="center">5.800</td>
+<td align="center">2.449</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-DCG-GAL (TM+SM)</td>
-<td style="text-align: center;">1.654</td>
-<td style="text-align: center;">1.609</td>
-<td style="text-align: center;">1.517</td>
-<td style="text-align: center;"><strong>2.648</strong></td>
-<td style="text-align: center;">3.254</td>
-<td style="text-align: center;"><strong>40.94</strong>*</td>
-<td style="text-align: center;">36.90</td>
-<td style="text-align: center;">5.788</td>
-<td style="text-align: center;">2.446</td>
+<td align="left">STMeta-DCG-GAL (TM+SM)</td>
+<td align="center">1.654</td>
+<td align="center">1.609</td>
+<td align="center">1.517</td>
+<td align="center"><strong>2.648</strong></td>
+<td align="center">3.254</td>
+<td align="center"><strong>40.94</strong>*</td>
+<td align="center">36.90</td>
+<td align="center">5.788</td>
+<td align="center">2.446</td>
 </tr>
 </tbody>
-</table></section>
-<section id="results-on-30-minute-prediction-tasks">
-<h3><span class="section-number">7.2.2. </span>Results on 30-minute prediction tasks<a class="headerlink" href="#results-on-30-minute-prediction-tasks" title="Permalink to this heading">¶</a></h3>
-<p>The best two results are highlighted in bold, and the top one result is marked with `*’. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction</p>
+</table></div>
+<div class="section" id="results-on-30-minute-prediction-tasks">
+<h3>7.2.2. Results on 30-minute prediction tasks<a class="headerlink" href="#results-on-30-minute-prediction-tasks" title="Permalink to this headline">¶</a></h3>
+<p>The best two results are highlighted in bold, and the top one result is marked with `*'. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: left;"></th>
-<th style="text-align: center;">NYC</th>
-<th style="text-align: center;">Chicago</th>
-<th style="text-align: center;">DC</th>
-<th style="text-align: center;">Xi'an</th>
-<th style="text-align: center;">Chengdu</th>
-<th style="text-align: center;">Shanghai</th>
-<th style="text-align: center;">Chongqing</th>
-<th style="text-align: center;">Beijing</th>
-<th style="text-align: center;">METR-LA</th>
-<th style="text-align: center;">PEMS-BAY</th>
+<th align="left"></th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
+<th align="center">Xi'an</th>
+<th align="center">Chengdu</th>
+<th align="center">Shanghai</th>
+<th align="center">Chongqing</th>
+<th align="center">Beijing</th>
+<th align="center">METR-LA</th>
+<th align="center">PEMS-BAY</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">HM (TC)</td>
-<td style="text-align: center;">3.206</td>
-<td style="text-align: center;">2.458</td>
-<td style="text-align: center;">2.304</td>
-<td style="text-align: center;">5.280</td>
-<td style="text-align: center;">6.969</td>
-<td style="text-align: center;">269.16</td>
-<td style="text-align: center;">221.39</td>
-<td style="text-align: center;">0.768</td>
-<td style="text-align: center;">9.471</td>
-<td style="text-align: center;">4.155</td>
+<td align="left">HM (TC)</td>
+<td align="center">3.206</td>
+<td align="center">2.458</td>
+<td align="center">2.304</td>
+<td align="center">5.280</td>
+<td align="center">6.969</td>
+<td align="center">269.16</td>
+<td align="center">221.39</td>
+<td align="center">0.768</td>
+<td align="center">9.471</td>
+<td align="center">4.155</td>
 </tr>
 <tr>
-<td style="text-align: left;">ARIMA (TC)</td>
-<td style="text-align: center;">3.178</td>
-<td style="text-align: center;">2.428</td>
-<td style="text-align: center;">2.228</td>
-<td style="text-align: center;">5.035</td>
-<td style="text-align: center;">6.618</td>
-<td style="text-align: center;">212.01</td>
-<td style="text-align: center;">180.53</td>
-<td style="text-align: center;">0.755</td>
-<td style="text-align: center;">9.230</td>
-<td style="text-align: center;">3.936</td>
+<td align="left">ARIMA (TC)</td>
+<td align="center">3.178</td>
+<td align="center">2.428</td>
+<td align="center">2.228</td>
+<td align="center">5.035</td>
+<td align="center">6.618</td>
+<td align="center">212.01</td>
+<td align="center">180.53</td>
+<td align="center">0.755</td>
+<td align="center">9.230</td>
+<td align="center">3.936</td>
 </tr>
 <tr>
-<td style="text-align: left;">LSTM  (TC)</td>
-<td style="text-align: center;">3.018</td>
-<td style="text-align: center;">2.493</td>
-<td style="text-align: center;">2.212</td>
-<td style="text-align: center;">4.950</td>
-<td style="text-align: center;">6.444</td>
-<td style="text-align: center;">195.60</td>
-<td style="text-align: center;">104.61</td>
-<td style="text-align: center;">0.755</td>
-<td style="text-align: center;">7.866</td>
-<td style="text-align: center;">3.683</td>
+<td align="left">LSTM  (TC)</td>
+<td align="center">3.018</td>
+<td align="center">2.493</td>
+<td align="center">2.212</td>
+<td align="center">4.950</td>
+<td align="center">6.444</td>
+<td align="center">195.60</td>
+<td align="center">104.61</td>
+<td align="center">0.755</td>
+<td align="center">7.866</td>
+<td align="center">3.683</td>
 </tr>
 <tr>
-<td style="text-align: left;">HM (TM)</td>
-<td style="text-align: center;">2.686</td>
-<td style="text-align: center;">2.230</td>
-<td style="text-align: center;">1.956</td>
-<td style="text-align: center;">4.239</td>
-<td style="text-align: center;">4.851</td>
-<td style="text-align: center;">108.59</td>
-<td style="text-align: center;">74.55</td>
-<td style="text-align: center;">0.864</td>
-<td style="text-align: center;">9.560</td>
-<td style="text-align: center;">3.965</td>
+<td align="left">HM (TM)</td>
+<td align="center">2.686</td>
+<td align="center">2.230</td>
+<td align="center">1.956</td>
+<td align="center">4.239</td>
+<td align="center">4.851</td>
+<td align="center">108.59</td>
+<td align="center">74.55</td>
+<td align="center">0.864</td>
+<td align="center">9.560</td>
+<td align="center">3.965</td>
 </tr>
 <tr>
-<td style="text-align: left;">XGBoost (TM)</td>
-<td style="text-align: center;">2.704</td>
-<td style="text-align: center;">2.376</td>
-<td style="text-align: center;">1.956</td>
-<td style="text-align: center;">4.172</td>
-<td style="text-align: center;">4.915</td>
-<td style="text-align: center;">81.82</td>
-<td style="text-align: center;">69.50</td>
-<td style="text-align: center;">0.686</td>
-<td style="text-align: center;">8.298</td>
-<td style="text-align: center;">3.253</td>
+<td align="left">XGBoost (TM)</td>
+<td align="center">2.704</td>
+<td align="center">2.376</td>
+<td align="center">1.956</td>
+<td align="center">4.172</td>
+<td align="center">4.915</td>
+<td align="center">81.82</td>
+<td align="center">69.50</td>
+<td align="center">0.686</td>
+<td align="center">8.298</td>
+<td align="center">3.253</td>
 </tr>
 <tr>
-<td style="text-align: left;">GBRT (TM)</td>
-<td style="text-align: center;">2.682</td>
-<td style="text-align: center;">2.355</td>
-<td style="text-align: center;">1.928</td>
-<td style="text-align: center;">4.135</td>
-<td style="text-align: center;">4.873</td>
-<td style="text-align: center;">83.94</td>
-<td style="text-align: center;">72.99</td>
-<td style="text-align: center;">0.689</td>
-<td style="text-align: center;">8.269</td>
-<td style="text-align: center;">3.370</td>
+<td align="left">GBRT (TM)</td>
+<td align="center">2.682</td>
+<td align="center">2.355</td>
+<td align="center">1.928</td>
+<td align="center">4.135</td>
+<td align="center">4.873</td>
+<td align="center">83.94</td>
+<td align="center">72.99</td>
+<td align="center">0.689</td>
+<td align="center">8.269</td>
+<td align="center">3.370</td>
 </tr>
 <tr>
-<td style="text-align: left;">TMeta-LSTM-GAL (TM)</td>
-<td style="text-align: center;">2.511</td>
-<td style="text-align: center;"><strong>2.133</strong>*</td>
-<td style="text-align: center;">1.927</td>
-<td style="text-align: center;">3.847</td>
-<td style="text-align: center;">4.678</td>
-<td style="text-align: center;">85.19</td>
-<td style="text-align: center;">53.18</td>
-<td style="text-align: center;">0.686</td>
-<td style="text-align: center;">7.436</td>
-<td style="text-align: center;">3.231</td>
+<td align="left">TMeta-LSTM-GAL (TM)</td>
+<td align="center">2.511</td>
+<td align="center"><strong>2.133</strong>*</td>
+<td align="center">1.927</td>
+<td align="center">3.847</td>
+<td align="center">4.678</td>
+<td align="center">85.19</td>
+<td align="center">53.18</td>
+<td align="center">0.686</td>
+<td align="center">7.436</td>
+<td align="center">3.231</td>
 </tr>
 <tr>
-<td style="text-align: left;">DCRNN (TC+SP)</td>
-<td style="text-align: center;">2.618</td>
-<td style="text-align: center;">2.246</td>
-<td style="text-align: center;">2.118</td>
-<td style="text-align: center;">4.529</td>
-<td style="text-align: center;">6.258</td>
-<td style="text-align: center;">116.15</td>
-<td style="text-align: center;">65.72</td>
-<td style="text-align: center;">0.757</td>
-<td style="text-align: center;">8.562</td>
-<td style="text-align: center;">6.198</td>
+<td align="left">DCRNN (TC+SP)</td>
+<td align="center">2.618</td>
+<td align="center">2.246</td>
+<td align="center">2.118</td>
+<td align="center">4.529</td>
+<td align="center">6.258</td>
+<td align="center">116.15</td>
+<td align="center">65.72</td>
+<td align="center">0.757</td>
+<td align="center">8.562</td>
+<td align="center">6.198</td>
 </tr>
 <tr>
-<td style="text-align: left;">STGCN (TC+SP)</td>
-<td style="text-align: center;">2.841</td>
-<td style="text-align: center;">2.482</td>
-<td style="text-align: center;">2.067</td>
-<td style="text-align: center;">3.992</td>
-<td style="text-align: center;">5.051</td>
-<td style="text-align: center;">91.29</td>
-<td style="text-align: center;">58.34</td>
-<td style="text-align: center;">0.694</td>
-<td style="text-align: center;">7.871</td>
-<td style="text-align: center;">3.136</td>
+<td align="left">STGCN (TC+SP)</td>
+<td align="center">2.841</td>
+<td align="center">2.482</td>
+<td align="center">2.067</td>
+<td align="center">3.992</td>
+<td align="center">5.051</td>
+<td align="center">91.29</td>
+<td align="center">58.34</td>
+<td align="center">0.694</td>
+<td align="center">7.871</td>
+<td align="center">3.136</td>
 </tr>
 <tr>
-<td style="text-align: left;">GMAN (TC+SP)</td>
-<td style="text-align: center;">2.792</td>
-<td style="text-align: center;">2.336</td>
-<td style="text-align: center;"><strong>1.836</strong>*</td>
-<td style="text-align: center;">4.026</td>
-<td style="text-align: center;">5.293</td>
-<td style="text-align: center;">97.58</td>
-<td style="text-align: center;">51.37</td>
-<td style="text-align: center;">0.764</td>
-<td style="text-align: center;">7.276</td>
-<td style="text-align: center;">3.688</td>
+<td align="left">GMAN (TC+SP)</td>
+<td align="center">2.792</td>
+<td align="center">2.336</td>
+<td align="center"><strong>1.836</strong>*</td>
+<td align="center">4.026</td>
+<td align="center">5.293</td>
+<td align="center">97.58</td>
+<td align="center">51.37</td>
+<td align="center">0.764</td>
+<td align="center">7.276</td>
+<td align="center">3.688</td>
 </tr>
 <tr>
-<td style="text-align: left;">Graph-WaveNet (TC+SP+SD)</td>
-<td style="text-align: center;">2.666</td>
-<td style="text-align: center;">2.158</td>
-<td style="text-align: center;">1.874</td>
-<td style="text-align: center;">3.986</td>
-<td style="text-align: center;">5.097</td>
-<td style="text-align: center;">92.88</td>
-<td style="text-align: center;">52.52</td>
-<td style="text-align: center;">0.719</td>
-<td style="text-align: center;"><strong>6.809</strong>*</td>
-<td style="text-align: center;">3.589</td>
+<td align="left">Graph-WaveNet (TC+SP+SD)</td>
+<td align="center">2.666</td>
+<td align="center">2.158</td>
+<td align="center">1.874</td>
+<td align="center">3.986</td>
+<td align="center">5.097</td>
+<td align="center">92.88</td>
+<td align="center">52.52</td>
+<td align="center">0.719</td>
+<td align="center"><strong>6.809</strong>*</td>
+<td align="center">3.589</td>
 </tr>
 <tr>
-<td style="text-align: left;">ST-ResNet (TM+SP)</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">3.903</td>
-<td style="text-align: center;">4.673</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
+<td align="left">ST-ResNet (TM+SP)</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">3.903</td>
+<td align="center">4.673</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
 </tr>
 <tr>
-<td style="text-align: left;">ST-MGCN (TM+SM)</td>
-<td style="text-align: center;">2.513</td>
-<td style="text-align: center;">2.177</td>
-<td style="text-align: center;">1.903</td>
-<td style="text-align: center;">3.886</td>
-<td style="text-align: center;">4.732</td>
-<td style="text-align: center;">88.76</td>
-<td style="text-align: center;">50.96</td>
-<td style="text-align: center;">0.691</td>
-<td style="text-align: center;">8.079</td>
-<td style="text-align: center;"><strong>3.042</strong></td>
+<td align="left">ST-MGCN (TM+SM)</td>
+<td align="center">2.513</td>
+<td align="center">2.177</td>
+<td align="center">1.903</td>
+<td align="center">3.886</td>
+<td align="center">4.732</td>
+<td align="center">88.76</td>
+<td align="center">50.96</td>
+<td align="center">0.691</td>
+<td align="center">8.079</td>
+<td align="center"><strong>3.042</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;">AGCRN-CDW (TM+SD)</td>
-<td style="text-align: center;">2.830</td>
-<td style="text-align: center;">2.565</td>
-<td style="text-align: center;">2.074</td>
-<td style="text-align: center;">3.958</td>
-<td style="text-align: center;">4.753</td>
-<td style="text-align: center;">238.99</td>
-<td style="text-align: center;">131.55</td>
-<td style="text-align: center;">0.688</td>
-<td style="text-align: center;">8.575</td>
-<td style="text-align: center;"><strong>3.022</strong>*</td>
+<td align="left">AGCRN-CDW (TM+SD)</td>
+<td align="center">2.830</td>
+<td align="center">2.565</td>
+<td align="center">2.074</td>
+<td align="center">3.958</td>
+<td align="center">4.753</td>
+<td align="center">238.99</td>
+<td align="center">131.55</td>
+<td align="center">0.688</td>
+<td align="center">8.575</td>
+<td align="center"><strong>3.022</strong>*</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-GCL-GAL (TM+SM)</td>
-<td style="text-align: center;"><strong>2.410</strong>*</td>
-<td style="text-align: center;">2.170</td>
-<td style="text-align: center;">1.856</td>
-<td style="text-align: center;"><strong>3.808</strong></td>
-<td style="text-align: center;">4.650</td>
-<td style="text-align: center;"><strong>75.36</strong>*</td>
-<td style="text-align: center;"><strong>49.47</strong></td>
-<td style="text-align: center;"><strong>0.670</strong></td>
-<td style="text-align: center;">7.156</td>
-<td style="text-align: center;">3.116</td>
+<td align="left">STMeta-GCL-GAL (TM+SM)</td>
+<td align="center"><strong>2.410</strong>*</td>
+<td align="center">2.170</td>
+<td align="center">1.856</td>
+<td align="center"><strong>3.808</strong></td>
+<td align="center">4.650</td>
+<td align="center"><strong>75.36</strong>*</td>
+<td align="center"><strong>49.47</strong></td>
+<td align="center"><strong>0.670</strong></td>
+<td align="center">7.156</td>
+<td align="center">3.116</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-GCL-CON (TM+SM)</td>
-<td style="text-align: center;"><strong>2.411</strong></td>
-<td style="text-align: center;"><strong>2.133</strong>*</td>
-<td style="text-align: center;">1.859</td>
-<td style="text-align: center;"><strong>3.772</strong>*</td>
-<td style="text-align: center;"><strong>4.613</strong>*</td>
-<td style="text-align: center;">80.69</td>
-<td style="text-align: center;">50.01</td>
-<td style="text-align: center;"><strong>0.667</strong>*</td>
-<td style="text-align: center;"><strong>6.889</strong>*</td>
-<td style="text-align: center;">3.204</td>
+<td align="left">STMeta-GCL-CON (TM+SM)</td>
+<td align="center"><strong>2.411</strong></td>
+<td align="center"><strong>2.133</strong>*</td>
+<td align="center">1.859</td>
+<td align="center"><strong>3.772</strong>*</td>
+<td align="center"><strong>4.613</strong>*</td>
+<td align="center">80.69</td>
+<td align="center">50.01</td>
+<td align="center"><strong>0.667</strong>*</td>
+<td align="center"><strong>6.889</strong>*</td>
+<td align="center">3.204</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-DCG-GAL (TM+SM)</td>
-<td style="text-align: center;"><strong>2.411</strong></td>
-<td style="text-align: center;">2.182</td>
-<td style="text-align: center;"><strong>1.852</strong></td>
-<td style="text-align: center;">3.833</td>
-<td style="text-align: center;"><strong>4.635</strong></td>
-<td style="text-align: center;"><strong>77.49</strong></td>
-<td style="text-align: center;"><strong>48.96</strong>*</td>
-<td style="text-align: center;"><strong>0.670</strong></td>
-<td style="text-align: center;">7.184</td>
-<td style="text-align: center;">3.187</td>
+<td align="left">STMeta-DCG-GAL (TM+SM)</td>
+<td align="center"><strong>2.411</strong></td>
+<td align="center">2.182</td>
+<td align="center"><strong>1.852</strong></td>
+<td align="center">3.833</td>
+<td align="center"><strong>4.635</strong></td>
+<td align="center"><strong>77.49</strong></td>
+<td align="center"><strong>48.96</strong>*</td>
+<td align="center"><strong>0.670</strong></td>
+<td align="center">7.184</td>
+<td align="center">3.187</td>
 </tr>
 </tbody>
-</table></section>
-<section id="results-on-60-minute-prediction-tasks">
-<h3><span class="section-number">7.2.3. </span>Results on 60-minute prediction tasks<a class="headerlink" href="#results-on-60-minute-prediction-tasks" title="Permalink to this heading">¶</a></h3>
-<p>The best two results are highlighted in bold, and the top one result is marked with `*’. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction</p>
+</table></div>
+<div class="section" id="results-on-60-minute-prediction-tasks">
+<h3>7.2.3. Results on 60-minute prediction tasks<a class="headerlink" href="#results-on-60-minute-prediction-tasks" title="Permalink to this headline">¶</a></h3>
+<p>The best two results are highlighted in bold, and the top one result is marked with `*'. (TC: Temporal Closeness; TM: Multi-Temporal Factors; SP: Spatial Proximity; SM: Multi-Spatial Factors; SD: Data-driven Spatial Knowledge Extraction</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: left;"></th>
-<th style="text-align: center;">NYC</th>
-<th style="text-align: center;">Chicago</th>
-<th style="text-align: center;">DC</th>
-<th style="text-align: center;">Xi'an</th>
-<th style="text-align: center;">Chengdu</th>
-<th style="text-align: center;">Shanghai</th>
-<th style="text-align: center;">Chongqing</th>
-<th style="text-align: center;">Beijing</th>
-<th style="text-align: center;">METR-LA</th>
-<th style="text-align: center;">PEMS-BAY</th>
+<th align="left"></th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
+<th align="center">Xi'an</th>
+<th align="center">Chengdu</th>
+<th align="center">Shanghai</th>
+<th align="center">Chongqing</th>
+<th align="center">Beijing</th>
+<th align="center">METR-LA</th>
+<th align="center">PEMS-BAY</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left;">HM (TC)</td>
-<td style="text-align: center;">5.814</td>
-<td style="text-align: center;">4.143</td>
-<td style="text-align: center;">3.485</td>
-<td style="text-align: center;">10.136</td>
-<td style="text-align: center;">14.145</td>
-<td style="text-align: center;">824.94</td>
-<td style="text-align: center;">673.55</td>
-<td style="text-align: center;">1.178</td>
-<td style="text-align: center;">12.303</td>
-<td style="text-align: center;">5.779</td>
+<td align="left">HM (TC)</td>
+<td align="center">5.814</td>
+<td align="center">4.143</td>
+<td align="center">3.485</td>
+<td align="center">10.136</td>
+<td align="center">14.145</td>
+<td align="center">824.94</td>
+<td align="center">673.55</td>
+<td align="center">1.178</td>
+<td align="center">12.303</td>
+<td align="center">5.779</td>
 </tr>
 <tr>
-<td style="text-align: left;">ARIMA (TC)</td>
-<td style="text-align: center;">5.289</td>
-<td style="text-align: center;">3.744</td>
-<td style="text-align: center;">3.183</td>
-<td style="text-align: center;">9.475</td>
-<td style="text-align: center;">13.259</td>
-<td style="text-align: center;">676.79</td>
-<td style="text-align: center;">578.19</td>
-<td style="text-align: center;">0.982</td>
-<td style="text-align: center;">11.739</td>
-<td style="text-align: center;">5.670</td>
+<td align="left">ARIMA (TC)</td>
+<td align="center">5.289</td>
+<td align="center">3.744</td>
+<td align="center">3.183</td>
+<td align="center">9.475</td>
+<td align="center">13.259</td>
+<td align="center">676.79</td>
+<td align="center">578.19</td>
+<td align="center">0.982</td>
+<td align="center">11.739</td>
+<td align="center">5.670</td>
 </tr>
 <tr>
-<td style="text-align: left;">LSTM  (TC)</td>
-<td style="text-align: center;">5.167</td>
-<td style="text-align: center;">3.721</td>
-<td style="text-align: center;">3.234</td>
-<td style="text-align: center;">9.830</td>
-<td style="text-align: center;">13.483</td>
-<td style="text-align: center;">506.07</td>
-<td style="text-align: center;">322.81</td>
-<td style="text-align: center;">0.999</td>
-<td style="text-align: center;">10.083</td>
-<td style="text-align: center;">4.777</td>
+<td align="left">LSTM  (TC)</td>
+<td align="center">5.167</td>
+<td align="center">3.721</td>
+<td align="center">3.234</td>
+<td align="center">9.830</td>
+<td align="center">13.483</td>
+<td align="center">506.07</td>
+<td align="center">322.81</td>
+<td align="center">0.999</td>
+<td align="center">10.083</td>
+<td align="center">4.777</td>
 </tr>
 <tr>
-<td style="text-align: left;">HM (TM)</td>
-<td style="text-align: center;">3.992</td>
-<td style="text-align: center;">3.104</td>
-<td style="text-align: center;">2.632</td>
-<td style="text-align: center;">6.186</td>
-<td style="text-align: center;">7.512</td>
-<td style="text-align: center;">172.55</td>
-<td style="text-align: center;">119.86</td>
-<td style="text-align: center;">1.016</td>
-<td style="text-align: center;">10.727</td>
-<td style="text-align: center;">4.018</td>
+<td align="left">HM (TM)</td>
+<td align="center">3.992</td>
+<td align="center">3.104</td>
+<td align="center">2.632</td>
+<td align="center">6.186</td>
+<td align="center">7.512</td>
+<td align="center">172.55</td>
+<td align="center">119.86</td>
+<td align="center">1.016</td>
+<td align="center">10.727</td>
+<td align="center">4.018</td>
 </tr>
 <tr>
-<td style="text-align: left;">XGBoost (TM)</td>
-<td style="text-align: center;">4.102</td>
-<td style="text-align: center;">3.003</td>
-<td style="text-align: center;">2.643</td>
-<td style="text-align: center;">6.733</td>
-<td style="text-align: center;">7.592</td>
-<td style="text-align: center;">160.38</td>
-<td style="text-align: center;">117.05</td>
-<td style="text-align: center;">0.834</td>
-<td style="text-align: center;">10.299</td>
-<td style="text-align: center;">3.703</td>
+<td align="left">XGBoost (TM)</td>
+<td align="center">4.102</td>
+<td align="center">3.003</td>
+<td align="center">2.643</td>
+<td align="center">6.733</td>
+<td align="center">7.592</td>
+<td align="center">160.38</td>
+<td align="center">117.05</td>
+<td align="center">0.834</td>
+<td align="center">10.299</td>
+<td align="center">3.703</td>
 </tr>
 <tr>
-<td style="text-align: left;">GBRT (TM)</td>
-<td style="text-align: center;">4.039</td>
-<td style="text-align: center;">2.984</td>
-<td style="text-align: center;">2.611</td>
-<td style="text-align: center;">6.446</td>
-<td style="text-align: center;">7.511</td>
-<td style="text-align: center;">154.29</td>
-<td style="text-align: center;">113.92</td>
-<td style="text-align: center;">0.828</td>
-<td style="text-align: center;">10.013</td>
-<td style="text-align: center;">3.704</td>
+<td align="left">GBRT (TM)</td>
+<td align="center">4.039</td>
+<td align="center">2.984</td>
+<td align="center">2.611</td>
+<td align="center">6.446</td>
+<td align="center">7.511</td>
+<td align="center">154.29</td>
+<td align="center">113.92</td>
+<td align="center">0.828</td>
+<td align="center">10.013</td>
+<td align="center">3.704</td>
 </tr>
 <tr>
-<td style="text-align: left;">TMeta-LSTM-GAL (TM)</td>
-<td style="text-align: center;">3.739</td>
-<td style="text-align: center;">2.840</td>
-<td style="text-align: center;">2.557</td>
-<td style="text-align: center;"><strong>5.843</strong></td>
-<td style="text-align: center;">6.949</td>
-<td style="text-align: center;">163.31</td>
-<td style="text-align: center;">102.86</td>
-<td style="text-align: center;">0.840</td>
-<td style="text-align: center;"><strong>8.670</strong>*</td>
-<td style="text-align: center;">3.616</td>
+<td align="left">TMeta-LSTM-GAL (TM)</td>
+<td align="center">3.739</td>
+<td align="center">2.840</td>
+<td align="center">2.557</td>
+<td align="center"><strong>5.843</strong></td>
+<td align="center">6.949</td>
+<td align="center">163.31</td>
+<td align="center">102.86</td>
+<td align="center">0.840</td>
+<td align="center"><strong>8.670</strong>*</td>
+<td align="center">3.616</td>
 </tr>
 <tr>
-<td style="text-align: left;">DCRNN (TC+SP)</td>
-<td style="text-align: center;">4.187</td>
-<td style="text-align: center;">3.081</td>
-<td style="text-align: center;">3.016</td>
-<td style="text-align: center;">8.203</td>
-<td style="text-align: center;">11.444</td>
-<td style="text-align: center;">340.25</td>
-<td style="text-align: center;">122.31</td>
-<td style="text-align: center;">0.989</td>
-<td style="text-align: center;">11.121</td>
-<td style="text-align: center;">6.920</td>
+<td align="left">DCRNN (TC+SP)</td>
+<td align="center">4.187</td>
+<td align="center">3.081</td>
+<td align="center">3.016</td>
+<td align="center">8.203</td>
+<td align="center">11.444</td>
+<td align="center">340.25</td>
+<td align="center">122.31</td>
+<td align="center">0.989</td>
+<td align="center">11.121</td>
+<td align="center">6.920</td>
 </tr>
 <tr>
-<td style="text-align: left;">STGCN (TC+SP)</td>
-<td style="text-align: center;">3.895</td>
-<td style="text-align: center;">2.989</td>
-<td style="text-align: center;">2.597</td>
-<td style="text-align: center;">6.150</td>
-<td style="text-align: center;">7.710</td>
-<td style="text-align: center;">187.98</td>
-<td style="text-align: center;">106.16</td>
-<td style="text-align: center;">0.859</td>
-<td style="text-align: center;">10.688</td>
-<td style="text-align: center;">3.472</td>
+<td align="left">STGCN (TC+SP)</td>
+<td align="center">3.895</td>
+<td align="center">2.989</td>
+<td align="center">2.597</td>
+<td align="center">6.150</td>
+<td align="center">7.710</td>
+<td align="center">187.98</td>
+<td align="center">106.16</td>
+<td align="center">0.859</td>
+<td align="center">10.688</td>
+<td align="center">3.472</td>
 </tr>
 <tr>
-<td style="text-align: left;">GMAN (TC+SP)</td>
-<td style="text-align: center;">4.251</td>
-<td style="text-align: center;">2.875</td>
-<td style="text-align: center;">2.530</td>
-<td style="text-align: center;">7.099</td>
-<td style="text-align: center;">13.351</td>
-<td style="text-align: center;">193.39</td>
-<td style="text-align: center;">117.52</td>
-<td style="text-align: center;">0.949</td>
-<td style="text-align: center;">10.012</td>
-<td style="text-align: center;">3.846</td>
+<td align="left">GMAN (TC+SP)</td>
+<td align="center">4.251</td>
+<td align="center">2.875</td>
+<td align="center">2.530</td>
+<td align="center">7.099</td>
+<td align="center">13.351</td>
+<td align="center">193.39</td>
+<td align="center">117.52</td>
+<td align="center">0.949</td>
+<td align="center">10.012</td>
+<td align="center">3.846</td>
 </tr>
 <tr>
-<td style="text-align: left;">Graph-WaveNet (TC+SP+SD)</td>
-<td style="text-align: center;">3.863</td>
-<td style="text-align: center;">2.812</td>
-<td style="text-align: center;"><strong>2.403</strong>*</td>
-<td style="text-align: center;">6.541</td>
-<td style="text-align: center;">8.162</td>
-<td style="text-align: center;">186.82</td>
-<td style="text-align: center;">102.75</td>
-<td style="text-align: center;">0.930</td>
-<td style="text-align: center;">9.463</td>
-<td style="text-align: center;">4.135</td>
+<td align="left">Graph-WaveNet (TC+SP+SD)</td>
+<td align="center">3.863</td>
+<td align="center">2.812</td>
+<td align="center"><strong>2.403</strong>*</td>
+<td align="center">6.541</td>
+<td align="center">8.162</td>
+<td align="center">186.82</td>
+<td align="center">102.75</td>
+<td align="center">0.930</td>
+<td align="center">9.463</td>
+<td align="center">4.135</td>
 </tr>
 <tr>
-<td style="text-align: left;">ST-ResNet (TM+SP)</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">6.075</td>
-<td style="text-align: center;">7.155</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
-<td style="text-align: center;">---</td>
+<td align="left">ST-ResNet (TM+SP)</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">6.075</td>
+<td align="center">7.155</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
+<td align="center">---</td>
 </tr>
 <tr>
-<td style="text-align: left;">ST-MGCN (TM+SM)</td>
-<td style="text-align: center;">3.723</td>
-<td style="text-align: center;">2.904</td>
-<td style="text-align: center;">2.518</td>
-<td style="text-align: center;">5.878</td>
-<td style="text-align: center;">7.067</td>
-<td style="text-align: center;">159.52</td>
-<td style="text-align: center;">104.87</td>
-<td style="text-align: center;">0.827</td>
-<td style="text-align: center;">10.798</td>
-<td style="text-align: center;"><strong>3.486</strong></td>
+<td align="left">ST-MGCN (TM+SM)</td>
+<td align="center">3.723</td>
+<td align="center">2.904</td>
+<td align="center">2.518</td>
+<td align="center">5.878</td>
+<td align="center">7.067</td>
+<td align="center">159.52</td>
+<td align="center">104.87</td>
+<td align="center">0.827</td>
+<td align="center">10.798</td>
+<td align="center"><strong>3.486</strong></td>
 </tr>
 <tr>
-<td style="text-align: left;">AGCRN-CDW (TM+SD)</td>
-<td style="text-align: center;">3.795</td>
-<td style="text-align: center;">2.935</td>
-<td style="text-align: center;">2.580</td>
-<td style="text-align: center;">8.835</td>
-<td style="text-align: center;">10.275</td>
-<td style="text-align: center;">658.12</td>
-<td style="text-align: center;">287.41</td>
-<td style="text-align: center;">0.844</td>
-<td style="text-align: center;">10.728</td>
-<td style="text-align: center;"><strong>3.381</strong>*</td>
+<td align="left">AGCRN-CDW (TM+SD)</td>
+<td align="center">3.795</td>
+<td align="center">2.935</td>
+<td align="center">2.580</td>
+<td align="center">8.835</td>
+<td align="center">10.275</td>
+<td align="center">658.12</td>
+<td align="center">287.41</td>
+<td align="center">0.844</td>
+<td align="center">10.728</td>
+<td align="center"><strong>3.381</strong>*</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-GCL-GAL (TM+SM)</td>
-<td style="text-align: center;"><strong>3.518</strong></td>
-<td style="text-align: center;"><strong>2.695</strong></td>
-<td style="text-align: center;">2.405</td>
-<td style="text-align: center;">5.871</td>
-<td style="text-align: center;"><strong>6.858</strong>*</td>
-<td style="text-align: center;">153.17</td>
-<td style="text-align: center;"><strong>97.87</strong></td>
-<td style="text-align: center;">0.831</td>
-<td style="text-align: center;"><strong>8.834</strong></td>
-<td style="text-align: center;">3.514</td>
+<td align="left">STMeta-GCL-GAL (TM+SM)</td>
+<td align="center"><strong>3.518</strong></td>
+<td align="center"><strong>2.695</strong></td>
+<td align="center">2.405</td>
+<td align="center">5.871</td>
+<td align="center"><strong>6.858</strong>*</td>
+<td align="center">153.17</td>
+<td align="center"><strong>97.87</strong></td>
+<td align="center">0.831</td>
+<td align="center"><strong>8.834</strong></td>
+<td align="center">3.514</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-GCL-CON (TM+SM)</td>
-<td style="text-align: center;"><strong>3.507</strong>*</td>
-<td style="text-align: center;">2.739</td>
-<td style="text-align: center;"><strong>2.404</strong></td>
-<td style="text-align: center;"><strong>5.829</strong>*</td>
-<td style="text-align: center;"><strong>6.873</strong></td>
-<td style="text-align: center;"><strong>149.05</strong></td>
-<td style="text-align: center;">106.41</td>
-<td style="text-align: center;"><strong>0.807</strong></td>
-<td style="text-align: center;">9.147</td>
-<td style="text-align: center;">3.552</td>
+<td align="left">STMeta-GCL-CON (TM+SM)</td>
+<td align="center"><strong>3.507</strong>*</td>
+<td align="center">2.739</td>
+<td align="center"><strong>2.404</strong></td>
+<td align="center"><strong>5.829</strong>*</td>
+<td align="center"><strong>6.873</strong></td>
+<td align="center"><strong>149.05</strong></td>
+<td align="center">106.41</td>
+<td align="center"><strong>0.807</strong></td>
+<td align="center">9.147</td>
+<td align="center">3.552</td>
 </tr>
 <tr>
-<td style="text-align: left;">STMeta-DCG-GAL (TM+SM)</td>
-<td style="text-align: center;">3.521</td>
-<td style="text-align: center;"><strong>2.652</strong>*</td>
-<td style="text-align: center;">2.423</td>
-<td style="text-align: center;">5.908</td>
-<td style="text-align: center;">6.904</td>
-<td style="text-align: center;"><strong>143.18</strong>*</td>
-<td style="text-align: center;"><strong>94.78</strong>*</td>
-<td style="text-align: center;"><strong>0.803</strong>*</td>
-<td style="text-align: center;">8.993</td>
-<td style="text-align: center;">3.500</td>
+<td align="left">STMeta-DCG-GAL (TM+SM)</td>
+<td align="center">3.521</td>
+<td align="center"><strong>2.652</strong>*</td>
+<td align="center">2.423</td>
+<td align="center">5.908</td>
+<td align="center">6.904</td>
+<td align="center"><strong>143.18</strong>*</td>
+<td align="center"><strong>94.78</strong>*</td>
+<td align="center"><strong>0.803</strong>*</td>
+<td align="center">8.993</td>
+<td align="center">3.500</td>
 </tr>
 </tbody>
-</table></section>
-</section>
-<section id="implement-details">
-<h2><span class="section-number">7.3. </span>Implement Details<a class="headerlink" href="#implement-details" title="Permalink to this heading">¶</a></h2>
-<section id="search-space">
-<h3><span class="section-number">7.3.1. </span>Search Space<a class="headerlink" href="#search-space" title="Permalink to this heading">¶</a></h3>
+</table></div>
+</div>
+<div class="section" id="implement-details">
+<h2>7.3. Implement Details<a class="headerlink" href="#implement-details" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="search-space">
+<h3>7.3.1. Search Space<a class="headerlink" href="#search-space" title="Permalink to this headline">¶</a></h3>
 <p>We use <a class="reference external" href="https://github.com/microsoft/nni">nni</a> toolkit to search the best parameters of HM, XGBoost and GBRT model. Search space are following.</p>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">Model</th>
-<th style="text-align: center;">Search Space</th>
+<th align="center">Model</th>
+<th align="center">Search Space</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>CT: 0~6</code>, <code>PT: 0~7</code>, <code>TT: 0~4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>CT: 0~6</code>, <code>PT: 0~7</code>, <code>TT: 0~4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">ARIMA</td>
-<td style="text-align: center;"><code>CT:168</code>,<code>p:3</code>, <code>d:0</code>, <code>q:0</code></td>
+<td align="center">ARIMA</td>
+<td align="center"><code>CT:168</code>,<code>p:3</code>, <code>d:0</code>, <code>q:0</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>CT: 0~12</code>, <code>PT: 0~14</code>, <code>TT: 0~4</code>, <code>estimater: 10~200</code>, <code>depth: 2~10</code></td>
 </tr>
 </tbody>
-</table></section>
-<section id="bike-sharing">
-<h3><span class="section-number">7.3.2. </span>Bike-sharing<a class="headerlink" href="#bike-sharing" title="Permalink to this heading">¶</a></h3>
+</table></div>
+<div class="section" id="bike-sharing">
+<h3>7.3.2. Bike-sharing<a class="headerlink" href="#bike-sharing" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>HM &amp; XGBoost &amp; GBRT</p></li>
+<li>HM &amp; XGBoost &amp; GBRT</li>
 </ul>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">15 minutes</th>
-<th style="text-align: center;">NYC</th>
-<th style="text-align: center;">Chicago</th>
-<th style="text-align: center;">DC</th>
+<th align="center">15 minutes</th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>3-1-2</code></td>
-<td style="text-align: center;"><code>5-0-4</code></td>
-<td style="text-align: center;"><code>3-7-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>3-1-2</code></td>
+<td align="center"><code>5-0-4</code></td>
+<td align="center"><code>3-7-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>8-14-4-32-2</code></td>
-<td style="text-align: center;"><code>11-13-4-28-2</code></td>
-<td style="text-align: center;"><code>4-14-4-27-2</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>8-14-4-32-2</code></td>
+<td align="center"><code>11-13-4-28-2</code></td>
+<td align="center"><code>4-14-4-27-2</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>7-13-4-144-1</code></td>
-<td style="text-align: center;"><code>7-15-4-101-2</code></td>
-<td style="text-align: center;"><code>8-11-5-101-2</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>7-13-4-144-1</code></td>
+<td align="center"><code>7-15-4-101-2</code></td>
+<td align="center"><code>8-11-5-101-2</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">30 minutes</th>
-<th style="text-align: center;">NYC</th>
-<th style="text-align: center;">Chicago</th>
-<th style="text-align: center;">DC</th>
+<th align="center">30 minutes</th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-1-2</code></td>
-<td style="text-align: center;"><code>3-2-1</code></td>
-<td style="text-align: center;"><code>3-1-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-1-2</code></td>
+<td align="center"><code>3-2-1</code></td>
+<td align="center"><code>3-1-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>12-8-1-36-3</code></td>
-<td style="text-align: center;"><code>7-5-2-24-2</code></td>
-<td style="text-align: center;"><code>12-13-4-27-2</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-8-1-36-3</code></td>
+<td align="center"><code>7-5-2-24-2</code></td>
+<td align="center"><code>12-13-4-27-2</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>12-10-0-72-4</code></td>
-<td style="text-align: center;"><code>9-13-2-91-2</code></td>
-<td style="text-align: center;"><code>13-15-5-140-1</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-0-72-4</code></td>
+<td align="center"><code>9-13-2-91-2</code></td>
+<td align="center"><code>13-15-5-140-1</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">60 minutes</th>
-<th style="text-align: center;">NYC</th>
-<th style="text-align: center;">Chicago</th>
-<th style="text-align: center;">DC</th>
+<th align="center">60 minutes</th>
+<th align="center">NYC</th>
+<th align="center">Chicago</th>
+<th align="center">DC</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>1-1-3</code></td>
-<td style="text-align: center;"><code>1-1-1</code></td>
-<td style="text-align: center;"><code>2-1-3</code></td>
+<td align="center">HM</td>
+<td align="center"><code>1-1-3</code></td>
+<td align="center"><code>1-1-1</code></td>
+<td align="center"><code>2-1-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>13-7-0-103-3</code></td>
-<td style="text-align: center;"><code>11-8-0-35-4</code></td>
-<td style="text-align: center;"><code>11-9-5-28-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>13-7-0-103-3</code></td>
+<td align="center"><code>11-8-0-35-4</code></td>
+<td align="center"><code>11-9-5-28-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>12-6-1-58-5</code></td>
-<td style="text-align: center;"><code>11-8-1-92-5</code></td>
-<td style="text-align: center;"><code>11-8-5-54-3</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>12-6-1-58-5</code></td>
+<td align="center"><code>11-8-1-92-5</code></td>
+<td align="center"><code>11-8-5-54-3</code></td>
 </tr>
 </tbody>
 </table><ul>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/bike_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/bike_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
-<li><p>LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/bike_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/bike_trial.py">DCRNN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first">LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
 <p>These five models can be run by specifying data files and model files on  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
 <p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_nyc.data.yml">bike_nyc.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_chicago.data.yml">bike_chicago.data.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/bike_dc.data.yml">bike_dc.data.yml</a></p>
 <p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.,  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>., <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
 <ul class="simple">
-<li><p>LSTM</p></li>
+<li>LSTM</li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml&#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml&#39;</span>
           <span class="s1">&#39; -p data_range:0.25,train_data_length:91,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml&#39;</span>
           <span class="s1">&#39; -p data_range:0.5,train_data_length:183,graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1121,9 +1118,9 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>TMeta-LSTM-GAL</p></li>
+<li>TMeta-LSTM-GAL</li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.25,train_data_length:91,graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p data_range:0.5,train_data_length:183,graph:Distance,MergeIndex:6&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d bike_nyc.data.yml -p graph:Distance,MergeIndex:12&#39;</span><span class="p">)</span>
 
@@ -1137,9 +1134,9 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>STMeta-V1</p></li>
+<li>STMeta-V1</li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml &#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml &#39;</span>
           <span class="s1">&#39;-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d bike_nyc.data.yml &#39;</span>
           <span class="s1">&#39;-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1162,9 +1159,9 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>STMeta-V2</p></li>
+<li>STMeta-V2</li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml &#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml &#39;</span>
           <span class="s1">&#39;-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d bike_nyc.data.yml &#39;</span>
           <span class="s1">&#39;-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1187,9 +1184,9 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>STMeta-V3</p></li>
+<li>STMeta-V3</li>
 </ul>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml &#39;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml &#39;</span>
           <span class="s1">&#39;-p data_range:0.25,train_data_length:91,graph:Distance-Correlation-Interaction,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d bike_nyc.data.yml &#39;</span>
           <span class="s1">&#39;-p data_range:0.5,train_data_length:183,graph:Distance-Correlation-Interaction,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1213,103 +1210,103 @@
 </div>
 </li>
 </ul>
-</section>
-<section id="ride-sharing">
-<h3><span class="section-number">7.3.3. </span>Ride-sharing<a class="headerlink" href="#ride-sharing" title="Permalink to this heading">¶</a></h3>
+</div>
+<div class="section" id="ride-sharing">
+<h3>7.3.3. Ride-sharing<a class="headerlink" href="#ride-sharing" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>HM &amp; XGBoost &amp; GBRT</p></li>
+<li>HM &amp; XGBoost &amp; GBRT</li>
 </ul>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">15 minutes</th>
-<th style="text-align: center;"><strong>Xi'an</strong></th>
-<th style="text-align: center;"><strong>Chengdu</strong></th>
+<th align="center">15 minutes</th>
+<th align="center"><strong>Xi'an</strong></th>
+<th align="center"><strong>Chengdu</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>5-0-4</code></td>
-<td style="text-align: center;"><code>2-7-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>5-0-4</code></td>
+<td align="center"><code>2-7-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>7-14-0-10-4</code></td>
-<td style="text-align: center;"><code>12-14-1-27-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>7-14-0-10-4</code></td>
+<td align="center"><code>12-14-1-27-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>11-2-2-45-3</code></td>
-<td style="text-align: center;"><code>13-15-5-39-3</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>11-2-2-45-3</code></td>
+<td align="center"><code>13-15-5-39-3</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">30 minutes</th>
-<th style="text-align: center;"><strong>Xi'an</strong></th>
-<th style="text-align: center;"><strong>Chengdu</strong></th>
+<th align="center">30 minutes</th>
+<th align="center"><strong>Xi'an</strong></th>
+<th align="center"><strong>Chengdu</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-0-2</code></td>
-<td style="text-align: center;"><code>1-7-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-0-2</code></td>
+<td align="center"><code>1-7-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>9-0-2-25-3</code></td>
-<td style="text-align: center;"><code>9-14-3-16-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>9-0-2-25-3</code></td>
+<td align="center"><code>9-14-3-16-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>9-0-2-80-3</code></td>
-<td style="text-align: center;"><code>10-10-5-34-3</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>9-0-2-80-3</code></td>
+<td align="center"><code>10-10-5-34-3</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">60 minutes</th>
-<th style="text-align: center;"><strong>Xi'an</strong></th>
-<th style="text-align: center;"><strong>Chengdu</strong></th>
+<th align="center">60 minutes</th>
+<th align="center"><strong>Xi'an</strong></th>
+<th align="center"><strong>Chengdu</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>1-1-2</code></td>
-<td style="text-align: center;"><code>0-7-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>1-1-2</code></td>
+<td align="center"><code>0-7-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>12-0-2-10-5</code></td>
-<td style="text-align: center;"><code>9-6-2-14-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-0-2-10-5</code></td>
+<td align="center"><code>9-6-2-14-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>9-0-2-50-2</code></td>
-<td style="text-align: center;"><code>9-12-2-50-5</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>9-0-2-50-2</code></td>
+<td align="center"><code>9-12-2-50-5</code></td>
 </tr>
 </tbody>
 </table><ul class="simple">
-<li><p>ST-ResNet</p></li>
+<li>ST-ResNet</li>
 </ul>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">ST-ResNet Search Space</th>
+<th align="center">ST-ResNet Search Space</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;"><code>residual_units:2~6</code>,  <code>conv_filter:[32, 64, 128]</code>,  <code>kernal_size:3~5</code>, <br /><code>lr:[0.0001, 0.00002, 0.00004, 0.00008, 0.00001]</code>, <code>batch_size:[32, 64, 128, 256]</code></td>
+<td align="center"><code>residual_units:2~6</code>,  <code>conv_filter:[32, 64, 128]</code>,  <code>kernal_size:3~5</code>, <br /><code>lr:[0.0001, 0.00002, 0.00004, 0.00008, 0.00001]</code>, <code>batch_size:[32, 64, 128, 256]</code></td>
 </tr>
 </tbody>
 </table><p>The best parameters found are following.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">args</span> <span class="o">=</span> <span class="p">{</span>
   <span class="s1">&#39;dataset&#39;</span><span class="p">:</span> <span class="s1">&#39;DiDi&#39;</span><span class="p">,</span>
   <span class="s1">&#39;city&#39;</span><span class="p">:</span> <span class="s1">&#39;Chengdu&#39;</span><span class="p">,</span>
   <span class="s1">&#39;num_residual_unit&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
@@ -1319,20 +1316,22 @@
   <span class="s1">&#39;batch_size&#39;</span><span class="p">:</span> <span class="mi">32</span>
 </pre></div>
 </div>
-<p>We can modify <code class="docutils literal notranslate"><span class="pre">city</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">Chengdu</span></code> or <code class="docutils literal notranslate"><span class="pre">Xian</span></code> in <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_ResNet/ST_ResNet.py">ST_ResNet.py</a> , and then run it.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>python<span class="w"> </span>ST_ResNet.py<span class="w"> </span>
+<p>We can modify <code class="docutils literal"><span class="pre">city</span></code> parameter to <code class="docutils literal"><span class="pre">Chengdu</span></code> or <code class="docutils literal"><span class="pre">Xian</span></code> in <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_ResNet/ST_ResNet.py">ST_ResNet.py</a> , and then run it.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span> python ST_ResNet.py 
 </pre></div>
 </div>
 <ul>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/didi_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/didi_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
-<li><p>LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/didi_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/didi_trial.py">DCRNN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first">LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
 <p>These five models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
 <p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_xian.data.yml">didi_xian.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/didi_chengdu.data.yml">didi_chengdu.data.yml</a>.</p>
 <p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.,  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>., <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
 <ul>
-<li><p>LSTM</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml&#39;</span>
+<li><p class="first">LSTM</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml&#39;</span>
         <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1348,8 +1347,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>TMeta-LSTM-GAL</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
+<li><p class="first">TMeta-LSTM-GAL</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:6&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d didi_xian.data.yml -p graph:Distance,MergeIndex:12&#39;</span><span class="p">)</span>
 
@@ -1359,8 +1358,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V1</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml &#39;</span>
+<li><p class="first">STMeta-V1</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Interaction,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d didi_xian.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Interaction,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1376,8 +1375,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V2</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml &#39;</span>
+<li><p class="first">STMeta-V2</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Interaction,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d didi_xian.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Interaction,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1393,8 +1392,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V3</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml &#39;</span>
+<li><p class="first">STMeta-V3</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Interaction,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d didi_xian.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Interaction,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1413,97 +1412,99 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="metro-passenger">
-<h3><span class="section-number">7.3.4. </span>Metro Passenger<a class="headerlink" href="#metro-passenger" title="Permalink to this heading">¶</a></h3>
+</div>
+<div class="section" id="metro-passenger">
+<h3>7.3.4. Metro Passenger<a class="headerlink" href="#metro-passenger" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>HM &amp; XGBoost &amp; GBRT</p></li>
+<li>HM &amp; XGBoost &amp; GBRT</li>
 </ul>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">15 minutes</th>
-<th style="text-align: center;"><strong>Chongqing</strong></th>
-<th style="text-align: center;"><strong>Shanghai</strong></th>
+<th align="center">15 minutes</th>
+<th align="center"><strong>Chongqing</strong></th>
+<th align="center"><strong>Shanghai</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-1-4</code></td>
-<td style="text-align: center;"><code>1-0-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-1-4</code></td>
+<td align="center"><code>1-0-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>12-6-4-51-8</code></td>
-<td style="text-align: center;"><code>11-10-4-31-7</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>12-6-4-51-8</code></td>
+<td align="center"><code>11-10-4-31-7</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>12-14-1-182-7</code></td>
-<td style="text-align: center;"><code>12-7-1-148-5</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>12-14-1-182-7</code></td>
+<td align="center"><code>12-7-1-148-5</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">30 minutes</th>
-<th style="text-align: center;"><strong>Chongqing</strong></th>
-<th style="text-align: center;"><strong>Shanghai</strong></th>
+<th align="center">30 minutes</th>
+<th align="center"><strong>Chongqing</strong></th>
+<th align="center"><strong>Shanghai</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>1-0-4</code></td>
-<td style="text-align: center;"><code>1-1-3</code></td>
+<td align="center">HM</td>
+<td align="center"><code>1-0-4</code></td>
+<td align="center"><code>1-1-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>11-5-0-45-8</code></td>
-<td style="text-align: center;"><code>12-6-1-206-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>11-5-0-45-8</code></td>
+<td align="center"><code>12-6-1-206-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>10-3-0-107-8</code></td>
-<td style="text-align: center;"><code>7-4-1-58-7</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>10-3-0-107-8</code></td>
+<td align="center"><code>7-4-1-58-7</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">60 minutes</th>
-<th style="text-align: center;"><strong>Chongqing</strong></th>
-<th style="text-align: center;"><strong>Shanghai</strong></th>
+<th align="center">60 minutes</th>
+<th align="center"><strong>Chongqing</strong></th>
+<th align="center"><strong>Shanghai</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>0-1-4</code></td>
-<td style="text-align: center;"><code>0-0-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>0-1-4</code></td>
+<td align="center"><code>0-0-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>9-14-2-200-5</code></td>
-<td style="text-align: center;"><code>3-7-0-50-5</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>9-14-2-200-5</code></td>
+<td align="center"><code>3-7-0-50-5</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>12-10-4-200-5</code></td>
-<td style="text-align: center;"><code>9-5-1-66-6</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>12-10-4-200-5</code></td>
+<td align="center"><code>9-5-1-66-6</code></td>
 </tr>
 </tbody>
 </table><ul>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metro_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metro_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
-<li><p>LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metro_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metro_trial.py">DCRNN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first">LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
 <p>These five models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
 <p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_chongqing.data.yml">metro_chongqing.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metro_shanghai.data.yml">metro_shanghai.data.yml</a>.</p>
 <p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.,  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>., <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
 <ul>
-<li><p>LSTM</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml&#39;</span>
+<li><p class="first">LSTM</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1519,8 +1520,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>TMeta-LSTM-GAL</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
+<li><p class="first">TMeta-LSTM-GAL</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:6&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metro_chongqing.data.yml -p graph:Distance,MergeIndex:12&#39;</span><span class="p">)</span>
 
@@ -1530,8 +1531,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V1</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml &#39;</span>
+<li><p class="first">STMeta-V1</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml -d metro_chongqing.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1547,8 +1548,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V2</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml &#39;</span>
+<li><p class="first">STMeta-V2</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml -d metro_chongqing.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1564,8 +1565,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V3</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml &#39;</span>
+<li><p class="first">STMeta-V3</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml -d metro_chongqing.data.yml &#39;</span>
           <span class="s1">&#39;-p graph:Distance-Correlation-Line,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1584,79 +1585,81 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="electric-vehicle">
-<h3><span class="section-number">7.3.5. </span>Electric Vehicle<a class="headerlink" href="#electric-vehicle" title="Permalink to this heading">¶</a></h3>
+</div>
+<div class="section" id="electric-vehicle">
+<h3>7.3.5. Electric Vehicle<a class="headerlink" href="#electric-vehicle" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>HM &amp; XGBoost &amp; GBRT</p></li>
+<li>HM &amp; XGBoost &amp; GBRT</li>
 </ul>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">Beijing</th>
-<th style="text-align: center;">30 minutes</th>
-<th style="text-align: center;">60 minutes</th>
+<th align="center">Beijing</th>
+<th align="center">30 minutes</th>
+<th align="center">60 minutes</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-0-0</code></td>
-<td style="text-align: center;"><code>2-0-2</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-0-0</code></td>
+<td align="center"><code>2-0-2</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>6-6-1-19-2</code></td>
-<td style="text-align: center;"><code>12-7-0-20-2</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>6-6-1-19-2</code></td>
+<td align="center"><code>12-7-0-20-2</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>13-3-2-47-3</code></td>
-<td style="text-align: center;"><code>12-10-0-100-2</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>13-3-2-47-3</code></td>
+<td align="center"><code>12-10-0-100-2</code></td>
 </tr>
 </tbody>
 </table><ul>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/cs_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p></li>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/cs_trial.py">DCRNN</a> Run Code &amp; Setting.</p></li>
-<li><p>LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/cs_trial.py">ST_MGCN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/cs_trial.py">DCRNN</a> Run Code &amp; Setting.</p>
+</li>
+<li><p class="first">LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
 <p>These five models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
 <p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/chargestation_beijing.data.yml">chargestation_beijing.data.yml</a>.</p>
 <p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.,  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>., <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
 <ul>
-<li><p>LSTM</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml&#39;</span>
+<li><p class="first">LSTM</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:1&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d chargestation_beijing.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>TMeta-LSTM-GAL</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+<li><p class="first">TMeta-LSTM-GAL</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
           <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance,MergeIndex:1&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
           <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance,MergeIndex:2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V1</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+<li><p class="first">STMeta-V1</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
           <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
         <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V2</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+<li><p class="first">STMeta-V2</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
           <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
         <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V3</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+<li><p class="first">STMeta-V3</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
           <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:1&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
           <span class="s1">&#39; -d chargestation_beijing.data.yml -p graph:Distance-Correlation,MergeIndex:2&#39;</span><span class="p">)</span>
@@ -1666,97 +1669,99 @@
 </ul>
 </li>
 </ul>
-</section>
-<section id="traffic-speed">
-<h3><span class="section-number">7.3.6. </span>Traffic Speed<a class="headerlink" href="#traffic-speed" title="Permalink to this heading">¶</a></h3>
+</div>
+<div class="section" id="traffic-speed">
+<h3>7.3.6. Traffic Speed<a class="headerlink" href="#traffic-speed" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
-<li><p>HM &amp; XGBoost &amp; GBRT</p></li>
+<li>HM &amp; XGBoost &amp; GBRT</li>
 </ul>
 <table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">15 minutes</th>
-<th style="text-align: center;"><strong>METR-LA</strong></th>
-<th style="text-align: center;"><strong>PEMS-BAY</strong></th>
+<th align="center">15 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-0-4</code></td>
-<td style="text-align: center;"><code>1-0-1</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-0-4</code></td>
+<td align="center"><code>1-0-1</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>11-1-2-25-3</code></td>
-<td style="text-align: center;"><code>12-4-2-21-4</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>11-1-2-25-3</code></td>
+<td align="center"><code>12-4-2-21-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>11-8-2-29-4</code></td>
-<td style="text-align: center;"><code>10-6-1-65-6</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>11-8-2-29-4</code></td>
+<td align="center"><code>10-6-1-65-6</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">30 minutes</th>
-<th style="text-align: center;"><strong>METR-LA</strong></th>
-<th style="text-align: center;"><strong>PEMS-BAY</strong></th>
+<th align="center">30 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-0-4</code></td>
-<td style="text-align: center;"><code>1-0-1</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-0-4</code></td>
+<td align="center"><code>1-0-1</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>6-6-0-25-3</code></td>
-<td style="text-align: center;"><code>12-13-2-27-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>6-6-0-25-3</code></td>
+<td align="center"><code>12-13-2-27-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>10-0-0-27-3</code></td>
-<td style="text-align: center;"><code>12-6-2-90-7</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>10-0-0-27-3</code></td>
+<td align="center"><code>12-6-2-90-7</code></td>
 </tr>
 </tbody>
 </table><table border="1" class="docutils">
 <thead>
 <tr>
-<th style="text-align: center;">60 minutes</th>
-<th style="text-align: center;"><strong>METR-LA</strong></th>
-<th style="text-align: center;"><strong>PEMS-BAY</strong></th>
+<th align="center">60 minutes</th>
+<th align="center"><strong>METR-LA</strong></th>
+<th align="center"><strong>PEMS-BAY</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align: center;">HM</td>
-<td style="text-align: center;"><code>2-1-4</code></td>
-<td style="text-align: center;"><code>1-1-4</code></td>
+<td align="center">HM</td>
+<td align="center"><code>2-1-4</code></td>
+<td align="center"><code>1-1-4</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">XGBoost</td>
-<td style="text-align: center;"><code>2-2-0-25-3</code></td>
-<td style="text-align: center;"><code>12-6-2-19-3</code></td>
+<td align="center">XGBoost</td>
+<td align="center"><code>2-2-0-25-3</code></td>
+<td align="center"><code>12-6-2-19-3</code></td>
 </tr>
 <tr>
-<td style="text-align: center;">GBRT</td>
-<td style="text-align: center;"><code>4-5-1-19-4</code></td>
-<td style="text-align: center;"><code>12-7-2-59-5</code></td>
+<td align="center">GBRT</td>
+<td align="center"><code>4-5-1-19-4</code></td>
+<td align="center"><code>12-7-2-59-5</code></td>
 </tr>
 </tbody>
 </table><ul>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metr_trial.py">METR-LA</a>  and <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/pems_trial.py">PEMS-BAY</a>  ST_MGCN Run Code &amp; Setting.</p></li>
-<li><p><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metr_trial.py">METR-LA</a> and <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/pems_trial.py">PEMS-BAY</a> DCRNN Run Code &amp; Setting.</p></li>
-<li><p>LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/metr_trial.py">METR-LA</a>  and <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/ST_MGCN/pems_trial.py">PEMS-BAY</a>  ST_MGCN Run Code &amp; Setting.</p>
+</li>
+<li><p class="first"><a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/metr_trial.py">METR-LA</a> and <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/DCRNN/pems_trial.py">PEMS-BAY</a> DCRNN Run Code &amp; Setting.</p>
+</li>
+<li><p class="first">LSTM &amp; TMeta-LSTM-GAL &amp; STMeta-V1  &amp; STMeta-V2  &amp; STMeta-V3</p>
 <p>These five models can be run by specifying data files and model files on <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_Obj.py">STMeta_Obj.py</a>.</p>
 <p>Data Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/metr_la.data.yml">metr_la.data.yml</a> , <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/pems_bay.data.yml">pems_bay.data.yml</a>.</p>
 <p>Model Files: <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v0.model.yml">STMeta_v0.model.yml</a>, <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v1.model.yml">STMeta_v1.model.yml</a>.,  <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v2.model.yml">STMeta_v2.model.yml</a>., <a class="reference external" href="https://github.com/Di-Chai/UCTB/blob/master/Experiments/STMeta/STMeta_v3.model.yml">STMeta_v3.model.yml</a>.</p>
 <ul>
-<li><p>LSTM</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml&#39;</span>
+<li><p class="first">LSTM</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml -d metr_la.data.yml&#39;</span>
           <span class="s1">&#39; -p graph:Distance,period_len:0,trend_len:0,mark:LSTMC,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1772,8 +1777,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>TMeta-LSTM-GAL</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
+<li><p class="first">TMeta-LSTM-GAL</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v0.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1789,8 +1794,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V1</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
+<li><p class="first">STMeta-V1</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v1.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1806,8 +1811,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V2</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
+<li><p class="first">STMeta-V2</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v2.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1823,8 +1828,8 @@
 </pre></div>
 </div>
 </li>
-<li><p>STMeta-V3</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
+<li><p class="first">STMeta-V3</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:3&#39;</span><span class="p">)</span>
 <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="s1">&#39;python STMeta_Obj.py -m STMeta_v3.model.yml&#39;</span>
           <span class="s1">&#39; -d metr_la.data.yml -p graph:Distance-Correlation,MergeIndex:6&#39;</span><span class="p">)</span>
@@ -1843,9 +1848,9 @@
 </ul>
 </li>
 </ul>
-</section>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
            </div>
@@ -1894,11 +1899,10 @@
             HAS_SOURCE: 'true'
         };
     </script>
-      <script type="text/javascript" src="../_static/documentation_options.js"></script>
       <script type="text/javascript" src="../_static/jquery.js"></script>
       <script type="text/javascript" src="../_static/underscore.js"></script>
-      <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
       <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
   
 

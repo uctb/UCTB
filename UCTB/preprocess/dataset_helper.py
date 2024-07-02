@@ -75,3 +75,8 @@ def build_uctb_dataset(traffic_node, time_fitness, node_station_info, time_range
 
     with open(pkl_file_name, 'wb') as f:
         pickle.dump(dataset, f)
+
+
+def convert_uctb_data():
+    # To be implemented
+    pass

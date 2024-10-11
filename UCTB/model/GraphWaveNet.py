@@ -1,6 +1,26 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
+import torch.optim as optim
+from UCTB.train.LossFunction import masked_mape, masked_mae, masked_rmse
+from ..model_unit.BaseModel import BaseModel
+
+class GraphWaveNet(BaseModel):
+    
+    def __init__(self, device, num_nodes, dropout, supports, gcn_bool, addaptadj, in_dim, out_dim, residual_channels, dilation_channels, skip_channels, end_channels, loss_fn=masked_mae, learning_rate=0.001):
+        super().__init__(loss_fn=loss_fn, learning_rate=learning_rate)
+        
+        self.model = gwnet(device, num_nodes, dropout=dropout, supports=supports, gcn_bool=gcn_bool, addaptadj=addaptadj, in_dim=in_dim, out_dim=out_dim, residual_channels=residual_channels, dilation_channels=dilation_channels, skip_channels=skip_channels, end_channels=end_channels)
+    
+    def forward(self, batch):
+        # the model should be a callable object
+        x, y = batch
+        return self.model(x) 
+    
+    def configure_optimizers(self):
+        optimizer = optim.Adam(self.parameters(), lr=self.learning_rate)
+        return optimizer
+    
 
 class nconv(nn.Module):
     def __init__(self):
@@ -125,7 +145,7 @@ class gwnet(nn.Module):
                                                    out_channels=dilation_channels,
                                                    kernel_size=(1,kernel_size),dilation=new_dilation))
 
-                self.gate_convs.append(nn.Conv1d(in_channels=residual_channels,
+                self.gate_convs.append(nn.Conv2d(in_channels=residual_channels,
                                                  out_channels=dilation_channels,
                                                  kernel_size=(1, kernel_size), dilation=new_dilation))
 
@@ -135,7 +155,7 @@ class gwnet(nn.Module):
                                                      kernel_size=(1, 1)))
 
                 # 1x1 convolution for skip connection
-                self.skip_convs.append(nn.Conv1d(in_channels=dilation_channels,
+                self.skip_convs.append(nn.Conv2d(in_channels=dilation_channels,
                                                  out_channels=skip_channels,
                                                  kernel_size=(1, 1)))
                 self.bn.append(nn.BatchNorm2d(residual_channels))
@@ -162,6 +182,8 @@ class gwnet(nn.Module):
 
 
     def forward(self, input):
+        input = nn.functional.pad(input,(1,0,0,0))
+        
         in_len = input.size(3)
         if in_len<self.receptive_field:
             x = nn.functional.pad(input,(self.receptive_field-in_len,0,0,0))
@@ -202,6 +224,7 @@ class gwnet(nn.Module):
             # parametrized skip connection
 
             s = x
+            # print("s:", s.size())
             s = self.skip_convs[i](s)
             try:
                 skip = skip[:, :, :,  -s.size(3):]

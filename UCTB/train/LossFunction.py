@@ -1,7 +1,7 @@
 import numpy as np
 import torch
-import tensorflow as tf
-import mxnet as mx
+# import tensorflow as tf
+# import mxnet as mx
 
 def masked_mse(preds, labels, null_val=np.nan):
     if np.isnan(null_val):
@@ -52,22 +52,22 @@ def masked_mape(preds, labels, null_val=np.nan):
     return torch.mean(loss)
 
 
-def mae_loss(pred, label):
-    mask = tf.not_equal(label, 0)
-    mask = tf.cast(mask, tf.float32)
-    mask /= tf.reduce_mean(mask)
-    # mask = tf.compat.v2.where(
-    #     condition = tf.math.is_nan(mask), x = 0., y = mask)
-    mask = tf.compat.v1.where(
-        condition=tf.math.is_nan(mask), x=tf.zeros_like(mask), y=mask)
-    loss = tf.abs(tf.subtract(pred, label))
-    loss *= mask
-    # loss = tf.compat.v2.where(
-    #     condition = tf.math.is_nan(loss), x = 0., y = loss)
-    loss = tf.compat.v1.where(
-        condition=tf.math.is_nan(loss), x=tf.zeros_like(mask), y=loss)
-    loss = tf.reduce_mean(loss)
-    return loss
+# def mae_loss(pred, label):
+#     mask = tf.not_equal(label, 0)
+#     mask = tf.cast(mask, tf.float32)
+#     mask /= tf.reduce_mean(mask)
+#     # mask = tf.compat.v2.where(
+#     #     condition = tf.math.is_nan(mask), x = 0., y = mask)
+#     mask = tf.compat.v1.where(
+#         condition=tf.math.is_nan(mask), x=tf.zeros_like(mask), y=mask)
+#     loss = tf.abs(tf.subtract(pred, label))
+#     loss *= mask
+#     # loss = tf.compat.v2.where(
+#     #     condition = tf.math.is_nan(loss), x = 0., y = loss)
+#     loss = tf.compat.v1.where(
+#         condition=tf.math.is_nan(loss), x=tf.zeros_like(mask), y=loss)
+#     loss = tf.reduce_mean(loss)
+#     return loss
 
 def mask_np(array, null_val):
     '''
@@ -129,23 +129,23 @@ def MAE_torch(pred, true, mask_value=None):
 
 
 
-def huber_loss(data, label, rho=1):
-    '''
-    Parameters
-    ----------
-    data: mx.sym.var, shape is (B, T', N)
+# def huber_loss(data, label, rho=1):
+#     '''
+#     Parameters
+#     ----------
+#     data: mx.sym.var, shape is (B, T', N)
 
-    label: mx.sym.var, shape is (B, T', N)
+#     label: mx.sym.var, shape is (B, T', N)
 
-    rho: float
+#     rho: float
 
-    Returns
-    ----------
-    loss: mx.sym
-    '''
+#     Returns
+#     ----------
+#     loss: mx.sym
+#     '''
 
-    loss = mx.sym.abs(data - label)
-    loss = mx.sym.where(loss > rho, loss - 0.5 * rho,
-                        (0.5 / rho) * mx.sym.square(loss))
-    loss = mx.sym.MakeLoss(loss)
-    return loss
+#     loss = mx.sym.abs(data - label)
+#     loss = mx.sym.where(loss > rho, loss - 0.5 * rho,
+#                         (0.5 / rho) * mx.sym.square(loss))
+#     loss = mx.sym.MakeLoss(loss)
+#     return loss

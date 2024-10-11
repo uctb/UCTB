@@ -1,6 +1,4 @@
 import numpy as np
-import tensorflow as tf
-import heapq
 
 # from UCTB.preprocess import Normalizer, SplitData
 
